@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 00:44+0000\n"
-"PO-Revision-Date: 2026-05-30 17:23-0400\n"
+"POT-Creation-Date: 2026-09-22 15:59+0000\n"
+"PO-Revision-Date: 2026-09-22 18:03+0900\n"
 "Last-Translator: Abduqadir Abliz <sahranbay@gmail.com>\n"
 "Language-Team: Uyghur <kde-i18n-doc@kde.org>\n"
 "Language: ug\n"
@@ -254,8 +254,6 @@ msgid ""
 "CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
 "CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 msgstr ""
-"CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8,CH9,CH10,CH11,CH12,CH13,CH14,CH15,CH16,CH17,"
-"CH18,CH19,CH20,CH21,CH22,CH23,CH24,CH25,CH26,CH27,CH28,CH29,CH30,CH31,CH32"
 
 #: data/effects/audiomap.xml:12
 #, kde-format
@@ -2496,13 +2494,13 @@ msgstr ""
 #: src/scopes/colorscopes/histogram.cpp:51
 #, kde-format
 msgid "G"
-msgstr "G"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_curves.xml:17
 #: src/scopes/colorscopes/histogram.cpp:55
 #, kde-format
 msgid "B"
-msgstr "B"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_datascope.xml:4
 #, kde-format
@@ -5345,16 +5343,14 @@ msgid "Alter frame colors in video with pseudocolors."
 msgstr ""
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:8
-#, fuzzy, kde-format
-#| msgid "Components"
+#, kde-format
 msgid "Base Component"
-msgstr "بۆلەك"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:9
-#, fuzzy, kde-format
-#| msgid "Green-Blue"
+#, kde-format
 msgid "Red,Green,Blue,Alpha"
-msgstr "يېشىل-كۆك"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_pseudocolor.xml:12
 #, kde-format
@@ -5700,10 +5696,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:11
-#, fuzzy, kde-format
-#| msgid "Forward"
+#, kde-format
 msgid "Forward,Inverse"
-msgstr "ئالدىغا"
+msgstr ""
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:15
 #, kde-format
@@ -6945,7 +6940,7 @@ msgstr ""
 #: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ClipDurationDialog_UI)
 #. i18n: ectx: property (text), widget (QLabel, label_duration)
@@ -7385,10 +7380,9 @@ msgstr "گېئومېتىرىيە"
 
 #: data/effects/dynamictext.xml:17 data/effects/dynamictext.xml:109
 #: data/effects/gpstext.xml:62 data/effects/timer.xml:11
-#, fuzzy, kde-format
-#| msgid "Font Family"
+#, kde-format
 msgid "<u>Font</u> Family"
-msgstr "خەت نۇسخا تۈركۈمى"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:28 data/effects/dynamictext.xml:120
@@ -7400,24 +7394,21 @@ msgstr "ئۇسلۇب"
 
 #: data/effects/dynamictext.xml:29 data/effects/dynamictext.xml:121
 #: data/effects/gpstext.xml:76 data/effects/timer.xml:18
-#, fuzzy, kde-format
-#| msgid "Normalize"
+#, kde-format
 msgid "Normal,Italic"
-msgstr "نورماللاشتۇرۇش"
+msgstr ""
 
 #: data/effects/dynamictext.xml:32 data/effects/dynamictext.xml:124
 #: data/effects/gpstext.xml:70 data/effects/timer.xml:21
-#, fuzzy, kde-format
-#| msgid "Weight:"
+#, kde-format
 msgid "Weight"
-msgstr "ئېغىرلىق:"
+msgstr ""
 
 #: data/effects/dynamictext.xml:35 data/effects/dynamictext.xml:127
 #: data/effects/timer.xml:24
-#, fuzzy, kde-format
-#| msgid "Text color"
+#, kde-format
 msgid "<u>Text</u> Color"
-msgstr "تېكىست رەڭگى"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7459,7 +7450,7 @@ msgstr "ئاستى سىزىق"
 #: data/effects/gpstext.xml:99 data/effects/timer.xml:39
 #, kde-format
 msgid "Strikethrough"
-msgstr ""
+msgstr "ئۆچۈرۈش سىزىقى"
 
 #: data/effects/dynamictext.xml:53 data/effects/dynamictext.xml:145
 #: data/effects/gpstext.xml:103 data/effects/timer.xml:42
@@ -7995,10 +7986,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "بوسۇغا قىممىتى"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
@@ -9321,10 +9311,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "كۈچلۈكلۈك"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
@@ -9347,10 +9336,9 @@ msgid "Amount of motion blur (capped at 20px)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "تەگلىك رەڭگى تۇتۇق"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -9703,6 +9691,12 @@ msgid ""
 "if they become too annoying.\n"
 "        "
 msgstr ""
+"Removes stairstepping artifacts from Nikon D90's 720p videos.\n"
+"        Sharp lines in videos from the Nikon D90 show steps each 8th or 9th "
+"line, assumedly\n"
+"        due to poor downsampling. These can be smoothed out with this filter "
+"if they become too annoying.\n"
+"        "
 
 #: data/effects/frei0r/frei0r_defish0r.xml:4
 #, kde-format
@@ -9758,6 +9752,8 @@ msgid ""
 "Scale Y to Affect<br>\n"
 "        Aspect Ratio"
 msgstr ""
+"Scale Y to Affect<br>\n"
+"        تەرەپ نىسبىتى"
 
 #: data/effects/frei0r/frei0r_defish0r.xml:34
 #, kde-format
@@ -10969,6 +10965,10 @@ msgid ""
 "light sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
+"Light Graffiti effect.\n"
+"        This effect allows one to do Light Painting (i.e. painting with "
+"light sources on a photo by keeping the shutter\n"
+"        opened for a while), but for video."
 
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:11
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:83
@@ -11186,6 +11186,10 @@ msgid ""
 "sources on a photo by keeping the shutter\n"
 "        opened for a while), but for video."
 msgstr ""
+"Light Graffiti effect.\n"
+"        This effect allows to do Light Painting (i.e. painting with light "
+"sources on a photo by keeping the shutter\n"
+"        opened for a while), but for video."
 
 #: data/effects/frei0r/frei0r_luminance.xml:4
 #, kde-format
@@ -11799,10 +11803,9 @@ msgid "Do not average the alpha channel over each block"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
-#| msgid "pixels"
+#, kde-format
 msgid "Pixels0rt"
-msgstr "پىكسېل"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
 #, kde-format
@@ -11815,10 +11818,9 @@ msgid "Relative size of the line that will be sorted"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Light direction angle."
+#, kde-format
 msgid "Sorting direction"
-msgstr "يۆنىلىش"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -11828,10 +11830,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "ئەكسىچە"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
@@ -11839,10 +11840,9 @@ msgid "Should be pixels sorted in reversed order"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "سۈزۈكلۈك"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12237,10 +12237,9 @@ msgid "X Movement"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "سۈرئىتى"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
 #, kde-format
@@ -12248,22 +12247,19 @@ msgid "Y Movement"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "سۈرئىتى"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "ئايلاندۇر"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
-msgstr "تەسۋىر"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -13354,10 +13350,9 @@ msgid "Outline Color"
 msgstr ""
 
 #: data/effects/gpstext.xml:88
-#, fuzzy, kde-format
-#| msgid "Custom Outline Color"
+#, kde-format
 msgid "Outline color"
-msgstr "تەگلىك رەڭگى تۇتۇق"
+msgstr ""
 
 #: data/effects/gpstext.xml:92
 #, kde-format
@@ -13375,16 +13370,14 @@ msgid "Apply strikethrough decoration to the text."
 msgstr ""
 
 #: data/effects/gpstext.xml:107
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Set the horizontal alignment"
-msgstr "توغرىسىغا توغرىلاش"
+msgstr ""
 
 #: data/effects/gpstext.xml:112
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Set the vertical alignment"
-msgstr "بويىغا توغرىلاش"
+msgstr ""
 
 #: data/effects/gpstext.xml:117
 #, kde-format
@@ -13576,10 +13569,9 @@ msgid "Invert colors"
 msgstr "ئەكس رەڭ"
 
 #: data/effects/ladspa/ladspa_1185.xml:4
-#, fuzzy, kde-format
-#| msgid "Process"
+#, kde-format
 msgid "Diode Processor"
-msgstr "ئىجرا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1185.xml:6
 #, kde-format
@@ -13665,10 +13657,9 @@ msgid "Dry/Wet"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:4
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "Comb Filter"
-msgstr "سۈزگۈچ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
@@ -13676,10 +13667,9 @@ msgid "Comb Filter (LADSPA 1190)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Band Separation"
-msgstr "تويۇنۇش"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1190.xml:9
 #, kde-format
@@ -13712,10 +13702,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:9
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "Delay Base"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:11
 #, kde-format
@@ -13738,10 +13727,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:19
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "LFO Frequency"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1191.xml:21
 #, kde-format
@@ -13786,10 +13774,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:4
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "Fast Overdrive"
-msgstr "قاپلا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:6
 #, kde-format
@@ -13800,10 +13787,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:9
-#, fuzzy, kde-format
-#| msgid "Drive"
+#, kde-format
 msgid "Drive Level"
-msgstr "قوزغاتقۇچ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1196.xml:11
 #, kde-format
@@ -13827,10 +13813,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:9
-#, fuzzy, kde-format
-#| msgid "Depth"
+#, kde-format
 msgid "Bit Depth"
-msgstr "چوڭقۇرلۇقى"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:10
 #, kde-format
@@ -13838,10 +13823,9 @@ msgid "The bit depth that the signal will be reduced to"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1202.xml:13
-#, fuzzy, kde-format
-#| msgid "Sample rate:"
+#, kde-format
 msgid "Sample Rate"
-msgstr "ئەۋرىشكە ئېلىش نىسبىتى:"
+msgstr "ئەۋرىشكە نىسبىتى"
 
 #: data/effects/ladspa/ladspa_1202.xml:14
 #, kde-format
@@ -13861,10 +13845,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:9
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Gain (dB)"
-msgstr "ئېشىش"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:10
 #, kde-format
@@ -13872,10 +13855,9 @@ msgid "The attenuation/gain of the eq"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:13
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency (Hz)"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1203.xml:15
 #, kde-format
@@ -13959,58 +13941,49 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 1"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:12
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 1"
-msgstr "قايتۇرما ئىنكاس"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:15
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 2"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:18
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 2"
-msgstr "قايتۇرما ئىنكاس"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:21
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 3"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:24
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 3"
-msgstr "قايتۇرما ئىنكاس"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:27
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency 4"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1218.xml:30
-#, fuzzy, kde-format
-#| msgid "Feedback"
+#, kde-format
 msgid "Feedback 4"
-msgstr "قايتۇرما ئىنكاس"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:4
-#, fuzzy, kde-format
-#| msgid "Phase"
+#, kde-format
 msgid "Auto Phaser"
-msgstr "باسقۇچ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1219.xml:5
 #, kde-format
@@ -14044,10 +14017,9 @@ msgid "Spread (octaves)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:4
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "Delayorama"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:5
 #, kde-format
@@ -14083,10 +14055,9 @@ msgid "Controls the number of taps in the delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:25
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "First Delay"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:26
 #, kde-format
@@ -14094,10 +14065,9 @@ msgid "The time of the first delay"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:29
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "Delay Range"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:30
 #, kde-format
@@ -14115,10 +14085,9 @@ msgid "The scaling factor between one delay and the next"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:37
-#, fuzzy, kde-format
-#| msgid "Random"
+#, kde-format
 msgid "Delay Random"
-msgstr "ئىختىيارىي"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1402.xml:38
 #, kde-format
@@ -14166,10 +14135,9 @@ msgid "Dyson Compressor (LADSPA 1403)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:8
-#, fuzzy, kde-format
-#| msgid "Limit"
+#, kde-format
 msgid "Peak Limit"
-msgstr "چېكى"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1403.xml:10
 #, kde-format
@@ -14230,11 +14198,9 @@ msgid "Controls degree of smoothing of the crossover point"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:4
-#, fuzzy, kde-format
-#| msgctxt "status of a missing clip"
-#| msgid "Missing"
+#, kde-format
 msgid "Aliasing"
-msgstr "يوقالغان"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1407.xml:6
 #, kde-format
@@ -14279,10 +14245,9 @@ msgid "Controls the envelope decay time."
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:13
-#, fuzzy, kde-format
-#| msgid "Points"
+#, kde-format
 msgid "Knee Point"
-msgstr "نۇقتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1408.xml:15
 #, kde-format
@@ -14303,10 +14268,9 @@ msgid "Gate (LADSPA 1410)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "LF Key Filter"
-msgstr "سۈزگۈچ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -14316,10 +14280,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "HF Key Filter"
-msgstr "سۈزگۈچ"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -14345,7 +14308,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1410.xml:28
 #, kde-format
 msgid "Hold"
-msgstr ""
+msgstr "كۈتۈش"
 
 #: data/effects/ladspa/ladspa_1410.xml:30
 #, kde-format
@@ -14369,10 +14332,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:43
-#, fuzzy, kde-format
-#| msgid "Output format"
+#, kde-format
 msgid "Output Monitor"
-msgstr "چىقىرىش پىچىمى"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:44
 #, kde-format
@@ -14442,10 +14404,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:9
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reverb Time"
-msgstr "ئەكسىچە"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1423.xml:12
 #: data/effects/ladspa/ladspa_reverb.xml:11
@@ -14474,10 +14435,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:9
-#, fuzzy, kde-format
-#| msgid "Distort"
+#, kde-format
 msgid "Distortion"
-msgstr "تولغا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1430.xml:10
 #, kde-format
@@ -14503,10 +14463,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:9
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Frequency Shift"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1431.xml:10
 #: data/effects/ladspa/ladspa_1432.xml:20
@@ -14533,10 +14492,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:9
-#, fuzzy, kde-format
-#| msgid "Shift"
+#, kde-format
 msgid "Base Shift"
-msgstr "Shift"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:13
 #, kde-format
@@ -14544,16 +14502,14 @@ msgid "Down,Both,Up"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:16
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "CV Attenuation"
-msgstr "جانلاندۇرۇم"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1432.xml:19
-#, fuzzy, kde-format
-#| msgid "Shift"
+#, kde-format
 msgid "Shift CV"
-msgstr "Shift"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:4
 #, kde-format
@@ -14583,10 +14539,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:14
-#, fuzzy, kde-format
-#| msgid "Buffer Size:"
+#, kde-format
 msgid "Buffer Size"
-msgstr "يىغلەك چوڭلۇقى:"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1433.xml:16
 #, kde-format
@@ -14652,10 +14607,9 @@ msgid "Exponential Signal Decay (LADSPA 1886)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:4
-#, fuzzy, kde-format
-#| msgid "Default interpolation"
+#, kde-format
 msgid "Comb Delay Line (linear interpolation)"
-msgstr "نىشان"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:6
 #, kde-format
@@ -14668,10 +14622,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -14689,10 +14642,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay"
+#, kde-format
 msgid "Delay Time"
-msgstr "كېچىكتۈر"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1887.xml:20
 #: data/effects/ladspa/ladspa_1888.xml:20
@@ -14745,18 +14697,16 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "چاستوتا"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "سۈرەت"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
@@ -14803,10 +14753,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Border width"
+#, kde-format
 msgid "Bandwidth"
-msgstr "گىرۋەك كەڭلىكى"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1893.xml:4
 #, kde-format
@@ -14895,10 +14844,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "ئېشىش"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -14908,10 +14856,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "End Gain"
+#, kde-format
 msgid "Mid Gain"
-msgstr "ئاخىرلاشقاندا كۈچەيت"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:14
 #: data/effects/ladspa/ladspa_1907.xml:14
@@ -14921,10 +14868,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "ئېشىش"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
@@ -14970,10 +14916,9 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
-#| msgid "Edit Bin Effect"
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
-msgstr "ئۈنۈم يوق"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:6
 #, kde-format
@@ -14999,7 +14944,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_vinyl.xml:11
 #, kde-format
 msgid "RPM"
-msgstr "RPM"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:15
 #, kde-format
@@ -15048,10 +14993,9 @@ msgid "The amount of wear on the grooves"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (تاق ئاۋاز يولى)"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15099,10 +15043,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:24
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Attenuation"
-msgstr "جانلاندۇرۇم"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_1913.xml:26
 #, kde-format
@@ -15889,77 +15832,77 @@ msgstr ""
 #: data/effects/ladspa/ladspa_equalizer_15.xml:8
 #, kde-format
 msgid "50 Hz"
-msgstr "50 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:11
 #, kde-format
 msgid "100 Hz"
-msgstr "100 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:14
 #, kde-format
 msgid "156 Hz"
-msgstr "156 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:17
 #, kde-format
 msgid "220 Hz"
-msgstr "220 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:20
 #, kde-format
 msgid "311 Hz"
-msgstr "311 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:23
 #, kde-format
 msgid "440 Hz"
-msgstr "440 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:26
 #, kde-format
 msgid "622 Hz"
-msgstr "622 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:29
 #, kde-format
 msgid "880 Hz"
-msgstr "880 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:32
 #, kde-format
 msgid "1250 Hz"
-msgstr "1250 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:35
 #, kde-format
 msgid "1750 Hz"
-msgstr "1750 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:38
 #, kde-format
 msgid "2500 Hz"
-msgstr "2500 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:41
 #, kde-format
 msgid "3500 Hz"
-msgstr "3500 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:44
 #, kde-format
 msgid "5000 Hz"
-msgstr "5000 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:47
 #, kde-format
 msgid "10000 Hz"
-msgstr "10000 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_equalizer_15.xml:50
 #, kde-format
 msgid "20000 Hz"
-msgstr "20000 Hz"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_librnnoise.xml:4
 #, kde-format
@@ -16035,7 +15978,7 @@ msgstr ""
 #: data/effects/ladspa/ladspa_pitch.xml:8 data/effects/sox/sox_pitch.xml:8
 #, kde-format
 msgid "Shift"
-msgstr "Shift"
+msgstr ""
 
 #: data/effects/ladspa/ladspa_pitch_scale.xml:4
 #, kde-format
@@ -17421,10 +17364,9 @@ msgid "HH:MM:SS.SSS"
 msgstr ""
 
 #: data/effects/timer.xml:66
-#, fuzzy, kde-format
-#| msgid "Duration (s)"
+#, kde-format
 msgid "Duration (HH:MM:SS.SSS)"
-msgstr "ۋاقتى: "
+msgstr ""
 
 #: data/effects/timer.xml:68
 #, kde-format
@@ -17503,10 +17445,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/timer.xml:105
-#, fuzzy, kde-format
-#| msgid "Down"
+#, kde-format
 msgid "Up,Down"
-msgstr "ئاستى"
+msgstr ""
 
 #: data/effects/tracker.xml:4
 #, kde-format
@@ -18135,10 +18076,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr ""
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "ئاپتوماتىك"
+msgstr ""
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -18148,22 +18088,19 @@ msgid ""
 msgstr ""
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "بوسۇغا قىممىتى"
+msgstr ""
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Animation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "جانلاندۇرۇم"
+msgstr ""
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "سۇسلاشتۇرۇپ كىر"
+msgstr ""
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
@@ -19418,7 +19355,7 @@ msgstr ""
 #: src/assets/keyframes/model/keyframemodellist.cpp:358
 #, kde-format
 msgid "Delete keyframes"
-msgstr ""
+msgstr "ئاچقۇچلۇق كاندۇكنى ئۆچۈر"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:700
 #: src/assets/model/assetparametermodel.cpp:1854
@@ -19876,7 +19813,7 @@ msgstr ""
 #, kde-format
 msgctxt "Y as in y coordinate"
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 #: src/assets/view/widgets/keyframeimport.cpp:1151
 #, kde-format
@@ -19989,13 +19926,13 @@ msgstr ""
 #, kde-format
 msgctxt "Gain in dB, positive"
 msgid "%1"
-msgstr "%1"
+msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:178
 #, kde-format
 msgctxt "Gain in dB, zero or negative"
 msgid "%1"
-msgstr "%1"
+msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:203 src/audiomixer/mixerwidget.cpp:228
 #, kde-kuit-format
@@ -20022,7 +19959,7 @@ msgstr ""
 #, kde-format
 msgctxt "Balance center"
 msgid "C"
-msgstr "C"
+msgstr ""
 
 #: src/audiomixer/mixerwidget.cpp:218
 #, kde-format
@@ -20135,7 +20072,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
-msgstr "P"
+msgstr ""
 
 #: src/bin/bin.cpp:965 src/bin/bin.cpp:1147
 #, kde-format
@@ -20928,13 +20865,12 @@ msgstr ""
 #: src/bin/bin.cpp:5361
 #, kde-format
 msgid "Replace"
-msgstr ""
+msgstr "ئالماشتۇر"
 
 #: src/bin/bin.cpp:5361
-#, fuzzy, kde-format
-#| msgid "Testing"
+#, kde-format
 msgid "Keep Existing"
-msgstr "سىناق"
+msgstr ""
 
 #: src/bin/bin.cpp:5421
 #, kde-format
@@ -20991,7 +20927,7 @@ msgid ""
 "tracks ?"
 msgstr ""
 
-#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3099
+#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3111
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr ""
@@ -21086,7 +21022,7 @@ msgstr ""
 msgid "Project Bin"
 msgstr ""
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5424
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5436
 #, kde-format
 msgid "Project Bin %1"
 msgstr ""
@@ -21535,7 +21471,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
-msgstr "fps"
+msgstr ""
 
 #: src/bin/previewpanel.cpp:384
 #, kde-format
@@ -21706,10 +21642,9 @@ msgid "New tag"
 msgstr ""
 
 #: src/capture/mediacapture.cpp:110 src/capture/mediacapture.cpp:316
-#, fuzzy, kde-format
-#| msgid "Audio device:"
+#, kde-format
 msgid "No audio device found"
-msgstr "ئۈن ئۈسكۈنە:"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:120
 #, kde-format
@@ -21717,16 +21652,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr ""
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Error Saving File"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "ھۆججەت ئېچىش خاتالىقى"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "كۆزەتكۈچ %1"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -21776,7 +21709,7 @@ msgstr ""
 #: src/core.cpp:456 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
-msgstr ""
+msgstr "سەپلىمە ھۆججەت:"
 
 #: src/core.cpp:469
 #, kde-format
@@ -22846,7 +22779,7 @@ msgstr "2 (ستېرېئو ئاۋاز)"
 #: src/dialogs/renderpresetdialog.cpp:98
 #, kde-format
 msgid "4"
-msgstr "4"
+msgstr ""
 
 #: src/dialogs/renderpresetdialog.cpp:99
 #, kde-format
@@ -23500,12 +23433,12 @@ msgstr ""
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:831
 #, kde-format
 msgid "ALSA"
-msgstr "ALSA"
+msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:832
 #, kde-format
 msgid "PulseAudio"
-msgstr "PulseAudio"
+msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:833
 #, kde-format
@@ -23798,7 +23731,7 @@ msgstr ""
 #: src/dialogs/Simplesplash.qml:146 src/dialogs/Splash.qml:632 src/main.cpp:289
 #, kde-format
 msgid "Kdenlive"
-msgstr "Kdenlive"
+msgstr ""
 
 #: src/dialogs/Simplesplash.qml:196
 #, kde-format
@@ -23902,10 +23835,9 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/speechdialog.cpp:448
-#, fuzzy, kde-format
-#| msgid "Start recognition"
+#, kde-format
 msgid "Speech recognition failed"
-msgstr "رەڭ تاللاش"
+msgstr ""
 
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
@@ -25764,7 +25696,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3899
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3911
 #, kde-format
 msgid "Overwrite"
 msgstr "قاپلا"
@@ -26073,6 +26005,8 @@ msgid ""
 "Effect name %1 already exists.\n"
 " Try another name?"
 msgstr ""
+"Effect name %1 already exists.\n"
+" Try another name?"
 
 #: src/effects/effectlist/view/effectlistwidget.cpp:149
 #, kde-format
@@ -26885,7 +26819,7 @@ msgid "Generators"
 msgstr ""
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4284
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4296
 #, kde-format
 msgid "Extract Audio"
 msgstr ""
@@ -27275,12 +27209,12 @@ msgstr ""
 #: src/lib/audio/audioStreamInfo.cpp:67
 #, kde-format
 msgid "kHz "
-msgstr "kHz "
+msgstr ""
 
 #: src/lib/audio/audioStreamInfo.cpp:69
 #, kde-format
 msgid "Hz "
-msgstr "Hz "
+msgstr ""
 
 #: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:325
 #, kde-format
@@ -27291,7 +27225,7 @@ msgstr ""
 #, kde-format
 msgctxt "%p is the percent value, % is the percent sign"
 msgid "%p%"
-msgstr "%p%"
+msgstr ""
 
 #: src/library/librarywidget.cpp:194 src/library/librarywidget.cpp:522
 #, kde-format
@@ -27538,10 +27472,9 @@ msgid "Darby Johnston"
 msgstr ""
 
 #: src/main.cpp:306
-#, fuzzy, kde-format
-#| msgid "Overwrite"
+#, kde-format
 msgid "OTIO rewrite"
-msgstr "قاپلا"
+msgstr ""
 
 #: src/main.cpp:307
 #, kde-format
@@ -28324,7 +28257,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3882
+#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3894
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -28346,7 +28279,7 @@ msgstr "ئاپتوماتىك"
 #: src/mainwindow.cpp:1680
 #, kde-format
 msgid "OpenGL"
-msgstr "OpenGL"
+msgstr ""
 
 #: src/mainwindow.cpp:1685
 #, kde-format
@@ -29217,77 +29150,85 @@ msgstr ""
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
+"project, then move all temporary files from <br/><b>%1</b> to the project "
+"file location and reload"
+msgstr ""
+
+#: src/mainwindow.cpp:2564
+#, kde-format
+msgid ""
+"The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2560
+#: src/mainwindow.cpp:2572
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
 "project file will then be reloaded"
 msgstr ""
 
-#: src/mainwindow.cpp:2569 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2581 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2574 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2586 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr ""
 
-#: src/mainwindow.cpp:2724
+#: src/mainwindow.cpp:2736
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr ""
 
-#: src/mainwindow.cpp:2724
+#: src/mainwindow.cpp:2736
 #, kde-format
 msgid "Clean up project"
 msgstr ""
 
-#: src/mainwindow.cpp:2852
+#: src/mainwindow.cpp:2864
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr ""
 
-#: src/mainwindow.cpp:2896
+#: src/mainwindow.cpp:2908
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "ئادەتتىكى"
 
-#: src/mainwindow.cpp:2969
+#: src/mainwindow.cpp:2981
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
 "Do you want to proceed?"
 msgstr ""
 
-#: src/mainwindow.cpp:2970
+#: src/mainwindow.cpp:2982
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr ""
 
-#: src/mainwindow.cpp:3117 src/mainwindow.cpp:3144
+#: src/mainwindow.cpp:3129 src/mainwindow.cpp:3156
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr ""
 
-#: src/mainwindow.cpp:3127 src/mainwindow.cpp:3183
+#: src/mainwindow.cpp:3139 src/mainwindow.cpp:3195
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr ""
 
-#: src/mainwindow.cpp:3149 src/mainwindow.cpp:3159
+#: src/mainwindow.cpp:3161 src/mainwindow.cpp:3171
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr ""
 
-#: src/mainwindow.cpp:3176 src/timeline2/view/timelinecontroller.cpp:1450
+#: src/mainwindow.cpp:3188 src/timeline2/view/timelinecontroller.cpp:1450
 #: src/timeline2/view/timelinecontroller.cpp:1458
 #: src/timeline2/view/timelinecontroller.cpp:1479
 #: src/timeline2/view/timelinecontroller.cpp:1519
@@ -29297,46 +29238,46 @@ msgstr ""
 msgid "Cannot find clip to edit marker"
 msgstr ""
 
-#: src/mainwindow.cpp:3228
+#: src/mainwindow.cpp:3240
 #, kde-format
 msgid "Marker category does not exist"
 msgstr ""
 
-#: src/mainwindow.cpp:3448 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3460 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Overwrite zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3450 src/mainwindow.cpp:3469
+#: src/mainwindow.cpp:3462 src/mainwindow.cpp:3481
 #: src/timeline2/model/timelinefunctions.cpp:820
 #: src/timeline2/view/timelinecontroller.cpp:3676
 #, kde-format
 msgid "Could not insert zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3460
+#: src/mainwindow.cpp:3472
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr ""
 
-#: src/mainwindow.cpp:3467 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3479 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Insert zone"
 msgstr ""
 
-#: src/mainwindow.cpp:3634
+#: src/mainwindow.cpp:3646
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr ""
 
-#: src/mainwindow.cpp:3696
+#: src/mainwindow.cpp:3708
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr ""
 
-#: src/mainwindow.cpp:3850
+#: src/mainwindow.cpp:3862
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29345,7 +29286,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3854
+#: src/mainwindow.cpp:3866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29355,24 +29296,24 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3869
 #, kde-format
 msgid "Select"
 msgstr "تاللا"
 
-#: src/mainwindow.cpp:3859
+#: src/mainwindow.cpp:3871
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3860 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3872 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr ""
 
-#: src/mainwindow.cpp:3864
+#: src/mainwindow.cpp:3876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29380,12 +29321,12 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3865
+#: src/mainwindow.cpp:3877
 #, kde-format
 msgid "Spacer"
 msgstr "بوشلۇق"
 
-#: src/mainwindow.cpp:3867
+#: src/mainwindow.cpp:3879
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29393,13 +29334,13 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3868
+#: src/mainwindow.cpp:3880
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr ""
 
-#: src/mainwindow.cpp:3873
+#: src/mainwindow.cpp:3885
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29408,13 +29349,13 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3875
+#: src/mainwindow.cpp:3887
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr ""
 
-#: src/mainwindow.cpp:3881
+#: src/mainwindow.cpp:3893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29422,139 +29363,139 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3897
+#: src/mainwindow.cpp:3909
 #, kde-format
 msgid "Insert"
 msgstr "قىستۇر"
 
-#: src/mainwindow.cpp:4174 src/mainwindow.cpp:4176
+#: src/mainwindow.cpp:4186 src/mainwindow.cpp:4188
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:4181
+#: src/mainwindow.cpp:4193
 #, kde-format
 msgid "Project Bins"
 msgstr ""
 
-#: src/mainwindow.cpp:4258
+#: src/mainwindow.cpp:4270
 #, kde-format
 msgid "Clip Jobs"
 msgstr ""
 
-#: src/mainwindow.cpp:4277
+#: src/mainwindow.cpp:4289
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr ""
 
-#: src/mainwindow.cpp:4283
+#: src/mainwindow.cpp:4295
 #, kde-format
 msgid "Transcoders"
 msgstr ""
 
-#: src/mainwindow.cpp:4350
+#: src/mainwindow.cpp:4362
 #, kde-format
 msgid "-merged"
 msgstr ""
 
-#: src/mainwindow.cpp:4353
+#: src/mainwindow.cpp:4365
 #, kde-format
 msgid "-stream-%1"
 msgstr ""
 
-#: src/mainwindow.cpp:4386 src/mainwindow.cpp:4714
+#: src/mainwindow.cpp:4398 src/mainwindow.cpp:4726
 #, kde-format
 msgid "Interface"
 msgstr "ئارايۈز"
 
-#: src/mainwindow.cpp:4457
+#: src/mainwindow.cpp:4469
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr ""
 
-#: src/mainwindow.cpp:4621
+#: src/mainwindow.cpp:4633
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr ""
 
-#: src/mainwindow.cpp:4629
+#: src/mainwindow.cpp:4641
 #, kde-format
 msgid "Archiving project"
 msgstr ""
 
-#: src/mainwindow.cpp:4728
+#: src/mainwindow.cpp:4740
 #, kde-format
 msgid "Raise %1"
 msgstr ""
 
-#: src/mainwindow.cpp:4799
+#: src/mainwindow.cpp:4811
 #, kde-format
 msgid "Icon Size"
 msgstr "سىنبەلگە چوڭلۇقى"
 
-#: src/mainwindow.cpp:4803
+#: src/mainwindow.cpp:4815
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "كۆڭۈلدىكى"
 
-#: src/mainwindow.cpp:4824 src/mainwindow.cpp:4852
+#: src/mainwindow.cpp:4836 src/mainwindow.cpp:4864
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "كىچىك (%1x%2)"
 
-#: src/mainwindow.cpp:4826 src/mainwindow.cpp:4854
+#: src/mainwindow.cpp:4838 src/mainwindow.cpp:4866
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "ئوتتۇرا (%1x%2)"
 
-#: src/mainwindow.cpp:4828 src/mainwindow.cpp:4856
+#: src/mainwindow.cpp:4840 src/mainwindow.cpp:4868
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "چوڭ (%1x%2)"
 
-#: src/mainwindow.cpp:4830 src/mainwindow.cpp:4858
+#: src/mainwindow.cpp:4842 src/mainwindow.cpp:4870
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "يوغان (%1x%2)"
 
-#: src/mainwindow.cpp:4914
+#: src/mainwindow.cpp:4926
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr ""
 
-#: src/mainwindow.cpp:4914
+#: src/mainwindow.cpp:4926
 #, kde-format
 msgid "Hide menu bar"
 msgstr "تىزىملىك بالداقنى يوشۇر"
 
-#: src/mainwindow.cpp:5592
+#: src/mainwindow.cpp:5604
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5598
+#: src/mainwindow.cpp:5610
 #, kde-format
 msgid "Never check again"
 msgstr ""
 
-#: src/mainwindow.cpp:5601
+#: src/mainwindow.cpp:5613
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5605
+#: src/mainwindow.cpp:5617
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5647
+#: src/mainwindow.cpp:5659
 #, kde-format
 msgid "Checking cached data size"
 msgstr ""
@@ -29808,14 +29749,14 @@ msgstr ""
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:625
 #, kde-format
 msgid "1"
-msgstr "1"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
 #: src/mltcontroller/clippropertiescontroller.cpp:1013
 #: src/ui/projectsettings_ui.ui:630
 #, kde-format
 msgid "2"
-msgstr "2"
+msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1042
 #, kde-format
@@ -29830,7 +29771,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:1071
 #, kde-format
 msgid "ms"
-msgstr "ms"
+msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1120
 #, kde-format
@@ -29934,7 +29875,7 @@ msgstr ""
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
-msgstr "Hz"
+msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1440
 #, kde-format
@@ -29984,7 +29925,7 @@ msgstr ""
 #: src/mltcontroller/clippropertiescontroller.cpp:1749
 #, kde-format
 msgid "Exif"
-msgstr "Exif"
+msgstr ""
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1776
 #, kde-format
@@ -30018,7 +29959,7 @@ msgstr "ئۈن ئاۋاز مىقدارى"
 #: src/monitor/monitor.cpp:91 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr ""
 
 #: src/monitor/monitor.cpp:229
 #, kde-format
@@ -30604,10 +30545,9 @@ msgid "Move Toolbar"
 msgstr ""
 
 #: src/monitor/view/EffectToolBar.qml:172
-#, fuzzy, kde-format
-#| msgid "Automatic transitions"
+#, kde-format
 msgid "Automatic Keyframes is ON"
-msgstr "ئالماشتۇر"
+msgstr ""
 
 #: src/monitor/view/MaskToolBar.qml:64
 #, kde-format
@@ -31120,7 +31060,7 @@ msgstr ""
 #, kde-format
 msgctxt "frames per second"
 msgid "fps"
-msgstr "fps"
+msgstr ""
 
 #: src/profiles/profileinfo.cpp:90
 #, kde-format
@@ -31891,6 +31831,9 @@ msgid ""
 "timeline previews for this project.\n"
 " Are you sure you want to proceed?"
 msgstr ""
+"You changed the timeline preview profile. This will remove all existing "
+"timeline previews for this project.\n"
+" Are you sure you want to proceed?"
 
 #: src/project/dialogs/projectsettings.cpp:554
 #: src/project/dialogs/projectsettings.cpp:564
@@ -33028,7 +32971,7 @@ msgstr "ئىختىيارى"
 #, kde-format
 msgctxt "10 Bit color depth category"
 msgid "10 Bit"
-msgstr ""
+msgstr "10 بىت"
 
 #: src/renderpresets/renderpresetrepository.cpp:100
 #, kde-format
@@ -33051,7 +32994,7 @@ msgstr "ئىختىيارى"
 #: src/renderpresets/renderpresetrepository.cpp:287
 #, kde-format
 msgid "10 Bit"
-msgstr ""
+msgstr "10 بىت"
 
 #: src/renderpresets/renderpresetrepository.cpp:397
 #, kde-format
@@ -33210,12 +33153,12 @@ msgstr ""
 #: src/scopes/colorscopes/vectorscope.cpp:435
 #, kde-format
 msgid "%1°"
-msgstr "%1°"
+msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:115
 #, kde-format
 msgid "%1 px"
-msgstr "%1 px"
+msgstr ""
 
 #: src/scopes/colorscopes/colorplaneexport.cpp:156
 #, kde-format
@@ -33311,7 +33254,7 @@ msgstr ""
 #: src/scopes/colorscopes/rgbparade.cpp:41
 #, kde-format
 msgid "RGB"
-msgstr "RGB"
+msgstr ""
 
 #: src/scopes/colorscopes/rgbparade.cpp:58
 #: src/scopes/colorscopes/vectorscope.cpp:158
@@ -34881,11 +34824,9 @@ msgid "Replace Clip"
 msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4655
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Import File"
+#, kde-format
 msgid "Import New Clip"
-msgstr "ھۆججەت ئەكىر"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:4698
 #, kde-format
@@ -35147,7 +35088,7 @@ msgstr "گىرۋەك كەڭلىكى"
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
-msgstr "%"
+msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
@@ -35844,7 +35785,7 @@ msgstr ""
 #: src/ui/speechdialog_ui.ui:239 src/ui/textbasededit_ui.ui:58
 #, no-c-format, kde-format
 msgid "%p%"
-msgstr "%p%"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, labelFFTSize)
 #: src/ui/audiospectrum_ui.ui:56
@@ -36615,7 +36556,7 @@ msgstr ""
 #: src/ui/configenv_ui.ui:82
 #, kde-format
 msgid " MiB"
-msgstr " MiB"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
 #: src/ui/configenv_ui.ui:95
@@ -37917,7 +37858,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:575 src/ui/editrenderpreset_ui.ui:1001
 #, kde-format
 msgid "k"
-msgstr "k"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cFps)
 #: src/ui/editrenderpreset_ui.ui:591
@@ -37979,7 +37920,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:814
 #, kde-format
 msgid " KiB"
-msgstr " KiB"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, cSampleR)
 #: src/ui/editrenderpreset_ui.ui:859
@@ -38039,7 +37980,7 @@ msgstr ""
 #: src/ui/editrenderpreset_ui.ui:956
 #, kde-format
 msgid "Hz"
-msgstr "Hz"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, other_tab)
 #: src/ui/editrenderpreset_ui.ui:1019
@@ -38332,7 +38273,7 @@ msgstr ""
 #: src/ui/guideslist_ui.ui:40
 #, kde-format
 msgid "KSqueezedTextLabel"
-msgstr "KSqueezedTextLabel"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
@@ -38413,7 +38354,7 @@ msgstr "نۆۋەتتىكى قۇرۇلۇش"
 #: src/ui/managecache_ui.ui:213 src/ui/managecache_ui.ui:230
 #, kde-format
 msgid "0 B"
-msgstr "0 B"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, thumbLabel)
 #: src/ui/managecache_ui.ui:55
@@ -38644,10 +38585,9 @@ msgstr "ئۇسلۇب"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #: src/ui/managesubtitles_ui.ui:323
-#, fuzzy, kde-format
-#| msgid "Edit"
+#, kde-format
 msgid "Edit…"
-msgstr "تەھرىر"
+msgstr "تەھرىر…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
@@ -38924,7 +38864,7 @@ msgstr ""
 #: src/ui/profiledialog_ui.ui:27
 #, kde-format
 msgid "C"
-msgstr "C"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, button_delete)
 #: src/ui/profiledialog_ui.ui:50
@@ -38937,7 +38877,7 @@ msgstr ""
 #: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:551
 #, kde-format
 msgid "x"
-msgstr "x"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
 #: src/ui/profiledialog_ui.ui:160
@@ -39135,7 +39075,7 @@ msgstr ""
 #: src/ui/projectsettings_ui.ui:766
 #, kde-format
 msgid "Delete files"
-msgstr ""
+msgstr "ھۆججەت ئۆچۈر"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
 #: src/ui/projectsettings_ui.ui:773
@@ -39880,7 +39820,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:26 src/ui/titlewidget_ui.ui:39
 #, kde-format
 msgid "V"
-msgstr "V"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
@@ -39928,13 +39868,13 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:383
 #, kde-format
 msgid "I"
-msgstr "I"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectText)
 #: src/ui/titlewidget_ui.ui:393
 #, kde-format
 msgid "T"
-msgstr "T"
+msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, hguides)
 #: src/ui/titlewidget_ui.ui:403
@@ -39970,7 +39910,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:472
 #, kde-format
 msgid "A"
-msgstr "A"
+msgstr "قوشۇمچە ئاتنىڭ بىرىنچى ھەرپى"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
 #: src/ui/titlewidget_ui.ui:526
@@ -40205,7 +40145,7 @@ msgstr ""
 #: src/ui/titlewidget_ui.ui:1648
 #, no-c-format, kde-format
 msgid "100%"
-msgstr "100%"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, resize200)
 #: src/ui/titlewidget_ui.ui:1655
@@ -40372,7 +40312,7 @@ msgstr ""
 #, kde-format
 msgctxt "y axis position"
 msgid "Y"
-msgstr "Y"
+msgstr ""
 
 #: src/widgets/geometrywidget.cpp:85
 #, kde-format
@@ -40383,7 +40323,7 @@ msgstr ""
 #: src/widgets/geometrywidget.cpp:93
 #, kde-format
 msgid "Lock aspect ratio"
-msgstr ""
+msgstr "تەرەپ نىسبىتىنى قۇلۇپلايدۇ"
 
 #: src/widgets/geometrywidget.cpp:103
 #, kde-format
@@ -40447,7 +40387,7 @@ msgstr "بارلىق كاتېگورىيەلەر"
 #, kde-format
 msgctxt "s as seconds"
 msgid "%1s"
-msgstr "%1s"
+msgstr ""
 
 #: src/widgets/progressbutton.cpp:58
 #, kde-format

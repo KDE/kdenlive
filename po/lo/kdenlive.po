@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 00:44+0000\n"
+"POT-Creation-Date: 2026-09-22 15:59+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -22102,7 +22102,7 @@ msgid ""
 "tracks ?"
 msgstr "ໂຄງການຂອງເຈົ້າຕ້ອງການແທຣັກສຽງເພີ່ມເພື່ອຮອງຮັບສະຕຣີມທັງໝົດ. ເພີ່ມ %1 ແທຣັກສຽງບໍ່?"
 
-#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3099
+#: src/bin/bin.cpp:6045 src/mainwindow.cpp:3111
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "ບໍ່ສາມາດຊອກຫາຄລິບເພື່ອເພີ່ມເຄື່ອງໝາຍ"
@@ -22199,7 +22199,7 @@ msgstr "ລຶບເອັບເຟັກ %1"
 msgid "Project Bin"
 msgstr "ຄັງໂຄງການ"
 
-#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5424
+#: src/bin/bin.cpp:7018 src/bin/bin.cpp:7021 src/mainwindow.cpp:5436
 #, kde-format
 msgid "Project Bin %1"
 msgstr "ຄັງໂຄງການ %1"
@@ -27025,7 +27025,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "ໄຟລ໌ຄຳບັນຍາຍ:<br/>%1<br/>ມີຢູ່ແລ້ວ. ທ່ານຕ້ອງການຂຽນທັບມັນບໍ່?"
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3899
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3911
 #, kde-format
 msgid "Overwrite"
 msgstr "ຂຽນທັບ"
@@ -28185,7 +28185,7 @@ msgid "Generators"
 msgstr "ຕົວສ້າງ"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4284
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4296
 #, kde-format
 msgid "Extract Audio"
 msgstr "ແຍກສຽງ"
@@ -29656,7 +29656,7 @@ msgstr "ປັບລະດັບການຊູມເພື່ອໃຫ້ເຫ
 msgid "Experimental GPU processing enabled - not for production"
 msgstr "ເປີດໃຊ້ການປະມວນຜົນ GPU ແບບທົດລອງ - ບໍ່ແມ່ນສຳລັບການໃຊ້ງານຈິງ"
 
-#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3882
+#: src/mainwindow.cpp:1620 src/mainwindow.cpp:3894
 #, kde-format
 msgid "Multicam"
 msgstr "ຫຼາຍກ້ອງ"
@@ -30568,6 +30568,20 @@ msgid "Continue without"
 msgstr "ດຳເນີນການຕໍ່ໂດຍບໍ່ມີ"
 
 #: src/mainwindow.cpp:2552
+#, fuzzy, kde-format
+#| msgid ""
+#| "The current project has not been saved.<br/>This will first save the "
+#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
+#| "<br>and the project file will be reloaded"
+msgid ""
+"The current project has not been saved.<br/>This will first save the "
+"project, then move all temporary files from <br/><b>%1</b> to the project "
+"file location and reload"
+msgstr ""
+"ໂຄງການປະຈຸບັນຍັງບໍ່ທັນໄດ້ບັນທຶກ.<br/>ລະບົບຈະບັນທຶກໂຄງການກ່ອນ, ຈາກນັ້ນຍ້າຍໄຟລ໌ຊົ່ວຄາວທັງໝົດຈາກ <br/"
+"><b>%1</b> ໄປຍັງ <b>%2</b>,<br>ແລະ ໄຟລ໌ໂຄງການຈະຖືກໂຫຼດໃໝ່"
+
+#: src/mainwindow.cpp:2564
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -30577,7 +30591,7 @@ msgstr ""
 "ໂຄງການປະຈຸບັນຍັງບໍ່ທັນໄດ້ບັນທຶກ.<br/>ລະບົບຈະບັນທຶກໂຄງການກ່ອນ, ຈາກນັ້ນຍ້າຍໄຟລ໌ຊົ່ວຄາວທັງໝົດຈາກ <br/"
 "><b>%1</b> ໄປຍັງ <b>%2</b>,<br>ແລະ ໄຟລ໌ໂຄງການຈະຖືກໂຫຼດໃໝ່"
 
-#: src/mainwindow.cpp:2560
+#: src/mainwindow.cpp:2572
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -30586,38 +30600,38 @@ msgstr ""
 "ລະບົບຈະຍ້າຍໄຟລ໌ຊົ່ວຄາວທັງໝົດຈາກ<br/><b>%1</b> ໄປຍັງ <b>%2</b>,<br/"
 ">ຈາກນັ້ນໄຟລ໌ໂຄງການຈະຖືກໂຫຼດໃໝ່"
 
-#: src/mainwindow.cpp:2569 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2581 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ລະຫັດເອກະສານບໍ່ຖືກຕ້ອງ: %1"
 
-#: src/mainwindow.cpp:2574 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2586 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ໄດເຣັກທໍຣີປາຍທາງມີຢູ່ແລ້ວ: %1"
 
-#: src/mainwindow.cpp:2724
+#: src/mainwindow.cpp:2736
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "ລະບົບຈະລຶບຄລິບທີ່ບໍ່ໄດ້ໃຊ້ທັງໝົດອອກຈາກໂຄງການຂອງເຈົ້າ."
 
-#: src/mainwindow.cpp:2724
+#: src/mainwindow.cpp:2736
 #, kde-format
 msgid "Clean up project"
 msgstr "ທຳຄວາມສະອາດໂຄງການ"
 
-#: src/mainwindow.cpp:2852
+#: src/mainwindow.cpp:2864
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "ດາວໂຫຼດຮູບແບບແປ້ນພິມໃໝ່..."
 
-#: src/mainwindow.cpp:2896
+#: src/mainwindow.cpp:2908
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "ທົ່ວໄປ"
 
-#: src/mainwindow.cpp:2969
+#: src/mainwindow.cpp:2981
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -30625,28 +30639,28 @@ msgid ""
 msgstr ""
 "ລະບົບຈະລຶບໄຟລ໌ການຕັ້ງຄ່າຂອງ Kdenlive ແລະ ເປີດແອັບພລິເຄຊັນໃໝ່. ເຈົ້າຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
 
-#: src/mainwindow.cpp:2970
+#: src/mainwindow.cpp:2982
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "ຣີເຊັດການຕັ້ງຄ່າ"
 
-#: src/mainwindow.cpp:3117 src/mainwindow.cpp:3144
+#: src/mainwindow.cpp:3129 src/mainwindow.cpp:3156
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3127 src/mainwindow.cpp:3183
+#: src/mainwindow.cpp:3139 src/mainwindow.cpp:3195
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "ບໍ່ພົບຕົວໝາຍຢູ່ທີ່ເວລາຂອງເຄີເຊີ"
 
-#: src/mainwindow.cpp:3149 src/mainwindow.cpp:3159
+#: src/mainwindow.cpp:3161 src/mainwindow.cpp:3171
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3176 src/timeline2/view/timelinecontroller.cpp:1450
+#: src/mainwindow.cpp:3188 src/timeline2/view/timelinecontroller.cpp:1450
 #: src/timeline2/view/timelinecontroller.cpp:1458
 #: src/timeline2/view/timelinecontroller.cpp:1479
 #: src/timeline2/view/timelinecontroller.cpp:1519
@@ -30656,46 +30670,46 @@ msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ລຶບຕ
 msgid "Cannot find clip to edit marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະແກ້ໄຂຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3228
+#: src/mainwindow.cpp:3240
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "ບໍ່ມີໝວດໝູ່ຂອງຕົວໝາຍ"
 
-#: src/mainwindow.cpp:3448 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3460 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Overwrite zone"
 msgstr "ຂຽນທັບເຂດ"
 
-#: src/mainwindow.cpp:3450 src/mainwindow.cpp:3469
+#: src/mainwindow.cpp:3462 src/mainwindow.cpp:3481
 #: src/timeline2/model/timelinefunctions.cpp:820
 #: src/timeline2/view/timelinecontroller.cpp:3676
 #, kde-format
 msgid "Could not insert zone"
 msgstr "ບໍ່ສາມາດແຊກເຂດໄດ້"
 
-#: src/mainwindow.cpp:3460
+#: src/mainwindow.cpp:3472
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "ບໍ່ມີຄລິບຖືກເລືອກໃນຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:3467 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3479 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3674
 #, kde-format
 msgid "Insert zone"
 msgstr "ແຊກເຂດ"
 
-#: src/mainwindow.cpp:3634
+#: src/mainwindow.cpp:3646
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "ບໍ່ສາມາດເພີ່ມເອັບເຟັກໃສ່ລາຍການທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:3696
+#: src/mainwindow.cpp:3708
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "ລະດັບການຊູມ: %1/%2"
 
-#: src/mainwindow.cpp:3850
+#: src/mainwindow.cpp:3862
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30707,7 +30721,7 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3854
+#: src/mainwindow.cpp:3866
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30720,24 +30734,24 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta + Alt ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3869
 #, kde-format
 msgid "Select"
 msgstr "ເລືອກ"
 
-#: src/mainwindow.cpp:3859
+#: src/mainwindow.cpp:3871
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> ເພື່ອເບິ່ງຕົວຢ່າງເຟຣມທີ່ຕັດ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3860 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3872 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "ມີດຕັດ"
 
-#: src/mainwindow.cpp:3864
+#: src/mainwindow.cpp:3876
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30747,12 +30761,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> ເພື່ອໃຊ້ກັບແທຣັກປະຈຸບັນເທົ່ານັ້ນ, <shortcut>Shift</shortcut> "
 "ເພື່ອຍ້າຍເສັ້ນນຳທາງນຳ. ເຈົ້າສາມາດໃຊ້ປຸ່ມທັງສອງຮ່ວມກັນໄດ້."
 
-#: src/mainwindow.cpp:3865
+#: src/mainwindow.cpp:3877
 #, kde-format
 msgid "Spacer"
 msgstr "ຕົວຍະຫວ່າງ"
 
-#: src/mainwindow.cpp:3867
+#: src/mainwindow.cpp:3879
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30762,13 +30776,13 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ລາຍການເພື່ອເລື່ອນ (slip), <shortcut>Shift ຄລິກ</"
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ"
 
-#: src/mainwindow.cpp:3868
+#: src/mainwindow.cpp:3880
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slip"
 
-#: src/mainwindow.cpp:3873
+#: src/mainwindow.cpp:3885
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30780,13 +30794,13 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Alt ຄລິກ</shortcut> ເພື່ອເລືອກລາຍການໃນກຸ່ມ, "
 "<shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:3875
+#: src/mainwindow.cpp:3887
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ripple"
 
-#: src/mainwindow.cpp:3881
+#: src/mainwindow.cpp:3893
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30796,140 +30810,140 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ມຸມມອງແທຣັກໃນຈໍມໍນິເຕີໂຄງການ ເພື່ອທຳການຍົກທຸກແທຣັກອອກ "
 "ຍົກເວັ້ນແທຣັກທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:3897
+#: src/mainwindow.cpp:3909
 #, kde-format
 msgid "Insert"
 msgstr "ແຊກ"
 
-#: src/mainwindow.cpp:4174 src/mainwindow.cpp:4176
+#: src/mainwindow.cpp:4186 src/mainwindow.cpp:4188
 #, kde-format
 msgid "Scopes"
 msgstr "ສະໂຄບ"
 
-#: src/mainwindow.cpp:4181
+#: src/mainwindow.cpp:4193
 #, kde-format
 msgid "Project Bins"
 msgstr "ຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:4258
+#: src/mainwindow.cpp:4270
 #, kde-format
 msgid "Clip Jobs"
 msgstr "ວຽກຂອງຄລິບ"
 
-#: src/mainwindow.cpp:4277
+#: src/mainwindow.cpp:4289
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "ຕັ້ງຄ່າວຽກຂອງຄລິບ..."
 
-#: src/mainwindow.cpp:4283
+#: src/mainwindow.cpp:4295
 #, kde-format
 msgid "Transcoders"
 msgstr "ຕົວປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:4350
+#: src/mainwindow.cpp:4362
 #, kde-format
 msgid "-merged"
 msgstr "-ຮວມແລ້ວ"
 
-#: src/mainwindow.cpp:4353
+#: src/mainwindow.cpp:4365
 #, kde-format
 msgid "-stream-%1"
 msgstr "-ສະຕຣີມ-%1"
 
-#: src/mainwindow.cpp:4386 src/mainwindow.cpp:4714
+#: src/mainwindow.cpp:4398 src/mainwindow.cpp:4726
 #, kde-format
 msgid "Interface"
 msgstr "ອິນເຕີເຟດ"
 
-#: src/mainwindow.cpp:4457
+#: src/mainwindow.cpp:4469
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ໄຟລ໌ທີ່ຈະປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:4621
+#: src/mainwindow.cpp:4633
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "ບໍ່ສາມາດບັນທຶກໄຟລ໌ໂຄງການສຳລັບການຈັດເກັບໄດ້."
 
-#: src/mainwindow.cpp:4629
+#: src/mainwindow.cpp:4641
 #, kde-format
 msgid "Archiving project"
 msgstr "ກຳລັງຈັດເກັບໂຄງການ"
 
-#: src/mainwindow.cpp:4728
+#: src/mainwindow.cpp:4740
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "ປິດໃຊ້ງານ %1"
 
-#: src/mainwindow.cpp:4799
+#: src/mainwindow.cpp:4811
 #, kde-format
 msgid "Icon Size"
 msgstr "ຂະໜາດໄອຄອນ"
 
-#: src/mainwindow.cpp:4803
+#: src/mainwindow.cpp:4815
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ຄ່າເລີ່ມຕົ້ນ"
 
-#: src/mainwindow.cpp:4824 src/mainwindow.cpp:4852
+#: src/mainwindow.cpp:4836 src/mainwindow.cpp:4864
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "ນ້ອຍ (%1x%2)"
 
-#: src/mainwindow.cpp:4826 src/mainwindow.cpp:4854
+#: src/mainwindow.cpp:4838 src/mainwindow.cpp:4866
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "ກາງ (%1x%2)"
 
-#: src/mainwindow.cpp:4828 src/mainwindow.cpp:4856
+#: src/mainwindow.cpp:4840 src/mainwindow.cpp:4868
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "ໃຫຍ່ (%1x%2)"
 
-#: src/mainwindow.cpp:4830 src/mainwindow.cpp:4858
+#: src/mainwindow.cpp:4842 src/mainwindow.cpp:4870
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ໃຫຍ່ຫຼາຍ (%1x%2)"
 
-#: src/mainwindow.cpp:4914
+#: src/mainwindow.cpp:4926
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "ສິ່ງນີ້ຈະເຊື່ອງແຖບເມນູທັງໝົດ. ເຈົ້າສາມາດສະແດງມັນໄດ້ອີກຄັ້ງໂດຍການກົດ Ctrl+M."
 
-#: src/mainwindow.cpp:4914
+#: src/mainwindow.cpp:4926
 #, kde-format
 msgid "Hide menu bar"
 msgstr "ເຊື່ອງແຖບເມນູ"
 
-#: src/mainwindow.cpp:5592
+#: src/mainwindow.cpp:5604
 #, kde-format
 msgid "Go to download page"
 msgstr "ໄປທີ່ໜ້າດາວໂຫຼດ"
 
-#: src/mainwindow.cpp:5598
+#: src/mainwindow.cpp:5610
 #, kde-format
 msgid "Never check again"
 msgstr "ບໍ່ຕ້ອງກວດສອບອີກ"
 
-#: src/mainwindow.cpp:5601
+#: src/mainwindow.cpp:5613
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 1 ປີ, ພວກເຮົາຂໍແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:5605
+#: src/mainwindow.cpp:5617
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 6 ເດືອນ, ພວກເຮົາແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:5647
+#: src/mainwindow.cpp:5659
 #, kde-format
 msgid "Checking cached data size"
 msgstr "ກຳລັງກວດສອບຂະໜາດຂໍ້ມູນແຄຊ໌"
