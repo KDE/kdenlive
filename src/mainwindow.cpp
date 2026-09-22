@@ -2546,8 +2546,20 @@ void MainWindow::slotEditProjectSettings(int ix)
         }
         if (newProjectFolder != project->projectTempFolder()) {
             KMessageBox::ButtonCode answer;
-            // Project folder changed:
-            if (project->isModified()) {
+            // Unsaved project
+            if (project->url().isEmpty()) {
+                answer =
+                    KMessageBox::warningContinueCancel(this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
+                                                                  "all temporary files from <br/><b>%1</b> to the project file location and reload",
+                                                                  project->projectTempFolder()));
+                if (answer == KMessageBox::Continue) {
+                    pCore->projectManager()->saveFile();
+                    if (w->docFolderAsStorageFolder()) {
+                        newProjectFolder = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
+                    }
+                }
+            } else if (project->isModified()) {
+                // Project folder changed:
                 answer = KMessageBox::warningContinueCancel(
                     this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
                                "all temporary files from <br/><b>%1</b> to <b>%2</b>,<br>and the project file will be reloaded",
