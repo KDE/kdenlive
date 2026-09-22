@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 12:52+0000\n"
+"POT-Creation-Date: 2026-09-22 00:44+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -7355,7 +7355,7 @@ msgstr "ໄລຍະເວລາ"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
-#: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:266
+#: src/core.cpp:1130 src/kdenliveui.rc:195 src/mainwindow.cpp:266
 #: src/project/dialogs/archivewidget.cpp:100
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
@@ -21057,7 +21057,7 @@ msgstr "ບໍ່ມີສຽງ"
 msgid "dB"
 msgstr "dB"
 
-#: src/audiomixer/mixermanager.cpp:299
+#: src/audiomixer/mixermanager.cpp:314
 #, kde-format
 msgid "Master"
 msgstr "Master"
@@ -21978,7 +21978,7 @@ msgstr "ປ້ອນເສັ້ນທາງສຳລັບແອັບພລິ
 msgid "Please set a default application to open video files"
 msgstr "ກະລຸນາຕັ້ງຄ່າແອັບພລິເຄຊັນເລີ່ມຕົ້ນເພື່ອເປີດໄຟລສຽງ"
 
-#: src/bin/bin.cpp:5276 src/core.cpp:643 src/core.cpp:671
+#: src/bin/bin.cpp:5276 src/core.cpp:645 src/core.cpp:673
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:491
 #: src/jobs/cliploadtask.cpp:503 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22273,7 +22273,7 @@ msgstr "ຄລິບຕໍ່ໄປນີ້ຖືກແຊກໃນໂຄງກ
 msgid "Duplicate"
 msgstr "ສຳເນົາ"
 
-#: src/bin/clipcreator.cpp:595
+#: src/bin/clipcreator.cpp:600
 #, kde-format
 msgid ""
 "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -22285,17 +22285,17 @@ msgstr ""
 "ຕິດຕັ້ງຢູ່ຕຳແໜ່ງອື່ນ.\n"
 "ເຈົ້າອາດຈະຕ້ອງການຄັດລອກມັນໄປທີ່ຮາດດິດຂອງເຈົ້າກ່ອນ. ເຈົ້າຕ້ອງການເພີ່ມມັນແນວໃດກໍ່ຕາມບໍ່?"
 
-#: src/bin/clipcreator.cpp:599
+#: src/bin/clipcreator.cpp:604
 #, kde-format
 msgid "Removable device"
 msgstr "ອຸປະກອນທີ່ຖອດອອກໄດ້"
 
-#: src/bin/clipcreator.cpp:644
+#: src/bin/clipcreator.cpp:642
 #, kde-format
 msgid "Loading done"
 msgstr "ໂຫຼດສຳເລັດ"
 
-#: src/bin/clipcreator.cpp:655 src/dialogs/clipcreationdialog.cpp:545
+#: src/bin/clipcreator.cpp:653 src/dialogs/clipcreationdialog.cpp:545
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -22831,18 +22831,30 @@ msgstr "ເພີ່ມແທັກ"
 msgid "New tag"
 msgstr "ແທັກໃໝ່"
 
-#: src/capture/mediacapture.cpp:116
-#, kde-format
-msgid "Recording format adjusted to %1 channels, %2Hz."
-msgstr ""
-
-#: src/capture/mediacapture.cpp:155 src/capture/mediacapture.cpp:301
+#: src/capture/mediacapture.cpp:110 src/capture/mediacapture.cpp:316
 #, fuzzy, kde-format
 #| msgid "No audio track found"
 msgid "No audio device found"
 msgstr "ບໍ່ພົບແທຣັກສຽງ"
 
-#: src/capture/mediacapture.cpp:247
+#: src/capture/mediacapture.cpp:120
+#, kde-format
+msgid "Recording format adjusted to %1 channels, %2Hz."
+msgstr ""
+
+#: src/capture/mediacapture.cpp:192
+#, fuzzy, kde-format
+#| msgid "Processing %1"
+msgid "Error accessing %1"
+msgstr "ກຳລັງປະມວນຜົນ %1"
+
+#: src/capture/mediacapture.cpp:201
+#, fuzzy, kde-format
+#| msgid "Monitor %1"
+msgid "Monitoring through %1"
+msgstr "ຈໍມໍນິເຕີ %1"
+
+#: src/capture/mediacapture.cpp:262
 #, kde-format
 msgid ""
 "Monitoring audio. Press <b>Space</b> to start/pause recording, <b>Esc</b> to "
@@ -22850,13 +22862,13 @@ msgid ""
 msgstr ""
 "ກຳລັງ Monitor ສຽງ. ກົດ <b>Space</b> ເພື່ອເລີ່ມ/ຢຸດຊົ່ວຄາວ ການບັນທຶກ, <b>Esc</b> ເພື່ອຈົບ."
 
-#: src/capture/mediacapture.cpp:421 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:425 src/monitor/recmanager.cpp:194
 #, kde-format
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "capture"
 
-#: src/core.cpp:167
+#: src/core.cpp:168
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -22865,37 +22877,37 @@ msgstr ""
 "Kdenlive ລົ້ມເຫຼວໃນການເປີດຄັ້ງລ່າສຸດ.\n"
 "ເຈົ້າຕ້ອງການປິດການປະມວນຜົນ GPU ແບບທົດລອງ (Movit) ບໍ່?"
 
-#: src/core.cpp:168
+#: src/core.cpp:169
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "ປິດການປະມວນຜົນ GPU"
 
-#: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
+#: src/core.cpp:267 src/core.cpp:310 src/core.cpp:484
 #: src/project/projectmanager.cpp:871
 #, kde-format
 msgid "Loading project…"
 msgstr "ກຳລັງໂຫຼດໂຄງການ..."
 
-#: src/core.cpp:443
+#: src/core.cpp:444
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr "ໂປຣໄຟລເລີ່ມຕົ້ນຂອງ Kdenlive ບໍ່ໄດ້ຕັ້ງຄ່າ ຫຼື ບໍ່ຖືກຕ້ອງ, ກົດ OK ເພື່ອຕັ້ງຄ່າໃຫ້ຖືກຕ້ອງ."
 
-#: src/core.cpp:455
+#: src/core.cpp:456
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "ເລືອກໂປຣໄຟລເລີ່ມຕົ້ນ"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:455 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:456 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "ໂປຣໄຟລ:"
 
-#: src/core.cpp:468
+#: src/core.cpp:469
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -22904,262 +22916,262 @@ msgstr ""
 "ໂປຣໄຟລທີ່ໃຫ້ມາບໍ່ຖືກຕ້ອງ. ພວກເຮົາຈະໃຊ້ໂປຣໄຟລ \"dv_pal\" ເປັນຄ່າເລີ່ມຕົ້ນ, "
 "ແຕ່ເຈົ້າສາມາດປ່ຽນໄດ້ຈາກແຖບຕັ້ງຄ່າຂອງ Kdenlive"
 
-#: src/core.cpp:723
+#: src/core.cpp:725
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Square 2 Bars"
 
-#: src/core.cpp:724
+#: src/core.cpp:726
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Checkerboard Small"
 
-#: src/core.cpp:725
+#: src/core.cpp:727
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Horizontal Blinds"
 
-#: src/core.cpp:726
+#: src/core.cpp:728
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:727
+#: src/core.cpp:729
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Linear X"
 
-#: src/core.cpp:728
+#: src/core.cpp:730
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bi-Linear X"
 
-#: src/core.cpp:729
+#: src/core.cpp:731
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Linear Y"
 
-#: src/core.cpp:730
+#: src/core.cpp:732
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bi-Linear Y"
 
-#: src/core.cpp:731
+#: src/core.cpp:733
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "ສີ່ຫຼ່ຽມ"
 
-#: src/core.cpp:732
+#: src/core.cpp:734
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "ສີ່ຫຼ່ຽມ 2"
 
-#: src/core.cpp:733
+#: src/core.cpp:735
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ເມກ"
 
-#: src/core.cpp:734
+#: src/core.cpp:736
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "ໂມງແບບສົມມາດ"
 
-#: src/core.cpp:735
+#: src/core.cpp:737
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "ແຖບລັດສະໝີ"
 
-#: src/core.cpp:736
+#: src/core.cpp:738
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "ກົ້ນຫອຍ"
 
-#: src/core.cpp:737
+#: src/core.cpp:739
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "ກົ້ນຫອຍ 2"
 
-#: src/core.cpp:738
+#: src/core.cpp:740
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "ຜ້າມ່ານ"
 
-#: src/core.cpp:739
+#: src/core.cpp:741
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "ລະເບີດອອກ"
 
-#: src/core.cpp:740
+#: src/core.cpp:742
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "ໂມງ"
 
-#: src/core.cpp:742
+#: src/core.cpp:744
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "ແຖບລວງນອນ"
 
-#: src/core.cpp:743
+#: src/core.cpp:745
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "ແຖບລວງຕັ້ງ"
 
-#: src/core.cpp:744
+#: src/core.cpp:746
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "ປະຕູໂຮງນາລວງນອນ"
 
-#: src/core.cpp:745
+#: src/core.cpp:747
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "ປະຕູໂຮງນາລວງຕັ້ງ"
 
-#: src/core.cpp:746
+#: src/core.cpp:748
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "ປະຕູໂຮງນາທະແຍງ SW-NE"
 
-#: src/core.cpp:747
+#: src/core.cpp:749
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "ປະຕູໂຮງນາທະແຍງ NW-SE"
 
-#: src/core.cpp:748
+#: src/core.cpp:750
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "ທະແຍງມຸມຊ້າຍເທິງ"
 
-#: src/core.cpp:749
+#: src/core.cpp:751
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "ທະແຍງມຸມຂວາເທິງ"
 
-#: src/core.cpp:750
+#: src/core.cpp:752
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "ຕາຕະລາງນ້ຳຕົກລວງນອນ"
 
-#: src/core.cpp:751
+#: src/core.cpp:753
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "ຕາຕະລາງນ້ຳຕົກລວງຕັ້ງ"
 
-#: src/core.cpp:752
+#: src/core.cpp:754
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "ຕາຕະລາງງູລວງນອນ"
 
-#: src/core.cpp:753
+#: src/core.cpp:755
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "ຕາຕະລາງງູຂະໜານລວງນອນ"
 
-#: src/core.cpp:754
+#: src/core.cpp:756
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "ຕາຕະລາງງູລວງຕັ້ງ"
 
-#: src/core.cpp:755
+#: src/core.cpp:757
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "ຕາຕະລາງງູຂະໜານລວງຕັ້ງ"
 
-#: src/core.cpp:756
+#: src/core.cpp:758
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "ປະຕູໂຮງນາ V ຂຶ້ນ"
 
-#: src/core.cpp:757
+#: src/core.cpp:759
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "ວົງມົນຮູຮັບແສງ"
 
-#: src/core.cpp:758
+#: src/core.cpp:760
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "ຮູຮັບແສງຄູ່"
 
-#: src/core.cpp:759
+#: src/core.cpp:761
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "ກ່ອງຮູຮັບແສງ"
 
-#: src/core.cpp:760
+#: src/core.cpp:762
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "ກ່ອງລຸ່ມຂວາ"
 
-#: src/core.cpp:761
+#: src/core.cpp:763
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "ກ່ອງລຸ່ມຊ້າຍ"
 
-#: src/core.cpp:762
+#: src/core.cpp:764
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "ກ່ອງຂວາກາງ"
 
-#: src/core.cpp:763
+#: src/core.cpp:765
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "ໂມງດ້ານເທິງ"
 
-#: src/core.cpp:1074
+#: src/core.cpp:1076
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "ໂປຣໄຟລ໌ໂຄງການຂອງທ່ານບໍ່ຖືກຕ້ອງ, ການປະມວນຜົນອາດຈະລົ້ມເຫຼວ."
 
-#: src/core.cpp:1438
+#: src/core.cpp:1440
 #, kde-format
 msgid "Loading clips"
 msgstr "ກຳລັງໂຫຼດຄລິບ"
 
-#: src/core.cpp:1938
+#: src/core.cpp:1949
 #, kde-format
 msgid "Marker %1"
 msgstr "ຕົວໝາຍ %1"
 
-#: src/core.cpp:2300
+#: src/core.cpp:2311
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23169,12 +23181,12 @@ msgstr ""
 "ການດຳເນີນການນີ້ຈະເປີດບຣາວເຊີເພື່ອສະແດງເອກະສານອອນລາຍຂອງ Kdenlive ທີ່ url ຕໍ່ໄປນີ້:\n"
 " %1"
 
-#: src/core.cpp:2301 src/core.cpp:2312
+#: src/core.cpp:2312 src/core.cpp:2323
 #, kde-format
 msgid "Open Browser"
 msgstr "ເປີດບຣາວເຊີ"
 
-#: src/core.cpp:2311
+#: src/core.cpp:2322
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
