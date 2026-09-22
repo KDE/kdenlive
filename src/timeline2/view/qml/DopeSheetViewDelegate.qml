@@ -39,6 +39,7 @@ Item {
     property double contentScroll: delegateRect.dopeRootItem.contentScroll
 
     implicitWidth: dopeWidth
+    property int handleWidth: Math.round(K.UiUtils.baseSizeMedium * 0.8)
     implicitHeight: fontMetrics.lineSpacing * 1.3
     readonly property real indentation: 20
     readonly property real padding: 5
@@ -52,6 +53,7 @@ Item {
 
     signal selectKeyframe(int kfIndex)
     signal activeParamChanged(var paramIndex)
+    signal paramHovered(int paramRow)
     clip: true
 
     Menu {
@@ -150,19 +152,10 @@ Item {
             }
         }
     }
-
-    Rectangle {
-        // param name background
-        color: delegateRect.depth == 0 ? 'darkorange' : 'darkgoldenrod'
-        opacity: 0.25
-        visible: delegateRect.depth < 2
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-        }
-        width: delegateRect.dopeRootItem.headerWidth
-    }
+    Item  {
+        anchors.fill: parent
+        anchors.leftMargin: delegateRect.dopeRootItem.headerWidth
+        clip: true
 
     Rectangle {
         // keyframes background
@@ -175,100 +168,14 @@ Item {
         anchors.bottomMargin: 2
     }
 
-    Rectangle {
-        color: Qt.rgba(delegateRect.activePalette.highlight.r * 0.6, delegateRect.activePalette.highlight.g * 0.6, delegateRect.activePalette.highlight.b * 0.6, 1)
-        radius: 4
-        visible: delegateRect.current
-        x: 4
-        height: parent.height
-        width: delegateRect.dopeRootItem.headerWidth
-    }
-    property Animation indicatorAnimation: NumberAnimation {
-        target: indicator
-        property: "rotation"
-        from: delegateRect.expanded ? 0 : 90
-        to: delegateRect.expanded ? 90 : 0
-        duration: 200
-        easing.type: Easing.OutQuart
-    }
 
-    TableView.onPooled: indicatorAnimation.complete()
-    TableView.onReused: {
-        if (current) indicatorAnimation.start()
-        restoreExpandedState()
-    }
-    onExpandedChanged: {
-        indicator.rotation = expanded ? 90 : 0
-        if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
-            delegateRect.dopeRootItem.headerWidth = paramLabel.width + indicator.width + delegateRect.padding
-        }
-    }
-
-    ToolButton {
-        id: indicator
-        icon.name: "arrow-right"
-        visible: delegateRect.hasChildren
-        onClicked: {
-            let previouslyExpanded = delegateRect.expanded
-            delegateRect.treeView.toggleExpanded(delegateRect.row)
-            if (delegateRect.depth == 1) {
-                delegateRect.model.expandedRole = !previouslyExpanded
-            }
-        }
-        x: delegateRect.padding
-        height: paramLabel.height
-        width: height
-        anchors.verticalCenter: parent.verticalCenter
-    }
-    MouseArea {
-        id: paramNameArea
-        height: parent.height
-        width: delegateRect.dopeRootItem.headerWidth
-        acceptedButtons: Qt.RightButton
-        onPressed: {
-            //paramMenu.paramIndex = delegateRect.treeView.model.index(delegateRect.row, delegateRect.column)
-            paramMenu.paramIndex = paramModel.getIndex(delegateRect.row, delegateRect.column)
-            // Select parameter
-            delegateRect.treeView.selectionModel.setCurrentIndex(paramMenu.paramIndex, ItemSelectionModel.SelectCurrent);
-            paramMenu.paramHasKeyframes = paramModel.count > 0
-            paramMenu.popup()
-        }
-    }
-
-    Label {
-        id: paramLabel
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: indicator.right
-        text: delegateRect.model && delegateRect.model.dopeName ? delegateRect.model.dopeName : ""
-        elide: Label.ElideRight
-        readonly property bool isElided: implicitWidth > width
-        width: Math.min(implicitWidth, delegateRect.fontMetrics.averageCharacterWidth * 20)
-        ToolTip {
-            visible: hoverHandler.hovered && paramLabel.isElided
-            text: paramLabel.text
-            delay: 1000
-            timeout: 5000
-        }
-        HoverHandler {
-            id: hoverHandler
-        }
-        rightPadding: 4
-        leftPadding: 4
-        font.bold: delegateRect.depth < 2
-
-        Component.onCompleted: {
-            if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
-                delegateRect.dopeRootItem.headerWidth = paramLabel.width + indicator.width + delegateRect.padding
-            }
-        }
-    }
     Item {
         id: kfContainer
         //anchors.left: delegateRect.left
         //anchors.right: delegateRect.right
-        anchors.top: delegateRect.top
-        anchors.bottom: delegateRect.bottom
-        x: delegateRect.dopeRootItem.headerWidth + delegateRect.dopeRootItem.kfOffset
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        x: delegateRect.dopeRootItem.kfOffset
         width: delegateRect.dopeRootItem.frameDuration * delegateRect.dopeRootItem.timeScale
         visible: !delegateRect.isBlankRecap
         Rectangle {
@@ -286,6 +193,8 @@ Item {
         MouseArea {
             id: kfMoveArea
             anchors.fill: parent
+            anchors.leftMargin: - delegateRect.handleWidth / 2
+            anchors.rightMargin: - delegateRect.handleWidth / 2
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             // The frame position of the clicked keyframe, -1 if none
             property int clickFrame: -1
@@ -299,11 +208,6 @@ Item {
             property bool ctrlClick: false
             property var buttonClicked
             hoverEnabled: true
-            onHoveredChanged: {
-                if (containsMouse) {
-                    delegateRect.hoveredParam = delegateRect.row
-                }
-            }
 
             onPressed: mouse => {
                 clickFrame = delegateRect.currentKFFrame
@@ -452,7 +356,6 @@ Item {
                 }
                 if (!dragStarted && mouse.buttons === Qt.LeftButton) {
                     if (Math.abs(mouseX - clickPoint.x) + Math.abs(mouseY - clickPoint.y) > Application.styleHints.startDragDistance) {
-                        console.log(' - - - DRAG STARTED -- - ')
                         dragStarted = true
                         if (shiftClick) {
                             // Start rectangle selection
@@ -516,6 +419,7 @@ Item {
         HoverHandler {
             onHoveredChanged: {
                 if (hovered) {
+                    delegateRect.paramHovered(delegateRect.row)
                     K.Core.showKeyBinding(KI18n.i18n("<b>Drag</b> to move, <b>Ctrl+Drag</b> to scale selection, <b>Double Click</b> to add/remove keyframe"))
                 } else {
                     K.Core.showKeyBinding()
@@ -544,7 +448,7 @@ Item {
                 id: handle
                 row: delegateRect.row
                 column: delegateRect.column
-                handleWidth: Math.round(K.UiUtils.baseSizeMedium * 0.8)
+                handleWidth: delegateRect.handleWidth
                 containerWidth: delegateRect.containerWidth
                 timeScale: delegateRect.dopeRootItem.timeScale
                 contentScroll: delegateRect.dopeRootItem.contentScroll / delegateRect.dopeRootItem.timeScale
@@ -565,8 +469,108 @@ Item {
             }
         }
         Component.onCompleted: {
-            parent.treeView.expand(0)
+            delegateRect.treeView.expand(0)
             console.log('Loaded TREEVIEW COMPONENT ID: ', delegateRect.treeView.model.index(delegateRect.row, delegateRect.column))
+        }
+    }
+    }
+    Rectangle {
+        // param name background
+        color: delegateRect.depth == 0 ? 'darkorange' : 'darkgoldenrod'
+        opacity: 0.25
+        visible: delegateRect.depth < 2
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
+        width: delegateRect.dopeRootItem.headerWidth
+    }
+
+    Rectangle {
+        color: Qt.rgba(delegateRect.activePalette.highlight.r * 0.6, delegateRect.activePalette.highlight.g * 0.6, delegateRect.activePalette.highlight.b * 0.6, 1)
+        radius: 4
+        visible: delegateRect.current
+        height: parent.height
+        width: delegateRect.dopeRootItem.headerWidth
+    }
+    property Animation indicatorAnimation: NumberAnimation {
+        target: indicator
+        property: "rotation"
+        from: delegateRect.expanded ? 0 : 90
+        to: delegateRect.expanded ? 90 : 0
+        duration: 200
+        easing.type: Easing.OutQuart
+    }
+
+    TableView.onPooled: indicatorAnimation.complete()
+    TableView.onReused: {
+        if (current) indicatorAnimation.start()
+            restoreExpandedState()
+    }
+    onExpandedChanged: {
+        indicator.rotation = expanded ? 90 : 0
+        if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
+            delegateRect.dopeRootItem.headerWidth = paramLabel.width + indicator.width + delegateRect.padding
+        }
+    }
+
+    ToolButton {
+        id: indicator
+        icon.name: "arrow-right"
+        visible: delegateRect.hasChildren
+        onClicked: {
+            let previouslyExpanded = delegateRect.expanded
+            delegateRect.treeView.toggleExpanded(delegateRect.row)
+            if (delegateRect.depth == 1) {
+                delegateRect.model.expandedRole = !previouslyExpanded
+            }
+        }
+        x: delegateRect.padding
+        height: paramLabel.height
+        width: height
+        anchors.verticalCenter: parent.verticalCenter
+    }
+    MouseArea {
+        id: paramNameArea
+        height: parent.height
+        width: delegateRect.dopeRootItem.headerWidth
+        acceptedButtons: Qt.RightButton
+        onPressed: {
+            //paramMenu.paramIndex = delegateRect.treeView.model.index(delegateRect.row, delegateRect.column)
+            paramMenu.paramIndex = paramModel.getIndex(delegateRect.row, delegateRect.column)
+            // Select parameter
+            delegateRect.treeView.selectionModel.setCurrentIndex(paramMenu.paramIndex, ItemSelectionModel.SelectCurrent);
+            paramMenu.paramHasKeyframes = paramModel.count > 0
+            paramMenu.popup()
+        }
+    }
+
+    Label {
+        id: paramLabel
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: indicator.right
+        text: delegateRect.model && delegateRect.model.dopeName ? delegateRect.model.dopeName : ""
+        elide: Label.ElideRight
+        readonly property bool isElided: implicitWidth > width
+        width: Math.min(implicitWidth, delegateRect.fontMetrics.averageCharacterWidth * 20)
+        ToolTip {
+            visible: hoverHandler.hovered && paramLabel.isElided
+            text: paramLabel.text
+            delay: 1000
+            timeout: 5000
+        }
+        HoverHandler {
+            id: hoverHandler
+        }
+        rightPadding: 4
+        leftPadding: 4
+        font.bold: delegateRect.depth < 2
+
+        Component.onCompleted: {
+            if (delegateRect.dopeRootItem.headerWidth < (paramLabel.width + indicator.width + delegateRect.padding)) {
+                delegateRect.dopeRootItem.headerWidth = paramLabel.width + indicator.width + delegateRect.padding
+            }
         }
     }
     Component.onCompleted: {

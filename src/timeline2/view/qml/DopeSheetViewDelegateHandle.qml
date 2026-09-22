@@ -123,6 +123,8 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.NoButton
+        propagateComposedEvents: true
+
         onEntered: {
             handle.delegateProperties.currentKFFrame = handle.modelFrame + handle.dopeRootItem.inPoint
             handle.delegateProperties.currentKFIndex = handle.index

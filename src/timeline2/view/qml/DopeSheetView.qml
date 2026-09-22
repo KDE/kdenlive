@@ -283,7 +283,7 @@ Rectangle {
         if (dopeRoot.zoomOnBar) {
             dopeRoot.zoomOnBar = false
         } else {
-            let mouseOffset = backgroundArea.mouseX - K.UiUtils.baseSizeMedium
+            let mouseOffset = backgroundArea.mouseX
             let position = (previousPos - viewToFrame(mouseOffset)) / dopeRoot.frameDuration
             position = Math.max(0, position)
             position = Math.min(1 - (zoomLoader.item as K.ZoomBar).zoomFactor, position)
@@ -398,8 +398,8 @@ Rectangle {
 
     function selectRubber(addToSelection) {
         // Start frame
-        let startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth + dopeRoot.contentScroll
-        let endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.headerWidth + dopeRoot.contentScroll
+        let startFrame = Math.min(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.mouseOffset - dopeRoot.headerWidth + dopeRoot.contentScroll
+        let endFrame = Math.max(dopeRoot.rubberBottomRight.x, dopeRoot.rubberTopLeft.x) - dopeRoot.mouseOffset - dopeRoot.headerWidth + dopeRoot.contentScroll
         dopeRoot.rubberStartFrame = viewToFrame(startFrame) + dopeRoot.inPoint
         dopeRoot.rubberEndFrame = viewToFrame(endFrame) + dopeRoot.inPoint
         console.log('SELECTING FRAMES BETWEEN: ', startFrame, '-', endFrame)
@@ -863,33 +863,6 @@ Rectangle {
         color: dopeActivePalette.highlight
         opacity: 0.4
     }
-    MouseArea {
-        id: backgroundArea
-        acceptedButtons: Qt.NoButton
-        anchors.fill: parent
-        anchors.leftMargin: dopeRoot.headerWidth
-        //anchors.bottomMargin: dopeBar.height
-        hoverEnabled: true
-        onWheel: wheel => {
-            if (dopeRoot.showRuler) {
-                dopeRoot.directScrollByWheel(wheel)
-            } else {
-                dopeRoot.scrollByWheel(wheel)
-            }
-        }
-        onEntered: {
-            treeViewItem.hoveredParam = -1
-        }
-
-        onPositionChanged: mouse => {
-            let mousePos = Math.max(0., mouse.x + dopeRoot.contentScroll)
-            if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
-                // In the header zone, ignore
-                return
-            }
-            dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
-        }
-    }
 
     Rectangle {
         // Param name background
@@ -1028,6 +1001,74 @@ Rectangle {
             }
         }
     }
+    MouseArea {
+        id: backgroundArea
+        anchors.fill: parent
+        anchors.leftMargin: dopeRoot.headerWidth
+        acceptedButtons: Qt.LeftButton
+        property point clickPoint
+        property bool shiftClick: false
+        property bool dragStarted: false
+        hoverEnabled: true
+        z: -1
+        //propagateComposedEvents: true
+        onWheel: wheel => {
+            if (dopeRoot.showRuler) {
+                dopeRoot.directScrollByWheel(wheel)
+            } else {
+                dopeRoot.scrollByWheel(wheel)
+            }
+        }
+        onEntered: {
+            treeViewItem.hoveredParam = -1
+        }
+
+        onPositionChanged: mouse => {
+            let mousePos = Math.max(0., mouse.x + dopeRoot.contentScroll)
+            if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
+                // In the header zone, ignore
+            } else {
+                dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
+            }
+            if (!pressed) {
+                // Only process further on left click
+                console.log('not pressed, aborting')
+                mouse.accepted = false
+                return
+            }
+
+            if (shiftClick) {
+                mouse.accepted = true
+                if (!dragStarted) {
+                    if (Math.abs(mouse.x - clickPoint.x) + Math.abs(mouse.y - clickPoint.y) > Application.styleHints.startDragDistance) {
+                        console.log(' - - - DRAG STARTED -- - ')
+                        dragStarted = true
+                        // Start rectangle selection
+                        dopeRoot.rubberSelect = true
+                        dopeRoot.rubberTopLeft = Qt.point(clickPoint.x + dopeRoot.headerWidth, clickPoint.y)
+                        dopeRoot.rubberBottomRight = Qt.point(mouse.x + dopeRoot.headerWidth, mouse.y)
+                        return
+                    }
+                } else {
+                    dopeRoot.rubberBottomRight = Qt.point(mouse.x + dopeRoot.headerWidth, mouse.y)
+                    dopeRoot.selectRubber(false)
+                }
+            } else {
+                mouse.accepted = false
+            }
+        }
+        onPressed: mouse => {
+            clickPoint = Qt.point(mouse.x, mouse.y)
+            shiftClick = mouse.modifiers & Qt.ShiftModifier
+            console.log('MOUSE PRESSED; SHIFT: ', shiftClick)
+            dragStarted = false
+            mouse.accepted = shiftClick
+        }
+        onReleased: {
+            dragStarted = false
+            dopeRoot.rubberSelect = false
+        }
+    }
 
     DopeSheetTreeView {
         // The model needs to be a QAbstractItemModel
@@ -1036,7 +1077,8 @@ Rectangle {
         dopesheetfiltermodel: dopeRoot.dopesheetFilterModel
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.bottom: keyframeContainer.top
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: keyframeContainer.height
         anchors.top: parent.top
         anchors.topMargin: rulerLoader.height
         // Disable flicking
@@ -1135,6 +1177,7 @@ Rectangle {
             id: keyframeMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            enabled: false
             onPositionChanged: mouse => {
                 console.log('KFR VIEW MOUSE: ', mouse.x)
                 dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)

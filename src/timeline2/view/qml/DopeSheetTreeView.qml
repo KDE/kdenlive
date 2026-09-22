@@ -10,6 +10,7 @@ import QtQuick
 TreeView {
     // The model needs to be a QAbstractItemModel
     id: treeViewItem
+    anchors.fill: parent
     required property var dopesheetmodel
     required property var dopesheetfiltermodel
     required property var keyframeCurve
@@ -42,6 +43,79 @@ TreeView {
     required property int keyframeContainerWidth
     required property color hoverColor
 
+    MouseArea {
+        id: bgArea
+        // This mousearea will handle all clicks outside parameters slider,
+        // mostly handling rubber selection from outside
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.left: parent.left
+        anchors.leftMargin: treeViewItem.dopeRootItem.headerWidth
+        height: treeViewItem.dopeRootItem.height
+        acceptedButtons: Qt.LeftButton
+        property point clickPoint
+        property bool shiftClick: false
+        property bool dragStarted: false
+        hoverEnabled: true
+        onWheel: wheel => {
+            if (treeViewItem.dopeRootItem.showRuler) {
+                treeViewItem.dopeRootItem.directScrollByWheel(wheel)
+            } else {
+                treeViewItem.dopeRootItem.scrollByWheel(wheel)
+            }
+        }
+        onEntered: {
+            console.log('ENTERED TREEVIEW BACKGROUND!!!')
+            treeViewItem.hoveredParam = -1
+        }
+
+        onPositionChanged: mouse => {
+            let mousePos = Math.max(0., mouse.x + treeViewItem.dopeRootItem.contentScroll)
+            if (mousePos <= 0 && treeViewItem.dopeRootItem.mouseFramePos == 0) {
+                // In the header zone, ignore
+            } else {
+                treeViewItem.dopeRootItem.mouseFramePos = treeViewItem.dopeRootItem.viewToFrame(mousePos)
+            }
+            if (!pressed) {
+                // Only process further on left click
+                console.log('not pressed, aborting')
+                mouse.accepted = false
+                return
+            }
+
+            if (shiftClick) {
+                mouse.accepted = true
+                if (!dragStarted) {
+                    if (Math.abs(mouse.x - clickPoint.x) + Math.abs(mouse.y - clickPoint.y) > Application.styleHints.startDragDistance) {
+                        console.log(' - - - DRAG STARTED -- - ')
+                        dragStarted = true
+                        // Start rectangle selection
+                        treeViewItem.dopeRootItem.rubberSelect = true
+                        treeViewItem.dopeRootItem.rubberTopLeft = Qt.point(clickPoint.x + treeViewItem.dopeRootItem.headerWidth, clickPoint.y)
+                        treeViewItem.dopeRootItem.rubberBottomRight = Qt.point(mouse.x + treeViewItem.dopeRootItem.headerWidth, mouse.y)
+                        return
+                    }
+                } else {
+                    treeViewItem.dopeRootItem.rubberBottomRight = Qt.point(mouse.x + treeViewItem.dopeRootItem.headerWidth, mouse.y)
+                    treeViewItem.dopeRootItem.selectRubber(false)
+                }
+            } else {
+                mouse.accepted = false
+            }
+        }
+        onPressed: mouse => {
+            clickPoint = Qt.point(mouse.x, mouse.y)
+            shiftClick = mouse.modifiers & Qt.ShiftModifier
+            console.log('MOUSE PRESSED; SHIFT: ', shiftClick)
+            dragStarted = false
+            mouse.accepted = shiftClick
+        }
+        onReleased: {
+            dragStarted = false
+            treeViewItem.dopeRootItem.rubberSelect = false
+        }
+    }
+
     // You can set a custom delegate or use a built-in TreeViewDelegate
     delegate: DopeSheetViewDelegate {
         hoveredParam: treeViewItem.hoveredParam
@@ -55,5 +129,6 @@ TreeView {
         hoverColor: treeViewItem.hoverColor
         onSelectKeyframe: kfIndex => treeViewItem.selectedKeyframe = kfIndex
         onActiveParamChanged: paramIndex => treeViewItem.activeIndex = paramIndex
+        onParamHovered: paramRow => treeViewItem.hoveredParam = paramRow
     }
 }
