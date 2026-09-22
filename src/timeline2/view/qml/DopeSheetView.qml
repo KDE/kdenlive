@@ -19,6 +19,7 @@ Rectangle {
     SystemPalette { id: dopeActivePalette }
     border.width: 2
     border.color: dopeRoot.viewHasFocus ? dopeActivePalette.highlight : dopeActivePalette.base
+    property color dimmedColor: (dopeActivePalette.text.r + dopeActivePalette.text.g + dopeActivePalette.text.b > 1.5) ? Qt.darker(dopeActivePalette.text, 1.3) : Qt.lighter(dopeActivePalette.text, 1.3)
     color: dopeActivePalette.base
     property int baseUnit: Math.max(12, dopeFontMetrics.font.pixelSize)
     // Effects duration
@@ -54,6 +55,7 @@ Rectangle {
     property bool zoomOnBar: false
     property int zoomOnMouse: -1
     property int dopeOffset: showRuler ? 0 : itemPosition
+    property int keyframeContainerTop: dopeRoot.height * K.KdenliveSettings.dopeGraphHeight
 
     // The position in frame of the stack owner
     property int itemPosition: dopesheetmodel.dopePosition
@@ -252,30 +254,6 @@ Rectangle {
             (zoomLoader.item as K.ZoomBar).proposeContentPos(proposedPos)
         }
     }
-
-    /*function zoomByWheel(wheel) {
-        if (wheel.modifiers & Qt.AltModifier) {
-            // Seek to next snap
-            if (wheel.angleDelta.x > 0) {
-                K.Core.triggerAction('monitor_seek_snap_backward')
-            } else {
-                K.Core.triggerAction('monitor_seek_snap_forward')
-            }
-        } else if (wheel.modifiers & Qt.ControlModifier) {
-            dopeRoot.wheelAccumulatedDelta += wheel.angleDelta.y;
-            // Zoom
-            if (dopeRoot.wheelAccumulatedDelta >= defaultDeltasPerStep) {
-                dopeRoot.zoom(1.5);
-                dopeRoot.wheelAccumulatedDelta = 0;
-            } else if (dopeRoot.wheelAccumulatedDelta <= -defaultDeltasPerStep) {
-                let factor = 2. / 3
-                dopeRoot.zoom(factor);
-                dopeRoot.wheelAccumulatedDelta = 0;
-            }
-
-        }
-        wheel.accepted = true
-    }*/
 
     function zoom(factor) {
         let previousPos = dopeRoot.mouseFramePos
@@ -831,7 +809,7 @@ Rectangle {
         color: dopeActivePalette.text
         width: 1
         Rectangle {
-            color: (rulerLoader.item as K.DopeRuler).dimmedColor
+            color: dopeRoot.dimmedColor
             width: Math.max(1, 1 / dopeRoot.timeScale)
             height: 1
             visible: width > K.UiUtils.baseSizeMedium * 1.2
@@ -1011,7 +989,6 @@ Rectangle {
         property bool dragStarted: false
         hoverEnabled: true
         z: -1
-        //propagateComposedEvents: true
         onWheel: wheel => {
             if (dopeRoot.showRuler) {
                 dopeRoot.directScrollByWheel(wheel)
@@ -1077,8 +1054,7 @@ Rectangle {
         dopesheetfiltermodel: dopeRoot.dopesheetFilterModel
         anchors.right: parent.right
         anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: keyframeContainer.height
+        height: dopeRoot.keyframeContainerTop
         anchors.top: parent.top
         anchors.topMargin: rulerLoader.height
         // Disable flicking
@@ -1146,7 +1122,7 @@ Rectangle {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: (splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
+            anchors.top: parent.top
             opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
             color: dopeActivePalette.highlight
         }
@@ -1157,9 +1133,8 @@ Rectangle {
         anchors.left: dopeRoot.left
         anchors.leftMargin: dopeRoot.headerWidth
         anchors.right: dopeRoot.right
-        anchors.bottom: dopeBar.top
-        anchors.top: splitter.bottom
-        //height: dopeKeyframeCurve.model === undefined ? 0 : K.UiUtils.baseSizeMedium * 4
+        anchors.bottom: dopeBar.visible ? dopeBar.top : dopeRoot.bottom
+        height: dopeRoot.height - dopeRoot.keyframeContainerTop - dopeBar.height
         property double dopeScale: dopeRoot.timeScale
         contentWidth: Math.max(parent.width, dopeRoot.frameDuration * dopeRoot.timeScale)
         contentHeight: height
@@ -1167,51 +1142,13 @@ Rectangle {
         interactive: false
         clip: true
 
-        /*onDopeScaleChanged: {
-            keyframeContainer.contentWidth = dopeRoot.frameDuration * dopeRoot.timeScale
-            curveContainer.x = dopeRoot.itemPosition * dopeRoot.timeScale
-        }*/
 
-        //clip: true
-        MouseArea {
-            id: keyframeMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            enabled: false
-            onPositionChanged: mouse => {
-                console.log('KFR VIEW MOUSE: ', mouse.x)
-                dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)
-            }
-
-            onDoubleClicked: mouse =>{
-                console.log('DOUBLE COUBOEU CLICK ON KFR MOUSEAREA AT: ', mouse.x)
-                if (dopeKeyframeCurve.model) {
-                    let newVal = (height - mouse.y) / height
-                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mouse.x)
-                    dopeKeyframeCurve.model.addKeyframe(dopeRoot.getPositionForKeyframe(), newVal)
-                }
-            }
-        }
         Item {
             id: curveContainer
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             x: dopeRoot.showRuler ? 0 : dopeRoot.itemPosition * dopeRoot.timeScale
             width: dopeRoot.frameDuration * dopeRoot.timeScale
-            MouseArea {
-                acceptedButtons: Qt.NoButton
-                anchors.fill: curveContainer
-                hoverEnabled: true
-                onPositionChanged: mouse => {
-                    console.log('CURVE CONTAINER MOUSE MOVED....', mouse.x)
-                    let mousePos = Math.max(0., mouse.x + curveContainer.x)
-                    if (mousePos <= 0 && dopeRoot.mouseFramePos == 0) {
-                        // In the header zone, ignore
-                        return
-                    }
-                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mousePos)
-                }
-            }
             Loader {
                 // Keyframe curve
                 id: dopeKeyframeCurve
@@ -1313,6 +1250,7 @@ Rectangle {
                     when: dopeKeyframeCurve.status === Loader.Ready && dopeKeyframeCurve.item
                     restoreMode: Binding.RestoreBindingOrValue
                 }
+
                 HoverHandler {
                     onHoveredChanged: {
                         if (hovered) {
@@ -1321,6 +1259,18 @@ Rectangle {
                             K.Core.showKeyBinding()
                         }
                     }
+                }
+            }
+            Connections {
+                target: dopeKeyframeCurve.item
+                ignoreUnknownSignals: true
+                function onMouseMoved(mousePos){
+                    let mPos = Math.max(0., mousePos + curveContainer.x)
+                    if (mPos <= 0 && dopeRoot.mouseFramePos == 0) {
+                        // In the header zone, ignore
+                        return
+                    }
+                    dopeRoot.mouseFramePos = dopeRoot.viewToFrame(mPos)
                 }
             }
         }

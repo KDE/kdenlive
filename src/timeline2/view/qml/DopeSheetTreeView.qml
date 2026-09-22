@@ -51,7 +51,7 @@ TreeView {
         anchors.right: parent.right
         anchors.left: parent.left
         anchors.leftMargin: treeViewItem.dopeRootItem.headerWidth
-        height: treeViewItem.dopeRootItem.height
+        height: treeViewItem.dopeRootItem.keyframeContainerTop
         acceptedButtons: Qt.LeftButton
         property point clickPoint
         property bool shiftClick: false
@@ -106,12 +106,12 @@ TreeView {
         onPressed: mouse => {
             clickPoint = Qt.point(mouse.x, mouse.y)
             shiftClick = mouse.modifiers & Qt.ShiftModifier
-            console.log('MOUSE PRESSED; SHIFT: ', shiftClick)
             dragStarted = false
             mouse.accepted = shiftClick
         }
         onReleased: {
             dragStarted = false
+            shiftClick = false
             treeViewItem.dopeRootItem.rubberSelect = false
         }
     }

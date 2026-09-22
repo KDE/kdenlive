@@ -215,7 +215,7 @@ Item {
                 movePosition = -1
                 dragStarted = false
                 clickPoint = Qt.point(mouseX, mouseY)
-                delegateRect.dopeRootItem.rubberTopLeft = mapToItem(delegateRect.dopeRootItem, mouseX, mouseY)
+                delegateRect.dopeRootItem.rubberTopLeft = mapToItem(delegateRect.dopeRootItem, mouse.x, mouseY)
                 mouse.accepted = true
                 shiftClick = mouse.modifiers & Qt.ShiftModifier
                 ctrlClick = mouse.modifiers & Qt.ControlModifier
@@ -349,7 +349,7 @@ Item {
             onWheel: wheel => delegateRect.dopeRootItem.scrollByWheel(wheel)
 
             onPositionChanged: mouse => {
-                let mousePos = Math.max(0., (mouse.x + delegateRect.dopeRootItem.mouseOffset))
+                let mousePos = Math.max(0., (mouse.x + delegateRect.dopeRootItem.mouseOffset - delegateRect.handleWidth / 2))
                 delegateRect.dopeRootItem.mouseFramePos = delegateRect.dopeRootItem.viewToFrame(mousePos)
                 if (!pressed) {
                     return

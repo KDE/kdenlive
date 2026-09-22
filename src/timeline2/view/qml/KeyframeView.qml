@@ -29,6 +29,9 @@ Item
     property int activeIndex
     property bool selected
     property int ownerOffset: 0
+    property bool rubberSelect: false
+    property point rubberTopLeft
+    property point rubberBottomRight
 
     property bool isPanning
     property color textColor: activePalette.text
@@ -37,6 +40,7 @@ Item
     property alias kfrCanvas: keyframecanvas
     signal updateEffectKeyframe(int clipId, int oldFrame, int newFrame)
     signal blockAutoScroll(bool enabled)
+    signal mouseMoved(double mousePos)
 
     function seek(position) {
         kfrModel.seekToPos(position)
@@ -52,6 +56,25 @@ Item
         if (keyframeContainer.kfrModel) {
             keyframeContainer.kfrModel.shiftSelectedKeyframes(valueOffset)
         }
+    }
+
+    function selectRubber() {
+        let selectedIndexes = []
+        for(let i = 0; i < keyframes.count; i++)
+        {
+            let currentKeyframe = keyframes.itemAt(i) as K.KeyframeDelegate
+            let xpos = currentKeyframe.pixelPos
+            let ypos = currentKeyframe.pixelValue
+            let xMin = Math.min(keyframeContainer.rubberTopLeft.x, keyframeContainer.rubberBottomRight.x)
+            let xMax = Math.max(keyframeContainer.rubberTopLeft.x, keyframeContainer.rubberBottomRight.x)
+            let yMin = Math.min(keyframeContainer.rubberTopLeft.y, keyframeContainer.rubberBottomRight.y)
+            let yMax = Math.max(keyframeContainer.rubberTopLeft.y, keyframeContainer.rubberBottomRight.y)
+            if (xpos >= xMin && xpos <= xMax && ypos >= yMin && ypos <= yMax) {
+                selectedIndexes.push(i)
+            }
+        }
+        keyframeContainer.kfrModel.setSelectedKeyframesIndexes(selectedIndexes)
+        console.log('SELECTED KLEYFRAMES: ', selectedIndexes)
     }
 
     onKfrCountChanged: {
@@ -146,6 +169,53 @@ Item
         id: keyframes
         model: keyframeContainer.kfrModel
     }*/
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        property point clickPoint
+        property bool shiftClick: false
+        property bool dragStarted: false
+
+        onPositionChanged: mouse => {
+            // Pass signal to parent
+            keyframeContainer.mouseMoved(mouse.x)
+            if (pressed && shiftClick) {
+                if (!dragStarted) {
+                    if (Math.abs(mouse.x - clickPoint.x) + Math.abs(mouse.y - clickPoint.y) > Application.styleHints.startDragDistance) {
+                        console.log(' - - - DRAG STARTED -- - ')
+                        dragStarted = true
+                        // Start rectangle selection
+                        keyframeContainer.rubberSelect = true
+                        keyframeContainer.rubberTopLeft = Qt.point(clickPoint.x, clickPoint.y)
+                        keyframeContainer.rubberBottomRight = Qt.point(mouse.x, mouse.y)
+                        return
+                    }
+                } else {
+                    keyframeContainer.rubberBottomRight = Qt.point(mouse.x, mouse.y)
+                    keyframeContainer.selectRubber()
+                }
+            }
+        }
+        onDoubleClicked: mouse => {
+            if (keyframeContainer.kfrModel) {
+                let newVal = (height - mouse.y) / height
+                keyframeContainer.kfrModel.addKeyframe(mouse.x / keyframeContainer.timeScale + keyframeContainer.inPoint, newVal)
+            }
+        }
+        onPressed: mouse => {
+            clickPoint = Qt.point(mouse.x, mouse.y)
+            shiftClick = mouse.modifiers & Qt.ShiftModifier
+            if (shiftClick) {
+                keyframeContainer.resetSelection()
+            }
+            dragStarted = false
+        }
+        onReleased: {
+            dragStarted = false
+            shiftClick = false
+            keyframeContainer.rubberSelect = false
+        }
+    }
 
     Item {
         // Keyframes container
@@ -554,6 +624,17 @@ Item
             ctx.fill()
 
         }
+    }
+    Rectangle {
+        // Rubber selection rect
+        color: "#33FFFFFF"
+        border.color: activePalette.highlight
+        border.width: 1
+        visible: keyframeContainer.rubberSelect
+        x: Math.min(keyframeContainer.rubberTopLeft.x, keyframeContainer.rubberBottomRight.x)
+        y: Math.min(keyframeContainer.rubberTopLeft.y, keyframeContainer.rubberBottomRight.y)
+        width: Math.abs(keyframeContainer.rubberBottomRight.x - keyframeContainer.rubberTopLeft.x)
+        height: Math.abs(keyframeContainer.rubberBottomRight.y - keyframeContainer.rubberTopLeft.y)
     }
     HoverHandler {
         id: kfViewHoverHandler

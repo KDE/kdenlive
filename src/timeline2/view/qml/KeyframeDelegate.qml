@@ -260,7 +260,7 @@ Rectangle {
         Rectangle {
             id: keyframeVal
             anchors.fill: parent
-            property bool highlightKF: kf1MouseArea.containsMouse || kf1MouseArea.pressed
+            property bool highlightKF: kf1MouseArea.containsMouse || kf1MouseArea.pressed || keyframe.model.selected
             anchors.margins: highlightKF ? K.UiUtils.baseSizeMedium * 0.1 : keyframe.mouseInsideView ? K.UiUtils.baseSizeMedium * 0.3 : K.UiUtils.baseSizeMedium * 0.4
             radius: width / 2
             color: keyframe.model.active ? 'red' : keyframe.model.selected ? activePalette.highlight : activePalette.text
