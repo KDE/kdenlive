@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-20 14:44+0000\n"
-"PO-Revision-Date: 2026-09-18 19:21+0300\n"
+"PO-Revision-Date: 2026-09-21 19:10+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -793,7 +793,7 @@ msgstr "Sınırlayıcı"
 #: data/effects/avfilter/avfilter_aphaser.xml:5
 #, kde-format
 msgid "Audio lookahead limiter."
-msgstr "İleriye dönük ses sınırlayıcısı."
+msgstr "Ses için öngörülü sınırlayıcı"
 
 #: data/effects/avfilter/avfilter_alimiter.xml:23
 #, kde-format
@@ -15570,10 +15570,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1891.xml:4
-#, fuzzy, kde-format
-#| msgid "Low-pass"
+#, kde-format
 msgid "GLAME Lowpass"
-msgstr "Düşük Geçiş"
+msgstr "GLAME Düşük Geçiş"
 
 #: data/effects/ladspa/ladspa_1891.xml:6
 #, kde-format
@@ -15585,10 +15584,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1892.xml:4
-#, fuzzy, kde-format
-#| msgid "Band-pass"
+#, kde-format
 msgid "GLAME Bandpass"
-msgstr "Bant Geçişi"
+msgstr "GLAME Bant Geçişi"
 
 #: data/effects/ladspa/ladspa_1892.xml:6
 #, kde-format
@@ -15607,8 +15605,7 @@ msgstr "Merkez Frekans"
 
 #: data/effects/ladspa/ladspa_1892.xml:12
 #: data/effects/ladspa/ladspa_1893.xml:12
-#, fuzzy, kde-format
-#| msgid "Band Width"
+#, kde-format
 msgid "Bandwidth"
 msgstr "Bant Genişliği"
 
@@ -15701,10 +15698,9 @@ msgstr ""
 "Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
-#, fuzzy, kde-format
-#| msgid "LFE Gain"
+#, kde-format
 msgid "Lo Gain"
-msgstr "LFE kazancı"
+msgstr "Düşük kazanç"
 
 #: data/effects/ladspa/ladspa_1901.xml:10
 #: data/effects/ladspa/ladspa_1907.xml:10
@@ -15714,8 +15710,7 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:13
 #: data/effects/ladspa/ladspa_1907.xml:13
-#, fuzzy, kde-format
-#| msgid "Mid gain"
+#, kde-format
 msgid "Mid Gain"
 msgstr "Orta kazanç"
 
@@ -15727,10 +15722,9 @@ msgstr ""
 
 #: data/effects/ladspa/ladspa_1901.xml:17
 #: data/effects/ladspa/ladspa_1907.xml:17
-#, fuzzy, kde-format
-#| msgid "Gain"
+#, kde-format
 msgid "Hi Gain"
-msgstr "Kazanç"
+msgstr "Yüksek kazanç"
 
 #: data/effects/ladspa/ladspa_1901.xml:18
 #: data/effects/ladspa/ladspa_1907.xml:18
@@ -15751,10 +15745,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
 #: data/effects/ladspa/ladspa_1904.xml:11
-#, fuzzy, kde-format
-#| msgid "Red balance"
+#, kde-format
 msgid "Resonance"
-msgstr "Kırmızı dengesi"
+msgstr "Rezonans"
 
 #: data/effects/ladspa/ladspa_1903.xml:4
 #, kde-format
@@ -15777,22 +15770,18 @@ msgid "Butterworth Highpass Filter (LADSPA 1904)"
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1905.xml:4
-#, fuzzy, kde-format
-#| msgid "Disable Bin Effects"
+#, kde-format
 msgid "VyNil (Vinyl Effect)"
-msgstr "Kova Efektlerini Devre Dışı Bırak"
+msgstr "VyNil (Plak Efekti)"
 
 #: data/effects/ladspa/ladspa_1905.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "TAP Reflector (LADSPA 2154)<br>\n"
-#| "    Creates a psychedelic reverse audio effect."
+#, kde-format
 msgid ""
 "Vynil Effect (LADSPA 1905)<br>\n"
 "   Simulates an old vynil effect"
 msgstr ""
-"TAP Reflektör (LADSPA 2154)<br>\n"
-"    Saykodelik ters ses efekti yaratır."
+"VyNil Efekti (LADSPA 1905)<br>\n"
+"    Eski plak sesi efektine benzeştirir."
 
 #: data/effects/ladspa/ladspa_1905.xml:9
 #: src/project/dialogs/projectsettings.cpp:242
@@ -15814,10 +15803,9 @@ msgid "RPM"
 msgstr "RPM"
 
 #: data/effects/ladspa/ladspa_1905.xml:15
-#, fuzzy, kde-format
-#| msgid "The rotation angle to be applied to the waveform."
+#, kde-format
 msgid "The rotational speed of the platter"
-msgstr "Dalga biçimine uygulanacak dönüş açısı."
+msgstr "Tabağın dönüş hızı"
 
 #: data/effects/ladspa/ladspa_1905.xml:16
 #, kde-format
@@ -15825,8 +15813,7 @@ msgid "33 1/3,45,78"
 msgstr "33 1/3,45,78"
 
 #: data/effects/ladspa/ladspa_1905.xml:19
-#, fuzzy, kde-format
-#| msgid "Surface warping"
+#, kde-format
 msgid "Surface Warping"
 msgstr "Yüzey bükümü"
 
@@ -15857,16 +15844,14 @@ msgid "Wear"
 msgstr "Hasar"
 
 #: data/effects/ladspa/ladspa_1905.xml:30
-#, fuzzy, kde-format
-#| msgid "The amount of dust particles added to the image"
+#, kde-format
 msgid "The amount of wear on the grooves"
-msgstr "Görsele eklenen toz taneciklerinin miktarı"
+msgstr "Oyuklardaki yıpranma miktarı"
 
 #: data/effects/ladspa/ladspa_1907.xml:4
-#, fuzzy, kde-format
-#| msgid "1 (mono)"
+#, kde-format
 msgid "DJ EQ (mono)"
-msgstr "1 (tek kanallı)"
+msgstr "DJ EQ (Mono)"
 
 #: data/effects/ladspa/ladspa_1907.xml:6
 #, kde-format
@@ -15879,10 +15864,9 @@ msgstr ""
 "Bu eklentinin tasarımı, Allen & Heath Xone 32 DJ mikserinden alınmıştır."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
-#, fuzzy, kde-format
-#| msgid "Audio lookahead limiter."
+#, kde-format
 msgid "Fast Lookahead Limiter"
-msgstr "İleriye dönük ses sınırlayıcısı."
+msgstr "Hızlı Öngörülü Sınırlayıcı"
 
 #: data/effects/ladspa/ladspa_1913.xml:6
 #, kde-format
@@ -15892,6 +15876,11 @@ msgid ""
 "latency to the input signal, but it guarantees that there will be no signals "
 "over the limit, and tries to get the minimum amount of distortion."
 msgstr ""
+"Hızlı Öngörülü Sınırlayıcı (LADSPA 1913)<br>\n"
+"    Bu, 5 milisaniyelik bir atak süreli bir sınırlayıcıdır. Giriş sinyaline "
+"yalnızca 5 milisaniyenin biraz üzerinde bir gecikme ekler; ancak sınırın "
+"üzerinde sinyal olmayacağını garanti eder ve olabilecek en düşük miktardaki "
+"bozulmayı almaya çalışır."
 
 #: data/effects/ladspa/ladspa_1913.xml:11
 #, kde-format
