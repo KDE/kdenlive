@@ -937,6 +937,9 @@ void GraphicsSceneRectMove::mousePressEvent(QGraphicsSceneMouseEvent *e)
     m_dragPoint = m_clickPoint;
     m_resizeMode = m_possibleAction;
     QList<QGraphicsItem *> list = items(e->scenePos());
+    if (m_selectedItem && (!m_selectedItem->isSelected() || !(m_selectedItem->flags() & QGraphicsItem::ItemIsSelectable))) {
+        m_selectedItem = nullptr;
+    }
     bool initiallySelected = m_selectedItem && (list.contains(m_selectedItem) || m_resizeMode != NoResize);
     if (m_selectedItem && initiallySelected) {
         // Ensure selected item is considered first
