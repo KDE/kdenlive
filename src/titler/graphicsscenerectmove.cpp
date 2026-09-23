@@ -1359,7 +1359,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_moveStarted = true;
     }
 
-    if ((m_selectedItem != nullptr) && ((e->buttons() & Qt::LeftButton) != 0u)) {
+    if ((m_selectedItem != nullptr) && (m_selectedItem->flags() & QGraphicsItem::ItemIsMovable) && ((e->buttons() & Qt::LeftButton) != 0u)) {
         qDeleteAll(m_lastSnapPreviews);
         m_lastSnapPreviews.clear();
 
