@@ -2617,6 +2617,9 @@ void TitleWidget::slotAnimStart(bool anim)
         anim_end->setChecked(false);
         m_endViewport->setZValue(-1000);
         m_endViewport->setBrush(QBrush());
+        m_endViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_endViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_endViewport->setSelected(false);
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
@@ -2652,6 +2655,10 @@ void TitleWidget::slotAnimStart(bool anim)
     } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
+        m_startViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_startViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_startViewport->setSelected(false);
+        selectionChanged();
         if (!anim_end->isChecked()) {
             deleteAnimInfoText();
         }
@@ -2664,6 +2671,9 @@ void TitleWidget::slotAnimEnd(bool anim)
         anim_start->setChecked(false);
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
+        m_startViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_startViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_startViewport->setSelected(false);
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
@@ -2702,6 +2712,8 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setBrush(QBrush());
         m_endViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
         m_endViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_endViewport->setSelected(false);
+        selectionChanged();
         if (!anim_start->isChecked()) {
             deleteAnimInfoText();
         }
