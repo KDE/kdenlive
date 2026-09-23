@@ -1461,7 +1461,7 @@ void GraphicsSceneRectMove::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
         m_resizeMode = NoResize;
         bool itemFound = false;
         // First check if we are ready to resize an item
-        if (m_selectedItem) {
+        if (m_selectedItem && m_selectedItem->isSelected() && (m_selectedItem->flags() & QGraphicsItem::ItemIsSelectable)) {
             QRectF r1 = m_selectedItem->sceneBoundingRect();
             QRectF top = r1;
             top.setHeight(1);
