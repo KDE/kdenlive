@@ -274,6 +274,9 @@ ManageSubtitles::ManageSubtitles(std::shared_ptr<SubtitleModel> model, TimelineC
             buttonDeleteStyle->setEnabled(current->text(0) != "Default");
         }
     });
+    connect(eventList, &QTreeWidget::currentItemChanged, this, [this](QTreeWidgetItem *current, QTreeWidgetItem *) {
+        buttonDeleteLayer->setEnabled(current->parent() != nullptr || eventList->topLevelItemCount() > 1);
+    });
     connect(eventFileSideBar, &QListWidget::currentItemChanged, this, [this](QListWidgetItem *current, QListWidgetItem *previous) {
         QSignalBlocker bk(fileList);
         QSignalBlocker bk2(styleFileSideBar);
@@ -442,8 +445,10 @@ void ManageSubtitles::parseEventList()
     for (const auto &sub : allSubs) {
         int count = eventList->topLevelItem(sub.first.first)->text(1).section(" ", 1, 1).toInt() + 1;
         eventList->topLevelItem(sub.first.first)->setText(1, "with " + QString::number(count) + (count == 1 ? i18n(" event") : i18n(" events")));
-        new QTreeWidgetItem(eventList->topLevelItem(sub.first.first),
-                            {sub.first.second.toString(), sub.second.endTime().toString(), sub.second.styleName(), sub.second.text()});
+        auto *item = new QTreeWidgetItem(eventList->topLevelItem(sub.first.first),
+                                         {sub.first.second.toString(), sub.second.endTime().toString(), sub.second.styleName(), sub.second.text()});
+        int sid = m_model->getIdForStartPos(sub.first.first, sub.first.second);
+        item->setData(0, Qt::UserRole, sid);
     }
 
     eventList->setCurrentItem(eventList->topLevelItem(0));
@@ -697,14 +702,62 @@ void ManageSubtitles::deleteFile()
     }
 }
 
+void ManageSubtitles::deleteEvent()
+{
+    QTreeWidgetItem *currentItem = eventList->currentItem();
+    if (currentItem->parent() == nullptr) {
+        return;
+    }
+    int sid = currentItem->data(0, Qt::UserRole).toInt();
+    if (sid > -1) {
+        int layer = m_model->getLayerForId(sid);
+        GenTime startPos = m_model->getStartPosForId(sid);
+        SubtitleEvent event = m_model->getSubtitle(layer, startPos);
+        Fun local_redo = [this, sid, startPos, event]() {
+            m_model->removeSubtitle(sid);
+            QPair<int, int> range = {startPos.frames(pCore->getCurrentFps()), event.endTime().frames(pCore->getCurrentFps())};
+            pCore->invalidateRange(range);
+            pCore->refreshProjectRange(range);
+            return true;
+        };
+        Fun local_undo = [this, sid, layer, startPos, event]() {
+            m_model->addSubtitle(sid, {layer, startPos}, event);
+            QPair<int, int> range = {startPos.frames(pCore->getCurrentFps()), event.endTime().frames(pCore->getCurrentFps())};
+            pCore->invalidateRange(range);
+            pCore->refreshProjectRange(range);
+            return true;
+        };
+        local_redo();
+        pCore->pushUndo(local_undo, local_redo, i18n("Delete subtitle"));
+
+        QTreeWidgetItem *parent = currentItem->parent();
+        delete currentItem;
+        int count = parent->childCount();
+        parent->setText(1, "with " + QString::number(count) + (count == 1 ? i18n(" event") : i18n(" events")));
+    }
+}
+
 void ManageSubtitles::deleteLayer()
 {
     QTreeWidgetItem *currentItem = eventList->currentItem();
-    // Layer
-    int layer = currentItem->text(0).section(" ", 1, 1).toInt();
-    if (KMessageBox::warningContinueCancel(this, i18n("This will delete all events in layer <b>%1</b>.", layer)) != KMessageBox::Continue) {
+    if (currentItem->parent() != nullptr) {
+        deleteEvent();
         return;
     }
+    // Layer
+    int layer = currentItem->text(0).section(" ", 1, 1).toInt();
+    if (currentItem->childCount() > 0 &&
+        KMessageBox::warningContinueCancel(this, i18n("This will delete all events in layer <b>%1</b>.", layer)) != KMessageBox::Continue) {
+        return;
+    }
+
+    QList<int> expanded;
+    for (int i = 0; i < eventList->topLevelItemCount(); ++i) {
+        if (i != layer && eventList->topLevelItem(i)->isExpanded()) {
+            expanded.append(i < layer ? i : i - 1);
+        }
+    }
+
     m_model->requestDeleteLayer(layer);
     parseEventList();
     buttonDeleteLayer->setEnabled(!(eventList->topLevelItemCount() == 1));
@@ -712,6 +765,12 @@ void ManageSubtitles::deleteLayer()
         eventList->setCurrentItem(eventList->topLevelItem(layer));
     } else {
         eventList->setCurrentItem(eventList->topLevelItem(layer - 1));
+    }
+
+    for (int ix : expanded) {
+        if (ix < eventList->topLevelItemCount()) {
+            eventList->topLevelItem(ix)->setExpanded(true);
+        }
     }
 }
 
