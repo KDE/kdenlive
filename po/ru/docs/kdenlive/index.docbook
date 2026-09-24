@@ -6,16 +6,18 @@
 <book id="kdenlive" lang="&language;">
 <bookinfo>
 <title
->Краткое руководство по работе в Kdenlive</title>
+>Краткое руководство по работе в Kdenlive (устарело)</title>
 <authorgroup>
 <author>
 <personname
 ><firstname
->За основу взята документация из KDE UserBase со страницы <ulink url="https://userbase.kde.org/Kdenlive/Manual/QuickStart/ru"
->Kdenlive/Руководство/Краткое руководство</ulink
+>Эта документация устарела, пользуйтесь новым <ulink url="https://docs.kdenlive.org/?mtm_campaign=kdenlive_docbook"
+>руководством Kdenlive</ulink
 >.</firstname
 > <surname
-></surname
+>Документация преобразована со страницы <ulink url="http://userbase.kde.org/Kdenlive/Manual/QuickStart"
+>Kdenlive/Manual/QuickStart</ulink
+> на KDE UserBase.</surname
 > </personname>
     </author>
 <othercredit role="translator"

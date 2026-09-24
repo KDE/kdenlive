@@ -13,16 +13,16 @@
 # Виктор <victorr2007@yandex.ru>, 2018.
 # Olga Mironova <omiro@basealt.ru>, 2018.
 # Mikhail Novosyolov <m.novosyolov@rosalinux.ru>, 2018.
-# Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022.
+# Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022, 2026.
 # SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Sergey Kazorin <translation-team@basealt.ru>
 # SPDX-FileCopyrightText: 2025, 2026 Olesya Gerasimenko <goa@altlinux.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-22 15:59+0000\n"
-"PO-Revision-Date: 2026-07-29 16:14+0300\n"
-"Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
+"POT-Creation-Date: 2026-09-24 00:44+0000\n"
+"PO-Revision-Date: 2026-09-23 10:30+0200\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -1221,7 +1221,7 @@ msgid ""
 msgstr ""
 "Применение двухполюсного полосно-пропускающего фильтра Баттерворта с "
 "центральной частотой и шириной полосы (по уровню 3 дБ). Параметр CSG "
-"выбирает усиление для постоянной «юбки»  (пиковое усиление = Q) вместо "
+"выбирает усиление для постоянной «юбки» (пиковое усиление = Q) вместо "
 "значения по умолчанию: усиление 0 дБ для постоянного пика. Фильтр снижается "
 "на 6 дБ на октаву (20 дБ на декаду). "
 
@@ -4253,11 +4253,12 @@ msgid ""
 msgstr ""
 "Быстрое удаление полос на видео с помощью градиентов.<br>\n"
 "    Устраняет артефакты в виде полос, которые иногда появляются в почти "
-"плоских областях, путём обрезания до 8-битной цветовой глубины.<br>\n"
-"    Выполняет интерполяцию градиентами на месте полос и размазывает их.<br>\n"
-"    <b>Предназначается только для воспроизведения. Не используйте этот "
+"плоских областях, из-за обрезания до 8-битной цветовой глубины.<br>\n"
+"    Выполняет интерполяцию градиентами на месте полос и размазывает их."
+"<br><br>\n"
+"    <b><i>Предназначается только для воспроизведения. Не используйте этот "
 "фильтр перед сжатием с потерями, так как при сжатии обычно теряется "
-"размазывание и возвращаются полосы<b>."
+"размазывание и возвращаются полосы</i></b>."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -4975,18 +4976,15 @@ msgid "Lag Fun"
 msgstr "Веселье с задержкой"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Медленное обновление более тёмных пикселов.<br>\n"
+"Медленное обновление более тёмных пикселов. Результат использования разных "
+"<i>Плоскостей</i> зависит от формата пикселов.<br>\n"
 "        <b><i>Примечание</i></b>: этот эффект не сбрасывается во время "
 "воспроизведения из-за проблем с буфером кадров, но обработка выполняется "
 "корректно."
@@ -4994,7 +4992,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "Результат зависит от формата пиксела"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -5002,6 +5000,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Все,Нет,Яркость/Y/Красный,Насыщенность/U/Зелёный,Насыщенность/V/Синий,Альфа "
+"(α),YU,YV,UV,YUV,Yα,Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -6572,16 +6572,7 @@ msgstr ""
 "анаглиф жёлтый/синий полуцветной,анаглиф жёлтый/синий цветной,анаглиф жёлтый/"
 "синий Дюбуа,моно вывод левый,моно вывод правый,шахматная клетка (сначала "
 "слева),шахматная клетка (сначала справа),чередующиеся столбцы (сначала "
-"слева),чередующиеся столбцы (сначала справа),пакет кадров HDMIрядом  by side "
-"crosseye,above-below left top,above-below right top,interleaved rows (left "
-"top),interleaved rows (right top),anaglyph red/blue gray,anaglyph red/green "
-"gray,anaglyph red/cyan gray,anaglyph red/cyan half colored,anaglyph red/cyan "
-"color,anaglyph red/cyan dubois,anaglyph green/magenta gray,anaglyph green/"
-"magenta half colored,anaglyph green/magenta colored,anaglyph green/magenta "
-"dubois,anaglyph yellow/blue gray,anaglyph yellow/blue half colored,anaglyph "
-"yellow/blue colored,anaglyph yellow/blue dubois,mono output left,mono output "
-"right,checkerboard left eye first,checkerboard right eye first,interleaved "
-"columns left eye first,interleaved columns right eye first,HDMI frame pack"
+"слева),чередующиеся столбцы (сначала справа),пакет кадров HDMI"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
@@ -7813,7 +7804,7 @@ msgstr "Кадрирование клипа"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:8 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:13
-#: src/dialogs/managesubtitles.cpp:518 src/dialogs/subtitlestyleedit.cpp:111
+#: src/dialogs/managesubtitles.cpp:523 src/dialogs/subtitlestyleedit.cpp:111
 #: src/ui/configmisc_ui.ui:202
 #, kde-format
 msgid "Top"
@@ -7821,14 +7812,14 @@ msgstr "Сверху"
 
 #: data/effects/crop.xml:11 data/effects/dance.xml:26
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:21
-#: src/dialogs/managesubtitles.cpp:506 src/dialogs/subtitlestyleedit.cpp:113
+#: src/dialogs/managesubtitles.cpp:511 src/dialogs/subtitlestyleedit.cpp:113
 #, kde-format
 msgid "Left"
 msgstr "Слева"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_tabposition)
 #: data/effects/crop.xml:14 data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:17
-#: src/dialogs/managesubtitles.cpp:500 src/dialogs/subtitlestyleedit.cpp:117
+#: src/dialogs/managesubtitles.cpp:505 src/dialogs/subtitlestyleedit.cpp:117
 #: src/ui/configmisc_ui.ui:207
 #, kde-format
 msgid "Bottom"
@@ -7836,7 +7827,7 @@ msgstr "Снизу"
 
 #: data/effects/crop.xml:17 data/effects/dance.xml:29
 #: data/effects/frei0r/frei0r_bigsh0t_eq_wrap.xml:25
-#: src/dialogs/managesubtitles.cpp:512 src/dialogs/subtitlestyleedit.cpp:115
+#: src/dialogs/managesubtitles.cpp:517 src/dialogs/subtitlestyleedit.cpp:115
 #, kde-format
 msgid "Right"
 msgstr "Справа"
@@ -8119,7 +8110,7 @@ msgstr "По верхнему краю,По центру,По нижнему к�
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
-#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1097
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1100
 #: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
@@ -8633,15 +8624,14 @@ msgstr ""
 "    Этот эффект был заменён на <em>frei0r.alphaops_alphaspot</em>."
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
-#, fuzzy, kde-format
-#| msgid "Low Threshold"
+#, kde-format
 msgid "Auto Threshold"
-msgstr "Нижний порог"
+msgstr "Автоматический порог"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "Разделяет изображение на передний план и фон"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8650,10 +8640,9 @@ msgid "Slope"
 msgstr "Спад"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
-#, fuzzy, kde-format
-#| msgid "Sigmoidal Transfer"
+#, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr "Сигмоидальный переход"
+msgstr "Спад сигмоидального перехода"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -10056,41 +10045,37 @@ msgstr "Нет,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Дрожание камеры (расширенное)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Эффект движения камеры с вращением, непрозрачностью и размытием"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Амплитуда"
+msgstr "Амплитуда X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Максимальное перемещение по горизонтали"
+msgstr "Максимальная амплитуда дрожания по горизонтали"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Амплитуда"
+msgstr "Амплитуда Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Максимальное перемещение по вертикали"
+msgstr "Максимальная амплитуда дрожания по вертикали"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Максимальная амплитуда дрожания при вращении (не более 45°)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -10099,40 +10084,40 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Коэффициент масштабирования для скрытия чёрных границ.<br>\n"
+"        Это значение добавляется к 100%. Например: 0% означает отсутствие "
+"дополнительного масштабирования; 100% означает, что изображение становится "
+"вдвое больше (в сумме 200% от исходного размера)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Интенсивность смещения"
+msgstr "Интенсивность дрожания"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Скорость или частота дрожания"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Непрозрачность панели анализатора"
+msgstr "Непрозрачность эффекта"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Движение"
+msgstr "Размытие движения"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Величина размытия при движении (не более 20 пикселов)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Непрозрачность цвета фона"
+msgstr "Цвет фона для видимых границ"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -10755,7 +10740,7 @@ msgstr "Масштабировать нелинейно"
 #: data/effects/frei0r/frei0r_elastic_scale.xml:8 data/effects/vignette.xml:11
 #: src/assets/view/widgets/keyframeimport.cpp:228
 #: src/assets/view/widgets/keyframeimport.cpp:238
-#: src/dialogs/managesubtitles.cpp:509 src/dialogs/subtitlestyleedit.cpp:114
+#: src/dialogs/managesubtitles.cpp:514 src/dialogs/subtitlestyleedit.cpp:114
 #: src/transitions/view/mixstackview.cpp:47
 #, kde-format
 msgid "Center"
@@ -12768,27 +12753,24 @@ msgid "Do not average the alpha channel over each block"
 msgstr "Не усреднять альфа-канал по каждому блоку"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
-#, fuzzy, kde-format
+#, kde-format
 msgid "Pixels0rt"
-msgstr "Пикселизация"
+msgstr "Сортировка пикселов"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
-#, fuzzy, kde-format
-#| msgid "Problem deleting effect"
+#, kde-format
 msgid "Pixel sorting effect"
-msgstr "При удалении эффекта возникла проблема"
+msgstr "Эффект сортировки пикселов"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "Определяет прямоугольник области, которую следует удалить."
+msgstr "Относительный размер строки, которая будет отсортирована"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "Направление отражения"
+msgstr "Направление сортировки"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12796,23 +12778,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"Вертикально сверху вниз,Вертикально снизу вверх,Горизонтально слева направо,"
+"Горизонтально справа налево"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "Реверс"
+msgstr "В обратном порядке"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "Сортировать пикселы в обратном порядке"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "Прозрачность вверху"
+msgstr "Порог прозрачности"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12821,6 +12803,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"Какой уровень прозрачности должен<br>\n"
+"        пропускаться фильтром. 0 — обрабатывает все пикселы, 1 — игнорирует "
+"все прозрачные пикселы"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -13207,7 +13192,7 @@ msgstr "Мягкость"
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Колебательное дрожание"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -13216,40 +13201,38 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"Анимирует входное изображение с настраиваемыми параметрами, такими как "
+"величина, скорость, вращение, масштаб, а также возможностью зеркального "
+"отражения изображения, если оно выходит за границы экрана.<br><br>Этот "
+"эффект предназначен для плавного и контролируемого колебания."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "X Movement"
-msgstr "Кадры с перемещением"
+msgstr "Перемещение по X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "X Speed"
-msgstr "Скорость"
+msgstr "Скорость по X"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
-#, fuzzy, kde-format
-#| msgid "Frames With Movement"
+#, kde-format
 msgid "Y Movement"
-msgstr "Кадры с перемещением"
+msgstr "Перемещение по Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
-#, fuzzy, kde-format
-#| msgid "Speed"
+#, kde-format
 msgid "Y Speed"
-msgstr "Скорость"
+msgstr "Скорость по Y"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
-#, fuzzy, kde-format
-#| msgid "Rotation"
+#, kde-format
 msgid "Rotation Speed"
-msgstr "Вращение"
+msgstr "Скорость вращения"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
-#, fuzzy, kde-format
-#| msgid "Mirror"
+#, kde-format
 msgid "Mirrored"
 msgstr "Зеркальное отражение"
 
@@ -13525,35 +13508,32 @@ msgstr "Размер зерна"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Волнистые линии"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
-msgstr ""
+msgstr "Создаёт эффект дрожания, имитирующий рисование от руки"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Интенсивность тонирования"
+msgstr "Величина смещения"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "Кадров/с"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Обновлений в секунду"
+msgstr "Обновлений волнистых линий в секунду"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Размер зерна"
+msgstr "Размер ячейки шума"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
@@ -14585,7 +14565,7 @@ msgstr "Карта градиента"
 msgid "Apply a gradient map to the video"
 msgstr "Применение к видео карты градиента"
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3476
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3488
 #, kde-format
 msgid "Gradient"
 msgstr "Градиент"
@@ -16168,7 +16148,7 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
-"Время для спада эхо на 60 дБ.\n"
+"Время для спада эхо на 60 дБ.<br>\n"
 "      Если это время имеет отрицательное значение, коэффициент обратной "
 "связи будет отрицательным, что приводит к подчёркиванию только нечётных "
 "гармоник на октаву ниже."
@@ -17324,11 +17304,11 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect."
 msgstr ""
-"Позволяет выполнить финальную настройку звуку.<br>\n"
+"Позволяет выполнить финальную настройку звука.<br>\n"
 "      Эффект будет максимально сильным, если установить приблизительно "
 "одинаковые значения для обоих параметров. Эффект будет менее заметным, если "
 "уменьшить значение одного из них (рекомендуется сделать это для параметра "
-"«Уровень \"мокрого\"», чтобы смягчить нежелательные побочные эффекты)."
+"«Уровень мокрого», чтобы смягчить нежелательные побочные эффекты)."
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
 #, kde-format
@@ -19046,7 +19026,7 @@ msgid ""
 msgstr ""
 "Смещение для добавления к значению таймера.<br>\n"
 "        При направлении <i>Вниз</i> отсчёт таймера ведётся в обратном "
-"направлении до значения <i>Смещение</i>, а не до 00:00:00.000.\n"
+"направлении до значения <i>Смещение</i>, а не до 00:00:00.000.<br>\n"
 "        При направлении <i>Вверх</i> отсчёт таймера начинается со значения "
 "<i>Смещение</i>."
 
@@ -19772,10 +19752,9 @@ msgid "Perform an affine transform on for compositing."
 msgstr "Аффинная трансформация для композитинга."
 
 #: data/transitions/autoduck.xml:4
-#, fuzzy, kde-format
-#| msgid "Auto"
+#, kde-format
 msgid "Auto Duck"
-msgstr "Автоматически"
+msgstr "Автоприглушение"
 
 #: data/transitions/autoduck.xml:5
 #, kde-format
@@ -19783,29 +19762,28 @@ msgid ""
 "Applies a volume change on the lower track depending on the volume of the "
 "upper track."
 msgstr ""
+"Применяет изменение громкости к нижней дорожке в зависимости от громкости "
+"верхней дорожки."
 
 #: data/transitions/autoduck.xml:8
-#, fuzzy, kde-format
-#| msgid "High Threshold"
+#, kde-format
 msgid "Ducking Threshold"
-msgstr "Верхний порог"
+msgstr "Порог приглушения"
 
 #: data/transitions/autoduck.xml:11
-#, fuzzy, kde-format
-#| msgid "Attenuation"
+#, kde-format
 msgid "Ducking Attenuation"
-msgstr "Ослабление"
+msgstr "Ослабление приглушения"
 
 #: data/transitions/autoduck.xml:14
-#, fuzzy, kde-format
-#| msgid "Fade In"
+#, kde-format
 msgid "Ducking Fade In"
-msgstr "Нарастание"
+msgstr "Нарастание приглушения"
 
 #: data/transitions/autoduck.xml:17
 #, kde-format
 msgid "Ducking Fade Out"
-msgstr ""
+msgstr "Затухание при приглушении"
 
 #: data/transitions/composite.xml:4
 #, kde-format
@@ -23261,7 +23239,8 @@ msgstr "Введите текст"
 msgid "Add subtitle"
 msgstr "Добавить субтитр"
 
-#: src/bin/model/subtitlemodel.cpp:1686 src/dialogs/subtitleedit.cpp:294
+#: src/bin/model/subtitlemodel.cpp:1686 src/dialogs/managesubtitles.cpp:731
+#: src/dialogs/subtitleedit.cpp:294
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Удалить субтитр"
@@ -23541,16 +23520,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Формат записи скорректирован до %1 каналов, %2 Гц."
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "Обработка %1"
+msgstr "Ошибка при обращении к «%1»"
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "Монитор %1"
+msgstr "Слежение через %1"
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -24498,7 +24475,7 @@ msgstr "Переместить в…"
 msgid "Copy To..."
 msgstr "Копировать в..."
 
-#: src/dialogs/managesubtitles.cpp:169 src/dialogs/managesubtitles.cpp:583
+#: src/dialogs/managesubtitles.cpp:169 src/dialogs/managesubtitles.cpp:588
 #, kde-format
 msgid "Global"
 msgstr "Глобальный"
@@ -24523,77 +24500,78 @@ msgstr "Копировать стиль"
 msgid "Select the subtitle file to copy the style to:"
 msgstr "Файл с субтитрами, в который будет скопирован стиль:"
 
-#: src/dialogs/managesubtitles.cpp:383
+#: src/dialogs/managesubtitles.cpp:386
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
 msgstr "Импорт субтитров"
 
-#: src/dialogs/managesubtitles.cpp:384
+#: src/dialogs/managesubtitles.cpp:387
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
 msgstr "Экспорт субтитров"
 
-#: src/dialogs/managesubtitles.cpp:438
+#: src/dialogs/managesubtitles.cpp:441
 #, kde-format
 msgid "Layer "
 msgstr "Слой "
 
-#: src/dialogs/managesubtitles.cpp:438
+#: src/dialogs/managesubtitles.cpp:441
 #, kde-format
 msgid "with "
 msgstr "с "
 
-#: src/dialogs/managesubtitles.cpp:438 src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:441 src/dialogs/managesubtitles.cpp:447
+#: src/dialogs/managesubtitles.cpp:736
 #, kde-format
 msgid " event"
 msgstr " событием"
 
-#: src/dialogs/managesubtitles.cpp:444
+#: src/dialogs/managesubtitles.cpp:447 src/dialogs/managesubtitles.cpp:736
 #, kde-format
 msgid " events"
 msgstr " событиями"
 
-#: src/dialogs/managesubtitles.cpp:497 src/dialogs/subtitlestyleedit.cpp:116
+#: src/dialogs/managesubtitles.cpp:502 src/dialogs/subtitlestyleedit.cpp:116
 #, kde-format
 msgid "Bottom Left"
 msgstr "Внизу слева"
 
-#: src/dialogs/managesubtitles.cpp:503 src/dialogs/subtitlestyleedit.cpp:118
+#: src/dialogs/managesubtitles.cpp:508 src/dialogs/subtitlestyleedit.cpp:118
 #, kde-format
 msgid "Bottom Right"
 msgstr "Внизу справа"
 
-#: src/dialogs/managesubtitles.cpp:515 src/dialogs/subtitlestyleedit.cpp:110
+#: src/dialogs/managesubtitles.cpp:520 src/dialogs/subtitlestyleedit.cpp:110
 #, kde-format
 msgid "Top Left"
 msgstr "Вверху слева"
 
-#: src/dialogs/managesubtitles.cpp:521 src/dialogs/subtitlestyleedit.cpp:112
+#: src/dialogs/managesubtitles.cpp:526 src/dialogs/subtitlestyleedit.cpp:112
 #, kde-format
 msgid "Top Right"
 msgstr "Вверху справа"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:527 src/dialogs/renderwidget.cpp:380
+#: src/dialogs/managesubtitles.cpp:532 src/dialogs/renderwidget.cpp:380
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:849
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:48
 #, kde-format
 msgid "Default"
 msgstr "По умолчанию"
 
-#: src/dialogs/managesubtitles.cpp:530
+#: src/dialogs/managesubtitles.cpp:535
 #, kde-format
 msgid "Box as Border"
 msgstr "Рамка как граница"
 
-#: src/dialogs/managesubtitles.cpp:533 src/dialogs/subtitlestyleedit.cpp:106
+#: src/dialogs/managesubtitles.cpp:538 src/dialogs/subtitlestyleedit.cpp:106
 #, kde-format
 msgid "Box as Shadow"
 msgstr "Рамка как тень"
 
-#: src/dialogs/managesubtitles.cpp:683
+#: src/dialogs/managesubtitles.cpp:688
 #, kde-format
 msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
@@ -24602,22 +24580,22 @@ msgstr ""
 "Будут удалены все записи субтитров в <b>%1</b>,<br/>а также файл с "
 "субтитрами: %2"
 
-#: src/dialogs/managesubtitles.cpp:705
+#: src/dialogs/managesubtitles.cpp:750
 #, kde-format
 msgid "This will delete all events in layer <b>%1</b>."
 msgstr "Будут удалены все события в слое <b>%1</b>."
 
-#: src/dialogs/managesubtitles.cpp:723
+#: src/dialogs/managesubtitles.cpp:782
 #, kde-format
 msgid "Cannot delete default style."
 msgstr "Не удалось удалить стиль по умолчанию."
 
-#: src/dialogs/managesubtitles.cpp:727
+#: src/dialogs/managesubtitles.cpp:786
 #, kde-format
 msgid "This will delete the style <b>%1</b> and all its properties."
 msgstr "Будет удалён стиль <b>%1</b> и все его свойства."
 
-#: src/dialogs/managesubtitles.cpp:732
+#: src/dialogs/managesubtitles.cpp:791
 #, kde-format
 msgid ""
 "This will delete the style <b>%1</b> and all its properties.\n"
@@ -25025,13 +25003,14 @@ msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
+"Звук мастер-дорожки отключён, поэтому в собранном файле не будет звукового "
+"потока. Продолжить сборку?"
 
 #: src/dialogs/renderwidget.cpp:977
-#, fuzzy, kde-format
-#| msgid "Render…"
+#, kde-format
 msgctxt "@action:button"
 msgid "Render"
-msgstr "Сборка…"
+msgstr "Сборка"
 
 #: src/dialogs/renderwidget.cpp:987 src/dialogs/renderwidget.cpp:2047
 #: src/project/dialogs/archivewidget.cpp:928
@@ -25401,12 +25380,7 @@ msgid "JogShuttle"
 msgstr "Поворотный регулятор"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
-#, fuzzy, kde-format
-#| msgid ""
-#| "For device configuration see <a href=\"https://docs.kdenlive.org/"
-#| "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
-#| "mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings\">our "
-#| "documentation</a>."
+#, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
 "getting_started/configure_kdenlive/configuration_jogshuttle.html#windows?"
@@ -25415,7 +25389,7 @@ msgid ""
 msgstr ""
 "Сведения о конфигурации устройства доступны в <a href=\"https://docs."
 "kdenlive.org/getting_started/configure_kdenlive/configuration_jogshuttle."
-"html#windows?mtm_campaign=kdenlive_inapp&mtm_kwd=jogshuttle_settings"
+"html#windows?utm_campaign=kdenlive_inapp&utm_term=jogshuttle_settings"
 "\">документации</a>."
 
 #. i18n: ectx: Menu (transcoders)
@@ -27385,8 +27359,8 @@ msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
-"<li>Отсутствует модуль MLT:<b>sdl</b> или <B><b>rtaudio</b><br/>, "
-"необходимый для вывода звука</li>"
+"<li>Отсутствует модуль MLT: <b>sdl</b> или <b>rtaudio</b><br/>необходимый "
+"для вывода звука</li>"
 
 #: src/dialogs/wizard.cpp:394
 #, kde-format
@@ -28456,11 +28430,7 @@ msgid "%1 instances of this effect in the group"
 msgstr "Экземпляров этого эффекта в группе: %1"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:623
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid ""
-#| "<b>Drag</b> effect to another timeline clip, track or project clip to "
-#| "copy it. <b>Alt Drag</b> to copy it to a single item in a group."
+#, kde-format
 msgctxt "@info:status"
 msgid ""
 "<b>Drag</b> effect to another timeline clip, track or project clip to copy "
@@ -28469,7 +28439,8 @@ msgid ""
 msgstr ""
 "Чтобы скопировать эффект, <b>переместите</b> его в другой клип монтажного "
 "стола, дорожку или клип проекта. Чтобы скопировать эффект в один элемент из "
-"группы: <b>Alt + перемещение</b>."
+"группы: <b>Alt + перемещение</b>. Чтобы сфокусировать цель при отпускании: "
+"<b>Shift + перемещение</b>."
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:648
 #, kde-format
@@ -29549,7 +29520,7 @@ msgid ""
 "This will delete the file:\n"
 "%1"
 msgstr ""
-"Будет удалён файл :\n"
+"Будет удалён файл:\n"
 "«%1»"
 
 #: src/library/librarywidget.cpp:357
@@ -29705,7 +29676,7 @@ msgstr "Nicolas Carion"
 #: src/main.cpp:304
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Реорганизация кода и переписывание кода монтажного стола (2019)"
+msgstr "Реорганизация кода и переписывание монтажного стола (2019)"
 
 #: src/main.cpp:305
 #, kde-format
@@ -29889,6 +29860,7 @@ msgstr "Сохранить JSON-отчёт о компонентах по ука
 msgid ""
 "Verify whether a Kdenlive project file is valid, print details, and exit."
 msgstr ""
+"Проверить корректность файла проекта Kdenlive, вывести сведения и выйти."
 
 #: src/main.cpp:371
 #, kde-format
@@ -31509,19 +31481,15 @@ msgid "Continue without"
 msgstr "Продолжить без пересоздания"
 
 #: src/mainwindow.cpp:2552
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
 "Текущий проект не был сохранён.<br/>Сначала будет выполнено сохранение "
-"проекта, потом все временные файлы будут перенесены из <br/><b>%1</b> в <b>"
-"%2</b>,<br/>а затем файл проекта будет перезагружен"
+"проекта, потом все временные файлы будут перенесены из <br/><b>%1</b> в "
+"папку файла проекта, а затем файл проекта будет перезагружен"
 
 #: src/mainwindow.cpp:2564
 #, kde-format
@@ -32859,7 +32827,7 @@ msgstr "Захват не удался, проверьте параметры"
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
-"Для включения спектра звуковых частот MLT должен быть скомпилирован с  "
+"Для включения спектра звуковых частот MLT должен быть скомпилирован с "
 "библиотекой libfftw3"
 
 #: src/monitor/scopes/audiographspectrum.cpp:346
@@ -33398,8 +33366,9 @@ msgid "Unknown License"
 msgstr "Неизвестная лицензия"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, kde-format
-msgid "It maybe takes a while until the preview is loaded"
+#, fuzzy, kde-format
+#| msgid "It maybe takes a while until the preview is loaded"
+msgid "Please be patient while the preview is loading"
 msgstr "Загрузка предпросмотра может занять некоторое время"
 
 #: src/onlineresources/resourcewidget.cpp:620
@@ -33425,10 +33394,13 @@ msgid "Images"
 msgstr "Изображения"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, kde-format
+#, fuzzy, kde-format
+#| msgid ""
+#| "Be aware that the usage of the resource is maybe restricted by license "
+#| "terms or law!\n"
+#| "Do you want to add license attribution to your Project Notes?"
 msgid ""
-"Be aware that the usage of the resource is maybe restricted by license terms "
-"or law!\n"
+"Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
 "Использование ресурса может быть ограничено условиями лицензии или "
@@ -33472,8 +33444,9 @@ msgid "Data Imported"
 msgstr "Импортировано данных"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, kde-format
-msgid "Try importing again to obtain a new connection"
+#, fuzzy, kde-format
+#| msgid "Try importing again to obtain a new connection"
+msgid "Try importing again to establish a new connection"
 msgstr "Попробуйте повторить импорт для получения нового соединения"
 
 #: src/onlineresources/resourcewidget.cpp:790
@@ -37631,10 +37604,9 @@ msgstr[2] "Добавить дорожки"
 msgstr[3] "Добавить дорожку"
 
 #: src/timeline2/view/timelinecontroller.cpp:5879
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "В текущем проекте субтитры не найдены"
+msgstr "В текущем проекте субтитры не найдены. Экспорт невозможен."
 
 #: src/timeline2/view/timelinecontroller.cpp:5890
 #, kde-format
@@ -37782,7 +37754,7 @@ msgid "No available stream"
 msgstr "Нет доступных потоков"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3443 src/titler/titlewidget.cpp:3446
+#: src/titler/titlewidget.cpp:3455 src/titler/titlewidget.cpp:3458
 #, kde-format
 msgid "Gradient %1"
 msgstr "Градиент %1"
@@ -38165,13 +38137,13 @@ msgstr "Добавить в качестве новых титров"
 msgid "The following files are missing:"
 msgstr "Отсутствуют следующие файлы:"
 
-#: src/titler/titlewidget.cpp:2731
+#: src/titler/titlewidget.cpp:2743
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Начальная позиция"
 
-#: src/titler/titlewidget.cpp:2732
+#: src/titler/titlewidget.cpp:2744
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
@@ -38346,8 +38318,8 @@ msgid ""
 "Dash</a></p>"
 msgstr ""
 "<p>Длинное тире (тире длиной в кегельную).</p><p>Применяется различным "
-"образом в типографских традициях разных стран.<p>Примеры использования в "
-"русской традиции: </p><p><em>Это&nbsp;&mdash; тире!</em> (Отбивается на два "
+"образом в типографских традициях разных стран.</p><p>Примеры использования в "
+"русской традиции:</p><p><em>Это&nbsp;&mdash; тире!</em> (Отбивается на два "
 "пункта от окружающих слов или обрамляется пробелами)</p><p><em>Великая "
 "Отечественная война 1941&mdash;1945 гг.</em> (Не отбивается)</p><p>См. <a "
 "href=\"https://ru.wikipedia.org/wiki/Тире\">Википедия: Тире</a></p>"
@@ -38366,7 +38338,7 @@ msgstr ""
 "p><p>Ширина зависит от языка набора и производителя шрифта; в кириллических "
 "шрифтах тонкая шпация обычно имеет ширину в 1⁄5 круглой. Эта шпация по "
 "пропорциям в точности соответствует двухпунктовой шпации при наборе кеглем в "
-"10 пунктов.</p><p>См. <https://ru.wikipedia.org/wiki/Узкий_пробел"
+"10 пунктов.</p><p>См. <a href=\"https://ru.wikipedia.org/wiki/Узкий_пробел"
 "\">Википедия: Узкий пробел</a></p>"
 
 #: src/titler/unicodedialog.cpp:194
@@ -39261,7 +39233,7 @@ msgstr "Устройство:"
 #: src/ui/configcapture_ui.ui:347
 #, kde-format
 msgid "Capture volume:"
-msgstr "Громкость захвата :"
+msgstr "Громкость захвата:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QCheckBox, cChannels)
@@ -41478,10 +41450,9 @@ msgstr "Стили"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonEditStyle)
 #: src/ui/managesubtitles_ui.ui:323
-#, fuzzy, kde-format
-#| msgid "Edit Info…"
+#, kde-format
 msgid "Edit…"
-msgstr "Изменить сведения…"
+msgstr "Изменить…"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
 #: src/ui/managesubtitles_ui.ui:354
