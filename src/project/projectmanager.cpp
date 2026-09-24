@@ -65,6 +65,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTimeZone>
 #include <QUndoGroup>
 
+static int m_pendingStorage = -1;
+
 static QString getProjectNameFilters(bool ark = true)
 {
     QString filter = i18n("Kdenlive Project") + QStringLiteral(" (*.kdenlive)");
@@ -186,12 +188,11 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
-    bool sameProjectFolder = KdenliveSettings::sameprojectfolder();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
         }
-        if (KdenliveSettings::customprojectfolder()) {
+        if (KdenliveSettings::defaultprojectstoragetype() == StoreInCustomFolder) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
             QDir folder(projectFolder);
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
@@ -199,9 +200,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(documentId));
         }
+        documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(KdenliveSettings::defaultprojectstoragetype())));
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), projectTracks.first, projectTracks.second, audioChannels,
-                                                          KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w =
+            new ProjectSettings(nullptr, QMap<QString, QString>(), projectTracks.first, projectTracks.second, audioChannels, false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
@@ -221,6 +223,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             pCore->window()->slotSwitchAudioThumbs();
         }
         profileName = w->selectedProfile();
+        ProjectStorageType storageType = w->storageType();
         projectFolder = w->storageFolder();
         projectTracks = w->tracks();
         audioChannels = w->audioChannels();
@@ -232,6 +235,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentProperties.insert(QStringLiteral("proxyresize"), QString::number(w->proxyResize()));
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
+        documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(storageType)));
         QString preview = w->selectedPreview();
         if (!preview.isEmpty()) {
             documentProperties.insert(QStringLiteral("previewparameters"), preview.section(QLatin1Char(';'), 0, 0));
@@ -248,7 +252,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             documentProperties.insert(QStringLiteral("enableexternalproxy"), QStringLiteral("1"));
             documentProperties.insert(QStringLiteral("externalproxyparams"), w->externalProxyParams());
         }
-        sameProjectFolder = w->docFolderAsStorageFolder();
         // Metadata
         documentMetadata = w->metadata();
         delete w;
@@ -260,7 +263,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
                                        audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
-    doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
     m_project = doc;
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
@@ -519,9 +521,9 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     m_autoSaveTimer.stop();
     m_autoSaveChangeCount = 0;
     pCore->monitorManager()->pauseActiveMonitor();
-    QString oldProjectFolder =
-        m_project->url().isEmpty() ? QString() : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
-    // this was the old project folder in case the "save in project file location" setting was active
+    qDebug() << ":::::: \nPRERPARING TO SAVE PROJKECT FILE WITH URL: " << m_project->url().toLocalFile()
+             << "\nAND STORTYGE TYPE: " << m_project->getDocumentProperty("storagetype");
+    auto previousStorageInfo = m_project->projectTempFolder();
 
     // Sync document properties
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
@@ -587,37 +589,45 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     // remember folder for next project opening
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);
     saveRecentFiles();
+    qDebug() << ":::: READY TO SAVE PROJECT FROM: " << previousStorageInfo.first << "\nTO: " << saveFolder << "\n1111111111111111111111111111111111";
     if (!saveACopy) {
         m_fileRevert->setEnabled(true);
         pCore->window()->m_undoView->stack()->setClean();
-        QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
-        if (((oldProjectFolder.isEmpty() && m_project->m_sameProjectFolder) || m_project->projectTempFolder() == oldProjectFolder) &&
-            newProjectFolder != m_project->projectTempFolder()) {
-            KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
-                pCore->window(), i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
-                                      "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
-                                      m_project->projectTempFolder(), newProjectFolder));
+        if (previousStorageInfo.second == StoreWithProjectFile) {
+            QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
+            if (QDir::cleanPath(newProjectFolder) != QDir::cleanPath(previousStorageInfo.first)) {
+                KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
+                    pCore->window(),
+                    i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
+                         "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
+                         previousStorageInfo.first, newProjectFolder));
 
-            if (answer == KMessageBox::Continue) {
-                // Discard running jobs, for example proxy clips since data will be moved
-                pCore->taskManager.slotCancelJobs();
-                // Proceed with move
-                QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
-                bool ok;
-                documentId.toLongLong(&ok, 10);
-                if (!ok || documentId.isEmpty()) {
-                    KMessageBox::error(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
-                } else {
-                    QDir newDir(newProjectFolder);
-                    QDir oldDir(m_project->projectTempFolder());
-                    if (newDir.exists(documentId)) {
-                        KMessageBox::error(pCore->window(),
-                                           i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                if (answer == KMessageBox::Continue) {
+                    // Discard running jobs, for example proxy clips since data will be moved
+                    pCore->taskManager.slotCancelJobs();
+                    // Proceed with move
+                    QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
+                    bool ok;
+                    documentId.toLongLong(&ok, 10);
+                    if (!ok || documentId.isEmpty()) {
+                        KMessageBox::error(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
                     } else {
-                        // Proceed with the move
-                        // KIO::move needs to have dest folder existing to keep source folder name
-                        newDir.mkpath(".");
-                        moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        QDir newDir(newProjectFolder);
+                        auto storageInfo = m_project->projectTempFolder();
+                        QDir oldDir(previousStorageInfo.first);
+                        if (newDir.exists(documentId)) {
+                            KMessageBox::error(pCore->window(),
+                                               i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                        } else {
+                            // Proceed with the move
+                            // KIO::move needs to have dest folder existing to keep source folder name
+                            newDir.mkpath(".");
+                            QString destPath = newDir.absolutePath();
+                            if (!destPath.endsWith(QLatin1Char('/'))) {
+                                destPath.append(QLatin1Char('/'));
+                            }
+                            moveProjectData(storageInfo.second, oldDir.absoluteFilePath(documentId), destPath);
+                        }
                     }
                 }
             }
@@ -633,14 +643,14 @@ void ProjectManager::saveRecentFiles()
     config->sync();
 }
 
-bool ProjectManager::saveFileAs(bool saveACopy)
+const QString ProjectManager::getSavePath(const QUrl &url, bool saveACopy)
 {
     QFileDialog fd(pCore->window());
     if (saveACopy) {
         fd.setWindowTitle(i18nc("@title:window", "Save Copy"));
     }
-    if (m_project->url().isValid()) {
-        fd.selectUrl(m_project->url());
+    if (url.isValid()) {
+        fd.selectUrl(url);
     } else {
         fd.setDirectory(KdenliveSettings::defaultprojectfolder());
     }
@@ -649,10 +659,18 @@ bool ProjectManager::saveFileAs(bool saveACopy)
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
-        return false;
+        return QString();
     }
 
-    QString outputFile = fd.selectedFiles().constFirst();
+    return fd.selectedFiles().constFirst();
+}
+
+bool ProjectManager::saveFileAs(bool saveACopy)
+{
+    QString outputFile = getSavePath(m_project->url(), saveACopy);
+    if (outputFile.isEmpty()) {
+        return false;
+    }
 
     bool ok;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
@@ -1250,7 +1268,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder() : QString());
+        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder().first : QString());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -1539,7 +1557,7 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
     pCore->bin()->saveZone(info, dir);
 }
 
-void ProjectManager::moveProjectData(const QString &src, const QString &dest)
+void ProjectManager::moveProjectData(ProjectStorageType storageType, const QString &src, const QString &dest)
 {
     // Move proxies
     bool ok;
@@ -1559,6 +1577,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
         connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
         return true;
     };
+    m_pendingStorage = storageType;
     if (!proxyUrls.isEmpty()) {
         QDir proxyDir(dest + QStringLiteral("/proxy/"));
         if (proxyDir.mkpath(QStringLiteral("."))) {
@@ -1568,6 +1587,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
                 if (job->error() == 0) {
                     copyTmp();
                 } else {
+                    qDebug() << "ERROR CASE A:::::" << job->errorString();
                     KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
                 }
             });
@@ -1593,19 +1613,28 @@ void ProjectManager::slotMoveFinished(KJob *job)
         QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
-        QDir srcDir(m_project->projectTempFolder());
+        QDir srcDir(m_project->projectTempFolder().first);
         if (srcDir.absolutePath().startsWith(projectDir.absolutePath())) {
             m_replacementPattern.insert(QStringLiteral(">proxy/"), QStringLiteral(">") + newFolder + QStringLiteral("/proxy/"));
         } else {
-            m_replacementPattern.insert(m_project->projectTempFolder() + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
+            m_replacementPattern.insert(m_project->projectTempFolder().first + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
         }
-        m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
+        qDebug() << ":::: MOVING FILES DONE; SETTING STORAGE TYPE: " << m_pendingStorage;
+        if (m_pendingStorage > -1) {
+            if (m_pendingStorage == int(StoreInCustomFolder)) {
+                // Update custom folder
+                m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
+            }
+            m_project->setDocumentProperty(QStringLiteral("storagetype"), QString::number(m_pendingStorage));
+        }
         saveFile();
         m_replacementPattern.clear();
         slotRevert();
     } else {
+        qDebug() << "ERROR CASE C:::::" << job->errorString();
         KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
+    m_pendingStorage = -1;
 }
 
 void ProjectManager::requestBackup(const QString &errorMessage)

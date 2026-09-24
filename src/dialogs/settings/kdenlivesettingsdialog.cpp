@@ -257,6 +257,20 @@ void KdenliveSettingsDialog::initProjectPage()
 {
     QWidget *p9 = new QWidget;
     m_configProject.setupUi(p9);
+    // Project folder
+    ProjectStorageType storageType = ProjectStorageType(KdenliveSettings::defaultprojectstoragetype());
+    switch (storageType) {
+    case StoreWithProjectFile:
+        m_configProject.sameproject_folder->setChecked(true);
+        break;
+    case StoreInCustomFolder:
+        m_configProject.customproject_folder->setChecked(true);
+        break;
+    default:
+        m_configProject.default_folder->setChecked(true);
+        break;
+    }
+
     // Timeline preview
     QString currentPreviewData = KdenliveSettings::previewparams().isEmpty()
                                      ? QString()
@@ -277,7 +291,7 @@ void KdenliveSettingsDialog::initProjectPage()
     m_configProject.projecturl->setMode(KFile::Directory);
     m_configProject.projecturl->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
     connect(m_configProject.projecturl, &KUrlRequester::textChanged, this, &KdenliveSettingsDialog::slotDialogModified);
-    connect(m_configProject.kcfg_customprojectfolder, &QCheckBox::toggled, m_configProject.projecturl, &KUrlRequester::setEnabled);
+    connect(m_configProject.customproject_folder, &QCheckBox::toggled, m_configProject.projecturl, &KUrlRequester::setEnabled);
     connect(m_configProject.kcfg_videotracks, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, [this]() {
         if (m_configProject.kcfg_videotracks->value() + m_configProject.kcfg_audiotracks->value() <= 0) {
             m_configProject.kcfg_videotracks->setValue(1);
@@ -340,12 +354,19 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.tmppathurl->lineEdit()->setObjectName(QStringLiteral("kcfg_currenttmpfolder"));
     m_configEnv.capturefolderurl->setMode(KFile::Directory);
     m_configEnv.capturefolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_capturefolder"));
+
     KdenliveSettingsDialog::slotRevealCaptureFolder(KdenliveSettings::capturetoprojectfolder());
     m_configEnv.kcfg_capturetoprojectfolder->setItemText(0, i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
-    if (KdenliveSettings::customprojectfolder()) {
+
+    if (KdenliveSettings::defaultprojectstoragetype() == StoreWithProjectFile) {
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
+        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
+    } else if (KdenliveSettings::defaultprojectstoragetype() == StoreInCustomFolder) {
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
+                                                           i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
         m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
     } else {
-        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
+        // Default
     }
     connect(m_configEnv.kcfg_capturetoprojectfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this,
             &KdenliveSettingsDialog::slotRevealCaptureFolder);
@@ -365,14 +386,20 @@ void KdenliveSettingsDialog::initEnviromentPage()
     m_configEnv.videofolderurl->lineEdit()->setObjectName(QStringLiteral("kcfg_videofolder"));
     m_configEnv.videofolderurl->setEnabled(KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder);
     m_configEnv.videofolderurl->setPlaceholderText(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToVideoFolder,
-                                                       i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
-    if (KdenliveSettings::customprojectfolder()) {
+
+    if (KdenliveSettings::defaultprojectstoragetype() == StoreWithProjectFile) {
+        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
+        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
+    } else if (KdenliveSettings::defaultprojectstoragetype() == StoreInCustomFolder) {
         m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
                                                            i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
     } else {
-        m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
+        // Default
     }
+
+    m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToVideoFolder,
+                                                       i18n("Use default folder: %1", QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)));
     connect(m_configEnv.kcfg_videotodefaultfolder, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &KdenliveSettingsDialog::slotEnableVideoFolder);
 
     // Window drag behavior on non KDE desktops
@@ -1199,28 +1226,33 @@ void KdenliveSettingsDialog::updateSettings()
     if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
     }*/
     m_tlPreviewProfiles->hideMessage();
-    if (m_configProject.projecturl->url().toLocalFile() != KdenliveSettings::defaultprojectfolder()) {
-        KdenliveSettings::setDefaultprojectfolder(m_configProject.projecturl->url().toLocalFile());
-        if (!KdenliveSettings::sameprojectfolder()) {
-            m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
-                                                               i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
-            m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
-        }
+
+    ProjectStorageType storageType = StoreUndefined;
+    if (m_configProject.default_folder->isChecked()) {
+        storageType = StoreInDefaultLocation;
+    } else if (m_configProject.sameproject_folder->isChecked()) {
+        storageType = StoreWithProjectFile;
+    } else if (m_configProject.customproject_folder->isChecked()) {
+        storageType = StoreInCustomFolder;
     }
+
+    KdenliveSettings::setDefaultprojectstoragetype(int(storageType));
 
     if (m_configMisc.kcfg_enableBuiltInEffects->isChecked() != KdenliveSettings::enableBuiltInEffects()) {
         KdenliveSettings::setEnableBuiltInEffects(m_configMisc.kcfg_enableBuiltInEffects->isChecked());
         pCore->window()->reloadAssetPanel();
     }
 
-    if (m_configProject.kcfg_customprojectfolder->isChecked() != KdenliveSettings::customprojectfolder()) {
-        if (KdenliveSettings::customprojectfolder()) {
+    if (storageType != KdenliveSettings::defaultprojectstoragetype()) {
+        if (storageType == StoreWithProjectFile) {
             m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder, i18n("Always use active project folder"));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use active project folder"));
-        } else {
+        } else if (storageType == StoreInCustomFolder) {
             m_configEnv.kcfg_videotodefaultfolder->setItemText(KdenliveDoc::SaveToProjectFolder,
                                                                i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
             m_configEnv.kcfg_capturetoprojectfolder->setItemText(1, i18n("Always use project folder: %1", KdenliveSettings::defaultprojectfolder()));
+        } else {
+            // Default
         }
     }
 

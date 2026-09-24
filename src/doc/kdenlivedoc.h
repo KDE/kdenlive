@@ -85,8 +85,6 @@ public:
     int height() const;
     QUrl url() const;
     KAutoSaveFile *m_autosave;
-    /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
-    bool m_sameProjectFolder{false};
     bool m_restoreFromBackup{false};
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
@@ -112,8 +110,8 @@ public:
      */
     void requestBackup();
 
-    /** @brief Returns the project folder, used to store project temporary files. */
-    QString projectTempFolder() const;
+    /** @brief Returns the project folder, used to store project temporary files, and the storage type */
+    std::pair<QString, ProjectStorageType> projectTempFolder() const;
     /** @brief Returns the folder used to store project data files (titles, etc).
      *
      * @param newPath If the project file is being moved, this is the new location.
@@ -382,6 +380,8 @@ private:
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
     void initProxyAlphaSettings();
+    /** @brief Returns project or custom folder if set for project */
+    const QString folderForProjectFiles() const;
 
 public Q_SLOTS:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
