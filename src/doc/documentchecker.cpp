@@ -214,7 +214,7 @@ bool DocumentChecker::hasErrorInProject()
             ProjectStorageType storageType =
                 (ProjectStorageType)Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype")).toInt();
             if (storageType == StoreUndefined) {
-                // Old project version, guess strage type
+                // Old project version, guess storage type
                 storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
                 if (!storageFolder.isEmpty()) {
                     const QString finalStorageFolder = ensureAbsolutePath(storageFolder);
