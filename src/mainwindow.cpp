@@ -2444,8 +2444,7 @@ void MainWindow::slotEditProjectSettings(int ix)
     KdenliveDoc *project = pCore->currentDoc();
     QPair<int, int> p = getCurrentTimeline()->getAvTracksCount();
     int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
-    ProjectSettings *w =
-        new ProjectSettings(project, project->metadata(), p.second, p.first, channels, project->projectTempFolder(), true, !project->isModified(), this);
+    ProjectSettings *w = new ProjectSettings(project, project->metadata(), p.second, p.first, channels, true, !project->isModified(), this);
     if (ix > 0) {
         w->tabWidget->setCurrentIndex(ix);
     }
@@ -2536,41 +2535,79 @@ void MainWindow::slotEditProjectSettings(int ix)
                 m_renderWidget->updateMetadataToolTip();
             }
         }
-        QString newProjectFolder = w->storageFolder();
 
-        if (w->docFolderAsStorageFolder()) {
-            newProjectFolder = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
-        }
-        if (newProjectFolder.isEmpty()) {
-            newProjectFolder = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-        }
-        if (newProjectFolder != project->projectTempFolder()) {
-            KMessageBox::ButtonCode answer;
-            // Unsaved project
-            if (project->url().isEmpty()) {
-                answer =
-                    KMessageBox::warningContinueCancel(this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
-                                                                  "all temporary files from <br/><b>%1</b> to the project file location and reload",
-                                                                  project->projectTempFolder()));
-                if (answer == KMessageBox::Continue) {
-                    pCore->projectManager()->saveFile();
-                    if (w->docFolderAsStorageFolder()) {
-                        newProjectFolder = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
-                    }
+        // Check storage location for project files
+        auto storageType = w->storageType();
+        auto currentStorageInfo = project->projectTempFolder();
+        ProjectStorageType previousStorageType = currentStorageInfo.second;
+        const QString currentStorage = currentStorageInfo.first;
+        QString pathToMove;
+        KMessageBox::ButtonCode answer = KMessageBox::Cancel;
+        if (previousStorageType == storageType) {
+            if (storageType == StoreInCustomFolder) {
+                // Check if custom folder changed
+                if (QFileInfo(w->storageFolder()).absoluteFilePath() != QFileInfo(currentStorage).absoluteFilePath()) {
+                    pathToMove = w->storageFolder();
+                    answer = KMessageBox::warningContinueCancel(
+                        this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
+                                   currentStorage, pathToMove));
                 }
-            } else if (project->isModified()) {
-                // Project folder changed:
-                answer = KMessageBox::warningContinueCancel(
-                    this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
-                               "all temporary files from <br/><b>%1</b> to <b>%2</b>,<br>and the project file will be reloaded",
-                               project->projectTempFolder(), newProjectFolder));
+            }
+        } else {
+            qDebug() << "5555555555555555555555555555555555555\n\nDETECTING PROJECT STORAGE_: " << storageType << "\n\n5555555555555555555555";
+            if (project->url().isEmpty() && storageType == StoreWithProjectFile) {
+                // New project, first save then move
+                answer = KMessageBox::warningContinueCancel(this, i18n("Project has not been saved.<br/>This will first save the project, then move "
+                                                                       "all temporary files from <br/><b>%1</b> to the project file location and reload",
+                                                                       currentStorage));
                 if (answer == KMessageBox::Continue) {
+                    project->setDocumentProperty(QStringLiteral("storagetype"), QString::number(int(storageType)));
                     pCore->projectManager()->saveFile();
+                    /*QDir oldDir(currentStorage);
+                    QString documentId = QDir::cleanPath(project->getDocumentProperty(QStringLiteral("documentid")));
+                    bool ok;
+                    documentId.toLongLong(&ok, 10);
+                    if (!ok || documentId.isEmpty()) {
+                        KMessageBox::error(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
+                        return;
+                    }
+
+                    const QString savePath = pCore->projectManager()->getSavePath();
+                    if (savePath.isEmpty()) {
+                        return;
+                    }
+                    pathToMove = QFileInfo(savePath).absolutePath() + QStringLiteral("/cachefiles");
+                    QDir newDir(pathToMove);
+                    // Update project's url, project will be saved after files are copied
+                    project->setUrl(QUrl::fromLocalFile(savePath));
+                    pCore->projectManager()->moveProjectData(storageType, oldDir.absoluteFilePath(documentId), newDir.absolutePath());*/
+                    return;
+                    // answer = KMessageBox::Cancel;
+                } else {
                 }
             } else {
-                answer = KMessageBox::warningContinueCancel(
-                    this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
-                               project->projectTempFolder(), newProjectFolder));
+                qDebug() << "5555555555555555555555555555555555555\n\nDETECTING ALREADY SAVED PROJECT : " << storageType << "\n\n5555555555555555555555";
+                if (storageType == StoreWithProjectFile) {
+                    pathToMove = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
+                } else if (storageType == StoreInCustomFolder) {
+                    pathToMove = w->storageFolder();
+                } else {
+                    pathToMove = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+                }
+                if (project->isModified()) {
+                    // Project folder changed, moving data
+                    answer = KMessageBox::warningContinueCancel(
+                        this, i18n("The current project has not been saved.<br/>This will first save the project, then move "
+                                   "all temporary files from <br/><b>%1</b> to <b>%2</b>,<br>and the project file will be reloaded",
+                                   currentStorage, pathToMove));
+                    if (answer == KMessageBox::Continue) {
+                        pCore->projectManager()->saveFile();
+                    } else {
+                        answer = KMessageBox::warningContinueCancel(
+                            this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
+                                       currentStorage, pathToMove));
+                    }
+                }
             }
             if (answer == KMessageBox::Continue) {
                 // Proceed with move
@@ -2580,13 +2617,13 @@ void MainWindow::slotEditProjectSettings(int ix)
                 if (!ok || documentId.isEmpty()) {
                     KMessageBox::error(this, i18n("Cannot perform operation, invalid document id: %1", documentId));
                 } else {
-                    QDir newDir(newProjectFolder);
-                    QDir oldDir(project->projectTempFolder());
+                    QDir newDir(pathToMove);
+                    QDir oldDir(currentStorage);
                     if (newDir.exists(documentId)) {
                         KMessageBox::error(this, i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
                     } else {
                         // Proceed with the move
-                        pCore->projectManager()->moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        pCore->projectManager()->moveProjectData(storageType, oldDir.absoluteFilePath(documentId), newDir.absolutePath());
                     }
                 }
             }

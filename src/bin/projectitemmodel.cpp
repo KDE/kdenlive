@@ -1737,6 +1737,7 @@ const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &roo
     if (!xmlConsumer.is_valid()) {
         return {};
     }
+    xmlConsumer.set("no_root", 1);
     xmlConsumer.set("store", "kdenlive");
     xmlConsumer.set("time_format", "clock");
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)

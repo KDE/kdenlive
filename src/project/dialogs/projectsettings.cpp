@@ -54,8 +54,8 @@ public:
     }
 };
 
-ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels,
-                                 const QString & /*projectPath*/, bool readOnlyTracks, bool savedProject, QWidget *parent)
+ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels, bool readOnlyTracks,
+                                 bool savedProject, QWidget *parent)
     : QDialog(parent)
     , m_savedProject(savedProject)
     , m_newProject(doc == nullptr)
@@ -125,15 +125,15 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         external_proxy->setChecked(doc->getDocumentProperty(QStringLiteral("enableexternalproxy")).toInt() != 0);
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
-        QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
-        if (doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
+        auto storageInfo = doc->projectTempFolder();
+        if (storageInfo.second == StoreWithProjectFile) {
             same_folder->setChecked(true);
-        } else if (!storageFolder.isEmpty()) {
+        } else if (storageInfo.second == StoreInCustomFolder) {
             custom_folder->setChecked(true);
+            project_folder->setUrl(QUrl::fromLocalFile(storageInfo.first));
         } else {
             default_folder->setChecked(true);
         }
-        project_folder->setUrl(QUrl::fromLocalFile(doc->projectTempFolder()));
         auto *cacheWidget = new TemporaryData(doc, true, this);
         cacheWidget->buttonBox->hide();
         connect(cacheWidget, &TemporaryData::disableProxies, this, &ProjectSettings::disableProxies);
@@ -154,15 +154,12 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_proxyextension = KdenliveSettings::proxyextension();
         m_previewparams = KdenliveSettings::previewparams();
         m_previewextension = KdenliveSettings::previewextension();
-        if (!KdenliveSettings::defaultprojectfolder().isEmpty()) {
-            project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
-        } else {
-            project_folder->setUrl(QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)));
-        }
-        if (KdenliveSettings::customprojectfolder()) {
-            custom_folder->setChecked(true);
-        } else if (KdenliveSettings::sameprojectfolder()) {
+        ProjectStorageType defaultStorageType = ProjectStorageType(KdenliveSettings::defaultprojectstoragetype());
+        if (defaultStorageType == StoreWithProjectFile) {
             same_folder->setChecked(true);
+        } else if (defaultStorageType == StoreInCustomFolder) {
+            custom_folder->setChecked(true);
+            project_folder->setUrl(QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder()));
         } else {
             default_folder->setChecked(true);
         }
@@ -984,4 +981,15 @@ const QString ProjectSettings::storageFolder() const
         return project_folder->url().toLocalFile();
     }
     return QString();
+}
+
+ProjectStorageType ProjectSettings::storageType() const
+{
+    if (custom_folder->isChecked()) {
+        return StoreInCustomFolder;
+    }
+    if (same_folder->isChecked()) {
+        return StoreWithProjectFile;
+    }
+    return StoreInDefaultLocation;
 }

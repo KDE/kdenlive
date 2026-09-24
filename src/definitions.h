@@ -196,6 +196,8 @@ Q_ENUM_NS(ProducerType)
 
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
+enum ProjectStorageType { StoreUndefined = 0, StoreInDefaultLocation, StoreWithProjectFile, StoreInCustomFolder };
+
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
 namespace SpeechToTextEngine {

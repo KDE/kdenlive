@@ -5,6 +5,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "definitions.h"
+
 #include <KRecentFilesAction>
 #include <QDir>
 #include <QElapsedTimer>
@@ -81,7 +83,7 @@ public:
     static const QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief Move project data files to new url */
-    void moveProjectData(const QString &src, const QString &dest);
+    void moveProjectData(ProjectStorageType storageType, const QString &src, const QString &dest);
     /** @brief Retrieve current project's notes */
     QString documentNotes() const;
 
@@ -186,6 +188,8 @@ public Q_SLOTS:
      * @param saveACopy Default is false. If true, the file title of the dialog is set to "Save Copy…"
      * @return Whether the file was saved. */
     bool saveFileAs(bool saveACopy = false);
+
+    const QString getSavePath(const QUrl &url = QUrl(), bool saveACopy = false);
 
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too (only if not in copymode), at

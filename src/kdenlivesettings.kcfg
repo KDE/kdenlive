@@ -747,14 +747,9 @@
       <default></default>
     </entry>
 
-    <entry name="customprojectfolder" type="Bool">
-      <label>Don't use default XDG folders to store project files.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="sameprojectfolder" type="Bool">
-      <label>Use the parent folder of the *.kdenlive file to store project files.</label>
-      <default>false</default>
+    <entry name="defaultprojectstoragetype" type="Int">
+      <label>Default location for project file storage.</label>
+      <default>1</default>
     </entry>
 
     <entry name="capturetoprojectfolder" type="Int">
