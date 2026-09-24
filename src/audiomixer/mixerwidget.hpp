@@ -49,9 +49,9 @@ public:
     /** @brief Returns true if track is muted
      * */
     bool isMute() const;
-    /** @brief Uncheck the solo button
+    /** @brief Uncheck or check the solo button
      * */
-    void unSolo();
+    void enforceSolo(bool enforce);
     /** @brief Connect the mixer widgets to the correspondent filters */
     void connectMixer(bool doConnect);
     /** @brief Disable/enable monitoring by disabling/enabling filter */

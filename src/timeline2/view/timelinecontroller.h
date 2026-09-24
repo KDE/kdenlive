@@ -508,6 +508,9 @@ public:
     /** @brief Remove all clips in a @trackId track after @frame position
      */
     void removeTrackClips(int trackId, int frame);
+    /** @brief Activate solo mode on a track
+     */
+    void switchSoloTrack();
     /** @brief If clip is enabled, disable, otherwise enable
      */
     Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});

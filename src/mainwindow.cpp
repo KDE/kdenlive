@@ -2135,6 +2135,7 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("delete_all_spaces"), i18n("Remove All Spaces After Cursor"), this, SLOT(slotRemoveAllSpacesInTrack()));
     addAction(QStringLiteral("delete_all_clips"), i18n("Remove All Clips After Cursor"), this, SLOT(slotRemoveAllClipsInTrack()));
     addAction(QStringLiteral("delete_space_all_tracks"), i18n("Remove Space in All Tracks"), this, SLOT(slotRemoveSpaceInAllTracks()));
+    addAction(QStringLiteral("switch_track_solo"), i18n("Switch Solo Audio Track"), this, SLOT(slotSwitchSoloTrack()));
 
     KActionCategory *timelineActions = new KActionCategory(i18n("Tracks"), actionCollection());
     QAction *insertTrack = new QAction(QIcon(), i18nc("@action", "Insert Track…"), this);
@@ -3299,6 +3300,11 @@ void MainWindow::slotRemoveAllSpacesInTrack()
 void MainWindow::slotRemoveAllClipsInTrack()
 {
     getCurrentTimeline()->controller()->removeTrackClips(-1, -1);
+}
+
+void MainWindow::slotSwitchSoloTrack()
+{
+    getCurrentTimeline()->controller()->switchSoloTrack();
 }
 
 void MainWindow::slotSeparateAudioChannel()

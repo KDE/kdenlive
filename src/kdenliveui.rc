@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="250" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="252" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -165,6 +165,7 @@
         <text>&amp;Current Track</text>
         <Action name="delete_all_spaces"/>
         <Action name="delete_all_clips"/>
+        <Action name="switch_track_solo"/>
       </Menu>
       <Separator/>
       <Menu name="timeline_tracks" icon="layer-visible-on">

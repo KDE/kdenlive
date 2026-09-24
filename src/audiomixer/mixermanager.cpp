@@ -181,12 +181,12 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
             m_model->setTrackProperty(trid, "hide", QStringLiteral("1"));
             for (const auto &item : m_mixers) {
                 if (!m_soloTracks.contains(item.first)) {
-                        bool wasMuted = item.second->isMute();
-                        m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
-                        if (!m_soloMuted.contains(item.first) && !wasMuted) {
+                    bool wasMuted = item.second->isMute();
+                    m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
+                    if (!m_soloMuted.contains(item.first) && !wasMuted) {
                         m_soloMuted << item.first;
                     }
-                    item.second->unSolo();
+                    item.second->enforceSolo(false);
                 }
             }
         }
@@ -208,7 +208,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
                 if (item.first != trid && !item.second->isMute()) {
                     m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
                     m_soloMuted << item.first;
-                    item.second->unSolo();
+                    item.second->enforceSolo(false);
                 }
             }
             m_soloTracks << trid;
@@ -226,6 +226,39 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
     m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
     if (!KdenliveSettings::mixerCollapse()) {
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    }
+}
+
+void MixerManager::slotSwitchSoloMode(int tid)
+{
+    if (m_soloTracks.contains(tid)) {
+        // discard all solo, restore normal operation
+        m_soloTracks.clear();
+        if (m_mixers.count(tid) > 0) {
+            m_mixers[tid]->enforceSolo(false);
+        }
+        for (int id : std::as_const(m_soloMuted)) {
+            if (m_mixers.count(id) > 0) {
+                m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
+                m_mixers[id]->enforceSolo(false);
+            }
+        }
+        m_soloMuted.clear();
+    } else {
+        // make track solo
+        if (m_mixers.count(tid) > 0) {
+            m_model->setTrackProperty(tid, "hide", QStringLiteral("1"));
+        }
+        for (const auto &item : m_mixers) {
+            if (item.first == tid) {
+                item.second->enforceSolo(true);
+            } else if (!item.second->isMute()) {
+                m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
+                m_soloMuted << item.first;
+                item.second->enforceSolo(false);
+            }
+        }
+        m_soloTracks << tid;
     }
 }
 

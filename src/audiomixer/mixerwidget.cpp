@@ -597,11 +597,12 @@ bool MixerWidget::isMute() const
     return m_muteAction->isActive();
 }
 
-void MixerWidget::unSolo()
+void MixerWidget::enforceSolo(bool enforce)
 {
     if (m_solo) {
         QSignalBlocker bl(m_solo);
-        m_solo->setChecked(false);
+        m_solo->setChecked(enforce);
+        updateTrackLabelStyle();
     }
 }
 

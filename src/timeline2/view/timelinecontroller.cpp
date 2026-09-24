@@ -3165,6 +3165,16 @@ void TimelineController::removeTrackClips(int trackId, int frame)
     }
 }
 
+void TimelineController::switchSoloTrack()
+{
+    if (m_activeTrack == -1 || !m_model->isTrack(m_activeTrack) || m_model->isSubtitleTrack(m_activeTrack) ||
+        !m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
+        pCore->displayMessage(i18n("Select an audio track to activate solo mode"), ErrorMessage, 500);
+        return;
+    }
+    pCore->mixer()->slotSwitchSoloMode(m_activeTrack);
+}
+
 void TimelineController::invalidateItem(int cid)
 {
     if (!m_model->hasTimelinePreview() || !m_model->isItem(cid)) {
