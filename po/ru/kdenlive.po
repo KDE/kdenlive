@@ -13,7 +13,7 @@
 # Виктор <victorr2007@yandex.ru>, 2018.
 # Olga Mironova <omiro@basealt.ru>, 2018.
 # Mikhail Novosyolov <m.novosyolov@rosalinux.ru>, 2018.
-# Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022.
+# Alexander Yavorsky <kekcuha@gmail.com>, 2020, 2021, 2022, 2026.
 # SPDX-FileCopyrightText: 2022, 2023, 2024, 2025 Sergey Kazorin <translation-team@basealt.ru>
 # SPDX-FileCopyrightText: 2025, 2026 Olesya Gerasimenko <goa@altlinux.org>
 msgid ""
@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-20 14:44+0000\n"
-"PO-Revision-Date: 2026-07-29 16:14+0300\n"
-"Last-Translator: Olesya Gerasimenko <goa@altlinux.org>\n"
+"PO-Revision-Date: 2026-09-23 10:33+0200\n"
+"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -1220,7 +1220,7 @@ msgid ""
 msgstr ""
 "Применение двухполюсного полосно-пропускающего фильтра Баттерворта с "
 "центральной частотой и шириной полосы (по уровню 3 дБ). Параметр CSG "
-"выбирает усиление для постоянной «юбки»  (пиковое усиление = Q) вместо "
+"выбирает усиление для постоянной «юбки» (пиковое усиление = Q) вместо "
 "значения по умолчанию: усиление 0 дБ для постоянного пика. Фильтр снижается "
 "на 6 дБ на октаву (20 дБ на декаду). "
 
@@ -4247,11 +4247,12 @@ msgid ""
 msgstr ""
 "Быстрое удаление полос на видео с помощью градиентов.<br>\n"
 "    Устраняет артефакты в виде полос, которые иногда появляются в почти "
-"плоских областях, путём обрезания до 8-битной цветовой глубины.<br>\n"
-"    Выполняет интерполяцию градиентами на месте полос и размазывает их.<br>\n"
-"    <b>Предназначается только для воспроизведения. Не используйте этот "
+"плоских областях, из-за обрезания до 8-битной цветовой глубины.<br>\n"
+"    Выполняет интерполяцию градиентами на месте полос и размазывает их."
+"<br><br>\n"
+"    <b><i>Предназначается только для воспроизведения. Не используйте этот "
 "фильтр перед сжатием с потерями, так как при сжатии обычно теряется "
-"размазывание и возвращаются полосы<b>."
+"размазывание и возвращаются полосы</i></b>."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:13
 #, kde-format
@@ -6544,16 +6545,7 @@ msgstr ""
 "анаглиф жёлтый/синий полуцветной,анаглиф жёлтый/синий цветной,анаглиф жёлтый/"
 "синий Дюбуа,моно вывод левый,моно вывод правый,шахматная клетка (сначала "
 "слева),шахматная клетка (сначала справа),чередующиеся столбцы (сначала "
-"слева),чередующиеся столбцы (сначала справа),пакет кадров HDMIрядом  by side "
-"crosseye,above-below left top,above-below right top,interleaved rows (left "
-"top),interleaved rows (right top),anaglyph red/blue gray,anaglyph red/green "
-"gray,anaglyph red/cyan gray,anaglyph red/cyan half colored,anaglyph red/cyan "
-"color,anaglyph red/cyan dubois,anaglyph green/magenta gray,anaglyph green/"
-"magenta half colored,anaglyph green/magenta colored,anaglyph green/magenta "
-"dubois,anaglyph yellow/blue gray,anaglyph yellow/blue half colored,anaglyph "
-"yellow/blue colored,anaglyph yellow/blue dubois,mono output left,mono output "
-"right,checkerboard left eye first,checkerboard right eye first,interleaved "
-"columns left eye first,interleaved columns right eye first,HDMI frame pack"
+"слева),чередующиеся столбцы (сначала справа),пакет кадров HDMI"
 
 #: data/effects/avfilter/avfilter_stereotools.xml:4
 #, kde-format
@@ -15904,7 +15896,7 @@ msgid ""
 "      If this time is negative, then the feedback coefficient will be "
 "negative, thus emphasizing only odd harmonics at an octave lower."
 msgstr ""
-"Время для спада эхо на 60 дБ.\n"
+"Время для спада эхо на 60 дБ.<br>\n"
 "      Если это время имеет отрицательное значение, коэффициент обратной "
 "связи будет отрицательным, что приводит к подчёркиванию только нечётных "
 "гармоник на октаву ниже."
@@ -17060,11 +17052,11 @@ msgid ""
 "same. Decreasing one of them (preferably the Wet Level, to mitigate any "
 "unwanted side effects) results in a subtler effect."
 msgstr ""
-"Позволяет выполнить финальную настройку звуку.<br>\n"
+"Позволяет выполнить финальную настройку звука.<br>\n"
 "      Эффект будет максимально сильным, если установить приблизительно "
 "одинаковые значения для обоих параметров. Эффект будет менее заметным, если "
 "уменьшить значение одного из них (рекомендуется сделать это для параметра "
-"«Уровень \"мокрого\"», чтобы смягчить нежелательные побочные эффекты)."
+"«Уровень мокрого», чтобы смягчить нежелательные побочные эффекты)."
 
 #: data/effects/ladspa/ladspa_declipper.xml:5
 #, kde-format
@@ -18782,7 +18774,7 @@ msgid ""
 msgstr ""
 "Смещение для добавления к значению таймера.<br>\n"
 "        При направлении <i>Вниз</i> отсчёт таймера ведётся в обратном "
-"направлении до значения <i>Смещение</i>, а не до 00:00:00.000.\n"
+"направлении до значения <i>Смещение</i>, а не до 00:00:00.000.<br>\n"
 "        При направлении <i>Вверх</i> отсчёт таймера начинается со значения "
 "<i>Смещение</i>."
 
@@ -19284,7 +19276,7 @@ msgstr "Генерирование"
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
 msgid "On Master"
-msgstr "На основе"
+msgstr "На мастер-дорожке"
 
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format
@@ -27065,8 +27057,8 @@ msgid ""
 "<li>Missing MLT module: <b>sdl</b> or <b>rtaudio</b><br/>required for audio "
 "output</li>"
 msgstr ""
-"<li>Отсутствует модуль MLT:<b>sdl</b> или <B><b>rtaudio</b><br/>, "
-"необходимый для вывода звука</li>"
+"<li>Отсутствует модуль MLT: <b>sdl</b> или <b>rtaudio</b><br/>необходимый "
+"для вывода звука</li>"
 
 #: src/dialogs/wizard.cpp:393
 #, kde-format
@@ -29225,7 +29217,7 @@ msgid ""
 "This will delete the file:\n"
 "%1"
 msgstr ""
-"Будет удалён файл :\n"
+"Будет удалён файл:\n"
 "«%1»"
 
 #: src/library/librarywidget.cpp:357
@@ -29381,7 +29373,7 @@ msgstr "Nicolas Carion"
 #: src/main.cpp:303
 #, kde-format
 msgid "Code re-architecture & timeline rewrite (2019)"
-msgstr "Реорганизация кода и переписывание кода монтажного стола (2019)"
+msgstr "Реорганизация кода и переписывание монтажного стола (2019)"
 
 #: src/main.cpp:304
 #, kde-format
@@ -32519,7 +32511,7 @@ msgstr "Захват не удался, проверьте параметры"
 #, kde-format
 msgid "MLT must be compiled with libfftw3 to enable Audio Spectrum"
 msgstr ""
-"Для включения спектра звуковых частот MLT должен быть скомпилирован с  "
+"Для включения спектра звуковых частот MLT должен быть скомпилирован с "
 "библиотекой libfftw3"
 
 #: src/monitor/scopes/audiographspectrum.cpp:346
@@ -38000,8 +37992,8 @@ msgid ""
 "Dash</a></p>"
 msgstr ""
 "<p>Длинное тире (тире длиной в кегельную).</p><p>Применяется различным "
-"образом в типографских традициях разных стран.<p>Примеры использования в "
-"русской традиции: </p><p><em>Это&nbsp;&mdash; тире!</em> (Отбивается на два "
+"образом в типографских традициях разных стран.</p><p>Примеры использования в "
+"русской традиции:</p><p><em>Это&nbsp;&mdash; тире!</em> (Отбивается на два "
 "пункта от окружающих слов или обрамляется пробелами)</p><p><em>Великая "
 "Отечественная война 1941&mdash;1945 гг.</em> (Не отбивается)</p><p>См. <a "
 "href=\"https://ru.wikipedia.org/wiki/Тире\">Википедия: Тире</a></p>"
@@ -38020,7 +38012,7 @@ msgstr ""
 "p><p>Ширина зависит от языка набора и производителя шрифта; в кириллических "
 "шрифтах тонкая шпация обычно имеет ширину в 1⁄5 круглой. Эта шпация по "
 "пропорциям в точности соответствует двухпунктовой шпации при наборе кеглем в "
-"10 пунктов.</p><p>См. <https://ru.wikipedia.org/wiki/Узкий_пробел"
+"10 пунктов.</p><p>См. <a href=\"https://ru.wikipedia.org/wiki/Узкий_пробел"
 "\">Википедия: Узкий пробел</a></p>"
 
 #: src/titler/unicodedialog.cpp:194
@@ -38915,7 +38907,7 @@ msgstr "Устройство:"
 #: src/ui/configcapture_ui.ui:347
 #, kde-format
 msgid "Capture volume:"
-msgstr "Громкость захвата :"
+msgstr "Громкость захвата:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QCheckBox, cChannels)
