@@ -132,12 +132,21 @@ QByteArray SubtitleModel::guessFileEncoding(const QString &file, bool *confidenc
         qWarning() << "Could not open" << file;
         return "";
     }
-    KEncodingProber prober;
-    QByteArray sample = textFile.read(1024);
-    if (sample.isEmpty()) {
+    const QByteArray contents = textFile.readAll();
+    if (contents.isEmpty()) {
         qWarning() << "Tried to guess the encoding of an empty file";
         return "";
     }
+
+    QStringDecoder utf8Decoder(QStringDecoder::Utf8);
+    utf8Decoder.decode(contents);
+    if (!utf8Decoder.hasError()) {
+        *confidence = true;
+        return QByteArray("UTF-8");
+    }
+
+    KEncodingProber prober;
+    const QByteArray sample = contents.first(1024);
     auto state = prober.feed(sample);
     *confidence = false;
     switch (state) {
