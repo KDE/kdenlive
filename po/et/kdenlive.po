@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-20 14:44+0000\n"
+"POT-Creation-Date: 2026-09-25 02:42+0000\n"
 "PO-Revision-Date: 2020-06-05 19:51+0300\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -8076,7 +8076,7 @@ msgstr "Ülal,Keskel,All"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
-#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1056
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1059
 #: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
@@ -14328,7 +14328,7 @@ msgstr "Astmik"
 msgid "Apply a gradient map to the video"
 msgstr "Helilaine näitamine video asemel"
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3459
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3471
 #, kde-format
 msgid "Gradient"
 msgstr "Astmik"
@@ -21820,7 +21820,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Põhiajatelg"
 
-#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6314 src/bin/clipcreator.cpp:350
+#: src/bin/bin.cpp:2459 src/bin/bin.cpp:6314 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, fuzzy, kde-format
 #| msgid "Add clip"
@@ -22402,7 +22402,7 @@ msgstr ""
 "Kõigi voogude käitlemiseks vajab su projekt rohkem heliradu. Kas lisada %1 "
 "helirada?"
 
-#: src/bin/bin.cpp:5965 src/mainwindow.cpp:3075
+#: src/bin/bin.cpp:5965 src/mainwindow.cpp:3087
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Ei leitud klippi, millele marker lisada"
@@ -22511,7 +22511,7 @@ msgstr "Kustuta efekt %1"
 msgid "Project Bin"
 msgstr "Projektipuu"
 
-#: src/bin/bin.cpp:6938 src/bin/bin.cpp:6941 src/mainwindow.cpp:5387
+#: src/bin/bin.cpp:6938 src/bin/bin.cpp:6941 src/mainwindow.cpp:5399
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bin %1"
@@ -22566,17 +22566,17 @@ msgstr ""
 msgid "Cannot create clip"
 msgstr "Ei saa klippi sisestada..."
 
-#: src/bin/clipcreator.cpp:373
+#: src/bin/clipcreator.cpp:380
 #, kde-format
 msgid "Create slideshow clip"
 msgstr "Slaidiesituse klipi loomine"
 
-#: src/bin/clipcreator.cpp:418
+#: src/bin/clipcreator.cpp:425
 #, kde-format
 msgid "Create title template"
 msgstr "Tiitrimalli loomine"
 
-#: src/bin/clipcreator.cpp:443
+#: src/bin/clipcreator.cpp:450
 #, fuzzy, kde-format
 #| msgid ""
 #| "File %1 already exists.\n"
@@ -22591,14 +22591,14 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateFile)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateLayer)
 #. i18n: ectx: property (text), widget (QPushButton, buttonDuplicateStyle)
-#: src/bin/clipcreator.cpp:444 src/ui/managesubtitles_ui.ui:146
+#: src/bin/clipcreator.cpp:451 src/ui/managesubtitles_ui.ui:146
 #: src/ui/managesubtitles_ui.ui:230 src/ui/managesubtitles_ui.ui:489
 #, fuzzy, kde-format
 #| msgid "Duplicate clip"
 msgid "Duplicate"
 msgstr "Klooni klipp"
 
-#: src/bin/clipcreator.cpp:588
+#: src/bin/clipcreator.cpp:595
 #, fuzzy, kde-format
 #| msgid ""
 #| "Clip <b>%1</b><br /> is on a removable device, will not be available when "
@@ -22614,18 +22614,18 @@ msgstr ""
 "seade lahti ühendatakse või haagitakse kuskil mujal. Võib-olla tasuks see "
 "kõigepealt kopeerida kõvakettale. Kas see ikkagi lisada?"
 
-#: src/bin/clipcreator.cpp:592
+#: src/bin/clipcreator.cpp:599
 #, kde-format
 msgid "Removable device"
 msgstr "Eemaldatav seade"
 
-#: src/bin/clipcreator.cpp:630
+#: src/bin/clipcreator.cpp:637
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading done"
 msgstr "Projekti laadimine"
 
-#: src/bin/clipcreator.cpp:641 src/dialogs/clipcreationdialog.cpp:545
+#: src/bin/clipcreator.cpp:648 src/dialogs/clipcreationdialog.cpp:545
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -23235,7 +23235,7 @@ msgid ""
 "end."
 msgstr ""
 
-#: src/capture/mediacapture.cpp:427 src/monitor/recmanager.cpp:194
+#: src/capture/mediacapture.cpp:416 src/monitor/recmanager.cpp:194
 #, fuzzy, kde-format
 #| msgid "Capture"
 msgctxt "capture as a prefix to the filename of a recorded audio/video file"
@@ -27655,7 +27655,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "Väljundfail on juba olemas. Kas kirjutada see üle?"
 
-#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3875
+#: src/doc/documentvalidator.cpp:2248 src/mainwindow.cpp:3887
 #, kde-format
 msgid "Overwrite"
 msgstr "Ülekirjutusrežiim"
@@ -28913,7 +28913,7 @@ msgid "Generators"
 msgstr "Genereerimine"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:4260
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:4272
 #, kde-format
 msgid "Extract Audio"
 msgstr "Eralda heli"
@@ -30479,7 +30479,7 @@ msgstr ""
 msgid "Experimental GPU processing enabled - not for production"
 msgstr ""
 
-#: src/mainwindow.cpp:1598 src/mainwindow.cpp:3858
+#: src/mainwindow.cpp:1598 src/mainwindow.cpp:3870
 #, kde-format
 msgid "Multicam"
 msgstr ""
@@ -31463,6 +31463,21 @@ msgstr "Kontuuri laius"
 #| "project file will be reloaded"
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
+"project, then move all temporary files from <br/><b>%1</b> to the project "
+"file location and reload"
+msgstr ""
+"Aktiivset projekti ei ole salvestatud. Nüüd salvestatakse projekt ning siis "
+"liigutatakse ajutised failid asukohast <b>%1</b> asukohta <b>%2</b> ja "
+"projektifail laaditakse uuesti."
+
+#: src/mainwindow.cpp:2540
+#, fuzzy, kde-format
+#| msgid ""
+#| "The current project has not been saved. This will first save the project, "
+#| "then move all temporary files from <b>%1</b> to <b>%2</b>, and the "
+#| "project file will be reloaded"
+msgid ""
+"The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
 "<br>and the project file will be reloaded"
 msgstr ""
@@ -31470,7 +31485,7 @@ msgstr ""
 "liigutatakse ajutised failid asukohast <b>%1</b> asukohta <b>%2</b> ja "
 "projektifail laaditakse uuesti."
 
-#: src/mainwindow.cpp:2536
+#: src/mainwindow.cpp:2548
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will move all temporary files from <b>%1</b> to <b>%2</b>, the "
@@ -31482,39 +31497,39 @@ msgstr ""
 "Nüüd liigutatakse ajutised failid asukohast <b>%1</b> asukohta <b>%2</b> ja "
 "projektifail laaditakse uuesti."
 
-#: src/mainwindow.cpp:2545 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2557 src/project/projectmanager.cpp:609
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Toimingut ei saa sooritada, vigane dokumendi ID: %1"
 
-#: src/mainwindow.cpp:2550 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:615
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Toimingut ei saa sooritada, sihtkataloog on juba olemas: %1"
 
-#: src/mainwindow.cpp:2700
+#: src/mainwindow.cpp:2712
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "See eemaldab projektist kõik kasutamata klipid."
 
-#: src/mainwindow.cpp:2700
+#: src/mainwindow.cpp:2712
 #, kde-format
 msgid "Clean up project"
 msgstr "Projekti puhastamine"
 
-#: src/mainwindow.cpp:2828
+#: src/mainwindow.cpp:2840
 #, fuzzy, kde-format
 #| msgid "Download New Keyboard Schemes..."
 msgid "Download New Keyboard Schemes…"
 msgstr "Uute klaviatuuriskeemide allalaadimine ..."
 
-#: src/mainwindow.cpp:2872
+#: src/mainwindow.cpp:2884
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Üldine"
 
-#: src/mainwindow.cpp:2945
+#: src/mainwindow.cpp:2957
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -31523,29 +31538,29 @@ msgstr ""
 "See kustutab Kdenlive'i seadistusfaili ja taaskäivitab rakenduse. Kas "
 "jätkata?"
 
-#: src/mainwindow.cpp:2946
+#: src/mainwindow.cpp:2958
 #, fuzzy, kde-format
 #| msgid "Reset configuration"
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Lähtesta seadistus"
 
-#: src/mainwindow.cpp:3093 src/mainwindow.cpp:3120
+#: src/mainwindow.cpp:3105 src/mainwindow.cpp:3132
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "Ei leitud klippi, millelt marker eemaldada"
 
-#: src/mainwindow.cpp:3103 src/mainwindow.cpp:3159
+#: src/mainwindow.cpp:3115 src/mainwindow.cpp:3171
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "Kursoriajal ei leitud ühtki markerit"
 
-#: src/mainwindow.cpp:3125 src/mainwindow.cpp:3135
+#: src/mainwindow.cpp:3137 src/mainwindow.cpp:3147
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "Markerite kustutamisel tekkis tõrge"
 
-#: src/mainwindow.cpp:3152 src/timeline2/view/timelinecontroller.cpp:1440
+#: src/mainwindow.cpp:3164 src/timeline2/view/timelinecontroller.cpp:1440
 #: src/timeline2/view/timelinecontroller.cpp:1448
 #: src/timeline2/view/timelinecontroller.cpp:1469
 #: src/timeline2/view/timelinecontroller.cpp:1509
@@ -31555,48 +31570,48 @@ msgstr "Markerite kustutamisel tekkis tõrge"
 msgid "Cannot find clip to edit marker"
 msgstr "Ei leitud klippi, mille markerit muuta"
 
-#: src/mainwindow.cpp:3204
+#: src/mainwindow.cpp:3216
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Marker category does not exist"
 msgstr "Kategooria"
 
-#: src/mainwindow.cpp:3424 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3436 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3653
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Kirjuta tsoon üle"
 
-#: src/mainwindow.cpp:3426 src/mainwindow.cpp:3445
+#: src/mainwindow.cpp:3438 src/mainwindow.cpp:3457
 #: src/timeline2/model/timelinefunctions.cpp:820
 #: src/timeline2/view/timelinecontroller.cpp:3655
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Ei saa tsooni sisestada."
 
-#: src/mainwindow.cpp:3436
+#: src/mainwindow.cpp:3448
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Projektipuus pole ühtegi klippi valitud"
 
-#: src/mainwindow.cpp:3443 src/timeline2/model/timelinefunctions.cpp:818
+#: src/mainwindow.cpp:3455 src/timeline2/model/timelinefunctions.cpp:818
 #: src/timeline2/view/timelinecontroller.cpp:3653
 #, kde-format
 msgid "Insert zone"
 msgstr "Lisa tsoon"
 
-#: src/mainwindow.cpp:3610
+#: src/mainwindow.cpp:3622
 #, fuzzy, kde-format
 #| msgid "Cannot add effect to clip"
 msgid "Cannot add effect to active item"
 msgstr "Klipile ei saa efekti lisada"
 
-#: src/mainwindow.cpp:3672
+#: src/mainwindow.cpp:3684
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Suurenduse aste: %1/%2"
 
-#: src/mainwindow.cpp:3826
+#: src/mainwindow.cpp:3838
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31605,7 +31620,7 @@ msgid ""
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3830
+#: src/mainwindow.cpp:3842
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31615,26 +31630,26 @@ msgid ""
 "shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3833
+#: src/mainwindow.cpp:3845
 #, fuzzy, kde-format
 #| msgid "Select0r"
 msgid "Select"
 msgstr "Valimine"
 
-#: src/mainwindow.cpp:3835
+#: src/mainwindow.cpp:3847
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:3836 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:3848 src/ui/configtools_ui.ui:21
 #, fuzzy, kde-format
 #| msgid "Razor tool"
 msgid "Razor"
 msgstr "Tükeldaja"
 
-#: src/mainwindow.cpp:3840
+#: src/mainwindow.cpp:3852
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31642,13 +31657,13 @@ msgid ""
 "shortcut> to also move guides. You can combine both modifiers."
 msgstr ""
 
-#: src/mainwindow.cpp:3841
+#: src/mainwindow.cpp:3853
 #, fuzzy, kde-format
 #| msgid "Space"
 msgid "Spacer"
 msgstr "Vahe"
 
-#: src/mainwindow.cpp:3843
+#: src/mainwindow.cpp:3855
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31656,14 +31671,14 @@ msgid ""
 "shortcut> for multiple selection"
 msgstr ""
 
-#: src/mainwindow.cpp:3844
+#: src/mainwindow.cpp:3856
 #, fuzzy, kde-format
 #| msgid "Slip"
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Liugumine"
 
-#: src/mainwindow.cpp:3849
+#: src/mainwindow.cpp:3861
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31672,14 +31687,14 @@ msgid ""
 "select an item in a group, <shortcut>Ctrl drag</shortcut> to pan"
 msgstr ""
 
-#: src/mainwindow.cpp:3851
+#: src/mainwindow.cpp:3863
 #, fuzzy, kde-format
 #| msgid "Ripple"
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Pulseerimine"
 
-#: src/mainwindow.cpp:3857
+#: src/mainwindow.cpp:3869
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -31687,110 +31702,110 @@ msgid ""
 "a lift of all tracks except active one"
 msgstr ""
 
-#: src/mainwindow.cpp:3873
+#: src/mainwindow.cpp:3885
 #, kde-format
 msgid "Insert"
 msgstr "Lisamine"
 
-#: src/mainwindow.cpp:4150 src/mainwindow.cpp:4152
+#: src/mainwindow.cpp:4162 src/mainwindow.cpp:4164
 #, kde-format
 msgid "Scopes"
 msgstr ""
 
-#: src/mainwindow.cpp:4157
+#: src/mainwindow.cpp:4169
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Project Bins"
 msgstr "Projektipuu"
 
-#: src/mainwindow.cpp:4234
+#: src/mainwindow.cpp:4246
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klipitööd"
 
-#: src/mainwindow.cpp:4253
+#: src/mainwindow.cpp:4265
 #, fuzzy, kde-format
 #| msgid "Cancel Current Clip Jobs"
 msgid "Configure Clip Jobs…"
 msgstr "Katkesta aktiivse klipi tööd"
 
-#: src/mainwindow.cpp:4259
+#: src/mainwindow.cpp:4271
 #, kde-format
 msgid "Transcoders"
 msgstr "Ümberkodeerijad"
 
-#: src/mainwindow.cpp:4326
+#: src/mainwindow.cpp:4338
 #, fuzzy, kde-format
 #| msgid "Merge"
 msgid "-merged"
 msgstr "Ühenda"
 
-#: src/mainwindow.cpp:4329
+#: src/mainwindow.cpp:4341
 #, fuzzy, kde-format
 #| msgid "Video stream %1"
 msgid "-stream-%1"
 msgstr "Videovoog %1"
 
-#: src/mainwindow.cpp:4362 src/mainwindow.cpp:4690
+#: src/mainwindow.cpp:4374 src/mainwindow.cpp:4702
 #, kde-format
 msgid "Interface"
 msgstr "Liides"
 
-#: src/mainwindow.cpp:4433
+#: src/mainwindow.cpp:4445
 #, fuzzy, kde-format
 #| msgid "Files to transcode"
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Ümber kodeeritavad failid"
 
-#: src/mainwindow.cpp:4597
+#: src/mainwindow.cpp:4609
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Projektifaili ei saa arhiveerimiseks salvestada."
 
-#: src/mainwindow.cpp:4605
+#: src/mainwindow.cpp:4617
 #, kde-format
 msgid "Archiving project"
 msgstr "Projekti arhiveerimine"
 
-#: src/mainwindow.cpp:4704
+#: src/mainwindow.cpp:4716
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "%1 keelamine"
 
-#: src/mainwindow.cpp:4765
+#: src/mainwindow.cpp:4777
 #, kde-format
 msgid "Icon Size"
 msgstr "Ikooni suurus"
 
-#: src/mainwindow.cpp:4769
+#: src/mainwindow.cpp:4781
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Vaikimisi"
 
-#: src/mainwindow.cpp:4790 src/mainwindow.cpp:4818
+#: src/mainwindow.cpp:4802 src/mainwindow.cpp:4830
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Väike (%1x%2)"
 
-#: src/mainwindow.cpp:4792 src/mainwindow.cpp:4820
+#: src/mainwindow.cpp:4804 src/mainwindow.cpp:4832
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Keskmine (%1x%2)"
 
-#: src/mainwindow.cpp:4794 src/mainwindow.cpp:4822
+#: src/mainwindow.cpp:4806 src/mainwindow.cpp:4834
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Suur (%1x%2)"
 
-#: src/mainwindow.cpp:4796 src/mainwindow.cpp:4824
+#: src/mainwindow.cpp:4808 src/mainwindow.cpp:4836
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Hiiglaslik (%1x%2)"
 
-#: src/mainwindow.cpp:4880
+#: src/mainwindow.cpp:4892
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -31798,42 +31813,42 @@ msgid ""
 msgstr ""
 "See peidab üldse menüüriba. Seda saab näha uuesti, kui vajutada Ctrl+M."
 
-#: src/mainwindow.cpp:4880
+#: src/mainwindow.cpp:4892
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menüüriba peitmine"
 
-#: src/mainwindow.cpp:5223 src/timeline2/view/timelinecontroller.cpp:5857
+#: src/mainwindow.cpp:5235 src/timeline2/view/timelinecontroller.cpp:5857
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No subtitles in current project"
 msgstr "Praeguses asukohas ei leitud ühtegi abijoont"
 
-#: src/mainwindow.cpp:5555
+#: src/mainwindow.cpp:5567
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:5561
+#: src/mainwindow.cpp:5573
 #, fuzzy, kde-format
 #| msgid "Device configuration"
 msgid "Never check again"
 msgstr "Seadme seadistamine"
 
-#: src/mainwindow.cpp:5564
+#: src/mainwindow.cpp:5576
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5568
+#: src/mainwindow.cpp:5580
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:5610
+#: src/mainwindow.cpp:5622
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -37833,7 +37848,7 @@ msgid "No available stream"
 msgstr "Ühtegi voogu pole saada"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3426 src/titler/titlewidget.cpp:3429
+#: src/titler/titlewidget.cpp:3438 src/titler/titlewidget.cpp:3441
 #, kde-format
 msgid "Gradient %1"
 msgstr "Astmik %1"
@@ -38226,14 +38241,14 @@ msgstr "Lisa malltiiter"
 msgid "The following files are missing:"
 msgstr "Järgmised failid puuduvad:"
 
-#: src/titler/titlewidget.cpp:2714
+#: src/titler/titlewidget.cpp:2726
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Käivita skript"
 
-#: src/titler/titlewidget.cpp:2715
+#: src/titler/titlewidget.cpp:2727
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
