@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 02:42+0000\n"
-"PO-Revision-Date: 2026-09-11 09:11+0200\n"
+"PO-Revision-Date: 2026-09-24 15:53+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -31154,19 +31154,15 @@ msgid "Continue without"
 msgstr "Continua senza"
 
 #: src/mainwindow.cpp:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
-"Il progetto corrente non è stato salvato.<br/>Ciò prima salverà il progetto, "
-"quindi sposterà tutti i file temporanei da <br/><b>%1</b> a <b>%2</b>,<br>, "
-"poi il file del progetto verrà ricaricato"
+"Il progetto corrente non è stato salvato.<br/>Verrà prima salvato il "
+"progetto, quindi verranno spostati tutti i file temporanei da <br/><b>%1</b> "
+"alla posizione dei file del progetto, quindi verrà ricaricato"
 
 #: src/mainwindow.cpp:2540
 #, kde-format
