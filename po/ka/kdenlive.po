@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-24 04:00+0200\n"
+"PO-Revision-Date: 2026-09-25 05:52+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -30042,10 +30042,9 @@ msgid "Remove Space in All Tracks"
 msgstr "გამოტოვების წაშლა ყველა ტრეკში"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "აუდიობილიკების გაყოფა"
+msgstr "სოლო აუდიოტრეკზე გადართვა"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -36145,10 +36144,9 @@ msgid "Cannot remove all clips"
 msgstr "ყველა კლიპის წაშლა შეუძლებელია"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "აირჩიეთ აუდიოტრეკი ჩაწერის კონტროლების საჩვენებლად"
+msgstr "სოლო რეჟიმის გასააქტიურებლად აირჩიეთ აუდიოტრეკი"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229

@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-24 09:55+0200\n"
+"PO-Revision-Date: 2026-09-25 13:15+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -31131,10 +31131,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Elimina l'espai en totes les pistes"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Divideix les pistes d'àudio"
+msgstr "Commuta el mode individual de la pista d'àudio"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -37318,11 +37317,9 @@ msgid "Cannot remove all clips"
 msgstr "No s'han pogut eliminar tots els clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr ""
-"Seleccioneu una pista d'àudio per a mostrar els controls d'enregistrament"
+msgstr "Selecciona una pista d'àudio per a activar el mode individual («solo»)"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229

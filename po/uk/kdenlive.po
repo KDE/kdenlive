@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-24 09:18+0300\n"
+"PO-Revision-Date: 2026-09-25 11:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31082,10 +31082,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Вилучити розпірки в усіх доріжках"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Відділити звукові доріжки"
+msgstr "Перемкнути режим соло на звуковій доріжці"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -37292,10 +37291,9 @@ msgid "Cannot remove all clips"
 msgstr "Не вдалося вилучити усі кліпи"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "Виберіть звукову доріжку для показу засобів керування записом"
+msgstr "Виберіть звукову доріжку для активації режиму соло"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229

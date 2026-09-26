@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-24 11:40+0200\n"
+"PO-Revision-Date: 2026-09-25 11:16+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -31008,10 +31008,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Ruimte in alle tracks verwijderen"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Geluidstracks splitsen"
+msgstr "Geluidsspoor met solo omschakelen"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -37140,10 +37139,9 @@ msgid "Cannot remove all clips"
 msgstr "Alle clips verwijderen kan niet"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "Een audio-track selecteren om opnamebesturing te tonen"
+msgstr "Een geluidsspoor selecteren om modus solo te activeren"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229

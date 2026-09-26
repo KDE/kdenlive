@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-11 09:11+0200\n"
+"PO-Revision-Date: 2026-09-24 15:53+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4985,18 +4985,15 @@ msgid "Lag Fun"
 msgstr "Ritardo divertente"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Aggiorna lentamente i pixel più scuri.<br>\n"
+"Aggiorna lentamente i pixel più scuri. I risultati ottenuti utilizzando "
+"<i>Piani</i> diversi dipendono dal formato dei pixel.<br>\n"
 "        <b><i>Nota</i></b>: questo effetto non viene ripristinato durante la "
 "riproduzione a causa di problemi relativi al buffer dei fotogrammi, ma viene "
 "visualizzato correttamente."
@@ -5004,7 +5001,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "I risultati dipendono dal formato dei pixel"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -5012,6 +5009,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Tutti,Nessuno,Luma/Y/Rosso,Crominanza/U/Verde,Crominanza/V/Blu,Alfa (α),YU,"
+"YV,UV,YUV,Yα,Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -10058,41 +10057,38 @@ msgstr "Nessuno,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Tremolio della videocamera, edizione definitiva"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
 msgstr ""
+"Effetto di movimento della telecamera con rotazione, opacità e sfocatura"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Ampiezza"
+msgstr "Ampiezza X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Movimento orizzontale massimo"
+msgstr "Ampiezza massima delle oscillazioni orizzontali"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Ampiezza"
+msgstr "Ampiezza Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Movimento verticale massimo"
+msgstr "Ampiezza massima delle oscillazioni verticali"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Inclinazione massima di rotazione (limitata a 45 gradi)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -10101,40 +10097,41 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Fattore di ingrandimento per nascondere i bordi neri.<br>\n"
+"        Si aggiunge al 100%: ad esempio, 0% significa che non viene "
+"applicato alcun ingrandimento aggiuntivo, mentre 100% significa che "
+"l'immagine è due volte più grande, per un totale del 200% della dimensione "
+"originale."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Intensità dello spostamento"
+msgstr "Intensità del tremolio"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Velocità o frequenza dell'oscillazione"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Imposta l'opacità del visore"
+msgstr "Opacità dell'effetto"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Movimento"
+msgstr "Sfumatura da movimento"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Quantità di sfumatura da movimento ((limitata a 20px)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Opacità del colore di sfondo"
+msgstr "Colore di sfondo dei bordi visibili"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13529,35 +13526,33 @@ msgstr "Dimensione del nucleo"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Squigglevision"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
 msgstr ""
+"Crea un effetto di oscillazione simile a quello di un disegno a mano libera"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Quantità di tinta"
+msgstr "Entità dello spostamento"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Aggiornamenti al secondo"
+msgstr "Aggiornamento dei ghirigori al secondo"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Dimensione del nucleo"
+msgstr "Dimensione delle celle di rumore"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
@@ -23523,16 +23518,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formato di registrazione regolato su %1 canali, %2Hz."
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "Elaborazione di %1"
+msgstr "Errore nell'accesso a %1"
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "Controlla %1"
+msgstr "Monitoraggio tramite %1"
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -31481,19 +31474,15 @@ msgid "Continue without"
 msgstr "Continua senza"
 
 #: src/mainwindow.cpp:2553
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
-"Il progetto corrente non è stato salvato.<br/>Ciò prima salverà il progetto, "
-"quindi sposterà tutti i file temporanei da <br/><b>%1</b> a <b>%2</b>,<br>, "
-"poi il file del progetto verrà ricaricato"
+"Il progetto corrente non è stato salvato.<br/>Verrà prima salvato il "
+"progetto, quindi verranno spostati tutti i file temporanei da <br/><b>%1</b> "
+"alla posizione dei file del progetto, quindi verrà ricaricato"
 
 #: src/mainwindow.cpp:2565
 #, kde-format
@@ -33383,10 +33372,9 @@ msgid "Unknown License"
 msgstr "Licenza sconosciuta"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "Potrebbe volerci un po' di tempo prima che venga caricata l'anteprima"
+msgstr "Attendi mentre si carica l'anteprima"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -33411,18 +33399,14 @@ msgid "Images"
 msgstr "Immagini"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"Tieni presente che l'utilizzo della risorsa potrebbe essere limitato dai "
-"termini della licenza o dalla legge.\n"
-"Vuoi aggiungere l'attribuzione della licenza alle note del tuo progetto?"
+"L'utilizzo di queste risorse potrebbe essere limitato dai termini della "
+"licenza, o da leggi locali.\n"
+"Vuoi aggiungere l'attribuzione della licenza alle note del progetto?"
 
 #: src/onlineresources/resourcewidget.cpp:707
 #, kde-format
@@ -33461,10 +33445,9 @@ msgid "Data Imported"
 msgstr "Dati importati"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "Prova ad importare di nuovo per ottenere una nuova connessione"
+msgstr "Prova ad importare di nuovo per stabilire una nuova connessione"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format

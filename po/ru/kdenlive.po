@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-23 10:30+0200\n"
+"PO-Revision-Date: 2026-09-25 21:25+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -31211,10 +31211,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Удалить пробел на всех дорожках"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Отделить звуковые дорожки"
+msgstr "Переключить режим соло для звуковой дорожки"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -33372,10 +33371,9 @@ msgid "Unknown License"
 msgstr "Неизвестная лицензия"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "Загрузка предпросмотра может занять некоторое время"
+msgstr "Дождитесь окончания загрузки предварительного просмотра"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -33400,17 +33398,13 @@ msgid "Images"
 msgstr "Изображения"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"Использование ресурса может быть ограничено условиями лицензии или "
-"законодательством!\n"
+"Использование этих ресурсов может быть ограничено условиями лицензии или "
+"местным законодательством.\n"
 "Добавить сведения об условиях лицензирования в заметки к проекту?"
 
 #: src/onlineresources/resourcewidget.cpp:707
@@ -33450,10 +33444,9 @@ msgid "Data Imported"
 msgstr "Импортировано данных"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "Попробуйте повторить импорт для получения нового соединения"
+msgstr "Попробуйте повторить импорт, чтобы установить новое соединение"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -37391,10 +37384,9 @@ msgid "Cannot remove all clips"
 msgstr "Не удалось удалить все клипы"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "Для показа инструментов управления записью выберите звуковую дорожку"
+msgstr "Для включения режима соло выберите звуковую дорожку"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229
