@@ -1326,6 +1326,11 @@ void Core::refreshProjectItem(const ObjectId &id)
             m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
+    case KdenliveObjectType::TimelineSubtitle:
+        if (currentDoc()->getTimeline(id.uuid)->isSubTitle(id.itemId)) {
+            m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
+        }
+        break;
     case KdenliveObjectType::TimelineTrack:
         if (m_mainWindow->getTimeline(id.uuid)->model()->isTrack(id.itemId)) {
             refreshProjectMonitorOnce();
@@ -1572,6 +1577,7 @@ void Core::invalidateItem(ObjectId itemId)
     switch (itemId.type) {
     case KdenliveObjectType::TimelineClip:
     case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineSubtitle:
         if (tl) {
             tl->controller()->invalidateItem(itemId.itemId);
         }
