@@ -2171,9 +2171,12 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         pCore->taskManager.displayedClip = -1;
         m_markerModel = nullptr;
         loadQmlScene(SceneType::MonitorSceneDefault);
-        m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_glMonitor->getControllerProxy()->resetTimeZoom();
+        if (monitorVisible() && !pCore->currentDoc()->closing) {
+            slotActivateMonitor();
+        }
+        m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0);
@@ -2184,9 +2187,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         checkOverlay();
         if (pCore->currentDoc()->closing) {
             return false;
-        }
-        if (monitorVisible()) {
-            slotActivateMonitor();
         }
         return true;
     } else {
