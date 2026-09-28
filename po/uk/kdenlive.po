@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 02:42+0000\n"
-"PO-Revision-Date: 2026-07-16 19:13+0300\n"
+"PO-Revision-Date: 2026-09-26 19:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -31041,11 +31041,7 @@ msgid "Continue without"
 msgstr "Продовжити без нього"
 
 #: src/mainwindow.cpp:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
@@ -31053,7 +31049,8 @@ msgid ""
 msgstr ""
 "Поточний проєкт не збережено.<br/>У результаті виконання цієї дії спочатку "
 "буде збережено проєкт, а потім усі тимчасові файли буде пересунуто з<br/><b>"
-"%1</b> до <b>%2</b>.<br>Після цього файл проєкту буде перезавантажено."
+"%1</b> до місця для зберігання файлів проєкту, а потім проєкт буде "
+"перезавантажено."
 
 #: src/mainwindow.cpp:2540
 #, kde-format

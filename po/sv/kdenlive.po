@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 02:42+0000\n"
-"PO-Revision-Date: 2026-07-16 07:35+0200\n"
+"PO-Revision-Date: 2026-09-27 10:40+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 26.04.3\n"
+"X-Generator: Lokalize 26.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -30812,19 +30812,15 @@ msgid "Continue without"
 msgstr "Fortsätt utan"
 
 #: src/mainwindow.cpp:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
 "Det aktuella projektet har inte sparats.<br/>Projektet kommer först att "
-"sparas, därefter flyttas alla tillfälliga filer från <br/><b>%1</b> till <b>"
-"%2</b>,<br>och projektfilen läses in igen."
+"sparas, därefter flyttas alla tillfälliga filer från <br/><b>%1</b> till "
+"projektfilens plats och läses in igen."
 
 #: src/mainwindow.cpp:2540
 #, kde-format

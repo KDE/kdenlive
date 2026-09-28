@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 02:42+0000\n"
-"PO-Revision-Date: 2026-09-24 06:25+0200\n"
+"PO-Revision-Date: 2026-09-27 07:50+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -28242,7 +28242,7 @@ msgstr "ლოგო, გამოჩენა, ტესტირება"
 #: src/main.cpp:302
 #, kde-format
 msgid "balooii"
-msgstr ""
+msgstr "balooii"
 
 #: src/main.cpp:302
 #, kde-format
@@ -28272,7 +28272,7 @@ msgstr "MLT-ის ხელმძღვანელი, შეცდომე�
 #: src/main.cpp:305
 #, kde-format
 msgid "Darby Johnston"
-msgstr ""
+msgstr "დარბი ჯონსტონი"
 
 #: src/main.cpp:305
 #, kde-format
@@ -28282,7 +28282,7 @@ msgstr "OTIO-ის თავიდან გადაწერა"
 #: src/main.cpp:306
 #, kde-format
 msgid "Bernd Jordan"
-msgstr ""
+msgstr "ბერნდ ჯორდანი"
 
 #: src/main.cpp:306
 #, kde-format
@@ -30015,19 +30015,15 @@ msgid "Continue without"
 msgstr "გარეშე გაგრძელება"
 
 #: src/mainwindow.cpp:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
 "მიმდინარე პროექტი შენახული არაა.<br/>ეს ჯერ შეინახავს პროექეტს, შემდეგ კი "
-"გადაიტანს ყველა დროებით ფაილს საქაღალდიდან <br/><b>%1</b> საქაღალდეში <b>%2</"
-"b>,<br>და პროექტის ფაილი თავიდან ჩაიტვირთება"
+"გადაიტანს ყველა დროებით ფაილს საქაღალდიდან <br/><b>%1</b> პროექტის ფაილის "
+"მდებარეობაზე და პროექტის ფაილი თავიდან ჩაიტვირთება"
 
 #: src/mainwindow.cpp:2540
 #, kde-format
