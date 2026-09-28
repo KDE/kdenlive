@@ -13,6 +13,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "project/clipstabilize.h"
 
+#include <QDir>
+#include <QFileInfo>
 #include <QProcess>
 #include <QThread>
 
@@ -152,10 +154,11 @@ void StabilizeTask::run()
     producerArgs << QStringLiteral("filename=%1").arg(targetFile);
 
     // Start the MLT Process
-    QProcess filterProcess;
+    QDir clipDir = QFileInfo(m_destination).absoluteDir();
     producerArgs << QStringLiteral("-consumer") << QStringLiteral("xml:%1").arg(m_destination) << QStringLiteral("all=1")
-                 << QStringLiteral("terminate_on_pause=1");
+                 << QStringLiteral("terminate_on_pause=1") << QStringLiteral("root=%1").arg(clipDir.absolutePath()) << QStringLiteral("no_root=1");
     m_jobProcess = new QProcess;
+    m_jobProcess->setWorkingDirectory(clipDir.absolutePath());
     QMetaObject::invokeMethod(m_object, "updateJobProgress");
     QObject::connect(this, &AbstractTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
     QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &StabilizeTask::processLogInfo);
