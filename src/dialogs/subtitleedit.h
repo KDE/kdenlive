@@ -71,6 +71,7 @@ private:
 
     void updateCharInfo();
     void applyFontSize();
+    void zoom(qreal factor);
     void updateEffects();
     void updateOffset();
 
