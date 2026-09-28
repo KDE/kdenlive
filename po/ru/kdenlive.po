@@ -19528,7 +19528,7 @@ msgstr "Генерирование"
 #: data/kdenliveeffectscategory.rc:30
 #, kde-format
 msgid "On Master"
-msgstr "На основе"
+msgstr "На мастер-дорожке"
 
 #: data/kdenliveeffectscategory.rc:34
 #, kde-format

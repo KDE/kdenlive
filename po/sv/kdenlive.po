@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-25 00:44+0000\n"
-"PO-Revision-Date: 2026-09-18 20:24+0200\n"
+"PO-Revision-Date: 2026-09-27 14:42+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -23261,16 +23261,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Inspelningsformat justerat till %1 kanaler, %2 Hz."
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "Behandlar %1"
+msgstr "Fel vid åtkomst av %1"
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "Bildskärm %1"
+msgstr "Övervakar via %1"
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -30855,10 +30853,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Ta bort mellanrum i alla spår"
 
 #: src/mainwindow.cpp:2138
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Dela ljudspår"
+msgstr "Byt sololjudspår"
 
 #: src/mainwindow.cpp:2141
 #, kde-format
@@ -31130,19 +31127,15 @@ msgid "Continue without"
 msgstr "Fortsätt utan"
 
 #: src/mainwindow.cpp:2553
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
 "Det aktuella projektet har inte sparats.<br/>Projektet kommer först att "
-"sparas, därefter flyttas alla tillfälliga filer från <br/><b>%1</b> till <b>"
-"%2</b>,<br>och projektfilen läses in igen."
+"sparas, därefter flyttas alla tillfälliga filer från <br/><b>%1</b> till "
+"projektfilens plats och läses in igen."
 
 #: src/mainwindow.cpp:2565
 #, kde-format
@@ -33006,10 +32999,9 @@ msgid "Unknown License"
 msgstr "Okänt licens"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "De kan ta en stund innan förhandsgranskningen har lästs in"
+msgstr "Ha tålamod medan förhandsgranskningen lästes in"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -33034,17 +33026,13 @@ msgid "Images"
 msgstr "Bilder"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"Var medveten om att användning av resursen kan vara begränsad av "
-"licensvillkor eller lagrum.\n"
+"Användning av resurserna kan vara begränsad av licensvillkor eller lokala "
+"lagar.\n"
 "Vill du lägga till licenstillskrivning i dina projektanteckningar?"
 
 #: src/onlineresources/resourcewidget.cpp:707
@@ -33084,10 +33072,9 @@ msgid "Data Imported"
 msgstr "Data importerad"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "Försök att importera igen för att få en ny anslutning"
+msgstr "Försök att importera igen för att upprätta en ny anslutning"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -36963,10 +36950,9 @@ msgid "Cannot remove all clips"
 msgstr "Kan inte ta bort alla klipp"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "Markera ett ljudspår för att visa inspelningskontroller"
+msgstr "Markera ett ljudspår för att aktivera sololäge"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229
