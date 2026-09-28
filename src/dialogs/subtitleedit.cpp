@@ -440,29 +440,23 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     applyFontSize();
 }
 
-void SubtitleEdit::slotZoomIn()
+void SubtitleEdit::zoom(qreal factor)
 {
-    qreal fontSize;
-    if (m_isSimpleEdit) {
-        fontSize = simpleSubText->fontPointSize() * 1.2;
-    } else {
-        fontSize = subText->fontPointSize() * 1.2;
-    }
+    KTextEdit *editor = m_isSimpleEdit ? simpleSubText : subText;
+    qreal currentSize = editor->fontPointSize() > 0 ? editor->fontPointSize() : QFontInfo(editor->currentFont()).pointSizeF();
+    qreal fontSize = qMax(currentSize * factor, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
     applyFontSize();
 }
 
+void SubtitleEdit::slotZoomIn()
+{
+    zoom(1.2);
+}
+
 void SubtitleEdit::slotZoomOut()
 {
-    qreal fontSize;
-    if (m_isSimpleEdit) {
-        fontSize = simpleSubText->fontPointSize() / 1.2;
-    } else {
-        fontSize = subText->fontPointSize() / 1.2;
-    }
-    fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
-    KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    applyFontSize();
+    zoom(1.0 / 1.2);
 }
 
 void SubtitleEdit::applyFontSize()
