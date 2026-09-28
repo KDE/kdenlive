@@ -3181,7 +3181,7 @@ void TimelineController::invalidateItem(int cid)
         return;
     }
     const int tid = m_model->getItemTrackId(cid);
-    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
+    if (tid == -1 || (!m_model->isSubtitleTrack(tid) && m_model->getTrackById_const(tid)->isAudioTrack())) {
         return;
     }
     int start = m_model->getItemPosition(cid);

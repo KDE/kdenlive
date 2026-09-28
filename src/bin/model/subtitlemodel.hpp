@@ -134,7 +134,7 @@ public:
     /** @brief Cut a subtitle */
     bool cutSubtitle(int layer, int position);
     /** @brief Cut a subtitle, return the id of newly created subtitle */
-    int cutSubtitle(int layer, int position, Fun &undo, Fun &redo);
+    int cutSubtitle(int layer, int position, Fun &undo, Fun &redo, bool ignoreCutMode = false);
     QString getText(int id) const;
     int getRowForId(int id) const;
     int getLayerForId(int id) const;

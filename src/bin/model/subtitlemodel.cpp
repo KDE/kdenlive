@@ -505,6 +505,9 @@ bool SubtitleModel::addSubtitle(int id, std::pair<int, GenTime> start, const Sub
     if (!temporary && event.endTime().frames(pCore->getCurrentFps()) > m_timeline->duration()) {
         m_timeline->updateDuration();
     }
+    QPair<int, int> range = {start.second.frames(pCore->getCurrentFps()), event.endTime().frames(pCore->getCurrentFps())};
+    pCore->invalidateRange(range);
+    pCore->refreshProjectRange(range);
     if (updateFilter) {
         Q_EMIT modelChanged();
     }
@@ -680,7 +683,7 @@ bool SubtitleModel::cutSubtitle(int layer, int position)
     return false;
 }
 
-int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
+int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo, bool ignoreCutMode)
 {
     if (isLocked()) {
         return -1;
@@ -698,7 +701,7 @@ int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
         QString originalText = originalEvent.text();
         QString leftText, rightText;
 
-        if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_DUPLICATE) {
+        if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_DUPLICATE || ignoreCutMode) {
             leftText = originalText;
             rightText = originalText;
         } else if (KdenliveSettings::subtitle_razor_mode() == RAZOR_MODE_AFTER_FIRST_LINE) {
@@ -722,19 +725,33 @@ int SubtitleModel::cutSubtitle(int layer, int position, Fun &undo, Fun &redo)
         bool res = requestResize(subId, duration, true, undo, redo, false);
         if (res) {
             int id = TimelineModel::getNextId();
-            Fun local_redo = [this, id, layer, pos, originalEvent, subId, leftText, rightText]() {
+            bool refreshMonitor = leftText != rightText;
+            Fun local_redo = [this, id, layer, pos, originalEvent, subId, leftText, rightText, refreshMonitor]() {
                 editSubtitle(subId, leftText);
-                return addSubtitle(id, {layer, pos},
-                                   SubtitleEvent(originalEvent.isDialogue(), originalEvent.endTime(), originalEvent.styleName(), originalEvent.name(),
-                                                 originalEvent.marginL(), originalEvent.marginR(), originalEvent.marginV(), originalEvent.effect(), rightText));
+                bool result =
+                    addSubtitle(id, {layer, pos},
+                                SubtitleEvent(originalEvent.isDialogue(), originalEvent.endTime(), originalEvent.styleName(), originalEvent.name(),
+                                              originalEvent.marginL(), originalEvent.marginR(), originalEvent.marginV(), originalEvent.effect(), rightText));
+                if (refreshMonitor) {
+                    ObjectId owner(KdenliveObjectType::TimelineSubtitle, id, m_timeline->uuid());
+                    pCore->invalidateItem(owner);
+                    pCore->refreshProjectItem(owner);
+                }
+                return result;
             };
-            Fun local_undo = [this, id, subId, originalText]() {
+            Fun local_undo = [this, id, subId, originalText, refreshMonitor]() {
                 editSubtitle(subId, originalText);
                 removeSubtitle(id);
+                if (refreshMonitor) {
+                    ObjectId owner(KdenliveObjectType::TimelineSubtitle, subId, m_timeline->uuid());
+                    pCore->invalidateItem(owner);
+                    pCore->refreshProjectItem(owner);
+                }
                 return true;
             };
             if (local_redo()) {
-                UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+                PUSH_LAMBDA(local_redo, redo);
+                PUSH_LAMBDA(local_undo, undo);
                 return id;
             }
         }
@@ -1009,6 +1026,9 @@ bool SubtitleModel::removeSubtitle(int id, bool temporary, bool updateFilter)
     if (lastSub) {
         m_timeline->updateDuration();
     }
+    QPair<int, int> range = {start.second.frames(pCore->getCurrentFps()), end.frames(pCore->getCurrentFps())};
+    pCore->invalidateRange(range);
+    pCore->refreshProjectRange(range);
     if (updateFilter) {
         Q_EMIT modelChanged();
     }
@@ -1593,12 +1613,16 @@ void SubtitleModel::resizeSubtitle(int layer, int startFrame, int endFrame, int 
     int max = qMax(endFrame, oldEndFrame);
     Fun local_redo = [this, layer, startFrame, endFrame, max, refreshModel]() {
         editEndPos(layer, GenTime(startFrame, pCore->getCurrentFps()), GenTime(endFrame, pCore->getCurrentFps()), refreshModel);
-        pCore->refreshProjectRange({startFrame, max});
+        QPair<int, int> range = {startFrame, max};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_undo = [this, layer, startFrame, oldEndFrame, max, refreshModel]() {
         editEndPos(layer, GenTime(startFrame, pCore->getCurrentFps()), GenTime(oldEndFrame, pCore->getCurrentFps()), refreshModel);
-        pCore->refreshProjectRange({startFrame, max});
+        QPair<int, int> range = {startFrame, max};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     local_redo();
@@ -1659,19 +1683,26 @@ void SubtitleModel::doCutSubtitle(int id, int cursorPos)
         firstText.truncate(cursorPos);
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        int newId = cutSubtitle(layer, timelinePos, undo, redo);
+        int newId = cutSubtitle(layer, timelinePos, undo, redo, true);
         if (newId > -1) {
             Fun local_redo = [this, id, newId, firstText, secondText]() {
                 editSubtitle(id, firstText);
                 editSubtitle(newId, secondText);
+                ObjectId owner(KdenliveObjectType::TimelineSubtitle, newId, m_timeline->uuid());
+                pCore->invalidateItem(owner);
+                pCore->refreshProjectItem(owner);
                 return true;
             };
             Fun local_undo = [this, id, originalText]() {
                 editSubtitle(id, originalText);
+                ObjectId owner(KdenliveObjectType::TimelineSubtitle, id, m_timeline->uuid());
+                pCore->invalidateItem(owner);
+                pCore->refreshProjectItem(owner);
                 return true;
             };
             local_redo();
-            UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
+            PUSH_LAMBDA(local_redo, redo);
+            PUSH_LAMBDA(local_undo, undo);
             pCore->pushUndo(undo, redo, i18n("Cut clip"));
         }
     }
@@ -1682,13 +1713,17 @@ void SubtitleModel::deleteSubtitle(int layer, int startframe, int endframe, cons
     int id = getIdForStartPos(layer, GenTime(startframe, pCore->getCurrentFps()));
     Fun local_redo = [this, id, startframe, endframe]() {
         removeSubtitle(id);
-        pCore->refreshProjectRange({startframe, endframe});
+        QPair<int, int> range = {startframe, endframe};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     Fun local_undo = [this, layer, id, startframe, endframe, text]() {
         addSubtitle(id, {layer, GenTime(startframe, pCore->getCurrentFps())},
                     SubtitleEvent(true, GenTime(endframe, pCore->getCurrentFps()), "Default", "", 0, 0, 0, "", text));
-        pCore->refreshProjectRange({startframe, endframe});
+        QPair<int, int> range = {startframe, endframe};
+        pCore->invalidateRange(range);
+        pCore->refreshProjectRange(range);
         return true;
     };
     local_redo();
