@@ -1952,11 +1952,13 @@ void Monitor::switchPlay(bool play)
         play = false;
     }
     m_playAction->setActive(play);
+    Q_EMIT playbackChanged(play);
 }
 
 void Monitor::updatePlayAction(bool play)
 {
     m_playAction->setActive(play);
+    Q_EMIT playbackChanged(play);
     if (!play) {
         m_droppedTimer.stop();
     }
@@ -2001,6 +2003,7 @@ void Monitor::slotSwitchPlay()
         play = false;
         m_playAction->setActive(false);
     }
+    Q_EMIT playbackChanged(play);
     if (!play && KdenliveSettings::rewindOnStop()) {
         // Update proxy position immediately so the playhead moves before the
         // async frame from MLT arrives. Without this, positionFromConsumer()
@@ -2058,6 +2061,10 @@ void Monitor::slotPlayZone(bool startFromIn)
     if (!slotActivateMonitor()) {
         return;
     }
+    if (isPlaying()) {
+        pause();
+        return;
+    }
     bool ok = m_glMonitor->playZone(startFromIn, false);
     if (ok) {
         updatePlayAction(true);
@@ -2069,6 +2076,10 @@ void Monitor::slotLoopZone()
     if (!slotActivateMonitor()) {
         return;
     }
+    if (isPlaying()) {
+        pause();
+        return;
+    }
     bool ok = m_glMonitor->playZone(true, true);
     if (ok) {
         updatePlayAction(true);
@@ -2078,6 +2089,10 @@ void Monitor::slotLoopZone()
 void Monitor::slotLoopClip(std::pair<int, int> inOut)
 {
     if (!slotActivateMonitor()) {
+        return;
+    }
+    if (isPlaying()) {
+        pause();
         return;
     }
     bool ok = m_glMonitor->loopClip(inOut);

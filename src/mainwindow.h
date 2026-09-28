@@ -334,10 +334,10 @@ private:
     QAction *m_audioZoomOut;
     QAction *m_audioZoomReset;
     QAction *m_audioZoomCycle;
-    QAction *m_loopZone;
-    QAction *m_playZone;
-    QAction *m_playZoneFromCursor;
-    QAction *m_loopClip;
+    KDualAction *m_loopZone{nullptr};
+    KDualAction *m_playZone{nullptr};
+    KDualAction *m_playZoneFromCursor{nullptr};
+    KDualAction *m_loopClip{nullptr};
     QAction *m_proxyClip;
     QAction *m_buttonSubtitleEditTool;
     QString m_theme;

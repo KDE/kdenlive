@@ -243,7 +243,23 @@ void MainWindow::init()
     connect(m_projectMonitor, &Monitor::deleteMarker, this, &MainWindow::slotDeleteGuide);
     connect(m_projectMonitor, &Monitor::seekToPreviousSnap, this, &MainWindow::slotSnapRewind);
     connect(m_projectMonitor, &Monitor::seekToNextSnap, this, &MainWindow::slotSnapForward);
-    connect(m_loopClip, &QAction::triggered, this, [&]() {
+    auto resetDualActions = [&]() {
+        if (m_playZone) m_playZone->setActive(false);
+        if (m_playZoneFromCursor) m_playZoneFromCursor->setActive(false);
+        if (m_loopZone) m_loopZone->setActive(false);
+        if (m_loopClip) m_loopClip->setActive(false);
+    };
+    connect(m_clipMonitor, &Monitor::playbackChanged, this, [resetDualActions](bool playing) {
+        if (!playing) {
+            resetDualActions();
+        }
+    });
+    connect(m_projectMonitor, &Monitor::playbackChanged, this, [resetDualActions](bool playing) {
+        if (!playing) {
+            resetDualActions();
+        }
+    });
+    connect(m_loopClip, &KDualAction::activeChangedByUser, this, [&]() {
         std::pair<int, int> inOut = getCurrentTimeline()->controller()->selectionInOut();
         m_projectMonitor->slotLoopClip(inOut);
     });
@@ -1713,17 +1729,29 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("reset_config"), resetAction);
     connect(resetAction, &QAction::triggered, this, [&]() { slotRestart(true); });
 
-    m_playZoneFromCursor =
-        addAction(QStringLiteral("monitor_play_zone_cursor"), i18n("Play Zone From Cursor"), pCore->monitorManager(), SLOT(slotPlayZoneFromCursor()),
-                  QIcon::fromTheme(QStringLiteral("media-playback-start")), QKeySequence(), QStringLiteral("navandplayback"));
+    m_playZoneFromCursor = new KDualAction(i18n("Play Zone From Cursor"), i18n("Pause"), this);
+    m_playZoneFromCursor->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_playZoneFromCursor->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+    connect(m_playZoneFromCursor, &KDualAction::activeChangedByUser, pCore->monitorManager(), &MonitorManager::slotPlayZoneFromCursor);
+    addAction(QStringLiteral("monitor_play_zone_cursor"), m_playZoneFromCursor, QKeySequence(), QStringLiteral("navandplayback"));
 
-    m_playZone = addAction(QStringLiteral("monitor_play_zone"), i18n("Play Zone"), pCore->monitorManager(), SLOT(slotPlayZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL | Qt::Key_Space, QStringLiteral("navandplayback"));
-    m_loopZone = addAction(QStringLiteral("monitor_loop_zone"), i18n("Loop Zone"), pCore->monitorManager(), SLOT(slotLoopZone()),
-                           QIcon::fromTheme(QStringLiteral("media-playback-start")), Qt::CTRL | Qt::SHIFT | Qt::Key_Space, QStringLiteral("navandplayback"));
-    m_loopClip = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-start")), i18n("Loop Selected Clip"), this);
-    addAction(QStringLiteral("monitor_loop_clip"), m_loopClip);
+    m_playZone = new KDualAction(i18n("Play Zone"), i18n("Pause"), this);
+    m_playZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_playZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+    connect(m_playZone, &KDualAction::activeChangedByUser, pCore->monitorManager(), &MonitorManager::slotPlayZone);
+    addAction(QStringLiteral("monitor_play_zone"), m_playZone, Qt::CTRL | Qt::Key_Space, QStringLiteral("navandplayback"));
+
+    m_loopZone = new KDualAction(i18n("Loop Zone"), i18n("Pause"), this);
+    m_loopZone->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_loopZone->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+    connect(m_loopZone, &KDualAction::activeChangedByUser, pCore->monitorManager(), &MonitorManager::slotLoopZone);
+    addAction(QStringLiteral("monitor_loop_zone"), m_loopZone, Qt::CTRL | Qt::SHIFT | Qt::Key_Space, QStringLiteral("navandplayback"));
+
+    m_loopClip = new KDualAction(i18n("Loop Selected Clip"), i18n("Pause"), this);
+    m_loopClip->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_loopClip->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
     m_loopClip->setEnabled(false);
+    addAction(QStringLiteral("monitor_loop_clip"), m_loopClip, QKeySequence(), QStringLiteral("navandplayback"));
 
     addAction(QStringLiteral("transcode_clip"), i18n("Transcode Clips…"), this, SLOT(slotTranscodeClip()), QIcon::fromTheme(QStringLiteral("edit-copy")));
     QAction *exportAction = new QAction(QIcon::fromTheme(QStringLiteral("document-export")), i18n("OpenTimelineIO E&xport…"), this);

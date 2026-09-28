@@ -154,7 +154,7 @@ public:
     bool monitorIsFullScreen(bool considerMirror = true) const;
     void reloadActiveStream();
     /** @brief Returns true if monitor is playing */
-    bool isPlaying() const;
+    bool isPlaying() const override;
     /** @brief Enables / disables effect scene*/
     void enableEffectScene(bool enable);
     /** @brief Update the document's uuid - used for qml thumb cache*/
@@ -430,6 +430,7 @@ Q_SIGNALS:
     void seekRemap(int pos);
     void updateScene();
     void durationChanged(int);
+    void playbackChanged(bool isPlaying);
     void zoneUpdated(const QPoint &);
     void zoneUpdatedWithUndo(const QPoint &, const QPoint &);
     void effectChanged(const QRectF &);
