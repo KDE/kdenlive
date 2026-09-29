@@ -142,4 +142,5 @@ public:
     static int modelSize(std::shared_ptr<AbstractTreeModel> model);
     static bool effectFilterName(EffectFilter &filter, std::shared_ptr<TreeItem> item);
     static void updateProjectProfile(KdenliveDoc *doc, bool reloadProducers = false) { doc->updateProjectProfile(reloadProducers, false); }
+    static const QString folderForProjectFiles(KdenliveDoc *doc) { return doc->folderForProjectFiles(); }
 };

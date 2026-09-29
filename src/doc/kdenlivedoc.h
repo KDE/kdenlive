@@ -316,6 +316,8 @@ public:
 
 protected:
     static int next_id; /// next valid id to assign
+    /** @brief Returns project or custom folder if set for project */
+    const QString folderForProjectFiles() const;
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
@@ -380,8 +382,6 @@ private:
     /** @brief initialize proxy settings based on hw status */
     void initProxySettings();
     void initProxyAlphaSettings();
-    /** @brief Returns project or custom folder if set for project */
-    const QString folderForProjectFiles() const;
 
 public Q_SLOTS:
     void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
