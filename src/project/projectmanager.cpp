@@ -521,8 +521,6 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     m_autoSaveTimer.stop();
     m_autoSaveChangeCount = 0;
     pCore->monitorManager()->pauseActiveMonitor();
-    qDebug() << ":::::: \nPRERPARING TO SAVE PROJKECT FILE WITH URL: " << m_project->url().toLocalFile()
-             << "\nAND STORTYGE TYPE: " << m_project->getDocumentProperty("storagetype");
     auto previousStorageInfo = m_project->projectTempFolder();
 
     // Sync document properties
