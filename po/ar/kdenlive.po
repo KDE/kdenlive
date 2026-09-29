@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-25 02:42+0000\n"
+"POT-Creation-Date: 2026-09-29 02:52+0000\n"
 "PO-Revision-Date: 2026-09-23 19:08+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -22370,34 +22370,34 @@ msgstr "أضف علامة النطاق"
 msgid "Edit global subtitle style"
 msgstr "حرر طراز الترجمة العام"
 
-#: src/bin/model/subtitlemodel.cpp:414 src/bin/model/subtitlemodel.cpp:633
-#: src/bin/model/subtitlemodel.cpp:1578 src/bin/model/subtitlemodel.cpp:2157
-#: src/bin/model/subtitlemodel.cpp:2224 src/bin/model/subtitlemodel.cpp:2257
-#: src/bin/model/subtitlemodel.cpp:2290 src/bin/model/subtitlemodel.cpp:2323
-#: src/bin/model/subtitlemodel.cpp:2356
+#: src/bin/model/subtitlemodel.cpp:414 src/bin/model/subtitlemodel.cpp:636
+#: src/bin/model/subtitlemodel.cpp:1598 src/bin/model/subtitlemodel.cpp:2192
+#: src/bin/model/subtitlemodel.cpp:2259 src/bin/model/subtitlemodel.cpp:2292
+#: src/bin/model/subtitlemodel.cpp:2325 src/bin/model/subtitlemodel.cpp:2358
+#: src/bin/model/subtitlemodel.cpp:2391
 #, kde-format
 msgid "Edit subtitle"
 msgstr "حرر الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:668 src/bin/model/subtitlemodel.cpp:1666
+#: src/bin/model/subtitlemodel.cpp:671 src/bin/model/subtitlemodel.cpp:1697
 #: src/timeline2/model/timelinefunctions.cpp:252
 #, kde-format
 msgid "Cut clip"
 msgstr "قص المقطع"
 
-#: src/bin/model/subtitlemodel.cpp:830 src/bin/model/subtitlemodel.cpp:1597
+#: src/bin/model/subtitlemodel.cpp:847 src/bin/model/subtitlemodel.cpp:1621
 #: src/timeline2/model/timelinemodel.cpp:4507
 #, kde-format
 msgid "Resize subtitle"
 msgstr "أعد تحجيم الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1028
+#: src/bin/model/subtitlemodel.cpp:1048
 #: src/timeline2/model/timelinemodel.cpp:1489
 #, kde-format
 msgid "Move subtitle"
 msgstr "حرك الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1195
+#: src/bin/model/subtitlemodel.cpp:1215
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:904
@@ -22410,43 +22410,43 @@ msgstr ""
 "الملفّ %1 موجود فعلًا.\n"
 "أتريد الكتابة فوقه؟"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
+#: src/bin/model/subtitlemodel.cpp:1633 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "أضف نصًّا"
 
-#: src/bin/model/subtitlemodel.cpp:1634 src/dialogs/subtitleedit.cpp:284
+#: src/bin/model/subtitlemodel.cpp:1658 src/dialogs/subtitleedit.cpp:284
 #, kde-format
 msgid "Add subtitle"
 msgstr "أضف ترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1686 src/dialogs/subtitleedit.cpp:294
+#: src/bin/model/subtitlemodel.cpp:1721 src/dialogs/subtitleedit.cpp:294
 #, kde-format
 msgid "Delete subtitle"
 msgstr "احذف الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1758
+#: src/bin/model/subtitlemodel.cpp:1793
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "احذف طبقة الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1785
+#: src/bin/model/subtitlemodel.cpp:1820
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "أنشئ طبقة الترجمة"
 
-#: src/bin/model/subtitlemodel.cpp:1891 src/bin/model/subtitlemodel.cpp:1894
+#: src/bin/model/subtitlemodel.cpp:1926 src/bin/model/subtitlemodel.cpp:1929
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "الترجمة %1"
 
-#: src/bin/model/subtitlemodel.cpp:2001
+#: src/bin/model/subtitlemodel.cpp:2036
 #, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
 msgstr "لا يمكن إنشاء أكثر من %1 طبقة في الترجمات."
 
-#: src/bin/model/subtitlemodel.cpp:2193
+#: src/bin/model/subtitlemodel.cpp:2228
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "أسند طراز جديد للترجمة."
@@ -23012,17 +23012,17 @@ msgstr "قمة ساعة"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "ملف تعريف مشروعك غير صالح، قد يفشل التصيير."
 
-#: src/core.cpp:1438
+#: src/core.cpp:1443
 #, kde-format
 msgid "Loading clips"
 msgstr "يحمّل المقاطع"
 
-#: src/core.cpp:1933
+#: src/core.cpp:1939
 #, kde-format
 msgid "Marker %1"
 msgstr "علامة %1"
 
-#: src/core.cpp:2295
+#: src/core.cpp:2301
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23032,12 +23032,12 @@ msgstr ""
 "سيفتح هذا المتصفح ليعرض توثيقات كدينلايف على الشابكة على العنوان التالي:\n"
 " %1"
 
-#: src/core.cpp:2296 src/core.cpp:2307
+#: src/core.cpp:2302 src/core.cpp:2313
 #, kde-format
 msgid "Open Browser"
 msgstr "افتح المتصفّح"
 
-#: src/core.cpp:2306
+#: src/core.cpp:2312
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -24017,9 +24017,9 @@ msgstr "YADIF (أفضل)"
 msgid "BWDIF (best)"
 msgstr "BWDIF (الأفضل)"
 
-#: src/dialogs/renderwidget.cpp:396 src/dialogs/subtitleedit.cpp:1553
-#: src/dialogs/subtitleedit.cpp:1570 src/dialogs/subtitleedit.cpp:1584
-#: src/dialogs/subtitleedit.cpp:1624 src/project/dialogs/slideshowclip.cpp:59
+#: src/dialogs/renderwidget.cpp:396 src/dialogs/subtitleedit.cpp:1547
+#: src/dialogs/subtitleedit.cpp:1564 src/dialogs/subtitleedit.cpp:1578
+#: src/dialogs/subtitleedit.cpp:1618 src/project/dialogs/slideshowclip.cpp:59
 #, kde-format
 msgid "None"
 msgstr "بلا"
@@ -25996,36 +25996,36 @@ msgstr "امحُ كل التنسيقات المخصصة"
 msgid "Simple Editor"
 msgstr "محرّر بسيط"
 
-#: src/dialogs/subtitleedit.cpp:610
+#: src/dialogs/subtitleedit.cpp:604
 #, kde-format
 msgid "Manage Styles…"
 msgstr "أدر الطُرُز…"
 
-#: src/dialogs/subtitleedit.cpp:762 src/dialogs/subtitleedit.cpp:785
-#: src/dialogs/subtitleedit.cpp:787
+#: src/dialogs/subtitleedit.cpp:756 src/dialogs/subtitleedit.cpp:779
+#: src/dialogs/subtitleedit.cpp:781
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
 msgstr "المؤشر: %1، المجموع: <b>%2</b>"
 
-#: src/dialogs/subtitleedit.cpp:1682 src/dialogs/subtitleedit.cpp:1696
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #, kde-format
 msgid "Set Position X"
 msgstr "عين الموضع س"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1682 src/dialogs/subtitleedit.cpp:1696
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #: src/ui/titlewidget_ui.ui:535
 #, kde-format
 msgid "X:"
 msgstr "س:"
 
-#: src/dialogs/subtitleedit.cpp:1684 src/dialogs/subtitleedit.cpp:1698
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #, kde-format
 msgid "Set Position Y"
 msgstr "عين الموضع ص"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1684 src/dialogs/subtitleedit.cpp:1698
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #: src/ui/titlewidget_ui.ui:558
 #, kde-format
 msgid "Y:"
@@ -27866,7 +27866,7 @@ msgstr "يستخرج %1 من %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:73
 #: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
-#: src/jobs/stabilizetask.cpp:102 src/jobs/stabilizetask.cpp:119
+#: src/jobs/stabilizetask.cpp:104 src/jobs/stabilizetask.cpp:121
 #, kde-format
 msgid "No producer for this clip."
 msgstr "لا يوجد مُنِتج لهذا المقطع."
@@ -28033,12 +28033,12 @@ msgstr "تعويض الحدة"
 msgid "Failed to create speed clip."
 msgstr "فشل إنشاء مقطع سرعة."
 
-#: src/jobs/stabilizetask.cpp:30
+#: src/jobs/stabilizetask.cpp:32
 #, kde-format
 msgid "Stabilizing"
 msgstr "يوازن"
 
-#: src/jobs/stabilizetask.cpp:172
+#: src/jobs/stabilizetask.cpp:175
 #, kde-format
 msgid "Failed to stabilize."
 msgstr "أخفق في الموازنة."

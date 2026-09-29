@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-25 02:42+0000\n"
+"POT-Creation-Date: 2026-09-29 02:52+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -22192,36 +22192,36 @@ msgstr "Dodaj obilježivač"
 msgid "Edit global subtitle style"
 msgstr "Dodaj vodiča"
 
-#: src/bin/model/subtitlemodel.cpp:414 src/bin/model/subtitlemodel.cpp:633
-#: src/bin/model/subtitlemodel.cpp:1578 src/bin/model/subtitlemodel.cpp:2157
-#: src/bin/model/subtitlemodel.cpp:2224 src/bin/model/subtitlemodel.cpp:2257
-#: src/bin/model/subtitlemodel.cpp:2290 src/bin/model/subtitlemodel.cpp:2323
-#: src/bin/model/subtitlemodel.cpp:2356
+#: src/bin/model/subtitlemodel.cpp:414 src/bin/model/subtitlemodel.cpp:636
+#: src/bin/model/subtitlemodel.cpp:1598 src/bin/model/subtitlemodel.cpp:2192
+#: src/bin/model/subtitlemodel.cpp:2259 src/bin/model/subtitlemodel.cpp:2292
+#: src/bin/model/subtitlemodel.cpp:2325 src/bin/model/subtitlemodel.cpp:2358
+#: src/bin/model/subtitlemodel.cpp:2391
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Edit subtitle"
 msgstr "Dodaj vodiča"
 
-#: src/bin/model/subtitlemodel.cpp:668 src/bin/model/subtitlemodel.cpp:1666
+#: src/bin/model/subtitlemodel.cpp:671 src/bin/model/subtitlemodel.cpp:1697
 #: src/timeline2/model/timelinefunctions.cpp:252
 #, kde-format
 msgid "Cut clip"
 msgstr "Izreži isječak"
 
-#: src/bin/model/subtitlemodel.cpp:830 src/bin/model/subtitlemodel.cpp:1597
+#: src/bin/model/subtitlemodel.cpp:847 src/bin/model/subtitlemodel.cpp:1621
 #: src/timeline2/model/timelinemodel.cpp:4507
 #, fuzzy, kde-format
 msgid "Resize subtitle"
 msgstr "Izbriši snimak"
 
-#: src/bin/model/subtitlemodel.cpp:1028
+#: src/bin/model/subtitlemodel.cpp:1048
 #: src/timeline2/model/timelinemodel.cpp:1489
 #, fuzzy, kde-format
 #| msgid "Move guide"
 msgid "Move subtitle"
 msgstr "Pomjeri vodič"
 
-#: src/bin/model/subtitlemodel.cpp:1195
+#: src/bin/model/subtitlemodel.cpp:1215
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:778
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:904
@@ -22234,47 +22234,47 @@ msgstr ""
 "Fajl %1 već postoji.\n"
 "Da li želite pisati preko njega?"
 
-#: src/bin/model/subtitlemodel.cpp:1609 src/titler/titlewidget.cpp:413
+#: src/bin/model/subtitlemodel.cpp:1633 src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Add Text"
 msgstr "Dodaj tekst"
 
-#: src/bin/model/subtitlemodel.cpp:1634 src/dialogs/subtitleedit.cpp:284
+#: src/bin/model/subtitlemodel.cpp:1658 src/dialogs/subtitleedit.cpp:284
 #, fuzzy, kde-format
 #| msgid "Add guide"
 msgid "Add subtitle"
 msgstr "Dodaj vodiča"
 
-#: src/bin/model/subtitlemodel.cpp:1686 src/dialogs/subtitleedit.cpp:294
+#: src/bin/model/subtitlemodel.cpp:1721 src/dialogs/subtitleedit.cpp:294
 #, fuzzy, kde-format
 msgid "Delete subtitle"
 msgstr "Izbriši snimak"
 
-#: src/bin/model/subtitlemodel.cpp:1758
+#: src/bin/model/subtitlemodel.cpp:1793
 #, fuzzy, kde-format
 msgid "Delete subtitle layer"
 msgstr "Izbriši snimak"
 
-#: src/bin/model/subtitlemodel.cpp:1785
+#: src/bin/model/subtitlemodel.cpp:1820
 #, fuzzy, kde-format
 #| msgid "Create new profile"
 msgid "Create subtitle layer"
 msgstr "Kreiraj novi profil"
 
-#: src/bin/model/subtitlemodel.cpp:1891 src/bin/model/subtitlemodel.cpp:1894
+#: src/bin/model/subtitlemodel.cpp:1926 src/bin/model/subtitlemodel.cpp:1929
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "bez naslova"
 
-#: src/bin/model/subtitlemodel.cpp:2001
+#: src/bin/model/subtitlemodel.cpp:2036
 #, fuzzy, kde-format
 #| msgid "Cannot cut a transition"
 msgid "Cannot create more than %1 layers in subtitles."
 msgstr "Nije moguće rezanje prelaza"
 
-#: src/bin/model/subtitlemodel.cpp:2193
+#: src/bin/model/subtitlemodel.cpp:2228
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -22867,17 +22867,17 @@ msgid "Your project profile is invalid, rendering might fail."
 msgstr ""
 "Datoteka dokumenta projekta je neispravna, namještanje na standardni: %1"
 
-#: src/core.cpp:1438
+#: src/core.cpp:1443
 #, kde-format
 msgid "Loading clips"
 msgstr "Učitavanje isječaka"
 
-#: src/core.cpp:1933
+#: src/core.cpp:1939
 #, fuzzy, kde-format
 msgid "Marker %1"
 msgstr "Marker"
 
-#: src/core.cpp:2295
+#: src/core.cpp:2301
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -22885,13 +22885,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2296 src/core.cpp:2307
+#: src/core.cpp:2302 src/core.cpp:2313
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Medijski reproduktor"
 
-#: src/core.cpp:2306
+#: src/core.cpp:2312
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -23904,9 +23904,9 @@ msgstr "Bikubno (bolje)"
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:396 src/dialogs/subtitleedit.cpp:1553
-#: src/dialogs/subtitleedit.cpp:1570 src/dialogs/subtitleedit.cpp:1584
-#: src/dialogs/subtitleedit.cpp:1624 src/project/dialogs/slideshowclip.cpp:59
+#: src/dialogs/renderwidget.cpp:396 src/dialogs/subtitleedit.cpp:1547
+#: src/dialogs/subtitleedit.cpp:1564 src/dialogs/subtitleedit.cpp:1578
+#: src/dialogs/subtitleedit.cpp:1618 src/project/dialogs/slideshowclip.cpp:59
 #, kde-format
 msgid "None"
 msgstr "Niti jedan"
@@ -25956,38 +25956,38 @@ msgstr ""
 msgid "Simple Editor"
 msgstr "Pokaži/sakrij opcije"
 
-#: src/dialogs/subtitleedit.cpp:610
+#: src/dialogs/subtitleedit.cpp:604
 #, fuzzy, kde-format
 #| msgid "untitled"
 msgid "Manage Styles…"
 msgstr "bez naslova"
 
-#: src/dialogs/subtitleedit.cpp:762 src/dialogs/subtitleedit.cpp:785
-#: src/dialogs/subtitleedit.cpp:787
+#: src/dialogs/subtitleedit.cpp:756 src/dialogs/subtitleedit.cpp:779
+#: src/dialogs/subtitleedit.cpp:781
 #, kde-format
 msgid "Cursor: %1, total: <b>%2</b>"
 msgstr ""
 
-#: src/dialogs/subtitleedit.cpp:1682 src/dialogs/subtitleedit.cpp:1696
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #, fuzzy, kde-format
 msgid "Set Position X"
 msgstr "Položaj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateX)
-#: src/dialogs/subtitleedit.cpp:1682 src/dialogs/subtitleedit.cpp:1696
+#: src/dialogs/subtitleedit.cpp:1676 src/dialogs/subtitleedit.cpp:1690
 #: src/ui/titlewidget_ui.ui:535
 #, fuzzy, kde-format
 #| msgid "X"
 msgid "X:"
 msgstr "X"
 
-#: src/dialogs/subtitleedit.cpp:1684 src/dialogs/subtitleedit.cpp:1698
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #, fuzzy, kde-format
 msgid "Set Position Y"
 msgstr "Položaj"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotateY)
-#: src/dialogs/subtitleedit.cpp:1684 src/dialogs/subtitleedit.cpp:1698
+#: src/dialogs/subtitleedit.cpp:1678 src/dialogs/subtitleedit.cpp:1692
 #: src/ui/titlewidget_ui.ui:558
 #, fuzzy, kde-format
 #| msgid "Y"
@@ -27920,7 +27920,7 @@ msgstr "Raspakujem %1 od %2"
 
 #: src/jobs/cuttask.cpp:208 src/jobs/cuttask.cpp:210 src/jobs/filtertask.cpp:73
 #: src/jobs/speedtask.cpp:183 src/jobs/speedtask.cpp:195
-#: src/jobs/stabilizetask.cpp:102 src/jobs/stabilizetask.cpp:119
+#: src/jobs/stabilizetask.cpp:104 src/jobs/stabilizetask.cpp:121
 #, kde-format
 msgid "No producer for this clip."
 msgstr "Nema producenta za ovaj isječak."
@@ -28112,13 +28112,13 @@ msgstr "Promjeniti kraj tranzicije"
 msgid "Failed to create speed clip."
 msgstr "Nije uspjelo da se kreiraj proxy isječak."
 
-#: src/jobs/stabilizetask.cpp:30
+#: src/jobs/stabilizetask.cpp:32
 #, fuzzy, kde-format
 #| msgid "Stabilize"
 msgid "Stabilizing"
 msgstr "Stabilizacija"
 
-#: src/jobs/stabilizetask.cpp:172
+#: src/jobs/stabilizetask.cpp:175
 #, fuzzy, kde-format
 #| msgid "Failed to start device"
 msgid "Failed to stabilize."
