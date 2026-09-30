@@ -29,71 +29,90 @@ TEST_CASE("Project Paths", "[ProjectPaths]")
     REQUIRE(ok);
     document.setDocumentProperty(QStringLiteral("documentid"), documentId);
 
+    auto state1 = [&](ProjectStorageType storageType) {
+        const QString projectPath =
+            document.url().isEmpty() ? QString() : QDir::cleanPath(QFileInfo(document.url().toLocalFile()).absolutePath() + QDir::separator());
+        if (storageType != StoreInCustomFolder && (projectPath.isEmpty() || storageType == StoreInDefaultLocation)) {
+            // storageType should not influence paths when project is not saved
+            std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
+            REQUIRE(tmpPath.second == storageType);
+            const QString baseCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+            REQUIRE(tmpPath.first == baseCacheDir);
+            QDir resultDir = document.getCacheDir(CacheProxy, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("proxy")));
+            resultDir = document.getCacheDir(CachePreview, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("%1/preview").arg(documentId)));
+            REQUIRE(document.projectCaptureFolder() == QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+            REQUIRE(KdenliveTests::folderForProjectFiles(&document) == QString());
+        } else if (storageType == StoreWithProjectFile) {
+            std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
+            REQUIRE(tmpPath.second == StoreWithProjectFile);
+            REQUIRE(tmpPath.first == QDir(projectPath).absoluteFilePath(QStringLiteral("cachefiles")));
+            QDir resultDir = document.getCacheDir(CacheProxy, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(projectPath).absoluteFilePath(QStringLiteral("cachefiles/proxy")));
+            resultDir = document.getCacheDir(CachePreview, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(projectPath).absoluteFilePath(QStringLiteral("cachefiles/%1/preview").arg(documentId)));
+            REQUIRE(document.projectCaptureFolder() == projectPath);
+            REQUIRE(QDir::cleanPath(KdenliveTests::folderForProjectFiles(&document)) == projectPath);
+        } else if (storageType == StoreInCustomFolder) {
+            const QString storagePath = document.getDocumentProperty(QStringLiteral("storagefolder"));
+            std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
+            REQUIRE(tmpPath.second == StoreInCustomFolder);
+            REQUIRE(tmpPath.first == QDir(storagePath).absolutePath()); // FilePath(QStringLiteral("cachefiles")));
+            QDir resultDir = document.getCacheDir(CacheProxy, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(storagePath).absoluteFilePath(QStringLiteral("proxy")));
+            resultDir = document.getCacheDir(CachePreview, &ok);
+            REQUIRE(ok);
+            REQUIRE(resultDir.absolutePath() == QDir(storagePath).absoluteFilePath(QStringLiteral("%1/preview").arg(documentId)));
+            REQUIRE(document.projectCaptureFolder() == storagePath);
+            REQUIRE(QDir::cleanPath(KdenliveTests::folderForProjectFiles(&document)) == storagePath);
+        } else {
+            qDebug() << "::::: UNHANDLED STORAGE TYPE: " << storageType;
+            REQUIRE(false);
+        }
+    };
+
     SECTION("Default project paths")
     {
         // Test unsaved file first
-        const QString baseCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         document.setDocumentProperty(QStringLiteral("storagetype"), QString::number(int(StoreInDefaultLocation)));
         std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
-        REQUIRE(tmpPath.second == StoreInDefaultLocation);
-        REQUIRE(tmpPath.first == baseCacheDir);
-        QDir resultDir = document.getCacheDir(CacheProxy, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("proxy")));
-        resultDir = document.getCacheDir(CachePreview, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("%1/preview").arg(documentId)));
-        REQUIRE(document.projectCaptureFolder() == QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-        REQUIRE(KdenliveTests::folderForProjectFiles(&document) == QString());
+        state1(StoreInDefaultLocation);
 
         // now check against a saved document
         document.setUrl(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"))));
-        tmpPath = document.projectTempFolder();
-        REQUIRE(tmpPath.second == StoreInDefaultLocation);
-        REQUIRE(tmpPath.first == baseCacheDir);
-        resultDir = document.getCacheDir(CacheProxy, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("proxy")));
-        resultDir = document.getCacheDir(CachePreview, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("%1/preview").arg(documentId)));
-        REQUIRE(document.projectCaptureFolder() == QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-        REQUIRE(KdenliveTests::folderForProjectFiles(&document) == QString());
+        state1(StoreInDefaultLocation);
     }
 
     SECTION("Default paths for save in project folder")
     {
         // Test unsaved file first
-        QString baseCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         document.setUrl(QUrl());
         document.setDocumentProperty(QStringLiteral("storagetype"), QString::number(int(StoreWithProjectFile)));
-        std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
-        REQUIRE(tmpPath.second == StoreWithProjectFile);
-        REQUIRE(tmpPath.first == baseCacheDir);
-        QDir resultDir = document.getCacheDir(CacheProxy, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("proxy")));
-        resultDir = document.getCacheDir(CachePreview, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("%1/preview").arg(documentId)));
-        REQUIRE(document.projectCaptureFolder() == QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-        REQUIRE(KdenliveTests::folderForProjectFiles(&document) == QString());
+        state1(StoreWithProjectFile);
 
         // now check against a saved document
         document.setUrl(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"))));
-        baseCacheDir = QDir::tempPath();
-        tmpPath = document.projectTempFolder();
-        REQUIRE(tmpPath.second == StoreWithProjectFile);
-        REQUIRE(tmpPath.first == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("cachefiles")));
-        resultDir = document.getCacheDir(CacheProxy, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("cachefiles/proxy")));
-        resultDir = document.getCacheDir(CachePreview, &ok);
-        REQUIRE(ok);
-        REQUIRE(resultDir.absolutePath() == QDir(baseCacheDir).absoluteFilePath(QStringLiteral("cachefiles/%1/preview").arg(documentId)));
-        REQUIRE(document.projectCaptureFolder() == QDir::tempPath());
-        qDebug() << "CACHE PATH COMP: " << KdenliveTests::folderForProjectFiles(&document) << " == " << baseCacheDir;
-        REQUIRE(QDir::cleanPath(KdenliveTests::folderForProjectFiles(&document)) == QDir::cleanPath(baseCacheDir));
+        state1(StoreWithProjectFile);
+    }
+
+    SECTION("Default paths for save in custom folder")
+    {
+        document.setDocumentProperty(QStringLiteral("storagefolder"), QDir::temp().absoluteFilePath(QString("storage")));
+        document.setProjectFolder(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(QString("storage"))));
+        // Test unsaved file first
+        document.setUrl(QUrl());
+        document.setDocumentProperty(QStringLiteral("storagetype"), QString::number(int(StoreInCustomFolder)));
+        state1(StoreInCustomFolder);
+
+        // now check against a saved document
+        document.setUrl(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"))));
+        state1(StoreInCustomFolder);
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
