@@ -1044,6 +1044,10 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
 
     QDomElement mlt = doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
+    if (root.isEmpty()) {
+        // Use base project path as root
+        root = QDir::cleanPath(pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile());
+    }
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
     }
