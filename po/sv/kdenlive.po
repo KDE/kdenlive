@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:52+0000\n"
+"POT-Creation-Date: 2026-10-01 20:14+0000\n"
 "PO-Revision-Date: 2026-09-27 10:40+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -18242,7 +18242,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "Bearbeta ljud med en SoX-effekt"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1950
 #: src/monitor/view/MonitorSplit.qml:78
 #, kde-format
 msgid "Effect"
@@ -22884,8 +22884,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Användning"
 
-#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1917
-#: src/doc/documentchecker.cpp:1947 src/doc/documentchecker.cpp:1969
+#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1958 src/doc/documentchecker.cpp:1980
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -26973,23 +26973,23 @@ msgctxt "@title:window"
 msgid "Proxy Clips Folder"
 msgstr "Ersättningsklippkatalog"
 
-#: src/doc/documentchecker.cpp:140
+#: src/doc/documentchecker.cpp:151
 #, kde-format
 msgid "Applying fixes…"
 msgstr "Inför rättningar…"
 
-#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:272
+#: src/doc/documentchecker.cpp:194 src/doc/documentchecker.cpp:283
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Söker efter saknade objekt…"
 
-#: src/doc/documentchecker.cpp:204
+#: src/doc/documentchecker.cpp:215
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Projektets dokumentidentifierare var ogiltig, en ny har skapats."
 
-#: src/doc/documentchecker.cpp:215
+#: src/doc/documentchecker.cpp:226
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
@@ -26998,120 +26998,120 @@ msgstr ""
 "Projektets lagringskatalog <b>%1</b> hittades inte. Ange en uppdaterad plats "
 "att lagra filer för det här projektet."
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1918
 #, kde-format
 msgid "Video clip"
 msgstr "Videoklipp"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1920
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Bildspelsklipp"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1922
 #, kde-format
 msgid "Image clip"
 msgstr "Bildklipp"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1924
 #, kde-format
 msgid "Playlist clip"
 msgstr "Spellisteklipp"
 
-#: src/doc/documentchecker.cpp:1915 src/doc/documentchecker.cpp:1931
+#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1942
 #, kde-format
 msgid "Title Image"
 msgstr "Titelavbild"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Clip"
 msgstr "Klipp"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1940
 #, kde-format
 msgid "Title Font"
 msgstr "Teckensnitt för rubrik"
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Luma file"
 msgstr "Luminansfil"
 
-#: src/doc/documentchecker.cpp:1935
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Asset file"
 msgstr "TIllgångsfil"
 
-#: src/doc/documentchecker.cpp:1937
+#: src/doc/documentchecker.cpp:1948
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "Ersättningsklipp"
 
-#: src/doc/documentchecker.cpp:1941
+#: src/doc/documentchecker.cpp:1952
 #, kde-format
 msgid "Transition"
 msgstr "Övertoning"
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1954
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Klipp utan referens"
 
-#: src/doc/documentchecker.cpp:1945
+#: src/doc/documentchecker.cpp:1956
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Skadad sekvens"
 
-#: src/doc/documentchecker.cpp:1955
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Fast"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Uppdatera"
 
-#: src/doc/documentchecker.cpp:1959
+#: src/doc/documentchecker.cpp:1970
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Fjärrklipp"
 
-#: src/doc/documentchecker.cpp:1961
+#: src/doc/documentchecker.cpp:1972
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Saknas"
 
-#: src/doc/documentchecker.cpp:1963
+#: src/doc/documentchecker.cpp:1974
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Saknas, men ersättningsklipp tillgänglig"
 
-#: src/doc/documentchecker.cpp:1965
+#: src/doc/documentchecker.cpp:1976
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Platsmarkör"
 
-#: src/doc/documentchecker.cpp:1967
+#: src/doc/documentchecker.cpp:1978
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Ta bort"
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1989
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Projektfilen innehåller saknade klipp eller filer."
 
-#: src/doc/documentchecker.cpp:1981
+#: src/doc/documentchecker.cpp:1992
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Saknade ersättningar kan återskapas efter öppning."

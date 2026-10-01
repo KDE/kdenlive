@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:52+0000\n"
+"POT-Creation-Date: 2026-10-01 20:14+0000\n"
 "PO-Revision-Date: 2026-09-26 19:28+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
@@ -18337,7 +18337,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "Обробка звуку за допомогою ефекту SoX"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1950
 #: src/monitor/view/MonitorSplit.qml:78
 #, kde-format
 msgid "Effect"
@@ -23017,8 +23017,8 @@ msgstr "Ід."
 msgid "Usage"
 msgstr "Користування"
 
-#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1917
-#: src/doc/documentchecker.cpp:1947 src/doc/documentchecker.cpp:1969
+#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1958 src/doc/documentchecker.cpp:1980
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -27154,23 +27154,23 @@ msgctxt "@title:window"
 msgid "Proxy Clips Folder"
 msgstr "Тека проміжних кліпів"
 
-#: src/doc/documentchecker.cpp:140
+#: src/doc/documentchecker.cpp:151
 #, kde-format
 msgid "Applying fixes…"
 msgstr "Застосування виправлень…"
 
-#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:272
+#: src/doc/documentchecker.cpp:194 src/doc/documentchecker.cpp:283
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Пошук пропущених записів…"
 
-#: src/doc/documentchecker.cpp:204
+#: src/doc/documentchecker.cpp:215
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "Ідентифікатор документа вашого проєкту є некоректним, створено новий."
 
-#: src/doc/documentchecker.cpp:215
+#: src/doc/documentchecker.cpp:226
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
@@ -27179,120 +27179,120 @@ msgstr ""
 "Не знайдено теки зберігання даних проєкту <b>%1</b>. Будь ласка, введіть "
 "оновлені дані щодо розташування теки для зберігання файлів цього проєкту."
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1918
 #, kde-format
 msgid "Video clip"
 msgstr "Відеокліп"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1920
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Кліп показу слайдів"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1922
 #, kde-format
 msgid "Image clip"
 msgstr "Кліп-зображення"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1924
 #, kde-format
 msgid "Playlist clip"
 msgstr "Додати кліп до списку відтворення"
 
-#: src/doc/documentchecker.cpp:1915 src/doc/documentchecker.cpp:1931
+#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1942
 #, kde-format
 msgid "Title Image"
 msgstr "Зображення титрів"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Clip"
 msgstr "Кліп"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1940
 #, kde-format
 msgid "Title Font"
 msgstr "Шрифт титрів"
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Luma file"
 msgstr "Файл сигналу яскравості"
 
-#: src/doc/documentchecker.cpp:1935
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Asset file"
 msgstr "Файл активів"
 
-#: src/doc/documentchecker.cpp:1937
+#: src/doc/documentchecker.cpp:1948
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "Проміжний кліп"
 
-#: src/doc/documentchecker.cpp:1941
+#: src/doc/documentchecker.cpp:1952
 #, kde-format
 msgid "Transition"
 msgstr "Перехід"
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1954
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Кліп без посилань"
 
-#: src/doc/documentchecker.cpp:1945
+#: src/doc/documentchecker.cpp:1956
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Пошкоджена послідовність"
 
-#: src/doc/documentchecker.cpp:1955
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Виправлено"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Перезавантажити"
 
-#: src/doc/documentchecker.cpp:1959
+#: src/doc/documentchecker.cpp:1970
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Віддалений"
 
-#: src/doc/documentchecker.cpp:1961
+#: src/doc/documentchecker.cpp:1972
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Пропущено"
 
-#: src/doc/documentchecker.cpp:1963
+#: src/doc/documentchecker.cpp:1974
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Пропущено, але є проміжний кліп"
 
-#: src/doc/documentchecker.cpp:1965
+#: src/doc/documentchecker.cpp:1976
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Заповнювач"
 
-#: src/doc/documentchecker.cpp:1967
+#: src/doc/documentchecker.cpp:1978
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Вилучити"
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1989
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Файл проєкту містить посилання на кліпи або файли, яких у ньому немає."
 
-#: src/doc/documentchecker.cpp:1981
+#: src/doc/documentchecker.cpp:1992
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr ""

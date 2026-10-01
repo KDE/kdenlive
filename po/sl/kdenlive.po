@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 02:52+0000\n"
+"POT-Creation-Date: 2026-10-01 20:14+0000\n"
 "PO-Revision-Date: 2026-09-26 09:10+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -18220,7 +18220,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "Obdelajte zvok z učinkom SoX"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1950
 #: src/monitor/view/MonitorSplit.qml:78
 #, kde-format
 msgid "Effect"
@@ -22886,8 +22886,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "Uporaba"
 
-#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1917
-#: src/doc/documentchecker.cpp:1947 src/doc/documentchecker.cpp:1969
+#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1958 src/doc/documentchecker.cpp:1980
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -26985,23 +26985,23 @@ msgctxt "@title:window"
 msgid "Proxy Clips Folder"
 msgstr "Mapa s posrednimi posnetki"
 
-#: src/doc/documentchecker.cpp:140
+#: src/doc/documentchecker.cpp:151
 #, kde-format
 msgid "Applying fixes…"
 msgstr "Uveljavljanje popravkov …"
 
-#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:272
+#: src/doc/documentchecker.cpp:194 src/doc/documentchecker.cpp:283
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "Preverjanje manjkajočih elementov …"
 
-#: src/doc/documentchecker.cpp:204
+#: src/doc/documentchecker.cpp:215
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "ID dokumenta vašega projekta je bil neveljaven, ustvarjen je bil nov."
 
-#: src/doc/documentchecker.cpp:215
+#: src/doc/documentchecker.cpp:226
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
@@ -27010,120 +27010,120 @@ msgstr ""
 "Mape za shranjevanje projekta <b>%1</b> ni bilo mogoče najti. Vnesite novo "
 "mesto za shranjevanje datotek tega projekta."
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1918
 #, kde-format
 msgid "Video clip"
 msgstr "Video posnetek"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1920
 #, kde-format
 msgid "Slideshow clip"
 msgstr "Predstavitveni posnetek"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1922
 #, kde-format
 msgid "Image clip"
 msgstr "Posnetek iz slike"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1924
 #, kde-format
 msgid "Playlist clip"
 msgstr "Posnetek seznama predvajanja"
 
-#: src/doc/documentchecker.cpp:1915 src/doc/documentchecker.cpp:1931
+#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1942
 #, kde-format
 msgid "Title Image"
 msgstr "Slika naslova"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Clip"
 msgstr "Posnetek"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1940
 #, kde-format
 msgid "Title Font"
 msgstr "Pisava naslova"
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Luma file"
 msgstr "Datoteka svetilnosti"
 
-#: src/doc/documentchecker.cpp:1935
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Asset file"
 msgstr "Datoteka sredstev"
 
-#: src/doc/documentchecker.cpp:1937
+#: src/doc/documentchecker.cpp:1948
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "Posredni posnetek"
 
-#: src/doc/documentchecker.cpp:1941
+#: src/doc/documentchecker.cpp:1952
 #, kde-format
 msgid "Transition"
 msgstr "Prehod"
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1954
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "Posnetek brez sklicev"
 
-#: src/doc/documentchecker.cpp:1945
+#: src/doc/documentchecker.cpp:1956
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "Okvarjeno zaporedje"
 
-#: src/doc/documentchecker.cpp:1955
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "Popravljeno"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Znova naloži"
 
-#: src/doc/documentchecker.cpp:1959
+#: src/doc/documentchecker.cpp:1970
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "Oddaljeno"
 
-#: src/doc/documentchecker.cpp:1961
+#: src/doc/documentchecker.cpp:1972
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Manjka"
 
-#: src/doc/documentchecker.cpp:1963
+#: src/doc/documentchecker.cpp:1974
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Manjka, vendar je na voljo posredni posnetek"
 
-#: src/doc/documentchecker.cpp:1965
+#: src/doc/documentchecker.cpp:1976
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "Ograda"
 
-#: src/doc/documentchecker.cpp:1967
+#: src/doc/documentchecker.cpp:1978
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "Odstrani"
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1989
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "Datoteka projekta vsebuje manjkajoče posnetke ali datoteke."
 
-#: src/doc/documentchecker.cpp:1981
+#: src/doc/documentchecker.cpp:1992
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "Manjkajoče posredne posnetke lahko obnovite ob odpiranju."
