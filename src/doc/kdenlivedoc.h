@@ -111,7 +111,7 @@ public:
     void requestBackup();
 
     /** @brief Returns the project folder, used to store project temporary files, and the storage type */
-    std::pair<QString, ProjectStorageType> projectTempFolder() const;
+    std::pair<QString, ProjectStorageType> projectTempFolder();
     /** @brief Returns the folder used to store project data files (titles, etc).
      *
      * @param newPath If the project file is being moved, this is the new location.

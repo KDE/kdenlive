@@ -114,5 +114,34 @@ TEST_CASE("Project Paths", "[ProjectPaths]")
         document.setUrl(QUrl::fromLocalFile(QDir::temp().absoluteFilePath(QStringLiteral("test.kdenlive"))));
         state1(StoreInCustomFolder);
     }
+
+    SECTION("Ensure projects with no storagetype defined are correctly detected")
+    {
+        // Unset storage type
+        document.setDocumentProperty(QStringLiteral("storagetype"), QString());
+        document.setProjectFolder(QUrl());
+        // default paths
+        document.setDocumentProperty(QStringLiteral("storagefolder"), QString());
+        document.setUrl(QUrl::fromLocalFile(QDir::temp().absoluteFilePath("storage/test1.kdenlive")));
+        std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();
+        REQUIRE(tmpPath.second == StoreInDefaultLocation);
+        REQUIRE(tmpPath.first == QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+
+        // Custom folder
+        document.setDocumentProperty(QStringLiteral("storagetype"), QString());
+        const QString customFolder = QDir::temp().absoluteFilePath("custom");
+        document.setProjectFolder(QUrl::fromLocalFile(customFolder));
+        tmpPath = document.projectTempFolder();
+        REQUIRE(tmpPath.second == StoreInCustomFolder);
+        REQUIRE(tmpPath.first == QDir(customFolder).absolutePath());
+
+        // Save in project folder
+        document.setDocumentProperty(QStringLiteral("storagetype"), QString());
+        const QString projectFolder = QDir::temp().absoluteFilePath("storage");
+        document.setProjectFolder(QUrl::fromLocalFile(projectFolder));
+        tmpPath = document.projectTempFolder();
+        REQUIRE(tmpPath.second == StoreWithProjectFile);
+        REQUIRE(tmpPath.first == QDir(projectFolder).absoluteFilePath(QStringLiteral("cachefiles")));
+    }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }

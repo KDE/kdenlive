@@ -787,7 +787,7 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
     return true;
 }
 
-std::pair<QString, ProjectStorageType> KdenliveDoc::projectTempFolder() const
+std::pair<QString, ProjectStorageType> KdenliveDoc::projectTempFolder()
 {
     std::pair<QString, ProjectStorageType> resultStorage;
     ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
@@ -805,12 +805,16 @@ std::pair<QString, ProjectStorageType> KdenliveDoc::projectTempFolder() const
             if (!parentPath.endsWith(QLatin1Char('/'))) {
                 parentPath += QLatin1Char('/');
             }
-            if (childPath.startsWith(parentPath)) {
+            if (!childPath.endsWith(QLatin1Char('/'))) {
+                childPath += QLatin1Char('/');
+            }
+            if (childPath == parentPath) {
                 storageType = StoreWithProjectFile;
             } else {
                 storageType = StoreInCustomFolder;
             }
         }
+        m_documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(storageType)));
     }
     resultStorage.second = storageType;
     switch (storageType) {
