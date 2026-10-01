@@ -31,7 +31,7 @@ TEST_CASE("Project Paths", "[ProjectPaths]")
 
     auto state1 = [&](ProjectStorageType storageType) {
         const QString projectPath =
-            document.url().isEmpty() ? QString() : QDir::cleanPath(QFileInfo(document.url().toLocalFile()).absolutePath() + QDir::separator());
+            document.url().isEmpty() ? QString() : QDir::cleanPath(QFileInfo(document.url().toLocalFile()).absolutePath() + QLatin1Char('/'));
         if (storageType != StoreInCustomFolder && (projectPath.isEmpty() || storageType == StoreInDefaultLocation)) {
             // storageType should not influence paths when project is not saved
             std::pair<QString, ProjectStorageType> tmpPath = document.projectTempFolder();

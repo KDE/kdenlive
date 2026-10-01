@@ -1845,7 +1845,7 @@ void Core::setAudioMonitoring(bool enable)
 QString Core::getProjectCaptureFolderName()
 {
     if (currentDoc()) {
-        return currentDoc()->projectCaptureFolder() + QDir::separator();
+        return currentDoc()->projectCaptureFolder() + QLatin1Char('/');
     }
     return QString();
 }
