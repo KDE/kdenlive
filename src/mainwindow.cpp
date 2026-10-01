@@ -2567,7 +2567,7 @@ void MainWindow::slotEditProjectSettings(int ix)
         }
         QString newProjectFolder = w->storageFolder();
 
-        if (w->docFolderAsStorageFolder()) {
+        if (w->docFolderAsStorageFolder() && !project->url().isEmpty()) {
             newProjectFolder = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
         }
         if (newProjectFolder.isEmpty()) {

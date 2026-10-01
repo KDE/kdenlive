@@ -126,7 +126,7 @@ ProjectSettings::ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metada
         m_previewparams = doc->getDocumentProperty(QStringLiteral("previewparameters"));
         m_previewextension = doc->getDocumentProperty(QStringLiteral("previewextension"));
         QString storageFolder = doc->getDocumentProperty(QStringLiteral("storagefolder"));
-        if (doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
+        if (doc->m_sameProjectFolder || doc->projectTempFolder() == (QFileInfo(doc->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles"))) {
             same_folder->setChecked(true);
         } else if (!storageFolder.isEmpty()) {
             custom_folder->setChecked(true);
