@@ -15,7 +15,7 @@ import org.kde.kdenlive as K
 Rectangle {
     id: dopeRoot
     anchors.fill: parent
-    anchors.margins: 3
+    anchors.margins: showRuler ? 3 : 0
     SystemPalette { id: dopeActivePalette }
     border.width: 2
     border.color: dopeRoot.viewHasFocus ? dopeActivePalette.highlight : dopeActivePalette.base

@@ -379,6 +379,10 @@
       <label>When adding a new keyframe, use same type as the preceding keyframe.</label>
       <default>true</default>
     </entry>
+    <entry name="showtimelinekeyframepanel" type="Bool">
+      <label>Show (or hide) the keyframes panel in timeline.</label>
+      <default>false</default>
+    </entry>
     <entry name="timelinechunks" type="Int">
       <label>Default size of video chunks for timeline preview.</label>
       <default>25</default>

@@ -2480,11 +2480,13 @@ function getTrackColor(audio, header) {
         anchors.left: parent.left
         anchors.right: parent.right
         height: K.UiUtils.baseSizeMedium / 2.5
-        y: root.height * K.KdenliveSettings.timelineGraphHeight
+        y: K.KdenliveSettings.showtimelinekeyframepanel ? root.height * K.KdenliveSettings.timelineGraphHeight : root.height
+        visible: K.KdenliveSettings.showtimelinekeyframepanel
         MouseArea {
             id: splitterArea
             anchors.fill: parent
             hoverEnabled: true
+            enabled: K.KdenliveSettings.showtimelinekeyframepanel
             cursorShape: Qt.SizeVerCursor
             drag.target: parent
             drag.axis: Drag.YAxis
@@ -2499,7 +2501,7 @@ function getTrackColor(audio, header) {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
-            height: (splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
+            height: 2//(splitterArea.containsMouse || splitterArea.pressed) ? parent.height - 2 : 1
             opacity: (splitterArea.containsMouse || splitterArea.pressed) ? 1 : 0.2
             color: activePalette.highlight
         }
@@ -2512,10 +2514,11 @@ function getTrackColor(audio, header) {
             bottom: horZoomBar.top
             top: keyframesSplitter.bottom
         }
+        visible: K.KdenliveSettings.showtimelinekeyframepanel
         DopeSheetView {
             id: timelineDopesheet
             proxy: root.proxy
-            dopesheetmodel: root.dopesheetmodel
+            dopesheetmodel: K.KdenliveSettings.showtimelinekeyframepanel ? root.dopesheetmodel : ""
             dopesheetFilterModel: root.dopesheetFilterModel
             keyframeTypes: root.keyframeTypes
             headerWidth: root.headerWidth

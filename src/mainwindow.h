@@ -489,6 +489,8 @@ private Q_SLOTS:
     void slotDeleteAllClipMarkers();
     void slotDeleteAllSequenceMarkers();
     void slotEditClipMarker();
+    /** @brief Show/hide the timeline keyframes panel */
+    void slotSwitchTimelineKeyframesPanel(bool show);
 
     /** @brief Adds marker or guide at the current position without showing the marker dialog.
      *

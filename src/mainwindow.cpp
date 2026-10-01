@@ -1325,6 +1325,13 @@ void MainWindow::setupActions()
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
+    auto showTimelineKeyframesPanel = new QAction(i18n("Show Timeline Keyframes Panel"), this);
+    showTimelineKeyframesPanel->setIcon(QIcon::fromTheme(QStringLiteral("keyframe")));
+    showTimelineKeyframesPanel->setCheckable(true);
+    showTimelineKeyframesPanel->setChecked(KdenliveSettings::showtimelinekeyframepanel());
+    connect(showTimelineKeyframesPanel, &QAction::triggered, this, &MainWindow::slotSwitchTimelineKeyframesPanel);
+    addAction(QStringLiteral("show_timeline_keyframes_panel"), showTimelineKeyframesPanel);
+
     m_compositeAction = new QAction(i18n("Enable Track Compositing"), this);
     m_compositeAction->setCheckable(true);
     connect(m_compositeAction, &QAction::triggered, this, &MainWindow::slotUpdateCompositing);
@@ -6105,4 +6112,9 @@ bool MainWindow::moveGrabbedDopesheet(bool left)
     }
     m_dopeWidget->moveGrab(left);
     return true;
+}
+
+void MainWindow::slotSwitchTimelineKeyframesPanel(bool show)
+{
+    KdenliveSettings::setShowtimelinekeyframepanel(show);
 }

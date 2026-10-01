@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="250" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="251" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -215,6 +215,7 @@
       </Menu>
       <Action name="disable_timeline_effects"/>
       <Separator/>
+      <Action name="show_timeline_keyframes_panel"/>
       <Action name="show_video_thumbs"/>
       <Action name="show_audio_thumbs"/>
       <Action name="show_markers"/>
@@ -355,6 +356,7 @@
     <text>Timeline Toolbar</text>
     <Action name="timeline_settings"/>
     <Action name="timeline_mode"/>
+    <Action name="show_timeline_keyframes_panel"/>
     <Action name="use_timeline_zone_in_edit"/>
     <Separator/>
     <Action name="select_tool"/>
