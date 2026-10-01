@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:44+0000\n"
+"POT-Creation-Date: 2026-10-01 17:39+0000\n"
 "PO-Revision-Date: 2026-09-26 16:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -18217,7 +18217,7 @@ msgstr "سوكس"
 msgid "Process audio using a SoX effect"
 msgstr "معالجة الصوت باستخدام تأثير سوكس"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1950
 #: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
@@ -22876,8 +22876,8 @@ msgstr "المعرّف"
 msgid "Usage"
 msgstr "الاستخدام"
 
-#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1917
-#: src/doc/documentchecker.cpp:1947 src/doc/documentchecker.cpp:1969
+#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1958 src/doc/documentchecker.cpp:1980
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -26969,23 +26969,23 @@ msgctxt "@title:window"
 msgid "Proxy Clips Folder"
 msgstr "مجلد مقاطع الوسطاء"
 
-#: src/doc/documentchecker.cpp:140
+#: src/doc/documentchecker.cpp:151
 #, kde-format
 msgid "Applying fixes…"
 msgstr "يطبق الإصلاحات…"
 
-#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:272
+#: src/doc/documentchecker.cpp:194 src/doc/documentchecker.cpp:283
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "يفحص العناصر الناقصة…"
 
-#: src/doc/documentchecker.cpp:204
+#: src/doc/documentchecker.cpp:215
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "معرف مستند مشروعك غير صالح، أنشئ واحد أخر."
 
-#: src/doc/documentchecker.cpp:215
+#: src/doc/documentchecker.cpp:226
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
@@ -26994,120 +26994,120 @@ msgstr ""
 "لم يُعثر على مجلد التخزين الخاص بالمشروع <b>%1</b>. يُرجى إدخال موقع محدّث "
 "لتخزين ملفات هذا المشروع."
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1918
 #, kde-format
 msgid "Video clip"
 msgstr "مقطع فيديو"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1920
 #, kde-format
 msgid "Slideshow clip"
 msgstr "مقطع عرض شرائح"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1922
 #, kde-format
 msgid "Image clip"
 msgstr "مقطع صورة"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1924
 #, kde-format
 msgid "Playlist clip"
 msgstr "مقطع قائمة تشغيل"
 
-#: src/doc/documentchecker.cpp:1915 src/doc/documentchecker.cpp:1931
+#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1942
 #, kde-format
 msgid "Title Image"
 msgstr "صورة عنوان"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Clip"
 msgstr "المقطع"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1940
 #, kde-format
 msgid "Title Font"
 msgstr "خطّ عنوان"
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Luma file"
 msgstr "ملفّ ”لوما“"
 
-#: src/doc/documentchecker.cpp:1935
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Asset file"
 msgstr "ملف أصل"
 
-#: src/doc/documentchecker.cpp:1937
+#: src/doc/documentchecker.cpp:1948
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "المقطع الوسيط"
 
-#: src/doc/documentchecker.cpp:1941
+#: src/doc/documentchecker.cpp:1952
 #, kde-format
 msgid "Transition"
 msgstr "الانتقال"
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1954
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "مقطع غير المشار إليه"
 
-#: src/doc/documentchecker.cpp:1945
+#: src/doc/documentchecker.cpp:1956
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "تسلسل معطوب"
 
-#: src/doc/documentchecker.cpp:1955
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "ثابت"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "أعد التحميل"
 
-#: src/doc/documentchecker.cpp:1959
+#: src/doc/documentchecker.cpp:1970
 #, kde-format
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "البعيد"
 
-#: src/doc/documentchecker.cpp:1961
+#: src/doc/documentchecker.cpp:1972
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "مفقود"
 
-#: src/doc/documentchecker.cpp:1963
+#: src/doc/documentchecker.cpp:1974
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "مفقود ولكن يوجد وسيط"
 
-#: src/doc/documentchecker.cpp:1965
+#: src/doc/documentchecker.cpp:1976
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "عنصر نائب"
 
-#: src/doc/documentchecker.cpp:1967
+#: src/doc/documentchecker.cpp:1978
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "أزل"
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1989
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "يحوي ملفّ المشروع مقاطع أو ملفّات ناقصة."
 
-#: src/doc/documentchecker.cpp:1981
+#: src/doc/documentchecker.cpp:1992
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "الوسطاء ناقصون سيُعاد إنشاؤهم عند الفتح."

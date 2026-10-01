@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-09-29 00:44+0000\n"
+"POT-Creation-Date: 2026-10-01 17:39+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -18132,7 +18132,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "ປະມວນຜົນສຽງໂດຍໃຊ້ເອັບເຟັກ SoX"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1939
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:1950
 #: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
@@ -22741,8 +22741,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "ການໃຊ້ງານ"
 
-#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1917
-#: src/doc/documentchecker.cpp:1947 src/doc/documentchecker.cpp:1969
+#: src/bin/projectitemmodel.cpp:351 src/doc/documentchecker.cpp:1928
+#: src/doc/documentchecker.cpp:1958 src/doc/documentchecker.cpp:1980
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -26791,144 +26791,144 @@ msgctxt "@title:window"
 msgid "Proxy Clips Folder"
 msgstr "ໂຟນເດີຄລິບ"
 
-#: src/doc/documentchecker.cpp:140
+#: src/doc/documentchecker.cpp:151
 #, kde-format
 msgid "Applying fixes…"
 msgstr "ກຳລັງແກ້ໄຂ…"
 
-#: src/doc/documentchecker.cpp:183 src/doc/documentchecker.cpp:272
+#: src/doc/documentchecker.cpp:194 src/doc/documentchecker.cpp:283
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "ກຳລັງກວດສອບລາຍການທີ່ຫາຍໄປ…"
 
-#: src/doc/documentchecker.cpp:204
+#: src/doc/documentchecker.cpp:215
 #, kde-format
 msgid ""
 "The document id of your project was invalid, a new one has been created."
 msgstr "ລະຫັດເອກະສານຂອງໂຄງການບໍ່ຖືກຕ້ອງ, ລະຫັດໃໝ່ໄດ້ຖືກສ້າງຂຶ້ນແລ້ວ."
 
-#: src/doc/documentchecker.cpp:215
+#: src/doc/documentchecker.cpp:226
 #, kde-format
 msgid ""
 "The project's storage folder <b>%1</b> was not found. Please enter an "
 "updated location to store files for this project."
 msgstr ""
 
-#: src/doc/documentchecker.cpp:1907
+#: src/doc/documentchecker.cpp:1918
 #, kde-format
 msgid "Video clip"
 msgstr "ຄລິບວິດີໂອ"
 
-#: src/doc/documentchecker.cpp:1909
+#: src/doc/documentchecker.cpp:1920
 #, kde-format
 msgid "Slideshow clip"
 msgstr "ຄລິບສະໄລໂຊ"
 
-#: src/doc/documentchecker.cpp:1911
+#: src/doc/documentchecker.cpp:1922
 #, kde-format
 msgid "Image clip"
 msgstr "ຄລິບຮູບພາບ"
 
-#: src/doc/documentchecker.cpp:1913
+#: src/doc/documentchecker.cpp:1924
 #, kde-format
 msgid "Playlist clip"
 msgstr "ຄລິບລາຍການຫຼິ້ນ"
 
-#: src/doc/documentchecker.cpp:1915 src/doc/documentchecker.cpp:1931
+#: src/doc/documentchecker.cpp:1926 src/doc/documentchecker.cpp:1942
 #, kde-format
 msgid "Title Image"
 msgstr "ຮູບພາບຫົວຂໍ້"
 
-#: src/doc/documentchecker.cpp:1927
+#: src/doc/documentchecker.cpp:1938
 #, kde-format
 msgid "Clip"
 msgstr "ຄລິບ"
 
-#: src/doc/documentchecker.cpp:1929
+#: src/doc/documentchecker.cpp:1940
 #, kde-format
 msgid "Title Font"
 msgstr "ຟອນຫົວຂໍ້"
 
-#: src/doc/documentchecker.cpp:1933
+#: src/doc/documentchecker.cpp:1944
 #, kde-format
 msgid "Luma file"
 msgstr "ໄຟລ໌ Luma"
 
-#: src/doc/documentchecker.cpp:1935
+#: src/doc/documentchecker.cpp:1946
 #, kde-format
 msgid "Asset file"
 msgstr "ໄຟລ໌ຊັບພະຍາກອນ"
 
-#: src/doc/documentchecker.cpp:1937
+#: src/doc/documentchecker.cpp:1948
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "ຄລິບພຣັອກຊີ"
 
-#: src/doc/documentchecker.cpp:1941
+#: src/doc/documentchecker.cpp:1952
 #, kde-format
 msgid "Transition"
 msgstr "ການປ່ຽນ Scene"
 
-#: src/doc/documentchecker.cpp:1943
+#: src/doc/documentchecker.cpp:1954
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "ຄລິບທີ່ບໍ່ໄດ້ອ້າງອີງ"
 
-#: src/doc/documentchecker.cpp:1945
+#: src/doc/documentchecker.cpp:1956
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "ລຳດັບເສຍຫາຍ"
 
-#: src/doc/documentchecker.cpp:1955
+#: src/doc/documentchecker.cpp:1966
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "ແກ້ໄຂແລ້ວ"
 
-#: src/doc/documentchecker.cpp:1957
+#: src/doc/documentchecker.cpp:1968
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "ໂຫຼດໃໝ່"
 
-#: src/doc/documentchecker.cpp:1959
+#: src/doc/documentchecker.cpp:1970
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "ເອົາອອກ"
 
-#: src/doc/documentchecker.cpp:1961
+#: src/doc/documentchecker.cpp:1972
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "ຫາຍໄປ"
 
-#: src/doc/documentchecker.cpp:1963
+#: src/doc/documentchecker.cpp:1974
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "ຫາຍໄປ, ແຕ່ມີພຣັອກຊີ"
 
-#: src/doc/documentchecker.cpp:1965
+#: src/doc/documentchecker.cpp:1976
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "ຕົວແທນບ່ອນວ່າງ"
 
-#: src/doc/documentchecker.cpp:1967
+#: src/doc/documentchecker.cpp:1978
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "ລຶບອອກ"
 
-#: src/doc/documentchecker.cpp:1978
+#: src/doc/documentchecker.cpp:1989
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "ໄຟລ໌ໂຄງການມີຄລິບ ຫຼື ໄຟລ໌ທີ່ຫາຍໄປ."
 
-#: src/doc/documentchecker.cpp:1981
+#: src/doc/documentchecker.cpp:1992
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "ພຣັອກຊີທີ່ຫາຍໄປສາມາດຖືກສ້າງໃໝ່ເມື່ອເປີດ."
