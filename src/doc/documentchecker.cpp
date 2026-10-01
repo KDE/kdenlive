@@ -843,13 +843,13 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             item.status = MissingStatus::Missing;
             item.originalFilePath = img;
             item.clipId = id;
-            m_items.push_back(item);
 
             const QString relocated = relocateResource(img);
             if (!relocated.isEmpty()) {
                 item.status = MissingStatus::Fixed;
                 item.newFilePath = relocated;
             }
+            m_items.push_back(item);
         } else {
             m_safeImages.append(img);
         }
