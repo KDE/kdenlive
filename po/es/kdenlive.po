@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:44+0000\n"
-"PO-Revision-Date: 2026-09-13 00:48+0100\n"
+"PO-Revision-Date: 2026-10-01 00:05+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -1537,7 +1537,7 @@ msgstr "Color seleccionado"
 #: data/effects/avfilter/avfilter_chromahold.xml:9
 #, kde-format
 msgid "The color which will not be replaced with neutral chroma"
-msgstr "El color que no será sustituido por un color neutro."
+msgstr "El color que no será sustituido por un color neutro"
 
 #: data/effects/avfilter/avfilter_chromahold.xml:14
 #, kde-format
@@ -5005,18 +5005,15 @@ msgid "Lag Fun"
 msgstr "Lag Fun"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:6
-#, fuzzy, kde-format
-#| msgid ""
-#| "Slowly update darker pixels.<br>\n"
-#| "        <b><i>Note</i></b>: This effect does not reset during playback "
-#| "due to frame buffer issues but renders correctly."
+#, kde-format
 msgid ""
 "Slowly update darker pixels. Results of using different <i>Planes</i> "
 "depends on pixel format.<br>\n"
 "        <b><i>Note</i></b>: This effect does not reset during playback due "
 "to frame buffer issues but renders correctly."
 msgstr ""
-"Permite actualizar más lentamente los píxeles más oscuros.<br>\n"
+"Permite actualizar más lentamente los píxeles más oscuros. El resultado de "
+"usar los diferentes <i>Planos</i> dependerá del formato de píxel usado.<br>\n"
 "        <b><i>Nota</i></b>: Este efecto no se restablece durante la "
 "reproducción, debido a temas relacionados con el búfer de fotogramas, aún "
 "así su procesamiento es correcto."
@@ -5024,7 +5021,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "El resultado dependerá del formato de píxel usado"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -5032,6 +5029,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"Todos,Ninguno,Luma/Y/Rojo,Croma/U/Verde,Croma/V/Azul,Alfa (α),YU,YV,UV,YUV,"
+"Yα,Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -6347,7 +6346,7 @@ msgstr ""
 "            Este valor configura el desenfoque. Un valor positivo "
 "desenfocará la imagen, mientras que uno negativo la enfocará. En caso de no "
 "ser especificado se usará el valor establecido para la opción <em>Intensidad "
-"luma</em>"
+"luma</em>."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -6406,7 +6405,7 @@ msgstr ""
 "            Este valor configura el desenfoque. Un valor positivo "
 "desenfocará la imagen, mientras que uno negativo la enfocará. En caso de no "
 "ser especificado se usará el valor establecido para la opción <em>Intensidad "
-"luma</em>"
+"luma</em>."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -10095,41 +10094,37 @@ msgstr "Ninguna,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Sacudir cámara"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Efecto de movimiento de cámara con rotación, opacidad y desenfoque"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "Amplitud"
+msgstr "Amplitud X"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "Movimiento horizontal máx"
+msgstr "Amplitud horizontal máxima de las sacudidas"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "Amplitud"
+msgstr "Amplitud Y"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "Movimiento vertical máx"
+msgstr "Amplitud vertical máxima de las sacudidas"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "Rotación máxima de las sacudidas (limitada a 45 grados)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -10138,40 +10133,40 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Factor de ampliación para ocultar bordes negros.<br>\n"
+"        Es el número a sumarle al 100%. Por ejemplo: 0% significa ausencia "
+"de ampliación adicional; 100% significa una imagen del doble del tamaño "
+"original (200% en total)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "Intensidad desplazamiento"
+msgstr "Intensidad sacudidas"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Velocidad o frecuencia de las sacudidas"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "Opacidad del visor del instrumento"
+msgstr "Opacidad del efecto"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Movimiento"
+msgstr "Desenfoque por movimiento"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Intensidad de desenfoque por movimiento (limitado a 20 píxeles)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "Opacidad del color de fondo"
+msgstr "Color de fondo de los bordes expuestos"
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -13592,35 +13587,32 @@ msgstr "Tamaño del núcleo"
 #: data/effects/frei0r/frei0r_squigglevision.xml:4
 #, kde-format
 msgid "Squigglevision"
-msgstr ""
+msgstr "Squigglevision"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:5
 #, kde-format
 msgid "Creates a hand-drawn wobble effect"
-msgstr ""
+msgstr "Crea un efecto de oscilación propio de un dibujo hecho a mano"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "Cantidad de tinte"
+msgstr "Intensidad de desplazamiento"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12
 #, kde-format
 msgid "FPS"
-msgstr ""
+msgstr "FPS"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "Actualizaciones por segundo"
+msgstr "Actualizaciones de oscilación por segundo"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "Tamaño del núcleo"
+msgstr "Tamaño de celdas de ruido"
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
@@ -23649,16 +23641,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Formato de grabación ajustado a %1 canales, %2Hz."
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "Procesando %1"
+msgstr "Error al acceder a %1"
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "Monitor %1"
+msgstr "Monitorear a través de %1"
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -31316,10 +31306,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Eliminar espacio (todas las pistas)"
 
 #: src/mainwindow.cpp:2166
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Pistas de audio separadas"
+msgstr "Aislar esta pista de audio"
 
 #: src/mainwindow.cpp:2169
 #, kde-format
@@ -31593,11 +31582,7 @@ msgid "Continue without"
 msgstr "No hacerlo"
 
 #: src/mainwindow.cpp:2581
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
@@ -31605,7 +31590,8 @@ msgid ""
 msgstr ""
 "El proyecto actual no ha sido guardado.<br/>Esta acción guardará primero el "
 "proyecto, después moverá todos los archivos temporales desde <br/><b>%1</b> "
-"hacia <b>%2</b>,<br>finalmente se recargará el proyecto"
+"hacia la ubicación del archivo del proyecto y finalmente se recargará el "
+"proyecto"
 
 #: src/mainwindow.cpp:2593
 #, kde-format
@@ -33474,8 +33460,7 @@ msgid "Unknown License"
 msgstr "Licencia desconocida"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
 msgstr "Puede tomar un tiempo hasta que la previsualización haya sido cargada"
 
@@ -33502,17 +33487,13 @@ msgid "Images"
 msgstr "Imágenes"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"Advertencia, ¡Es posible que el uso de este recurso se encuentre restringido "
-"por los términos de su licencia o la ley!\n"
+"Es posible que el uso de este recurso se encuentre restringido por los "
+"términos de su licencia o las leyes locales.\n"
 "¿Agregar atribución de licencia a las Notas del proyecto?"
 
 #: src/onlineresources/resourcewidget.cpp:707
@@ -33552,10 +33533,9 @@ msgid "Data Imported"
 msgstr "Datos importados"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "Intentar importar nuevamente para obtener una nueva conexión"
+msgstr "Intentar importar nuevamente para establecer una nueva conexión"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -37485,11 +37465,9 @@ msgid "Cannot remove all clips"
 msgstr "No es posible eliminar todos los clips"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr ""
-"Seleccionar una pista de audio donde mostrar los controles de grabación"
+msgstr "Seleccionar una pista de audio para activar el modo Solo"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229
@@ -38727,7 +38705,7 @@ msgstr ""
 #: src/ui/autotrackcreationdialog_ui.ui:37
 #, kde-format
 msgid "The selected clip requires additional audio tracks."
-msgstr "El clip seleccionado necesita pistas adicionales de audio"
+msgstr "El clip seleccionado necesita pistas adicionales de audio."
 
 #. i18n: ectx: property (text), widget (QRadioButton, createAllRadio)
 #: src/ui/autotrackcreationdialog_ui.ui:44
@@ -43395,20 +43373,3 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid ""
-#~ "You can also enter <i>strftime</i> parameters to customize the output, "
-#~ "like: #createdate %H:%M %D#"
-#~ msgstr ""
-#~ "También será posible introducir parámetros <i>strftime</i> para "
-#~ "personalizar la salida, como: #createdate %H:%M %D#"
-
-#~ msgid ""
-#~ "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),"
-#~ "File date (local),Source frame rate,Source codec,Source bit rate,Source "
-#~ "width,Source height,Source comment"
-#~ msgstr ""
-#~ "Código de tiempo,Fotograma,Nombre de archivo,Nombre base,Fecha de "
-#~ "creación,Fecha del archivo (GMT),Fecha del archivo (local),Velocidad "
-#~ "original,Compresor original,Frecuencia de bits original,Ancho original,"
-#~ "Altura original,Comentario original"

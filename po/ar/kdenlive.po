@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-09-29 00:44+0000\n"
-"PO-Revision-Date: 2026-09-23 19:08+0400\n"
+"PO-Revision-Date: 2026-09-26 16:49+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -30543,10 +30543,9 @@ msgid "Remove Space in All Tracks"
 msgstr "أزل الفضاء في كلّ المسارات"
 
 #: src/mainwindow.cpp:2166
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "اقسم مسارات الصّوت"
+msgstr "بدّل مسار الصوت المنفرد"
 
 #: src/mainwindow.cpp:2169
 #, kde-format
@@ -32669,10 +32668,9 @@ msgid "Unknown License"
 msgstr "ترخيص مجهول"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "ربما يستغرق الأمر بعض الوقت حتى تتحمل المعاينة"
+msgstr "يرجى الانتظار ريثما تُحمّل المعاينة"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -32697,17 +32695,13 @@ msgid "Images"
 msgstr "الصور"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"كن على علم بأن استخدام المورد قد يكون مقيدًا حسب شروط الترخيص أو القانون! \n"
-"هل تريد إضافة إسناد الترخيص إلى ملاحظات مشروعك؟"
+"قد يخضع استخدام هذه الموارد لقيود بموجب شروط الترخيص أو القوانين المحلية.\n"
+"هل تريد إضافة إشارة إلى الترخيص في ملاحظات مشروعك؟"
 
 #: src/onlineresources/resourcewidget.cpp:707
 #, kde-format
@@ -32746,10 +32740,9 @@ msgid "Data Imported"
 msgstr "استوردت البيانات"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "حاول الاستيراد مرة أخرى للحصول على اتصال جديد"
+msgstr "جرّب الاستيراد مجددًا لإنشاء اتصال جديد"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -36633,10 +36626,9 @@ msgid "Cannot remove all clips"
 msgstr "تعذّر إزالة كل المقاطع"
 
 #: src/timeline2/view/timelinecontroller.cpp:3172
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "حدد مسار صوتي لعرض متحكمات التسجيل"
+msgstr "اختر مسار صوت لتنشيط وضع المنفرد"
 
 #: src/timeline2/view/timelinecontroller.cpp:3224
 #: src/timeline2/view/timelinecontroller.cpp:3229
