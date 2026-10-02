@@ -353,8 +353,8 @@ void ProjectManager::testSetActiveTimeline(std::shared_ptr<TimelineItemModel> ti
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
+                m_project->addTimeline(uid, timelineModel, false);
                 if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
-                    m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
                     passSequenceProperties(uid, prod, *tc.get(), timelineModel, nullptr);
