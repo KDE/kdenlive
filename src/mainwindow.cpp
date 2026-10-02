@@ -2473,13 +2473,13 @@ void MainWindow::slotEditProjectSettings(int ix)
     KdenliveDoc *project = pCore->currentDoc();
     QPair<int, int> p = getCurrentTimeline()->getAvTracksCount();
     int channels = project->getDocumentProperty(QStringLiteral("audioChannels"), QStringLiteral("2")).toInt();
-    ProjectSettings *w = new ProjectSettings(project, project->metadata(), p.second, p.first, channels, true, !project->isModified(), this);
+    std::unique_ptr<ProjectSettings> w(new ProjectSettings(project, project->metadata(), p.second, p.first, channels, true, !project->isModified(), this));
     if (ix > 0) {
         w->tabWidget->setCurrentIndex(ix);
     }
-    connect(w, &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
+    connect(w.get(), &ProjectSettings::disableProxies, this, &MainWindow::slotDisableProxies);
     // connect(w, SIGNAL(disablePreview()), pCore->projectManager()->currentTimeline(), SLOT(invalidateRange()));
-    connect(w, &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
+    connect(w.get(), &ProjectSettings::refreshProfiles, this, &MainWindow::slotRefreshProfiles);
 
     if (w->exec() == QDialog::Accepted) {
         QString profile = w->selectedProfile();
@@ -2612,10 +2612,10 @@ void MainWindow::slotEditProjectSettings(int ix)
                     pCore->projectManager()->moveProjectData(storageType, oldDir.absoluteFilePath(documentId), newDir.absolutePath());*/
                     return;
                     // answer = KMessageBox::Cancel;
-                } else {
                 }
             } else {
                 qDebug() << "5555555555555555555555555555555555555\n\nDETECTING ALREADY SAVED PROJECT : " << storageType << "\n\n5555555555555555555555";
+                answer = KMessageBox::Continue;
                 if (storageType == StoreWithProjectFile) {
                     pathToMove = QFileInfo(project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
                 } else if (storageType == StoreInCustomFolder) {
@@ -2631,11 +2631,11 @@ void MainWindow::slotEditProjectSettings(int ix)
                                    currentStorage, pathToMove));
                     if (answer == KMessageBox::Continue) {
                         pCore->projectManager()->saveFile();
-                    } else {
-                        answer = KMessageBox::warningContinueCancel(
-                            this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
-                                       currentStorage, pathToMove));
                     }
+                } else {
+                    answer = KMessageBox::warningContinueCancel(
+                        this, i18n("This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the project file will then be reloaded",
+                                   currentStorage, pathToMove));
                 }
             }
             if (answer == KMessageBox::Continue) {
@@ -2678,7 +2678,6 @@ void MainWindow::slotEditProjectSettings(int ix)
             project->setModified();
         }
     }
-    delete w;
 }
 
 void MainWindow::slotDisableProxies()
