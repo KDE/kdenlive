@@ -9,6 +9,7 @@
 #include "core.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectstack/model/effectstackmodel.hpp"
 #include "mltconnection.h"
 #include "project/projectmanager.h"
 #include "timeline2/model/timelinefunctions.hpp"
@@ -466,6 +467,44 @@ void mixesAndSpacers(int sample)
     require(pCore->projectManager()->closeCurrentDocument(false, false), "Cannot close document");
 }
 
+void keyframes(int sample)
+{
+    std::cerr << "\nKeyframes insert, update and remove\n";
+    auto undoStack = std::make_shared<DocUndoStack>(nullptr);
+    KdenliveDoc document(undoStack, {2, 0});
+    pCore->projectManager()->testSetDocument(&document);
+    auto timeline = TimelineItemModel::construct(document.uuid(), undoStack);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+    int v1;
+    require(timeline->requestTrackInsertion(-1, v1), "Cannot insert V1");
+    const QString binId = createProducer("blue", 5000);
+    int cid = -1;
+    require(timeline->requestClipInsertion(binId, v1, 100, cid, false, false, false), "Cannot insert clip");
+    require(cid > -1, "Cannot locate clip");
+    require(timeline->addClipEffect(cid, "sepia", false).size() == 1, "Cannot add clip effect");
+    int count = 800;
+    auto effectStack = timeline->getClipEffectStack(cid);
+    require(effectStack->addEffectKeyFrame(0, 0.5), "Adding first keyframe failed");
+    measure("insert keyframes", count, sample, count, [&, effectStack]() {
+        for (int i = 0; i < count; ++i) {
+            require(effectStack->addEffectKeyFrame(3 * i + 1, double(i) / count), "Adding keyframe failed");
+        }
+    });
+
+    measure("update keyframes", count, sample, count, [&, effectStack]() {
+        for (int i = 0; i < count; ++i) {
+            require(effectStack->updateKeyFrame(3 * i + 1, 3 * i + 1, 1. - double(i) / count), "Updating keyframe failed");
+        }
+    });
+
+    measure("remove keyframes", count, sample, count, [&, effectStack]() {
+        for (int i = 0; i < count; ++i) {
+            require(effectStack->removeKeyFrame(3 * i + 1), "Removing keyframe failed");
+        }
+    });
+    require(pCore->projectManager()->closeCurrentDocument(false, false), "Cannot close document");
+}
+
 } // namespace
 
 int main(int argc, char **argv)
@@ -497,6 +536,7 @@ int main(int argc, char **argv)
         clipAndTrackEdits(sample);
         mixesAndSpacers(sample);
         groupMoves(sample);
+        keyframes(sample);
     }
 
     pCore->cleanup();
