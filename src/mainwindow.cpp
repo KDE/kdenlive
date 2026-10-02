@@ -4519,7 +4519,7 @@ void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->activeBin()->getCurrentFolder());
     connect(d, &ClipTranscode::addClip, [&, binId, sourceProps](const QUrl &url, const QString & /*folderInfo*/) {
         QMap<QString, QString> newProps;
-        newProps.insert(QStringLiteral("resource"), url.toLocalFile());
+        newProps.insert(QStringLiteral("resource"), QDir::cleanPath(url.toLocalFile()));
         newProps.insert(QStringLiteral("kdenlive:originalurl"), url.toLocalFile());
         newProps.insert(QStringLiteral("kdenlive:clipname"), url.fileName());
         newProps.insert(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));

@@ -1444,7 +1444,7 @@ QString DocumentChecker::ensureAbsolutePath(QString filepath)
         filepath.remove(0, 2);
 #endif
     }
-    return filepath;
+    return QDir::cleanPath(filepath);
 }
 
 QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
@@ -1770,7 +1770,7 @@ void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, 
         }
 
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-        QString updatedPath = newPath;
+        QString updatedPath = QDir::cleanPath(newPath);
 
         if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:originalurl"))) {
             // Only set originalurl on master producer
@@ -1880,8 +1880,8 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
         }
     } else if (resource.type == MissingType::Proxy) {
         if (resource.status == MissingStatus::Fixed) {
-            fixProxyClip(producers, resource.clipId, resource.originalFilePath, resource.newFilePath);
-            fixProxyClip(chains, resource.clipId, resource.originalFilePath, resource.newFilePath);
+            fixProxyClip(producers, resource.clipId, resource.originalFilePath, QDir::cleanPath(resource.newFilePath));
+            fixProxyClip(chains, resource.clipId, resource.originalFilePath, QDir::cleanPath(resource.newFilePath));
         } else if (resource.status == MissingStatus::Reload) {
             removeProxy(producers, resource.clipId, true);
             removeProxy(chains, resource.clipId, true);

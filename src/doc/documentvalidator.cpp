@@ -1459,7 +1459,7 @@ bool DocumentValidator::upgrade(double version, int patchVersion, const double c
                     prod.setAttribute(QStringLiteral("id"), id + QStringLiteral(":1"));
                     slowmoIds << id;
                     Xml::setXmlProperty(prod, QStringLiteral("mlt_service"), QStringLiteral("timewarp"));
-                    QString resource = Xml::getXmlProperty(prod, QStringLiteral("resource"));
+                    QString resource = QDir::cleanPath(Xml::getXmlProperty(prod, QStringLiteral("resource")));
                     Xml::setXmlProperty(prod, QStringLiteral("warp_resource"), resource.section(QLatin1Char('?'), 0, 0));
                     Xml::setXmlProperty(prod, QStringLiteral("warp_speed"), resource.section(QLatin1Char('?'), 1).section(QLatin1Char(':'), 0, 0));
                     Xml::setXmlProperty(prod, QStringLiteral("resource"),

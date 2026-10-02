@@ -43,7 +43,7 @@ QDomElement createProducer(QDomDocument &xml, ClipType::ProducerType type, const
     prod.setAttribute(QStringLiteral("length"), duration);
     std::unordered_map<QString, QString> properties;
     if (!resource.isEmpty()) {
-        properties[QStringLiteral("resource")] = resource;
+        properties[QStringLiteral("resource")] = QDir::cleanPath(resource);
     }
     if (!name.isEmpty()) {
         properties[QStringLiteral("kdenlive:clipname")] = name;
@@ -318,7 +318,7 @@ QDomDocument ClipCreator::getXmlFromUrl(const QString &path, ClipType::ProducerT
         prod = xml.createElement(QStringLiteral("producer"));
         xml.appendChild(prod);
         QMap<QString, QString> properties;
-        properties.insert(QStringLiteral("resource"), path);
+        properties.insert(QStringLiteral("resource"), QDir::cleanPath(path));
         if (clipType != ClipType::Unknown) {
             properties.insert(QStringLiteral("type"), QString::number(int(clipType)));
         }

@@ -2302,7 +2302,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             if (proxy.length() < 4) {
                 return;
             }
-            const QString resource = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl")));
             if (!resource.isEmpty()) {
                 Xml::setXmlProperty(producer, QStringLiteral("resource"), resource);
                 Xml::setXmlProperty(producer, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
@@ -2364,7 +2364,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
                 if (Xml::hasXmlProperty(currentProd, QStringLiteral("warp_resource"))) {
                     // This is a timewarp producer, change it into a normal one
-                    const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+                    const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
                     Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
                     Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
                     // Reset AV settings as it might be a timeline producer
@@ -3268,7 +3268,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 blackBg = currentProd.attribute(QStringLiteral("id"));
                 continue;
             }
-            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource")));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
                 clipId = producerSpeedResource.value(resource);
@@ -3305,9 +3305,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             // Speed producer
             double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            producerSpeedResource.insert(QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource"))), clipId);
             qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
-            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
             Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
             producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
         }
@@ -3338,7 +3338,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
         if (!ok) {
-            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource")));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
                 clipId = producerSpeedResource.value(resource);
@@ -3375,9 +3375,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             // Speed producer
             double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            producerSpeedResource.insert(QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource"))), clipId);
             qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
-            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
             Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
             producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
         }

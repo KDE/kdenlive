@@ -447,7 +447,7 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
     // Profile has already been set, dont overwrite it
     m_document.documentElement().removeChild(m_document.documentElement().firstChildElement(QLatin1String("profile")));
     // The xml will be passed as a string, we need to set the root so it finds the relative paths
-    m_document.documentElement().setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+    m_document.documentElement().setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
 
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
@@ -1798,7 +1798,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                                                                 : clipsWithAlpha.contains(item) ? alphaExtension
                                                                                                 : extension));
                 }
-                newProps.insert(QStringLiteral("kdenlive:proxy"), path);
+                newProps.insert(QStringLiteral("kdenlive:proxy"), QDir::cleanPath(path));
                 // We need to insert empty proxy so that undo will work
                 // TODO: how to handle clip properties
                 // oldProps = clip->currentProperties(newProps);
@@ -2955,7 +2955,7 @@ void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root,
     QString prefix;
     for (int n = 0; n < producers.length(); ++n) {
         QDomElement e = producers.item(n).toElement();
-        producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        producerResource = QDir::cleanPath(Xml::getXmlProperty(e, QStringLiteral("resource")));
         producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         originalProducerService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
         if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
@@ -2979,6 +2979,7 @@ void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root,
             if (QFileInfo(producerResource).isRelative()) {
                 producerResource.prepend(root);
             }
+            producerResource = QDir::cleanPath(producerResource);
             if (proxies.contains(producerResource)) {
                 if (!originalProducerService.isEmpty() && originalProducerService != producerService) {
                     // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
