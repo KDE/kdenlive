@@ -1167,10 +1167,6 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed) {
-        qWarning() << "GUI not build";
-        return 0;
-    }
     switch (id.type) {
     case KdenliveObjectType::TimelineClip: {
         auto timeline = currentDoc()->getTimeline(id.uuid);
