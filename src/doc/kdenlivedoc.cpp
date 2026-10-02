@@ -1922,7 +1922,7 @@ bool KdenliveDoc::loadDocumentProperties()
                 if (QFileInfo(value).isRelative()) {
                     value.prepend(m_documentRoot);
                 }
-                m_documentProperties.insert(name, value);
+                m_documentProperties.insert(name, QDir::cleanPath(value));
             } else {
                 m_documentProperties.insert(name, e.firstChild().nodeValue());
                 if (name == QLatin1String("uuid")) {
@@ -2028,7 +2028,13 @@ bool KdenliveDoc::loadDocumentProperties()
 
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
     ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
-    if (storageType == StoreUndefined || storageType == StoreWithProjectFile) {
+    if (storageType == StoreInCustomFolder) {
+        if (QFile::exists(path)) {
+            m_projectFolder = QDir::cleanPath(path);
+        } else {
+            m_projectFolder.clear();
+        }
+    } else if (storageType == StoreUndefined || storageType == StoreWithProjectFile) {
         if (!path.isEmpty()) {
             QDir dir(path);
             dir.cdUp();
