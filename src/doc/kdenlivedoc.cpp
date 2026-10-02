@@ -446,6 +446,9 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     // Profile has already been set, dont overwrite it
     m_document.documentElement().removeChild(m_document.documentElement().firstChildElement(QLatin1String("profile")));
+    // The xml will be passed as a string, we need to set the root so it finds the relative paths
+    m_document.documentElement().setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
     m_document.clear();
@@ -1874,6 +1877,9 @@ bool KdenliveDoc::loadDocumentProperties()
     QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
     QDomElement baseElement = m_document.documentElement();
     m_documentRoot = baseElement.attribute(QStringLiteral("root"));
+    if (m_documentRoot.isEmpty() && !m_url.isEmpty()) {
+        m_documentRoot = QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
     if (!m_documentRoot.isEmpty()) {
         m_documentRoot = QDir::cleanPath(m_documentRoot) + QLatin1Char('/');
     }

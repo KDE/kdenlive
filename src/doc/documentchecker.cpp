@@ -202,7 +202,6 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
-    const QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
     for (int i = 0; i < playlists.count(); ++i) {
@@ -242,32 +241,56 @@ bool DocumentChecker::hasErrorInProject()
                 } else {
                     storageType = StoreInDefaultLocation;
                 }
-                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), QString::number(int(storageType)));
+                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"), QString::number(int(storageType)));
                 m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
                 qDebug() << "========================\n\nDETECTED PROJECT STORAGE TYPE: " << storageType << "\n\n=================================";
             }
 
-            if (storageType == StoreInCustomFolder) {
+            if (storageType == StoreWithProjectFile) {
+                storageFolder = QStringLiteral("%1/%2").arg(QStringLiteral("cachefiles"), m_documentid);
+                if (!QFile::exists(projectDir.absoluteFilePath(storageFolder))) {
+                    if (projectDir.mkpath(QStringLiteral("./%1").arg(storageFolder))) {
+                        if (pCore->window()) {
+                            KMessageBox::information(qApp->activeWindow(),
+                                                     i18n("Project's temporary folder was missing and now recreated at:\n%1", storageFolder));
+                        } else {
+                            qWarning() << "!!!!!\nProject's temporary folder was missing and now recreated at:" << storageFolder << "\n!!!!!";
+                        }
+                    } else {
+                        if (pCore->window()) {
+                            KMessageBox::information(
+                                qApp->activeWindow(),
+                                i18n("Could not access folder:\n%1\nDisabling storage of temporary files in project folder, using default location:\n%2",
+                                     projectDir.absoluteFilePath(storageFolder),
+                                     QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))));
+                        } else {
+                            qWarning() << "!!!!!\nCould not access folder:\n"
+                                       << projectDir.absoluteFilePath(storageFolder) << "\nDisabling storage of temporary files in project folder\n!!!!!";
+                        }
+                        Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"),
+                                            QString::number(int(StoreInDefaultLocation)));
+                    }
+                }
+            } else if (storageType == StoreInCustomFolder) {
                 storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
                 if (!storageFolder.isEmpty()) {
                     const QString finalStorageFolder = ensureAbsolutePath(storageFolder);
                     if (!QFile::exists(finalStorageFolder)) {
-                        storageFolder = QStringLiteral("%1/%2").arg(QStringLiteral("cachefiles"), m_documentid);
-                        if (projectDir.mkpath(storageFolder)) {
-                            Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), storageFolder);
-                            storageFolder = ensureAbsolutePath(storageFolder);
-                            KMessageBox::information(qApp->activeWindow(),
-                                                     i18n("Project's temporary folder was missing and now recreated at:\n%1", storageFolder));
-                            m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
-                        } else {
+                        if (pCore->window()) {
                             KMessageBox::information(
                                 qApp->activeWindow(),
-                                i18n("Could not access folder:\n%1\nDisabling storage of temporary files in the project folder", projectDir.absolutePath()));
-                            Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-                            m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
-                            Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"),
-                                                QString::number(int(StoreInDefaultLocation)));
+                                i18n("Could not access folder:\n%1\nDisabling storage of temporary files in custom folder, using default location:\n%2",
+                                     finalStorageFolder, QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))));
+                        } else {
+                            qWarning() << "!!!!!\nCould not access folder:\n"
+                                       << projectDir.absoluteFilePath(storageFolder) << "\nDisabling custom storage of temporary files\n!!!!!";
                         }
+                        Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"),
+                                            QString::number(int(StoreInDefaultLocation)));
                     }
                 }
             }
@@ -321,7 +344,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
-        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+        if (!resource.isEmpty() &&
+            (resource.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) || resource.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) &&
             !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
@@ -359,7 +383,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
 
-        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+        if (!resource.isEmpty() &&
+            (resource.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) || resource.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) &&
             !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;

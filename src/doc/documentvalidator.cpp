@@ -54,8 +54,6 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion, co
         m_doc.setContent(playlist);
         mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
         kdenliveDoc = mlt.firstChildElement(QStringLiteral("kdenlivedoc"));
-    } else if (rootDir.isEmpty()) {
-        mlt.setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
     }
 
     QLocale documentLocale = QLocale::c(); // Document locale for conversion. Previous MLT / Kdenlive versions used C locale by default
