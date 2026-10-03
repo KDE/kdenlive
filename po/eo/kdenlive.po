@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-01 17:39+0000\n"
+"POT-Creation-Date: 2026-10-03 00:44+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -24260,18 +24260,18 @@ msgstr "Horloĝo Supre"
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Via projektoprofilo estas nevalida, bildigo eble malsukcesas."
 
-#: src/core.cpp:1445
+#: src/core.cpp:1441
 #, kde-format
 msgid "Loading clips"
 msgstr "Ŝargante aŭdvidaĵoj"
 
-#: src/core.cpp:1955
+#: src/core.cpp:1951
 #, fuzzy, kde-format
 #| msgid "Marker 1"
 msgid "Marker %1"
 msgstr "Markilo 1"
 
-#: src/core.cpp:2317
+#: src/core.cpp:2313
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -24282,12 +24282,12 @@ msgstr ""
 "la sekva URL:\n"
 " %1"
 
-#: src/core.cpp:2318 src/core.cpp:2329
+#: src/core.cpp:2314 src/core.cpp:2325
 #, kde-format
 msgid "Open Browser"
 msgstr "Malfermi Foliumilon"
 
-#: src/core.cpp:2328
+#: src/core.cpp:2324
 #, fuzzy, kde-format
 #| msgid ""
 #| "This will open a browser to display Kdenlive's online documentation at "

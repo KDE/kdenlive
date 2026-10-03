@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-01 17:39+0000\n"
+"POT-Creation-Date: 2026-10-03 00:44+0000\n"
 "PO-Revision-Date: 2024-09-22 14:33+0300\n"
 "Last-Translator: Antonis Geralis <capoiosct@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -23605,19 +23605,19 @@ msgstr ""
 "Ο κατάλογος έργου του εγγράφου είναι μη έγκυρος, επαναφορά της προεπιλογής: "
 "%1"
 
-#: src/core.cpp:1445
+#: src/core.cpp:1441
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Loading clips"
 msgstr "Προστίθενται κλιπ"
 
-#: src/core.cpp:1955
+#: src/core.cpp:1951
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "Marker %1"
 msgstr "Δείκτης 2"
 
-#: src/core.cpp:2317
+#: src/core.cpp:2313
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23625,13 +23625,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2318 src/core.cpp:2329
+#: src/core.cpp:2314 src/core.cpp:2325
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Αναπαραγωγείς μέσων"
 
-#: src/core.cpp:2328
+#: src/core.cpp:2324
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"

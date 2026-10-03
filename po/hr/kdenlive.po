@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-01 17:39+0000\n"
+"POT-Creation-Date: 2026-10-03 00:44+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -23069,17 +23069,17 @@ msgstr ""
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Dokumentno projektna mapa je neispravna, postavite na zadano: %1%1"
 
-#: src/core.cpp:1445
+#: src/core.cpp:1441
 #, fuzzy, kde-format
 msgid "Loading clips"
 msgstr "Učitaj projektne isječke"
 
-#: src/core.cpp:1955
+#: src/core.cpp:1951
 #, fuzzy, kde-format
 msgid "Marker %1"
 msgstr "Oznaka"
 
-#: src/core.cpp:2317
+#: src/core.cpp:2313
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23087,13 +23087,13 @@ msgid ""
 " %1"
 msgstr ""
 
-#: src/core.cpp:2318 src/core.cpp:2329
+#: src/core.cpp:2314 src/core.cpp:2325
 #, fuzzy, kde-format
 #| msgid "Media players"
 msgid "Open Browser"
 msgstr "Media playeri"
 
-#: src/core.cpp:2328
+#: src/core.cpp:2324
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
