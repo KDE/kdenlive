@@ -591,6 +591,8 @@ public:
        @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
+    /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
+    bool requestSingleSubtitleDeletion(int subtitleId);
     /* Same function, but accumulates undo and redo*/
     bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 

@@ -4,6 +4,7 @@
 */
 #include "test_utils.hpp"
 
+#include "dialogs/subtitleedit.h"
 #include "doc/kdenlivedoc.h"
 #include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/view/timelinecontroller.h"
@@ -69,6 +70,112 @@ struct SelectionProject
     }
 };
 } // namespace
+
+TEST_CASE_METHOD(SelectionProject, "Subtitle editor deletes only its displayed subtitle and undo restores grouping", "[TimelineSelection][SubtitleDeletion]")
+{
+    create();
+    const QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", pCore->projectItemModel());
+    const int clip = insert(binId, 0);
+    auto subtitles = timeline->createSubtitleModel();
+    subtitles->removeAllSubtitles();
+    const int subtitle = KdenliveTests::getNextId();
+    const int otherSubtitle = KdenliveTests::getNextId();
+    const double fps = pCore->getCurrentFps();
+    REQUIRE(subtitles->addSubtitle(subtitle, {0, GenTime(100, fps)},
+                                   SubtitleEvent(true, GenTime(120, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Edited")), false, false));
+    REQUIRE(subtitles->addSubtitle(otherSubtitle, {0, GenTime(140, fps)},
+                                   SubtitleEvent(true, GenTime(160, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Other")), false, false));
+
+    SubtitleEdit editor;
+    editor.setModel(subtitles);
+    editor.setActiveSubtitle(subtitle);
+    int requestedId = -1;
+    QObject::connect(&editor, &SubtitleEdit::deleteSubtitleRequested, &editor, [&](int id) { requestedId = id; });
+
+    std::unordered_set<int> originalGroup;
+    SECTION("Mixed temporary selection")
+    {
+        select({subtitle, clip, otherSubtitle});
+    }
+    SECTION("An unrelated clip is selected")
+    {
+        select({clip});
+    }
+    SECTION("Saved group")
+    {
+        REQUIRE(timeline->requestClipsGroup({subtitle, clip}, true, GroupType::Normal) > 0);
+        originalGroup = timeline->getGroupElements(subtitle);
+        select({subtitle});
+    }
+    SECTION("Nested saved group")
+    {
+        REQUIRE(timeline->requestClipsGroup({subtitle, clip}, true, GroupType::Normal) > 0);
+        REQUIRE(timeline->requestClipsGroup({clip, otherSubtitle}, true, GroupType::Normal) > 0);
+        originalGroup = timeline->getGroupElements(subtitle);
+        select({subtitle});
+    }
+
+    const auto undoStack = pCore->undoStack();
+    const int undoIndex = undoStack->index();
+    editor.buttonDelete->click();
+    CHECK(requestedId == subtitle);
+    CHECK_FALSE(timeline->isSubTitle(subtitle));
+    CHECK(timeline->isSubTitle(otherSubtitle));
+    CHECK(timeline->isClip(clip));
+    CHECK_FALSE(editor.buttonDelete->isEnabled());
+    CHECK(undoStack->index() == undoIndex + 1);
+    // The timeline cross-check only recognizes clips and compositions as group leaves.
+    CHECK(KdenliveTests::groupsModel(timeline)->checkConsistency(true, false));
+
+    undoStack->undo();
+    CHECK(timeline->isSubTitle(subtitle));
+    CHECK(subtitles->getText(subtitle) == QStringLiteral("Edited"));
+    CHECK(timeline->isSubTitle(otherSubtitle));
+    CHECK(timeline->isClip(clip));
+    if (!originalGroup.empty()) {
+        CHECK(timeline->getGroupElements(subtitle) == originalGroup);
+    }
+    CHECK(KdenliveTests::groupsModel(timeline)->checkConsistency(true, false));
+    undoStack->redo();
+    CHECK_FALSE(timeline->isSubTitle(subtitle));
+    CHECK(timeline->isSubTitle(otherSubtitle));
+    CHECK(timeline->isClip(clip));
+    CHECK(KdenliveTests::groupsModel(timeline)->checkConsistency(true, false));
+}
+
+TEST_CASE_METHOD(SelectionProject, "Targeted subtitle deletion rejects invalid or locked targets", "[TimelineSelection][SubtitleDeletion]")
+{
+    create();
+    const QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", pCore->projectItemModel());
+    const int clip = insert(binId, 0);
+    auto subtitles = timeline->createSubtitleModel();
+    subtitles->removeAllSubtitles();
+    const int subtitle = KdenliveTests::getNextId();
+    const double fps = pCore->getCurrentFps();
+    REQUIRE(subtitles->addSubtitle(subtitle, {0, GenTime(100, fps)},
+                                   SubtitleEvent(true, GenTime(120, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Edited")), false, false));
+    select({clip, subtitle});
+    const auto selection = timeline->getCurrentSelection();
+    const int undoIndex = pCore->undoStack()->index();
+
+    CHECK_FALSE(timeline->requestSingleSubtitleDeletion(clip));
+    CHECK_FALSE(timeline->requestSingleSubtitleDeletion(-1));
+    SubtitleEdit editor;
+    editor.setModel(subtitles);
+    editor.setActiveSubtitle(subtitle);
+    subtitles->switchLocked();
+    editor.buttonDelete->click();
+    CHECK_FALSE(timeline->requestSingleSubtitleDeletion(subtitle));
+    subtitles->switchLocked();
+
+    editor.setModel(nullptr);
+    CHECK_FALSE(editor.buttonDelete->isEnabled());
+    Q_EMIT editor.deleteSubtitleRequested(subtitle); // The old timeline must be disconnected.
+    CHECK(timeline->isSubTitle(subtitle));
+    CHECK(timeline->isClip(clip));
+    CHECK(timeline->getCurrentSelection() == selection);
+    CHECK(pCore->undoStack()->index() == undoIndex);
+}
 
 TEST_CASE_METHOD(SelectionProject, "Timeline selection payload counts all selected item kinds", "[TimelineSelection]")
 {

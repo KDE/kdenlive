@@ -2588,6 +2588,26 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
     return result;
 }
 
+bool TimelineModel::requestSingleSubtitleDeletion(int subtitleId)
+{
+    QWriteLocker locker(&m_lock);
+    if (m_closing || !isSubTitle(subtitleId) || !m_subtitleModel || m_subtitleModel->isLocked()) {
+        return false;
+    }
+    // Clear a selection containing the target before changing its group structure.
+    if (getCurrentSelection().contains(subtitleId)) {
+        requestClearSelection(true);
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    extractSelectionFromGroup(subtitleId, undo, redo, true);
+    if (!requestSubtitleDeletion(subtitleId, undo, redo, true, true)) {
+        undo();
+        return false;
+    }
+    PUSH_UNDO(undo, redo, i18n("Delete Subtitle"));
+    return true;
+}
 
 bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo)
 {

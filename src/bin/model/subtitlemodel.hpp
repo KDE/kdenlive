@@ -30,6 +30,8 @@ class SubtitleModel : public QAbstractListModel
     QML_UNCREATABLE("SubtitleModel is owned by TimelineItemModel; obtained via setInitialProperties()")
 
 public:
+    /** @brief Timeline whose subtitles this model edits. */
+    std::shared_ptr<TimelineItemModel> timeline() const;
     static const int RAZOR_MODE_DUPLICATE = 0;
     static const int RAZOR_MODE_AFTER_FIRST_LINE = 1;
 
