@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="252" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="253" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -122,7 +122,7 @@
         <Action name="resize_timeline_clip_start"/>
         <Action name="resize_timeline_clip_end"/>
         <Action name="grab_item"/>
-        <Action name="delete_timeline_clip"/>
+        <Action name="delete_selected_item"/>
       </Menu>
       <Menu name="current_clip">
         <text>Current Clip</text>

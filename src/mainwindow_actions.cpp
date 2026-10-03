@@ -966,7 +966,7 @@ void MainWindow::setupActions()
 
     addAction(QStringLiteral("cut_timeline_all_clips"), i18n("Cut All Clips"), QIcon::fromTheme(QStringLiteral("edit-cut")), Qt::CTRL | Qt::SHIFT | Qt::Key_R);
 
-    addAction(QStringLiteral("delete_timeline_clip"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
+    addAction(QStringLiteral("delete_selected_item"), i18n("Delete Selected Item"), this, SLOT(slotDeleteItem()),
               QIcon::fromTheme(QStringLiteral("edit-delete")), Qt::Key_Delete);
 
     QAction *resizeStart = new QAction(QIcon(), i18n("Resize Item Start"), this);

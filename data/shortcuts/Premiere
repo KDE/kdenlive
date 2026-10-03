@@ -53,7 +53,7 @@
     <Action name="add_clip_marker" shortcut="Ctrl+1"/>
     <Action name="edit_item_speed" shortcut="Ctrl+R"/>
     <Action name="cut_timeline_clip" shortcut="Ctrl+K"/>
-    <Action name="delete_timeline_clip" shortcut="Del"/>
+    <Action name="delete_selected_item" shortcut="Del"/>
     <Action name="resize_timeline_clip_start" shortcut="Q"/>
     <Action name="resize_timeline_clip_end" shortcut="W"/>
     <Action name="paste_effects" shortcut="Ctrl+Alt+V"/>

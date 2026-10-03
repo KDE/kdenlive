@@ -1745,7 +1745,7 @@ void MainWindow::updateDeleteAction()
 {
     QObject::disconnect(m_deleteActionStateConnection);
     QAction *target = focusedDeleteAction();
-    QAction *generic = actionCollection()->action(QStringLiteral("delete_timeline_clip"));
+    QAction *generic = actionCollection()->action(QStringLiteral("delete_selected_item"));
     // The effect stack handles availability in its direct deletion command.
     generic->setEnabled(!target || target->isEnabled());
     if (target) {
