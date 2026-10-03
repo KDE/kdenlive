@@ -97,9 +97,12 @@ public:
         bool doesAnyClipHaveTimeRemap{false};
         bool doesAnyClipHaveSpeedAdjustment{false};
         bool hasGroupedItems{false};
+        bool hasSelectedMix{false};
         bool allEnabled{false};
         bool allDisabled{false};
     };
+    /** @brief Snapshot of selected timeline items and mix, without updating the UI. */
+    SelectionState selectionState() const;
     struct TargetTracksData
     {
         bool keep{false};
@@ -833,6 +836,7 @@ private Q_SLOTS:
     void initializePreview();
     void refreshPreviewChunk(int frame);
     void handleClipTimeWarpChange(int clipId);
+    void emitSelectionState();
     void handleClipStateChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     /** @brief Display the active subtitle mode in subtitle track combobox. */
     void loadSubtitleIndex();

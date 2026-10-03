@@ -101,6 +101,7 @@ void TimelineController::prepareClose()
     disconnect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
     disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::emitSelectionState);
     m_ready = false;
     m_root = nullptr;
     //  Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
@@ -147,6 +148,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::emitSelectionState);
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::handleClipStateChange);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
@@ -4526,7 +4528,7 @@ void TimelineController::handleSelectionChange()
 {
     const std::unordered_set<int> selectedItems = m_model->getCurrentSelection();
     if (selectedItems.empty()) {
-        Q_EMIT selectionStateChanged(SelectionState{});
+        emitSelectionState();
         Q_EMIT timelineClipSelected(false);
         // nothing selected
         Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false);
@@ -4573,9 +4575,20 @@ void TimelineController::handleSelectionChange()
     Q_EMIT timelineClipSelected(clip != nullptr);
 }
 
+TimelineController::SelectionState TimelineController::selectionState() const
+{
+    return m_model ? selectionState(m_model->getCurrentSelection()) : SelectionState{};
+}
+
+void TimelineController::emitSelectionState()
+{
+    Q_EMIT selectionStateChanged(selectionState());
+}
+
 TimelineController::SelectionState TimelineController::selectionState(const std::unordered_set<int> &selectedItems) const
 {
     SelectionState state;
+    state.hasSelectedMix = selectedMix() >= 0;
     if (selectedItems.size() == 2) {
         const int item = *selectedItems.begin();
         if (m_model->isClip(item)) {

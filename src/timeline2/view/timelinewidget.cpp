@@ -118,7 +118,7 @@ void TimelineWidget::populateActions(KActionCollection *actions)
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("clip_split")));
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("clip_enable_all")));
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("clip_disable_all")));
-    m_timelineClipMenu->addAction(actions->action(QStringLiteral("delete_subtitle_clip")));
+    m_timelineClipMenu->addAction(actions->action(QStringLiteral("delete_timeline_selection")));
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("extract_clip")));
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("replace_timeline_clip")));
     m_timelineClipMenu->addAction(actions->action(QStringLiteral("save_to_bin")));
@@ -170,12 +170,12 @@ void TimelineWidget::populateActions(KActionCollection *actions)
     m_timelineCompositionMenu = new QMenu(this);
     m_timelineCompositionMenu->addAction(actions->action(QStringLiteral("edit_item_duration")));
     m_timelineCompositionMenu->addAction(actions->action(QStringLiteral("edit_copy")));
-    m_timelineCompositionMenu->addAction(actions->action(QStringLiteral("delete_subtitle_clip")));
+    m_timelineCompositionMenu->addAction(actions->action(QStringLiteral("delete_timeline_selection")));
     m_timelineMixMenu = new QMenu(this);
-    m_timelineMixMenu->addAction(actions->action(QStringLiteral("delete_subtitle_clip")));
+    m_timelineMixMenu->addAction(actions->action(QStringLiteral("delete_timeline_selection")));
     m_timelineSubtitleClipMenu = new QMenu(this);
     m_timelineSubtitleClipMenu->addAction(actions->action(QStringLiteral("edit_copy")));
-    m_timelineSubtitleClipMenu->addAction(actions->action(QStringLiteral("delete_subtitle_clip")));
+    m_timelineSubtitleClipMenu->addAction(actions->action(QStringLiteral("delete_timeline_selection")));
 
     m_guideMenu = new QMenu(i18n("Go to Marker…"), this);
     m_timelineMenu = new QMenu(this);

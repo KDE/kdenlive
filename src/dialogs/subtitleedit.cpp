@@ -276,7 +276,7 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
     connect(buttonIn, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_start")); });
     connect(buttonOut, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
-    connect(buttonDelete, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("delete_subtitle_clip")); });
+    connect(buttonDelete, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("delete_timeline_selection")); });
     buttonNext->setToolTip(i18n("Go to next subtitle"));
     buttonNext->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead in the timeline to the beginning of the subtitle to the right."));
     buttonPrev->setToolTip(i18n("Go to previous subtitle"));

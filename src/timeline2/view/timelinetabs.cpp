@@ -60,7 +60,6 @@ TimelineTabs::TimelineTabs(QWidget *parent)
 
 TimelineTabs::~TimelineTabs()
 {
-    disconnectDeleteSelectionSignals();
     // clear source
     for (int i = 0; i < count(); i++) {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(i));
@@ -128,6 +127,12 @@ TimelineWidget *TimelineTabs::addTimeline(const QUuid uuid, int ix, const QStrin
     }
     disconnect(this, &TimelineTabs::currentChanged, this, &TimelineTabs::connectCurrent);
     TimelineWidget *newTimeline = new TimelineWidget(uuid, this);
+    auto *controller = newTimeline->controller();
+    connect(controller, &TimelineController::selectionStateChanged, this, [this, controller](const TimelineController::SelectionState &state) {
+        if (controller == activeController()) {
+            Q_EMIT selectionStateChanged(state);
+        }
+    });
     Q_EMIT timelineCreated(newTimeline);
     if (m_actions) {
         newTimeline->populateActions(m_actions);
@@ -155,10 +160,7 @@ void TimelineTabs::connectCurrent(int ix)
 void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
 {
     QMutexLocker lk(&m_lock);
-    disconnectDeleteSelectionSignals();
-    if (m_deleteSelectionAction) {
-        m_deleteSelectionAction->setEnabled(false);
-    }
+    Q_EMIT selectionStateChanged({});
     QUuid previousTab = QUuid();
     if (m_activeTimeline && m_activeTimeline->model()) {
         previousTab = m_activeTimeline->getUuid();
@@ -205,7 +207,6 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
         qDebug() << "++++++++++++\n\nCLOSING APP\n\n+++++++++++++";
         return;
     }
-    connectDeleteSelectionSignals(m_activeTimeline);
     if (openInMonitor) {
         pCore->window()->connectTimeline();
         connectTimeline(m_activeTimeline);
@@ -219,6 +220,7 @@ void TimelineTabs::doConnectCurrent(int ix, bool openInMonitor)
     } else {
         connectTimeline(m_activeTimeline);
     }
+    publishSelectionState();
 }
 
 void TimelineTabs::renameTab(const QUuid &uuid, const QString &name)
@@ -238,10 +240,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
 {
     TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
     if (timeline == m_activeTimeline) {
-        disconnectDeleteSelectionSignals();
-        if (m_deleteSelectionAction) {
-            m_deleteSelectionAction->setEnabled(false);
-        }
+        Q_EMIT selectionStateChanged({});
         Q_EMIT timeline->model()->requestClearAssetView(-1);
         pCore->clearTimeRemap();
         pCore->mixer()->unsetModel();
@@ -257,10 +256,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
     Fun redo = [this, ix, uuid]() {
         TimelineWidget *timeline = static_cast<TimelineWidget *>(widget(ix));
         if (timeline == m_activeTimeline) {
-            disconnectDeleteSelectionSignals();
-            if (m_deleteSelectionAction) {
-                m_deleteSelectionAction->setEnabled(false);
-            }
+            Q_EMIT selectionStateChanged({});
         }
         pCore->projectManager()->closeTimeline(uuid, false, false);
         removeTab(ix);
@@ -273,7 +269,7 @@ void TimelineTabs::closeTimelineByIndex(int ix)
             m_activeTimeline = nullptr;
         }
         delete timeline;
-        updateDeleteSelectionAction();
+        publishSelectionState();
         updatePreviewAction();
         updateWindowTitle();
         return true;
@@ -301,12 +297,11 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid, bool checkActiveClosed)
             timeline->blockSignals(true);
             if (timeline == m_activeTimeline) {
                 activeTimelineClosed = true;
-                disconnectDeleteSelectionSignals();
                 Q_EMIT showSubtitle(-1);
                 pCore->window()->disconnectTimeline(timeline, closing);
                 disconnectTimeline(timeline);
                 m_activeTimeline = nullptr;
-                updateDeleteSelectionAction();
+                publishSelectionState();
                 updatePreviewAction();
             }
             delete timeline;
@@ -331,46 +326,10 @@ void TimelineTabs::closeTimelineTab(const QUuid uuid, bool checkActiveClosed)
     }
 }
 
-void TimelineTabs::updateDeleteSelectionAction()
+void TimelineTabs::publishSelectionState()
 {
-    if (!m_deleteSelectionAction) {
-        return;
-    }
-    bool enabled = false;
-    if (m_activeTimeline != nullptr && pCore->currentDoc() != nullptr && !pCore->currentDoc()->closing) {
-        const auto model = m_activeTimeline->model();
-        TimelineController *controller = m_activeTimeline->controller();
-        if (model != nullptr && !model->m_closing && controller != nullptr) {
-            enabled = !model->getCurrentSelection().empty() || controller->selectedMix() >= 0;
-        }
-    }
-    m_deleteSelectionAction->setEnabled(enabled);
-}
-
-void TimelineTabs::disconnectDeleteSelectionSignals()
-{
-    QObject::disconnect(m_selectionChangedConnection);
-    QObject::disconnect(m_selectedMixChangedConnection);
-    m_selectionChangedConnection = {};
-    m_selectedMixChangedConnection = {};
-}
-
-void TimelineTabs::connectDeleteSelectionSignals(TimelineWidget *timeline)
-{
-    TimelineController *controller = timeline->controller();
-    m_selectionChangedConnection = connect(controller, &TimelineController::selectionChanged, this, [this, controller]() {
-        if (m_activeTimeline == nullptr || m_activeTimeline->controller() != controller) {
-            return;
-        }
-        updateDeleteSelectionAction();
-    });
-    m_selectedMixChangedConnection = connect(controller, &TimelineController::selectedMixChanged, this, [this, controller]() {
-        if (m_activeTimeline == nullptr || m_activeTimeline->controller() != controller) {
-            return;
-        }
-        updateDeleteSelectionAction();
-    });
-    updateDeleteSelectionAction();
+    const auto *controller = activeController();
+    Q_EMIT selectionStateChanged(controller ? controller->selectionState() : TimelineController::SelectionState{});
 }
 
 void TimelineTabs::updatePreviewAction()
@@ -454,8 +413,6 @@ void TimelineTabs::populateActions(KActionCollection *actions)
         return;
     }
     m_actions = actions;
-    m_deleteSelectionAction = actions->action(QStringLiteral("delete_subtitle_clip"));
-    Q_ASSERT(m_deleteSelectionAction);
 
     // Shared commands are connected once; their target is resolved at execution, never captured from a tab.
     const auto bind = [this, actions](const QString &id, auto command) {
@@ -467,7 +424,7 @@ void TimelineTabs::populateActions(KActionCollection *actions)
             }
         });
     };
-    bind(QStringLiteral("delete_subtitle_clip"), [](TimelineController *controller) { controller->deleteSelectedClips(); });
+    bind(QStringLiteral("delete_timeline_selection"), [](TimelineController *controller) { controller->deleteSelectedClips(); });
     bind(QStringLiteral("audio_record"), [](TimelineController *controller) {
         if (pCore->isMediaMonitoring() || pCore->isMediaCapturing()) {
             controller->switchRecording();
@@ -577,13 +534,8 @@ void TimelineTabs::populateActions(KActionCollection *actions)
     for (int i = 0; i < count(); ++i) {
         static_cast<TimelineWidget *>(widget(i))->populateActions(actions);
     }
-    updateDeleteSelectionAction();
+    publishSelectionState();
     updatePreviewAction();
-}
-
-QAction *TimelineTabs::deleteSelectionAction() const
-{
-    return m_deleteSelectionAction;
 }
 
 const QStringList TimelineTabs::openedSequences()

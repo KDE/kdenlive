@@ -261,6 +261,7 @@ void MainWindow::init()
 
     m_timelineTabs = new TimelineTabs();
     connect(m_timelineTabs, &TimelineTabs::timelineCreated, this, &MainWindow::connectTimelineApplication);
+    connect(m_timelineTabs, &TimelineTabs::selectionStateChanged, this, &MainWindow::updateTimelineSelectionActions);
     ctnLay->addWidget(m_timelineTabs);
 
     // Timeline dock
@@ -1737,7 +1738,7 @@ QAction *MainWindow::focusedDeleteAction() const
             }
         }
     }
-    return m_timelineTabs->deleteSelectionAction();
+    return actionCollection()->action(QStringLiteral("delete_timeline_selection"));
 }
 
 void MainWindow::updateDeleteAction()
@@ -4134,8 +4135,6 @@ void MainWindow::connectTimeline()
     m_projectMonitor->resetScene();
     const QUuid uuid = getCurrentTimeline()->getUuid();
     pCore->projectManager()->setActiveTimeline(uuid);
-    connect(getCurrentTimeline()->controller(), &TimelineController::selectionStateChanged, this, &MainWindow::updateTimelineSelectionActions,
-            Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::multitrackView, getCurrentTimeline()->controller(), &TimelineController::slotMultitrackView, Qt::UniqueConnection);
     connect(m_projectMonitor, &Monitor::activateTrack, getCurrentTimeline()->controller(), &TimelineController::activateTrackAndSelect, Qt::UniqueConnection);
     connect(getCurrentTimeline()->controller(), &TimelineController::timelineClipSelected, this, [&](bool selected) {
@@ -4202,9 +4201,6 @@ void MainWindow::connectTimeline()
 
 void MainWindow::disconnectTimeline(TimelineWidget *timeline, bool onClose)
 {
-    disconnect(timeline->controller(), &TimelineController::selectionStateChanged, this, &MainWindow::updateTimelineSelectionActions);
-    updateTimelineSelectionActions({});
-
     // Save current tab timeline position
     if (pCore->currentDoc()) {
         // pCore->currentDoc()->position = pCore->getTimelinePosition();

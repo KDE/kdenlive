@@ -136,7 +136,8 @@ void MainWindow::setupActions()
     addAction(QStringLiteral("timeline_preview_button"), previewButton);
 
     // Stable active-timeline commands; TimelineTabs binds them after initialization.
-    addAction(QStringLiteral("delete_subtitle_clip"), i18n("Delete Timeline Selection"), QIcon::fromTheme(QStringLiteral("edit-delete")))->setEnabled(false);
+    addAction(QStringLiteral("delete_timeline_selection"), i18n("Delete Timeline Selection"), QIcon::fromTheme(QStringLiteral("edit-delete")))
+        ->setEnabled(false);
     addAction(QStringLiteral("audio_record"), i18n("Record"), QIcon::fromTheme(QStringLiteral("media-record")), Qt::Key_R);
     addAction(QStringLiteral("sequence_next"), i18n("Switch to next Sequence"), QIcon::fromTheme(QStringLiteral("go-next")), QKeySequence::NextChild);
     addAction(QStringLiteral("sequence_previous"), i18n("Switch to previous Sequence"), QIcon::fromTheme(QStringLiteral("go-previous")),
@@ -1257,6 +1258,9 @@ void MainWindow::updateTimelineSelectionActions(const TimelineController::Select
     const bool singleClip = clipCount == 1 && itemCount == 1;
     const bool singleClipOrPair = singleClip || state.isAvSplitPair;
     const bool allItemsAreClips = hasClips && itemCount == clipCount;
+    const bool allClipsHaveAudioAndVideo = allItemsAreClips && state.audioAndVideoClipCount == clipCount;
+    const bool restoreVideo = allClipsHaveAudioAndVideo && state.audioOnlyClipCount == clipCount;
+    const bool restoreAudio = allClipsHaveAudioAndVideo && state.videoOnlyClipCount == clipCount;
     const bool canRemap = singleClipOrPair && state.clipCounts.value(ClipType::Color) == 0 && state.clipCounts.value(ClipType::Image) == 0 &&
                           !state.doesAnyClipHaveSpeedAdjustment;
     QAction *editRemap = actionCollection()->action(QStringLiteral("edit_item_remap"));
@@ -1268,11 +1272,9 @@ void MainWindow::updateTimelineSelectionActions(const TimelineController::Select
                      !state.doesAnyClipHaveTimeRemap);
 
     QAction *splitClip = actionCollection()->action(QStringLiteral("clip_split"));
-    const bool allClipsHaveAudioAndVideo = allItemsAreClips && state.audioAndVideoClipCount == clipCount;
-    const bool restoreVideo = allClipsHaveAudioAndVideo && state.audioOnlyClipCount == clipCount;
-    const bool restoreAudio = allClipsHaveAudioAndVideo && state.videoOnlyClipCount == clipCount;
     splitClip->setEnabled(restoreVideo || restoreAudio);
     splitClip->setText(restoreVideo ? i18n("Restore video") : i18n("Restore audio"));
+    actionCollection()->action(QStringLiteral("delete_timeline_selection"))->setEnabled(itemCount > 0 || state.hasSelectedMix);
     actionCollection()->action(QStringLiteral("extract_clip"))->setEnabled(hasClips);
     actionCollection()->action(QStringLiteral("save_to_bin"))->setEnabled(singleClipOrPair);
     actionCollection()->action(QStringLiteral("clip_enable_all"))->setEnabled(hasClips && !state.allEnabled);

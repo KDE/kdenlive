@@ -5,13 +5,13 @@
 
 #pragma once
 
+#include "timelinecontroller.h"
 #include <QMutex>
 #include <QTabWidget>
 #include <memory>
 
 class QAction;
 class KActionCollection;
-class TimelineController;
 class TimelineWidget;
 class TimelineItemModel;
 class AssetParameterModel;
@@ -47,8 +47,6 @@ public:
     void disconnectTimeline(TimelineWidget *timeline);
     /** @brief Bind shared actions once and populate existing and future timeline widgets. */
     void populateActions(KActionCollection *actions);
-    /** @brief Return the stable action for deleting the active timeline selection. */
-    QAction *deleteSelectionAction() const;
     /** @brief Mark a tab as modified */
     void setModified(const QUuid &uuid, bool modified);
     /** @brief Returns the uuid list for opened timeline tabs. */
@@ -66,6 +64,8 @@ protected:
 Q_SIGNALS:
     /** @brief Emitted once per widget, before model and QML initialization; neither is available to receivers yet. */
     void timelineCreated(TimelineWidget *timeline);
+    /** @brief Selection facts for the active timeline; empty when no timeline is available. */
+    void selectionStateChanged(const TimelineController::SelectionState &state);
     /** @brief Change the level of zoom
         This is an input signal, forwarded to the timelines
      */
@@ -103,16 +103,11 @@ private Q_SLOTS:
 private:
     /** @brief Resolve the active controller only while its document and model are usable. */
     TimelineController *activeController() const;
-    void updateDeleteSelectionAction();
+    void publishSelectionState();
     void updatePreviewAction();
-    void disconnectDeleteSelectionSignals();
-    void connectDeleteSelectionSignals(TimelineWidget *timeline);
 
     TimelineWidget *m_activeTimeline;
     KActionCollection *m_actions{nullptr};
-    QAction *m_deleteSelectionAction{nullptr};
-    QMetaObject::Connection m_selectionChangedConnection;
-    QMetaObject::Connection m_selectedMixChangedConnection;
     QMutex m_lock;
     int getTimelineIndex(const QUuid &uuid);
 };

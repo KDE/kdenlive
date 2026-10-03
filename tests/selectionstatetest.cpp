@@ -87,6 +87,7 @@ TEST_CASE_METHOD(SelectionProject, "Timeline selection payload counts all select
     CHECK_FALSE(emitted.allEnabled);
     CHECK_FALSE(emitted.allDisabled);
     CHECK_FALSE(emitted.hasGroupedItems);
+    CHECK_FALSE(emitted.hasSelectedMix);
     CHECK_FALSE(emitted.isAvSplitPair);
     CHECK(emitted.audioAndVideoClipCount == 0);
     CHECK_FALSE(emitted.doesAnyClipHaveSpeedAdjustment);
@@ -127,6 +128,51 @@ TEST_CASE_METHOD(SelectionProject, "Timeline selection payload counts all select
     CHECK(nonClips.subtitleCount == 1);
     CHECK_FALSE(nonClips.allEnabled);
     CHECK_FALSE(nonClips.allDisabled);
+}
+
+TEST_CASE_METHOD(SelectionProject, "Timeline selection summary tracks mixes without selected clips", "[TimelineSelection]")
+{
+    create();
+    const QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", pCore->projectItemModel(), 100, false);
+    const int first = insert(binId, 0);
+    REQUIRE(timeline->requestItemResize(first, 20, true, true));
+    const int second = insert(binId, 20);
+    REQUIRE(timeline->requestItemResize(second, 20, true, true));
+    REQUIRE(timeline->mixClip(second));
+    REQUIRE(timeline->requestClearSelection());
+
+    received = false;
+    timeline->requestMixSelection(second);
+    REQUIRE(received);
+    CHECK(emitted.hasSelectedMix);
+    CHECK(emitted.clipCounts.isEmpty());
+    CHECK(emitted.compositionCount == 0);
+    CHECK(emitted.subtitleCount == 0);
+    CHECK(controller.selectionState().hasSelectedMix);
+
+    // Refreshing an empty item selection must preserve the selected mix.
+    received = false;
+    controller.handleSelectionChange();
+    REQUIRE(received);
+    CHECK(emitted.hasSelectedMix);
+
+    // Clearing only a mix does not emit the ordinary item-selection signal.
+    CHECK_FALSE(clear().hasSelectedMix);
+    CHECK_FALSE(controller.selectionState().hasSelectedMix);
+
+    timeline->requestMixSelection(second);
+    // The model can also retain a mix while adding an item selection.
+    CHECK(select({first}).hasSelectedMix);
+    CHECK(emitted.clipCounts.value(ClipType::Color) == 1);
+
+    timeline->requestMixSelection(second);
+    received = false;
+    controller.deleteSelectedClips();
+    REQUIRE(received);
+    CHECK_FALSE(emitted.hasSelectedMix);
+    CHECK(timeline->isClip(first));
+    CHECK(timeline->isClip(second));
+    CHECK(timeline->getMixDuration(second) == 0);
 }
 
 TEST_CASE_METHOD(SelectionProject, "Timeline selection payload distinguishes temporary selection from saved groups", "[TimelineSelection]")
