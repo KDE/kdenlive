@@ -27,6 +27,7 @@ class Menu;
 
 class QDomElement;
 class QKeyEvent;
+class QShowEvent;
 
 // RenderViewDelegate is used to draw the progress bars.
 class RenderViewDelegate : public QStyledItemDelegate
@@ -67,7 +68,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
+    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning, DeinterlaceWarning };
     enum RenderStatus { NotRendering = 0, Rendering = 1 };
     enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3, SpaceUnknown = 4 };
     // Render job roles
@@ -119,6 +120,7 @@ public:
 protected:
     QSize sizeHint() const override;
     void keyPressEvent(QKeyEvent *e) override;
+    void showEvent(QShowEvent *event) override;
     void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName, QString extension = QString(),
                       QString renderer = QStringLiteral("avformat"));
 
@@ -184,6 +186,10 @@ private Q_SLOTS:
     void slotCheckFreeMemory();
     void updatePowerManagement();
     void checkDriveSpace();
+    /** @brief Warn when the One Field deinterlacer is selected and the current sequence contains interlaced clips. */
+    void checkDeinterlacerWarning();
+    /** @brief Names of interlaced clips used in the current sequence. */
+    QStringList interlacedClipNames() const;
 
 private:
     enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };

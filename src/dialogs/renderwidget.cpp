@@ -8,6 +8,8 @@
 #include "renderwidget.h"
 #include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/renderpresetdialog.h"
@@ -60,6 +62,7 @@
 #include <QProcess>
 #include <QScreen>
 #include <QScrollBar>
+#include <QShowEvent>
 #include <QStandardPaths>
 #include <QString>
 #include <QTemporaryFile>
@@ -384,7 +387,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.aspect_ratio_type->setCurrentIndex(0);
 
     // Deinterlacer
-    m_view.deinterlacer_type->addItem(i18n("One Field (fast)"), QStringLiteral("onefield"));
+    m_view.deinterlacer_type->addItem(i18n("One Field (fast, half vertical resolution)"), QStringLiteral("onefield"));
     m_view.deinterlacer_type->addItem(i18n("Linear Blend (fast)"), QStringLiteral("linearblend"));
     m_view.deinterlacer_type->addItem(i18n("YADIF - temporal only (good)"), QStringLiteral("yadif-nospatial"));
     m_view.deinterlacer_type->addItem(i18n("YADIF (better)"), QStringLiteral("yadif"));
@@ -393,8 +396,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (ix > -1) {
         m_view.deinterlacer_type->setCurrentIndex(ix);
     }
-    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [&]() { KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString()); });
+    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
+        KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString());
+        checkDeinterlacerWarning();
+    });
 
     m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
@@ -405,8 +410,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
                                           "Two pass rendering allows a better control over the final rendered file size.\nNot compatible "
                                           "with variable bitrate, and only relevant for some video codecs."));
     m_view.proxy_render->setHidden(!enableProxy);
-    connect(m_view.proxy_render, &QCheckBox::toggled, this,
-            [&](bool enabled) { errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString()); });
+    connect(m_view.proxy_render, &QCheckBox::toggled, this, [&](bool enabled) {
+        errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString());
+        checkDeinterlacerWarning();
+    });
 
     connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::refreshParams);
     connect(m_view.qualityGroup, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
@@ -1627,6 +1634,7 @@ void RenderWidget::refreshParams()
         }
     }
     m_view.advanced_params->setPlainText(m_params.toString());
+    checkDeinterlacerWarning();
 }
 
 void RenderWidget::parseProfiles(const QString &selectedProfile)
@@ -2574,6 +2582,54 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
     } else {
         QDialog::keyPressEvent(e);
     }
+}
+
+void RenderWidget::showEvent(QShowEvent *event)
+{
+    // The timeline may have changed since the dialog was last shown
+    checkDeinterlacerWarning();
+    QDialog::showEvent(event);
+}
+
+void RenderWidget::checkDeinterlacerWarning()
+{
+    QStringList interlacedClips;
+    if (m_view.deinterlacer_type->currentData().toString() == QLatin1String("onefield") && m_view.video_box->isChecked() && pCore->projectItemModel()) {
+        interlacedClips = interlacedClipNames();
+    }
+    const QString message = interlacedClips.isEmpty() ? QString()
+                                                      : i18np("One Field deinterlacing may halve the vertical resolution of interlaced clip %2",
+                                                              "One Field deinterlacing may halve the vertical resolution of %1 interlaced clips: %2",
+                                                              interlacedClips.count(), interlacedClips.join(QStringLiteral(", ")));
+    // Avoid resetting the info message on every parameter refresh
+    if (message != m_errorMessages.value(DeinterlaceWarning)) {
+        errorMessage(DeinterlaceWarning, message);
+    }
+}
+
+QStringList RenderWidget::interlacedClipNames() const
+{
+    // MLT deinterlaces whenever an interlaced frame is resized or rendered progressive, and some effects force it too,
+    // so any interlaced clip can be affected
+    const QUuid uuid = pCore->currentTimelineId();
+    const bool useProxy = m_view.proxy_render->isChecked();
+    QStringList names;
+    const QList<std::shared_ptr<ProjectClip>> clips = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : clips) {
+        if ((clip->clipType() != ClipType::AV && clip->clipType() != ClipType::Video) || !clip->isIncludedInSequence(uuid)) {
+            continue;
+        }
+        // Proxied clips store the source properties with a prefix, the original is rendered unless proxy rendering is enabled
+        const QString prefix = clip->hasProxy() && !useProxy ? QStringLiteral("kdenlive:original.") : QString();
+        const QString progressiveKey = clip->hasProducerProperty(QStringLiteral("force_progressive")) ? QStringLiteral("force_progressive")
+                                                                                                      : prefix + QStringLiteral("meta.media.progressive");
+        // Scanning is only known once a frame was fetched, skip unknown clips
+        if (!clip->hasProducerProperty(progressiveKey) || clip->getProducerIntProperty(progressiveKey) != 0) {
+            continue;
+        }
+        names << clip->clipName();
+    }
+    return names;
 }
 
 void RenderWidget::adjustSpeed(int speedIndex)
