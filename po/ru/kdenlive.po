@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-01 20:14+0000\n"
-"PO-Revision-Date: 2026-09-26 09:30+0200\n"
+"PO-Revision-Date: 2026-10-04 10:09+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -26924,7 +26924,7 @@ msgstr "Остановить"
 #: src/dialogs/wizard.cpp:80
 #, kde-format
 msgid "OK"
-msgstr "OK"
+msgstr "ОК"
 
 #: src/dialogs/wizard.cpp:89
 #, kde-format
