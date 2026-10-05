@@ -37,7 +37,7 @@ Dependencies:
 RuntimeDependencies:
 - 'on': ['Linux']
   'require':
-    'sdk/selenium-webdriver-at-spi': '@latest-kf6'
+    'sdk/selenium-webdriver-at-spi': 'Plasma/6.6'
 
 Options:
   require-passing-tests-on: [ 'Linux/Qt6', 'FreeBSD/Qt6']
