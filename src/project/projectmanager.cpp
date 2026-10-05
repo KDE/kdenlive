@@ -508,7 +508,6 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
         pCore->projectItemModel()->clean(true);
         m_project = nullptr;
     }
-    mlt_service_cache_set_size(nullptr, "producer_avformat", 0);
     ::mlt_pool_purge();
     return true;
 }
