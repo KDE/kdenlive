@@ -370,6 +370,36 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
+    SECTION("Check collisions with mixed clips during direct clip move")
+    {
+        state0();
+        cid5 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 540, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true));
+        REQUIRE(timeline->mixClip(cid4, QStringLiteral("luma"), -1));
+        auto mixed = [&]() {
+            REQUIRE(timeline->getClipPosition(cid3) == 500);
+            REQUIRE(timeline->getClipPlaytime(cid3) == 32);
+            REQUIRE(timeline->getClipPosition(cid4) == 507);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipPosition(cid5) == 540);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
+        };
+        mixed();
+        // cid3 ends at 532 on playlist 0, cid4 covers 507-540 on playlist 1
+        REQUIRE_FALSE(timeline->requestClipMove(cid5, tid2, 532));
+        REQUIRE(timeline->getClipPosition(cid5) == 540);
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid4, 538));
+        undoStack->undo();
+        mixed();
+        // undo mix, resize and insert
+        undoStack->undo();
+        undoStack->undo();
+        undoStack->undo();
+        state0();
+    }
+
     SECTION("Create mix on color clips and group move")
     {
         state0();

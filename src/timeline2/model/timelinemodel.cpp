@@ -913,7 +913,7 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         }
     }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.firstClipId > -1;
-    if (!finalMove && !revertMove) {
+    if ((!finalMove || (!groupMove && old_trackId > -1)) && !revertMove) {
         QVector<int> exceptions = {clipId};
         if (mixData.first.firstClipId > -1) {
             exceptions << mixData.first.firstClipId;

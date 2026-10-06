@@ -521,7 +521,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        CHECK_MOVE(Once);
+        NO_OTHERS();
 
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->checkConsistency());
@@ -531,7 +531,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        CHECK_MOVE(Once);
+        NO_OTHERS();
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
