@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-01 20:14+0000\n"
+"POT-Creation-Date: 2026-10-06 03:06+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -22033,7 +22033,7 @@ msgstr "Mahnı siyahısı"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2816 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1707 src/project/projectmanager.cpp:1709
+#: src/project/projectmanager.cpp:1706 src/project/projectmanager.cpp:1708
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -23264,7 +23264,7 @@ msgid "Disable GPU processing"
 msgstr "GPU işləməsini söndürün"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:881
+#: src/project/projectmanager.cpp:880
 #, kde-format
 msgid "Loading project…"
 msgstr "Layihə yüklənir…"
@@ -24036,7 +24036,7 @@ msgstr "Bələdçilər verilənlərini ixrac edin"
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2020 src/project/projectmanager.cpp:2026
+#: src/project/projectmanager.cpp:2019 src/project/projectmanager.cpp:2025
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -24141,7 +24141,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Əminsinizsə, cəhd edin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1909
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1908
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -27620,8 +27620,8 @@ msgstr "Bu filtrlər/keçidlər, layihədən silindi:"
 msgid "Invalid file path"
 msgstr "Fayl yolu səhvdir"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:858
-#: src/project/projectmanager.cpp:910
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:857
+#: src/project/projectmanager.cpp:909
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Korlanmış faylı bərpa etmək mümkün olmadı."
@@ -27700,8 +27700,8 @@ msgstr ""
 "Layihə faylınız, sonuncu Kdenlive sənəd versiyasına yeniləndi lakin %1 "
 "ehtiyyat nüsxə faylı yaratmaq mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1581
-#: src/project/projectmanager.cpp:1617
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1580
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Layihə qovluğunun köçürülməsində xəta: %1"
@@ -31349,12 +31349,12 @@ msgstr ""
 "Bu, bütün müvəqqəti faylları <br/><b>%1</b> üzərindən <b>%2</b> üzərinə "
 "köçürəcək, <br/>layihə faylları yenidən yüklənəcək"
 
-#: src/mainwindow.cpp:2557 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2557 src/project/projectmanager.cpp:608
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Əməliyyat icra oluna bilməz, səhv sənəd İD-si: %1"
 
-#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:614
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Əməliyyat icra oluna bilməz, hədəf qovluğu artıq mövcuddur: %1"
@@ -34603,7 +34603,7 @@ msgstr "Ehtiyyat nüsxə faylını açın…"
 msgid "Save changes to document?"
 msgstr "Dəyişikliklər sənəddə saxlanılsın?"
 
-#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1845
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34612,18 +34612,18 @@ msgstr ""
 "<b>\"%1\"</b> layihəsində dəyişiklik olundu.\n"
 "Dəyişiklikləri saxlamaq istəyirsiniz?"
 
-#: src/project/projectmanager.cpp:550
+#: src/project/projectmanager.cpp:549
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:584
+#: src/project/projectmanager.cpp:583
 #, fuzzy, kde-format
 #| msgid "Starting process"
 msgid "Saving successful"
 msgstr "Proses başlayır"
 
-#: src/project/projectmanager.cpp:597
+#: src/project/projectmanager.cpp:596
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34635,46 +34635,46 @@ msgstr ""
 "faylları <b>%1</b> yerindən <b>%2</b> yerinə köçürəcəkdir, sonra isə layihə "
 "faylı yenidən yüklənəcəkdir"
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopyasını saxlayın"
 
-#: src/project/projectmanager.cpp:758
+#: src/project/projectmanager.cpp:757
 #, fuzzy, kde-format
 #| msgid "Auto-saved file exist. Do you want to recover now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr ""
 "Avtomatik saxlanılmış fayllar mövcuddur. İndi bərpa etmək istəyirsiniz?"
 
-#: src/project/projectmanager.cpp:758
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "File Recovery"
 msgstr "Faylın bərpası"
 
-#: src/project/projectmanager.cpp:759 src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:758 src/project/projectmanager.cpp:895
 #, kde-format
 msgid "Recover"
 msgstr "Bərpa etmək"
 
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid "Do not recover"
 msgstr "Bərpa etməyin"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:802
 #, fuzzy, kde-format
 #| msgid "Markers Category"
 msgid "File %1 does not exist"
 msgstr "Markerlər kateqoriyası"
 
-#: src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:834
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 faylı açılır"
 
-#: src/project/projectmanager.cpp:895
+#: src/project/projectmanager.cpp:894
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34685,29 +34685,29 @@ msgstr ""
 "%1\n"
 "Siz ehtiyyat nüsxə faylını açmaq istəyirsiniz?"
 
-#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1171
+#: src/project/projectmanager.cpp:895 src/project/projectmanager.cpp:1170
 #, kde-format
 msgid "Error opening file"
 msgstr "Faylın açılmasında xəta"
 
-#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1172
+#: src/project/projectmanager.cpp:895 src/project/projectmanager.cpp:1171
 #, kde-format
 msgid "Open Backup"
 msgstr "Ehtiyyat nüsxə faylını açın"
 
-#: src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:913
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Ehtiyyat nüsxə layihə faylını açmaq mümkün olmadı."
 
-#: src/project/projectmanager.cpp:929
+#: src/project/projectmanager.cpp:928
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Layihəniz yeniləndi, növbəti saxlanılma zamanı ehtiyyat nüsxə faylı "
 "yaradılacaq"
 
-#: src/project/projectmanager.cpp:931
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -34715,19 +34715,19 @@ msgstr ""
 "Layihənizdə açılan zaman dəyişiklik baş verdi, ehtiyyat nüsxəsi növbəti "
 "saxlanılma zamanı yaradılacaq"
 
-#: src/project/projectmanager.cpp:1002
+#: src/project/projectmanager.cpp:1001
 #, fuzzy, kde-format
 #| msgid "Downloading model…"
 msgid "Loading timeline…"
 msgstr "Model endirilir…"
 
-#: src/project/projectmanager.cpp:1025
+#: src/project/projectmanager.cpp:1024
 #, fuzzy, kde-format
 #| msgid "Timeline sequence"
 msgid "Building sequences…"
 msgstr "Zaman xətti sırası"
 
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1197
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -34735,7 +34735,7 @@ msgid ""
 "%1\n"
 msgstr "%1 layihə faylını açmaq mümkün deyil"
 
-#: src/project/projectmanager.cpp:1238
+#: src/project/projectmanager.cpp:1237
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34744,12 +34744,12 @@ msgstr ""
 "BU, layihəniz son dəfə saxlanıldıqdan sonrakı bütün dəyişiklikləri "
 "siləcəkdir. Davam etmək istədiyinizə əminsiniz?"
 
-#: src/project/projectmanager.cpp:1239
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Sonuncu saxlanılmış versiyanı qaytarın"
 
-#: src/project/projectmanager.cpp:1338
+#: src/project/projectmanager.cpp:1337
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34758,24 +34758,24 @@ msgstr ""
 "Layihə pozulub, bərpa etmək mümkün deyil. Sonuncu ehtiyyat nüsxədən bərpa "
 "etmək üçün layihənizi bağlayıb, yenidən açmanız xahiş olunur"
 
-#: src/project/projectmanager.cpp:1559
+#: src/project/projectmanager.cpp:1558
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr ""
 "Layihə qovluğunun köçürülməsində xəta, keş qovluğuna giriş mümkün deyil"
 
-#: src/project/projectmanager.cpp:1595
+#: src/project/projectmanager.cpp:1594
 #, kde-format
 msgid "Moving project folder"
 msgstr "Layihə qovluğu köçürülür"
 
-#: src/project/projectmanager.cpp:1686 src/project/projectmanager.cpp:1742
-#: src/project/projectmanager.cpp:1746
+#: src/project/projectmanager.cpp:1685 src/project/projectmanager.cpp:1741
+#: src/project/projectmanager.cpp:1745
 #, kde-format
 msgid "Sequence 1"
 msgstr "Ardıcıllıq 1"
 
-#: src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1696
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
@@ -34783,13 +34783,13 @@ msgstr ""
 "Layihə faylı pozulub - cığırlar yüklənə bilmədi. Ehtiyyat nüsxə faylı "
 "axtarılsın?"
 
-#: src/project/projectmanager.cpp:1838 src/project/projectmanager.cpp:1851
-#: src/project/projectmanager.cpp:1875 src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1850
+#: src/project/projectmanager.cpp:1874 src/project/projectmanager.cpp:1883
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Layihə profilində dəyişiklik ləğv edildi"
 
-#: src/project/projectmanager.cpp:2014
+#: src/project/projectmanager.cpp:2013
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34798,12 +34798,12 @@ msgstr ""
 "%1 çıxış faylı artıq mövcud deyil.\n"
 "Onu əvəzləmək istəyirsiniz?"
 
-#: src/project/projectmanager.cpp:2039
+#: src/project/projectmanager.cpp:2038
 #, kde-format
 msgid "Project profile changed"
 msgstr "Layihə faylı dəyişdirildi"
 
-#: src/project/projectmanager.cpp:2103
+#: src/project/projectmanager.cpp:2102
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34812,34 +34812,34 @@ msgstr ""
 "Bu klipdən zaman xətti yaratmaq mümkün deyil:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2192
+#: src/project/projectmanager.cpp:2191
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "Bir ardıcıllıq klipi idxal edilir, bu hazırda sınaq mərhələsindədir"
 
-#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2477
+#: src/project/projectmanager.cpp:2424 src/project/projectmanager.cpp:2476
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Ardıcıllıq yaratmaq üçün bir klip seçin"
 
-#: src/project/projectmanager.cpp:2435 src/project/projectmanager.cpp:2486
+#: src/project/projectmanager.cpp:2434 src/project/projectmanager.cpp:2485
 #, fuzzy, kde-format
 #| msgid "X axis rotation"
 msgid "Sequence creation failed"
 msgstr "X oxu üzrə fırlanma"
 
-#: src/project/projectmanager.cpp:2462
+#: src/project/projectmanager.cpp:2461
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "Özündən ibarət ardıcıllıq əlavə edə bilməzsiniz"
 
-#: src/project/projectmanager.cpp:2466
+#: src/project/projectmanager.cpp:2465
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Ardıcıl klip yaradın"
 
-#: src/project/projectmanager.cpp:2504
+#: src/project/projectmanager.cpp:2503
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"

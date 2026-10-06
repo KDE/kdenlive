@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-01 20:14+0000\n"
+"POT-Creation-Date: 2026-10-06 03:06+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -22042,7 +22042,7 @@ msgstr "प्लेलिस्ट्"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2816 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1707 src/project/projectmanager.cpp:1709
+#: src/project/projectmanager.cpp:1706 src/project/projectmanager.cpp:1708
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -23258,7 +23258,7 @@ msgid "Disable GPU processing"
 msgstr "GPU प्रसंस्करणं निष्क्रियं कुर्वन्तु"
 
 #: src/core.cpp:266 src/core.cpp:309 src/core.cpp:483
-#: src/project/projectmanager.cpp:881
+#: src/project/projectmanager.cpp:880
 #, kde-format
 msgid "Loading project…"
 msgstr "परियोजना लोड् भवति…"
@@ -24012,7 +24012,7 @@ msgstr "निर्यात मार्गदर्शकाः आँकड�
 #: src/project/dialogs/archivewidget.cpp:922
 #: src/project/dialogs/archivewidget.cpp:934
 #: src/project/dialogs/archivewidget.cpp:940
-#: src/project/projectmanager.cpp:2020 src/project/projectmanager.cpp:2026
+#: src/project/projectmanager.cpp:2019 src/project/projectmanager.cpp:2025
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -24117,7 +24117,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "यदि अनिश्चितः,प्रयासः : १.<br/> <b>यूनिकोड (UTF-8)</b> ."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1909
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1908
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -27508,8 +27508,8 @@ msgstr "परियोजनायाः निम्नलिखित-छि�
 msgid "Invalid file path"
 msgstr "अमान्यः सञ्चिकामार्गः"
 
-#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:858
-#: src/project/projectmanager.cpp:910
+#: src/doc/kdenlivedoc.cpp:209 src/project/projectmanager.cpp:857
+#: src/project/projectmanager.cpp:909
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषितसञ्चिकां पुनः प्राप्तुं न शक्तवान् ।"
@@ -27586,8 +27586,8 @@ msgstr ""
 "भवतः परियोजनासञ्चिका नवीनतमं Kdenlive दस्तावेजसंस्करणं प्रति उन्नयनं कृतम्, परन्तु %1 "
 "बैकअपप्रतिं निर्मातुं न शक्यते स्म ।"
 
-#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1581
-#: src/project/projectmanager.cpp:1617
+#: src/doc/kdenlivedoc.cpp:942 src/project/projectmanager.cpp:1580
+#: src/project/projectmanager.cpp:1616
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "परियोजनापुटं स्थानान्तरयितुं त्रुटिः: %1"
@@ -31176,12 +31176,12 @@ msgstr ""
 "एतेन सर्वाणि अस्थायीसञ्चिकाः स्थानान्तरिताः भविष्यन्ति<br/> <b>%1</b> तः <b>%2</"
 "b> , .<br/> ततः परियोजनासञ्चिका पुनः लोड् भविष्यति"
 
-#: src/mainwindow.cpp:2557 src/project/projectmanager.cpp:609
+#: src/mainwindow.cpp:2557 src/project/projectmanager.cpp:608
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "संचालनं कर्तुं न शक्यते, अमान्यदस्तावेज id: %1"
 
-#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:615
+#: src/mainwindow.cpp:2562 src/project/projectmanager.cpp:614
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "कार्यं कर्तुं न शक्यते, लक्ष्यनिर्देशिका पूर्वमेव अस्ति: %1"
@@ -34390,7 +34390,7 @@ msgstr "बैकअप सञ्चिकां उद्घाटयन्त�
 msgid "Save changes to document?"
 msgstr "परिवर्तनं दस्तावेजे रक्षतु?"
 
-#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1846
+#: src/project/projectmanager.cpp:431 src/project/projectmanager.cpp:1845
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34399,17 +34399,17 @@ msgstr ""
 "<b>&quot;%1&quot;</b> परियोजना परिवर्तिता अस्ति । किं भवान् स्वपरिवर्तनानि रक्षितुं "
 "इच्छति ?"
 
-#: src/project/projectmanager.cpp:550
+#: src/project/projectmanager.cpp:549
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr "परियोजनासञ्चिकां रक्षति<br> <b>%1</b> विफलम्"
 
-#: src/project/projectmanager.cpp:584
+#: src/project/projectmanager.cpp:583
 #, kde-format
 msgid "Saving successful"
 msgstr "रक्षणं सफलम्"
 
-#: src/project/projectmanager.cpp:597
+#: src/project/projectmanager.cpp:596
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34420,44 +34420,44 @@ msgstr ""
 "स्थानं उपयोक्तुं भवान् चितवान् । एतेन सर्वाणि अस्थायीसञ्चिकानि <b>%1</b> तः <b>%2</b> "
 "यावत् स्थानान्तरिता भविष्यति, ततः परियोजनासञ्चिका पुनः लोड् भविष्यति"
 
-#: src/project/projectmanager.cpp:640
+#: src/project/projectmanager.cpp:639
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "प्रतिलिपिं रक्षतु"
 
-#: src/project/projectmanager.cpp:758
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "स्वयमेव रक्षिता सञ्चिका अस्ति । इदानीं पुनः स्वस्थः भवितुम् इच्छसि वा ?"
 
-#: src/project/projectmanager.cpp:758
+#: src/project/projectmanager.cpp:757
 #, kde-format
 msgid "File Recovery"
 msgstr "सञ्चिकापुनर्प्राप्तिः"
 
-#: src/project/projectmanager.cpp:759 src/project/projectmanager.cpp:896
+#: src/project/projectmanager.cpp:758 src/project/projectmanager.cpp:895
 #, kde-format
 msgid "Recover"
 msgstr "समुच्छ्वस्"
 
-#: src/project/projectmanager.cpp:759
+#: src/project/projectmanager.cpp:758
 #, kde-format
 msgid "Do not recover"
 msgstr "न पुनः स्वस्थः भवतु"
 
-#: src/project/projectmanager.cpp:803
+#: src/project/projectmanager.cpp:802
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "मार्करवर्गः नास्ति"
 
-#: src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:834
 #, kde-format
 msgid "Opening file %1"
 msgstr "सञ्चिकां उद्घाटयति %1"
 
-#: src/project/projectmanager.cpp:895
+#: src/project/projectmanager.cpp:894
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34468,43 +34468,43 @@ msgstr ""
 "%1\n"
 "किं भवान् बैकअप सञ्चिकां उद्घाटयितुम् इच्छति ?"
 
-#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1171
+#: src/project/projectmanager.cpp:895 src/project/projectmanager.cpp:1170
 #, kde-format
 msgid "Error opening file"
 msgstr "सञ्चिकां उद्घाटयितुं त्रुटिः"
 
-#: src/project/projectmanager.cpp:896 src/project/projectmanager.cpp:1172
+#: src/project/projectmanager.cpp:895 src/project/projectmanager.cpp:1171
 #, kde-format
 msgid "Open Backup"
 msgstr "Backup उद्घाटयन्तु"
 
-#: src/project/projectmanager.cpp:914
+#: src/project/projectmanager.cpp:913
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "बैकअप प्रोजेक्ट् सञ्चिकां उद्घाटयितुं न शक्तवान् ।"
 
-#: src/project/projectmanager.cpp:929
+#: src/project/projectmanager.cpp:928
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "भवतः परियोजना उन्नयनं जातम्, अग्रिमे रक्षणे बैकअपः निर्मितः भविष्यति"
 
-#: src/project/projectmanager.cpp:931
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "भवतः परियोजना उद्घाटने परिवर्तिता आसीत्, अग्रिमे रक्षणे बैकअपः निर्मितः भविष्यति"
 
-#: src/project/projectmanager.cpp:1002
+#: src/project/projectmanager.cpp:1001
 #, kde-format
 msgid "Loading timeline…"
 msgstr "समयरेखा लोड् भवति…"
 
-#: src/project/projectmanager.cpp:1025
+#: src/project/projectmanager.cpp:1024
 #, kde-format
 msgid "Building sequences…"
 msgstr "भवनक्रमाः…"
 
-#: src/project/projectmanager.cpp:1198
+#: src/project/projectmanager.cpp:1197
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34513,7 +34513,7 @@ msgstr ""
 "परियोजनासञ्चिकां उद्घाटयितुं न शक्यते। त्रुटि:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1238
+#: src/project/projectmanager.cpp:1237
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34522,12 +34522,12 @@ msgstr ""
 "एतेन भवता अन्तिमे समये भवतः परियोजनायाः रक्षणात् कृताः सर्वे परिवर्तनाः विलोपिताः "
 "भविष्यन्ति । किं भवन्तः निश्चिन्ताः सन्ति यत् भवन्तः निरन्तरं कर्तुम् इच्छन्ति?"
 
-#: src/project/projectmanager.cpp:1239
+#: src/project/projectmanager.cpp:1238
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "अन्तिमे रक्षितसंस्करणं प्रति प्रत्यागच्छन्तु"
 
-#: src/project/projectmanager.cpp:1338
+#: src/project/projectmanager.cpp:1337
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34536,36 +34536,36 @@ msgstr ""
 "परियोजना दूषिता आसीत्, बैकअपं कर्तुं न शक्नोति। कृपया अन्तिम-बैकअप-पुनर्प्राप्त्यर्थं स्वस्य "
 "परियोजना-सञ्चिकां बन्दं कृत्वा पुनः उद्घाटयन्तु"
 
-#: src/project/projectmanager.cpp:1559
+#: src/project/projectmanager.cpp:1558
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "परियोजनापुटं चालयन् त्रुटिः, cache पुटं प्राप्तुं न शक्नोति"
 
-#: src/project/projectmanager.cpp:1595
+#: src/project/projectmanager.cpp:1594
 #, kde-format
 msgid "Moving project folder"
 msgstr "परियोजनापुटं स्थानान्तरयति"
 
-#: src/project/projectmanager.cpp:1686 src/project/projectmanager.cpp:1742
-#: src/project/projectmanager.cpp:1746
+#: src/project/projectmanager.cpp:1685 src/project/projectmanager.cpp:1741
+#: src/project/projectmanager.cpp:1745
 #, kde-format
 msgid "Sequence 1"
 msgstr "क्रमः १"
 
-#: src/project/projectmanager.cpp:1697
+#: src/project/projectmanager.cpp:1696
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr ""
 "परियोजनासञ्चिका दूषिता अस्ति - पटलान् लोड् कर्तुं असफलम् । बैकअप सञ्चिकां अन्वेष्टुं प्रयतस्व?"
 
-#: src/project/projectmanager.cpp:1838 src/project/projectmanager.cpp:1851
-#: src/project/projectmanager.cpp:1875 src/project/projectmanager.cpp:1884
+#: src/project/projectmanager.cpp:1837 src/project/projectmanager.cpp:1850
+#: src/project/projectmanager.cpp:1874 src/project/projectmanager.cpp:1883
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "परियोजनारूपरेखापरिवर्तनं निरस्तम्"
 
-#: src/project/projectmanager.cpp:2014
+#: src/project/projectmanager.cpp:2013
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34574,12 +34574,12 @@ msgstr ""
 "आउटपुट् सञ्चिका %1 पूर्वमेव अस्ति ।\n"
 "किं भवन्तः तस्य अधिलेखनं कर्तुम् इच्छन्ति ?"
 
-#: src/project/projectmanager.cpp:2039
+#: src/project/projectmanager.cpp:2038
 #, kde-format
 msgid "Project profile changed"
 msgstr "परियोजनारूपरेखा परिवर्तिता"
 
-#: src/project/projectmanager.cpp:2103
+#: src/project/projectmanager.cpp:2102
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34588,34 +34588,34 @@ msgstr ""
 "अस्मात् क्लिप् तः समयरेखां निर्मातुं न शक्यते:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2192
+#: src/project/projectmanager.cpp:2191
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "क्रमक्लिप् आयात्य, एतत् सम्प्रति प्रयोगात्मकस्थितौ अस्ति"
 
-#: src/project/projectmanager.cpp:2425 src/project/projectmanager.cpp:2477
+#: src/project/projectmanager.cpp:2424 src/project/projectmanager.cpp:2476
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "क्रमं निर्मातुं क्लिप् चिनोतु"
 
-#: src/project/projectmanager.cpp:2435 src/project/projectmanager.cpp:2486
+#: src/project/projectmanager.cpp:2434 src/project/projectmanager.cpp:2485
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "मास्क निर्माण"
 
-#: src/project/projectmanager.cpp:2462
+#: src/project/projectmanager.cpp:2461
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "भवन्तः स्वयमेव समाविष्टं क्रमं निवेशयितुं न शक्नुवन्ति"
 
-#: src/project/projectmanager.cpp:2466
+#: src/project/projectmanager.cpp:2465
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "अनुक्रमक्लिप् रचयन्तु"
 
-#: src/project/projectmanager.cpp:2504
+#: src/project/projectmanager.cpp:2503
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
