@@ -210,6 +210,10 @@ private:
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
+    // Rich text: update text controls from the caret/selection.
+    void updateTextCursorTools(MyTextItem *item);
+    bool m_richInspectorUpdatePending{false};
+
     /** @brief Checks a tool button. */
     void checkButton(GraphicsSceneRectMove::TITLETOOL toolType);
 
@@ -336,6 +340,8 @@ private Q_SLOTS:
 
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
+    void slotTextCursorFormatChanged(MyTextItem *item);
+    void slotRichDocumentChanged();
     void slotInsertUnicode();
     void slotInsertUnicodeString(const QString &string);
 

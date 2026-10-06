@@ -48,8 +48,14 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QSpinBox>
+#include <QTextBlock>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QTextDocument>
+#include <QTextFragment>
+#include "titler/richtextformat.h"
+#include "titler/richtextgradient.h"
+#include "titler/richtextoutline.h"
 #include <QTimer>
 #include <QToolBar>
 
@@ -771,17 +777,48 @@ QStringList TitleWidget::extractFontList(const QString &xml)
     if (xml.isEmpty()) {
         return result;
     }
+
     QDomDocument doc;
     doc.setContent(xml);
+
     QDomNodeList elements = doc.elementsByTagName(QStringLiteral("content"));
     for (int i = 0; i < elements.count(); ++i) {
         QDomElement element = elements.at(i).toElement();
+
+        // Legacy/default object font.
         if (element.hasAttribute(QStringLiteral("font"))) {
             result.append(element.attribute(QStringLiteral("font")));
         }
+
+        // Rich text: include fonts used only by selected character runs.
+        QDomElement richText = element.firstChildElement(QStringLiteral("richtext"));
+        if (!richText.isNull()
+            && richText.attribute(QStringLiteral("format")) == QLatin1String("qt-html-v1")) {
+            QTextDocument richDocument;
+            richDocument.setHtml(richText.text());
+
+            for (QTextBlock block = richDocument.begin(); block.isValid(); block = block.next()) {
+                for (auto it = block.begin(); !it.atEnd(); ++it) {
+                    const QTextFragment fragment = it.fragment();
+                    if (!fragment.isValid()) {
+                        continue;
+                    }
+
+                    const QStringList families = fragment.charFormat().fontFamilies().toStringList();
+                    for (const QString &family : families) {
+                        if (!family.isEmpty()) {
+                            result.append(family);
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    result.removeDuplicates();
     return result;
 }
+
 // static
 void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
@@ -1254,23 +1291,20 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     QTextCharFormat cformat = cur.charFormat();
     double outlineWidth = textOutline->value();
 
-    tt->setData(TitleDocument::OutlineWidth, outlineWidth);
-    tt->setData(TitleDocument::OutlineColor, outlineColor);
-    if (outlineWidth > 0.0) {
-        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
-    }
+    tt->setOutline(outlineWidth, outlineColor);
+    cformat.setTextOutline(QPen(Qt::NoPen));
     tt->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     if (gradient_color->isChecked()) {
         QString gradientData = gradients_combo->currentData().toString();
         tt->setData(TitleDocument::Gradient, gradientData);
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(tt->boundingRect().width()), int(tt->boundingRect().height()));
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(tt->baseBoundingRect().width()), int(tt->baseBoundingRect().height()));
         cformat.setForeground(QBrush(gr));
     } else {
         cformat.setForeground(QBrush(color));
     }
+    cur.select(QTextCursor::Document);
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
-    cur.select(QTextCursor::Document);
     tt->setTextCursor(cur);
     tt->setZValue(m_count++);
     setCurrentItem(tt);
@@ -1937,85 +1971,264 @@ void TitleWidget::slotInsertUnicodeString(const QString &string)
     }
 }
 
+void TitleWidget::slotRichDocumentChanged()
+{
+    // Rich text: coalesce read-back until the edit completes.
+    if (m_richInspectorUpdatePending) return;
+    m_richInspectorUpdatePending = true;
+    QTimer::singleShot(0, this, [this]() {
+        m_richInspectorUpdatePending = false;
+        const auto items = m_scene->selectedItems();
+        if (items.size() == 1 && items.first()->type() == TEXTITEM) {
+            updateTextCursorTools(static_cast<MyTextItem *>(items.first()));
+        }
+    });
+}
+
+void TitleWidget::slotTextCursorFormatChanged(MyTextItem *item)
+{
+    if (!item || !item->isSelected()) {
+        return;
+    }
+
+    updateTextCursorTools(item);
+}
+
+void TitleWidget::updateTextCursorTools(MyTextItem *item)
+{
+    if (!item || item->document()->isEmpty()) {
+        return;
+    }
+
+    const QTextCharFormat format =
+        TitlerRichText::activeFormat(item);
+
+    // Rich text: inherit missing properties from the document font.
+    const QFont formatFont = format.font().resolve(item->document()->defaultFont());
+
+    const QSignalBlocker blockFamily(font_family);
+    const QSignalBlocker blockSize(font_size);
+    const QSignalBlocker blockWeight(font_weight_box);
+    const QSignalBlocker blockItalic(buttonItalic);
+    const QSignalBlocker blockUnderline(buttonUnder);
+    const QSignalBlocker blockColor(fontColorButton);
+    const QSignalBlocker blockLetter(letter_spacing);
+    const QSignalBlocker blockLine(line_spacing);
+
+    QString family;
+
+    const QStringList families =
+        format.fontFamilies().toStringList();
+
+    if (!families.isEmpty()) {
+        family = families.constFirst();
+    }
+
+    if (family.isEmpty()) {
+        family = formatFont.family();
+    }
+
+    if (family.isEmpty()) {
+        family = item->font().family();
+    }
+
+    if (!family.isEmpty()) {
+        font_family->setCurrentFont(QFont(family));
+    }
+
+    int pixelSize =
+        format.property(QTextFormat::FontPixelSize).toInt();
+
+    if (pixelSize <= 0) {
+        pixelSize = formatFont.pixelSize();
+    }
+
+    if (pixelSize <= 0) {
+        pixelSize = item->font().pixelSize();
+    }
+
+    if (pixelSize > 0) {
+        font_size->setValue(pixelSize);
+        m_scene->slotUpdateFontSize(pixelSize);
+    }
+
+    setFontBoxWeight(formatFont.weight());
+    buttonItalic->setChecked(formatFont.italic());
+    buttonUnder->setChecked(formatFont.underline());
+
+    const QString runGradient = format.property(TitlerGradientV1::Property).toString();
+    const QString gradientData = runGradient.isEmpty()
+        ? item->data(TitleDocument::Gradient).toString() : runGradient;
+    if (!gradientData.isEmpty()) {
+        const QSignalBlocker blockGradient(gradients_combo);
+        gradient_color->setChecked(true);
+        const int index = gradients_combo->findData(gradientData);
+        if (index >= 0) {
+            gradients_combo->setCurrentIndex(index);
+        }
+    } else {
+        plain_color->setChecked(true);
+        if (format.foreground().style() == Qt::SolidPattern) {
+            const QColor color = format.foreground().color();
+            if (color.isValid()) {
+                fontColorButton->setColor(color);
+            }
+        }
+    }
+
+    letter_spacing->setValue(
+        formatFont.letterSpacingType() == QFont::AbsoluteSpacing ? qRound(formatFont.letterSpacing()) : 0);
+
+    QTextCursor cursor = item->textCursor();
+
+    line_spacing->setValue(
+        qRound(cursor.blockFormat().lineHeight()));
+
+    const bool mixed =
+        TitlerRichText::selectionHasMixedCharacterFormat(item);
+
+    const QString mixedTip =
+        mixed
+            ? i18n(
+                  "Mixed text selection: showing the first selected "
+                  "character. Changing a value applies it to the selection.")
+            : QString();
+
+    font_family->setToolTip(mixedTip);
+    font_size->setToolTip(mixedTip);
+
+    font_weight_box->setToolTip(
+        mixed
+            ? mixedTip
+            : i18n("Font weight"));
+
+    buttonItalic->setToolTip(mixedTip);
+    buttonUnder->setToolTip(mixedTip);
+    fontColorButton->setToolTip(mixedTip);
+    letter_spacing->setToolTip(mixedTip);
+
+    QTextCursor outlineCursor = item->textCursor();
+    if (!outlineCursor.hasSelection() && !item->textInteractionFlags().testFlag(Qt::TextEditable)) {
+        outlineCursor.select(QTextCursor::Document);
+    }
+    const auto outline = TitlerOutline::selectionState(outlineCursor, item->defaultOutline());
+    const QSignalBlocker blockOutlineWidth(textOutline);
+    const QSignalBlocker blockOutlineColor(textOutlineColor);
+    textOutline->setValue(qRound(TitlerOutline::width(outline.pen)));
+    textOutlineColor->setColor(outline.pen.color());
+    textOutline->setToolTip(outline.mixedWidth
+        ? i18n("Mixed outline widths: showing the first selected character. Changing the width applies only that property to the selection.")
+        : i18n("Outline width. Applies to selected text, or to the whole object outside text editing."));
+    textOutlineColor->setToolTip(outline.mixedColor
+        ? i18n("Mixed outline colors: showing the first selected character. Changing the color preserves each character's outline width.")
+        : i18n("Outline color. Applies to selected text, or to the whole object outside text editing."));
+}
+
 void TitleWidget::slotUpdateText()
 {
-    QFont font = font_family->currentFont();
-    QString selected = font.family();
-    if (!QFontDatabase::families().contains(selected)) {
-        QSignalBlocker bk(font_family);
-        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        font_family->setCurrentFont(font);
+    // Rich text: a color change must not send a new font, or vice versa.
+    const QObject *control = sender();
+    QTextCharFormat delta;
+    const bool solid = control == fontColorButton || control == plain_color;
+    const bool gradient = control == gradient_color || control == gradients_combo;
+    const bool outline = control == textOutline || control == textOutlineColor;
+    const bool alignment = control == m_textAlignGroup || control == buttonAlignLeft ||
+        control == buttonAlignCenter || control == buttonAlignRight;
+    const bool lineSpacing = control == line_spacing;
+
+    if (control == font_family) {
+        delta.setFontFamilies(QStringList{font_family->currentFont().family()});
+        delta.setFontStyleName(QString());
+    } else if (control == font_size) {
+        delta.setProperty(QTextFormat::FontPixelSize, font_size->value());
+    } else if (control == font_weight_box) {
+        delta.setFontWeight(font_weight_box->currentData().toInt());
+        delta.setFontStyleName(QString());
+    } else if (control == buttonItalic) {
+        delta.setFontItalic(buttonItalic->isChecked());
+        delta.setFontStyleName(QString());
+    } else if (control == buttonUnder) {
+        delta.setFontUnderline(buttonUnder->isChecked());
+    } else if (control == letter_spacing) {
+        delta.setFontLetterSpacingType(QFont::AbsoluteSpacing);
+        delta.setFontLetterSpacing(letter_spacing->value());
+    } else if (solid) {
+        delta.setForeground(QBrush(fontColorButton->color()));
+        delta.setProperty(TitlerGradientV1::Property, QString());
+    } else if (!gradient && !outline && !alignment && !lineSpacing) {
+        return; // Never flatten text to handle an unidentified caller.
     }
-    font.setPixelSize(font_size->value());
-    font.setItalic(buttonItalic->isChecked());
-    font.setUnderline(buttonUnder->isChecked());
-    font.setWeight(QFont::Weight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt()));
-    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
 
-    QColor color = fontColorButton->color();
-    QColor outlineColor = textOutlineColor->color();
-    QString gradientData;
-    if (gradient_color->isChecked()) {
-        // user wants a gradient
-        gradientData = gradients_combo->currentData().toString();
-    }
-
-    double outlineWidth = textOutline->value();
-
-    int i;
-    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (i = 0; i < l.length(); ++i) {
-        MyTextItem *item = nullptr;
-        if (l.at(i)->type() == TEXTITEM) {
-            item = static_cast<MyTextItem *>(l.at(i));
-        }
-        if (!item) {
-            // No text item, try next one.
+    const auto items = graphicsView->scene()->selectedItems();
+    for (QGraphicsItem *graphicsItem : items) {
+        if (graphicsItem->type() != TEXTITEM) {
             continue;
         }
+        auto *item = static_cast<MyTextItem *>(graphicsItem);
+        if (alignment) {
+            const Qt::Alignment value = buttonAlignCenter->isChecked() ? Qt::AlignHCenter :
+                buttonAlignRight->isChecked() ? Qt::AlignRight : Qt::AlignLeft;
+            item->setAlignment(value);
+        } else if (lineSpacing) {
+            QTextCursor cursor(item->document());
+            cursor.select(QTextCursor::Document);
+            QTextBlockFormat block;
+            block.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
+            item->setData(TitleDocument::LineSpacing, line_spacing->value());
+            cursor.mergeBlockFormat(block);
+        } else if (outline) {
+            if (control == textOutline) {
+                item->applyOutlineWidth(textOutline->value());
+            } else {
+                item->applyOutlineColor(textOutlineColor->color());
+            }
+        } else if (gradient || solid) {
+            const QTextCursor active = item->textCursor();
+            const bool objectMode = !active.hasSelection()
+                && !item->textInteractionFlags().testFlag(Qt::TextEditable);
+            const auto rect = item->baseBoundingRect();
 
-        // Set alignment of all text in the text item
-        QTextCursor cur(item->document());
-        cur.select(QTextCursor::Document);
-        QTextBlockFormat format = cur.blockFormat();
-        item->setData(TitleDocument::LineSpacing, line_spacing->value());
-        format.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
-        if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
-            if (buttonAlignCenter->isChecked()) {
-                item->setAlignment(Qt::AlignHCenter);
-            } else if (buttonAlignRight->isChecked()) {
-                item->setAlignment(Qt::AlignRight);
-            } else if (buttonAlignLeft->isChecked()) {
-                item->setAlignment(Qt::AlignLeft);
+            if (objectMode) {
+                QTextCursor cursor(item->document());
+                cursor.select(QTextCursor::Document);
+                QTextCharFormat effect;
+                effect.setProperty(TitlerGradientV1::Property, QString());
+                if (gradient) {
+                    const QString data = gradients_combo->currentData().toString();
+                    item->setData(TitleDocument::Gradient, data);
+                    effect.setForeground(QBrush(TitlerGradientV1::gradientFromString(
+                        data, int(rect.width()), int(rect.height()))));
+                } else {
+                    item->setData(TitleDocument::Gradient, QString());
+                    effect.setForeground(QBrush(fontColorButton->color()));
+                }
+                cursor.mergeCharFormat(effect);
+            } else {
+                const QString legacy = item->data(TitleDocument::Gradient).toString();
+                if (!legacy.isEmpty()) {
+                    QTextCursor cursor(item->document());
+                    cursor.select(QTextCursor::Document);
+                    QTextCharFormat promoted;
+                    promoted.setProperty(TitlerGradientV1::Property, legacy);
+                    cursor.mergeCharFormat(promoted);
+                    item->setData(TitleDocument::Gradient, QString());
+                    TitlerGradientV1::applyBrushes(
+                        item->document(), int(rect.width()), int(rect.height()));
+                }
+
+                QTextCharFormat effect = delta;
+                if (gradient) {
+                    const QString data = gradients_combo->currentData().toString();
+                    effect.setProperty(TitlerGradientV1::Property, data);
+                    effect.setForeground(QBrush(TitlerGradientV1::gradientFromString(
+                        data, int(rect.width()), int(rect.height()))));
+                }
+                TitlerRichText::apply(item, effect);
+                item->setData(TitleDocument::Gradient, QString());
             }
         } else {
-            item->setAlignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft);
+            TitlerRichText::apply(item, delta);
         }
-
-        // Set font properties
-        item->setFont(font);
-        QTextCharFormat cformat = cur.charFormat();
-
-        item->setData(TitleDocument::OutlineWidth, outlineWidth);
-        item->setData(TitleDocument::OutlineColor, outlineColor);
-        if (outlineWidth > 0.0) {
-            cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-        }
-
-        if (gradientData.isEmpty()) {
-            cformat.setForeground(QBrush(color));
-        } else {
-            QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(item->boundingRect().width()), int(item->boundingRect().height()));
-            cformat.setForeground(QBrush(gr));
-        }
-        // Store gradient in item properties
-        item->setData(TitleDocument::Gradient, gradientData);
-        cur.setCharFormat(cformat);
-        cur.setBlockFormat(format);
-        //  item->setTextCursor(cur);
-        cur.clearSelection();
-        item->setTextCursor(cur);
-        item->setTextColor(color);
     }
 }
 
@@ -3137,49 +3350,30 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 buttonAlignRight->blockSignals(true);
                 buttonAlignCenter->blockSignals(true);
 
-                QFont font = i->font();
-                font_family->setCurrentFont(font);
-                font_size->setValue(font.pixelSize());
-                m_scene->slotUpdateFontSize(font.pixelSize());
-                buttonItalic->setChecked(font.italic());
-                buttonUnder->setChecked(font.underline());
-                setFontBoxWeight(font.weight());
+                // Rich text: show actual caret/run formatting.
+                connect(
+                    i,
+                    &MyTextItem::cursorFormatChanged,
+                    this,
+                    &TitleWidget::slotTextCursorFormatChanged,
+                    Qt::UniqueConnection);
+                connect(i->document(), &QTextDocument::contentsChanged, this,
+                        &TitleWidget::slotRichDocumentChanged, Qt::UniqueConnection);
 
-                QTextCursor cursor(i->document());
-                cursor.select(QTextCursor::Document);
-                QColor color = cursor.charFormat().foreground().color();
-                fontColorButton->setColor(color);
+                updateTextCursorTools(i);
 
-                if (!i->data(TitleDocument::OutlineWidth).isNull()) {
-                    textOutline->blockSignals(true);
-                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble()));
-                    textOutline->blockSignals(false);
-                } else {
-                    textOutline->blockSignals(true);
-                    textOutline->setValue(0);
-                    textOutline->blockSignals(false);
-                }
-                if (!i->data(TitleDocument::OutlineColor).isNull()) {
-                    textOutlineColor->blockSignals(true);
-                    QVariant variant = i->data(TitleDocument::OutlineColor);
-                    color = variant.value<QColor>();
-                    textOutlineColor->setColor(color);
-                    textOutlineColor->blockSignals(false);
-                }
-                if (!i->data(TitleDocument::Gradient).toString().isNull()) {
+                const QString legacyGradient = i->data(TitleDocument::Gradient).toString();
+                if (!legacyGradient.isEmpty()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
-                    const QString gradientData = i->data(TitleDocument::Gradient).toString();
-                    int ix = gradients_combo->findData(gradientData);
+                    int ix = gradients_combo->findData(legacyGradient);
                     if (ix == -1) {
-                        // This gradient does not exist in our settings, store it
-                        storeGradient(gradientData);
-                        ix = gradients_combo->findData(gradientData);
+                        // This legacy object gradient does not exist in our settings, store it.
+                        storeGradient(legacyGradient);
+                        ix = gradients_combo->findData(legacyGradient);
                     }
                     gradients_combo->setCurrentIndex(ix);
                     gradients_combo->blockSignals(false);
-                } else {
-                    plain_color->setChecked(true);
                 }
                 if (i->alignment() == Qt::AlignHCenter) {
                     buttonAlignCenter->setChecked(true);
@@ -3238,14 +3432,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     tw_sb_seed->setValue(sInfo.at(4).toInt());
                 }
 
-                letter_spacing->blockSignals(true);
-                line_spacing->blockSignals(true);
                 QTextCursor cur = i->textCursor();
-                QTextBlockFormat format = cur.blockFormat();
-                letter_spacing->setValue(int(font.letterSpacing()));
-                line_spacing->setValue(int(format.lineHeight()));
-                letter_spacing->blockSignals(false);
-                line_spacing->blockSignals(false);
 
                 font_size->blockSignals(false);
                 font_family->blockSignals(false);

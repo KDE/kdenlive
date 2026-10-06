@@ -12,6 +12,11 @@
  ***************************************************************************/
 
 #include "titledocument.h"
+#include "richtextspacing.h"
+#include "richtextgradient.h"
+#include "richtextoutline.h"
+#include <QDebug>
+#include <QFontInfo>
 #include "gradientwidget.h"
 
 #include "graphicsscenerectmove.h"
@@ -38,11 +43,166 @@
 #include <QSvgRenderer>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QTextBlock>
+#include <QTextCharFormat>
+#include <QTextFragment>
+#include <QRegularExpression>
+#include <QMap>
+#include <QSet>
+#include <QtMath>
+#include <memory>
 
 #include <QGraphicsBlurEffect>
 #include <QGraphicsDropShadowEffect>
 #include <QGraphicsEffect>
 #include <QPainter>
+
+namespace {
+QString titleRichTextHtml(const QTextDocument *source)
+{
+    // Qt writes every alpha-zero color as "transparent", discarding its RGB.
+    // Use unused opaque colors in the export copy, then restore their exact
+    // #AARRGGBB values in foreground declarations only.
+    QSet<QRgb> usedColors;
+    QMap<QRgb, QColor> transparentTokens;
+    for (const QTextFormat &format : source->allFormats()) {
+        const QBrush brush = format.foreground();
+        if (!brush.color().isValid()) {
+            continue;
+        }
+        usedColors.insert(brush.color().rgb());
+        if (brush.style() == Qt::SolidPattern && brush.color().alpha() == 0) {
+            transparentTokens.insert(brush.color().rgba(), QColor());
+        }
+    }
+    QMap<QString, QString> originalColors;
+    quint32 nextColor = 0;
+    for (auto it = transparentTokens.begin(); it != transparentTokens.end(); ++it) {
+        while (nextColor <= 0x00ffffffu && usedColors.contains(QRgb(0xff000000u | nextColor))) {
+            ++nextColor;
+        }
+        if (nextColor > 0x00ffffffu) {
+            qWarning() << "No unused foreground color for transparent title serialization";
+            return source->toHtml();
+        }
+        const QColor token = QColor::fromRgb(QRgb(0xff000000u | nextColor++));
+        usedColors.insert(token.rgb());
+        it.value() = token;
+        originalColors.insert(token.name(QColor::HexRgb), QColor::fromRgba(it.key()).name(QColor::HexArgb));
+    }
+    const auto encodeForeground = [&transparentTokens](const QTextCharFormat &format, QTextCharFormat &delta) {
+        const QBrush brush = format.foreground();
+        const auto token = transparentTokens.constFind(brush.color().rgba());
+        if (brush.style() == Qt::SolidPattern && token != transparentTokens.cend()) {
+            delta.setForeground(token.value());
+            return true;
+        }
+        return false;
+    };
+
+    // Put decorations on character runs, not on the inherited HTML body font.
+    std::unique_ptr<QTextDocument> copy(source->clone());
+    for (QTextBlock block = source->begin(); block.isValid(); block = block.next()) {
+        QTextCharFormat blockFormat = block.charFormat();
+        if (encodeForeground(block.charFormat(), blockFormat)) {
+            QTextCursor cursor(copy.get());
+            cursor.setPosition(block.position());
+            cursor.setBlockCharFormat(blockFormat);
+        }
+        for (auto it = block.begin(); !it.atEnd(); ++it) {
+            const QTextFragment fragment = it.fragment();
+            if (!fragment.isValid()) {
+                continue;
+            }
+            const QTextCharFormat format = fragment.charFormat();
+            const QFont font = format.font().resolve(source->defaultFont());
+            QTextCharFormat explicitDecorations;
+            encodeForeground(format, explicitDecorations);
+            if (!format.hasProperty(QTextFormat::TextUnderlineStyle)
+                && !format.hasProperty(QTextFormat::FontUnderline)) {
+                explicitDecorations.setFontUnderline(font.underline());
+            }
+            if (!format.hasProperty(QTextFormat::FontOverline)) {
+                explicitDecorations.setFontOverline(font.overline());
+            }
+            if (!format.hasProperty(QTextFormat::FontStrikeOut)) {
+                explicitDecorations.setFontStrikeOut(font.strikeOut());
+            }
+            if (!explicitDecorations.isEmpty()) {
+                QTextCursor cursor(copy.get());
+                cursor.setPosition(fragment.position());
+                cursor.setPosition(fragment.position() + fragment.length(), QTextCursor::KeepAnchor);
+                cursor.mergeCharFormat(explicitDecorations);
+            }
+        }
+    }
+    QFont defaultFont = copy->defaultFont();
+    defaultFont.setUnderline(false);
+    defaultFont.setOverline(false);
+    defaultFont.setStrikeOut(false);
+    copy->setDefaultFont(defaultFont);
+
+    const QString serialized = copy->toHtml();
+    QDomDocument html;
+    if (!html.setContent(serialized, QDomDocument::ParseOption::PreserveSpacingOnlyNodes)) {
+        qWarning() << "Could not parse generated title HTML for color serialization";
+        // Never return the export copy's placeholder colors.
+        return source->toHtml();
+    }
+    // Qt HTML accepts #AARRGGBB without the decimal-alpha conversion loss.
+    // Only rewrite foreground-color declarations, never the title's text.
+    const QRegularExpression rgba(QStringLiteral(
+        R"(((?:^|;)\s*color\s*:\s*)rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+(?:[eE][+-]?[0-9]+)?)\s*\))"));
+    const QRegularExpression opaqueForeground(QStringLiteral(
+        R"(((?:^|;)\s*color\s*:\s*)(#[0-9a-fA-F]{6})(?=\s*(?:;|$)))"));
+    QList<QDomElement> pending{html.documentElement()};
+    while (!pending.isEmpty()) {
+        QDomElement element = pending.takeLast();
+        const QString style = element.attribute(QStringLiteral("style"));
+        QString normalized;
+        qsizetype previous = 0;
+        auto matches = rgba.globalMatch(style);
+        while (matches.hasNext()) {
+            const auto match = matches.next();
+            bool redOk = false, greenOk = false, blueOk = false, alphaOk = false;
+            const int red = match.captured(2).toInt(&redOk);
+            const int green = match.captured(3).toInt(&greenOk);
+            const int blue = match.captured(4).toInt(&blueOk);
+            const double alpha = match.captured(5).toDouble(&alphaOk);
+            if (!redOk || !greenOk || !blueOk || !alphaOk || red > 255 || green > 255 || blue > 255
+                || !qIsFinite(alpha) || alpha < 0 || alpha > 1) {
+                continue;
+            }
+            normalized += style.mid(previous, match.capturedStart() - previous);
+            normalized += match.captured(1);
+            normalized += QColor(red, green, blue, qRound(alpha * 255)).name(QColor::HexArgb);
+            previous = match.capturedEnd();
+        }
+        const QString exactStyle = previous > 0 ? normalized + style.mid(previous) : style;
+        QString restored;
+        previous = 0;
+        auto tokens = opaqueForeground.globalMatch(exactStyle);
+        while (tokens.hasNext()) {
+            const auto match = tokens.next();
+            const auto color = originalColors.constFind(match.captured(2).toLower());
+            if (color == originalColors.cend()) {
+                continue;
+            }
+            restored += exactStyle.mid(previous, match.capturedStart() - previous);
+            restored += match.captured(1) + color.value();
+            previous = match.capturedEnd();
+        }
+        const QString finalStyle = previous > 0 ? restored + exactStyle.mid(previous) : exactStyle;
+        if (finalStyle != style) {
+            element.setAttribute(QStringLiteral("style"), finalStyle);
+        }
+        for (QDomElement child = element.firstChildElement(); !child.isNull(); child = child.nextSiblingElement()) {
+            pending.append(child);
+        }
+    }
+    return html.toString(-1);
+}
+}
 
 QByteArray fileToByteArray(const QString &filename)
 {
@@ -230,9 +390,30 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
         if (t->toPlainText().simplified().isEmpty()) {
             return {};
         }
-        // content.appendChild(doc.createTextNode(((QGraphicsTextItem*)item)->toHtml()));
+        // Keep legacy plain text first so older Kdenlive/MLT versions still
+        // have a usable fallback representation.
         content.appendChild(doc.createTextNode(t->toPlainText()));
-        font = t->font();
+
+        // Rich text: additive rich representation. Older readers ignore
+        // this child and continue reading the first plain-text node above.
+        QDomElement richText = doc.createElement(QStringLiteral("richtext"));
+        richText.setAttribute(QStringLiteral("format"), QStringLiteral("qt-html-v1"));
+        richText.appendChild(doc.createTextNode(titleRichTextHtml(t->document())));
+        content.appendChild(richText);
+        content.appendChild(TitlerSpacingV1::save(doc, t->document())); // Rich text
+        content.appendChild(TitlerGradientV1::save(doc, t->document())); // Rich text selective gradients
+        const QDomElement outlines = TitlerOutline::save(doc, t->document());
+        if (!outlines.isNull()) {
+            content.appendChild(outlines);
+        }
+
+        // Use the first run for legacy fallback, without changing the live item.
+        QTextCursor fallback(t->document());
+        fallback.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
+        font = fallback.charFormat().font().resolve(t->font());
+        if (font.pixelSize() <= 0) {
+            font.setPixelSize(qMax(1, QFontInfo(font).pixelSize()));
+        }
         content.setAttribute(QStringLiteral("font"), font.family());
         content.setAttribute(QStringLiteral("font-weight"), font.weight());
         content.setAttribute(QStringLiteral("font-pixel-size"), font.pixelSize());
@@ -265,9 +446,9 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
                 content.setAttribute(QStringLiteral("box-width"), QString::number(offset));
             }
         } else {
-            content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width()));
+            content.setAttribute(QStringLiteral("box-width"), QString::number(t->baseBoundingRect().width(), 'g', 17));
         }
-        content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height()));
+        content.setAttribute(QStringLiteral("box-height"), QString::number(t->baseBoundingRect().height(), 'g', 17));
         if (!t->data(TitleDocument::LineSpacing).isNull()) {
             content.setAttribute(QStringLiteral("line-spacing"), QString::number(t->data(TitleDocument::LineSpacing).toInt()));
         }
@@ -279,7 +460,12 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
             // Font outline
             QTextCursor cursor(t->document());
             cursor.select(QTextCursor::Document);
-            QColor fontcolor = cursor.charFormat().foreground().color();
+            const QBrush firstBrush = fallback.charFormat().foreground();
+            QColor fontcolor = firstBrush.style() == Qt::SolidPattern
+                ? firstBrush.color() : t->defaultTextColor();
+            if (!fontcolor.isValid()) {
+                fontcolor = Qt::white;
+            }
             content.setAttribute(QStringLiteral("font-color"), colorToString(fontcolor));
             if (!t->data(TitleDocument::OutlineWidth).isNull()) {
                 content.setAttribute(QStringLiteral("font-outline"), QString::number(t->data(TitleDocument::OutlineWidth).toDouble()));
@@ -522,36 +708,84 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
             }
             font.setLetterSpacing(QFont::AbsoluteSpacing, txtProperties.namedItem(QStringLiteral("letter-spacing")).nodeValue().toInt());
             QColor col(stringToColor(txtProperties.namedItem(QStringLiteral("font-color")).nodeValue()));
-            MyTextItem *txt = new MyTextItem(itemNode.namedItem(QStringLiteral("content")).firstChild().nodeValue(), nullptr);
+
+            QDomElement contentElement = itemNode.namedItem(QStringLiteral("content")).toElement();
+            QDomElement richTextElement = contentElement.firstChildElement(QStringLiteral("richtext"));
+            const bool hasRichText = !richTextElement.isNull()
+                && richTextElement.attribute(QStringLiteral("format")) == QLatin1String("qt-html-v1")
+                && !richTextElement.text().isEmpty();
+
+            // The first child remains the legacy plain-text fallback.
+            MyTextItem *txt = new MyTextItem(contentElement.firstChild().nodeValue(), nullptr);
+            if (hasRichText) {
+                // The legacy fallback font describes the first run, not every character.
+                font.setUnderline(false);
+                font.setOverline(false);
+                font.setStrikeOut(false);
+            }
             txt->setFont(font);
+
+            if (hasRichText) {
+                // Rich text: restore the QTextDocument character runs before
+                // applying the legacy object-level effects below.
+                txt->setHtml(richTextElement.text());
+                if (!TitlerSpacingV1::restore(contentElement, txt->document())) {
+                    qWarning() << "Ignoring invalid title rich-text spacing metadata";
+                }
+                if (!TitlerGradientV1::restore(contentElement, txt->document())) {
+                    qWarning() << "Ignoring invalid title rich-text gradient metadata";
+                }
+                txt->document()->setDocumentMargin(0);
+                TitlerGradientV1::applyBrushes(
+                    txt->document(), int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
+            }
+
             txt->setTextInteractionFlags(Qt::NoTextInteraction);
+
             QTextCursor cursor(txt->document());
             cursor.select(QTextCursor::Document);
-            QTextCharFormat cformat = cursor.charFormat();
-            if (txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble() > 0.0) {
-                txt->setData(TitleDocument::OutlineWidth, txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble());
-                txt->setData(TitleDocument::OutlineColor, stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue()));
-                cformat.setTextOutline(QPen(QColor(stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue())),
-                                            txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble(), Qt::SolidLine, Qt::RoundCap,
-                                            Qt::RoundJoin));
+
+            QTextCharFormat globalFormat;
+            bool hasGlobalFormat = false;
+
+            txt->setOutline(txtProperties.namedItem(QStringLiteral("font-outline")).nodeValue().toDouble(),
+                            stringToColor(txtProperties.namedItem(QStringLiteral("font-outline-color")).nodeValue()));
+            if (hasRichText && !TitlerOutline::restore(contentElement, txt->document())) {
+                qWarning() << "Ignoring invalid title rich-text outline metadata";
             }
+
             if (!txtProperties.namedItem(QStringLiteral("line-spacing")).isNull()) {
                 int lineSpacing = txtProperties.namedItem(QStringLiteral("line-spacing")).nodeValue().toInt();
-                QTextBlockFormat format = cursor.blockFormat();
+                QTextBlockFormat format;
                 format.setLineHeight(lineSpacing, QTextBlockFormat::LineDistanceHeight);
-                cursor.setBlockFormat(format);
+                cursor.mergeBlockFormat(format);
                 txt->setData(TitleDocument::LineSpacing, lineSpacing);
             }
-            txt->setTextColor(col);
-            cformat.setForeground(QBrush(col));
-            cursor.setCharFormat(cformat);
+
+            if (!hasRichText) {
+                // Legacy titles still get their object-level solid colour.
+                txt->setDefaultTextColor(col);
+                globalFormat.setForeground(QBrush(col));
+                hasGlobalFormat = true;
+            }
+
             if (!txtProperties.namedItem(QStringLiteral("gradient")).isNull()) {
-                // Gradient color
+                // Gradient is still object-level for now, but no longer
+                // destroys the saved character fonts/weights/sizes.
                 QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                 txt->setData(TitleDocument::Gradient, data);
-                QLinearGradient gr = GradientWidget::gradientFromString(data, int(txt->boundingRect().width()), int(txt->boundingRect().height()));
-                cformat.setForeground(QBrush(gr));
-                cursor.setCharFormat(cformat);
+
+                QLinearGradient gr = GradientWidget::gradientFromString(
+                    data,
+                    int(txt->baseBoundingRect().width()),
+                    int(txt->baseBoundingRect().height()));
+
+                globalFormat.setForeground(QBrush(gr));
+                hasGlobalFormat = true;
+            }
+
+            if (hasGlobalFormat) {
+                cursor.mergeCharFormat(globalFormat);
             }
 
             if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {

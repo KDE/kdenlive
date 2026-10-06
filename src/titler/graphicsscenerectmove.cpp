@@ -9,7 +9,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlivesettings.h"
 #include "titler/gradientwidget.h"
 #include "titler/titledocument.h"
+#include "titler/richtextgradient.h"
+#include "titler/richtextoutline.h"
+#include "titler/richtextformat.h"
 
+#include <QAbstractTextDocumentLayout>
 #include <QApplication>
 #include <QClipboard>
 #include <QCursor>
@@ -24,6 +28,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QTextFragment>
+#include <QScopedValueRollback>
 #include <qmath.h>
 #include <utility>
 
@@ -35,9 +41,12 @@ MyQGraphicsEffect::MyQGraphicsEffect(QObject *parent)
 {
 }
 
-void MyQGraphicsEffect::setShadow(const QImage &image)
+void MyQGraphicsEffect::setShadow(const QImage &image, const QPointF &origin)
 {
     m_shadow = image;
+    m_shadowOrigin = origin;
+    updateBoundingRect();
+    update();
 }
 
 void MyQGraphicsEffect::setOffset(int xOffset, int yOffset, int blur)
@@ -50,9 +59,20 @@ void MyQGraphicsEffect::setOffset(int xOffset, int yOffset, int blur)
 
 void MyQGraphicsEffect::draw(QPainter *painter)
 {
-    painter->fillRect(boundingRect(), Qt::transparent);
-    painter->drawImage(-2 * m_blur + m_xOffset, -2 * m_blur + m_yOffset, m_shadow);
+    painter->drawImage(m_shadowOrigin + QPointF(m_xOffset - 2 * m_blur, m_yOffset - 2 * m_blur), m_shadow);
     drawSource(painter);
+}
+
+QRectF MyQGraphicsEffect::boundingRectFor(const QRectF &sourceRect) const
+{
+    return sourceRect.united(QRectF(m_shadowOrigin + QPointF(m_xOffset - 2 * m_blur, m_yOffset - 2 * m_blur), m_shadow.size()));
+}
+
+namespace {
+void paintTitleOutline(QPainter *painter, QTextDocument *document, const QPen &pen)
+{
+    TitlerOutline::paint(painter, document, pen);
+}
 }
 
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
@@ -67,7 +87,7 @@ MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     m_shadowEffect->setEnabled(false);
     setGraphicsEffect(m_shadowEffect);
     updateGeometry();
-    connect(document(), &QTextDocument::contentsChange, this, &MyTextItem::doUpdateGeometry);
+    connect(document(), &QTextDocument::contentsChanged, this, &MyTextItem::doUpdateGeometry);
     updateTW(false, 2, 1, 0, 0);
 }
 
@@ -78,6 +98,7 @@ Qt::Alignment MyTextItem::alignment() const
 
 void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color)
 {
+    prepareGeometryChange();
     m_shadowOffset = QPoint(xoffset, yoffset);
     m_shadowBlur = blur;
     m_shadowColor = std::move(color);
@@ -113,105 +134,106 @@ void MyTextItem::loadShadow(const QStringList &info)
 
 void MyTextItem::setAlignment(Qt::Alignment alignment)
 {
+    // Rich text: layout must not erase the user's text selection.
     m_alignment = alignment;
-    QTextBlockFormat format;
-    format.setAlignment(alignment);
-    QTextCursor cursor = textCursor(); // save cursor position
-    int position = textCursor().position();
-    cursor.select(QTextCursor::Document);
-    cursor.mergeBlockFormat(format);
-    cursor.clearSelection();
-    cursor.setPosition(position); // restore cursor position
-    setTextCursor(cursor);
+    const Qt::Alignment effective = alignment == Qt::Alignment() ? Qt::AlignLeft : alignment;
+    bool changed = false;
+    for (QTextBlock block = document()->begin(); block.isValid(); block = block.next()) {
+        changed |= block.blockFormat().alignment() != effective;
+    }
+    if (changed) {
+        QTextCursor cursor(document());
+        cursor.select(QTextCursor::Document);
+        QTextBlockFormat delta;
+        delta.setAlignment(effective);
+        cursor.mergeBlockFormat(delta);
+    }
+}
+
+void MyTextItem::setOutline(qreal width, const QColor &color)
+{
+    width = qIsFinite(width) ? qMax(qreal(0), width) : qreal(0);
+    const QColor outlineColor = color.isValid() ? color : QColor(Qt::black);
+    const QPen pen(outlineColor, width, width > 0 ? Qt::SolidLine : Qt::NoPen, Qt::RoundCap, Qt::RoundJoin);
+    if (pen != m_outlinePen) {
+        prepareGeometryChange();
+        m_outlinePen = pen;
+    }
+    setData(TitleDocument::OutlineWidth, width);
+    setData(TitleDocument::OutlineColor, outlineColor);
+
+    // Keep the legacy default separate from the fill and per-character overrides.
+    bool hasOutline = false;
+    for (QTextBlock block = document()->begin(); block.isValid(); block = block.next()) {
+        for (auto it = block.begin(); !it.atEnd(); ++it) {
+            const auto fragment = it.fragment();
+            if (fragment.isValid() && fragment.charFormat().textOutline().style() != Qt::NoPen) {
+                hasOutline = true;
+            }
+        }
+    }
+    QTextCharFormat fillOnly;
+    fillOnly.setTextOutline(QPen(Qt::NoPen));
+    if (hasOutline) {
+        QTextCursor cursor(document());
+        cursor.select(QTextCursor::Document);
+        cursor.mergeCharFormat(fillOnly);
+    }
+    QTextCursor active = textCursor();
+    if (!active.hasSelection() && active.charFormat().textOutline().style() != Qt::NoPen) {
+        active.mergeCharFormat(fillOnly);
+        setTextCursor(active);
+    }
+    doUpdateGeometry();
+}
+
+void MyTextItem::applyOutlineWidth(qreal width)
+{
+    if (!qIsFinite(width) || width < 0 || width > TitlerOutline::MaximumWidth) {
+        return;
+    }
+    QTextCharFormat delta;
+    delta.setProperty(TitlerOutline::WidthProperty, width);
+    TitlerRichText::apply(this, delta);
+    Q_EMIT cursorFormatChanged(this);
+}
+
+void MyTextItem::applyOutlineColor(const QColor &color)
+{
+    if (!color.isValid()) {
+        return;
+    }
+    QTextCharFormat delta;
+    delta.setProperty(TitlerOutline::ColorProperty, color);
+    TitlerRichText::apply(this, delta);
+    Q_EMIT cursorFormatChanged(this);
+}
+
+QPen MyTextItem::defaultOutline() const
+{
+    return m_outlinePen;
 }
 
 void MyTextItem::refreshFormat()
 {
-    QString gradientData = data(TitleDocument::Gradient).toString();
-    QTextCursor cursor = textCursor();
-    QTextCharFormat cformat;
-    cursor.select(QTextCursor::Document);
-    int position = textCursor().position();
-
-    // Formatting can be lost on paste, since our QTextCursor gets overwritten, so re-apply all formatting here
-    QColor fgColor = defaultTextColor();
-    cformat.setForeground(fgColor);
-    cformat.setFont(font());
-
-    if (!gradientData.isEmpty()) {
-        QRectF rect = boundingRect();
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height()));
-        cformat.setForeground(QBrush(gr));
-    }
-
-    // Apply
-    cursor.mergeCharFormat(cformat);
-    // restore cursor position
-    cursor.clearSelection();
-    cursor.setPosition(position);
-    setTextCursor(cursor);
+    const auto rect = baseBoundingRect();
+    TitlerGradientV1::applyLayoutBrushes(document(), int(rect.width()), int(rect.height()),
+                                      data(TitleDocument::Gradient).toString());
 }
 
 void MyTextItem::doUpdateGeometry()
 {
-    updateGeometry();
-    // update gradient if necessary
-    refreshFormat();
-
-    QString text = toPlainText();
-    m_path = QPainterPath();
-    m_path.setFillRule(Qt::WindingFill);
-    if (text.isEmpty()) {
-        //
-    } else {
-        QFontMetrics metrics(font());
-        QTextOption options = document()->defaultTextOption();
-        qreal tabWidth = options.tabStopDistance();
-        double lineSpacing = data(TitleDocument::LineSpacing).toInt() + metrics.lineSpacing();
-
-        // Calculate line width
-        const QStringList lines = text.split(QLatin1Char('\n'));
-        double linePos = metrics.ascent();
-        QRectF bounding = boundingRect();
-        for (const QString &line : lines) {
-            QPainterPath linePath;
-            if (TITLERVERSION >= 400) {
-                // Added support for tabs
-                const QStringList tabLines = line.split(QLatin1Char('\t'));
-                qreal pos = 0;
-                qreal currentPos = 0;
-                if (tabWidth > 0 && tabLines.size() > 1) {
-                    for (const QString &tline : tabLines) {
-                        QPainterPath tabPath;
-                        if (!tline.isEmpty()) {
-                            tabPath.addText(pos, linePos, font(), tline);
-                            linePath.addPath(tabPath);
-                            currentPos = pos + tabPath.boundingRect().width();
-                        } else {
-                            // Several chained tabs
-                            currentPos = pos + tabWidth / 2;
-                        }
-                        int tabsCount = ceil(currentPos / tabWidth);
-                        pos = tabsCount * tabWidth;
-                    }
-                } else {
-                    linePath.addText(0, linePos, font(), line);
-                }
-            } else {
-                linePath.addText(0, linePos, font(), line);
-            }
-            linePos += lineSpacing;
-            if (m_alignment == Qt::AlignHCenter) {
-                double offset = (bounding.width() - metrics.horizontalAdvance(line)) / 2;
-                linePath.translate(offset, 0);
-            } else if (m_alignment == Qt::AlignRight) {
-                double offset = bounding.width() - metrics.horizontalAdvance(line);
-                linePath.translate(offset, 0);
-            }
-            m_path.addPath(linePath);
-        }
+    if (m_richTextLayoutBusy) {
+        return;
     }
-
+    QScopedValueRollback<bool> guard(m_richTextLayoutBusy, true);
+    const qreal margin = TitlerOutline::margin(document(), m_outlinePen);
+    if (margin != m_outlineMargin) {
+        prepareGeometryChange();
+        m_outlineMargin = margin;
+    }
+    updateGeometry();
+    refreshFormat();
     if (m_shadowEffect->isEnabled()) {
         updateShadow();
     }
@@ -232,54 +254,42 @@ bool MyTextItem::sceneEvent(QEvent *event)
             return true;
         }
     }
-    return QGraphicsTextItem::sceneEvent(event);
+    const bool handled = QGraphicsTextItem::sceneEvent(event);
+
+    if (event->type() == QEvent::KeyPress) {
+        Q_EMIT cursorFormatChanged(this);
+    }
+
+    return handled;
+}
+
+void MyTextItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsTextItem::mousePressEvent(event);
+    Q_EMIT cursorFormatChanged(this);
+}
+
+void MyTextItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    QGraphicsTextItem::mouseReleaseEvent(event);
+    Q_EMIT cursorFormatChanged(this);
 }
 
 void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *w)
 {
-    int outline = data(TitleDocument::OutlineWidth).toInt();
-    if ((textInteractionFlags() & static_cast<int>((Qt::TextEditable) != 0)) != 0) {
-        document()->setDocumentMargin(0);
-        QGraphicsTextItem::paint(painter, option, w);
-        if (outline == 0) {
-            // If there is no outline, stop here. Otherwise we paint again with our custom
-            // code to avoid the QGraphicsTextItem issue that paints the outline over the letters
-            return;
-        }
-    }
+    painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
-
-    QString gradientData = data(TitleDocument::Gradient).toString();
-    QTextCursor cursor(document());
-    cursor.select(QTextCursor::Document);
-    QBrush paintBrush;
-    if (gradientData.isEmpty()) {
-        paintBrush = QBrush(cursor.charFormat().foreground().color());
-    } else {
-        QRectF rect = boundingRect();
-        paintBrush = QBrush(GradientWidget::gradientFromString(gradientData, int(rect.width()), int(rect.height())));
-    }
-    if (TITLERVERSION < 300) {
-        painter->fillPath(m_path, paintBrush);
-    }
-    if (outline > 0) {
-        QVariant variant = data(TitleDocument::OutlineColor);
-        QColor outlineColor = variant.value<QColor>();
-        QPen pen(outlineColor);
-        pen.setWidthF(outline);
-        pen.setJoinStyle(Qt::RoundJoin);
-        painter->strokePath(m_path.simplified(), pen);
-    }
-    if (TITLERVERSION >= 300) {
-        painter->fillPath(m_path, paintBrush);
-    }
-    document()->setDocumentMargin(toPlainText().isEmpty() ? 6 : 0);
-    if (isSelected() || toPlainText().isEmpty()) {
+    paintTitleOutline(painter, document(), m_outlinePen);
+    // Qt paints the rich fill, selection and blinking caret only once.
+    QGraphicsTextItem::paint(painter, option, w);
+    if (!textInteractionFlags().testFlag(Qt::TextEditable) && (isSelected() || toPlainText().isEmpty())) {
         QPen pen(isSelected() ? Qt::red : Qt::blue);
         pen.setStyle(Qt::DashLine);
         painter->setPen(pen);
+        painter->setBrush(Qt::NoBrush);
         painter->drawRect(boundingRect());
     }
+    painter->restore();
 }
 
 void MyTextItem::updateTW(bool enabled, int step, int mode, int sigma, int seed)
@@ -309,35 +319,34 @@ QStringList MyTextItem::twInfo() const
 
 void MyTextItem::updateShadow()
 {
-    QString text = toPlainText();
-    if (text.isEmpty()) {
+    if (toPlainText().isEmpty()) {
         m_shadowEffect->setShadow(QImage());
         return;
     }
-    QRectF bounding = boundingRect();
-    QPainterPath path = m_path;
-    // Calculate position of text in parent item
-    path.translate(QPointF(2 * m_shadowBlur, 2 * m_shadowBlur));
-    QRectF fullSize = bounding.united(path.boundingRect());
-    QImage shadow(int(fullSize.width()) + qAbs(m_shadowOffset.x()) + 4 * m_shadowBlur, int(fullSize.height()) + qAbs(m_shadowOffset.y()) + 4 * m_shadowBlur,
-                  QImage::Format_ARGB32_Premultiplied);
+    const qreal margin = m_outlineMargin;
+    const QRectF sourceRect = baseBoundingRect().united(m_inkBounds).adjusted(-margin, -margin, margin, margin);
+    const int pad = qMax(0, 2 * m_shadowBlur);
+    QImage shadow(qMax(1, int(std::ceil(sourceRect.width())) + 2 * pad),
+                  qMax(1, int(std::ceil(sourceRect.height())) + 2 * pad), QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
-
-    QPainter painter(&shadow);
-    int outline = data(TitleDocument::OutlineWidth).toInt();
-    if (outline > 0) {
-        QPainterPathStroker strokePath;
-        strokePath.setWidth(outline);
-        strokePath.setJoinStyle(Qt::RoundJoin);
-        QPainterPath stroke = strokePath.createStroke(path);
-        path.addPath(stroke);
+    {
+        QPainter painter(&shadow);
+        painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+        painter.translate(pad - sourceRect.left(), pad - sourceRect.top());
+        paintTitleOutline(&painter, document(), m_outlinePen);
+        QAbstractTextDocumentLayout::PaintContext context;
+        context.palette.setColor(QPalette::Text, defaultTextColor());
+        document()->documentLayout()->draw(&painter, context);
     }
-    painter.fillPath(path, QBrush(m_shadowColor));
-    painter.end();
+    {
+        QPainter tint(&shadow);
+        tint.setCompositionMode(QPainter::CompositionMode_SourceIn);
+        tint.fillRect(shadow.rect(), m_shadowColor);
+    }
     if (m_shadowBlur > 0) {
         blurShadow(shadow, m_shadowBlur);
     }
-    m_shadowEffect->setShadow(shadow);
+    m_shadowEffect->setShadow(shadow, sourceRect.topLeft());
 }
 
 void MyTextItem::blurShadow(QImage &result, int radius)
@@ -412,11 +421,17 @@ void MyTextItem::blurShadow(QImage &result, int radius)
 
 void MyTextItem::updateGeometry()
 {
-    QPointF topRightPrev = boundingRect().topRight();
+    // textWidth() is the width committed by the previous geometry update.
+    // A larger glyph can expand the layout beyond that width before this slot
+    // runs. Its updated bounds are not the previous alignment reference.
+    const qreal previousWidth = textWidth();
+    const QRectF currentLayout = baseBoundingRect();
+    const QPointF topRightPrev(previousWidth < 0 ? currentLayout.right() : currentLayout.left() + previousWidth,
+                              currentLayout.top());
     setTextWidth(-1);
-    setTextWidth(boundingRect().width());
+    setTextWidth(baseBoundingRect().width());
     setAlignment(m_alignment);
-    QPointF topRight = boundingRect().topRight();
+    QPointF topRight = baseBoundingRect().topRight();
 
     // if the text is right-aligned, then shift the container leftwards by the
     // same amount it grew to maintain right-alignment
@@ -427,33 +442,23 @@ void MyTextItem::updateGeometry()
     else if (m_alignment & Qt::AlignHCenter) {
         setPos(pos() + (topRightPrev - topRight) / 2);
     }
+    const QRectF ink = TitlerOutline::inkBounds(document());
+    if (ink != m_inkBounds) {
+        prepareGeometryChange();
+        m_inkBounds = ink;
+    }
 }
 
 QRectF MyTextItem::baseBoundingRect() const
 {
-    // Ensure text document layout is updated
-    document()->documentLayout();
-    QRectF base = QGraphicsTextItem::boundingRect();
-    QTextCursor cur(document());
-    cur.select(QTextCursor::Document);
-    QTextBlockFormat format = cur.blockFormat();
-    int lineHeight = int(format.lineHeight());
-    int lineHeight2 = QFontMetrics(font()).lineSpacing();
-    int blkCount = document()->blockCount();
-    int lines = 0;
-    for (int i = 0; i < blkCount; i++) {
-        QTextBlock block = document()->findBlockByNumber(i);
-        lines += block.layout()->lineCount();
-    }
-    if (lines > 1) {
-        base.setHeight(lines * lineHeight2 + lineHeight * (lines - 1));
-    }
-    return base;
+    // Rich text: Qt's layout accounts for different sizes within a line.
+    return QGraphicsTextItem::boundingRect();
 }
 
 QRectF MyTextItem::boundingRect() const
 {
-    QRectF base = baseBoundingRect();
+    const qreal margin = m_outlineMargin;
+    QRectF base = baseBoundingRect().united(m_inkBounds).adjusted(-margin, -margin, margin, margin);
     if (m_shadowEffect->isEnabled() && m_shadowOffset.x() > 0) {
         base.setRight(base.right() + m_shadowOffset.x());
     }
@@ -500,6 +505,7 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
     if (textInteractionFlags() == Qt::TextEditorInteraction) {
         // if editor mode is already on: pass double click events on to the editor:
         QGraphicsTextItem::mouseDoubleClickEvent(evt);
+        Q_EMIT cursorFormatChanged(this);
         return;
     }
     // if editor mode is off:
@@ -515,6 +521,7 @@ void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
     click->setPos(evt->pos());
     QGraphicsTextItem::mousePressEvent(click);
     delete click; // don't forget to delete the event
+    Q_EMIT cursorFormatChanged(this);
 }
 
 MyRectItem::MyRectItem(QGraphicsItem *parent)
