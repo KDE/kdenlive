@@ -99,6 +99,38 @@ TEST_CASE("Composition manipulation", "[CompositionModel]")
     REQUIRE(timeline->getCompositionPlaytime(cid1) == 1);
     REQUIRE(timeline->getCompositionPlaytime(cid2) == 1);
 
+    SECTION("Detect a cut under a composition starting at frame zero")
+    {
+        auto binModel = pCore->projectItemModel();
+        QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 50, false);
+        int firstClip = -1;
+        int secondClip = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 0, firstClip));
+        REQUIRE(timeline->requestItemResize(firstClip, 10, true) == 10);
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 10, secondClip));
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, 0));
+        REQUIRE(timeline->requestItemResize(cid1, 20, true) == 20);
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+
+        // A composition spanning a cut can be dropped as a same-track mix,
+        // including when its one-frame snapping margin extends before frame zero.
+        CHECK(KdenliveTests::isOnCut(track, cid1) == 10);
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, 1));
+        CHECK(KdenliveTests::isOnCut(track, cid1) == 10);
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, 10));
+        CHECK(KdenliveTests::isOnCut(track, cid1) == 10);
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, 11));
+        CHECK(KdenliveTests::isOnCut(track, cid1) == -1);
+
+        // The right snapping margin must stay at the composition end.
+        REQUIRE(timeline->requestCompositionMove(cid1, tid2, 0));
+        REQUIRE(timeline->requestItemResize(cid1, 9, true) == 9);
+        CHECK(KdenliveTests::isOnCut(track, cid1) == -1);
+        REQUIRE(timeline->requestItemResize(cid1, 10, true) == 10);
+        CHECK(KdenliveTests::isOnCut(track, cid1) == 10);
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Insert a composition in a track and change track")
     {
         REQUIRE(timeline->checkConsistency());

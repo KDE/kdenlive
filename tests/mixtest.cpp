@@ -166,6 +166,11 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->mixClip(cid4));
         state2();
+        // Automatic lookup follows the cut; explicit playlists expose both overlapping clips.
+        CHECK(timeline->getClipByPosition(tid2, 519) == cid3);
+        CHECK(timeline->getClipByPosition(tid2, 520) == cid4);
+        CHECK(timeline->getClipByPosition(tid2, 520, 0) == cid3);
+        CHECK(timeline->getClipByPosition(tid2, 519, 1) == cid4);
         undoStack->undo();
         state0();
         undoStack->redo();
@@ -347,6 +352,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         // undo 3rd clip resize & insert
         undoStack->undo();
+        undoStack->undo();
+        state0();
+    }
+
+    SECTION("Mix at start of a clip at frame 0 has no previous clip")
+    {
+        state0();
+        int cid6 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid4, 0, cid6));
+        // Clip at frame 0 with nothing after it: mix falls back to the clip start, where there is no previous clip.
+        // The clip used to be mixed with itself, crashing on later undo
+        REQUIRE_FALSE(timeline->mixClip(cid6));
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid4)->mixCount() == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid6) == 0);
         undoStack->undo();
         state0();
     }

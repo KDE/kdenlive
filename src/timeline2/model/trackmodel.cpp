@@ -856,6 +856,9 @@ int TrackModel::getClipByStartPosition(int position) const
 int TrackModel::getClipByPosition(int position, int playlist)
 {
     READ_LOCK();
+    if (position < 0) {
+        return -1;
+    }
     QSharedPointer<Mlt::Producer> prod(nullptr);
     if ((playlist == 0 || playlist == -1) && m_playlists[0].count() > 0) {
         prod = QSharedPointer<Mlt::Producer>(m_playlists[0].get_clip_at(position));
@@ -2596,8 +2599,8 @@ int TrackModel::isOnCut(int cid)
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(cid);
         // Start and end pos are incremented by 1 to account snapping
-        int startPos = composition->getPosition() - 1;
-        int endPos = startPos + composition->getPlaytime() + 1;
+        int startPos = qMax(0, composition->getPosition() - 1);
+        int endPos = composition->getPosition() + composition->getPlaytime();
         int cid1 = getClipByPosition(startPos);
         int cid2 = getClipByPosition(endPos);
         if (cid1 == -1 || cid2 == -1 || cid1 == cid2) {

@@ -545,6 +545,24 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
+    SECTION("Clip lookup at timeline and clip boundaries")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, length));
+        REQUIRE(timeline->requestClipMove(cid3, tid2, length));
+        for (int playlist : {-1, 0, 1}) {
+            CHECK(timeline->getClipByPosition(tid1, -1, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid1, -length, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid1, 0, playlist) == (playlist == 1 ? -1 : cid1));
+            CHECK(timeline->getClipByPosition(tid1, length - 1, playlist) == (playlist == 1 ? -1 : cid1));
+            CHECK(timeline->getClipByPosition(tid1, length, playlist) == (playlist == 1 ? -1 : cid2));
+            CHECK(timeline->getClipByPosition(tid1, 2 * length, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid2, 0, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid3, 0, playlist) == -1);
+        }
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Insert consecutive clips")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
