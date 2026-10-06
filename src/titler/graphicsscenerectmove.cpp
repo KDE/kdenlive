@@ -759,6 +759,7 @@ void GraphicsSceneRectMove::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 
 void GraphicsSceneRectMove::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    clearTextSelection(true);
     event->setAccepted(m_dragAllowed);
     QPoint pos = event->scenePos().toPoint();
     QList<QUrl> urls = event->mimeData()->urls();
