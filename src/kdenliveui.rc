@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kdenlive" version="251" translationDomain="kdenlive">
+<kpartgui name="kdenlive" version="253" translationDomain="kdenlive">
   <MenuBar>
     <Menu name="file">
       <Action name="file_new"/>
@@ -122,7 +122,7 @@
         <Action name="resize_timeline_clip_start"/>
         <Action name="resize_timeline_clip_end"/>
         <Action name="grab_item"/>
-        <Action name="delete_timeline_clip"/>
+        <Action name="delete_selected_item"/>
       </Menu>
       <Menu name="current_clip">
         <text>Current Clip</text>
@@ -130,8 +130,8 @@
         <Action name="mix_clip"/>
         <Action name="edit_item_speed"/>
         <Action name="clip_split"/>
-        <Action name="clip_switch"/>
-        <Action name="clip_disable"/>
+        <Action name="clip_enable_all"/>
+        <Action name="clip_disable_all"/>
         <Action name="clip_in_project_tree"/>
         <Action name="extract_clip"/>
         <Action name="save_to_bin"/>
@@ -165,6 +165,7 @@
         <text>&amp;Current Track</text>
         <Action name="delete_all_spaces"/>
         <Action name="delete_all_clips"/>
+        <Action name="switch_track_solo"/>
       </Menu>
       <Separator/>
       <Menu name="timeline_tracks" icon="layer-visible-on">

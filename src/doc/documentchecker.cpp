@@ -61,7 +61,11 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
 
     QDomElement baseElement = m_doc.documentElement();
     m_root = baseElement.attribute(QStringLiteral("root"));
-    if (m_root.isEmpty() || !QDir(m_root).exists()) {
+    if (m_root.isEmpty()) {
+        m_root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
+    } else if (!QDir(m_root).exists()) {
+        // Looks like project was moved, try recovering root from current project url
+        m_rootReplacement.first = QDir(m_root).absolutePath();
 #ifndef Q_OS_WIN
         // On Linux / Mac, check for Windows relative paths
         QString tmpPath = m_root;
@@ -70,15 +74,22 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
             m_root.remove(0, 2);
         }
 #endif
-        // Looks like project was moved, try recovering root from current project url
-        m_rootReplacement.first = QDir(m_root).absolutePath() + QDir::separator();
+        if (!m_rootReplacement.first.endsWith(QLatin1Char('/'))) {
+            m_rootReplacement.first.append(QLatin1Char('/'));
+        }
         m_root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
         baseElement.setAttribute(QStringLiteral("root"), m_root);
-        m_root = QDir::cleanPath(m_root) + QDir::separator();
+        m_root = QDir::cleanPath(m_root);
+        if (!m_root.endsWith(QLatin1Char('/'))) {
+            m_root.append(QLatin1Char('/'));
+        }
         m_rootReplacement.second = m_root;
     }
     if (!m_root.isEmpty() && QDir(m_root).exists()) {
-        m_root = QDir::cleanPath(m_root) + QDir::separator();
+        m_root = QDir::cleanPath(m_root);
+        if (!m_root.endsWith(QLatin1Char('/'))) {
+            m_root.append(QLatin1Char('/'));
+        }
     }
 }
 
@@ -807,13 +818,13 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             item.status = MissingStatus::Missing;
             item.originalFilePath = img;
             item.clipId = id;
-            m_items.push_back(item);
 
             const QString relocated = relocateResource(img);
             if (!relocated.isEmpty()) {
                 item.status = MissingStatus::Fixed;
                 item.newFilePath = relocated;
             }
+            m_items.push_back(item);
         } else {
             m_safeImages.append(img);
         }

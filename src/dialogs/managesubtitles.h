@@ -55,6 +55,7 @@ private Q_SLOTS:
     void deleteFile();
     void addLayer();
     void deleteLayer();
+    void deleteEvent();
     void duplicateLayer();
     void addStyle(bool global);
     void deleteStyle(bool global);

@@ -48,7 +48,6 @@
   <name xml:lang="sl">Kdenlive</name>
   <name xml:lang="sv">Kdenlive</name>
   <name xml:lang="tr">Kdenlive</name>
-  <name xml:lang="ug">Kdenlive</name>
   <name xml:lang="uk">Kdenlive</name>
   <name xml:lang="zh-CN">Kdenlive</name>
   <name xml:lang="zh-TW">Kdenlive</name>
@@ -388,6 +387,7 @@
     </ul>
   </description>
   <releases>
+    <release version="26.08.2" date="2026-10-08"/>
     <release version="26.08.1" date="2026-09-10"/>
     <release version="26.08.0" date="2026-08-20">
       <url>https://kdenlive.org/news/releases/26.08.0/</url>

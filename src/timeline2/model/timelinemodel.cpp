@@ -2593,6 +2593,27 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
     return result;
 }
 
+bool TimelineModel::requestSingleSubtitleDeletion(int subtitleId)
+{
+    QWriteLocker locker(&m_lock);
+    if (m_closing || !isSubTitle(subtitleId) || !m_subtitleModel || m_subtitleModel->isLocked()) {
+        return false;
+    }
+    // Clear a selection containing the target before changing its group structure.
+    if (getCurrentSelection().contains(subtitleId)) {
+        requestClearSelection(true);
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    extractSelectionFromGroup(subtitleId, undo, redo, true);
+    if (!requestSubtitleDeletion(subtitleId, undo, redo, true, true)) {
+        undo();
+        return false;
+    }
+    PUSH_UNDO(undo, redo, i18n("Delete Subtitle"));
+    return true;
+}
+
 bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
@@ -7204,6 +7225,13 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
@@ -7221,7 +7249,6 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
         result = result && requestClipTimeRemap(clipId, enable, undo, redo);
         if (result) {
             PUSH_UNDO(undo, redo, i18n("Enable time remap"));
-            Q_EMIT refreshClipActions();
             return true;
         } else {
             return false;
@@ -7266,6 +7293,13 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }

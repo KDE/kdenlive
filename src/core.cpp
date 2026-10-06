@@ -1247,10 +1247,6 @@ QString Core::getItemName(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed) {
-        qWarning() << "GUI not build";
-        return 0;
-    }
     switch (id.type) {
     case KdenliveObjectType::TimelineClip: {
         auto timeline = currentDoc()->getTimeline(id.uuid);
@@ -1405,6 +1401,11 @@ void Core::refreshProjectItem(const ObjectId &id)
         break;
     case KdenliveObjectType::TimelineComposition:
         if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
+        }
+        break;
+    case KdenliveObjectType::TimelineSubtitle:
+        if (currentDoc()->getTimeline(id.uuid)->isSubTitle(id.itemId)) {
             m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
@@ -1664,6 +1665,7 @@ void Core::invalidateItem(ObjectId itemId)
     switch (itemId.type) {
     case KdenliveObjectType::TimelineClip:
     case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineSubtitle:
         if (tl) {
             tl->controller()->invalidateItem(itemId.itemId);
         }
@@ -2133,7 +2135,6 @@ void Core::cleanup()
         guidesList()->clear();
         disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
                    &ProjectManager::adjustProjectDuration);
-        m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();
     }
 }
 

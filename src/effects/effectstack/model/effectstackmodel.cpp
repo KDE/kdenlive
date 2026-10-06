@@ -553,7 +553,7 @@ bool EffectStackModel::fromXml(const QDomElement &effectsXml, Fun &undo, Fun &re
             m_fadeOuts.insert(effect->getId());
             int duration = effect->filter().get_length() - 1;
             int filterOut = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-            effect->filter().set("in", filterOut - duration);
+            effect->filter().set("in", qMax(0, filterOut - duration));
             effect->filter().set("out", filterOut);
             if (effectId.startsWith(QLatin1String("fade_"))) {
                 const QString keyframeString = Xml::getXmlProperty(node, QLatin1String("level\nalpha"));
@@ -685,7 +685,7 @@ bool EffectStackModel::copyEffectWithUndo(const std::shared_ptr<AbstractEffectIt
         m_fadeOuts.insert(effect->getId());
         int duration = effect->filter().get_length() - 1;
         int out = pCore->getItemIn(m_ownerId) + pCore->getItemDuration(m_ownerId) - 1;
-        effect->filter().set("in", out - duration);
+        effect->filter().set("in", qMax(0, out - duration));
         effect->filter().set("out", out);
         roles << TimelineModel::FadeOutRole;
     }
@@ -1024,7 +1024,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         auto ptr = m_masterService.lock();
         int in = 0;
         if (ptr) {
-            in = ptr->get_int("in");
+            in = qMax(0, ptr->get_int("in"));
         }
         int oldDuration = -1;
         for (int i = 0; i < rootItem->childCount(); ++i) {
@@ -1085,7 +1085,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
         int in = 0;
         auto ptr = m_masterService.lock();
         if (ptr) {
-            in = ptr->get_int("in");
+            in = qMax(0, ptr->get_int("in"));
         }
         int itemDuration = pCore->getItemDuration(m_ownerId);
         int out = in + itemDuration - 1;
@@ -1099,7 +1099,7 @@ bool EffectStackModel::adjustFadeLength(int duration, bool fromStart, bool audio
                 }
                 effect->filter().set("out", out);
                 duration = qMin(itemDuration, duration);
-                effect->filter().set("in", out - duration);
+                effect->filter().set("in", qMax(0, out - duration));
                 indexes << getIndexFromItem(effect);
                 if (effect->filter().get("alpha") == QLatin1String("1")) {
                     // Adjust level value to match filter end
@@ -1577,7 +1577,7 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
             connect(effect.get(), &AssetParameterModel::replugEffect, this, &EffectStackModel::replugEffect, Qt::DirectConnection);
             connect(effect.get(), &AssetParameterModel::showEffectZone, this, &EffectStackModel::updateEffectZones);
             Fun redo = addItem_lambda(effect, rootItem->getId());
-            int clipIn = ptr->get_int("in");
+            int clipIn = qMax(0, ptr->get_int("in"));
             int clipOut = ptr->get_int("out");
             if (clipOut <= clipIn) {
                 clipOut = ptr->get_int("length") - 1;
@@ -1591,18 +1591,18 @@ void EffectStackModel::importEffects(const std::weak_ptr<Mlt::Service> &service,
                     effect->filter().set_in_and_out(filterIn, filterOut);
                 } else if (effectId.startsWith(QLatin1String("fadein")) || effectId.startsWith(QLatin1String("fade_from_"))) {
                     m_fadeIns.insert(effect->getId());
-                    if (effect->filter().get_int("in") != clipIn) {
+                    if (filterIn != clipIn) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
+                        int filterLength = qMin(filterOut - filterIn, clipOut - clipIn);
                         effect->filter().set("in", clipIn);
                         effect->filter().set("out", clipIn + filterLength);
                     }
                 } else if (effectId.startsWith(QLatin1String("fadeout")) || effectId.startsWith(QLatin1String("fade_to_"))) {
                     m_fadeOuts.insert(effect->getId());
-                    if (effect->filter().get_int("out") != clipOut) {
+                    if (filterOut != clipOut) {
                         // Broken fade, fix
-                        int filterLength = effect->filter().get_length() - 1;
-                        effect->filter().set("in", clipOut - filterLength);
+                        int filterLength = qMin(filterOut - filterIn, clipOut - clipIn);
+                        effect->filter().set("in", qMax(0, clipOut - filterLength));
                         effect->filter().set("out", clipOut);
                     }
                 }

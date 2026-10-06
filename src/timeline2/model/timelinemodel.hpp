@@ -592,6 +592,8 @@ public:
       @param clipId is the ID of the clip/composition
       @param logUndo if set to false, no undo object is stored */
    Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
+   /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
+   bool requestSingleSubtitleDeletion(int subtitleId);
    /* Same function, but accumulates undo and redo*/
    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
@@ -605,7 +607,8 @@ public:
       @param delta_pos is the requested position change
       @param updateView if set to false, no signal is sent to qml for the clip clipId
       @param logUndo if set to true, an undo object is created
-      @param allowViewRefresh if false, the view will never get updated (useful for suggestMove) */
+      @param allowViewRefresh if false, the view will never get updated (useful for suggestMove)
+   */
    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool moveMirrorTracks = true, bool updateView = true, bool logUndo = true,
                          bool revertMove = false);
    bool requestGroupMove(int itemId, int groupId, int delta_track, int delta_pos, bool updateView, bool finalMove, Fun &undo, Fun &redo,
@@ -1078,7 +1081,6 @@ public:
    void invalidateAudioZone(int in, int out);
    /** @brief signal triggered when a track duration changed (insertion/deletion) */
    void durationUpdated(const QUuid &uuid);
-
    /** @brief Signal sent whenever the audio target changes */
    void audioTargetChanged();
    /** @brief Signal sent whenever the selection changes */
@@ -1097,8 +1099,8 @@ public:
    void visibleSequenceNameChanged();
    /** @brief Connect the preview manager with timelinecontroller */
    void connectPreviewManager();
-   /** @brief An editable clip action changed, refresh menus */
-   void refreshClipActions();
+   /** @brief A clip's speed or time-remap state changed, including undo and redo. */
+   void clipTimeWarpChanged(int clipId);
    /** @brief We switched from single to normal selection mode */
    void selectionModeChanged();
 

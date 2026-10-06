@@ -22,16 +22,16 @@ PrecisionSpinBox::PrecisionSpinBox(QWidget *parent, double min, double max, int 
     connect(lineEdit(), &QLineEdit::textChanged, this, &PrecisionSpinBox::textChanged);
     connect(this, &QAbstractSpinBox::editingFinished, this, [this]() {
         QString finalText = text();
-        if (finalText.endsWith(m_suffix)) {
-            finalText.chop(1);
+        if (!m_suffix.isEmpty() && finalText.endsWith(m_suffix)) {
+            finalText.chop(m_suffix.length());
         }
         if (finalText.isEmpty()) {
             const double fallbackValue = qBound(m_validator.bottom(), 100., m_validator.top());
             QSignalBlocker blocker(lineEdit());
             setValue(fallbackValue, false);
             finalText = text();
-            if (finalText.endsWith(m_suffix)) {
-                finalText.chop(1);
+            if (!m_suffix.isEmpty() && finalText.endsWith(m_suffix)) {
+                finalText.chop(m_suffix.length());
             }
             Q_EMIT valueChanged(QLocale().toDouble(finalText));
         } else if (!keyboardTracking() && !m_stepEmitted) {
@@ -60,8 +60,8 @@ void PrecisionSpinBox::setSuffix(const QLatin1Char suffix)
 double PrecisionSpinBox::value() const
 {
     QString val = text();
-    if (val.endsWith(m_suffix)) {
-        val.chop(1);
+    if (!m_suffix.isEmpty() && val.endsWith(m_suffix)) {
+        val.chop(m_suffix.length());
     }
     return QLocale().toDouble(val);
 }
@@ -110,8 +110,8 @@ void PrecisionSpinBox::textChanged(const QString &text)
     double val;
     bool blockUpdate = false;
     QString tmp = text;
-    if (text.endsWith(m_suffix)) {
-        tmp.chop(1);
+    if (!m_suffix.isEmpty() && text.endsWith(m_suffix)) {
+        tmp.chop(m_suffix.length());
     }
     if (tmp.isEmpty()) {
         blockUpdate = true;
@@ -128,8 +128,8 @@ void PrecisionSpinBox::textChanged(const QString &text)
     val = QLocale().toDouble(finalString);
     lineEdit()->setText(finalString + m_suffix);
     int cursorPos = lineEdit()->cursorPosition();
-    if (cursorPos == lineEdit()->text().length()) {
-        lineEdit()->setCursorPosition(cursorPos - 1);
+    if (!m_suffix.isEmpty() && cursorPos == lineEdit()->text().length()) {
+        lineEdit()->setCursorPosition(cursorPos - m_suffix.length());
     }
     // Clear stale step suppression when user starts normal text editing.
     m_stepEmitted = false;

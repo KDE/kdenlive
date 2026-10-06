@@ -5,16 +5,18 @@
 
 #pragma once
 
+#include "timelinecontroller.h"
 #include <QMutex>
 #include <QTabWidget>
 #include <memory>
 
+class QAction;
+class KActionCollection;
 class TimelineWidget;
 class TimelineItemModel;
 class AssetParameterModel;
 class EffectStackModel;
 class MonitorProxy;
-class QMenu;
 
 /** @class TimelineContainer
     @brief This is a class that extends QTabWidget to provide additional functionality related to timeline tabs
@@ -43,9 +45,8 @@ public:
     /** @brief Activate a timeline tab by uuid */
     bool raiseTimeline(const QUuid &uuid);
     void disconnectTimeline(TimelineWidget *timeline);
-    /** @brief Store timeline menus */
-    void setTimelineMenu(QMenu *compositionMenu, QMenu *timelineMenu, QMenu *guideMenu, QMenu *timelineRulerMenu, QAction *editGuideAction, QMenu *headerMenu,
-                         QMenu *thumbsMenu, QMenu *subtitleClipMenu, QMenu *addClipMenu);
+    /** @brief Bind shared actions once and populate existing and future timeline widgets. */
+    void populateActions(KActionCollection *actions);
     /** @brief Mark a tab as modified */
     void setModified(const QUuid &uuid, bool modified);
     /** @brief Returns the uuid list for opened timeline tabs. */
@@ -55,14 +56,16 @@ public:
     /** @brief We display the current tab's name in window title if the tab bar is hidden
      */
     void updateWindowTitle();
-    /** @brief Build the timeline clip menu with dynamic actions. */
-    void buildClipMenu();
 
 protected:
     /** @brief Helper function to connect a timeline's signals/slots*/
     void connectTimeline(TimelineWidget *timeline);
 
 Q_SIGNALS:
+    /** @brief Emitted once per widget, before model and QML initialization; neither is available to receivers yet. */
+    void timelineCreated(TimelineWidget *timeline);
+    /** @brief Selection facts for the active timeline; empty when no timeline is available. */
+    void selectionStateChanged(const TimelineController::SelectionState &state);
     /** @brief Change the level of zoom
         This is an input signal, forwarded to the timelines
      */
@@ -98,17 +101,13 @@ private Q_SLOTS:
     void saveTimelinePreview(const QString &path);
 
 private:
+    /** @brief Resolve the active controller only while its document and model are usable. */
+    TimelineController *activeController() const;
+    void publishSelectionState();
+    void updatePreviewAction();
+
     TimelineWidget *m_activeTimeline;
-    QMenu *m_timelineClipMenu{nullptr};
-    QMenu *m_timelineCompositionMenu;
-    QMenu *m_timelineMenu;
-    QMenu *m_timelineRulerMenu;
-    QMenu *m_guideMenu;
-    QMenu *m_headerMenu;
-    QMenu *m_thumbsMenu;
-    QAction *m_editGuideAction;
-    QMenu *m_timelineSubtitleClipMenu;
-    QMenu *m_timelineAddClipMenu;
+    KActionCollection *m_actions{nullptr};
     QMutex m_lock;
     int getTimelineIndex(const QUuid &uuid);
 };

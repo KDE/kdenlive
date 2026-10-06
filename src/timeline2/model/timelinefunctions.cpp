@@ -1137,50 +1137,30 @@ void TimelineFunctions::showCompositionKeyframes(const std::shared_ptr<TimelineI
     Q_EMIT timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
-bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection)
+bool TimelineFunctions::setClipsEnabled(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, bool enabled)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = false;
-    bool disable = true;
+    bool changed = false;
     for (int clipId : selection) {
         if (!timeline->isClip(clipId)) {
             continue;
         }
-        PlaylistState::ClipState oldState = timeline->getClipPtr(clipId)->clipState();
-        PlaylistState::ClipState state = PlaylistState::Disabled;
-        disable = true;
-        if (oldState == PlaylistState::Disabled) {
-            state = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType();
-            disable = false;
+        const bool wasEnabled = timeline->getClipPtr(clipId)->clipState() != PlaylistState::Disabled;
+        if (wasEnabled == enabled) {
+            continue;
         }
-        result = changeClipState(timeline, clipId, state, undo, redo);
-        if (!result) {
-            break;
+        const auto targetState = enabled ? timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType() : PlaylistState::Disabled;
+        if (!changeClipState(timeline, clipId, targetState, undo, redo)) {
+            undo();
+            return false;
         }
+        changed = true;
     }
-    // Update action name since clip will be switched
-    int id = *selection.begin();
-    Fun local_redo = []() { return true; };
-    Fun local_undo = []() { return true; };
-    if (timeline->isClip(id)) {
-        bool disabled = timeline->m_allClips[id]->clipState() == PlaylistState::Disabled;
-        QAction *action = pCore->window()->actionCollection()->action(QStringLiteral("clip_switch"));
-        local_redo = [disabled, action]() {
-            action->setText(disabled ? i18n("Enable clip") : i18n("Disable clip"));
-            return true;
-        };
-        local_undo = [disabled, action]() {
-            action->setText(disabled ? i18n("Disable clip") : i18n("Enable clip"));
-            return true;
-        };
+    if (changed) {
+        pCore->pushUndo(undo, redo, enabled ? i18n("Enable clips") : i18n("Disable clips"));
     }
-    if (result) {
-        local_redo();
-        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
-        pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
-    }
-    return result;
+    return changed;
 }
 
 bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)

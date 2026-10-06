@@ -150,6 +150,7 @@ private:
     AbstractMonitor *m_activeMonitor{nullptr};
     QList<AbstractMonitor *> m_monitorsList;
     KDualAction *m_muteAction;
+    KDualAction *m_playAction{nullptr};
     QAction *m_multiTrack{nullptr};
     /** @brief The currently active track for multitrack mode */
     int m_activeMultiTrack;

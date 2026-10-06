@@ -336,7 +336,7 @@
 
     <entry name="renderDeinterlacer" type="String">
     <label>default deinterlacer.</label>
-      <default>onefield</default>
+      <default>yadif</default>
     </entry>
 
     <entry name="vaapiEnabled" type="Bool">

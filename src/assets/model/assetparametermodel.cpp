@@ -1830,7 +1830,7 @@ const QVector<QPair<QString, QVariant>> AssetParameterModel::loadPreset(const QS
                                         int filterDuration = ob.value("out").toInt();
                                         if (filterDuration > 0) {
                                             filterDuration = filterDuration - 1 - val.toInt();
-                                            val = m_asset->get_int("out") - filterDuration;
+                                            val = qMax(0, m_asset->get_int("out") - filterDuration);
                                         }
                                     } else if (name == QLatin1String("out")) {
                                         val = m_asset->get_int("out");

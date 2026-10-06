@@ -54,6 +54,8 @@ public Q_SLOTS:
     /** @brief Enable/disable audio monitoring on a track */
     void monitorAudio(int tid, bool monitor);
     void displayMessage(const QString &message, KMessageWidget::MessageType type);
+    /** @brief Enable/disable audio solo on a track */
+    void slotSwitchSoloMode(int tid);
 
 private Q_SLOTS:
     void resetSizePolicy();

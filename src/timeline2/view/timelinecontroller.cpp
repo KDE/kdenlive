@@ -85,16 +85,24 @@ TimelineController::TimelineController(QObject *parent)
 
 TimelineController::~TimelineController() {}
 
+void TimelineController::populateActions(KActionCollection *actions)
+{
+    Q_ASSERT(actions);
+    Q_ASSERT(!m_actionCollection);
+    m_actionCollection = actions;
+}
+
 void TimelineController::prepareClose()
 {
     // Clear root so we don't call its methods anymore
     QObject::disconnect(m_deleteConnection);
-    disconnect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    disconnect(this, &TimelineController::selectionChanged, this, &TimelineController::handleSelectionChange);
     disconnect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     disconnect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     disconnect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
     disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    disconnect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::emitSelectionState);
     m_ready = false;
     m_root = nullptr;
     //  Delete timeline preview before resetting model so that removing clips from timeline doesn't invalidate
@@ -131,7 +139,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool
     }
     connect(m_model.get(), &TimelineModel::connectPreviewManager, this, &TimelineController::connectPreviewManager);
     connect(m_model.get(), &TimelineModel::selectionModeChanged, this, &TimelineController::colorsChanged);
-    connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateClipActions);
+    connect(this, &TimelineController::selectionChanged, this, &TimelineController::handleSelectionChange);
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
@@ -141,10 +149,12 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::showMixModel);
     connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::selectedMixChanged);
+    connect(m_model.get(), &TimelineModel::selectedMixChanged, this, &TimelineController::emitSelectionState);
     connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::checkClipPosition);
+    connect(m_model.get(), &TimelineModel::dataChanged, this, &TimelineController::handleClipStateChange);
     connect(m_model.get(), &TimelineModel::checkTrackDeletion, this, &TimelineController::checkTrackDeletion, Qt::DirectConnection);
     connect(m_model.get(), &TimelineModel::flashLock, this, &TimelineController::slotFlashLock);
-    connect(m_model.get(), &TimelineModel::refreshClipActions, this, &TimelineController::updateClipActions);
+    connect(m_model.get(), &TimelineModel::clipTimeWarpChanged, this, &TimelineController::handleClipTimeWarpChange);
     connect(m_model.get(), &TimelineModel::highlightSub, this,
             [this](int index) { QMetaObject::invokeMethod(m_root, "highlightSub", Qt::QueuedConnection, Q_ARG(QVariant, index)); });
     if (m_model->hasSubtitleModel()) {
@@ -3162,13 +3172,23 @@ void TimelineController::removeTrackClips(int trackId, int frame)
     }
 }
 
+void TimelineController::switchSoloTrack()
+{
+    if (m_activeTrack == -1 || !m_model->isTrack(m_activeTrack) || m_model->isSubtitleTrack(m_activeTrack) ||
+        !m_model->getTrackById_const(m_activeTrack)->isAudioTrack()) {
+        pCore->displayMessage(i18n("Select an audio track to activate solo mode"), ErrorMessage, 500);
+        return;
+    }
+    pCore->mixer()->slotSwitchSoloMode(m_activeTrack);
+}
+
 void TimelineController::invalidateItem(int cid)
 {
     if (!m_model->hasTimelinePreview() || !m_model->isItem(cid)) {
         return;
     }
     const int tid = m_model->getItemTrackId(cid);
-    if (tid == -1 || m_model->getTrackById_const(tid)->isAudioTrack()) {
+    if (tid == -1 || (!m_model->isSubtitleTrack(tid) && m_model->getTrackById_const(tid)->isAudioTrack())) {
         return;
     }
     int start = m_model->getItemPosition(cid);
@@ -3282,7 +3302,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
                 qDebug() << "Requesting speed " << speed << " for clip " << mainClipId;
                 bool res = m_model->requestClipTimeWarp(mainClipId, speed, pitchCompensate, true);
                 if (res) {
-                    updateClipActions();
+                    handleSelectionChange();
                 }
                 return;
             }
@@ -3393,7 +3413,7 @@ void TimelineController::changeItemSpeed(int clipId, double speed)
     }
     pCore->pushUndo(undo, redo, i18n(isSingleOrPartnerClip ? "Change clip speed" : "Change clips speed"));
 
-    updateClipActions();
+    handleSelectionChange();
 }
 
 void TimelineController::switchCompositing(bool enable)
@@ -3784,15 +3804,14 @@ void TimelineController::showCompositionKeyframes(int clipId, bool value)
     TimelineFunctions::showCompositionKeyframes(m_model, clipId, value);
 }
 
-void TimelineController::switchEnableState(std::unordered_set<int> selection)
+void TimelineController::setClipsEnabled(bool enabled, std::unordered_set<int> selection)
 {
     if (selection.empty()) {
         selection = m_model->getCurrentSelection();
     }
-    if (selection.empty()) {
-        return;
+    if (!selection.empty()) {
+        TimelineFunctions::setClipsEnabled(m_model, selection, enabled);
     }
-    TimelineFunctions::switchEnableState(m_model, selection);
 }
 
 int TimelineController::addCompositionToClip(const QString &assetId, int clipId, int offset)
@@ -4502,28 +4521,22 @@ std::pair<int, int> TimelineController::selectionInOut() const
     return {in, out};
 }
 
-void TimelineController::updateClipActions()
+void TimelineController::handleSelectionChange()
 {
-    if (m_model->getCurrentSelection().empty()) {
-        for (QAction *act : std::as_const(clipActions)) {
-            const QChar actionData = act->data().toChar();
-            if (actionData == QLatin1Char('P')) {
-                // Position actions should stay enabled in clip monitor
-                act->setEnabled(true);
-            } else {
-                act->setEnabled(false);
-            }
-        }
+    const std::unordered_set<int> selectedItems = m_model->getCurrentSelection();
+    if (selectedItems.empty()) {
+        emitSelectionState();
         Q_EMIT timelineClipSelected(false);
         // nothing selected
         Q_EMIT showItemEffectStack(QString(), nullptr, QSize(), false, m_timecodeOffset);
-        pCore->timeRemapWidget()->selectedClip(-1, QUuid());
+        if (auto *remapWidget = pCore->timeRemapWidget()) {
+            remapWidget->selectedClip(-1, QUuid());
+        }
         Q_EMIT showSubtitle(-1);
         pCore->displaySelectionMessage(QString());
         return;
     }
     std::shared_ptr<ClipModel> clip(nullptr);
-    std::unordered_set<int> selectedItems = m_model->getCurrentSelection();
     int item = *selectedItems.begin();
     int selectionSize = selectedItems.size();
     if (selectionSize == 1) {
@@ -4555,78 +4568,84 @@ void TimelineController::updateClipActions()
             Q_EMIT pCore->remapClip(item);
         }
     }
-    bool isInGroup = m_model->m_groups->isInGroup(item);
-    PlaylistState::ClipState state = PlaylistState::ClipState::Unknown;
-    ClipType::ProducerType type = ClipType::Unknown;
-    if (clip) {
-        state = clip->clipState();
-        type = clip->clipType();
-    }
-    for (QAction *act : std::as_const(clipActions)) {
-        bool enableAction = true;
-        const QChar actionData = act->data().toChar();
-        if (actionData == QLatin1Char('G')) {
-            enableAction = isInSelection(item) && selectionSize > 1;
-        } else if (actionData == QLatin1Char('U')) {
-            enableAction = isInGroup;
-        } else if (actionData == QLatin1Char('A')) {
-            if (isInGroup && m_model->m_groups->getType(m_model->m_groups->getRootId(item)) == GroupType::AVSplit) {
-                enableAction = true;
-            } else {
-                enableAction = state == PlaylistState::AudioOnly;
-            }
-        } else if (actionData == QLatin1Char('V')) {
-            enableAction = state == PlaylistState::VideoOnly;
-        } else if (actionData == QLatin1Char('D')) {
-            enableAction = state == PlaylistState::Disabled;
-        } else if (actionData == QLatin1Char('E')) {
-            enableAction = state != PlaylistState::Disabled && state != PlaylistState::Unknown;
-        } else if (actionData == QLatin1Char('X') || actionData == QLatin1Char('S')) {
-            enableAction = clip && clip->canBeVideo() && clip->canBeAudio();
-            if (enableAction && actionData == QLatin1Char('S')) {
-                if (isInGroup) {
-                    // Check if all clips in the group have have same state (audio or video)
-                    int targetRoot = m_model->m_groups->getRootId(item);
-                    if (m_model->isGroup(targetRoot)) {
-                        std::unordered_set<int> sub = m_model->m_groups->getLeaves(targetRoot);
-                        for (int current_id : sub) {
-                            if (current_id == item) {
-                                continue;
-                            }
-                            if (m_model->isClip(current_id) && m_model->getClipPtr(current_id)->clipState() != state) {
-                                // Group with audio and video clips, disable split action
-                                enableAction = false;
-                                break;
-                            }
-                        }
-                    }
-                }
-                act->setText(state == PlaylistState::AudioOnly ? i18n("Restore video") : i18n("Restore audio"));
-            }
-        } else if (actionData == QLatin1Char('W')) {
-            enableAction = clip != nullptr;
-            if (enableAction) {
-                act->setText(clip->clipState() == PlaylistState::Disabled ? i18n("Enable clip") : i18n("Disable clip"));
-            }
-        } else if (actionData == QLatin1Char('C') && clip == nullptr) {
-            enableAction = false;
-        } else if (actionData == QLatin1Char('P')) {
-            // Position actions should stay enabled in clip monitor
-            enableAction = true;
-        } else if (actionData == QLatin1Char('R')) {
-            // Time remap action
-            enableAction = clip != nullptr && type != ClipType::Color && type != ClipType::Image && qFuzzyCompare(1., m_model->m_allClips[item]->getSpeed());
-            if (enableAction) {
-                act->setChecked(clip->hasTimeRemap());
-            }
-        } else if (actionData == QLatin1Char('Q')) {
-            // Speed change action
-            enableAction = clip != nullptr && (clip->getSpeed() != 1. || (type != ClipType::Timeline && type != ClipType::Playlist && type != ClipType::Color &&
-                                                                          type != ClipType::Image && !clip->hasTimeRemap()));
-        }
-        act->setEnabled(enableAction);
-    }
+    Q_EMIT selectionStateChanged(selectionState(selectedItems));
     Q_EMIT timelineClipSelected(clip != nullptr);
+}
+
+TimelineController::SelectionState TimelineController::selectionState() const
+{
+    return m_model ? selectionState(m_model->getCurrentSelection()) : SelectionState{};
+}
+
+void TimelineController::emitSelectionState()
+{
+    Q_EMIT selectionStateChanged(selectionState());
+}
+
+TimelineController::SelectionState TimelineController::selectionState(const std::unordered_set<int> &selectedItems) const
+{
+    SelectionState state;
+    state.hasSelectedMix = selectedMix() >= 0;
+    if (selectedItems.size() == 2) {
+        const int item = *selectedItems.begin();
+        if (m_model->isClip(item)) {
+            const int partner = m_model->m_groups->getSplitPartner(item);
+            state.isAvSplitPair = partner != -1 && selectedItems.contains(partner);
+        }
+    }
+    bool hasClip = false;
+    for (int item : selectedItems) {
+        if (!state.hasGroupedItems) {
+            for (int parent = m_model->m_groups->getDirectAncestor(item); parent != -1; parent = m_model->m_groups->getDirectAncestor(parent)) {
+                if (m_model->m_groups->getType(parent) != GroupType::Selection) {
+                    state.hasGroupedItems = true;
+                    break;
+                }
+            }
+        }
+        if (m_model->isClip(item)) {
+            const auto clip = m_model->getClipPtr(item);
+            ++state.clipCounts[clip->clipType()];
+            const auto clipState = clip->clipState();
+            if (!hasClip) {
+                state.allEnabled = clipState != PlaylistState::Disabled;
+                state.allDisabled = clipState == PlaylistState::Disabled;
+                hasClip = true;
+            } else {
+                state.allEnabled &= clipState != PlaylistState::Disabled;
+                state.allDisabled &= clipState == PlaylistState::Disabled;
+            }
+            state.audioOnlyClipCount += clipState == PlaylistState::AudioOnly;
+            state.videoOnlyClipCount += clipState == PlaylistState::VideoOnly;
+            state.audioAndVideoClipCount += clip->canBeVideo() && clip->canBeAudio();
+            state.doesAnyClipHaveTimeRemap |= clip->hasTimeRemap();
+            state.doesAnyClipHaveSpeedAdjustment |= !qFuzzyCompare(1., clip->getSpeed());
+        } else if (m_model->isComposition(item)) {
+            ++state.compositionCount;
+        } else if (m_model->isSubTitle(item)) {
+            ++state.subtitleCount;
+        }
+    }
+    return state;
+}
+
+void TimelineController::handleClipTimeWarpChange(int clipId)
+{
+    const auto selection = m_model->getCurrentSelection();
+    if (selection.contains(clipId)) {
+        Q_EMIT selectionStateChanged(selectionState(selection));
+    }
+}
+
+void TimelineController::handleClipStateChange(const QModelIndex &topLeft, const QModelIndex &, const QVector<int> &roles)
+{
+    if (!roles.contains(TimelineModel::PlaylistStateRole)) {
+        return;
+    }
+    const auto selection = m_model->getCurrentSelection();
+    if (selection.contains(int(topLeft.internalId()))) {
+        Q_EMIT selectionStateChanged(selectionState(selection));
+    }
 }
 
 void TimelineController::replaceClip()
@@ -4652,7 +4671,7 @@ void TimelineController::replaceClip()
             i18nc("@title:window", "Replace Clip"), KGuiItem(i18n("Import New Clip")), KStandardGuiItem::cancel());
         if (res == KMessageBox::PrimaryAction) {
             pCore->bin()->setReadyCallBack([this](const QString &) { replaceClip(); });
-            pCore->window()->actionCollection()->action(QStringLiteral("add_clip"))->trigger();
+            m_actionCollection->action(QStringLiteral("add_clip"))->trigger();
         }
         return;
     }
@@ -6266,7 +6285,7 @@ void TimelineController::subtitlesMenuActivated(int ix)
 
 const QString TimelineController::getActionShortcut(const QString actionName)
 {
-    QAction *a = pCore->currentDoc()->getAction(actionName);
+    QAction *a = m_actionCollection->action(actionName);
     QString shortcut;
     if (a) {
         shortcut = a->shortcut().toString(QKeySequence::NativeText);

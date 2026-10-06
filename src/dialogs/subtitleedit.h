@@ -71,10 +71,12 @@ private:
 
     void updateCharInfo();
     void applyFontSize();
+    void zoom(qreal factor);
     void updateEffects();
     void updateOffset();
 
 Q_SIGNALS:
+    void deleteSubtitleRequested(int subtitleId);
     void addSubtitle(const QString &);
     void cutSubtitle(int id, int cursorPos);
     void showSubtitleManager(int page);

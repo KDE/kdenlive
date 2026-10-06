@@ -57,6 +57,17 @@ void MonitorManager::initMonitors(Monitor *clipMonitor, Monitor *projectMonitor)
     m_projectMonitor = projectMonitor;
     m_monitorsList.append(clipMonitor);
     m_monitorsList.append(projectMonitor);
+
+    connect(m_clipMonitor, &Monitor::playbackChanged, this, [this](bool playing) {
+        if (m_activeMonitor == m_clipMonitor && m_playAction) {
+            m_playAction->setActive(playing);
+        }
+    });
+    connect(m_projectMonitor, &Monitor::playbackChanged, this, [this](bool playing) {
+        if (m_activeMonitor == m_projectMonitor && m_playAction) {
+            m_playAction->setActive(playing);
+        }
+    });
 }
 
 void MonitorManager::appendMonitor(AbstractMonitor *monitor)
@@ -267,6 +278,9 @@ bool MonitorManager::activateMonitor(Kdenlive::MonitorId name, bool raiseMonitor
     }
     if (stopCurrent) {
         m_switchMutex.unlock();
+    }
+    if (m_playAction && m_activeMonitor) {
+        m_playAction->setActive(m_activeMonitor->isPlaying());
     }
     return (m_activeMonitor != nullptr);
 }
@@ -542,11 +556,11 @@ void MonitorManager::slotSwitchFullscreen()
 
 void MonitorManager::setupActions()
 {
-    KDualAction *playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
-    playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
-    playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
-    connect(playAction, &KDualAction::activeChangedByUser, this, &MonitorManager::slotPlay);
-    pCore->window()->addAction(QStringLiteral("monitor_play"), playAction, Qt::Key_Space, QStringLiteral("navandplayback"));
+    m_playAction = new KDualAction(i18n("Play"), i18n("Pause"), this);
+    m_playAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    m_playAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+    connect(m_playAction, &KDualAction::activeChangedByUser, this, &MonitorManager::slotPlay);
+    pCore->window()->addAction(QStringLiteral("monitor_play"), m_playAction, Qt::Key_Space, QStringLiteral("navandplayback"));
 
     QAction *monitorPause = new QAction(QIcon::fromTheme(QStringLiteral("media-playback-stop")), i18n("Pause"), this);
     connect(monitorPause, &QAction::triggered, this, &MonitorManager::slotPause);

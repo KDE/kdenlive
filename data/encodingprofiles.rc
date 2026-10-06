@@ -12,7 +12,7 @@ x264-amf=-f mp4 -fps_mode cfr -c:v h264_amf -g 1 -bf 0 -qp 26 -c:a aac -ab 128k;
 x264-qsv=-f mp4 -fps_mode cfr -c:v h264_qsv -g 1 -bf 0 -qp 26 -c:a aac -ab 128k;mp4
 x264-videotoolbox=-f mp4 -fps_mode cfr -c:v h264_videotoolbox -g 1 -bf 0 -qp 26 -c:a aac -ab 128k;mp4
 x264-vaapi-scale=-hwaccel vaapi -hwaccel_output_format vaapi -i -vf scale_vaapi=w=%width:h=-2:format=nv12,hwupload -fps_mode cfr -c:v h264_vaapi -g 1 -bf 0 -qp 26 -c:a aac -ab 128k;mov
-x264-nvenc=-fps_mode cfr -c:v %nvcodec -resize %frameSize -i -c:v h264_nvenc -g 2 -bf 0 -c:a aac -ab 128k;mov
+x264-nvenc=-c:v %nvcodec -resize %frameSize -i -c:v h264_nvenc -fps_mode cfr -g 2 -bf 0 -c:a aac -ab 128k;mov
 MPEG2=-vf scale=%width:-2 -g 1 -bf 0 -vb 0 -qscale 6 -ab 128k -c:v mpeg2video -c:a ac3;mpg
 MJPEG=-vf yadif,scale=%width:-2 -qscale 3 -c:v mjpeg -c:a pcm_s16le;mkv
 MJPEG-vaapi=-init_hw_device vaapi=vaapi0:,connection_type=x11 -filter_hw_device vaapi0 -vf format=nv12,hwupload -c:v mjpeg_vaapi -codec:a copy;mkv
