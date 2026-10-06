@@ -29,6 +29,7 @@ set(KdenliveTest_SOURCES
     regressions.cpp
     rendermodeltest.cpp
     replacetest.cpp
+    selectionstatetest.cpp
     sequencetest.cpp
     snaptest.cpp
     spacertest.cpp

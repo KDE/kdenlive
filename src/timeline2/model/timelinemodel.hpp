@@ -591,6 +591,8 @@ public:
        @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
+    /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
+    bool requestSingleSubtitleDeletion(int subtitleId);
     /* Same function, but accumulates undo and redo*/
     bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
@@ -1097,8 +1099,8 @@ Q_SIGNALS:
     void visibleSequenceNameChanged();
     /** @brief Connect the preview manager with timelinecontroller */
     void connectPreviewManager();
-    /** @brief An editable clip action changed, refresh menus */
-    void refreshClipActions();
+    /** @brief A clip's speed or time-remap state changed, including undo and redo. */
+    void clipTimeWarpChanged(int clipId);
     /** @brief We switched from single to normal selection mode */
     void selectionModeChanged();
 

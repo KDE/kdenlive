@@ -76,6 +76,7 @@ private:
     void updateOffset();
 
 Q_SIGNALS:
+    void deleteSubtitleRequested(int subtitleId);
     void addSubtitle(const QString &);
     void cutSubtitle(int id, int cursorPos);
     void showSubtitleManager(int page);

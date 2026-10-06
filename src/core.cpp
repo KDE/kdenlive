@@ -2045,7 +2045,6 @@ void Core::cleanup()
         guidesList()->clear();
         disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
                    &ProjectManager::adjustProjectDuration);
-        m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();
     }
 }
 

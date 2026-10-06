@@ -14,6 +14,7 @@
 #include <QDir>
 
 class QAction;
+class ClipModel;
 class QQuickItem;
 
 // see https://bugreports.qt.io/browse/QTBUG-57714, don't expose a QWidget as a context property
@@ -81,6 +82,27 @@ class TimelineController : public QObject
 public:
     TimelineController(QObject *parent);
     ~TimelineController() override;
+    /** @brief Receive the shared application actions before model/QML initialization. */
+    void populateActions(KActionCollection *actions);
+    struct SelectionState
+    {
+        QMap<ClipType::ProducerType, int> clipCounts;
+        int compositionCount{0};
+        int subtitleCount{0};
+        int audioOnlyClipCount{0};
+        int videoOnlyClipCount{0};
+        int audioAndVideoClipCount{0};
+        /** @brief Exactly two selected clips that are linked audio/video partners. */
+        bool isAvSplitPair{false};
+        bool doesAnyClipHaveTimeRemap{false};
+        bool doesAnyClipHaveSpeedAdjustment{false};
+        bool hasGroupedItems{false};
+        bool hasSelectedMix{false};
+        bool allEnabled{false};
+        bool allDisabled{false};
+    };
+    /** @brief Snapshot of selected timeline items and mix, without updating the UI. */
+    SelectionState selectionState() const;
     struct TargetTracksData
     {
         bool keep{false};
@@ -508,12 +530,10 @@ public:
     /** @brief Remove all clips in a @trackId track after @frame position
      */
     void removeTrackClips(int trackId, int frame);
-    /** @brief Activate solo mode on a track
-     */
+    /** @brief Activate solo mode on a track. */
     void switchSoloTrack();
-    /** @brief If clip is enabled, disable, otherwise enable
-     */
-    Q_INVOKABLE void switchEnableState(std::unordered_set<int> selection = {});
+    /** @brief Enable or disable all selected clips. Non-clip items are ignored. */
+    void setClipsEnabled(bool enabled, std::unordered_set<int> selection = {});
     Q_INVOKABLE int addCompositionToClip(const QString &assetId, int clipId = -1, int offset = -1);
     Q_INVOKABLE void addEffectToClip(const QString &assetId, int clipId = -1);
     Q_INVOKABLE void setEffectsEnabled(int clipId, bool enabled);
@@ -763,7 +783,7 @@ public:
     void setTimecodeOffset(int offset);
 
 public Q_SLOTS:
-    void updateClipActions();
+    void handleSelectionChange();
     void replaceClip();
     void resetView();
     void setAudioTarget(const QMap<int, int> &tracks);
@@ -815,12 +835,13 @@ private Q_SLOTS:
     void slotFlashLock(int trackId);
     void initializePreview();
     void refreshPreviewChunk(int frame);
+    void handleClipTimeWarpChange(int clipId);
+    void emitSelectionState();
+    void handleClipStateChange(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
     /** @brief Display the active subtitle mode in subtitle track combobox. */
     void loadSubtitleIndex();
 
 public:
-    /** @brief a list of actions that have to be enabled/disabled depending on the timeline selection */
-    QList<QAction *> clipActions;
     /** @brief The in point for a multicam operation */
     int multicamIn;
     /** @brief Set the in point for a multicam operation and trigger necessary signals */
@@ -828,9 +849,10 @@ public:
     int timelineMouseOffset() { return m_timelineMouseOffset; };
 
 private:
+    SelectionState selectionState(const std::unordered_set<int> &selectedItems) const;
     int m_duration;
     QQuickItem *m_root;
-    KActionCollection *m_actionCollection;
+    KActionCollection *m_actionCollection{nullptr};
     std::shared_ptr<TimelineItemModel> m_model;
     bool m_usePreview;
     int m_audioTarget;
@@ -924,6 +946,8 @@ Q_SIGNALS:
     /** @brief emitted when timeline selection changes, true if a clip is selected
      */
     void timelineClipSelected(bool);
+    /** @brief Aggregate facts about all selected timeline items. */
+    void selectionStateChanged(const TimelineController::SelectionState &state);
     /** @brief Center timeline view on current position
      */
     void centerView();

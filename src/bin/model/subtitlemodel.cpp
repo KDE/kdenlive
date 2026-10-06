@@ -25,6 +25,11 @@
 #include <QStringConverter>
 #include <utility>
 
+std::shared_ptr<TimelineItemModel> SubtitleModel::timeline() const
+{
+    return m_timeline;
+}
+
 SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const std::weak_ptr<SnapInterface> &snapModel, QObject *parent)
     : QAbstractListModel(parent)
     , m_timeline(timeline)
