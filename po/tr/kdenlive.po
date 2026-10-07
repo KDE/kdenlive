@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-06 03:06+0000\n"
-"PO-Revision-Date: 2026-09-21 19:10+0300\n"
+"PO-Revision-Date: 2026-10-06 20:03+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -25117,7 +25117,7 @@ msgstr "Bulunan ses izi yok"
 #: src/dialogs/textbasededit.cpp:1094
 #, kde-format
 msgid "Please configure speech to text."
-msgstr "Lütfen konuşmadan metneyi yapılandırın."
+msgstr "Lütfen dikteyi yapılandırın."
 
 #: src/dialogs/speechdialog.cpp:210 src/dialogs/textbasededit.cpp:971
 #: src/dialogs/textbasededit.cpp:1008
@@ -26408,7 +26408,7 @@ msgstr "%1 üzerinde konuşma tanıma başlatılıyor."
 #: src/dialogs/textbasededit.cpp:1306
 #, kde-format
 msgid "Error, please check the speech to text configuration."
-msgstr "Hata, lütfen konuşmadan metne yapılandırmasını denetleyin."
+msgstr "Hata, lütfen dikte yapılandırmasını denetleyin."
 
 #: src/dialogs/textbasededit.cpp:1308
 #, kde-format
@@ -34422,7 +34422,7 @@ msgstr "Nesne Bölümlemesi (SAM2)"
 #: src/pythoninterfaces/speechtotext.cpp:34
 #, kde-format
 msgid "Speech to text"
-msgstr "Konuşmadan metne"
+msgstr "Dikte"
 
 #: src/pythoninterfaces/speechtotextvosk.cpp:30
 #, kde-format
@@ -39224,7 +39224,7 @@ msgstr "Monitörü tam ekranda yansıt:"
 #: src/ui/configspeech_ui.ui:31
 #, kde-format
 msgid "Speech To Text"
-msgstr "Konuşmadan Metne"
+msgstr "Dikte"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, check_config)
 #: src/ui/configspeech_ui.ui:37
@@ -39358,9 +39358,9 @@ msgid ""
 "your system. For advanced users only, as you will have to properly setup "
 "everything by yourself."
 msgstr ""
-"Etkinleştirildiğinde, Kdenlive sisteminizde kurulu konuşmadan metne "
-"paketlerini kullanacaktır. Yalnızca ileri düzey kullanıcılar içindir; çünkü "
-"her şeyi kendinizin düzgünce ayarlaması gerekecektir."
+"Etkinleştirildiğinde, Kdenlive sisteminizde kurulu dikte paketlerini "
+"kullanacaktır. Yalnızca ileri düzey kullanıcılar içindir; çünkü her şeyi "
+"kendinizin düzgünce ayarlaması gerekecektir."
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: src/ui/configspeech_ui.ui:695
