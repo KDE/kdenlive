@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 #pragma once
 #include <QGraphicsTextItem>
+#include <QTextBlock>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
-#include <QTextBlock>
 #include <QTextFragment>
 
 // Rich text: merge ONLY the property the user changed.
@@ -36,16 +36,15 @@ inline bool selectionHasMixedCharacterFormat(const QGraphicsTextItem *item)
     QFont referenceFont;
     QBrush referenceBrush;
     bool haveReference = false;
-    for (QTextBlock block = item->document()->findBlock(selected.selectionStart());
-         block.isValid() && block.position() < selected.selectionEnd(); block = block.next()) {
+    for (QTextBlock block = item->document()->findBlock(selected.selectionStart()); block.isValid() && block.position() < selected.selectionEnd();
+         block = block.next()) {
         for (auto it = block.begin(); !it.atEnd(); ++it) {
             const auto fragment = it.fragment();
-            if (!fragment.isValid() || fragment.position() >= selected.selectionEnd()
-                || fragment.position() + fragment.length() <= selected.selectionStart()) continue;
+            if (!fragment.isValid() || fragment.position() >= selected.selectionEnd() || fragment.position() + fragment.length() <= selected.selectionStart())
+                continue;
             const auto format = fragment.charFormat();
             const QFont font = format.font().resolve(item->document()->defaultFont());
-            const QBrush brush = format.foreground().style() == Qt::NoBrush
-                ? QBrush(item->defaultTextColor()) : format.foreground();
+            const QBrush brush = format.foreground().style() == Qt::NoBrush ? QBrush(item->defaultTextColor()) : format.foreground();
             if (!haveReference) {
                 referenceFont = font;
                 referenceBrush = brush;
@@ -62,8 +61,7 @@ inline void apply(QGraphicsTextItem *item, const QTextCharFormat &delta)
 {
     const QTextCursor saved = item->textCursor();
     QTextCursor cursor = saved;
-    const bool objectMode = !cursor.hasSelection() &&
-        !item->textInteractionFlags().testFlag(Qt::TextEditable);
+    const bool objectMode = !cursor.hasSelection() && !item->textInteractionFlags().testFlag(Qt::TextEditable);
     if (objectMode) {
         cursor.select(QTextCursor::Document);
     }
@@ -74,4 +72,4 @@ inline void apply(QGraphicsTextItem *item, const QTextCharFormat &delta)
     item->setTextCursor(objectMode ? saved : cursor);
     item->update();
 }
-}
+} // namespace TitlerRichText

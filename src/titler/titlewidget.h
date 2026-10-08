@@ -89,6 +89,9 @@ public:
      * @return list of the fonts in the title  */
     static QStringList extractFontList(const QString &xml);
 
+    /** @brief Ensure a title has relative paths for its content resources. */
+    static QString ensureRelativePaths(const QString xmlData, const QString &newRoot);
+
     /** @brief Returns clip duration. */
     int duration() const;
     void setDuration(int duration);
@@ -163,6 +166,7 @@ private:
     QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
+    QMap<QString, QString> m_remplacementPatterns;
 
     MySpinBox *rectCornerRadius;
 
@@ -255,6 +259,10 @@ private:
     /** @brief Write patterns to config file
      */
     void writeBaseConfig();
+
+    /** @brief Check if there are still missing items
+     */
+    void updateMissingInfo();
 
 public Q_SLOTS:
     void slotNewText(MyTextItem *tt);

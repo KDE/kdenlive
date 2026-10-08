@@ -23,12 +23,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 class DockTabDragHandler : public QObject
 {
 public:
-    explicit DockTabDragHandler(KDDockWidgets::Core::DockWidget *coreDock,
-                                KDDockWidgets::Core::TabBar *coreTabBar,
-                                KDDockWidgets::QtWidgets::TabBar *qtTabBar,
-                                std::function<void()> onDragEnteredTab = {},
-                                std::function<bool(const QMimeData*)> mimeHandler = {},
-                                QObject *parent = nullptr)
+    explicit DockTabDragHandler(KDDockWidgets::Core::DockWidget *coreDock, KDDockWidgets::Core::TabBar *coreTabBar, KDDockWidgets::QtWidgets::TabBar *qtTabBar,
+                                std::function<void()> onDragEnteredTab = {}, std::function<bool(const QMimeData *)> mimeHandler = {}, QObject *parent = nullptr)
         : QObject(parent)
         , m_coreDock(coreDock)
         , m_coreTabBar(coreTabBar)
@@ -48,25 +44,25 @@ protected:
         }
 
         switch (event->type()) {
-            case QEvent::DragEnter: {
-                auto *e = static_cast<QDragEnterEvent *>(event);
-                e->accept();
-                return true;
-            }
-            case QEvent::DragMove: {
-                auto *e = static_cast<QDragMoveEvent *>(event);
-    const int idx = m_qtTabBar->tabAt(e->position().toPoint());
-                if (idx >= 0) {
-                    if (m_mimeHandler && m_mimeHandler(e->mimeData()) && m_coreTabBar->dockWidgetAt(idx) == m_coreDock && m_onDragEnteredTab) {
-                        m_onDragEnteredTab();
-                    }
-                    e->ignore();
+        case QEvent::DragEnter: {
+            auto *e = static_cast<QDragEnterEvent *>(event);
+            e->accept();
+            return true;
+        }
+        case QEvent::DragMove: {
+            auto *e = static_cast<QDragMoveEvent *>(event);
+            const int idx = m_qtTabBar->tabAt(e->position().toPoint());
+            if (idx >= 0) {
+                if (m_mimeHandler && m_mimeHandler(e->mimeData()) && m_coreTabBar->dockWidgetAt(idx) == m_coreDock && m_onDragEnteredTab) {
+                    m_onDragEnteredTab();
                 }
-                return true;
-                break;
+                e->ignore();
             }
-            default:
-                break;
+            return true;
+            break;
+        }
+        default:
+            break;
         }
 
         return QObject::eventFilter(obj, event);
@@ -77,7 +73,7 @@ private:
     KDDockWidgets::Core::TabBar *m_coreTabBar = nullptr;
     KDDockWidgets::QtWidgets::TabBar *m_qtTabBar = nullptr;
     std::function<void()> m_onDragEnteredTab;
-    std::function<bool(const QMimeData*)> m_mimeHandler;
+    std::function<bool(const QMimeData *)> m_mimeHandler;
 };
 
 class KdenliveDockTabBar : public KDDockWidgets::QtWidgets::TabBar
@@ -109,16 +105,14 @@ public:
             auto dock = controller->dockWidgetAt(index);
             if (dock && dock->view() && dock->uniqueName() == QStringLiteral("project_bin")) {
                 KDDockWidgets::QtWidgets::DockWidget *qtDock = dynamic_cast<KDDockWidgets::QtWidgets::DockWidget *>(dock->view());
-                new DockTabDragHandler(dock, controller, this, [qtDock]() {
-                    qtDock->open();
-                    qtDock->setAsCurrentTab();
-                    qtDock->setFocus(Qt::OtherFocusReason);
-                }, 
-                [](const QMimeData *mime)
-                {
-                    return mime && (mime->hasFormat("application/x-kdenlive-clip") || mime->hasUrls() || mime->hasText());
-                },
-                this);
+                new DockTabDragHandler(
+                    dock, controller, this,
+                    [qtDock]() {
+                        qtDock->open();
+                        qtDock->setAsCurrentTab();
+                        qtDock->setFocus(Qt::OtherFocusReason);
+                    },
+                    [](const QMimeData *mime) { return mime && (mime->hasFormat("application/x-kdenlive-clip") || mime->hasUrls() || mime->hasText()); }, this);
             }
         });
     }

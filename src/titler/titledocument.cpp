@@ -12,13 +12,15 @@
  ***************************************************************************/
 
 #include "titledocument.h"
-#include "richtextspacing.h"
+#include "gradientwidget.h"
 #include "richtextgradient.h"
 #include "richtextoutline.h"
+#include "richtextspacing.h"
 #include <QDebug>
 #include <QFontInfo>
-#include "gradientwidget.h"
 
+#include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
 #include "utils/timecode.h"
@@ -39,16 +41,16 @@
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
 #include <QGraphicsTextItem>
+#include <QMap>
+#include <QRegularExpression>
 #include <QSaveFile>
+#include <QSet>
 #include <QSvgRenderer>
-#include <QTextCursor>
-#include <QTextDocument>
 #include <QTextBlock>
 #include <QTextCharFormat>
+#include <QTextCursor>
+#include <QTextDocument>
 #include <QTextFragment>
-#include <QRegularExpression>
-#include <QMap>
-#include <QSet>
 #include <QtMath>
 #include <memory>
 
@@ -118,8 +120,7 @@ QString titleRichTextHtml(const QTextDocument *source)
             const QFont font = format.font().resolve(source->defaultFont());
             QTextCharFormat explicitDecorations;
             encodeForeground(format, explicitDecorations);
-            if (!format.hasProperty(QTextFormat::TextUnderlineStyle)
-                && !format.hasProperty(QTextFormat::FontUnderline)) {
+            if (!format.hasProperty(QTextFormat::TextUnderlineStyle) && !format.hasProperty(QTextFormat::FontUnderline)) {
                 explicitDecorations.setFontUnderline(font.underline());
             }
             if (!format.hasProperty(QTextFormat::FontOverline)) {
@@ -151,10 +152,8 @@ QString titleRichTextHtml(const QTextDocument *source)
     }
     // Qt HTML accepts #AARRGGBB without the decimal-alpha conversion loss.
     // Only rewrite foreground-color declarations, never the title's text.
-    const QRegularExpression rgba(QStringLiteral(
-        R"(((?:^|;)\s*color\s*:\s*)rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+(?:[eE][+-]?[0-9]+)?)\s*\))"));
-    const QRegularExpression opaqueForeground(QStringLiteral(
-        R"(((?:^|;)\s*color\s*:\s*)(#[0-9a-fA-F]{6})(?=\s*(?:;|$)))"));
+    const QRegularExpression rgba(QStringLiteral(R"(((?:^|;)\s*color\s*:\s*)rgba\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*,\s*([0-9.]+(?:[eE][+-]?[0-9]+)?)\s*\))"));
+    const QRegularExpression opaqueForeground(QStringLiteral(R"(((?:^|;)\s*color\s*:\s*)(#[0-9a-fA-F]{6})(?=\s*(?:;|$)))"));
     QList<QDomElement> pending{html.documentElement()};
     while (!pending.isEmpty()) {
         QDomElement element = pending.takeLast();
@@ -169,8 +168,7 @@ QString titleRichTextHtml(const QTextDocument *source)
             const int green = match.captured(3).toInt(&greenOk);
             const int blue = match.captured(4).toInt(&blueOk);
             const double alpha = match.captured(5).toDouble(&alphaOk);
-            if (!redOk || !greenOk || !blueOk || !alphaOk || red > 255 || green > 255 || blue > 255
-                || !qIsFinite(alpha) || alpha < 0 || alpha > 1) {
+            if (!redOk || !greenOk || !blueOk || !alphaOk || red > 255 || green > 255 || blue > 255 || !qIsFinite(alpha) || alpha < 0 || alpha > 1) {
                 continue;
             }
             normalized += style.mid(previous, match.capturedStart() - previous);
@@ -202,7 +200,7 @@ QString titleRichTextHtml(const QTextDocument *source)
     }
     return html.toString(-1);
 }
-}
+} // namespace
 
 QByteArray fileToByteArray(const QString &filename)
 {
@@ -278,9 +276,9 @@ const QString TitleDocument::extractBase64Image(const QString &titlePath, const 
     return QString();
 }
 
-QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed)
+QDomDocument TitleDocument::xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed, const QString &saveFolder)
 {
-    return xml(m_scene->items(), m_width, m_height, startv, endv, embed, m_projectPath);
+    return xml(m_scene->items(), m_width, m_height, startv, endv, embed, saveFolder.isEmpty() ? m_projectPath : saveFolder);
 }
 
 QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
@@ -338,16 +336,28 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
     double xPosition = item->pos().x();
 
     switch (item->type()) {
-    case QGraphicsPixmapItem::Type:
+    case QGraphicsPixmapItem::Type: {
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsPixmapItem"));
-        content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
+        std::pair<const QString, bool> adjustedPath = pCore->currentDoc()->ensureRelativePath(item->data(Qt::UserRole).toString(), projectPath);
+        if (adjustedPath.second) {
+            content.setAttribute(QStringLiteral("url"), adjustedPath.first);
+        } else {
+            content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
+        }
         base64ToUrl(item, content, embedImages, projectPath);
         break;
-    case QGraphicsSvgItem::Type:
+    }
+    case QGraphicsSvgItem::Type: {
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsSvgItem"));
-        content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
+        std::pair<const QString, bool> adjustedPath = pCore->currentDoc()->ensureRelativePath(item->data(Qt::UserRole).toString(), projectPath);
+        if (adjustedPath.second) {
+            content.setAttribute(QStringLiteral("url"), adjustedPath.first);
+        } else {
+            content.setAttribute(QStringLiteral("url"), item->data(Qt::UserRole).toString());
+        }
         base64ToUrl(item, content, embedImages, projectPath);
         break;
+    }
     case QGraphicsRectItem::Type:
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
         content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem *>(item)->rect().normalized()));
@@ -400,7 +410,7 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
         richText.setAttribute(QStringLiteral("format"), QStringLiteral("qt-html-v1"));
         richText.appendChild(doc.createTextNode(titleRichTextHtml(t->document())));
         content.appendChild(richText);
-        content.appendChild(TitlerSpacingV1::save(doc, t->document())); // Rich text
+        content.appendChild(TitlerSpacingV1::save(doc, t->document()));  // Rich text
         content.appendChild(TitlerGradientV1::save(doc, t->document())); // Rich text selective gradients
         const QDomElement outlines = TitlerOutline::save(doc, t->document());
         if (!outlines.isNull()) {
@@ -461,8 +471,7 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
             QTextCursor cursor(t->document());
             cursor.select(QTextCursor::Document);
             const QBrush firstBrush = fallback.charFormat().foreground();
-            QColor fontcolor = firstBrush.style() == Qt::SolidPattern
-                ? firstBrush.color() : t->defaultTextColor();
+            QColor fontcolor = firstBrush.style() == Qt::SolidPattern ? firstBrush.color() : t->defaultTextColor();
             if (!fontcolor.isValid()) {
                 fontcolor = Qt::white;
             }
@@ -566,7 +575,7 @@ bool TitleDocument::saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGr
         return false;
     }
 
-    QDomDocument doc = xml(startv, endv, embed);
+    QDomDocument doc = xml(startv, endv, embed, QDir::cleanPath(url.adjusted(QUrl::RemoveFilename).toLocalFile()) + QLatin1Char('/'));
     doc.documentElement().setAttribute(QStringLiteral("duration"), duration);
     // keep some time for backwards compatibility (opening projects with older versions) - 26/12/12
     doc.documentElement().setAttribute(QStringLiteral("out"), duration);
@@ -711,9 +720,8 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
 
             QDomElement contentElement = itemNode.namedItem(QStringLiteral("content")).toElement();
             QDomElement richTextElement = contentElement.firstChildElement(QStringLiteral("richtext"));
-            const bool hasRichText = !richTextElement.isNull()
-                && richTextElement.attribute(QStringLiteral("format")) == QLatin1String("qt-html-v1")
-                && !richTextElement.text().isEmpty();
+            const bool hasRichText = !richTextElement.isNull() && richTextElement.attribute(QStringLiteral("format")) == QLatin1String("qt-html-v1") &&
+                                     !richTextElement.text().isEmpty();
 
             // The first child remains the legacy plain-text fallback.
             MyTextItem *txt = new MyTextItem(contentElement.firstChild().nodeValue(), nullptr);
@@ -736,8 +744,7 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
                     qWarning() << "Ignoring invalid title rich-text gradient metadata";
                 }
                 txt->document()->setDocumentMargin(0);
-                TitlerGradientV1::applyBrushes(
-                    txt->document(), int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
+                TitlerGradientV1::applyBrushes(txt->document(), int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
             }
 
             txt->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -775,10 +782,7 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
                 QString data = txtProperties.namedItem(QStringLiteral("gradient")).nodeValue();
                 txt->setData(TitleDocument::Gradient, data);
 
-                QLinearGradient gr = GradientWidget::gradientFromString(
-                    data,
-                    int(txt->baseBoundingRect().width()),
-                    int(txt->baseBoundingRect().height()));
+                QLinearGradient gr = GradientWidget::gradientFromString(data, int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
 
                 globalFormat.setForeground(QBrush(gr));
                 hasGlobalFormat = true;
@@ -886,7 +890,7 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
                 }
                 pix.load(url);
                 if (pix.isNull()) {
-                    pix = createInvalidPixmap(url, height);
+                    pix = createInvalidPixmap(url, width / 4, height / 4);
                     missingElements++;
                     missing = true;
                 }
@@ -928,7 +932,7 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
                 }
                 gitem = rec;
             } else {
-                QPixmap pix = createInvalidPixmap(url, height);
+                QPixmap pix = createInvalidPixmap(url, width / 4, height / 4);
                 missingElements++;
                 auto *rec2 = new MyPixmapItem(pix);
                 rec2->setData(Qt::UserRole + 2, 1);
@@ -983,19 +987,19 @@ int TitleDocument::invalidCount() const
     return m_missingElements;
 }
 
-QPixmap TitleDocument::createInvalidPixmap(const QString &url, int height)
+QPixmap TitleDocument::createInvalidPixmap(const QString &url, int width, int height)
 {
-    int missingHeight = height / 10;
-    QPixmap pix(missingHeight, missingHeight);
-    QIcon icon = QIcon::fromTheme(QStringLiteral("messagebox_warning"));
+    QPixmap pix(width, height);
+    QIcon icon = QIcon::fromTheme(QStringLiteral("emblem-warning"));
     pix.fill(QColor(255, 0, 0, 50));
     QPainter ptr(&pix);
-    icon.paint(&ptr, 0, 0, missingHeight / 2, missingHeight / 2);
+    int iconSize = qApp->style()->pixelMetric(QStyle::PM_LargeIconSize);
+    icon.paint(&ptr, 4, 4, iconSize, iconSize);
     QPen pen(Qt::red);
     pen.setWidth(3);
     ptr.setPen(pen);
-    ptr.drawText(QRectF(2, 2, missingHeight - 4, missingHeight - 4), Qt::AlignHCenter | Qt::AlignBottom, QFileInfo(url).fileName());
-    ptr.drawRect(2, 1, missingHeight - 4, missingHeight - 4);
+    ptr.drawText(QRectF(2, 2, width - 4, height - 4), Qt::AlignHCenter | Qt::AlignVCenter, QFileInfo(url).fileName());
+    ptr.drawRect(2, 1, width - 4, height - 4);
     ptr.end();
     return pix;
 }

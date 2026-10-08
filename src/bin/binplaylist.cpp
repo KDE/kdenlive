@@ -186,7 +186,7 @@ QMap<QString, QString> BinPlaylist::getProxies(const QString &root)
             if (QFileInfo(sourceUrl).isRelative()) {
                 sourceUrl.prepend(root);
             }
-            proxies.insert(proxy, sourceUrl);
+            proxies.insert(QDir::cleanPath(proxy), QDir::cleanPath(sourceUrl));
         }
     }
     return proxies;

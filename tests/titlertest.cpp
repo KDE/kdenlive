@@ -11,10 +11,10 @@
 #include <QTextLayout>
 // test specific headers
 #include "titler/graphicsscenerectmove.h"
-#include "titler/titledocument.h"
-#include "titler/richtextspacing.h"
 #include "titler/richtextgradient.h"
 #include "titler/richtextoutline.h"
+#include "titler/richtextspacing.h"
+#include "titler/titledocument.h"
 
 // Alignment follows the text-layout rectangle, not its asymmetric ink/stroke envelope.
 TEST_CASE("Title text left alignment", "[Titler]")
@@ -97,8 +97,7 @@ QTextCharFormat richFormat(MyTextItem *item, int position)
     cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
     return cursor.charFormat();
 }
-}
-
+} // namespace
 
 TEST_CASE("Rich text color keeps fonts and selection", "[Titler][RichText]")
 {
@@ -212,7 +211,6 @@ TEST_CASE("Rich text paints mixed colors outside edit mode", "[Titler][RichText]
     REQUIRE(whites > 10);
 }
 
-
 TEST_CASE("Rich text survives title XML round trip", "[Titler][RichText]")
 {
     if (!richTextSupported()) {
@@ -264,14 +262,7 @@ TEST_CASE("Rich text survives title XML round trip", "[Titler][RichText]")
     int missing = 0;
     int maxZ = 0;
 
-    QScopedPointer<QGraphicsItem> loaded(
-        TitleDocument::loadItemFromXml(
-            itemElement,
-            QString(),
-            1920,
-            1080,
-            missing,
-            maxZ));
+    QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(itemElement, QString(), 1920, 1080, missing, maxZ));
 
     REQUIRE(!loaded.isNull());
     REQUIRE(loaded->type() == QGraphicsTextItem::Type);
@@ -295,7 +286,6 @@ TEST_CASE("Rich text survives title XML round trip", "[Titler][RichText]")
     const QStringList insideFamilies = inside.fontFamilies().toStringList();
     REQUIRE(insideFamilies.contains(QStringLiteral("monospace")));
 }
-
 
 TEST_CASE("Rich text spacing handles Unicode and invalid ranges", "[Titler][RichText]")
 {
@@ -325,8 +315,7 @@ TEST_CASE("Rich text spacing handles Unicode and invalid ranges", "[Titler][Rich
     const QString wire = xml.toString();
     REQUIRE(static_cast<bool>(xml.setContent(wire)));
     int missing = 0, maxZ = 0;
-    QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(
-        xml.documentElement(), QString(), 1920, 1080, missing, maxZ));
+    QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(xml.documentElement(), QString(), 1920, 1080, missing, maxZ));
     REQUIRE(!loaded.isNull());
     auto *text = dynamic_cast<MyTextItem *>(loaded.data());
     REQUIRE(text != nullptr);
@@ -344,7 +333,6 @@ TEST_CASE("Rich text spacing handles Unicode and invalid ranges", "[Titler][Rich
     REQUIRE_FALSE(TitlerSpacingV1::restore(content, text->document()));
     REQUIRE(richFormat(text, pos) == before); // Reject without partial changes.
 }
-
 
 TEST_CASE("Rich text active inspector format follows caret and selection", "[Titler][RichText]")
 {
@@ -376,8 +364,7 @@ TEST_CASE("Rich text active inspector format follows caret and selection", "[Tit
 
     richSelect(&item, 8, 8);
 
-    auto format =
-        TitlerRichText::activeFormat(&item);
+    auto format = TitlerRichText::activeFormat(&item);
 
     REQUIRE(format.fontWeight() == QFont::Bold);
     REQUIRE(format.fontItalic());
@@ -386,27 +373,24 @@ TEST_CASE("Rich text active inspector format follows caret and selection", "[Tit
 
     richSelect(&item, 6, 13);
 
-    format =
-        TitlerRichText::activeFormat(&item);
+    format = TitlerRichText::activeFormat(&item);
 
     REQUIRE(format.fontWeight() == QFont::Bold);
     REQUIRE(format.foreground().color() == QColor(Qt::red));
 
-    REQUIRE_FALSE(
-        TitlerRichText::selectionHasMixedCharacterFormat(&item));
+    REQUIRE_FALSE(TitlerRichText::selectionHasMixedCharacterFormat(&item));
 
     richSelect(&item, 0, 13);
 
-    REQUIRE(
-        TitlerRichText::selectionHasMixedCharacterFormat(&item));
+    REQUIRE(TitlerRichText::selectionHasMixedCharacterFormat(&item));
 }
 
 // RichText: regression coverage for the actual rendering services.
-#include <mlt++/MltFilter.h>
-#include <mlt++/MltFrame.h>
 #include <QCryptographicHash>
 #include <QDir>
 #include <QTextBoundaryFinder>
+#include <mlt++/MltFilter.h>
+#include <mlt++/MltFrame.h>
 
 namespace {
 QDomDocument makeRichTextTitle(const QString &text, int mode, int sigma = 0, bool shadow = false)
@@ -475,8 +459,7 @@ QImage renderProducerFrame(Mlt::Producer &producer, int position)
 }
 QByteArray frameHash(const QImage &image)
 {
-    return QCryptographicHash::hash(QByteArray(reinterpret_cast<const char *>(image.constBits()),
-                                               image.sizeInBytes()), QCryptographicHash::Sha256);
+    return QCryptographicHash::hash(QByteArray(reinterpret_cast<const char *>(image.constBits()), image.sizeInBytes()), QCryptographicHash::Sha256);
 }
 int countRedPixels(const QImage &image)
 {
@@ -489,7 +472,7 @@ int countRedPixels(const QImage &image)
     }
     return count;
 }
-}
+} // namespace
 
 TEST_CASE("Rich text selection scan preserves Unicode and cursor", "[Titler][RichText]")
 {
@@ -545,8 +528,7 @@ TEST_CASE("Rich text colored shadow keeps premultiplied alpha", "[Titler][RichTe
     for (int y = 0; y < image.height(); ++y) {
         const QRgb *row = reinterpret_cast<const QRgb *>(image.constScanLine(y));
         for (int x = 0; x < image.width(); ++x) {
-            invalid += qRed(row[x]) > qAlpha(row[x]) || qGreen(row[x]) > qAlpha(row[x])
-                || qBlue(row[x]) > qAlpha(row[x]);
+            invalid += qRed(row[x]) > qAlpha(row[x]) || qGreen(row[x]) > qAlpha(row[x]) || qBlue(row[x]) > qAlpha(row[x]);
             if (qAlpha(row[x]) > 10 && qAlpha(row[x]) <= 96 && qGreen(row[x]) > qRed(row[x])) ++green;
         }
     }
@@ -731,7 +713,6 @@ TEST_CASE("Rich text emits reference frames for lossless export", "[Titler][Rich
     }
 }
 
-
 TEST_CASE("Rich text selective gradient survives XML round trip", "[Titler][RichText]")
 {
     if (!richTextSupported()) {
@@ -765,8 +746,7 @@ TEST_CASE("Rich text selective gradient survives XML round trip", "[Titler][Rich
 
     int missing = 0;
     int maxZ = 0;
-    QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(
-        saved.documentElement(), QString(), 1280, 720, missing, maxZ));
+    QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(saved.documentElement(), QString(), 1280, 720, missing, maxZ));
     REQUIRE(loaded);
     auto *text = static_cast<MyTextItem *>(loaded.data());
     REQUIRE(richFormat(text, 0).property(TitlerGradientV1::Property).toString().isEmpty());
@@ -824,8 +804,7 @@ TEST_CASE("Rich text selective gradient renders in MLT and typewriter", "[Titler
             const QColor c = finalImage.pixelColor(x, y);
             if (c.alpha() < 80) continue;
             if (c.red() > 180 && c.green() > 180 && c.blue() > 180) ++white;
-            if ((c.red() > 120 || c.blue() > 120) && c.green() < 140
-                && qAbs(c.red() - c.blue()) > 20) ++colored;
+            if ((c.red() > 120 || c.blue() > 120) && c.green() < 140 && qAbs(c.red() - c.blue()) > 20) ++colored;
         }
     }
     REQUIRE(white > 20);
@@ -870,8 +849,8 @@ public:
         setRotation(source->rotation());
         setScale(source->scale());
         const qreal width = source->data(TitleDocument::OutlineWidth).toDouble();
-        m_pen = width > 0 ? QPen(source->data(TitleDocument::OutlineColor).value<QColor>(), width,
-                                 Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin) : QPen(Qt::NoPen);
+        m_pen =
+            width > 0 ? QPen(source->data(TitleDocument::OutlineColor).value<QColor>(), width, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin) : QPen(Qt::NoPen);
     }
 
     QRectF boundingRect() const override
@@ -932,8 +911,8 @@ QByteArray outlineStoredState(MyTextItem *item)
     stream << doc->toHtml() << doc->defaultFont() << doc->documentMargin() << doc->textWidth();
     stream << doc->availableUndoSteps() << doc->availableRedoSteps();
     stream << item->defaultTextColor() << item->pos() << item->transform();
-    stream << item->data(TitleDocument::OutlineWidth) << item->data(TitleDocument::OutlineColor)
-           << item->data(TitleDocument::Gradient) << item->data(TitleDocument::LineSpacing);
+    stream << item->data(TitleDocument::OutlineWidth) << item->data(TitleDocument::OutlineColor) << item->data(TitleDocument::Gradient)
+           << item->data(TitleDocument::LineSpacing);
     for (QTextBlock block = doc->begin(); block.isValid(); block = block.next()) {
         stream << block.position() << block.text() << block.blockFormat().properties() << block.charFormat().properties();
         for (auto it = block.begin(); !it.atEnd(); ++it) {
@@ -975,15 +954,13 @@ QByteArray outlineLayoutState(MyTextItem *item)
         stream << block.position() << block.text() << layout->position() << layout->lineCount();
         for (int i = 0; i < layout->lineCount(); ++i) {
             const auto line = layout->lineAt(i);
-            stream << line.textStart() << line.textLength() << line.position() << line.width()
-                   << line.ascent() << line.descent() << line.height();
+            stream << line.textStart() << line.textLength() << line.position() << line.width() << line.ascent() << line.descent() << line.height();
         }
         const auto runs = layout->glyphRuns();
         stream << int(runs.size());
         for (const auto &run : runs) {
             const auto font = run.rawFont();
-            stream << font.familyName() << font.styleName() << font.pixelSize() << int(run.flags())
-                   << run.glyphIndexes() << run.positions();
+            stream << font.familyName() << font.styleName() << font.pixelSize() << int(run.flags()) << run.glyphIndexes() << run.positions();
         }
     }
     REQUIRE(stream.status() == QDataStream::Ok);
@@ -1004,7 +981,8 @@ void resizeOutlinedWord(MyTextItem *item, int size)
 QDomDocument outlinedTitleXml(MyTextItem *item, int mode = 0)
 {
     auto xml = TitleDocument::xmlItem(item, 1280, 720);
-    xml.documentElement().firstChildElement(QStringLiteral("content"))
+    xml.documentElement()
+        .firstChildElement(QStringLiteral("content"))
         .setAttribute(QStringLiteral("typewriter"), QStringLiteral("%1;2;%2;0;37").arg(mode != 0 ? 1 : 0).arg(mode));
     QDomDocument result;
     auto root = result.createElement(QStringLiteral("kdenlivetitle"));
@@ -1023,8 +1001,8 @@ void checkOutlineFill(const QImage &fill, const QImage &outlined)
     for (int y = 1; y + 1 < fill.height(); ++y) {
         for (int x = 1; x + 1 < fill.width(); ++x) {
             const QRgb color = fill.pixel(x, y);
-            if (qAlpha(color) == 255 && fill.pixel(x - 1, y) == color && fill.pixel(x + 1, y) == color
-                && fill.pixel(x, y - 1) == color && fill.pixel(x, y + 1) == color) {
+            if (qAlpha(color) == 255 && fill.pixel(x - 1, y) == color && fill.pixel(x + 1, y) == color && fill.pixel(x, y - 1) == color &&
+                fill.pixel(x, y + 1) == color) {
                 ++interiors;
                 changed += outlined.pixel(x, y) != color;
             }
@@ -1035,7 +1013,7 @@ void checkOutlineFill(const QImage &fill, const QImage &outlined)
     REQUIRE(changed == 0);
     REQUIRE(border > 20);
 }
-}
+} // namespace
 
 TEST_CASE("Rich text outlines keep mixed fills after resize", "[Titler][RichTextOutline][OutlineRegression]")
 {
@@ -1264,7 +1242,7 @@ int selectiveStrokePixels(const QImage &image, bool red)
     }
     return count;
 }
-}
+} // namespace
 
 TEST_CASE("Selective outlines preserve unselected formats and selection", "[Titler][SelectiveOutline]")
 {
@@ -1398,14 +1376,13 @@ TEST_CASE("Selective outline metadata rejects invalid ranges without partial app
     item->applyOutlineWidth(5);
     item->applyOutlineColor(Qt::blue);
     const auto saved = TitleDocument::xmlItem(item.get(), 1280, 720).toString();
-    for (const auto &change : QVector<QPair<QString, QString>>{
-             {QStringLiteral("start"), QStringLiteral("2")},
-             {QStringLiteral("start"), QStringLiteral("0")},
-             {QStringLiteral("length"), QStringLiteral("2147483647")},
-             {QStringLiteral("length"), QStringLiteral("-1")},
-             {QStringLiteral("width"), QStringLiteral("nan")},
-             {QStringLiteral("width"), QStringLiteral("201")},
-             {QStringLiteral("color"), QStringLiteral("#xxxxxxxx")}}) {
+    for (const auto &change : QVector<QPair<QString, QString>>{{QStringLiteral("start"), QStringLiteral("2")},
+                                                               {QStringLiteral("start"), QStringLiteral("0")},
+                                                               {QStringLiteral("length"), QStringLiteral("2147483647")},
+                                                               {QStringLiteral("length"), QStringLiteral("-1")},
+                                                               {QStringLiteral("width"), QStringLiteral("nan")},
+                                                               {QStringLiteral("width"), QStringLiteral("201")},
+                                                               {QStringLiteral("color"), QStringLiteral("#xxxxxxxx")}}) {
         INFO(change.first.toStdString() << ": " << change.second.toStdString());
         QDomDocument corrupted;
         REQUIRE(static_cast<bool>(corrupted.setContent(saved)));
@@ -1591,8 +1568,8 @@ inline QByteArray storedState(const QTextDocument *document)
 {
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
-    stream << document->toHtml() << document->textWidth() << document->defaultFont()
-           << document->documentMargin() << document->availableUndoSteps() << document->availableRedoSteps();
+    stream << document->toHtml() << document->textWidth() << document->defaultFont() << document->documentMargin() << document->availableUndoSteps()
+           << document->availableRedoSteps();
     for (auto block = document->begin(); block.isValid(); block = block.next()) {
         stream << block.position() << block.blockFormat().properties() << block.charFormat().properties();
         for (auto it = block.begin(); !it.atEnd(); ++it) {
@@ -1642,7 +1619,8 @@ inline QPainterPath expectedArea(QTextDocument *document, int start, int end, qr
     return stroker.createStroke(glyphs);
 }
 
-struct Coverage {
+struct Coverage
+{
     int witnesses{0};
     int missing{0};
     bool partial{false};
@@ -1667,14 +1645,13 @@ inline Coverage coverage(int start, int end, qreal width, int visible = -1)
         painter.translate(Padding, Padding);
         painter.fillPath(area, Qt::red);
     }
-    const QRect bounds = area.boundingRect().translated(Padding, Padding).toAlignedRect()
-                             .intersected(result.actual.rect().adjusted(2, 2, -2, -2));
+    const QRect bounds = area.boundingRect().translated(Padding, Padding).toAlignedRect().intersected(result.actual.rect().adjusted(2, 2, -2, -2));
     for (int y = bounds.top(); y <= bounds.bottom(); ++y) {
         for (int x = bounds.left(); x <= bounds.right(); ++x) {
             // Test fully covered interiors, not platform-dependent edge AA.
-            if (qAlpha(result.reference.pixel(x, y)) == 255
-                && qAlpha(result.reference.pixel(x - 2, y)) == 255 && qAlpha(result.reference.pixel(x + 2, y)) == 255
-                && qAlpha(result.reference.pixel(x, y - 2)) == 255 && qAlpha(result.reference.pixel(x, y + 2)) == 255) {
+            if (qAlpha(result.reference.pixel(x, y)) == 255 && qAlpha(result.reference.pixel(x - 2, y)) == 255 &&
+                qAlpha(result.reference.pixel(x + 2, y)) == 255 && qAlpha(result.reference.pixel(x, y - 2)) == 255 &&
+                qAlpha(result.reference.pixel(x, y + 2)) == 255) {
                 ++result.witnesses;
                 result.missing += qAlpha(result.actual.pixel(x, y)) != 255;
             }
@@ -1697,8 +1674,7 @@ inline std::unique_ptr<QTextDocument> splitFormats(QTextDocument *source)
     (void)result->documentLayout()->documentSize();
     return result;
 }
-}
-
+} // namespace OutlineBoundaryChecks
 
 TEST_CASE("Selective outline covers glyph contours at every contiguous Latin range", "[Titler][SelectiveOutlineBoundary]")
 {
@@ -1777,11 +1753,11 @@ TEST_CASE("Touching selective outlines survive XML and MLT rendering", "[Titler]
 
 // Alignment uses the text layout, while painting bounds also contain glyph
 // overhang and outline padding. Test the two responsibilities independently.
+#include <QDir>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QDir>
 #include <cmath>
 
 namespace RichTextAlignmentContract {
@@ -1797,8 +1773,7 @@ QJsonArray rect(const QRectF &r)
 qreal anchor(MyTextItem &item, Qt::Alignment alignment)
 {
     const QRectF layout = item.baseBoundingRect();
-    const qreal x = alignment.testFlag(Qt::AlignRight) ? layout.right()
-        : alignment.testFlag(Qt::AlignHCenter) ? layout.center().x() : layout.left();
+    const qreal x = alignment.testFlag(Qt::AlignRight) ? layout.right() : alignment.testFlag(Qt::AlignHCenter) ? layout.center().x() : layout.left();
     return item.mapToParent(QPointF(x, 0)).x();
 }
 QJsonObject snapshot(MyTextItem &item, Qt::Alignment alignment)
@@ -1824,7 +1799,7 @@ void record(const QString &name, const QJsonObject &data)
     const QByteArray bytes = QJsonDocument(data).toJson(QJsonDocument::Indented);
     REQUIRE(file.write(bytes) == bytes.size());
 }
-}
+} // namespace RichTextAlignmentContract
 
 TEST_CASE("Rich text center alignment distinguishes layout from ink bounds", "[Titler][AlignmentContract]")
 {
@@ -1845,16 +1820,17 @@ TEST_CASE("Rich text center alignment distinguishes layout from ink bounds", "[T
     const auto afterPaint = after[QStringLiteral("paintBounds")].toArray();
     // Exact decomposition of the OLD width-only measurement. This includes
     // the layout rectangle's origin instead of assuming that every rect starts at zero.
-    const qreal paddingDelta = ((afterPaint[2].toDouble() - afterLayout[2].toDouble())
-                              - (beforePaint[2].toDouble() - beforeLayout[2].toDouble())) / 2
-                              - (afterLayout[0].toDouble() - beforeLayout[0].toDouble());
+    const qreal paddingDelta = ((afterPaint[2].toDouble() - afterLayout[2].toDouble()) - (beforePaint[2].toDouble() - beforeLayout[2].toDouble())) / 2 -
+                               (afterLayout[0].toDouble() - beforeLayout[0].toDouble());
     const bool stable = same(layoutDelta, 0);
     const bool explained = same(oldDelta - layoutDelta, paddingDelta);
-    record(QStringLiteral("original-center-measurements"),
-           {{QStringLiteral("before"), before}, {QStringLiteral("after"), after},
-            {QStringLiteral("layoutDelta"), layoutDelta}, {QStringLiteral("oldMetricDelta"), oldDelta},
-            {QStringLiteral("paintPaddingContribution"), paddingDelta},
-            {QStringLiteral("layoutStable"), stable}, {QStringLiteral("oldMetricExplained"), explained}});
+    record(QStringLiteral("original-center-measurements"), {{QStringLiteral("before"), before},
+                                                            {QStringLiteral("after"), after},
+                                                            {QStringLiteral("layoutDelta"), layoutDelta},
+                                                            {QStringLiteral("oldMetricDelta"), oldDelta},
+                                                            {QStringLiteral("paintPaddingContribution"), paddingDelta},
+                                                            {QStringLiteral("layoutStable"), stable},
+                                                            {QStringLiteral("oldMetricExplained"), explained}});
     CHECK(stable);
     CHECK(explained);
     CHECK(item.boundingRect().contains(item.baseBoundingRect()));
@@ -1874,10 +1850,9 @@ TEST_CASE("Rich text layout anchors survive text changes with ink overhang", "[T
     using namespace RichTextAlignmentContract;
     QJsonArray rows;
     int failures = 0;
-    const QList<QPair<QString, QString>> texts{
-        {QStringLiteral("short"), QStringLiteral("longer string")},
-        {QStringLiteral("fjy"), QStringLiteral("fjy es more")},
-        {QStringLiteral("e"), QStringLiteral("es")}};
+    const QList<QPair<QString, QString>> texts{{QStringLiteral("short"), QStringLiteral("longer string")},
+                                               {QStringLiteral("fjy"), QStringLiteral("fjy es more")},
+                                               {QStringLiteral("e"), QStringLiteral("es")}};
     for (const QString &family : {QStringLiteral("sans-serif"), QStringLiteral("serif")}) {
         for (int size : {40, 96}) {
             for (int outline : {0, 12}) {
@@ -1903,17 +1878,20 @@ TEST_CASE("Rich text layout anchors survive text changes with ink overhang", "[T
                         const bool second = same(anchor(item, alignment), fixed);
                         const bool ok = first && second && grows && contained;
                         failures += !ok;
-                        rows.append(QJsonObject{{QStringLiteral("family"), family}, {QStringLiteral("size"), size},
-                                                {QStringLiteral("outline"), outline}, {QStringLiteral("before"), before},
-                                                {QStringLiteral("longer"), longer}, {QStringLiteral("restored"), restored},
+                        rows.append(QJsonObject{{QStringLiteral("family"), family},
+                                                {QStringLiteral("size"), size},
+                                                {QStringLiteral("outline"), outline},
+                                                {QStringLiteral("before"), before},
+                                                {QStringLiteral("longer"), longer},
+                                                {QStringLiteral("restored"), restored},
                                                 {QStringLiteral("passed"), ok}});
                     }
                 }
             }
         }
     }
-    record(QStringLiteral("layout-anchor-matrix"), {{QStringLiteral("cases"), rows.size()},
-           {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
+    record(QStringLiteral("layout-anchor-matrix"),
+           {{QStringLiteral("cases"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
     REQUIRE(rows.size() == 72);
     REQUIRE(failures == 0);
 }
@@ -1965,14 +1943,17 @@ TEST_CASE("Outline changes preserve the layout anchor and text width", "[Titler]
                 ok = ok && same(anchor(item, alignment), fixed) && same(item.baseBoundingRect().width(), width);
                 ok = ok && item.toPlainText() == QStringLiteral("fjy es");
                 failures += !ok;
-                rows.append(QJsonObject{{QStringLiteral("family"), family}, {QStringLiteral("size"), size},
-                                        {QStringLiteral("before"), before}, {QStringLiteral("outlined"), outlined},
-                                        {QStringLiteral("after"), snapshot(item, alignment)}, {QStringLiteral("passed"), ok}});
+                rows.append(QJsonObject{{QStringLiteral("family"), family},
+                                        {QStringLiteral("size"), size},
+                                        {QStringLiteral("before"), before},
+                                        {QStringLiteral("outlined"), outlined},
+                                        {QStringLiteral("after"), snapshot(item, alignment)},
+                                        {QStringLiteral("passed"), ok}});
             }
         }
     }
-    record(QStringLiteral("outline-anchor-matrix"), {{QStringLiteral("cases"), rows.size()},
-           {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
+    record(QStringLiteral("outline-anchor-matrix"),
+           {{QStringLiteral("cases"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
     REQUIRE(rows.size() == 12);
     REQUIRE(failures == 0);
 }
@@ -2030,20 +2011,25 @@ TEST_CASE("Titler character font edits settle layout before outline edits", "[Ti
                         const bool content = item.toPlainText() == QStringLiteral("fjy es");
                         const bool ok = geometry && position && selection && content;
                         failures += !ok;
-                        rows.append(QJsonObject{{QStringLiteral("family"), family}, {QStringLiteral("size"), size},
-                                                {QStringLiteral("selected"), selected}, {QStringLiteral("step"), step++},
-                                                {QStringLiteral("before"), before}, {QStringLiteral("after"), after},
+                        rows.append(QJsonObject{{QStringLiteral("family"), family},
+                                                {QStringLiteral("size"), size},
+                                                {QStringLiteral("selected"), selected},
+                                                {QStringLiteral("step"), step++},
+                                                {QStringLiteral("before"), before},
+                                                {QStringLiteral("after"), after},
                                                 {QStringLiteral("expectedNaturalSize"), QJsonArray{natural.width(), natural.height()}},
-                                                {QStringLiteral("geometryMatches"), geometry}, {QStringLiteral("anchorStable"), position},
-                                                {QStringLiteral("selectionPreserved"), selection}, {QStringLiteral("passed"), ok}});
+                                                {QStringLiteral("geometryMatches"), geometry},
+                                                {QStringLiteral("anchorStable"), position},
+                                                {QStringLiteral("selectionPreserved"), selection},
+                                                {QStringLiteral("passed"), ok}});
                     }
                     ++cases;
                 }
             }
         }
     }
-    record(QStringLiteral("editor-font-setup"), {{QStringLiteral("cases"), cases},
-           {QStringLiteral("steps"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
+    record(QStringLiteral("editor-font-setup"),
+           {{QStringLiteral("cases"), cases}, {QStringLiteral("steps"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
     REQUIRE(cases == 24);
     REQUIRE(rows.size() == 72);
     REQUIRE(failures == 0);
@@ -2095,43 +2081,46 @@ TEST_CASE("Font resize undo and redo preserve the committed layout anchor", "[Ti
                     TitlerRichText::apply(&item, delta);
                     const QJsonObject changed = snapshot(item, alignment);
                     const QString changedHtml = item.document()->toHtml();
-                    const bool geometry = same(item.baseBoundingRect().width(), natural.width())
-                        && same(item.baseBoundingRect().height(), natural.height());
-                    const bool selection = saved.anchor() == item.textCursor().anchor()
-                        && saved.position() == item.textCursor().position();
+                    const bool geometry = same(item.baseBoundingRect().width(), natural.width()) && same(item.baseBoundingRect().height(), natural.height());
+                    const bool selection = saved.anchor() == item.textCursor().anchor() && saved.position() == item.textCursor().position();
                     const bool changeAnchor = same(anchor(item, alignment), fixed);
                     item.document()->undo();
                     const QJsonObject undone = snapshot(item, alignment);
-                    const bool undo = same(anchor(item, alignment), fixed)
-                        && same(item.baseBoundingRect().width(), original.width())
-                        && same(item.baseBoundingRect().height(), original.height())
-                        && item.document()->toHtml() == originalHtml && item.document()->isRedoAvailable();
+                    const bool undo = same(anchor(item, alignment), fixed) && same(item.baseBoundingRect().width(), original.width()) &&
+                                      same(item.baseBoundingRect().height(), original.height()) && item.document()->toHtml() == originalHtml &&
+                                      item.document()->isRedoAvailable();
                     item.document()->redo();
                     const QJsonObject redone = snapshot(item, alignment);
-                    const bool redo = same(anchor(item, alignment), fixed)
-                        && same(item.baseBoundingRect().width(), natural.width())
-                        && same(item.baseBoundingRect().height(), natural.height())
-                        && item.document()->toHtml() == changedHtml;
+                    const bool redo = same(anchor(item, alignment), fixed) && same(item.baseBoundingRect().width(), natural.width()) &&
+                                      same(item.baseBoundingRect().height(), natural.height()) && item.document()->toHtml() == changedHtml;
                     // A no-content geometry refresh must not move the anchor a second time.
                     item.doUpdateGeometry();
-                    const bool repeat = same(anchor(item, alignment), fixed)
-                        && same(item.baseBoundingRect().width(), natural.width());
+                    const bool repeat = same(anchor(item, alignment), fixed) && same(item.baseBoundingRect().width(), natural.width());
                     const bool ok = geometry && selection && changeAnchor && undo && redo && repeat;
                     failures += !ok;
-                    rows.append(QJsonObject{{QStringLiteral("family"), family}, {QStringLiteral("alignment"), int(alignment)},
-                        {QStringLiteral("selected"), selected}, {QStringLiteral("pixels"), pixels},
-                        {QStringLiteral("fixedAnchor"), fixed}, {QStringLiteral("previousCommittedWidth"), committedWidth},
-                        {QStringLiteral("changed"), changed}, {QStringLiteral("undone"), undone}, {QStringLiteral("redone"), redone},
-                        {QStringLiteral("geometryMatches"), geometry}, {QStringLiteral("selectionPreserved"), selection},
-                        {QStringLiteral("changeAnchorStable"), changeAnchor}, {QStringLiteral("undoPassed"), undo},
-                        {QStringLiteral("redoPassed"), redo}, {QStringLiteral("repeatPassed"), repeat}, {QStringLiteral("passed"), ok}});
+                    rows.append(QJsonObject{{QStringLiteral("family"), family},
+                                            {QStringLiteral("alignment"), int(alignment)},
+                                            {QStringLiteral("selected"), selected},
+                                            {QStringLiteral("pixels"), pixels},
+                                            {QStringLiteral("fixedAnchor"), fixed},
+                                            {QStringLiteral("previousCommittedWidth"), committedWidth},
+                                            {QStringLiteral("changed"), changed},
+                                            {QStringLiteral("undone"), undone},
+                                            {QStringLiteral("redone"), redone},
+                                            {QStringLiteral("geometryMatches"), geometry},
+                                            {QStringLiteral("selectionPreserved"), selection},
+                                            {QStringLiteral("changeAnchorStable"), changeAnchor},
+                                            {QStringLiteral("undoPassed"), undo},
+                                            {QStringLiteral("redoPassed"), redo},
+                                            {QStringLiteral("repeatPassed"), repeat},
+                                            {QStringLiteral("passed"), ok}});
                 }
                 ++cases;
             }
         }
     }
-    record(QStringLiteral("font-resize-history"), {{QStringLiteral("cases"), cases},
-        {QStringLiteral("steps"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
+    record(QStringLiteral("font-resize-history"),
+           {{QStringLiteral("cases"), cases}, {QStringLiteral("steps"), rows.size()}, {QStringLiteral("failures"), failures}, {QStringLiteral("rows"), rows}});
     REQUIRE(cases == 12);
     REQUIRE(rows.size() == 72);
     REQUIRE(failures == 0);

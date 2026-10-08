@@ -2388,6 +2388,7 @@ void Bin::slotReplaceClip()
             if (!fileName.isEmpty()) {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;
+                fileName = QDir::cleanPath(fileName);
                 std::pair<bool, bool> hasAV = {currentItem->hasAudio(), currentItem->hasVideo()};
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
@@ -5288,7 +5289,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip, int timeline
     pCore->temporaryUnplug(clips, true);
     TitleWidget dia_ui(QUrl(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
     QDomDocument doc;
-    QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
+    const QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {
         if (!Xml::docContentFromFile(doc, path, false)) {
             return;
@@ -6341,7 +6342,7 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipI
     std::pair<ClipJobManager::JobCompletionAction, QString> jobAction = ClipJobManager::getJobAction(jobId);
     if (jobAction.first == ClipJobManager::JobCompletionAction::ReplaceOriginal) {
         // Simply replace source clip with stabilized version
-        replaceSingleClip(sourceClipId, path);
+        replaceSingleClip(sourceClipId, QDir::cleanPath(path));
         return true;
     }
     // Check if folder exists

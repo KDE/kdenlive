@@ -24,8 +24,7 @@ constexpr int Property = QTextFormat::UserProperty + 1;
 
 inline QString textHash(const QTextDocument *text)
 {
-    return QString::fromLatin1(QCryptographicHash::hash(
-        text->toPlainText().toUtf8(), QCryptographicHash::Sha256).toHex());
+    return QString::fromLatin1(QCryptographicHash::hash(text->toPlainText().toUtf8(), QCryptographicHash::Sha256).toHex());
 }
 
 inline QLinearGradient gradientFromString(const QString &data, int width, int height)
@@ -40,12 +39,10 @@ inline QLinearGradient gradientFromString(const QString &data, int width, int he
     const double angle = values.at(4).toDouble();
     if (angle <= 90.0) {
         gradient.setStart(0, 0);
-        gradient.setFinalStop(width * qCos(qDegreesToRadians(angle)),
-                              height * qSin(qDegreesToRadians(angle)));
+        gradient.setFinalStop(width * qCos(qDegreesToRadians(angle)), height * qSin(qDegreesToRadians(angle)));
     } else {
         gradient.setStart(width, 0);
-        gradient.setFinalStop(width + width * qCos(qDegreesToRadians(angle)),
-                              height * qSin(qDegreesToRadians(angle)));
+        gradient.setFinalStop(width + width * qCos(qDegreesToRadians(angle)), height * qSin(qDegreesToRadians(angle)));
     }
     return gradient;
 }
@@ -80,32 +77,29 @@ inline bool restore(const QDomElement &content, QTextDocument *text)
     bool sizeOk = false;
     const int total = text->characterCount() - 1;
     const int savedSize = data.attribute(QStringLiteral("characters")).toInt(&sizeOk);
-    if (data.attribute(QStringLiteral("version")) != QLatin1String("1")
-        || data.attribute(QStringLiteral("units")) != QLatin1String("utf16")
-        || !sizeOk || savedSize != total
-        || data.attribute(QStringLiteral("text-sha256")) != textHash(text)
-        || !data.nextSiblingElement(QStringLiteral("richtext-gradients")).isNull()) {
+    if (data.attribute(QStringLiteral("version")) != QLatin1String("1") || data.attribute(QStringLiteral("units")) != QLatin1String("utf16") || !sizeOk ||
+        savedSize != total || data.attribute(QStringLiteral("text-sha256")) != textHash(text) ||
+        !data.nextSiblingElement(QStringLiteral("richtext-gradients")).isNull()) {
         return false;
     }
-    struct Run { int start; int length; QString data; };
+    struct Run
+    {
+        int start;
+        int length;
+        QString data;
+    };
     QVector<Run> runs;
     const QString plain = text->toPlainText();
     if (plain.size() != total) return false;
     const auto splitsSurrogate = [&plain, total](int position) {
-        return position > 0 && position < total
-            && plain.at(position - 1).isHighSurrogate()
-            && plain.at(position).isLowSurrogate();
+        return position > 0 && position < total && plain.at(position - 1).isHighSurrogate() && plain.at(position).isLowSurrogate();
     };
     int previousEnd = 0;
     for (QDomElement e = data.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()) {
         bool a = false, b = false;
-        const Run run{e.attribute(QStringLiteral("start")).toInt(&a),
-                      e.attribute(QStringLiteral("length")).toInt(&b),
-                      e.attribute(QStringLiteral("data"))};
-        if (e.tagName() != QLatin1String("run") || !a || !b || run.data.isEmpty()
-            || run.start < previousEnd || run.length <= 0 || run.length > total
-            || run.start > total - run.length
-            || splitsSurrogate(run.start) || splitsSurrogate(run.start + run.length)) {
+        const Run run{e.attribute(QStringLiteral("start")).toInt(&a), e.attribute(QStringLiteral("length")).toInt(&b), e.attribute(QStringLiteral("data"))};
+        if (e.tagName() != QLatin1String("run") || !a || !b || run.data.isEmpty() || run.start < previousEnd || run.length <= 0 || run.length > total ||
+            run.start > total - run.length || splitsSurrogate(run.start) || splitsSurrogate(run.start + run.length)) {
             return false;
         }
         previousEnd = run.start + run.length;
@@ -169,11 +163,9 @@ inline void applyLayoutBrushes(QTextDocument *text, int width, int height, const
             if (!fragment.isValid()) {
                 continue;
             }
-            const QString recipe = legacy.isEmpty()
-                ? fragment.charFormat().property(Property).toString() : legacy;
+            const QString recipe = legacy.isEmpty() ? fragment.charFormat().property(Property).toString() : legacy;
             if (!recipe.isEmpty()) {
-                append(fragment.position() - block.position(), fragment.length(),
-                       QBrush(gradientFromString(recipe, width, height)));
+                append(fragment.position() - block.position(), fragment.length(), QBrush(gradientFromString(recipe, width, height)));
             }
         }
         if (formats != previous) {
@@ -185,7 +177,12 @@ inline void applyLayoutBrushes(QTextDocument *text, int width, int height, const
 
 inline void applyBrushes(QTextDocument *text, int width, int height)
 {
-    struct Run { int start; int length; QString data; };
+    struct Run
+    {
+        int start;
+        int length;
+        QString data;
+    };
     QVector<Run> runs;
     for (QTextBlock block = text->begin(); block.isValid(); block = block.next()) {
         for (auto it = block.begin(); !it.atEnd(); ++it) {
@@ -209,4 +206,4 @@ inline void applyBrushes(QTextDocument *text, int width, int height)
     }
     cursor.endEditBlock();
 }
-}
+} // namespace TitlerGradientV1

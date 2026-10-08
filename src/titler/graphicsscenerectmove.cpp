@@ -8,10 +8,10 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "graphicsscenerectmove.h"
 #include "kdenlivesettings.h"
 #include "titler/gradientwidget.h"
-#include "titler/titledocument.h"
+#include "titler/richtextformat.h"
 #include "titler/richtextgradient.h"
 #include "titler/richtextoutline.h"
-#include "titler/richtextformat.h"
+#include "titler/titledocument.h"
 
 #include <QAbstractTextDocumentLayout>
 #include <QApplication>
@@ -24,12 +24,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QList>
 #include <QMimeData>
 #include <QMimeDatabase>
+#include <QScopedValueRollback>
 #include <QScrollBar>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextFragment>
-#include <QScopedValueRollback>
 #include <qmath.h>
 #include <utility>
 
@@ -73,7 +73,7 @@ void paintTitleOutline(QPainter *painter, QTextDocument *document, const QPen &p
 {
     TitlerOutline::paint(painter, document, pen);
 }
-}
+} // namespace
 
 MyTextItem::MyTextItem(const QString &txt, QGraphicsItem *parent)
     : QGraphicsTextItem(txt, parent)
@@ -217,8 +217,7 @@ QPen MyTextItem::defaultOutline() const
 void MyTextItem::refreshFormat()
 {
     const auto rect = baseBoundingRect();
-    TitlerGradientV1::applyLayoutBrushes(document(), int(rect.width()), int(rect.height()),
-                                      data(TitleDocument::Gradient).toString());
+    TitlerGradientV1::applyLayoutBrushes(document(), int(rect.width()), int(rect.height()), data(TitleDocument::Gradient).toString());
 }
 
 void MyTextItem::doUpdateGeometry()
@@ -326,8 +325,8 @@ void MyTextItem::updateShadow()
     const qreal margin = m_outlineMargin;
     const QRectF sourceRect = baseBoundingRect().united(m_inkBounds).adjusted(-margin, -margin, margin, margin);
     const int pad = qMax(0, 2 * m_shadowBlur);
-    QImage shadow(qMax(1, int(std::ceil(sourceRect.width())) + 2 * pad),
-                  qMax(1, int(std::ceil(sourceRect.height())) + 2 * pad), QImage::Format_ARGB32_Premultiplied);
+    QImage shadow(qMax(1, int(std::ceil(sourceRect.width())) + 2 * pad), qMax(1, int(std::ceil(sourceRect.height())) + 2 * pad),
+                  QImage::Format_ARGB32_Premultiplied);
     shadow.fill(Qt::transparent);
     {
         QPainter painter(&shadow);
@@ -426,8 +425,7 @@ void MyTextItem::updateGeometry()
     // runs. Its updated bounds are not the previous alignment reference.
     const qreal previousWidth = textWidth();
     const QRectF currentLayout = baseBoundingRect();
-    const QPointF topRightPrev(previousWidth < 0 ? currentLayout.right() : currentLayout.left() + previousWidth,
-                              currentLayout.top());
+    const QPointF topRightPrev(previousWidth < 0 ? currentLayout.right() : currentLayout.left() + previousWidth, currentLayout.top());
     setTextWidth(-1);
     setTextWidth(baseBoundingRect().width());
     setAlignment(m_alignment);

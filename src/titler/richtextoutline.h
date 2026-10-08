@@ -9,14 +9,14 @@
 #include <QGlyphRun>
 #include <QPainter>
 #include <QPainterPath>
-#include <QRawFont>
-#include <QTextLayout>
 #include <QPen>
+#include <QRawFont>
 #include <QTextBlock>
 #include <QTextCharFormat>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextFragment>
+#include <QTextLayout>
 #include <QVector>
 #include <QtMath>
 
@@ -77,7 +77,8 @@ inline qreal margin(const QTextDocument *document, const QPen &fallback)
     return document->isEmpty() ? width(fallback) / 2 : result;
 }
 
-struct SelectionState {
+struct SelectionState
+{
     QPen pen;
     bool mixedWidth{false};
     bool mixedColor{false};
@@ -91,12 +92,11 @@ inline SelectionState selectionState(const QTextCursor &cursor, const QPen &fall
         return state;
     }
     bool first = true;
-    for (QTextBlock block = cursor.document()->findBlock(cursor.selectionStart());
-         block.isValid() && block.position() < cursor.selectionEnd(); block = block.next()) {
+    for (QTextBlock block = cursor.document()->findBlock(cursor.selectionStart()); block.isValid() && block.position() < cursor.selectionEnd();
+         block = block.next()) {
         for (auto it = block.begin(); !it.atEnd(); ++it) {
             const auto fragment = it.fragment();
-            if (!fragment.isValid() || fragment.position() >= cursor.selectionEnd()
-                || fragment.position() + fragment.length() <= cursor.selectionStart()) {
+            if (!fragment.isValid() || fragment.position() >= cursor.selectionEnd() || fragment.position() + fragment.length() <= cursor.selectionStart()) {
                 continue;
             }
             const QPen pen = effectivePen(fragment.charFormat(), fallback);
@@ -160,10 +160,9 @@ inline bool restore(const QDomElement &content, QTextDocument *document)
     bool sizeOk = false;
     const int total = document->characterCount() - 1;
     const int savedSize = data.attribute(QStringLiteral("characters")).toInt(&sizeOk);
-    if (data.attribute(QStringLiteral("version")) != QLatin1String("1")
-        || data.attribute(QStringLiteral("units")) != QLatin1String("utf16")
-        || !sizeOk || savedSize != total || data.attribute(QStringLiteral("text-sha256")) != textHash(document)
-        || !data.nextSiblingElement(QStringLiteral("richtext-outlines")).isNull()) {
+    if (data.attribute(QStringLiteral("version")) != QLatin1String("1") || data.attribute(QStringLiteral("units")) != QLatin1String("utf16") || !sizeOk ||
+        savedSize != total || data.attribute(QStringLiteral("text-sha256")) != textHash(document) ||
+        !data.nextSiblingElement(QStringLiteral("richtext-outlines")).isNull()) {
         return false;
     }
     const QString plain = document->toPlainText();
@@ -173,7 +172,8 @@ inline bool restore(const QDomElement &content, QTextDocument *document)
     const auto splitsSurrogate = [&plain, total](int position) {
         return position > 0 && position < total && plain.at(position - 1).isHighSurrogate() && plain.at(position).isLowSurrogate();
     };
-    struct Run {
+    struct Run
+    {
         int start;
         int length;
         QTextCharFormat format;
@@ -184,10 +184,9 @@ inline bool restore(const QDomElement &content, QTextDocument *document)
         bool startOk = false, lengthOk = false;
         const int start = element.attribute(QStringLiteral("start")).toInt(&startOk);
         const int length = element.attribute(QStringLiteral("length")).toInt(&lengthOk);
-        if (element.tagName() != QLatin1String("run") || !startOk || !lengthOk || start < previousEnd
-            || length <= 0 || length > total || start > total - length || splitsSurrogate(start) || splitsSurrogate(start + length)
-            || (!element.hasAttribute(QStringLiteral("width")) && !element.hasAttribute(QStringLiteral("color")))
-            || !element.firstChildElement().isNull()) {
+        if (element.tagName() != QLatin1String("run") || !startOk || !lengthOk || start < previousEnd || length <= 0 || length > total ||
+            start > total - length || splitsSurrogate(start) || splitsSurrogate(start + length) ||
+            (!element.hasAttribute(QStringLiteral("width")) && !element.hasAttribute(QStringLiteral("color"))) || !element.firstChildElement().isNull()) {
             return false;
         }
         QTextCharFormat format;
@@ -271,7 +270,8 @@ inline void paint(QPainter *painter, QTextDocument *document, const QPen &fallba
         return;
     }
     (void)document->documentLayout()->documentSize();
-    struct Stroke {
+    struct Stroke
+    {
         QPen pen;
         QPainterPath path;
         QRectF clip;
@@ -329,4 +329,4 @@ inline void paint(QPainter *painter, QTextDocument *document, const QPen &fallba
     }
     painter->restore();
 }
-}
+} // namespace TitlerOutline

@@ -18,8 +18,7 @@
 namespace TitlerSpacingV1 {
 inline QString textHash(const QTextDocument *text)
 {
-    return QString::fromLatin1(QCryptographicHash::hash(
-        text->toPlainText().toUtf8(), QCryptographicHash::Sha256).toHex());
+    return QString::fromLatin1(QCryptographicHash::hash(text->toPlainText().toUtf8(), QCryptographicHash::Sha256).toHex());
 }
 
 inline QDomElement save(QDomDocument &xml, const QTextDocument *text)
@@ -56,36 +55,35 @@ inline bool restore(const QDomElement &content, QTextDocument *text)
     bool sizeOk = false;
     const int total = text->characterCount() - 1;
     const int savedSize = data.attribute(QStringLiteral("characters")).toInt(&sizeOk);
-    if (data.attribute(QStringLiteral("version")) != QLatin1String("1")
-        || data.attribute(QStringLiteral("units")) != QLatin1String("utf16")
-        || !sizeOk || savedSize != total
-        || data.attribute(QStringLiteral("text-sha256")) != textHash(text)
-        || !data.nextSiblingElement(QStringLiteral("richtext-spacing")).isNull()) {
+    if (data.attribute(QStringLiteral("version")) != QLatin1String("1") || data.attribute(QStringLiteral("units")) != QLatin1String("utf16") || !sizeOk ||
+        savedSize != total || data.attribute(QStringLiteral("text-sha256")) != textHash(text) ||
+        !data.nextSiblingElement(QStringLiteral("richtext-spacing")).isNull()) {
         return false;
     }
-    struct Run { int start; int length; int type; double value; };
+    struct Run
+    {
+        int start;
+        int length;
+        int type;
+        double value;
+    };
     QVector<Run> runs;
     const QString plain = text->toPlainText();
     if (plain.size() != total) {
         return false;
     }
     const auto splitsSurrogate = [&plain, total](int position) {
-        return position > 0 && position < total
-            && plain.at(position - 1).isHighSurrogate()
-            && plain.at(position).isLowSurrogate();
+        return position > 0 && position < total && plain.at(position - 1).isHighSurrogate() && plain.at(position).isLowSurrogate();
     };
     int previousEnd = 0;
     for (QDomElement e = data.firstChildElement(); !e.isNull(); e = e.nextSiblingElement()) {
         bool a = false, b = false, c = false, d = false;
-        Run run{e.attribute(QStringLiteral("start")).toInt(&a),
-                e.attribute(QStringLiteral("length")).toInt(&b),
-                e.attribute(QStringLiteral("type")).toInt(&c),
+        Run run{e.attribute(QStringLiteral("start")).toInt(&a), e.attribute(QStringLiteral("length")).toInt(&b), e.attribute(QStringLiteral("type")).toInt(&c),
                 e.attribute(QStringLiteral("value")).toDouble(&d)};
-        if (e.tagName() != QLatin1String("run") || !a || !b || !c || !d
-            || run.start < previousEnd || run.length <= 0 || run.length > total
-            || run.start > total - run.length || !std::isfinite(run.value)
-            || (run.type != int(QFont::AbsoluteSpacing) && run.type != int(QFont::PercentageSpacing))
-            || splitsSurrogate(run.start) || splitsSurrogate(run.start + run.length)) {
+        if (e.tagName() != QLatin1String("run") || !a || !b || !c || !d || run.start < previousEnd || run.length <= 0 || run.length > total ||
+            run.start > total - run.length || !std::isfinite(run.value) ||
+            (run.type != int(QFont::AbsoluteSpacing) && run.type != int(QFont::PercentageSpacing)) || splitsSurrogate(run.start) ||
+            splitsSurrogate(run.start + run.length)) {
             return false;
         }
         previousEnd = run.start + run.length;
@@ -105,4 +103,4 @@ inline bool restore(const QDomElement &content, QTextDocument *text)
     cursor.endEditBlock();
     return true;
 }
-}
+} // namespace TitlerSpacingV1
