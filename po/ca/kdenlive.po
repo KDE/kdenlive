@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-10-06 09:38+0200\n"
+"PO-Revision-Date: 2026-10-07 10:22+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4052,8 +4052,8 @@ msgstr ""
 msgid ""
 "Set percentage of delayed signal mixed with original. Range from 0 to 100."
 msgstr ""
-"Estableix el percentatge del senyal retardat amb l'original. Interval entre "
-"0 i 100."
+"Estableix el percentatge del senyal retardat mesclat amb l'original. "
+"Interval entre 0 i 100."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -15349,7 +15349,7 @@ msgstr "Mescla assecament/humitat"
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr "El nivell de so retardat barrejat en la sortida"
+msgstr "El nivell de so retardat mesclat en la sortida"
 
 #: data/effects/ladspa/ladspa_1403.xml:4
 #, kde-format
@@ -30473,10 +30473,9 @@ msgid "Render Button"
 msgstr "Botó de renderització"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "Suprimeix la selecció"
+msgstr "Suprimeix la selecció de la línia de temps"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -31368,16 +31367,14 @@ msgid "Save Clip Part to Bin"
 msgstr "Desa la part del clip a la safata"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "Repeteix en bucle el clip seleccionat"
+msgstr "Activa els clips seleccionats"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "Desactiva el clip"
+msgstr "Desactiva els clips seleccionats"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -36232,16 +36229,14 @@ msgid "Cannot move selected group"
 msgstr "No s'ha pogut moure el grup seleccionat"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "Activa un clip"
+msgstr "Activa clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "Desactiva un clip"
+msgstr "Desactiva clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
@@ -38061,6 +38056,8 @@ msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
+"Selecció de text mesclat: mostra el primer caràcter seleccionat. Canviar un "
+"valor l'aplica a la selecció."
 
 #: src/titler/titlewidget.cpp:2120
 #, kde-format
@@ -38068,6 +38065,8 @@ msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
+"Amplades de contorn mesclades: mostra el primer caràcter seleccionat. "
+"Canviar l'amplada només aplica aquesta propietat a la selecció."
 
 #: src/titler/titlewidget.cpp:2121
 #, kde-format
@@ -38075,6 +38074,8 @@ msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Amplada del contorn. S'aplica al text seleccionat, o a tot l'objecte fora de "
+"l'edició de text."
 
 #: src/titler/titlewidget.cpp:2123
 #, kde-format
@@ -38082,6 +38083,8 @@ msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
+"Colors de contorn mesclats: mostrant el primer caràcter seleccionat. Canviar "
+"el color conserva l'amplada del contorn de cada caràcter."
 
 #: src/titler/titlewidget.cpp:2124
 #, kde-format
@@ -38089,6 +38092,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Color del contorn S'aplica al text seleccionat, o a tot l'objecte fora de "
+"l'edició de text."
 
 #: src/titler/titlewidget.cpp:2514
 #, kde-format

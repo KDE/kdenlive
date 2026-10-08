@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-10-06 20:03+0300\n"
+"PO-Revision-Date: 2026-10-07 18:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15145,7 +15145,7 @@ msgstr "Dyson Kompresörü"
 #: data/effects/ladspa/ladspa_1403.xml:5
 #, kde-format
 msgid "Dyson Compressor (LADSPA 1403)"
-msgstr ""
+msgstr "Dyson Kompresörü (LADSPA 1403)"
 
 #: data/effects/ladspa/ladspa_1403.xml:8
 #, kde-format
@@ -15275,21 +15275,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:4
-#, fuzzy, kde-format
-#| msgid "Hue Gate"
+#, kde-format
 msgid "Gate"
-msgstr "Ton Kapısı"
+msgstr "Kapı"
 
 #: data/effects/ladspa/ladspa_1410.xml:5
 #, kde-format
 msgid "Gate (LADSPA 1410)"
-msgstr ""
+msgstr "Gate (LADSPA 1410)"
 
 #: data/effects/ladspa/ladspa_1410.xml:8
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "LF Key Filter"
-msgstr "Süzgeç"
+msgstr "Düşük Frekanslı Anahtar Süzgeci"
 
 #: data/effects/ladspa/ladspa_1410.xml:10
 #, kde-format
@@ -15299,10 +15297,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:13
-#, fuzzy, kde-format
-#| msgid "Filter"
+#, kde-format
 msgid "HF Key Filter"
-msgstr "Süzgeç"
+msgstr "Yüksek Frekanslı Anahtar Süzgeci"
 
 #: data/effects/ladspa/ladspa_1410.xml:15
 #, kde-format
@@ -15353,16 +15350,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1410.xml:43
-#, fuzzy, kde-format
-#| msgid "Mute Monitor"
+#, kde-format
 msgid "Output Monitor"
-msgstr "Monitörün Sesini Kapat"
+msgstr "Çıkış Monitörü"
 
 #: data/effects/ladspa/ladspa_1410.xml:44
-#, fuzzy, kde-format
-#| msgid "Zoom Out Monitor"
+#, kde-format
 msgid "Controls output monitor"
-msgstr "Monitörde Uzaklaştır"
+msgstr "Çıkış monitörünü denetler."
 
 #: data/effects/ladspa/ladspa_1410.xml:45
 #, kde-format
@@ -19458,7 +19453,7 @@ msgstr "Bileşikleştirme Yöntemi"
 #: data/transitions/composite.xml:35 data/transitions/region.xml:36
 #, kde-format
 msgid "Force Progressive Rendering"
-msgstr "Aşamalı sunumu zorla"
+msgstr "Aşamalı sunmayı zorla"
 
 #: data/transitions/dissolve.xml:4
 #, kde-format
@@ -20179,7 +20174,7 @@ msgstr ""
 #: data/transitions/vqm.xml:8
 #, kde-format
 msgid "Render line"
-msgstr "Sunum çizgisi"
+msgstr "Sunma çizgisi"
 
 #: data/transitions/vqm.xml:9
 #, kde-format
@@ -23102,16 +23097,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "Kayıt biçimi %1 kanal ve %2 Hz olarak ayarlandı."
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "%1 işleniyor"
+msgstr "Erişilirken hata: %1"
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "%1. Monitör"
+msgstr "%1 ile izleniyor"
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -23421,7 +23414,7 @@ msgstr "Üstte Saat"
 #: src/core.cpp:1076
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
-msgstr "Proje profiliniz geçersiz, sunum başarısız olabilir."
+msgstr "Proje profiliniz geçersiz, sunma başarısız olabilir."
 
 #: src/core.cpp:1441
 #, kde-format
@@ -24293,7 +24286,7 @@ msgstr "6"
 #: src/dialogs/renderpresetdialog.cpp:437
 #, kde-format
 msgid "Edit Render Preset"
-msgstr "Sunum Önayarını Düzenle"
+msgstr "Sunma Önayarını Düzenle"
 
 #: src/dialogs/renderpresetdialog.cpp:169
 #, kde-format
@@ -24330,7 +24323,7 @@ msgid ""
 "Show xml playlist used for rendering:\n"
 "%1"
 msgstr ""
-"Sunum için kullanılan XML oynatma listesini göster:\n"
+"Sunma için kullanılan XML oynatma listesini göster:\n"
 "%1"
 
 #: src/dialogs/renderwidget.cpp:104
@@ -24339,7 +24332,7 @@ msgid ""
 "Show render log file:\n"
 " %1"
 msgstr ""
-"Sunum günlüğü dosyasını göster:\n"
+"Sunma günlüğü dosyasını göster:\n"
 "%1"
 
 #: src/dialogs/renderwidget.cpp:209 src/dialogs/renderwidget.cpp:213
@@ -24366,17 +24359,17 @@ msgstr "Başlatılıyor…"
 #: src/dialogs/renderwidget.cpp:263
 #, kde-format
 msgid "Rendering finished"
-msgstr "Sunum bitti"
+msgstr "Sunma bitti"
 
 #: src/dialogs/renderwidget.cpp:268
 #, kde-format
 msgid "Rendering crashed"
-msgstr "Sunum çöktü"
+msgstr "Sunma çöktü"
 
 #: src/dialogs/renderwidget.cpp:273
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Sunum iptal edildi"
+msgstr "Sunma iptal edildi"
 
 #: src/dialogs/renderwidget.cpp:371
 #, kde-format
@@ -24416,7 +24409,7 @@ msgstr "Kare (1:1)"
 #: src/dialogs/renderwidget.cpp:390
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
-msgstr ""
+msgstr "Tek Alan (Hızlı, Yarım Dikey Çözünürlük)"
 
 #: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -24471,7 +24464,7 @@ msgid ""
 "Not compatible with variable bitrate, and only relevant for some video "
 "codecs."
 msgstr ""
-"İki geçişli sunum işlemi, son sunum dosyasının boyutu üzerinde daha iyi "
+"İki geçişli sunma işlemi, son sunma dosyasının boyutu üzerinde daha iyi "
 "denetim sağlar.\n"
 "Değişken bit hızıyla uyumlu değildir ve yalnızca bazı video kodlayıcıları "
 "için geçerlidir."
@@ -24479,7 +24472,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:414
 #, kde-format
 msgid "Rendering using low quality proxy"
-msgstr "Düşük kaliteli vekil kullanarak sunum"
+msgstr "Düşük kaliteli vekil kullanarak sunma"
 
 #: src/dialogs/renderwidget.cpp:499
 #, kde-format
@@ -24497,8 +24490,8 @@ msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
-"kdenlive_render uygulaması bulunamadı, kurulumunuzda bir sorun var. Sunum "
-"çalışmayacak"
+"kdenlive_render uygulaması bulunamadı, kurulumunuzda bir sorun var. Sunma "
+"çalışmayacak."
 
 #: src/dialogs/renderwidget.cpp:584
 #, kde-format
@@ -24535,12 +24528,12 @@ msgstr "Başlangıç"
 #: src/dialogs/renderwidget.cpp:923
 #, kde-format
 msgid "Add a clip to timeline before rendering"
-msgstr "Sunumdan önce zaman akışına bir klip ekle"
+msgstr "Sunma öncesi zaman akışına bir klip ekle"
 
 #: src/dialogs/renderwidget.cpp:929
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
-msgstr "Sunum için gerekli melt yazılımı (MLT’nin bir parçası) bulunamıyor"
+msgstr "Sunma için gerekli melt yazılımı (MLT’nin bir parçası) bulunamıyor"
 
 #: src/dialogs/renderwidget.cpp:938
 #, kde-format
@@ -24628,7 +24621,7 @@ msgstr "Video izi olmayan ses"
 #: src/dialogs/renderwidget.cpp:1227 src/main.cpp:555
 #, kde-format
 msgid "Rendering %1 started"
-msgstr "%1 sunumu başladı"
+msgstr "%1 sunma başladı"
 
 #: src/dialogs/renderwidget.cpp:1284 src/monitor/monitor.cpp:1536
 #, kde-format
@@ -24656,7 +24649,7 @@ msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
-"Ses ve video olmadan sunum çalışmaz. İkisinden en az birini etkinleştirin."
+"Ses ve video olmadan sunma çalışmaz. İkisinden en az birini etkinleştirin."
 
 #: src/dialogs/renderwidget.cpp:1722
 #, kde-format
@@ -24683,27 +24676,27 @@ msgstr "%1 MB’den az kullanılabilir bellek var."
 #: src/dialogs/renderwidget.cpp:1829
 #, kde-format
 msgid "Rendering finished in %1"
-msgstr "Sunum, %1 içinde bitti"
+msgstr "Sunma, %1 içinde bitti"
 
 #: src/dialogs/renderwidget.cpp:1841
 #, kde-format
 msgid "Rendering of %1 finished in %2"
-msgstr "%1 sunumu %2 içinde bitti"
+msgstr "%1 sunma %2 içinde bitti"
 
 #: src/dialogs/renderwidget.cpp:1844
 #, kde-format
 msgid "First pass rendering of %1 finished"
-msgstr "%1 ögesinin ilk sunum geçisi bitti"
+msgstr "%1 ögesinin ilk sunma geçişi bitti"
 
 #: src/dialogs/renderwidget.cpp:1867
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
-msgstr "<strong>Sunum çöktü</strong><br />"
+msgstr "<strong>Sunma çöktü</strong><br />"
 
 #: src/dialogs/renderwidget.cpp:1869
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
-msgstr "<strong>%1 sunumu çöktü</strong><br />"
+msgstr "<strong>%1 sunma çöktü</strong><br />"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1936 src/ui/renderwidget_ui.ui:923
@@ -24719,7 +24712,7 @@ msgstr "İşi Kaldır"
 #: src/dialogs/renderwidget.cpp:2428
 #, kde-format
 msgid "Add clips in timeline before rendering"
-msgstr "Sunum öncesi klipleri zaman akışına ekle"
+msgstr "Sunma öncesi klipleri zaman akışına ekle"
 
 #: src/dialogs/renderwidget.cpp:2435
 #, kde-format
@@ -24729,7 +24722,7 @@ msgstr "Çıktı konumu yazılabilir değil, lütfen başka bir tane seçin"
 #: src/dialogs/renderwidget.cpp:2438
 #, kde-format
 msgid "Your disk is almost full, rendering might fail"
-msgstr "Diskiniz neredeyse dolu, sunum başarısız olabilir"
+msgstr "Diskiniz neredeyse dolu, sunma başarısız olabilir"
 
 #: src/dialogs/renderwidget.cpp:2441
 #, kde-format
@@ -24775,7 +24768,11 @@ msgid_plural ""
 "One Field deinterlacing may halve the vertical resolution of %1 interlaced "
 "clips: %2"
 msgstr[0] ""
+"Tek alanlı ayrıştırma, birbirine geçmeli %2 klibinin dikey çözünürlüğünü "
+"yarıya düşürebilir"
 msgstr[1] ""
+"Tek alanlı ayrıştırma, birbirine geçmeli %1 klibin dikey çözünürlüğünü "
+"yarıya düşürebilir: %2"
 
 #: src/dialogs/renderwidget.cpp:2641
 #, kde-format
@@ -26974,7 +26971,7 @@ msgstr ""
 #, kde-format
 msgid "<li>Missing app: <b>kdenlive_render</b><br/>needed for rendering.</li>"
 msgstr ""
-"<li>Eksik uygulama: <b>kdenlive_render</b><br/>sunum için gereklidir.</li>"
+"<li>Eksik uygulama: <b>kdenlive_render</b><br/>sunma için gereklidir.</li>"
 
 #: src/dialogs/wizard.cpp:489
 #, kde-format
@@ -29331,14 +29328,14 @@ msgstr "Projeyi doğrudan sun ve çık."
 #: src/main.cpp:351
 #, kde-format
 msgid "Kdenlive render preset name (MP4-H264/AAC will be used if none given)."
-msgstr "Kdenlive sunum önayarı adı (verilmezse MP4-H264/AAC kullanılır)."
+msgstr "Kdenlive sunma önayarı adı (verilmezse MP4-H264/AAC kullanılır)."
 
 #: src/main.cpp:356
 #, kde-format
 msgid ""
 "Exit after (detached) render process started, without this flag it exists "
 "only after it finished."
-msgstr "(Ayrık) sunum başladıktan sonra çık, yoksa iş bittikten sonra çıkar."
+msgstr "(Ayrık) sunma başladıktan sonra çık, yoksa iş bittikten sonra çıkar."
 
 #: src/main.cpp:359
 #, kde-format
@@ -29515,12 +29512,12 @@ msgstr ""
 #: src/mainwindow.cpp:571 src/mainwindow_actions.cpp:629
 #, kde-format
 msgid "Render…"
-msgstr "Sunum…"
+msgstr "Sunma…"
 
 #: src/mainwindow.cpp:579
 #, kde-format
 msgid "Rendering preview"
-msgstr "Sunum önizlemesi"
+msgstr "Sunma önizlemesi"
 
 #: src/mainwindow.cpp:731
 #, kde-format
@@ -29537,10 +29534,10 @@ msgid_plural ""
 "You have %1 rendering jobs running.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Çalışmakta olan 1 sunum işi var.\n"
+"Çalışmakta olan 1 sunma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 msgstr[1] ""
-"Çalışmakta olan %1 sunum işi var.\n"
+"Çalışmakta olan %1 sunma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 
 #: src/mainwindow.cpp:880
@@ -29551,7 +29548,7 @@ msgstr "Arka Planda Sunmayı Sürdür"
 #: src/mainwindow.cpp:880
 #, kde-format
 msgid "Abort rendering"
-msgstr "Sunumu Durdur"
+msgstr "Sunmayı Durdur"
 
 #: src/mainwindow.cpp:897
 #, kde-format
@@ -29562,10 +29559,10 @@ msgid_plural ""
 "You have %1 rendering jobs waiting in the queue.\n"
 "What do you want to do with these jobs?"
 msgstr[0] ""
-"Kuyrukta bekleyen 1 sunum işi var.\n"
+"Kuyrukta bekleyen 1 sunma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 msgstr[1] ""
-"Kuyrukta bekleyen %1 sunum işi var.\n"
+"Kuyrukta bekleyen %1 sunma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 
 #: src/mainwindow.cpp:900
@@ -29607,19 +29604,15 @@ msgid "Continue without"
 msgstr "Şu Olmadan Sürdür"
 
 #: src/mainwindow.cpp:1199
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
 "Geçerli proje kaydedilmedi.<br/>Bu işlem, ilk olarak projeyi kaydeder, "
-"geçici dosyaların tümünü<br/><b>%1</b> üzerinden <b>%2</b> konumuna taşır ve "
-"proje dosyasını yeniden yükler"
+"geçici dosyaların tümünü<br/><b>%1</b> üzerinden proje dosyası konumuna "
+"taşır ve yeniden yükler."
 
 #: src/mainwindow.cpp:1211
 #, kde-format
@@ -29630,7 +29623,7 @@ msgid ""
 msgstr ""
 "Geçerli proje kaydedilmedi.<br/>Bu işlem, ilk olarak projeyi kaydeder, "
 "geçici dosyaların tümünü<br/><b>%1</b> üzerinden <b>%2</b> konumuna taşır ve "
-"proje dosyasını yeniden yükler"
+"proje dosyasını yeniden yükler."
 
 #: src/mainwindow.cpp:1219
 #, kde-format
@@ -30027,13 +30020,12 @@ msgctxt ""
 "@intoolbar the name of the action to place an export/render button in a "
 "toolbar"
 msgid "Render Button"
-msgstr "Sunum Düğmesi"
+msgstr "Sunma Düğmesi"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "Seçimi Sil"
+msgstr "Zaman Akışı Seçimini Sil"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -30477,7 +30469,7 @@ msgstr "Proje Ayarları…"
 #: src/mainwindow_actions.cpp:632
 #, kde-format
 msgid "Stop Render"
-msgstr "Sunumu Durdur"
+msgstr "Sunmayı Durdur"
 
 #: src/mainwindow_actions.cpp:637
 #, kde-format
@@ -30738,7 +30730,7 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
-"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunum "
+"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunma "
 "bölgesi olarak ekle"
 
 #: src/mainwindow_actions.cpp:826 src/timeline2/view/previewmanager.cpp:595
@@ -30753,8 +30745,8 @@ msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
-"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunum "
-"bölgesinden kaldırır. Bunun, önizleme sunum bölgelerinde boşluklar "
+"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunma "
+"bölgesinden kaldırır. Bunun, önizleme sunma bölgelerinde boşluklar "
 "bırakabileceğini unutmayın."
 
 #: src/mainwindow_actions.cpp:831 src/timeline2/view/previewmanager.cpp:516
@@ -30766,12 +30758,12 @@ msgstr "Tüm Önizleme Bölgelerini Çıkar"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Tüm önizleme sunum bölgelerini kaldırın."
+msgstr "Tüm önizleme sunma bölgelerini kaldırın."
 
 #: src/mainwindow_actions.cpp:833
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Önizleme Sunumunu Başlat"
+msgstr "Önizleme Sunmayı Başlat"
 
 #: src/mainwindow_actions.cpp:836
 #, kde-kuit-format
@@ -30781,15 +30773,15 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
-"Tüm önizleme bölgelerinin sunumunu başlatmak için tıklayın (karmaşık ve "
+"Tüm önizleme bölgelerinin sunmasını başlatmak için tıklayın (karmaşık ve "
 "birçok efekt içeren alanlar için önerilir).<nl/>Seçeneklerin listesini almak "
-"için aşağı ok simgesine tıklayın (örneğin: önizleme sunum bölgesi ekle, tüm "
+"için aşağı ok simgesine tıklayın (örneğin: önizleme sunma bölgesi ekle, tüm "
 "bölgeleri kaldır)."
 
 #: src/mainwindow_actions.cpp:838
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Önizleme Sunumunu Durdur"
+msgstr "Önizleme Sunmayı Durdur"
 
 #: src/mainwindow_actions.cpp:840
 #, kde-format
@@ -30923,16 +30915,14 @@ msgid "Save Clip Part to Bin"
 msgstr "Klip Bölümünü Kovaya Kaydet"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "Seçili Klibi Döngüye Sok"
+msgstr "Seçili Klipleri Etkinleştir"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "Klibi Devre Dışı Bırak"
+msgstr "Seçili Klipleri Devre Dışı Bırak"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -31096,10 +31086,9 @@ msgid "Remove Space in All Tracks"
 msgstr "Tüm İzlerden Boşlukları Kaldır"
 
 #: src/mainwindow_actions.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "Ses İzlerini Böl"
+msgstr "Tekli Ses İzine Geç"
 
 #: src/mainwindow_actions.cpp:1036
 #, kde-format
@@ -31363,7 +31352,7 @@ msgstr "Sesi geri yükle"
 #: src/mltconnection.cpp:322
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of MLT)"
-msgstr "Sunum için gerekli melt yazılımı (MLT’nin bir parçası) bulunamıyor"
+msgstr "Sunma için gerekli melt yazılımı (MLT’nin bir parçası) bulunamıyor"
 
 #: src/mltconnection.cpp:382
 #, kde-format
@@ -32854,10 +32843,9 @@ msgid "Unknown License"
 msgstr "Bilinmeyen Lisans"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "Önizleme yüklenene kadar biraz vakit geçebilir"
+msgstr "Önizleme yüklenirken lütfen sabırlı olun…"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -32882,18 +32870,14 @@ msgid "Images"
 msgstr "Görseller"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"Özkaynağın kullanımının lisans koşulları veya yasa tarafından kısıtlanmış "
-"olabileceğini aklınızda bulundurun!\n"
-"Proje Notlarınıza lisans yüklemi eklemek istediğinizden emin misiniz?"
+"Bu özkaynakların kullanımı, lisans koşulları veya yerel yasalar tarafından "
+"kısıtlanmış olabilir.\n"
+"Proje notlarınıza lisans yüklemi eklemek istiyor musunuz?"
 
 #: src/onlineresources/resourcewidget.cpp:707
 #, kde-format
@@ -32932,15 +32916,14 @@ msgid "Data Imported"
 msgstr "Veri İçe Aktarıldı"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "Yeni bir bağlantı sağlamak için yeniden içe aktarmayı dene"
+msgstr "Yeni bir bağlantı kurmak için yeniden içe aktarmayı deneyin"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
 msgid "Error Getting Access Token from %1."
-msgstr "%1 Konumundan Erişim Jetonu Alırken Hata"
+msgstr "Şuradan erişim jetonu alırken hata: %1"
 
 #: src/otio/otioexport.cpp:46
 #, kde-format
@@ -34945,7 +34928,7 @@ msgid ""
 "Script rendering and multi track audio export can not be used together. "
 "Script will be saved without multi track export."
 msgstr ""
-"Betik sunumu ve çok izli ses dışa aktarımı birlikte kullanılamaz. Betik, "
+"Betik sunma ve çok izli ses dışa aktarımı birlikte kullanılamaz. Betik, "
 "çoklu iz dışa aktarma desteği olmadan kaydedilecek."
 
 #: src/render/renderrequest.cpp:358
@@ -34957,12 +34940,12 @@ msgstr "dışa aktar"
 #, kde-format
 msgctxt "@title:window"
 msgid "Delayed Rendering"
-msgstr "Geciktirilmiş Sunum"
+msgstr "Geciktirilmiş Sunma"
 
 #: src/render/renderrequest.cpp:373
 #, kde-format
 msgid "Select a name for this rendering."
-msgstr "Bu sunum için bir ad seçin."
+msgstr "Bu sunma için bir ad seçin."
 
 #: src/render/renderrequest.cpp:474
 #, kde-format
@@ -34972,12 +34955,12 @@ msgstr "başla"
 #: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
 #, kde-format
 msgid "Can't open communication with render job %1"
-msgstr "%1 sunumu işi ile iletişim kurulamıyor"
+msgstr "%1 sunma işi ile iletişim kurulamıyor"
 
 #: src/render/renderserver.cpp:51
 #, kde-format
 msgid "Communication error with render job"
-msgstr "Sunum işi ile iletişim hatası"
+msgstr "Sunma işi ile iletişim hatası"
 
 #: src/renderpresets/renderpresetmodel.cpp:318
 #, kde-format
@@ -35023,7 +35006,7 @@ msgid ""
 "This render preset uses a 'profile' parameter.<br />Unless you know what you "
 "are doing you will probably have to change it to 'mlt_profile'."
 msgstr ""
-"Bu sunum profili bir “profil” parametresi kullanıyor<br />Ne yaptığınızı "
+"Bu sunma profili bir “profil” parametresi kullanıyor<br />Ne yaptığınızı "
 "biliyorsanız bunu büyük olasılıkla “mlt_profiler”a değiştirmek zorunda "
 "kalacaksınız."
 
@@ -35727,16 +35710,14 @@ msgid "Cannot move selected group"
 msgstr "Seçili grup taşınamıyor"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "Klibi etkinleştir"
+msgstr "Klipleri Etkinleştir"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "Klibi Devre Dışı Bırak"
+msgstr "Klipleri Devre Dışı Bırak"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
@@ -36409,7 +36390,7 @@ msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
-"Önizleme sunumu başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
+"Önizleme sunması başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
 "göster…%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:28
@@ -36810,10 +36791,9 @@ msgid "Cannot remove all clips"
 msgstr "Tüm klipler kaldırılamıyor"
 
 #: src/timeline2/view/timelinecontroller.cpp:3182
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "Kayıt denetimlerini görüntülemek için bir ses izi seçin"
+msgstr "Tekli kipi etkinleştirmek için bir ses izi seçin"
 
 #: src/timeline2/view/timelinecontroller.cpp:3234
 #: src/timeline2/view/timelinecontroller.cpp:3239
@@ -37538,6 +37518,8 @@ msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
+"Karışık metin seçimi: İlk seçili karakter gösterilir. Bir değeri "
+"değiştirmek, onu seçime uygular."
 
 #: src/titler/titlewidget.cpp:2120
 #, kde-format
@@ -37545,6 +37527,8 @@ msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
+"Karışık dış hat genişlikleri: İlk seçili karakter gösterilir. Genişliği "
+"değiştirmek, yalnızca seçimdeki özelliğe uygulanır."
 
 #: src/titler/titlewidget.cpp:2121
 #, kde-format
@@ -37552,6 +37536,8 @@ msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Dış hat genişliği. Seçili metne veya metin düzenleme dışındaki tüm nesneye "
+"uygulanır."
 
 #: src/titler/titlewidget.cpp:2123
 #, kde-format
@@ -37559,6 +37545,8 @@ msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
+"Karışık dış hat renkleri: İlk seçili karakter gösterilir. Rengi değiştirmek, "
+"her bir karakterin dış hat genişliğini korur."
 
 #: src/titler/titlewidget.cpp:2124
 #, kde-format
@@ -37566,6 +37554,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Dış hat rengi. Seçili metne veya metin düzenleme dışındaki tüm nesneye "
+"uygulanır."
 
 #: src/titler/titlewidget.cpp:2514
 #, kde-format
@@ -38994,7 +38984,7 @@ msgstr "Kitaplık klasörü:"
 #: src/ui/configenv_ui.ui:309
 #, kde-format
 msgid "Folder for rendering, titles, scripts:"
-msgstr "Betikler, başlıklar, sunum klasörü:"
+msgstr "Betikler, başlıklar, sunma klasörü:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
 #: src/ui/configenv_ui.ui:365
@@ -40086,7 +40076,7 @@ msgstr "İşi yapılandır."
 #: src/ui/editrenderpreset_ui.ui:18
 #, kde-format
 msgid "Save Render Preset"
-msgstr "Sunum Önayarını Kaydet"
+msgstr "Sunma Önayarını Kaydet"
 
 #. i18n: ectx: property (text), widget (QLabel, groupLabel)
 #: src/ui/editrenderpreset_ui.ui:45
@@ -41490,7 +41480,7 @@ msgstr "Doldurma:"
 #: src/ui/renderwidget_ui.ui:18
 #, kde-format
 msgid "Rendering"
-msgstr "Sunum"
+msgstr "Sunma"
 
 #. i18n: ectx: attribute (title), widget (QWidget, renderTab)
 #: src/ui/renderwidget_ui.ui:43
@@ -41538,7 +41528,7 @@ msgstr "&Kaydet"
 #: src/ui/renderwidget_ui.ui:238
 #, kde-format
 msgid "Download New Render Presets…"
-msgstr "Yeni Sunum Profilleri İndir…"
+msgstr "Yeni Sunma Profilleri İndir…"
 
 #. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
 #: src/ui/renderwidget_ui.ui:247
@@ -41821,7 +41811,7 @@ msgstr "Hata Günlüğü"
 #: src/ui/renderwidget_ui.ui:1053
 #, kde-format
 msgid "Shutdown computer after renderings"
-msgstr "Sunumlardan sonra bilgisayarı kapat"
+msgstr "Sunmalardan sonra bilgisayarı kapat"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1068
@@ -42085,7 +42075,7 @@ msgstr "Şablondaki %s metnini değiştirecek olan metni gir…"
 #: src/ui/testproxy_ui.ui:58
 #, kde-format
 msgid "Render Time"
-msgstr "Sunum Süresi"
+msgstr "Sunma Süresi"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, resultList)
 #: src/ui/testproxy_ui.ui:63

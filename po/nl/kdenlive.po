@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-10-06 11:02+0200\n"
+"PO-Revision-Date: 2026-10-07 13:22+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -30356,10 +30356,9 @@ msgid "Render Button"
 msgstr "Renderknop"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete timeline clip"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "Tijdbalkclip verwijderen"
+msgstr "Tijdlijnselectie verwijderen"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -31246,16 +31245,14 @@ msgid "Save Clip Part to Bin"
 msgstr "Gedeelte van clip opslaan naar Bin"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "Geselecteerde clip in lus"
+msgstr "Geselecteerde clips inschakelen"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "Clip uitschakelen"
+msgstr "Geselecteerde clips uitschakelen"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -36062,16 +36059,14 @@ msgid "Cannot move selected group"
 msgstr "Kan geselecteerde groep niet verplaatsen"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "Clip inschakelen"
+msgstr "Clips inschakelen"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "Clip uitschakelen"
+msgstr "Clips uitschakelen"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
@@ -37879,6 +37874,8 @@ msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
+"Gemengde tekstselectie: het eerste geselecteerde teken wordt weergegeven. "
+"Het wijzigen van een waarde past deze toe op de selectie."
 
 #: src/titler/titlewidget.cpp:2120
 #, kde-format
@@ -37886,6 +37883,9 @@ msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
+"Gemengde diktes van omlijning: de eerste geselecteerde tekens worden "
+"weergegeven. Het wijzigen van de dikte past die eigenschap alleen op de "
+"selectie toe."
 
 #: src/titler/titlewidget.cpp:2121
 #, kde-format
@@ -37893,6 +37893,8 @@ msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Breedte van de omtreklijn. Van toepassing op geselecteerde tekst of op het "
+"gehele object buiten tekstbewerking."
 
 #: src/titler/titlewidget.cpp:2123
 #, kde-format
@@ -37900,6 +37902,8 @@ msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
+"Gemengde omtrekkleuren: toont het eerst geselecteerde teken. Bij het "
+"wijzigen van de kleur blijft de omtrekbreedte van elk teken behouden."
 
 #: src/titler/titlewidget.cpp:2124
 #, kde-format
@@ -37907,6 +37911,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Omtrekkleur. Toegepast op geselecteerde tekst of op het gehele object buiten "
+"tekstbewerking."
 
 #: src/titler/titlewidget.cpp:2514
 #, kde-format

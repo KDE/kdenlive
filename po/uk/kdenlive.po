@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-10-06 09:03+0300\n"
+"PO-Revision-Date: 2026-10-07 20:46+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <trans-uk@lists.fedoraproject.org>\n"
 "Language: uk\n"
@@ -30434,10 +30434,9 @@ msgid "Render Button"
 msgstr "Кнопка обробки"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "Вилучити позначене"
+msgstr "Вилучити позначене на монтажному столі"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -31328,16 +31327,14 @@ msgid "Save Clip Part to Bin"
 msgstr "Зберегти ділянку кліпу на панелі контейнера"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "Зациклити позначений кліп"
+msgstr "Увімкнути позначені кліпи"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "Вимкнути кліп"
+msgstr "Вимкнути позначені кліпи"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -36195,16 +36192,14 @@ msgid "Cannot move selected group"
 msgstr "Не вдалося пересунути позначену групу"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "Увімкнути кліп"
+msgstr "Увімкнути кліпи"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "Вимкнути кліп"
+msgstr "Вимкнути кліпи"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
@@ -38044,6 +38039,8 @@ msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
+"Позначено змішаний текст: показ першого позначеного символу. Зміна значення "
+"застосовується до позначеного фрагмента."
 
 #: src/titler/titlewidget.cpp:2120
 #, kde-format
@@ -38051,6 +38048,8 @@ msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
+"Змішана товщина контура: показ першого позначеного символу. Зміна ширини "
+"призводить до застосування лише цієї властивості до позначеного фрагмента."
 
 #: src/titler/titlewidget.cpp:2121
 #, kde-format
@@ -38058,6 +38057,8 @@ msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Товщина контуру. Застосовується до позначеного тексту або усього об'єкта "
+"поза областю редагування тексту."
 
 #: src/titler/titlewidget.cpp:2123
 #, kde-format
@@ -38065,6 +38066,8 @@ msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
+"Змішані кольори контуру: показ першого позначеного символу. Зміна кольору "
+"зберігає товщину контуру кожного символу."
 
 #: src/titler/titlewidget.cpp:2124
 #, kde-format
@@ -38072,6 +38075,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Колір контуру. Застосовується до позначеного тексту або усього об'єкта поза "
+"областю редагування тексту."
 
 #: src/titler/titlewidget.cpp:2514
 #, kde-format

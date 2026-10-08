@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-10-01 00:05+0100\n"
+"PO-Revision-Date: 2026-10-07 17:32+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -24973,7 +24973,7 @@ msgstr "Cuadrada (1:1)"
 #: src/dialogs/renderwidget.cpp:390
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
-msgstr ""
+msgstr "Un solo campo (rápido, mitad de resolución vertical)"
 
 #: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -25337,7 +25337,11 @@ msgid_plural ""
 "One Field deinterlacing may halve the vertical resolution of %1 interlaced "
 "clips: %2"
 msgstr[0] ""
+"El desentrelazado de Un solo campo reducirá a la mitad la resolución "
+"vertical del clip entrelazado %2"
 msgstr[1] ""
+"El desentrelazado de Un solo campo reducirá a la mitad la resolución "
+"vertical de %1 clips entrelazados: %2"
 
 #: src/dialogs/renderwidget.cpp:2641
 #, kde-format
@@ -30644,10 +30648,9 @@ msgid "Render Button"
 msgstr "Botón de procesamiento"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "Borrar la selección"
+msgstr "Borrar selección en línea de tiempo"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -31535,16 +31538,14 @@ msgid "Save Clip Part to Bin"
 msgstr "Guardar clip en panel Medios"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "Repetir clip seleccionado"
+msgstr "Habilitar clips seleccionados"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "Deshabilitar clip"
+msgstr "Deshabilitar clips seleccionados"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -36375,16 +36376,14 @@ msgid "Cannot move selected group"
 msgstr "No es posible mover el grupo seleccionado"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "Habilitar clip"
+msgstr "Habilitar clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "Deshabilitar clip"
+msgstr "Deshabilitar clips"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
@@ -38208,6 +38207,8 @@ msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
+"Selección mixta de texto: Se muestra la opción del primer caracter "
+"seleccionado. Al cambiar un valor se aplicará a toda la selección."
 
 #: src/titler/titlewidget.cpp:2120
 #, kde-format
@@ -38215,6 +38216,8 @@ msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
+"Grosores de contornos distintos: Se muestra el del primer caracter "
+"seleccionado. Al cambiar el valor se aplicará a toda la selección."
 
 #: src/titler/titlewidget.cpp:2121
 #, kde-format
@@ -38222,6 +38225,8 @@ msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Grosor del contorno. Se aplica a los caracteres seleccionados o al objeto "
+"completo, dependiendo del modo de edición."
 
 #: src/titler/titlewidget.cpp:2123
 #, kde-format
@@ -38229,6 +38234,8 @@ msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
+"Colores de contornos distintos: Se muestra el del primer caracter "
+"seleccionado. Al cambiar el color se aplicará a toda la selección."
 
 #: src/titler/titlewidget.cpp:2124
 #, kde-format
@@ -38236,6 +38243,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"Color del contorno. Se aplica a los caracteres seleccionados o al objeto "
+"completo, dependiendo del modo de edición."
 
 #: src/titler/titlewidget.cpp:2514
 #, kde-format

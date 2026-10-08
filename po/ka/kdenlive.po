@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-07 00:47+0000\n"
-"PO-Revision-Date: 2026-09-25 05:52+0200\n"
+"PO-Revision-Date: 2026-10-07 04:12+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9641,7 +9641,7 @@ msgstr "მაქსიმალური ვერტიკალური რ�
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
 msgid "Maximum rotation shake (capped at 45deg)"
-msgstr ""
+msgstr "ბრუნვის მაქს. რყევა (შეზღუდულია 45 გრადუსზე)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:22
 #, no-c-format, kde-format
@@ -9659,7 +9659,7 @@ msgstr "ნჯღრევის ინტენსივობა"
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "რყევის სიჩქარე, ან სიხშირე"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
 #, kde-format
@@ -9674,7 +9674,7 @@ msgstr "გადღაბნილი მოძრაობა"
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "გადაადგილების დაბინდვის რაოდენობა (შეზღუდულია 20 პიქსელზე)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
 #, kde-format
@@ -23778,7 +23778,7 @@ msgstr "კვადრატი (1:1)"
 #: src/dialogs/renderwidget.cpp:390
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
-msgstr ""
+msgstr "ერთი ველი (სწრაფი, ნახევარი ვერტიკალური გარჩევადობა)"
 
 #: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:639
 #, kde-format
@@ -29390,10 +29390,9 @@ msgid "Render Button"
 msgstr "რენდერის ღილაკი"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "მონიშნულის წაშლა"
+msgstr "მონიშნული დროის ხაზის წაშლა"
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -30272,16 +30271,14 @@ msgid "Save Clip Part to Bin"
 msgstr "კლიპის ნაწილის კალათაში შენახვა"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "არჩეული კლიპის მარყუჟი"
+msgstr "არჩეული კლიპების ჩართვა"
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "კლიპის გათიშვა"
+msgstr "მონიშნული კლიპების გამორთვა"
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -35069,16 +35066,14 @@ msgid "Cannot move selected group"
 msgstr "არჩეულ ჯგუფის გადატანა შეუძლებელია"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "კლიპის ჩართვა"
+msgstr "კლიპების ჩართვა"
 
 #: src/timeline2/model/timelinefunctions.cpp:1160
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "კლიპის გათიშვა"
+msgstr "კლიპების გამორთვა"
 
 #: src/timeline2/model/timelinefunctions.cpp:1176
 #, kde-format
