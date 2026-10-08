@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-06 03:06+0000\n"
-"PO-Revision-Date: 2026-10-04 10:09+0200\n"
+"PO-Revision-Date: 2026-10-07 08:39+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -44,7 +44,7 @@ msgstr ""
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
 msgstr ""
-"radist@list.ru,artur@sugardas.ltв,glukator@gmail.com,alexandre."
+"radist@list.ru,artur@sugardas.lt,glukator@gmail.com,alexandre."
 "prokoudine@gmail.com,urkud.urkud@gmail.com,aspotashev@gmail.com,vladimir."
 "potapov@rosalab.ru,smolianinow.colya2016@yandex.ru,juliette.tux@gmail.com,"
 "victorr2007@yandex.ru,omiro@basealt.ru,m.novosyolov@rosalinux.ru,translation-"
@@ -6384,7 +6384,7 @@ msgstr "Применение оператора Собеля к входному
 #: data/effects/avfilter/avfilter_sofalizer.xml:4
 #, kde-format
 msgid "SOFAlizer"
-msgstr "SOFAлизатор"
+msgstr "SOFAlizer"
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:5
 #, kde-format
@@ -6395,11 +6395,11 @@ msgid ""
 "http://www.sofacoustics.org/ for a database). SOFAlizer is developed at the "
 "Acoustics Research Institute (ARI) of the Austrian Academy of Sciences. "
 msgstr ""
-"SOFAлизатор использует передаточные функции слухового аппарата человека для "
+"SOFAlizer использует передаточные функции слухового аппарата человека для "
 "создания виртуальных динамиков около пользователя для бинаурального "
 "прослушивания через наушники (поддерживается до 9 каналов). Эти функции "
 "хранятся в файлах SOFA (база данных доступна здесь: http://www.sofacoustics."
-"org/). SOFAлизатор разрабатывается Исследовательским институтом акустики "
+"org/). SOFAlizer разрабатывается Исследовательским институтом акустики "
 "Австрийской академии наук. "
 
 #: data/effects/avfilter/avfilter_sofalizer.xml:8
@@ -25027,10 +25027,11 @@ msgstr "Моно (1 канал)"
 msgid "Stereo (2 channels)"
 msgstr "Стерео (2 канала)"
 
+# BUGME: please add plurals (used for 3+ channels) --ayavorsky 2026-10-07
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:532
 #, kde-format
 msgid "%1 channels"
-msgstr "%1 каналов "
+msgstr "Каналов: %1"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:543
 #, kde-format
@@ -25741,7 +25742,7 @@ msgstr "Гуджарати"
 #: src/dialogs/speechdialog.cpp:529
 #, kde-format
 msgid "Halh Mongolian"
-msgstr "Халха-монгольский "
+msgstr "Халха-монгольский"
 
 #: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:95
@@ -27676,10 +27677,10 @@ msgstr[3] "У клипа есть альфа-канал. "
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
-msgstr[0] "Имеется %1 клип с альфа-каналом."
-msgstr[1] "Имеется %1 клипа с альфа-каналом."
-msgstr[2] "Имеется %1 клипов с альфа-каналом."
-msgstr[3] "Имеется клип с альфа-каналом."
+msgstr[0] "Имеется %1 клип с альфа-каналом. "
+msgstr[1] "Имеется %1 клипа с альфа-каналом. "
+msgstr[2] "Имеется %1 клипов с альфа-каналом. "
+msgstr[3] "Имеется клип с альфа-каналом. "
 
 #: src/doc/kdenlivedoc.cpp:1632
 #, kde-format
@@ -27760,7 +27761,7 @@ msgstr ""
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Предупреждение: нестандартная кадровая частота, выполнена корректировка до "
-"ближайшего целого числа."
+"ближайшего целого числа. "
 
 #: src/doc/kdenlivedoc.cpp:2136
 #, kde-format
@@ -28069,7 +28070,7 @@ msgstr ""
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:196
 #, kde-format
 msgid "Out:"
-msgstr "Выход: "
+msgstr "Выход:"
 
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:202
 #, kde-format
@@ -32327,7 +32328,7 @@ msgid ""
 "Do you want to <a href=\"#clipmonitor\">show the clip monitor</a> to view "
 "timeline?"
 msgstr ""
-"<a href=\"#clipmonitor\">Отображать монитор клипов</a> для просмотра "
+"<a href=\"#clipmonitor\">Показать монитор клипов</a> для просмотра "
 "монтажного стола?"
 
 #: src/monitor/monitormanager.cpp:244
@@ -32336,7 +32337,7 @@ msgid ""
 "Do you want to <a href=\"#projectmonitor\">show the project monitor</a> to "
 "view timeline?"
 msgstr ""
-"<a href=\"#projectmonitor\">Отображать монитор проекта </a> для просмотра "
+"<a href=\"#projectmonitor\">Показать монитор проекта</a> для просмотра "
 "монтажного стола?"
 
 #: src/monitor/monitormanager.cpp:549
@@ -33110,8 +33111,8 @@ msgid ""
 "This video uses \"%1\" (%2) by \"%3\" licensed under %4. To view a copy of "
 "this license, visit %5"
 msgstr ""
-"В этом видео используется \"%1\" (%2) от \"%3\" на условиях лицензии %4. Для "
-"просмотра копии этой лицензии, зайдите на %5"
+"В этом видео используется «%1» (%2) автора «%3» на условиях лицензии %4. "
+"Текст лицензии доступен по адресу %5"
 
 #: src/onlineresources/resourcewidget.cpp:750
 #, kde-format
@@ -35058,7 +35059,7 @@ msgstr "Монгольский"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:124
 #, kde-format
 msgid "Myanmar"
-msgstr "Бирманский "
+msgstr "Бирманский"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:126
 #, kde-format
@@ -35340,7 +35341,7 @@ msgstr "Треугольное окно"
 #: src/scopes/audioscopes/spectrogram.cpp:67
 #, kde-format
 msgid "Hamming window"
-msgstr "Окно Хемминга"
+msgstr "Окно Хэмминга"
 
 #: src/scopes/audioscopes/audiospectrum.cpp:79
 #: src/scopes/audioscopes/spectrogram.cpp:70
@@ -35856,7 +35857,7 @@ msgstr "Удалён некорректный клип %1."
 #: src/timeline2/model/builders/meltBuilder.cpp:1016
 #, kde-format
 msgid "Repaired clip %1 tagged with no audio in track "
-msgstr "Исправлен клип %1, отмеченный как не имеющий звука на дорожке"
+msgstr "Исправлен клип %1, отмеченный как не имеющий звука на дорожке "
 
 #: src/timeline2/model/builders/meltBuilder.cpp:1019
 #, kde-format
@@ -37673,11 +37674,11 @@ msgid ""
 "vertically, Alt+Shift+Drag to move horizontally, Shift+Drag edge to center "
 "resize, Ctrl+Drag to pan. Disable snapping while moving an item with Ctrl."
 msgstr ""
-"Нажмите для выбора пункта, Alt + щелчок — выделение с перебором. Shift + "
-"перемещение — перемещение по вертикали, Alt + Shift + перемещение — "
-"перемещение по горизонтали, Shift + перемещение от края к центру — изменение "
-"размера, Ctrl + перемещение — панорамирование. Отключить прилипание при "
-"перемещении элемента — Ctrl."
+"Щелчок — выбор элемента, Alt + щелчок — перебор выделения. Shift + "
+"перемещение — перемещение по вертикали, Alt + Shift + перемещение — по "
+"горизонтали, Shift + перемещение края — изменение размера относительно "
+"центра, Ctrl + перемещение — панорамирование. Привязка при перемещении "
+"элемента отключается удержанием Ctrl."
 
 #: src/titler/titlewidget.cpp:418
 #, kde-format
@@ -37871,7 +37872,7 @@ msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
 "wikipedia.org/wiki/Control_character\">Wikipedia:Control_character</a>"
 msgstr ""
-"Управляющий символ. Ввести или отобразить этот символ невозможно. См. <a "
+"Управляющий символ. Ввести или напечатать этот символ невозможно. См. <a "
 "href=\"https://ru.wikipedia.org/wiki/Управляющие_символы\">Википедия: "
 "Управляющие символы</a>"
 
@@ -41306,7 +41307,7 @@ msgstr "Импорт маски в проект"
 #: src/ui/maskmanage_ui.ui:165
 #, kde-format
 msgid "Border"
-msgstr "Рамка "
+msgstr "Рамка"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonStop)
 #: src/ui/maskmanage_ui.ui:172

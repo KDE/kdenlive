@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-06 03:06+0000\n"
-"PO-Revision-Date: 2026-09-25 12:54+0200\n"
+"PO-Revision-Date: 2026-10-07 09:44+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4047,8 +4047,8 @@ msgstr ""
 msgid ""
 "Set percentage of delayed signal mixed with original. Range from 0 to 100."
 msgstr ""
-"Estableix el percentatge del senyal retardat amb l'original. Interval entre "
-"0 i 100."
+"Estableix el percentatge del senyal retardat mesclat amb l'original. "
+"Interval entre 0 i 100."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
@@ -15097,7 +15097,7 @@ msgstr "Mescla assecament/humitat"
 #: data/effects/ladspa/ladspa_1402.xml:50
 #, kde-format
 msgid "The level of delayed sound mixed into the output"
-msgstr "El nivell de so retardat barrejat en la sortida"
+msgstr "El nivell de so retardat mesclat en la sortida"
 
 #: data/effects/ladspa/ladspa_1403.xml:4
 #, kde-format
