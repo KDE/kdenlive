@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QApplication>
 #include <QDebug>
 #include <QInputDialog>
+#include <QScopedValueRollback>
 #include <QSemaphore>
 #include <unordered_map>
 
@@ -164,6 +165,40 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     }
     bool hasEndMix = timeline->getTrackById_const(trackId)->hasEndMix(clipId);
     bool hasStartMix = timeline->getTrackById_const(trackId)->hasStartMix(clipId);
+    // Temporarily block refresh, but restore the original value when exiting the function
+    QScopedValueRollback<bool> blockRefresh(timeline->m_blockRefresh, true);
+    const auto mixData = timeline->getTrackById_const(trackId)->getMixInfo(clipId);
+    // Keep a start mix on the left fragment and an end mix on the right fragment.
+    for (bool startMix : {true, false}) {
+        if (startMix ? (!hasStartMix || position >= mixData.first.firstClipInOut.second) : (!hasEndMix || position <= mixData.second.secondClipInOut.first)) {
+            continue;
+        }
+        const MixInfo &mix = startMix ? mixData.first : mixData.second;
+        const int mixIn = startMix ? mix.secondClipInOut.first : position;
+        const int mixOut = startMix ? position : mix.firstClipInOut.second;
+        const int oldCut = timeline->m_allClips[mix.secondClipId]->getMixCutPosition();
+        const int oldCutPosition = mix.firstClipInOut.second - oldCut;
+        // Splitting may put the old edit point outside the retained fragment. Keep
+        // at least one frame of that fragment if the mix is subsequently removed.
+        const int cutPosition = startMix ? qBound(mixIn, oldCutPosition, mixOut - 1) : qBound(mixIn + 1, oldCutPosition, mixOut);
+        if (cutPosition != oldCutPosition) {
+            auto updateCut = [timeline, trackId, secondId = mix.secondClipId](int cut) {
+                auto track = timeline->getTrackById_const(trackId);
+                track->setMixDuration(secondId, timeline->m_allClips[secondId]->getMixDuration(), cut);
+                const QModelIndex ix = timeline->makeClipIndexFromID(secondId);
+                Q_EMIT timeline->dataChanged(ix, ix, {TimelineModel::MixCutRole});
+                return true;
+            };
+            Fun adjust = [updateCut, cut = mix.firstClipInOut.second - cutPosition]() { return updateCut(cut); };
+            Fun restore = [updateCut, oldCut]() { return updateCut(oldCut); };
+            adjust();
+            UPDATE_UNDO_REDO_NOLOCK(adjust, restore, undo, redo);
+        }
+        // Resizing itself preserves the edit point and only changes the overlap.
+        if (!timeline->getTrackById_const(trackId)->requestResizeMix(mix.secondClipId, {cutPosition - mixIn, mixOut - cutPosition}, undo, redo)) {
+            return false;
+        }
+    }
     int subplaylist = timeline->m_allClips[clipId]->getSubPlaylistIndex();
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
@@ -172,11 +207,13 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         qDebug() << "// CLONING CLIP FAILED";
         return false;
     }
-    timeline->m_blockRefresh = true;
 
     int updatedDuration = position - start;
     // Resize original clip
     res = timeline->m_allClips[clipId]->requestResize(updatedDuration, true, undo, redo, true, hasEndMix || hasStartMix);
+    if (!res) {
+        return false;
+    }
 
     if (hasEndMix) {
         // Assign end mix to new clone clip
@@ -232,7 +269,6 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         updateDuration();
         PUSH_LAMBDA(updateDuration, redo);
     }
-    timeline->m_blockRefresh = false;
     return res;
 }
 
@@ -326,7 +362,18 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         return true;
     }
 
+    // Cutting one grouped mix participant trims its partner to the cut, so the
+    // partner is skipped below. Processing the outgoing clip first keeps the mix
+    // to the right of the cut; processing the incoming clip first keeps it to the
+    // left. Sort by start position to prefer the former over unordered-set order.
+    // Equal starts use clip IDs for determinism, not necessarily mix order.
+    std::sort(clipsToCut.begin(), clipsToCut.end(),
+              [timeline](int a, int b) { return std::make_pair(timeline->getItemPosition(a), a) < std::make_pair(timeline->getItemPosition(b), b); });
     for (int cid : std::as_const(clipsToCut)) {
+        // Shortening a mix may already have trimmed this partner to the cut.
+        if (timeline->getItemPosition(cid) >= position || timeline->getItemPosition(cid) + timeline->getItemPlaytime(cid) <= position) {
+            continue;
+        }
         count++;
         int newId = -1;
         bool res = processClipCut(timeline, cid, position, newId, undo, redo);

@@ -615,7 +615,9 @@ Rectangle {
                         hoverEnabled: !clipRoot.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: !clipRoot.isPanning && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
+                        // Let razor clicks reach the timeline's cut handler instead of selecting the mix.
+                        enabled: !clipRoot.isPanning && K.Core.activeTool !== K.ToolType.RazorTool
+                                 && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
                         onPressed: mouse => {
                             if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false

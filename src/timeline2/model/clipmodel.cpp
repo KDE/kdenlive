@@ -1232,9 +1232,7 @@ void ClipModel::setMixDuration(int mix, int cutOffset)
         m_mixCutPos = cutOffset;
     }
     m_mixDuration = mix;
-    if (m_mixCutPos > 0) {
-        m_clipMarkerModel->updateSnapMixPosition(m_mixDuration - m_mixCutPos);
-    }
+    m_clipMarkerModel->updateSnapMixPosition(m_mixDuration - m_mixCutPos);
 }
 
 void ClipModel::setMixDuration(int mix)
