@@ -229,7 +229,7 @@ void TitleDocument::setScene(QGraphicsScene *_scene, int width, int height)
     m_height = height;
 }
 
-int TitleDocument::base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath)
+int TitleDocument::base64ToUrl(const QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath)
 {
     if (embed) {
         if (!item->data(Qt::UserRole + 1).toString().isEmpty()) {
@@ -325,7 +325,7 @@ QDomDocument TitleDocument::xml(const QList<QGraphicsItem *> &items, int width, 
     return doc;
 }
 
-QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, bool embedImages, const QString &projectPath)
+QDomDocument TitleDocument::xmlItem(const QGraphicsItem *item, int width, int height, bool embedImages, const QString &projectPath)
 {
     Q_UNUSED(height); // In case we need it (width is used though).
 
@@ -360,30 +360,30 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
     }
     case QGraphicsRectItem::Type:
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsRectItem"));
-        content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsRectItem *>(item)->rect().normalized()));
-        content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsRectItem *>(item)->pen().color()));
-        if (static_cast<QGraphicsRectItem *>(item)->pen() == Qt::NoPen) {
+        content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<const QGraphicsRectItem *>(item)->rect().normalized()));
+        content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<const QGraphicsRectItem *>(item)->pen().color()));
+        if (static_cast<const QGraphicsRectItem *>(item)->pen() == Qt::NoPen) {
             content.setAttribute(QStringLiteral("penwidth"), 0);
         } else {
-            content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsRectItem *>(item)->pen().width());
+            content.setAttribute(QStringLiteral("penwidth"), static_cast<const QGraphicsRectItem *>(item)->pen().width());
         }
-        content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsRectItem *>(item)->brush().color()));
+        content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<const QGraphicsRectItem *>(item)->brush().color()));
         gradient = item->data(TitleDocument::Gradient).toString();
         if (!gradient.isEmpty()) {
             content.setAttribute(QStringLiteral("gradient"), gradient);
         }
-        content.setAttribute(QStringLiteral("cornerRadius"), static_cast<MyRectItem *>(item)->cornerRadius());
+        content.setAttribute(QStringLiteral("cornerRadius"), static_cast<const MyRectItem *>(item)->cornerRadius());
         break;
     case QGraphicsEllipseItem::Type:
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsEllipseItem"));
-        content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<QGraphicsEllipseItem *>(item)->rect().normalized()));
-        content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->pen().color()));
-        if (static_cast<QGraphicsEllipseItem *>(item)->pen() == Qt::NoPen) {
+        content.setAttribute(QStringLiteral("rect"), rectFToString(static_cast<const QGraphicsEllipseItem *>(item)->rect().normalized()));
+        content.setAttribute(QStringLiteral("pencolor"), colorToString(static_cast<const QGraphicsEllipseItem *>(item)->pen().color()));
+        if (static_cast<const QGraphicsEllipseItem *>(item)->pen() == Qt::NoPen) {
             content.setAttribute(QStringLiteral("penwidth"), 0);
         } else {
-            content.setAttribute(QStringLiteral("penwidth"), static_cast<QGraphicsEllipseItem *>(item)->pen().width());
+            content.setAttribute(QStringLiteral("penwidth"), static_cast<const QGraphicsEllipseItem *>(item)->pen().width());
         }
-        content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<QGraphicsEllipseItem *>(item)->brush().color()));
+        content.setAttribute(QStringLiteral("brushcolor"), colorToString(static_cast<const QGraphicsEllipseItem *>(item)->brush().color()));
         gradient = item->data(TitleDocument::Gradient).toString();
         if (!gradient.isEmpty()) {
             content.setAttribute(QStringLiteral("gradient"), gradient);
@@ -395,7 +395,7 @@ QDomDocument TitleDocument::xmlItem(QGraphicsItem *item, int width, int height, 
         QTextBlockFormat format;
 
         e.setAttribute(QStringLiteral("type"), QStringLiteral("QGraphicsTextItem"));
-        MyTextItem *t = static_cast<MyTextItem *>(item);
+        const MyTextItem *t = static_cast<const MyTextItem *>(item);
         // Don't save empty text nodes
         if (t->toPlainText().simplified().isEmpty()) {
             return {};

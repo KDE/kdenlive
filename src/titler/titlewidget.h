@@ -155,6 +155,7 @@ private:
     QAction *m_buttonLoad;
     KNSWidgets::Action *m_buttonDownload;
     QAction *m_undoAction{nullptr};
+    QAction *m_redoAction{nullptr};
     QUndoStack *m_undoStack{nullptr};
     QDomDocument m_undoDoc;
     bool m_blockUndo{false};
@@ -291,6 +292,7 @@ public Q_SLOTS:
     void loadTitle(QUrl url = QUrl());
     void slotGotBackground(const QImage &img);
     void slotUndo();
+    void slotRedo();
 
 private Q_SLOTS:
 

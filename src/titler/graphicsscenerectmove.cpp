@@ -571,12 +571,12 @@ void MyRectItem::setCornerRadius(int cornerRadius)
     update(boundingRect());
 }
 
-int MyRectItem::cornerRadius()
+int MyRectItem::cornerRadius() const
 {
     return m_cornerRadius;
 }
 
-int MyRectItem::normalizedCornerRadius()
+int MyRectItem::normalizedCornerRadius() const
 {
     return qMin(m_cornerRadius, (int)qMin(rect().width(), rect().height()) / 2);
 }

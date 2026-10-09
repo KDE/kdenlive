@@ -59,7 +59,7 @@ public:
      */
     static QDomDocument xml(const QList<QGraphicsItem *> &items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
                             bool embedImages = false, const QString &projectPath = QString());
-    static QDomDocument xmlItem(QGraphicsItem *item, int width, int height, bool embedImages = false, const QString &projectPath = QString());
+    static QDomDocument xmlItem(const QGraphicsItem *item, int width, int height, bool embedImages = false, const QString &projectPath = QString());
 
     /**
      * @brief General static function to load items into list from a xml file.
@@ -80,6 +80,6 @@ private:
     static QColor stringToColor(const QString &);
     static QTransform stringToTransform(const QString &);
     static QList<QVariant> stringToList(const QString &);
-    static int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath);
+    static int base64ToUrl(const QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath);
     static QPixmap createInvalidPixmap(const QString &url, int width, int height);
 };

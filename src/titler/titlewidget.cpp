@@ -92,7 +92,7 @@ public:
 
     void undo() override { m_widget->loadTitleState(m_oldDoc); }
 
-    void redo() override {}
+    void redo() override { m_widget->loadTitleState(m_newDoc); }
 
 private:
     TitleWidget *m_widget;
@@ -456,7 +456,24 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
+    m_undoStack = new QUndoStack(this);
+    m_undoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Undo"), this);
+    m_undoAction->setShortcut(QKeySequence::Undo);
+    m_undoAction->setShortcutContext(Qt::WindowShortcut);
+    m_undoAction->setEnabled(false);
+    connect(m_undoStack, &QUndoStack::canUndoChanged, m_undoAction, &QAction::setEnabled);
+    connect(m_undoAction, &QAction::triggered, this, &TitleWidget::slotUndo);
+    m_toolbar->addAction(m_undoAction);
 
+    m_redoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-redo")), i18n("Redo"), this);
+    m_redoAction->setShortcut(QKeySequence::Redo);
+    m_redoAction->setShortcutContext(Qt::WindowShortcut);
+    m_redoAction->setEnabled(false);
+    connect(m_undoStack, &QUndoStack::canRedoChanged, m_redoAction, &QAction::setEnabled);
+    connect(m_redoAction, &QAction::triggered, this, &TitleWidget::slotRedo);
+    m_toolbar->addAction(m_redoAction);
+
+    m_toolbar->addSeparator();
     m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
@@ -537,12 +554,6 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     displayBackgroundFrame();
     graphicsView->scene()->addItem(m_frameImage);
 
-    m_undoStack = new QUndoStack(this);
-    m_undoAction = new QAction(i18n("Undo"), this);
-    m_undoAction->setShortcut(QKeySequence::Undo);
-    m_undoAction->setShortcutContext(Qt::WindowShortcut);
-    connect(m_undoAction, &QAction::triggered, this, &TitleWidget::slotUndo);
-    addAction(m_undoAction);
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
@@ -4050,7 +4061,8 @@ void TitleWidget::slotCopy()
     QDomElement documentElement = document.createElement(QStringLiteral("items"));
     document.appendChild(documentElement);
 
-    for (auto selected : m_scene->selectedItems()) {
+    const QList<QGraphicsItem *> items = m_scene->selectedItems();
+    for (QGraphicsItem *selected : items) {
         QDomDocument itemDocument = m_titledocument.xmlItem(selected, m_frameWidth, m_frameHeight);
         if (!itemDocument.hasChildNodes()) continue;
         documentElement.appendChild(itemDocument);
@@ -4082,27 +4094,19 @@ void TitleWidget::slotPaste()
     int maxZIndex = 0;
     m_scene->clearSelection();
     QList<QGraphicsItem *> items;
-    for (auto item : documentElement.elementsByTagName("item")) {
-        QGraphicsItem *gitem = m_titledocument.loadItemFromXml(item, m_path, m_frameWidth, m_frameHeight, missingElements, maxZIndex);
+    const QDomNodeList nodeItems = documentElement.elementsByTagName("item");
+    const auto allItems = m_scene->items();
+    for (int i = 0; i < nodeItems.count(); ++i) {
+        QGraphicsItem *gitem = m_titledocument.loadItemFromXml(nodeItems.item(i), m_path, m_frameWidth, m_frameHeight, missingElements, maxZIndex);
         if (!gitem) continue;
-
         QPointF position = gitem->pos();
-        while (true) {
-            bool existingItemAtPosition = false;
-            for (auto sceneItem : m_scene->items()) {
-                if (sceneItem->pos() == position) {
-                    existingItemAtPosition = true;
-                    position += QPointF(50, 50);
-                    gitem->setPos(position);
-                    break;
-                }
-            }
-
-            if (!existingItemAtPosition) {
+        for (auto sceneItem : allItems) {
+            if (sceneItem->pos() == position) {
+                position += QPointF(50, 50);
+                gitem->setPos(position);
                 break;
             }
         }
-
         m_scene->addItem(gitem);
         items.append(gitem);
     }
@@ -4210,7 +4214,8 @@ void TitleWidget::loadTitleState(const QDomDocument &doc)
     QGraphicsItem *foundItem = nullptr;
     if (selType != -1) {
         qreal minDistance = 1e9;
-        for (auto item : m_scene->items()) {
+        const QList<QGraphicsItem *> items = m_scene->items();
+        for (auto item : items) {
             if (item->type() == selType && item->zValue() > -1000 && item->data(-1).toInt() != -1 && item->parentItem() == nullptr) {
                 qreal dist = (item->pos() - selPos).manhattanLength() + qAbs(item->zValue() - selZ) * 10;
                 if (dist < minDistance) {
@@ -4291,6 +4296,48 @@ void TitleWidget::slotUndo()
     }
     if (m_undoStack && m_undoStack->canUndo()) {
         m_undoStack->undo();
+    }
+}
+
+void TitleWidget::slotRedo()
+{
+    if (m_scene) {
+        QGraphicsItem *focused = m_scene->focusItem();
+        if (focused && focused->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(focused);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+        QGraphicsItem *selected = nullptr;
+        const QList<QGraphicsItem *> sel = m_scene->selectedItems();
+        if (!sel.isEmpty()) {
+            selected = sel.first();
+        }
+        if (selected && selected->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(selected);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+    }
+    QWidget *fw = focusWidget();
+    if (fw) {
+        auto *lineEdit = qobject_cast<QLineEdit *>(fw);
+        if (lineEdit && lineEdit->isUndoAvailable()) {
+            lineEdit->undo();
+            return;
+        }
+        auto *textEdit = qobject_cast<QTextEdit *>(fw);
+        if (textEdit && textEdit->document()->isUndoAvailable()) {
+            textEdit->document()->undo();
+            return;
+        }
+    }
+    if (m_undoStack && m_undoStack->canRedo()) {
+        m_undoStack->redo();
     }
 }
 

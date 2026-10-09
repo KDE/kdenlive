@@ -97,8 +97,8 @@ public:
     explicit MyRectItem(QGraphicsItem *parent = nullptr);
     void setRect(const QRectF &rectangle);
     void setCornerRadius(int cornerRadius);
-    int cornerRadius();
-    int normalizedCornerRadius();
+    int cornerRadius() const;
+    int normalizedCornerRadius() const;
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
