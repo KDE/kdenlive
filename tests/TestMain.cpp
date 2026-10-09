@@ -67,6 +67,13 @@ int main(int argc, char *argv[])
     qputenv("MLT_TESTS", QByteArray("1"));
     Core::build(LinuxPackageType::Unknown, true);
     MltConnection::construct(QString());
+    // Create and decode a video to init MLT cache
+    // Related to MLT issue https://github.com/mltframework/mlt/issues/1317
+    QString path = QFileInfo("../tests/dataset/blue.mp4").absoluteFilePath();
+    Mlt::Producer prod(pCore->getProjectProfile(), NULL, path.toUtf8().constData());
+    Mlt::Frame *fr = prod.get_frame();
+    delete fr;
+
     pCore->projectItemModel()->buildPlaylist(QUuid());
     // if Kdenlive is not installed, ensure we have one keyframable effect
     EffectsRepository::get()->reloadCustom(QFileInfo("../data/effects/audiobalance.xml").absoluteFilePath());

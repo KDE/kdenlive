@@ -197,17 +197,17 @@ void ProxyTask::run()
         }
         qDebug() << "::: STARTING MLT PROXY TASK:\n" << mltParameters << "\n..................................";
 
-        QProcess jobProcess;
-        QObject::connect(this, &ProxyTask::jobCanceled, &jobProcess, &QProcess::kill, Qt::DirectConnection);
-        QObject::connect(&jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
-        jobProcess.start(KdenliveSettings::meltpath(), mltParameters);
-        AbstractTask::setPreferredPriority(jobProcess.processId());
-        jobProcess.waitForFinished(-1);
-        result = jobProcess.exitStatus() == QProcess::NormalExit;
-        QObject::disconnect(&jobProcess, &QProcess::readyReadStandardError, this, nullptr);
+        m_jobProcess = new QProcess();
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
+        m_jobProcess->start(KdenliveSettings::meltpath(), mltParameters);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
+        m_jobProcess->waitForFinished(-1);
+        result = m_jobProcess->exitStatus() == QProcess::NormalExit;
         if (!result && !m_isCanceled) {
-            m_logDetails.append(QString::fromUtf8(jobProcess.readAllStandardError()));
+            m_logDetails.append(QString::fromUtf8(m_jobProcess->readAllStandardError()));
         }
+        m_jobProcess->deleteLater();
         delete playlist;
     } else if (type == ClipType::Image) {
         m_isFfmpegJob = false;
@@ -411,17 +411,17 @@ void ProxyTask::run()
             parameters << dest;
             qDebug() << "/// FULL PROXY PARAMS:\n" << parameters << "\n------";
         }
-        QProcess jobProcess;
-        QObject::connect(&jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
-        QObject::connect(this, &ProxyTask::jobCanceled, &jobProcess, &QProcess::kill, Qt::DirectConnection);
-        jobProcess.start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
-        AbstractTask::setPreferredPriority(jobProcess.processId());
-        jobProcess.waitForFinished(-1);
-        result = jobProcess.exitStatus() == QProcess::NormalExit && jobProcess.exitCode() == 0;
-        QObject::disconnect(&jobProcess, &QProcess::readyReadStandardError, this, nullptr);
+        m_jobProcess = new QProcess();
+        QObject::connect(m_jobProcess, &QProcess::readyReadStandardError, this, &ProxyTask::processLogInfo);
+        QObject::connect(this, &ProxyTask::jobCanceled, m_jobProcess, &QProcess::kill, Qt::DirectConnection);
+        m_jobProcess->start(KdenliveSettings::ffmpegpath(), parameters, QIODevice::ReadOnly);
+        AbstractTask::setPreferredPriority(m_jobProcess->processId());
+        m_jobProcess->waitForFinished(-1);
+        result = m_jobProcess->exitStatus() == QProcess::NormalExit && m_jobProcess->exitCode() == 0;
         if (!result && !m_isCanceled) {
-            m_logDetails.append(QString::fromUtf8(jobProcess.readAllStandardError()));
+            m_logDetails.append(QString::fromUtf8(m_jobProcess->readAllStandardError()));
         }
+        m_jobProcess->deleteLater();
     }
     // remove temporary playlist if it exists
     m_progress = 100;
@@ -458,11 +458,7 @@ void ProxyTask::run()
 
 void ProxyTask::processLogInfo()
 {
-    auto *caller = qobject_cast<QProcess *>(QObject::sender());
-    if (!caller) {
-        return;
-    }
-    const QString buffer = QString::fromUtf8(caller->readAllStandardError());
+    const QString buffer = QString::fromUtf8(m_jobProcess->readAllStandardError());
     m_logDetails.append(buffer);
     if (m_isFfmpegJob) {
         // Parse FFmpeg output

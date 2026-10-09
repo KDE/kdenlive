@@ -34,6 +34,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QApplication>
 #include <QDebug>
 #include <QInputDialog>
+#include <QScopedValueRollback>
 #include <QSemaphore>
 #include <unordered_map>
 
@@ -164,6 +165,40 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
     }
     bool hasEndMix = timeline->getTrackById_const(trackId)->hasEndMix(clipId);
     bool hasStartMix = timeline->getTrackById_const(trackId)->hasStartMix(clipId);
+    // Temporarily block refresh, but restore the original value when exiting the function
+    QScopedValueRollback<bool> blockRefresh(timeline->m_blockRefresh, true);
+    const auto mixData = timeline->getTrackById_const(trackId)->getMixInfo(clipId);
+    // Keep a start mix on the left fragment and an end mix on the right fragment.
+    for (bool startMix : {true, false}) {
+        if (startMix ? (!hasStartMix || position >= mixData.first.firstClipInOut.second) : (!hasEndMix || position <= mixData.second.secondClipInOut.first)) {
+            continue;
+        }
+        const MixInfo &mix = startMix ? mixData.first : mixData.second;
+        const int mixIn = startMix ? mix.secondClipInOut.first : position;
+        const int mixOut = startMix ? position : mix.firstClipInOut.second;
+        const int oldCut = timeline->m_allClips[mix.secondClipId]->getMixCutPosition();
+        const int oldCutPosition = mix.firstClipInOut.second - oldCut;
+        // Splitting may put the old edit point outside the retained fragment. Keep
+        // at least one frame of that fragment if the mix is subsequently removed.
+        const int cutPosition = startMix ? qBound(mixIn, oldCutPosition, mixOut - 1) : qBound(mixIn + 1, oldCutPosition, mixOut);
+        if (cutPosition != oldCutPosition) {
+            auto updateCut = [timeline, trackId, secondId = mix.secondClipId](int cut) {
+                auto track = timeline->getTrackById_const(trackId);
+                track->setMixDuration(secondId, timeline->m_allClips[secondId]->getMixDuration(), cut);
+                const QModelIndex ix = timeline->makeClipIndexFromID(secondId);
+                Q_EMIT timeline->dataChanged(ix, ix, {TimelineModel::MixCutRole});
+                return true;
+            };
+            Fun adjust = [updateCut, cut = mix.firstClipInOut.second - cutPosition]() { return updateCut(cut); };
+            Fun restore = [updateCut, oldCut]() { return updateCut(oldCut); };
+            adjust();
+            UPDATE_UNDO_REDO_NOLOCK(adjust, restore, undo, redo);
+        }
+        // Resizing itself preserves the edit point and only changes the overlap.
+        if (!timeline->getTrackById_const(trackId)->requestResizeMix(mix.secondClipId, {cutPosition - mixIn, mixOut - cutPosition}, undo, redo)) {
+            return false;
+        }
+    }
     int subplaylist = timeline->m_allClips[clipId]->getSubPlaylistIndex();
     PlaylistState::ClipState state = timeline->m_allClips[clipId]->clipState();
     // Check if clip has an end Mix
@@ -172,11 +207,13 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         qDebug() << "// CLONING CLIP FAILED";
         return false;
     }
-    timeline->m_blockRefresh = true;
 
     int updatedDuration = position - start;
     // Resize original clip
     res = timeline->m_allClips[clipId]->requestResize(updatedDuration, true, undo, redo, true, hasEndMix || hasStartMix);
+    if (!res) {
+        return false;
+    }
 
     if (hasEndMix) {
         // Assign end mix to new clone clip
@@ -232,7 +269,6 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         updateDuration();
         PUSH_LAMBDA(updateDuration, redo);
     }
-    timeline->m_blockRefresh = false;
     return res;
 }
 
@@ -326,7 +362,18 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
         return true;
     }
 
+    // Cutting one grouped mix participant trims its partner to the cut, so the
+    // partner is skipped below. Processing the outgoing clip first keeps the mix
+    // to the right of the cut; processing the incoming clip first keeps it to the
+    // left. Sort by start position to prefer the former over unordered-set order.
+    // Equal starts use clip IDs for determinism, not necessarily mix order.
+    std::sort(clipsToCut.begin(), clipsToCut.end(),
+              [timeline](int a, int b) { return std::make_pair(timeline->getItemPosition(a), a) < std::make_pair(timeline->getItemPosition(b), b); });
     for (int cid : std::as_const(clipsToCut)) {
+        // Shortening a mix may already have trimmed this partner to the cut.
+        if (timeline->getItemPosition(cid) >= position || timeline->getItemPosition(cid) + timeline->getItemPlaytime(cid) <= position) {
+            continue;
+        }
         count++;
         int newId = -1;
         bool res = processClipCut(timeline, cid, position, newId, undo, redo);
@@ -1136,50 +1183,30 @@ void TimelineFunctions::showCompositionKeyframes(const std::shared_ptr<TimelineI
     Q_EMIT timeline->dataChanged(modelIndex, modelIndex, {TimelineModel::ShowKeyframesRole});
 }
 
-bool TimelineFunctions::switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection)
+bool TimelineFunctions::setClipsEnabled(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, bool enabled)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool result = false;
-    bool disable = true;
+    bool changed = false;
     for (int clipId : selection) {
         if (!timeline->isClip(clipId)) {
             continue;
         }
-        PlaylistState::ClipState oldState = timeline->getClipPtr(clipId)->clipState();
-        PlaylistState::ClipState state = PlaylistState::Disabled;
-        disable = true;
-        if (oldState == PlaylistState::Disabled) {
-            state = timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType();
-            disable = false;
+        const bool wasEnabled = timeline->getClipPtr(clipId)->clipState() != PlaylistState::Disabled;
+        if (wasEnabled == enabled) {
+            continue;
         }
-        result = changeClipState(timeline, clipId, state, undo, redo);
-        if (!result) {
-            break;
+        const auto targetState = enabled ? timeline->getTrackById_const(timeline->getClipTrackId(clipId))->trackType() : PlaylistState::Disabled;
+        if (!changeClipState(timeline, clipId, targetState, undo, redo)) {
+            undo();
+            return false;
         }
+        changed = true;
     }
-    // Update action name since clip will be switched
-    int id = *selection.begin();
-    Fun local_redo = []() { return true; };
-    Fun local_undo = []() { return true; };
-    if (timeline->isClip(id)) {
-        bool disabled = timeline->m_allClips[id]->clipState() == PlaylistState::Disabled;
-        QAction *action = pCore->window()->actionCollection()->action(QStringLiteral("clip_switch"));
-        local_redo = [disabled, action]() {
-            action->setText(disabled ? i18n("Enable clip") : i18n("Disable clip"));
-            return true;
-        };
-        local_undo = [disabled, action]() {
-            action->setText(disabled ? i18n("Disable clip") : i18n("Enable clip"));
-            return true;
-        };
+    if (changed) {
+        pCore->pushUndo(undo, redo, enabled ? i18n("Enable clips") : i18n("Disable clips"));
     }
-    if (result) {
-        local_redo();
-        UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
-        pCore->pushUndo(undo, redo, disable ? i18n("Disable clip") : i18n("Enable clip"));
-    }
-    return result;
+    return changed;
 }
 
 bool TimelineFunctions::changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo)
@@ -2302,7 +2329,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
             if (proxy.length() < 4) {
                 return;
             }
-            const QString resource = Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(producer, QStringLiteral("kdenlive:originalurl")));
             if (!resource.isEmpty()) {
                 Xml::setXmlProperty(producer, QStringLiteral("resource"), resource);
                 Xml::setXmlProperty(producer, QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
@@ -2364,7 +2391,7 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
 
                 if (Xml::hasXmlProperty(currentProd, QStringLiteral("warp_resource"))) {
                     // This is a timewarp producer, change it into a normal one
-                    const QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+                    const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
                     Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
                     Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
                     // Reset AV settings as it might be a timeline producer
@@ -3268,7 +3295,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 blackBg = currentProd.attribute(QStringLiteral("id"));
                 continue;
             }
-            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource")));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
                 clipId = producerSpeedResource.value(resource);
@@ -3305,9 +3332,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             // Speed producer
             double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            producerSpeedResource.insert(QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource"))), clipId);
             qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
-            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
             Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
             producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
         }
@@ -3338,7 +3365,7 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
         if (!ok) {
-            const QString resource = Xml::getXmlProperty(currentProd, QLatin1String("resource"));
+            const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource")));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
             if (producerSpeedResource.contains(resource)) {
                 clipId = producerSpeedResource.value(resource);
@@ -3375,9 +3402,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             // Speed producer
             double speed = Xml::getXmlProperty(currentProd, QStringLiteral("warp_speed")).toDouble();
             Xml::setXmlProperty(currentProd, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
-            producerSpeedResource.insert(Xml::getXmlProperty(currentProd, QLatin1String("resource")), clipId);
+            producerSpeedResource.insert(QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource"))), clipId);
             qDebug() << "===== CLIP SPEED RESOURCE: " << Xml::getXmlProperty(currentProd, QLatin1String("resource")) << " = " << clipId;
-            QString resource = Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource"));
+            QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QStringLiteral("warp_resource")));
             Xml::setXmlProperty(currentProd, QStringLiteral("resource"), resource);
             producerSpeed.insert(currentProd.attribute(QLatin1String("id")), speed);
         }

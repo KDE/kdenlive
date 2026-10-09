@@ -552,6 +552,7 @@ public:
     void setOverlayTrack(Mlt::Playlist *overlay);
     void removeOverlayTrack();
     void deletePreviewTrack();
+    void setPreviewEnabled(bool enabled);
     std::shared_ptr<PreviewManager> previewManager();
     /**  @brief We want to delete the timelineModel without removing clips from tractor
      */
@@ -590,6 +591,8 @@ public:
        @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
+    /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
+    bool requestSingleSubtitleDeletion(int subtitleId);
     /* Same function, but accumulates undo and redo*/
     bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
@@ -959,6 +962,7 @@ public:
     int getMixCutPos(int cid) const;
     MixAlignment getMixAlign(int cid) const;
     bool hasSubtitleModel();
+    bool hasSubtitles() const;
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
@@ -1095,8 +1099,8 @@ Q_SIGNALS:
     void visibleSequenceNameChanged();
     /** @brief Connect the preview manager with timelinecontroller */
     void connectPreviewManager();
-    /** @brief An editable clip action changed, refresh menus */
-    void refreshClipActions();
+    /** @brief A clip's speed or time-remap state changed, including undo and redo. */
+    void clipTimeWarpChanged(int clipId);
     /** @brief We switched from single to normal selection mode */
     void selectionModeChanged();
 

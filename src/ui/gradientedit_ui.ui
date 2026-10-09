@@ -186,6 +186,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      <property name="maximum">
       <number>180</number>
      </property>
+     <property name="value">
+      <number>90</number>
+     </property>
     </widget>
    </item>
    <item row="4" column="0" colspan="6">
@@ -194,6 +197,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <item row="2" column="5">
     <widget class="QSpinBox" name="color2_spin">
      <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
       <number>100</number>
      </property>
     </widget>

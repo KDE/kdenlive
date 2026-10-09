@@ -27,8 +27,10 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     treeView->setModel(m_sortModel.get());
     treeView->setAlternatingRowColors(true);
     treeView->setSortingEnabled(true);
-    treeView->header()->setSectionResizeMode(2, QHeaderView::Stretch);
-    // treeView->header()->resizeSections(QHeaderView::ResizeToContents);
+    QHeaderView *header = treeView->header();
+    header->setSectionResizeMode(QHeaderView::Interactive); // Allow manual resizing
+    header->setStretchLastSection(true);
+    treeView->setTextElideMode(Qt::ElideMiddle);
     treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     bool showTreeView = !m_model.get()->isEmpty();
     treeView->setVisible(showTreeView);
@@ -185,7 +187,7 @@ void DCResolveDialog::updateStatusLabel(int missingClips, int missingClipsWithPr
         buttonBox->button(QDialogButtonBox::Abort)->setDefault(true);
         return;
     }
-    if (missingClips + removedClips + missingClipsWithProxy + missingProxies) {
+    if (missingClips + removedClips + missingClipsWithProxy + missingProxies == 0) {
         statusLabel->hide();
         searchProxies->setEnabled(false);
         recreateProxies->setEnabled(false);

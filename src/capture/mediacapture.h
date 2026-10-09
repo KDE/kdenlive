@@ -7,6 +7,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include <KMessageWidget>
 #include <QAudioBuffer>
 #include <QAudioDevice>
 #include <QAudioInput>
@@ -15,7 +16,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QElapsedTimer>
 #include <QIODevice>
 #include <QMediaCaptureSession>
-#include <QMediaDevices>
 #include <QMediaFormat>
 #include <QMediaRecorder>
 #include <QMutex>
@@ -77,7 +77,7 @@ public:
     Q_INVOKABLE QVector<qreal> levels() const;
     Q_INVOKABLE int recordState() const;
     Q_INVOKABLE int recDuration() const;
-    void switchMonitorState(bool run);
+    bool changeMonitorState(int tid, bool run);
     const QVector<double> recLevels() const;
     /** @brief Start monitoring a track **/
     Q_INVOKABLE void switchMonitorState(int tid, bool run);
@@ -124,7 +124,9 @@ private Q_SLOTS:
 Q_SIGNALS:
     void levelsChanged();
     void recordStateChanged(int tid, bool recording);
+    void monitorFailed(int tid);
     void recordDone();
     void audioLevels(QVector<qreal> levels);
     void recDurationChanged();
+    void displayMessage(const QString &message, KMessageWidget::MessageType type);
 };

@@ -107,7 +107,7 @@ private:
     QToolButton *m_viewswitch;
     std::shared_ptr<KeyframeModelList> m_keyframes;
     KeyframeView *m_keyframeview;
-    KeyframeMonitorHelper *m_monitorHelper;
+    std::unique_ptr<KeyframeMonitorHelper> m_monitorHelper;
     QTabWidget *m_curveeditorcontainer;
     int m_lastKeyframePos{-1};
     QVector<KeyframeCurveEditor *> m_curveeditorview;

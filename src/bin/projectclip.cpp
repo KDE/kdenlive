@@ -173,12 +173,12 @@ ProjectClip::ProjectClip(const QString &id, const QDomElement &description, cons
     m_markerFilterModel->setSortRole(MarkerListModel::PosRole);
     m_markerFilterModel->sort(0, Qt::AscendingOrder);
 
-    const QString proxy = getXmlProperty(description, QStringLiteral("kdenlive:proxy"));
+    const QString proxy = QDir::cleanPath(getXmlProperty(description, QStringLiteral("kdenlive:proxy")));
     if (proxy.length() > 3) {
-        m_temporaryUrl = getXmlProperty(description, QStringLiteral("kdenlive:originalurl"));
+        m_temporaryUrl = QDir::cleanPath(getXmlProperty(description, QStringLiteral("kdenlive:originalurl")));
     }
     if (m_temporaryUrl.isEmpty()) {
-        m_temporaryUrl = getXmlProperty(description, QStringLiteral("resource"));
+        m_temporaryUrl = QDir::cleanPath(getXmlProperty(description, QStringLiteral("resource")));
     }
     if (m_name.isEmpty()) {
         QString clipName = getXmlProperty(description, QStringLiteral("kdenlive:clipname"));
@@ -460,8 +460,8 @@ void ProjectClip::reloadProducer(bool refreshOnly, bool isProxy, bool forceAudio
         if (m_properties) {
             resource = m_properties->get("resource");
         }
-        if (m_service.isEmpty() && !resource.isEmpty()) {
-            xml = ClipCreator::getXmlFromUrl(resource).documentElement();
+        if (m_clipType == ClipType::Playlist || (m_service.isEmpty() && !resource.isEmpty())) {
+            xml = ClipCreator::getXmlFromUrl(resource, m_clipType).documentElement();
         } else {
             xml = toXml(doc);
         }
@@ -1389,7 +1389,7 @@ void ProjectClip::cloneProducerToFile(const QString &path, bool thumbsProducer, 
             QTextStream in(&file);
             QString content = in.readAll();
             file.close();
-            content.replace(getProducerProperty(QStringLiteral("resource")), getProducerProperty(QStringLiteral("kdenlive:originalurl")));
+            content.replace(getProducerProperty(QStringLiteral("resource")), QDir::cleanPath(getProducerProperty(QStringLiteral("kdenlive:originalurl"))));
             if (file.open(QIODevice::WriteOnly)) {
                 QTextStream out(&file);
                 out << content;
@@ -1553,7 +1553,7 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(const std::shared_ptr<
 std::unique_ptr<Mlt::Producer> ProjectClip::softClone(const char *list)
 {
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
-    QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
+    QString resource = QDir::cleanPath(QString::fromUtf8(m_masterProducer->get("resource")));
     std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(pCore->thumbProfile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Filter scaler(pCore->thumbProfile(), "swscale");
     Mlt::Filter converter(pCore->getProjectProfile(), "avcolor_space");
@@ -1569,7 +1569,7 @@ std::unique_ptr<Mlt::Producer> ProjectClip::getClone()
 {
     const char *list = ClipController::getPassPropertiesList();
     QString service = QString::fromLatin1(m_masterProducer->get("mlt_service"));
-    QString resource = QString::fromUtf8(m_masterProducer->get("resource"));
+    QString resource = QDir::cleanPath(QString::fromUtf8(m_masterProducer->get("resource")));
     std::unique_ptr<Mlt::Producer> clone(new Mlt::Producer(m_masterProducer->get_profile(), service.toUtf8().constData(), resource.toUtf8().constData()));
     Mlt::Properties original(m_masterProducer->get_properties());
     Mlt::Properties cloneProps(clone->get_properties());
@@ -1814,7 +1814,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
                 reload = true;
                 refreshOnly = false;
                 // Restore original url
-                QString resource = getProducerProperty(QStringLiteral("kdenlive:originalurl"));
+                const QString resource = QDir::cleanPath(getProducerProperty(QStringLiteral("kdenlive:originalurl")));
                 if (!resource.isEmpty()) {
                     setProducerProperty(QStringLiteral("resource"), resource);
                 }
@@ -2527,9 +2527,9 @@ void ProjectClip::copyTimeWarpProducers(const QDir sequenceFolder, bool copy)
             const QString service(warp.second->get("mlt_service"));
             QString path;
             bool isTimeWarp = false;
-            const QString resource(warp.second->get("resource"));
+            const QString resource(QDir::cleanPath(warp.second->get("resource")));
             if (service == QLatin1String("timewarp")) {
-                path = warp.second->get("warp_resource");
+                path = QDir::cleanPath(warp.second->get("warp_resource"));
                 isTimeWarp = true;
             } else {
                 path = resource;
@@ -2820,7 +2820,7 @@ int16_t ProjectClip::getAudioMax(const int streamIdx) const
 QVector<int16_t> ProjectClip::audioFrameCache(const int streamIdx) const
 {
     const QString key = QStringLiteral("_kdenlive:audio%1").arg(streamIdx);
-    if (m_masterProducer->get_data(key.toUtf8().constData())) {
+    if (m_masterProducer->property_exists(key.toUtf8().constData())) {
         const auto audioData = *static_cast<QVector<int16_t> *>(m_masterProducer->get_data(key.toUtf8().constData()));
         return audioData;
     }
@@ -2833,7 +2833,7 @@ void ProjectClip::setClipStatus(FileStatus::ClipStatus status)
     if (status == FileStatus::StatusMissing && hasProxy()) {
         // Proxy is broken. revert to original url
         setProducerProperty(QStringLiteral("kdenlive:proxy"), QStringLiteral("-"));
-        setProducerProperty(QStringLiteral("resource"), getProducerProperty("kdenlive:originalurl"));
+        setProducerProperty(QStringLiteral("resource"), QDir::cleanPath(getProducerProperty("kdenlive:originalurl")));
         status = FileStatus::StatusReady;
     }
     FileStatus::ClipStatus previousStatus = m_clipStatus;
@@ -3086,7 +3086,7 @@ void ProjectClip::setInvalid()
 void ProjectClip::updateProxyProducer(const QString &path)
 {
     resetProducerProperty(QStringLiteral("_overwriteproxy"));
-    setProducerProperty(QStringLiteral("resource"), path);
+    setProducerProperty(QStringLiteral("resource"), QDir::cleanPath(path));
     reloadProducer(false, true);
 }
 

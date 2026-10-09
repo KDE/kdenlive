@@ -856,6 +856,9 @@ int TrackModel::getClipByStartPosition(int position) const
 int TrackModel::getClipByPosition(int position, int playlist)
 {
     READ_LOCK();
+    if (position < 0) {
+        return -1;
+    }
     QSharedPointer<Mlt::Producer> prod(nullptr);
     if ((playlist == 0 || playlist == -1) && m_playlists[0].count() > 0) {
         prod = QSharedPointer<Mlt::Producer>(m_playlists[0].get_clip_at(position));
@@ -1108,11 +1111,11 @@ bool TrackModel::checkConsistency()
             return false;
         }
 
-        last_out = clips[i].first + cur_clip->getPlaytime();
+        last_out = std::max(last_out, clips[i].first + cur_clip->getPlaytime());
     }
     int playtime = std::max(m_playlists[0].get_playtime(), m_playlists[1].get_playtime());
-    if (!clips.empty() && playtime != clips.back().first + m_allClips[clips.back().second]->getPlaytime()) {
-        qDebug() << "Error: playtime is " << playtime << " but was expected to be" << clips.back().first + m_allClips[clips.back().second]->getPlaytime();
+    if (!clips.empty() && playtime != last_out) {
+        qDebug() << "Error: playtime is " << playtime << " but was expected to be" << last_out;
         return false;
     }
 
@@ -2485,6 +2488,61 @@ bool TrackModel::createMix(std::pair<int, int> clipIds, std::pair<int, int> mixD
     return false;
 }
 
+bool TrackModel::requestResizeMix(int secondClipId, std::pair<int, int> mixDurations, Fun &undo, Fun &redo)
+{
+    QWriteLocker locker(&m_lock);
+    auto timeline = m_parent.lock();
+    if (!timeline || isLocked() || !hasStartMix(secondClipId) || mixDurations.first < 0 || mixDurations.second < 0 ||
+        (mixDurations.first == 0 && mixDurations.second == 0)) {
+        return false;
+    }
+    const MixInfo mix = getMixInfo(secondClipId).first;
+    const auto firstClip = m_allClips.at(mix.firstClipId);
+    const auto secondClip = m_allClips.at(secondClipId);
+    const int oldDuration = secondClip->getMixDuration();
+    const int oldCut = secondClip->getMixCutPosition();
+    const int cutPosition = mix.firstClipInOut.second - oldCut;
+    // Each participant must keep a positive length and stay within its partner's outer edge.
+    if (mixDurations.first > cutPosition - mix.firstClipInOut.first || mixDurations.second > mix.secondClipInOut.second - cutPosition) {
+        return false;
+    }
+    const int mixIn = cutPosition - mixDurations.first;
+    const int mixOut = cutPosition + mixDurations.second;
+    const int firstSize = mixOut - mix.firstClipInOut.first;
+    const int secondSize = mix.secondClipInOut.second - mixIn;
+    if (firstSize <= 0 || secondSize <= 0) {
+        return false;
+    }
+    if (mixIn == mix.secondClipInOut.first && mixOut == mix.firstClipInOut.second) {
+        return true;
+    }
+
+    Fun localUndo = []() { return true; };
+    Fun localRedo = []() { return true; };
+    if (!firstClip->requestResize(firstSize, true, localUndo, localRedo, true, true) ||
+        !secondClip->requestResize(secondSize, false, localUndo, localRedo, true, true)) {
+        const bool undone = localUndo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    auto updateMix = [this, timeline, firstId = mix.firstClipId, secondClipId](int duration, int cut) {
+        setMixDuration(secondClipId, duration, cut);
+        QModelIndex ix = timeline->makeClipIndexFromID(secondClipId);
+        Q_EMIT timeline->dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
+        ix = timeline->makeClipIndexFromID(firstId);
+        Q_EMIT timeline->dataChanged(ix, ix, {TimelineModel::MixEndDurationRole});
+        return true;
+    };
+    Fun adjust = [updateMix, mixDurations]() { return updateMix(mixDurations.first + mixDurations.second, mixDurations.second); };
+    Fun restore = [updateMix, oldDuration, oldCut]() { return updateMix(oldDuration, oldCut); };
+    adjust();
+    // Transition bounds depend on clip positions: restore the geometry first on undo as well.
+    PUSH_LAMBDA(restore, localUndo);
+    PUSH_LAMBDA(adjust, localRedo);
+    UPDATE_UNDO_REDO(localRedo, localUndo, undo, redo);
+    return true;
+}
+
 void TrackModel::setMixDuration(int cid, int mixDuration, int mixCut)
 {
     m_allClips[cid]->setMixDuration(mixDuration, mixCut);
@@ -2596,8 +2654,8 @@ int TrackModel::isOnCut(int cid)
     if (auto ptr = m_parent.lock()) {
         std::shared_ptr<CompositionModel> composition = ptr->getCompositionPtr(cid);
         // Start and end pos are incremented by 1 to account snapping
-        int startPos = composition->getPosition() - 1;
-        int endPos = startPos + composition->getPlaytime() + 1;
+        int startPos = qMax(0, composition->getPosition() - 1);
+        int endPos = composition->getPosition() + composition->getPlaytime();
         int cid1 = getClipByPosition(startPos);
         int cid2 = getClipByPosition(endPos);
         if (cid1 == -1 || cid2 == -1 || cid1 == cid2) {

@@ -597,11 +597,12 @@ bool MixerWidget::isMute() const
     return m_muteAction->isActive();
 }
 
-void MixerWidget::unSolo()
+void MixerWidget::enforceSolo(bool enforce)
 {
     if (m_solo) {
         QSignalBlocker bl(m_solo);
-        m_solo->setChecked(false);
+        m_solo->setChecked(enforce);
+        updateTrackLabelStyle();
     }
 }
 
@@ -654,6 +655,12 @@ void MixerWidget::updateMonitorState()
         m_volumeSpin->setValue(level);
     }
     updateTrackLabelStyle();
+}
+
+void MixerWidget::monitorFailed()
+{
+    m_monitor->setChecked(false);
+    updateMonitorState();
 }
 
 void MixerWidget::monitorAudio(bool monitor)

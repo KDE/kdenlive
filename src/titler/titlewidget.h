@@ -91,6 +91,9 @@ public:
      * @return list of the fonts in the title  */
     static QStringList extractFontList(const QString &xml);
 
+    /** @brief Ensure a title has relative paths for its content resources. */
+    static QString ensureRelativePaths(const QString xmlData, const QString &newRoot);
+
     /** @brief Returns clip duration. */
     int duration() const;
     void setDuration(int duration);
@@ -170,6 +173,7 @@ private:
     QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
+    QMap<QString, QString> m_remplacementPatterns;
 
     MySpinBox *rectCornerRadius;
 
@@ -217,6 +221,10 @@ private:
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
+    // Rich text: update text controls from the caret/selection.
+    void updateTextCursorTools(MyTextItem *item);
+    bool m_richInspectorUpdatePending{false};
+
     /** @brief Checks a tool button. */
     void checkButton(GraphicsSceneRectMove::TITLETOOL toolType);
 
@@ -258,6 +266,10 @@ private:
     /** @brief Write patterns to config file
      */
     void writeBaseConfig();
+
+    /** @brief Check if there are still missing items
+     */
+    void updateMissingInfo();
 
 public Q_SLOTS:
     void slotNewText(MyTextItem *tt);
@@ -344,6 +356,8 @@ private Q_SLOTS:
 
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
+    void slotTextCursorFormatChanged(MyTextItem *item);
+    void slotRichDocumentChanged();
     void slotInsertUnicode();
     void slotInsertUnicodeString(const QString &string);
 

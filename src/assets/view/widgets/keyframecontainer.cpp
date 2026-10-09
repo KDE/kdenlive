@@ -110,7 +110,6 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     , m_model(model)
     , m_index(index)
     , m_parent(parent)
-    , m_monitorHelper(nullptr)
     , m_neededScene(SceneType::MonitorSceneDefault)
     , m_sourceFrameSize(frameSize.isValid() && !frameSize.isNull() ? frameSize : pCore->getCurrentFrameSize())
     , m_baseHeight(0)
@@ -235,41 +234,34 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     // Default kf interpolation
     KSelectAction *kfType = new KSelectAction(i18n("Default Keyframe Type"), parent);
-    QAction *discrete2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Discrete)),
-                                     KeyframeModel::getKeyframeTypes().value(KeyframeType::Discrete), parent);
-    discrete2->setData(int(KeyframeType::Discrete));
-    discrete2->setCheckable(true);
-    kfType->addAction(discrete2);
-    QAction *linear2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::Linear)),
-                                   KeyframeModel::getKeyframeTypes().value(KeyframeType::Linear), parent);
-    linear2->setData(int(KeyframeType::Linear));
-    linear2->setCheckable(true);
-    kfType->addAction(linear2);
-    QAction *curve2 = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(KeyframeType::CurveSmooth)),
-                                  KeyframeModel::getKeyframeTypes().value(KeyframeType::CurveSmooth), parent);
-    curve2->setData(int(KeyframeType::CurveSmooth));
-    curve2->setCheckable(true);
-    kfType->addAction(curve2);
-    switch (KdenliveSettings::defaultkeyframeinterp()) {
-    case int(KeyframeType::Discrete):
-        kfType->setCurrentAction(discrete2);
-        break;
-    case int(KeyframeType::Curve):
-    case int(KeyframeType::CurveSmooth):
-        kfType->setCurrentAction(curve2);
-        break;
-    default:
-        kfType->setCurrentAction(linear2);
-        break;
+    QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles2;
+    for (auto it = cmap.cbegin(); it != cmap.cend(); it++) {
+        if (it.key() == KeyframeType::Curve) {
+            continue;
+        }
+        QAction *tmp = new QAction(QIcon::fromTheme(KeyframeModel::getIconByKeyframeType(it.key())), it.value(), parent);
+        tmp->setData(int(it.key()));
+        tmp->setCheckable(true);
+        kfTypeHandles2.insert(it.key(), tmp);
+        kfType->addAction(tmp);
+    }
+    auto currentType = static_cast<KeyframeType::KeyframeEnum>(KdenliveSettings::defaultkeyframeinterp());
+    if (currentType == KeyframeType::Curve) {
+        currentType = KeyframeType::CurveSmooth;
+    }
+    if (kfTypeHandles2.contains(currentType)) {
+        kfType->setCurrentAction(kfTypeHandles2[currentType]);
+    } else if (kfTypeHandles2.contains(KeyframeType::Linear)) {
+        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
     }
     connect(kfType, &KSelectAction::actionTriggered, this, [&](QAction *ac) { KdenliveSettings::setDefaultkeyframeinterp(ac->data().toInt()); });
 
     // rotoscoping only supports linear keyframes
-    if (m_model->getAssetId() == QLatin1String("rotoscoping")) {
+    if (m_model->data(index, AssetParameterModel::TypeRole).value<ParamType>() == ParamType::Roto_spline) {
         m_selectType->setVisible(false);
         m_selectType->setCurrentAction(kfTypeHandles[KeyframeType::Linear]);
         kfType->setVisible(false);
-        kfType->setCurrentAction(linear2);
+        kfType->setCurrentAction(kfTypeHandles2[KeyframeType::Linear]);
     }
 
     // Auto keyframe limit
@@ -662,7 +654,7 @@ void KeyframeContainer::resetKeyframes()
 void KeyframeContainer::initNeededSceneAndHelper()
 {
     // Loop over all parameters to determine the needed scene and helper
-    m_monitorHelper = nullptr;
+    m_monitorHelper.reset();
     m_neededScene = SceneType::MonitorSceneDefault;
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex index = m_model->index(i, 0);
@@ -670,28 +662,28 @@ void KeyframeContainer::initNeededSceneAndHelper()
         const QString assetId = m_model->getAssetId();
         if (assetId == QLatin1String("qtblend")) {
             m_neededScene = SceneType::MonitorSceneRotatedGeometry;
-            m_monitorHelper = new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RotatedRectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (type == ParamType::Roto_spline) {
             m_neededScene = SceneType::MonitorSceneRoto;
-            m_monitorHelper = new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RotoHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect) {
             m_neededScene = SceneType::MonitorSceneGeometry;
-            m_monitorHelper = new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent);
+            m_monitorHelper.reset(new KeyframeMonitorHelper(pCore->getMonitor(m_model->monitorId), m_model, m_neededScene, m_parent));
             break;
         } else if (assetId == QLatin1String("frei0r.c0rners")) {
             m_neededScene = SceneType::MonitorSceneCorners;
-            m_monitorHelper = new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new CornersHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         } else if (assetId == QLatin1String("frei0r.alpha0ps_alphaspot") || assetId.contains(QLatin1String("frei0r.alphaspot"))) {
             m_neededScene = SceneType::MonitorSceneGeometry;
-            m_monitorHelper = new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent);
+            m_monitorHelper.reset(new RectHelper(pCore->getMonitor(m_model->monitorId), m_model, m_parent));
             break;
         }
     }
     if (m_monitorHelper) {
-        connect(this, &KeyframeContainer::addIndex, m_monitorHelper, &KeyframeMonitorHelper::addIndex);
+        connect(this, &KeyframeContainer::addIndex, m_monitorHelper.get(), &KeyframeMonitorHelper::addIndex);
     }
 }
 
@@ -893,14 +885,14 @@ void KeyframeContainer::connectMonitor(bool active)
 {
     if (m_monitorHelper) {
         if (m_model->isActive()) {
-            connect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
+            connect(m_monitorHelper.get(), &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor,
                     Qt::UniqueConnection);
             if (m_monitorHelper->connectMonitor(active)) {
                 slotRefreshParams();
             }
         } else {
             m_monitorHelper->connectMonitor(false);
-            disconnect(m_monitorHelper, &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
+            disconnect(m_monitorHelper.get(), &KeyframeMonitorHelper::updateKeyframeData, this, &KeyframeContainer::slotUpdateKeyframesFromMonitor);
         }
     }
 

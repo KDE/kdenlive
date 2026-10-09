@@ -548,7 +548,10 @@ void ClipLoadTask::run()
         QString path = producer->get("resource");
         if (!path.isEmpty() && QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
+            path = QDir::cleanPath(path);
             producer->set("resource", path.toUtf8().constData());
+        } else {
+            path = QDir::cleanPath(path);
         }
         QString original = ProjectClip::getOriginalFromProxy(path);
         if (!original.isEmpty()) {

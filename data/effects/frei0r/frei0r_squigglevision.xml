@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.squigglevision" id="frei0r.squigglevision">
+    <name>Squigglevision</name>
+    <description>Creates a hand-drawn wobble effect</description>
+    <author>Gabriel Lobo</author>
+    <parameter type="animated" name="0" default="0.08" min="0" max="100" decimals="1" factor="100" suffix="%">
+        <name>Strength</name>
+        <comment><![CDATA[Displacement amount]]></comment>
+    </parameter>
+    <parameter type="animated" name="1" default="0.2" min="0" max="30" decimals="0" factor="30">
+        <name>FPS</name>
+        <comment><![CDATA[Squiggle updates per second]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" default="0.18" min="4" max="128" decimals="0" factor="128" suffix="px">
+        <name>Scale</name>
+        <comment><![CDATA[Noise cell size]]></comment>
+    </parameter>
+</effect>

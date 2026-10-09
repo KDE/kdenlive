@@ -38,6 +38,7 @@ MixerManager::MixerManager(QWidget *parent)
     setContentsMargins(kNoMargin);
     m_channelsBox = new QScrollArea(this);
     m_channelsBox->setContentsMargins(kNoMargin);
+    QVBoxLayout *vBox = new QVBoxLayout(this);
     m_box = new QHBoxLayout;
     m_box->setContentsMargins(kNoMargin);
     m_box->setSpacing(0);
@@ -55,12 +56,22 @@ MixerManager::MixerManager(QWidget *parent)
     m_masterSeparator = new MixerSeparator(this);
     m_box->addWidget(m_masterSeparator);
     m_box->addLayout(m_masterBox);
-    setLayout(m_box);
+    vBox->addLayout(m_box);
+    m_messageWidget = new KMessageWidget(this);
+    m_messageWidget->setCloseButtonVisible(false);
+    m_messageWidget->setWordWrap(true);
+    m_messageWidget->setVisible(false);
+    vBox->addWidget(m_messageWidget);
 }
 
 void MixerManager::checkAudioLevelVersion()
 {
     m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
+}
+
+bool MixerManager::isMasterMute() const
+{
+    return m_masterMixer ? m_masterMixer->isMute() : false;
 }
 
 void MixerManager::monitorAudio(int tid, bool monitor)
@@ -70,7 +81,7 @@ void MixerManager::monitorAudio(int tid, bool monitor)
             m_mixers[tid]->monitorAudio(false);
         }
         m_monitorTrack = -1;
-        pCore->getAudioDevice()->switchMonitorState(false);
+        pCore->getAudioDevice()->changeMonitorState(tid, false);
         pCore->monitorAudio(tid, false);
         return;
     }
@@ -83,7 +94,16 @@ void MixerManager::monitorAudio(int tid, bool monitor)
         }
         m_monitorTrack = -1;
     } else {
-        pCore->getAudioDevice()->switchMonitorState(true);
+        if (!pCore->getAudioDevice()->changeMonitorState(tid, true)) {
+            // Monitoring failed
+            pCore->getAudioDevice()->changeMonitorState(tid, false);
+            pCore->monitorAudio(tid, false);
+            if (m_mixers.count(tid) > 0) {
+                m_mixers[tid]->monitorFailed();
+            }
+            m_monitorTrack = -1;
+            return;
+        }
     }
     if (m_mixers.count(tid) > 0) {
         m_monitorTrack = tid;
@@ -161,12 +181,12 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
             m_model->setTrackProperty(trid, "hide", QStringLiteral("1"));
             for (const auto &item : m_mixers) {
                 if (!m_soloTracks.contains(item.first)) {
-                        bool wasMuted = item.second->isMute();
-                        m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
-                        if (!m_soloMuted.contains(item.first) && !wasMuted) {
+                    bool wasMuted = item.second->isMute();
+                    m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
+                    if (!m_soloMuted.contains(item.first) && !wasMuted) {
                         m_soloMuted << item.first;
                     }
-                    item.second->unSolo();
+                    item.second->enforceSolo(false);
                 }
             }
         }
@@ -188,7 +208,7 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
                 if (item.first != trid && !item.second->isMute()) {
                     m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
                     m_soloMuted << item.first;
-                    item.second->unSolo();
+                    item.second->enforceSolo(false);
                 }
             }
             m_soloTracks << trid;
@@ -206,6 +226,39 @@ void MixerManager::registerTrack(int tid, Mlt::Tractor *service, const QString &
     m_recommendedWidth = (mixer->minimumWidth() + 1) * (qMin(2, int(m_mixers.size()))) + 3;
     if (!KdenliveSettings::mixerCollapse()) {
         m_channelsBox->setMinimumWidth(m_recommendedWidth);
+    }
+}
+
+void MixerManager::slotSwitchSoloMode(int tid)
+{
+    if (m_soloTracks.contains(tid)) {
+        // discard all solo, restore normal operation
+        m_soloTracks.clear();
+        if (m_mixers.count(tid) > 0) {
+            m_mixers[tid]->enforceSolo(false);
+        }
+        for (int id : std::as_const(m_soloMuted)) {
+            if (m_mixers.count(id) > 0) {
+                m_model->setTrackProperty(id, "hide", QStringLiteral("1"));
+                m_mixers[id]->enforceSolo(false);
+            }
+        }
+        m_soloMuted.clear();
+    } else {
+        // make track solo
+        if (m_mixers.count(tid) > 0) {
+            m_model->setTrackProperty(tid, "hide", QStringLiteral("1"));
+        }
+        for (const auto &item : m_mixers) {
+            if (item.first == tid) {
+                item.second->enforceSolo(true);
+            } else if (!item.second->isMute()) {
+                m_model->setTrackProperty(item.first, "hide", QStringLiteral("3"));
+                m_soloMuted << item.first;
+                item.second->enforceSolo(false);
+            }
+        }
+        m_soloTracks << tid;
     }
 }
 
@@ -312,6 +365,15 @@ void MixerManager::recordStateChanged(int tid, bool recording)
     Q_EMIT pCore->switchTimelineRecord(recording);
 }
 
+void MixerManager::monitorFailed(int tid)
+{
+    if (m_mixers.count(tid) > 0) {
+        m_mixers[tid]->monitorFailed();
+    } else {
+        qDebug() << ":::: NO MONITORING MIXER FOUND FOR: " << tid;
+    }
+}
+
 void MixerManager::connectMixer(bool doConnect)
 {
     m_visibleMixerManager = doConnect;
@@ -371,4 +433,12 @@ int MixerManager::recordTrack() const
 bool MixerManager::audioLevelV2() const
 {
     return m_filterIsV2;
+}
+
+void MixerManager::displayMessage(const QString &message, KMessageWidget::MessageType type)
+{
+    m_messageWidget->setText(message);
+    m_messageWidget->setMessageType(type);
+    m_messageWidget->animatedShow();
+    QTimer::singleShot(4000, this, [this]() { m_messageWidget->animatedHide(); });
 }

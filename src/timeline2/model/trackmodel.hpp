@@ -56,6 +56,7 @@ public:
     friend struct TimelineFunctions;
     friend class TimelineItemModel;
     friend class TimelineModel;
+    friend class KdenliveTests;
     friend class OtioExport;
 
 private:
@@ -117,6 +118,12 @@ public:
     /** @brief Create a composition between 2 same track clips */
     bool requestClipMix(const QString &mixId, std::pair<int, int> clipIds, std::pair<int, int> mixDurations, bool updateView, bool finalMove, Fun &undo,
                         Fun &redo, bool groupMove);
+    /** @brief Resize an existing mix, preserving its absolute edit point.
+     * @param mixDurations Frames before and after the edit point, respectively.
+     * Adjusts the participants' inner edges and the transition as one undoable operation.
+     * Returns false without adding undo/redo operations if the exact requested geometry cannot be applied.
+     */
+    bool requestResizeMix(int secondClipId, std::pair<int, int> mixDurations, Fun &undo, Fun &redo);
     /** @brief Get clip ids and in/out position for mixes in this clip */
     std::pair<MixInfo, MixInfo> getMixInfo(int cid) const;
     /** @brief Delete a mix composition */

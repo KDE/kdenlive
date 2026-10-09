@@ -32,7 +32,6 @@ Rectangle
     signal blockAutoScroll(bool enabled)
 
     onKfrCountChanged: {
-        parent.hasKeyframes = kfrCount > 1
         keyframecanvas.requestPaint()
     }
 

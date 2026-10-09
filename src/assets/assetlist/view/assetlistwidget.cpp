@@ -15,6 +15,7 @@
 #include <KMessageWidget>
 #include <KNSCore/Entry>
 #include <KNSWidgets/Action>
+#include <KStandardAction>
 #include <QAction>
 #include <QActionGroup>
 #include <QDrag>
@@ -308,6 +309,10 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
     connect(m_searchLine, &QLineEdit::textChanged, this, [this](const QString &str) { setFilterName(str); });
     m_lay->addWidget(m_searchLine);
 
+    QAction *findAction = KStandardAction::find(m_searchLine, SLOT(setFocus()), this);
+    addAction(findAction);
+    findAction->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+
     setAcceptDrops(true);
 
     // Create stacked widget to hold both views
@@ -392,6 +397,11 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 }
 
 AssetListWidget::~AssetListWidget() {}
+
+QWidget *AssetListWidget::searchLine()
+{
+    return m_searchLine;
+}
 
 bool AssetListWidget::eventFilter(QObject *watched, QEvent *event)
 {

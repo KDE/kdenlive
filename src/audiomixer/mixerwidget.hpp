@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include "definitions.h"
 #include "mlt++/MltService.h"
 
 #include <QAbstractSpinBox>
@@ -48,9 +49,9 @@ public:
     /** @brief Returns true if track is muted
      * */
     bool isMute() const;
-    /** @brief Uncheck the solo button
+    /** @brief Uncheck or check the solo button
      * */
-    void unSolo();
+    void enforceSolo(bool enforce);
     /** @brief Connect the mixer widgets to the correspondent filters */
     void connectMixer(bool doConnect);
     /** @brief Disable/enable monitoring by disabling/enabling filter */
@@ -61,6 +62,8 @@ public:
     void monitorAudio(bool monitor);
     void setBackgroundColor(const QColor &color);
     void setBackgroundColor(QPalette::ColorRole role);
+    /** @brief Starting audio monitor failed, uncheck mic action */
+    void monitorFailed();
 
 public Q_SLOTS:
     void updateAudioLevel(int pos);

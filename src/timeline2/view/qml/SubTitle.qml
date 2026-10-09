@@ -172,7 +172,7 @@ Item {
                     incrementalOffset += offset
                     newStart = Math.max(0, oldStartFrame + (subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x + incrementalOffset - subtitleRoot.oldStartX)/ subtitleRoot.timeScale)
                     snappedFrame = subtitleRoot.controller.suggestSubtitleMove(subtitleRoot.subId, subtitleRoot.subLayer, newStart, subtitleRoot.consumerPosition, subtitleRoot.snapping)
-                    subtitleRoot.continuousScrolling(subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x + incrementalOffset, subtitleRoot.timeScale)
+                    subtitleRoot.continuousScrolling(subtitleRoot.timelineScrollView.contentX + mapToItem(subtitleRoot.timelineScrollView, mouseX, 0).x + incrementalOffset, subtitleRoot.timeScale, 10)
                 }
             }
             onPositionChanged: (mouse) => {

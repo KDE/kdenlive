@@ -31,6 +31,7 @@ frei0r_bw0r.xml
 frei0r_c0rners.xml
 frei0r_cairogradient.xml
 frei0r_cairoimagegrid.xml
+frei0r_camerashake.xml
 frei0r_cartoon.xml
 frei0r_cluster.xml
 frei0r_colgate.xml
@@ -97,6 +98,7 @@ frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
 frei0r_scanline0r.xml
 frei0r_select0r.xml
+frei0r_shake0scillate.xml
 frei0r_sharpness.xml
 frei0r_sigmoidaltransfer.xml
 frei0r_sobel.xml
@@ -104,6 +106,7 @@ frei0r_softglow.xml
 frei0r_sopsat.xml
 frei0r_spillsupress.xml
 frei0r_squareblur.xml
+frei0r_squigglevision.xml
 frei0r_tehroxx0r.xml
 frei0r_three_point_balance.xml
 frei0r_threelay0r.xml

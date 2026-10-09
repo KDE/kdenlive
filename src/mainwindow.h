@@ -41,6 +41,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "otio/otioimport.h"
 #include "powermanagementinterface.h"
 #include "statusbarmessagelabel.h"
+#include "timeline2/view/timelinecontroller.h"
 
 class AssetPanel;
 class AudioGraphSpectrum;
@@ -105,6 +106,10 @@ public:
     void addAction(const QString &name, QAction *action, const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
     /** @brief Same as above, but takes a string for category to populate it with kdenliveCategoryMap */
     void addAction(const QString &name, QAction *action, const QKeySequence &shortcut, const QString &category);
+    /** @brief Creates and registers an action; the receiving widget binds it during populateActions. */
+    QAction *addAction(const QString &name, const QString &text, const QIcon &icon = QIcon(), const QKeySequence &shortcut = QKeySequence(),
+                       KActionCategory *category = nullptr);
+    QAction *addAction(const QString &name, const QString &text, const QIcon &icon, const QKeySequence &shortcut, const QString &category);
     /** @brief Adds an action to the action collection and stores the name. */
     QAction *addAction(const QString &name, const QString &text, const QObject *receiver, const char *member, const QIcon &icon = QIcon(),
                        const QKeySequence &shortcut = QKeySequence(), KActionCategory *category = nullptr);
@@ -143,7 +148,7 @@ public:
     /** @brief Returns a pointer to the timeline with @uuid */
     TimelineWidget *getTimeline(const QUuid uuid) const;
     void getSequenceProperties(const QUuid &uuid, QMap<QString, QString> &props);
-    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed=false);
+    void closeTimelineTab(const QUuid uuid, bool onDeletion, bool checkActiveClosed = false);
     /** @brief Returns a list of opened tabs uuids */
     const QStringList openedSequences() const;
 
@@ -155,6 +160,8 @@ public:
 
     /** @brief Raise (show) the clip or project monitor */
     void raiseMonitor(bool clipMonitor, bool raise = false);
+    /** @brief Raise (show) the audio mixer dock */
+    void raiseMixer(bool raise = true);
 
     /** @brief Raise (show) the project bin
      * @param unconditionally if false, we won't raise the bin if docked with the project monitor */
@@ -197,11 +204,13 @@ public:
 
     /** @brief Check if the maximum cached data size is not exceeded. */
     void checkMaxCacheSize();
-    TimelineWidget *openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel,
-                                 bool openInMonitor = true);
+    TimelineWidget *openTimeline(const QUuid &uuid, int ix, const QString &tabName, std::shared_ptr<TimelineItemModel> timelineModel, bool openInMonitor = true,
+                                 bool previewEnabled = true);
     /** @brief Bring a timeline tab in front. Returns false if no tab exists for this timeline. */
     bool raiseTimeline(const QUuid &uuid);
+    /** @brief Connect application state for the active timeline when switching tabs. */
     void connectTimeline();
+    /** @brief Disconnect active-timeline state, retaining the widget's lifetime connections. */
     void disconnectTimeline(TimelineWidget *timeline, bool onClose = false);
     static QProcessEnvironment getCleanEnvironement();
     ObjectId effectStackOwner();
@@ -240,6 +249,12 @@ protected:
 private:
     /** @brief Sets up all the actions and attaches them to the collection. */
     void setupActions();
+    /** @brief Install widget-lifetime connections once, before model and QML initialization. */
+    void connectTimelineApplication(TimelineWidget *timeline);
+    /** @brief Select the focused deletion action; nullptr selects the effect stack's direct command. */
+    QAction *focusedDeleteAction() const;
+    void updateDeleteAction();
+    QMetaObject::Connection m_deleteActionStateConnection;
     /** @brief Rebuild the dock menu according to existing dock widgets. */
     void updateDockMenu();
     /** @brief Update the audio thumbnails action icon based on current zoom and toggle state */
@@ -332,10 +347,10 @@ private:
     QAction *m_audioZoomOut;
     QAction *m_audioZoomReset;
     QAction *m_audioZoomCycle;
-    QAction *m_loopZone;
-    QAction *m_playZone;
-    QAction *m_playZoneFromCursor;
-    QAction *m_loopClip;
+    KDualAction *m_loopZone{nullptr};
+    KDualAction *m_playZone{nullptr};
+    KDualAction *m_playZoneFromCursor{nullptr};
+    KDualAction *m_loopClip{nullptr};
     QAction *m_proxyClip;
     QAction *m_buttonSubtitleEditTool;
     QString m_theme;
@@ -432,8 +447,6 @@ public Q_SLOTS:
     void manageClipJobs(AbstractTask::JOBTYPE type = AbstractTask::NOJOBTYPE, QWidget *parentWidget = nullptr);
     /** @brief Deletes item in timeline, project tree or effect stack depending on focus. */
     void slotDeleteItem();
-    /** @brief Export a subtitle file */
-    void slotExportSubtitle();
     /** @brief Display current mouse pos */
     void slotUpdateMousePosition(int pos, int duration = -1);
     /** @brief Focus current timeline clip in bin and display its range */
@@ -489,28 +502,12 @@ private Q_SLOTS:
      * This can be useful to mark something during playback. */
     void slotAddMarkerGuideQuickly();
     void slotAddMarkerWithCategory();
-    void slotDuplicateTimelineClip();
-    void slotCutTimelineClip();
-    void slotReplaceTimelineClip();
-    void slotCutTimelineAllClips();
     void slotInsertClipOverwrite();
     void slotInsertClipInsert();
     void slotExtractZone();
     void slotLiftZone();
     void slotCreateRangeMarkerFromZone();
     void slotCreateRangeMarkerFromZoneQuick();
-    void slotPreviewRender();
-    void slotStopPreviewRender();
-    void slotDefinePreviewRender();
-    void slotRemovePreviewRender();
-    void slotClearPreviewRender(bool resetZones = true);
-    void slotSelectTimelineClip();
-    void slotSelectTimelineZone();
-    void slotSelectTimelineTransition();
-    void slotDeselectTimelineClip();
-    void slotDeselectTimelineTransition();
-    void slotSelectAddTimelineClip();
-    void slotSelectAddTimelineTransition();
     void slotAddEffect(QAction *result);
     void slotAddTransition(QAction *result);
     void slotAddProjectClip(const QUrl &url, const QString &folderInfo);
@@ -528,26 +525,13 @@ private Q_SLOTS:
     void slotSelectClipInTimeline();
     void slotClipInTimeline(const QString &clipId, const QList<int> &ids);
 
-    void slotInsertSpace();
-    void slotRemoveSpace();
-    void slotRemoveSpaceInAllTracks();
-    void slotRemoveAllSpacesInTrack();
-    void slotRemoveAllClipsInTrack();
-    void slotAddMarkersAtGaps();
-    void slotAddMarkersAtGapsOnTrack();
-    void slotAddGuide();
-    void slotEditGuide();
     void slotExportGuides();
     void slotLockGuides(bool lock);
-    void slotDeleteGuide();
     void slotDeleteAllGuides();
 
     void slotCopy();
     void slotCut();
     void slotPaste();
-    void slotPasteEffects();
-    void slotResizeItemStart();
-    void slotResizeItemEnd();
     void configureNotifications();
     void slotSeparateAudioChannel();
     /** @brief Toggle automatic fit track height */
@@ -556,25 +540,11 @@ private Q_SLOTS:
     void slotDeleteTrack();
     void slotMoveTrackUp();
     void slotMoveTrackDown();
-    /** @brief Show context menu to switch current track target audio stream. */
-    void slotSwitchTrackAudioStream();
     void slotShowTrackRec(bool checked);
-    /** @brief Select all clips in active track. */
-    void slotSelectTrack();
     /** @brief Select all clips in timeline. */
     void slotSelectAllTracks();
-    void slotUnselectAllTracks();
     void slotRunWizard();
-    void slotGroupClips();
-    void slotUnGroupClips();
-    void slotEditItemDuration();
     // void slotClipToProjectTree();
-    void slotSplitAV();
-    void slotSwitchClip();
-    void slotSetAudioAlignReference();
-    void slotAlignAudio();
-    void slotSetTimecodeReference();
-    void slotAlignTimecode();
     void slotUpdateTimelineView(QAction *action);
     void slotTranscodeClip();
     /** @brief Archive project: creates a copy of the project file with all clips in a new folder. */
@@ -588,6 +558,8 @@ private Q_SLOTS:
     void applyToolMessageStyling();
     /** @brief Apply zoom level button styling based on current zoom level */
     void applyZoomLevelButtonStyling();
+
+    void updateTimelineSelectionActions(const TimelineController::SelectionState &state);
 
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
@@ -630,8 +602,6 @@ private Q_SLOTS:
     void slotUpdateCompositing(bool checked);
     /** @brief Set timeline toolbar icon size. */
     void setTimelineToolbarIconSize(QAction *a);
-    void slotEditItemSpeed();
-    void slotRemapItemTime();
     /** @brief Request adjust of timeline track height */
     void resetTimelineTracks();
     /** @brief Set keyboard grabbing on current timeline item */
@@ -643,22 +613,8 @@ private Q_SLOTS:
     void slotAudioZoomOut();
     void slotAudioZoomReset();
     void slotAudioZoomCycle();
-    /** @brief Save currently selected timeline clip as bin subclip*/
-    void slotExtractClip();
-    /** @brief Save currently selected timeline clip as bin subclip*/
-    void slotSaveZoneToBin();
-    /** @brief Expand current timeline clip (recover clips and tracks from an MLT playlist) */
-    void slotExpandClip();
-    /** @brief Focus and activate an audio track from a shortcut sequence */
-    void slotActivateAudioTrackSequence();
     /** @brief Focus and activate a video track from a shortcut sequence */
     void slotActivateVideoTrackSequence();
-    /** @brief Select target for current track */
-    void slotActivateTarget();
-    /** @brief Enable/disable subtitle track */
-    void slotDisableSubtitle();
-    /** @brief Lock / unlock subtitle track */
-    void slotLockSubtitle();
     /** @brief Import a subtitle file */
     void slotImportSubtitle();
     /** @brief Display the subtitle manager widget */
@@ -672,10 +628,6 @@ private Q_SLOTS:
     void slotSearchGuide();
     /** @brief Focus the bin search line */
     void slotSearchBin();
-    /** @brief Move current timeline selection to a new sequence clip / Timeline tab */
-    void slotCreateSequenceFromSelection();
-    /** @brief Copy current timeline selection to a new sequence clip / Timeline tab */
-    void slotCopyAndCreateSequenceFromSelection();
 
 Q_SIGNALS:
     Q_SCRIPTABLE void abortRenderJob(const QString &url);

@@ -163,7 +163,7 @@ void EncodingProfilesDialog::slotAddProfile()
         if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
             warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
                                   unknownKeywords.join(QLatin1Char(','))));
-            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"));
+            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"), warning);
             connect(addSafeParams, &QAction::triggered, d, [d, unknownKeywords, warning]() {
                 UiUtils::addSafeParameters(unknownKeywords);
                 warning->hide();
@@ -232,7 +232,7 @@ void EncodingProfilesDialog::slotEditProfile()
         if (!unknownKeywords.isEmpty() && (!warning->isVisible() || warning->actions().isEmpty())) {
             warning->setText(i18n("Your proxy parameters contains unknown parameters: <br><b>%1</b><br>Do you want to always allow them ?",
                                   unknownKeywords.join(QLatin1Char(','))));
-            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"));
+            QAction *addSafeParams = new QAction(i18n("Always Allow Parameters"), warning);
             connect(addSafeParams, &QAction::triggered, d, [d, unknownKeywords, warning]() {
                 UiUtils::addSafeParameters(unknownKeywords);
                 warning->hide();

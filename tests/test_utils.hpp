@@ -120,6 +120,7 @@ public:
     static void destructGroupItem(std::shared_ptr<TimelineItemModel> timeline, int id, bool update, Fun &undo, Fun &redo);
     static std::shared_ptr<KeyframeModel> cloneModel(std::shared_ptr<KeyframeModel> original);
     static const std::shared_ptr<TrackModel> getTrackById_const(std::shared_ptr<TimelineItemModel> timeline, int tid);
+    static int isOnCut(const std::shared_ptr<TrackModel> &track, int cid);
     static QDomDocument getDocument(KdenliveDoc *openedDoc);
     static int downLinks(std::shared_ptr<TimelineItemModel> timeline, int gid);
     static int downLinksSize(std::shared_ptr<TimelineItemModel> timeline);
@@ -142,4 +143,5 @@ public:
     static int modelSize(std::shared_ptr<AbstractTreeModel> model);
     static bool effectFilterName(EffectFilter &filter, std::shared_ptr<TreeItem> item);
     static void updateProjectProfile(KdenliveDoc *doc, bool reloadProducers = false) { doc->updateProjectProfile(reloadProducers, false); }
+    static const QString folderForProjectFiles(KdenliveDoc *doc) { return doc->folderForProjectFiles(); }
 };

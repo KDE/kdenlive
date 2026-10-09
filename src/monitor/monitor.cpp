@@ -1881,7 +1881,12 @@ void Monitor::forceMonitorRefresh()
 
 void Monitor::refreshMonitor(bool directUpdate, bool slowRefresh)
 {
-    if (!m_glMonitor->isReady() || isPlaying()) {
+    if (!m_glMonitor->isReady()) {
+        return;
+    }
+    if (isPlaying()) {
+        // Discard buffered frames so playback reflects the updated timeline.
+        m_glMonitor->purgeCache();
         return;
     }
     if (isActive()) {
@@ -1947,11 +1952,13 @@ void Monitor::switchPlay(bool play)
         play = false;
     }
     m_playAction->setActive(play);
+    Q_EMIT playbackChanged(play);
 }
 
 void Monitor::updatePlayAction(bool play)
 {
     m_playAction->setActive(play);
+    Q_EMIT playbackChanged(play);
     if (!play) {
         m_droppedTimer.stop();
     }
@@ -1996,6 +2003,7 @@ void Monitor::slotSwitchPlay()
         play = false;
         m_playAction->setActive(false);
     }
+    Q_EMIT playbackChanged(play);
     if (!play && KdenliveSettings::rewindOnStop()) {
         // Update proxy position immediately so the playhead moves before the
         // async frame from MLT arrives. Without this, positionFromConsumer()
@@ -2053,6 +2061,10 @@ void Monitor::slotPlayZone(bool startFromIn)
     if (!slotActivateMonitor()) {
         return;
     }
+    if (isPlaying()) {
+        pause();
+        return;
+    }
     bool ok = m_glMonitor->playZone(startFromIn, false);
     if (ok) {
         updatePlayAction(true);
@@ -2064,6 +2076,10 @@ void Monitor::slotLoopZone()
     if (!slotActivateMonitor()) {
         return;
     }
+    if (isPlaying()) {
+        pause();
+        return;
+    }
     bool ok = m_glMonitor->playZone(true, true);
     if (ok) {
         updatePlayAction(true);
@@ -2073,6 +2089,10 @@ void Monitor::slotLoopZone()
 void Monitor::slotLoopClip(std::pair<int, int> inOut)
 {
     if (!slotActivateMonitor()) {
+        return;
+    }
+    if (isPlaying()) {
+        pause();
         return;
     }
     bool ok = m_glMonitor->loopClip(inOut);
@@ -2166,9 +2186,12 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         pCore->taskManager.displayedClip = -1;
         m_markerModel = nullptr;
         loadQmlScene(SceneType::MonitorSceneDefault);
-        m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_glMonitor->getControllerProxy()->setAudioThumb();
         m_glMonitor->getControllerProxy()->resetTimeZoom();
+        if (monitorVisible() && !pCore->currentDoc()->closing) {
+            slotActivateMonitor();
+        }
+        m_glMonitor->setProducer(nullptr, isActive(), -1);
         m_audioMeterWidget->audioChannels = 0;
         m_timePos->setRange(0, 0);
         m_glMonitor->setRulerInfo(0);
@@ -2179,9 +2202,6 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         checkOverlay();
         if (pCore->currentDoc()->closing) {
             return false;
-        }
-        if (monitorVisible()) {
-            slotActivateMonitor();
         }
         return true;
     } else {

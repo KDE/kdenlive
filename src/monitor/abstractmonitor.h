@@ -65,6 +65,7 @@ public:
     Kdenlive::MonitorId id() { return m_id; }
     ~AbstractMonitor() override;
     bool isActive() const;
+    virtual bool isPlaying() const = 0;
     virtual void mute(bool mute) = 0;
 
 public Q_SLOTS:

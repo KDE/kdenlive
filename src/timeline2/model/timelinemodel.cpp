@@ -913,7 +913,7 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         }
     }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.firstClipId > -1;
-    if (!finalMove && !revertMove) {
+    if ((!finalMove || (!groupMove && old_trackId > -1)) && !revertMove) {
         QVector<int> exceptions = {clipId};
         if (mixData.first.firstClipId > -1) {
             exceptions << mixData.first.firstClipId;
@@ -2588,6 +2588,26 @@ bool TimelineModel::ensureAudioTracksForClip(int missingCount, int trackId, bool
     return result;
 }
 
+bool TimelineModel::requestSingleSubtitleDeletion(int subtitleId)
+{
+    QWriteLocker locker(&m_lock);
+    if (m_closing || !isSubTitle(subtitleId) || !m_subtitleModel || m_subtitleModel->isLocked()) {
+        return false;
+    }
+    // Clear a selection containing the target before changing its group structure.
+    if (getCurrentSelection().contains(subtitleId)) {
+        requestClearSelection(true);
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    extractSelectionFromGroup(subtitleId, undo, redo, true);
+    if (!requestSubtitleDeletion(subtitleId, undo, redo, true, true)) {
+        undo();
+        return false;
+    }
+    PUSH_UNDO(undo, redo, i18n("Delete Subtitle"));
+    return true;
+}
 
 bool TimelineModel::requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo)
 {
@@ -6762,7 +6782,7 @@ bool TimelineModel::checkConsistency(const std::vector<int> &guideSnaps)
         if (getClipTrackId(cp.first) != -1) {
             snaps[clip->getPosition()] += 1;
             snaps[clip->getPosition() + clip->getPlaytime()] += 1;
-            if (clip->getMixDuration() > 0) {
+            if (clip->getMixDuration() > clip->getMixCutPosition()) {
                 snaps[clip->getPosition() + clip->getMixDuration() - clip->getMixCutPosition()] += 1;
             }
         }
@@ -7208,6 +7228,13 @@ bool TimelineModel::requestClipTimeWarp(int clipId, double speed, bool pitchComp
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
@@ -7225,7 +7252,6 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable)
         result = result && requestClipTimeRemap(clipId, enable, undo, redo);
         if (result) {
             PUSH_UNDO(undo, redo, i18n("Enable time remap"));
-            Q_EMIT refreshClipActions();
             return true;
         } else {
             return false;
@@ -7270,6 +7296,13 @@ bool TimelineModel::requestClipTimeRemap(int clipId, bool enable, Fun &undo, Fun
         local_undo();
         return false;
     }
+    Fun notify = [this, clipId]() {
+        Q_EMIT clipTimeWarpChanged(clipId);
+        return true;
+    };
+    PUSH_LAMBDA(notify, local_redo);
+    PUSH_LAMBDA(notify, local_undo);
+    notify();
     UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return success;
 }
@@ -7947,262 +7980,88 @@ MixAlignment TimelineModel::getMixAlign(int cid) const
 
 void TimelineModel::requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames)
 {
+    QWriteLocker locker(&m_lock);
     Q_ASSERT(isClip(cid));
-    int tid = m_allClips.at(cid)->getCurrentTrackId();
-    if (tid > -1) {
-        MixInfo mixData = getTrackById_const(tid)->getMixInfo(cid).first;
-        int clipToResize = mixData.firstClipId;
-        if (clipToResize > -1) {
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            // The mix cut position should never change through a resize operation
-            int cutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getMixCutPosition();
-            int maxLengthLeft = m_allClips.at(clipToResize)->getMaxDuration();
-            // Maximum space for expanding the right clip part
-            int leftMax = maxLengthLeft > -1 ? (maxLengthLeft - 1 - m_allClips.at(clipToResize)->getOut()) : -1;
-            // Maximum space available on the right clip
-            int availableLeft = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() -
-                                (m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime());
-            if (leftMax == -1) {
-                leftMax = availableLeft;
-            } else {
-                leftMax = qMin(leftMax, availableLeft);
-            }
-
-            int maxLengthRight = m_allClips.at(cid)->getMaxDuration();
-            // maximum space to resize clip on the left
-            int availableRight = m_allClips.at(cid)->getPosition() - m_allClips.at(clipToResize)->getPosition();
-            int rightMax = maxLengthRight > -1 ? (m_allClips.at(cid)->getIn()) : -1;
-            if (rightMax == -1) {
-                rightMax = availableRight;
-            } else {
-                rightMax = qMin(rightMax, availableRight);
-            }
-            Fun adjust_mix_undo = [this, tid, cid, clipToResize, prevCut = m_allClips.at(cid)->getMixCutPosition(),
-                                   prevDuration = m_allClips.at(cid)->getMixDuration()]() {
-                getTrackById_const(tid)->setMixDuration(cid, prevDuration, prevCut);
-                QModelIndex ix = makeClipIndexFromID(cid);
-                Q_EMIT dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                QModelIndex ix2 = makeClipIndexFromID(clipToResize);
-                Q_EMIT dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
-                return true;
-            };
-            if (align == MixAlignment::AlignLeft) {
-                // Adjust left clip
-                int updatedDurationLeft = cutPos + duration - m_allClips.at(clipToResize)->getPosition();
-                if (leftMax > -1) {
-                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
-                }
-                // Adjust right clip
-                int updatedDurationRight = m_allClips.at(cid)->getPlaytime();
-                if (cutPos != m_allClips.at(cid)->getPosition()) {
-                    updatedDurationRight = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - cutPos;
-                    if (rightMax > -1) {
-                        updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
-                    }
-                }
-                int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft -
-                                      (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 1) {
-                    //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
-                    // update mix widget
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
-                if (m_allClips.at(cid)->getPlaytime() != updatedDurationRight) {
-                    requestItemResize(cid, updatedDurationRight, false, true, undo, redo);
-                }
-                int updatedCutPosition = m_allClips.at(cid)->getPosition();
-                if (updatedCutPosition != cutPos) {
-                    pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
-                    undo();
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                Fun adjust_mix = [this, tid, cid, clipToResize, updatedDuration]() {
-                    getTrackById_const(tid)->setMixDuration(cid, updatedDuration, updatedDuration);
-                    QModelIndex ix = makeClipIndexFromID(cid);
-                    Q_EMIT dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                    QModelIndex ix2 = makeClipIndexFromID(clipToResize);
-                    Q_EMIT dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
-                    return true;
-                };
-                adjust_mix();
-                UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
-            } else if (align == MixAlignment::AlignRight) {
-                int updatedDurationRight = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - cutPos + duration;
-                if (rightMax > -1) {
-                    updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
-                }
-                int updatedDurationLeft = cutPos - m_allClips.at(clipToResize)->getPosition();
-                if (leftMax > -1) {
-                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
-                }
-                int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft -
-                                      (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 1) {
-                    //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                requestItemResize(cid, updatedDurationRight, false, true, undo, redo);
-                requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo);
-                int updatedCutPosition = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime();
-                if (updatedCutPosition != cutPos) {
-                    pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
-                    undo();
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                Fun adjust_mix = [this, tid, cid, clipToResize, updatedDuration]() {
-                    getTrackById_const(tid)->setMixDuration(cid, updatedDuration, 0);
-                    QModelIndex ix = makeClipIndexFromID(cid);
-                    Q_EMIT dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                    QModelIndex ix2 = makeClipIndexFromID(clipToResize);
-                    Q_EMIT dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
-                    return true;
-                };
-                adjust_mix();
-                UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
-            } else if (align == MixAlignment::AlignCenter) {
-                int updatedDurationRight = m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - cutPos + duration / 2;
-                if (rightMax > -1) {
-                    updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
-                }
-                int updatedDurationLeft = cutPos + (duration - duration / 2) - m_allClips.at(clipToResize)->getPosition();
-                if (leftMax > -1) {
-                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
-                }
-                int updatedDuration = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft -
-                                      (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-                if (updatedDuration < 1) {
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                int deltaLeft = m_allClips.at(clipToResize)->getPosition() + updatedDurationLeft - cutPos;
-                int deltaRight = cutPos - (m_allClips.at(cid)->getPosition() + m_allClips.at(cid)->getPlaytime() - updatedDurationRight);
-
-                if (!requestItemResize(cid, updatedDurationRight, false, true, undo, redo)) {
-                    qDebug() << ":::: ERROR RESIZING CID1\n\nAAAAAAAAAAAAAAAAAAAA";
-                }
-                if (deltaLeft > 0) {
-                    if (!requestItemResize(clipToResize, updatedDurationLeft, true, true, undo, redo)) {
-                        qDebug() << ":::: ERROR RESIZING clipToResize\n\nAAAAAAAAAAAAAAAAAAAA";
-                    }
-                }
-                int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
-                if (mixCutPos > updatedDuration) {
-                    pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
-                    undo();
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                if (qAbs(deltaLeft - deltaRight) > 2) {
-                    // Mix not exactly centered
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                Fun adjust_mix = [this, tid, cid, clipToResize, updatedDuration, mixCutPos]() {
-                    getTrackById_const(tid)->setMixDuration(cid, updatedDuration, mixCutPos);
-                    QModelIndex ix = makeClipIndexFromID(cid);
-                    Q_EMIT dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                    QModelIndex ix2 = makeClipIndexFromID(clipToResize);
-                    Q_EMIT dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
-                    return true;
-                };
-                adjust_mix();
-                UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
-            } else {
-                // No alignment specified
-                int updatedDurationRight;
-                int updatedDurationLeft;
-                if (leftFrames > -1) {
-                    // A right frame offset was specified
-                    updatedDurationLeft = qBound(0, leftFrames, duration);
-                    updatedDurationRight = duration - updatedDurationLeft;
+    const int tid = m_allClips.at(cid)->getCurrentTrackId();
+    if (tid < 0) {
+        return;
+    }
+    auto track = getTrackById(tid);
+    const MixInfo mix = track->getMixInfo(cid).first;
+    if (mix.firstClipId < 0) {
+        return;
+    }
+    auto reject = [this, track, cid]() {
+        pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
+        Q_EMIT selectedMixChanged(cid, track->mixModel(cid), true);
+    };
+    if (duration < 1) {
+        reject();
+        return;
+    }
+    const auto firstClip = m_allClips.at(mix.firstClipId);
+    const auto secondClip = m_allClips.at(cid);
+    const int currentDuration = secondClip->getMixDuration();
+    const int afterCut = secondClip->getMixCutPosition();
+    const int beforeCut = currentDuration - afterCut;
+    const int cutPosition = mix.firstClipInOut.second - afterCut;
+    std::pair<int, int> mixDurations;
+    if (align == MixAlignment::AlignLeft) {
+        mixDurations = {0, duration};
+    } else if (align == MixAlignment::AlignRight) {
+        mixDurations = {duration, 0};
+    } else if (align == MixAlignment::AlignCenter) {
+        mixDurations = {duration / 2, duration - duration / 2};
+    } else if (leftFrames > -1) {
+        mixDurations.first = qBound(0, leftFrames, duration);
+        mixDurations.second = duration - mixDurations.first;
+    } else {
+        mixDurations = {beforeCut, afterCut};
+        if (qAbs(duration - currentDuration) == 1) {
+            // Alternate sides for single-frame adjustments, avoiding rounding drift.
+            if (duration < currentDuration) {
+                int &side = currentDuration % 2 == 0 ? mixDurations.second : mixDurations.first;
+                int &other = currentDuration % 2 == 0 ? mixDurations.first : mixDurations.second;
+                if (side > 0) {
+                    --side;
                 } else {
-                    updatedDurationRight = m_allClips.at(cid)->getMixCutPosition();
-                    updatedDurationLeft = m_allClips.at(cid)->getMixDuration() - updatedDurationRight;
-                    int currentDuration = m_allClips.at(cid)->getMixDuration();
-                    if (qAbs(duration - currentDuration) == 1) {
-                        if (duration < currentDuration) {
-                            // We are reducing the duration
-                            if (currentDuration % 2 == 0) {
-                                updatedDurationRight--;
-                                if (updatedDurationRight < 0) {
-                                    updatedDurationRight = 0;
-                                    updatedDurationLeft--;
-                                }
-                            } else {
-                                updatedDurationLeft--;
-                                if (updatedDurationLeft < 0) {
-                                    updatedDurationLeft = 0;
-                                    updatedDurationRight--;
-                                }
-                            }
-                        } else {
-                            // Increasing duration
-                            if (currentDuration % 2 == 0) {
-                                updatedDurationRight++;
-                            } else {
-                                updatedDurationLeft++;
-                            }
-                        }
-                    } else {
-                        double ratio = double(duration) / currentDuration;
-                        updatedDurationRight *= ratio;
-                        updatedDurationLeft = duration - updatedDurationRight;
-                    }
+                    --other;
                 }
-                if (updatedDurationLeft + updatedDurationRight < 1) {
-                    //
-                    pCore->displayMessage(i18n("Cannot resize mix to less than 1 frame"), ErrorMessage, 500);
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                updatedDurationLeft -= (m_allClips.at(cid)->getMixDuration() - m_allClips.at(cid)->getMixCutPosition());
-                updatedDurationRight -= m_allClips.at(cid)->getMixCutPosition();
-                if (leftMax > -1) {
-                    updatedDurationLeft = qMin(updatedDurationLeft, m_allClips.at(clipToResize)->getPlaytime() + leftMax);
-                }
-                if (rightMax > -1) {
-                    updatedDurationRight = qMin(updatedDurationRight, m_allClips.at(cid)->getPlaytime() + rightMax);
-                }
-                if (updatedDurationLeft != 0) {
-                    int updatedDurL = m_allClips.at(cid)->getPlaytime() + updatedDurationLeft;
-                    requestItemResize(cid, updatedDurL, false, true, undo, redo);
-                }
-                if (updatedDurationRight != 0) {
-                    int updatedDurR = m_allClips.at(clipToResize)->getPlaytime() + updatedDurationRight;
-                    requestItemResize(clipToResize, updatedDurR, true, true, undo, redo);
-                }
-                int mixCutPos = m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - cutPos;
-                int updatedDuration =
-                    m_allClips.at(clipToResize)->getPosition() + m_allClips.at(clipToResize)->getPlaytime() - m_allClips.at(cid)->getPosition();
-                if (mixCutPos > updatedDuration) {
-                    pCore->displayMessage(i18n("Cannot resize mix"), ErrorMessage, 500);
-                    undo();
-                    Q_EMIT selectedMixChanged(cid, getTrackById_const(tid)->mixModel(cid), true);
-                    return;
-                }
-                Fun adjust_mix = [this, tid, cid, clipToResize, updatedDuration, mixCutPos]() {
-                    getTrackById_const(tid)->setMixDuration(cid, updatedDuration, mixCutPos);
-                    QModelIndex ix = makeClipIndexFromID(cid);
-                    Q_EMIT dataChanged(ix, ix, {TimelineModel::MixRole, TimelineModel::MixCutRole});
-                    QModelIndex ix2 = makeClipIndexFromID(clipToResize);
-                    Q_EMIT dataChanged(ix2, ix2, {TimelineModel::MixEndDurationRole});
-                    return true;
-                };
-                adjust_mix();
-                UPDATE_UNDO_REDO(adjust_mix, adjust_mix_undo, undo, redo);
+            } else if (currentDuration % 2 == 0) {
+                ++mixDurations.second;
+            } else {
+                ++mixDurations.first;
             }
-            pCore->pushUndo(undo, redo, i18n("Resize mix"));
+        } else {
+            mixDurations.second = int(double(duration) / currentDuration * afterCut);
+            mixDurations.first = duration - mixDurations.second;
         }
     }
+    // Choose achievable durations from the available footage and the outer clip edges.
+    int maxBefore = cutPosition - mix.firstClipInOut.first;
+    if (secondClip->getMaxDuration() > -1) {
+        maxBefore = qMin(maxBefore, beforeCut + secondClip->getIn());
+    }
+    int maxAfter = mix.secondClipInOut.second - cutPosition;
+    if (firstClip->getMaxDuration() > -1) {
+        maxAfter = qMin(maxAfter, afterCut + firstClip->getMaxDuration() - 1 - firstClip->getOut());
+    }
+    mixDurations.first = qMin(mixDurations.first, maxBefore);
+    mixDurations.second = qMin(mixDurations.second, maxAfter);
+    if (align == MixAlignment::AlignCenter && qAbs(mixDurations.first - mixDurations.second) > 2) {
+        reject();
+        return;
+    }
+    if (mixDurations == std::pair<int, int>{beforeCut, afterCut}) {
+        return;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (!track->requestResizeMix(cid, mixDurations, undo, redo)) {
+        reject();
+        return;
+    }
+    pCore->pushUndo(undo, redo, i18n("Resize mix"));
 }
 
 QVariantList TimelineModel::getMasterEffectZones() const
@@ -8392,9 +8251,22 @@ void TimelineModel::deletePreviewTrack()
     }
 }
 
+void TimelineModel::setPreviewEnabled(bool enabled)
+{
+    if (m_timelinePreview) {
+        m_timelinePreview->setPreviewEnabled(enabled);
+        m_overlayTrackCount = m_timelinePreview->addedTracks();
+    }
+}
+
 bool TimelineModel::hasSubtitleModel()
 {
     return m_subtitleModel != nullptr;
+}
+
+bool TimelineModel::hasSubtitles() const
+{
+    return m_subtitleModel != nullptr && m_subtitleModel->rowCount() > 0;
 }
 
 void TimelineModel::makeTransparentBg(bool transparent)

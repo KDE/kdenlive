@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.camerashake" id="frei0r.camerashake">
+    <name>Camera Shake Ultimate</name>
+    <description>Camera movement effect with rotation, opacity, and blur</description>
+    <author>PakeMPC</author>
+    <parameter type="animated" name="0" default="0.25" min="0" max="500" decimals="0" factor="500" suffix="px">
+        <name>Amplitude X</name>
+        <comment><![CDATA[Maximum horizontal shake amplitude]]></comment>
+    </parameter>
+    <parameter type="animated" name="1" default="0.25" min="0" max="500" decimals="0" factor="500" suffix="px">
+        <name>Amplitude Y</name>
+        <comment><![CDATA[Maximum vertical shake amplitude]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" default="0" min="0" max="45" decimals="1" factor="45" suffix="deg">
+        <name>Rotation</name>
+        <comment><![CDATA[Maximum rotation shake (capped at 45deg)]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" default="0" min="0" max="500" decimals="0" factor="500" suffix="%">
+        <name>Zoom</name>
+        <comment><![CDATA[Zoom factor to hide black borders.<br>
+        This is in addition to 100%. For example: 0% means not additional zoom; 100% means image is twice as large (total of 200% of original size).]]></comment>
+    </parameter>
+    <parameter type="animated" name="4" default="0.25" min="0" max="100" decimals="1" factor="100">
+        <name>Shake intensity</name>
+        <comment><![CDATA[Speed or frequency of the shake]]></comment>
+    </parameter>
+    <parameter type="animated" name="5" default="1" min="0" max="100" decimals="1" factor="100" suffix="%">
+        <name>Opacity</name>
+        <comment><![CDATA[Opacity of the effect]]></comment>
+    </parameter>
+    <parameter type="animated" name="6" default="0" min="0" max="20" decimals="0" factor="20" suffix="px">
+        <name>Motion blur</name>
+        <comment><![CDATA[Amount of motion blur (capped at 20px)]]></comment>
+    </parameter>
+    <parameter type="color" name="7" default="0x000000ff" alpha="0">
+        <name>Color</name>
+        <comment><![CDATA[Background color for exposed borders]]></comment>
+    </parameter>
+</effect>

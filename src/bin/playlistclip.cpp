@@ -158,8 +158,11 @@ void PlaylistClip::parsePlaylistProps()
             }
         }
         m_extraProperties.insert(i18n("Sequence count"), QString::number(m_sequences.size()));
-        if (auto ptr = m_model.lock()) {
-            QMetaObject::invokeMethod(ptr.get(), "loadSubSequences", Qt::QueuedConnection, Q_ARG(QString, m_binId), Q_ARG(sequenceMap, m_sequences));
+        if (m_sequences.size() > 1) {
+            if (auto ptr = m_model.lock()) {
+                QMetaObject::invokeMethod(ptr.get(), "loadSubSequences", Qt::QueuedConnection, Q_ARG(QString, m_binId), Q_ARG(sequenceMap, m_sequences));
+            }
+            generateTmpPlaylists();
         }
         QMapIterator<QUuid, SequenceInfo> ix2(m_sequences);
         while (ix2.hasNext()) {
@@ -167,7 +170,6 @@ void PlaylistClip::parsePlaylistProps()
             SequenceInfo info = ix2.value();
             m_extraProperties.insert(info.sequenceName, info.sequenceDuration);
         }
-        generateTmpPlaylists();
     } else {
         qDebug() << "::::::::::\nRETAIN LIST INVALID\n\n::";
         // This is probably a library MLT clip, try reading xml root
