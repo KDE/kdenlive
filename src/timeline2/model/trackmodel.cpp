@@ -1000,6 +1000,19 @@ bool TrackModel::checkConsistency()
     if (!ptr) {
         return false;
     }
+    if (m_mixList.size() != int(m_sameCompositions.size())) {
+        qDebug() << "ERROR: inconsistent mix registrations";
+        return false;
+    }
+    QSet<int> incomingClips;
+    for (auto it = m_mixList.cbegin(); it != m_mixList.cend(); ++it) {
+        if (m_allClips.count(it.key()) == 0 || m_allClips.count(it.value()) == 0 || m_sameCompositions.count(it.value()) == 0 ||
+            incomingClips.contains(it.value()) || m_allClips.at(it.key())->getSubPlaylistIndex() == m_allClips.at(it.value())->getSubPlaylistIndex()) {
+            qDebug() << "ERROR: invalid mix participants" << it.key() << it.value();
+            return false;
+        }
+        incomingClips.insert(it.value());
+    }
     auto check_blank_zone = [&](int playlist, int in, int out) {
         if (in >= m_playlists[playlist].get_playtime()) {
             return true;
@@ -1082,29 +1095,19 @@ bool TrackModel::checkConsistency()
             return false;
         }
 
-        // the previous clip on the other playlist might restrict the blank in/out
-        int prev_clip_id_other_playlist = -1;
-        for (int j = int(i) - 1; j >= 0; --j) {
-            if (other_playlist == m_allClips[clips[size_t(j)].second]->getSubPlaylistIndex()) {
-                prev_clip_id_other_playlist = j;
-                break;
-            }
+        // Only registered mix partners may occupy the other playlist within
+        // this clip. An unrelated neighbor must not hide an invalid overlap.
+        const int clipId = cur_clip->getId();
+        if (hasStartMix(clipId)) {
+            const auto partner = m_allClips.at(m_mixList.key(clipId));
+            in_blank = std::max(in_blank, partner->getPosition() + partner->getPlaytime());
         }
-        if (prev_clip_id_other_playlist >= 0) {
-            in_blank = std::max(in_blank, clips[size_t(prev_clip_id_other_playlist)].first +
-                                              m_allClips[clips[size_t(prev_clip_id_other_playlist)].second]->getPlaytime());
+        if (hasEndMix(clipId)) {
+            out_blank = std::min(out_blank, m_allClips.at(m_mixList.value(clipId))->getPosition() - 1);
         }
-
-        // the next clip on the other playlist might restrict the blank in/out
-        int next_clip_id_other_playlist = -1;
-        for (size_t j = i + 1; j < clips.size(); ++j) {
-            if (other_playlist == m_allClips[clips[j].second]->getSubPlaylistIndex()) {
-                next_clip_id_other_playlist = int(j);
-                break;
-            }
-        }
-        if (next_clip_id_other_playlist >= 0) {
-            out_blank = std::min(out_blank, clips[size_t(next_clip_id_other_playlist)].first - 1);
+        if (hasStartMix(clipId) != (cur_clip->getMixDuration() > 0)) {
+            qDebug() << "ERROR: clip mix duration does not match its registered mixes" << clipId;
+            return false;
         }
         if (in_blank <= out_blank && !check_blank_zone(other_playlist, in_blank, out_blank)) {
             qDebug() << "ERROR: we expected blank on playlist " << other_playlist << " between " << in_blank << " and " << out_blank;
@@ -1160,29 +1163,35 @@ bool TrackModel::checkConsistency()
         if (service->type() == mlt_service_transition_type) {
             Mlt::Transition t(mlt_transition(service->get_service()));
             service.reset(service->producer());
-            // Check that the mix has correct in/out
-            int mainId = -1;
-            int mixIn = t.get_in();
-            for (auto &sameComposition : m_sameCompositions) {
+            // Find the registered incoming clip and verify the transition
+            // describes exactly the overlap between its two participants.
+            int secondClipId = -1;
+            const int mixIn = t.get_in();
+            const int mixOut = t.get_out();
+            for (const auto &sameComposition : m_sameCompositions) {
                 if (static_cast<Mlt::Transition *>(sameComposition.second->getAsset())->get_in() == mixIn) {
-                    // Found mix in list
-                    mainId = sameComposition.first;
+                    secondClipId = sameComposition.first;
                     break;
                 }
             }
-            if (mainId == -1) {
+            if (secondClipId == -1) {
                 qDebug() << "=== Incoherent mix found at: " << mixIn;
                 return false;
             }
-            // Check in/out)
-            if (mixIn != m_allClips[mainId]->getPosition()) {
-                qDebug() << "=== Mix not aligned with its master clip: " << mainId << ", at: " << m_allClips[mainId]->getPosition() << ", MIX at: " << mixIn;
+            const int firstClipId = m_mixList.key(secondClipId);
+            const auto firstClip = m_allClips.at(firstClipId);
+            const auto secondClip = m_allClips.at(secondClipId);
+            if (mixIn != secondClip->getPosition() || mixOut != firstClip->getPosition() + firstClip->getPlaytime()) {
+                qDebug() << "ERROR: mix bounds do not match its participants" << firstClipId << secondClipId << mixIn << mixOut;
                 return false;
             }
-            int secondClipId = m_mixList.key(mainId);
-            if (t.get_out() != m_allClips[secondClipId]->getPosition() + m_allClips[secondClipId]->getPlaytime()) {
-                qDebug() << "=== Mix not aligned with its second clip: " << secondClipId
-                         << ", end at: " << m_allClips[secondClipId]->getPosition() + m_allClips[secondClipId]->getPlaytime() << ", MIX at: " << t.get_out();
+            const int mixDuration = mixOut - mixIn;
+            if (mixDuration <= 0 || firstClip->getPosition() > mixIn || mixOut > secondClip->getPosition() + secondClip->getPlaytime()) {
+                qDebug() << "ERROR: mix extends outside its participants" << firstClipId << secondClipId << mixIn << mixOut;
+                return false;
+            }
+            if (secondClip->getMixDuration() != mixDuration || secondClip->getMixCutPosition() < 0 || secondClip->getMixCutPosition() > mixDuration) {
+                qDebug() << "ERROR: inconsistent mix duration or cut offset" << secondClipId;
                 return false;
             }
             mixCount++;

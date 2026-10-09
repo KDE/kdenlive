@@ -747,6 +747,196 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
+    SECTION("Moving one mix participant into its stationary partner is rejected")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        for (int position : {501, 507, 510, 520, 531, 532}) {
+            CAPTURE(position);
+            const int undoIndex = undoStack->index();
+            REQUIRE_FALSE(timeline->requestClipMove(cid3, tid2, position));
+            REQUIRE(undoStack->index() == undoIndex);
+            state2();
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getMixDuration(cid4) == 25);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getMixCutPosition() == 12);
+        }
+        // The incoming participant must not preserve a mix merely because its
+        // requested start is still inside the outgoing clip.
+        REQUIRE_FALSE(timeline->requestClipMove(cid4, tid2, 500));
+        state2();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->requestItemDeletion(cid4));
+        undoStack->undo();
+        state2();
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo();
+        state0();
+    }
+
+    SECTION("Moving participants of chained mixes validates both playlists")
+    {
+        REQUIRE(timeline->requestItemResize(cid4, 80, true) == 80);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 80, true) == 80);
+        REQUIRE(timeline->mixClip(cid3));
+        REQUIRE(timeline->mixClip(cid4));
+        int other;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid4, 900, other));
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPosition(cid3) == 500);
+            REQUIRE(timeline->getClipPlaytime(cid3) == 32);
+            REQUIRE(timeline->getClipPosition(cid4) == 507);
+            REQUIRE(timeline->getClipPlaytime(cid4) == 105);
+            REQUIRE(timeline->getClipPosition(cid5) == 587);
+            REQUIRE(timeline->getClipPlaytime(cid5) == 93);
+            REQUIRE(timeline->getClipPosition(other) == 900);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid5) == 0);
+            REQUIRE(track->mixCount() == 2);
+            REQUIRE(track->getMixInfo(cid4).first.firstClipId == cid3);
+            REQUIRE(track->getMixInfo(cid5).first.firstClipId == cid4);
+            REQUIRE(timeline->getMixDuration(cid4) == 25);
+            REQUIRE(timeline->getMixDuration(cid5) == 25);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid4)->getMixCutPosition() == 12);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cid5)->getMixCutPosition() == 12);
+        };
+        for (bool grouped : {false, true}) {
+            // Exercise both directions, including a clip whose two mixes must
+            // both be restored when the destination is occupied.
+            for (const auto &move : {std::pair{cid3, 510}, {cid4, 510}, {cid5, 570}}) {
+                CAPTURE(grouped, move.first, move.second);
+                if (grouped) {
+                    REQUIRE(timeline->requestClipsGroup({move.first, other}));
+                }
+                const int undoIndex = undoStack->index();
+                REQUIRE_FALSE(timeline->requestClipMove(move.first, tid2, move.second));
+                REQUIRE(undoStack->index() == undoIndex);
+                mixedState();
+                if (grouped) {
+                    REQUIRE(timeline->getGroupElements(move.first) == std::unordered_set<int>{move.first, other});
+                    undoStack->undo();
+                }
+            }
+            if (grouped) {
+                REQUIRE(timeline->requestClipsGroup({cid3, other}));
+            }
+            for (int destination : {450, 700}) {
+                CAPTURE(grouped, destination);
+                const int undoIndex = undoStack->index();
+                REQUIRE(timeline->requestClipMove(cid3, tid2, destination));
+                auto movedState = [&]() {
+                    REQUIRE(timeline->checkConsistency());
+                    REQUIRE(undoStack->index() == undoIndex + 1);
+                    REQUIRE(timeline->getClipPosition(cid3) == destination);
+                    REQUIRE(timeline->getClipPlaytime(cid3) == 20);
+                    REQUIRE(timeline->getClipPosition(cid4) == 520);
+                    REQUIRE(timeline->getClipPlaytime(cid4) == 92);
+                    REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+                    REQUIRE(track->mixCount() == 1);
+                    REQUIRE(track->getMixInfo(cid4).first.firstClipId == -1);
+                    REQUIRE(track->getMixInfo(cid5).first.firstClipId == cid4);
+                    REQUIRE(timeline->getClipPosition(other) == (grouped ? 900 + destination - 500 : 900));
+                };
+                movedState();
+                undoStack->undo();
+                mixedState();
+                undoStack->redo();
+                movedState();
+                undoStack->undo();
+                mixedState();
+            }
+            if (grouped) {
+                undoStack->undo();
+            }
+        }
+    }
+
+    SECTION("Moving both participants preserves their mix but removes a stationary partner's mix")
+    {
+        REQUIRE(timeline->requestItemResize(cid4, 80, true) == 80);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 80, true) == 80);
+        REQUIRE(timeline->mixClip(cid3));
+        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->requestClipsGroup({cid3, cid4}));
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+        const int undoIndex = undoStack->index();
+        REQUIRE_FALSE(timeline->requestClipMove(cid3, tid2, 600));
+        REQUIRE(undoStack->index() == undoIndex);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(track->mixCount() == 2);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cid4) == 507);
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 450));
+        auto movedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPosition(cid3) == 450);
+            REQUIRE(timeline->getClipPlaytime(cid3) == 32);
+            REQUIRE(timeline->getClipPosition(cid4) == 457);
+            REQUIRE(timeline->getClipPlaytime(cid4) == 93);
+            REQUIRE(timeline->getClipPosition(cid5) == 600);
+            REQUIRE(timeline->getClipPlaytime(cid5) == 80);
+            REQUIRE(track->mixCount() == 1);
+            REQUIRE(timeline->getMixDuration(cid4) == 25);
+            REQUIRE(track->getMixInfo(cid5).first.firstClipId == -1);
+        };
+        movedState();
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(track->mixCount() == 2);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cid4) == 507);
+        REQUIRE(timeline->getClipPosition(cid5) == 587);
+        undoStack->redo();
+        movedState();
+    }
+
+    SECTION("Consistency requires a mix for overlapping clips on different playlists")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+        const auto mix = track->getMixInfo(cid4).first;
+        const auto params = track->getMixParams(cid4);
+        const auto tracks = track->getMixTracks(cid4);
+        // Leave the playlist geometry intact but remove the mix that justifies
+        // the overlap. The old check incorrectly accepted any opposite neighbor.
+        track->removeMix(mix);
+        KdenliveTests::getClipPtr(timeline, cid4)->setMixDuration(0, 0);
+        CHECK_FALSE(track->checkConsistency());
+        REQUIRE(track->createMix(mix, params, tracks, true));
+        REQUIRE(timeline->checkConsistency());
+    }
+
+    SECTION("Consistency rejects mix bounds outside either participant")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+        for (bool invalidStart : {true, false}) {
+            CAPTURE(invalidStart);
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            if (invalidStart) {
+                // The unchecked preview-revert path lets us reproduce a mix
+                // starting before A: A is at [508, 540), the mix at [507, 540).
+                REQUIRE(timeline->requestClipMove(cid3, tid2, 508, true, true, false, false, undo, redo, true) == TimelineModel::MoveSuccess);
+                track->syncronizeMixes(true);
+            } else {
+                // The low-level resize bypasses partner trimming: B ends at
+                // 531 while the mix and A still end at 532.
+                int size = 24;
+                REQUIRE(timeline->requestItemResize(cid4, size, true, true, undo, redo));
+            }
+            CHECK_FALSE(track->checkConsistency());
+            REQUIRE(undo());
+            track->syncronizeMixes(true);
+            state2();
+            REQUIRE(timeline->checkConsistency());
+        }
+    }
+
     SECTION("Create mix on color clips and group move")
     {
         state0();

@@ -913,38 +913,22 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         }
     }
     bool hadMix = mixData.first.firstClipId > -1 || mixData.second.firstClipId > -1;
-    if ((!finalMove || (!groupMove && old_trackId > -1)) && !revertMove) {
-        QVector<int> exceptions = {clipId};
-        if (mixData.first.firstClipId > -1) {
-            exceptions << mixData.first.firstClipId;
-        }
-        if (mixData.second.secondClipId > -1) {
-            exceptions << mixData.second.secondClipId;
-        }
-        if (m_editMode == TimelineMode::NormalEdit && !getTrackById_const(trackId)->isAvailableWithExceptions(position, getClipPlaytime(clipId), exceptions)) {
-            // No space for clip insert operation, abort
-            qWarning() << "No free space for clip move";
-            return MoveErrorOther;
-        }
-    }
     if (old_trackId == -1 && isTrack(previous_track) && hadMix && previous_track != trackId) {
         // Clip is moved to another track
         bool mixGroupMove = false;
         if (mixData.first.firstClipId > 0) {
-            allowedClipMixes << mixData.first.firstClipId;
             if (moving_clips.contains(mixData.first.firstClipId)) {
                 allowedClipMixes << mixData.first.firstClipId;
             } else if (finalMove) {
                 position += (mixData.first.firstClipInOut.second - mixData.first.secondClipInOut.first - mixData.first.mixOffset);
-                removeMixWithUndo(clipId, local_undo, local_redo);
+                ok = removeMixWithUndo(clipId, local_undo, local_redo);
             }
         }
-        if (mixData.second.firstClipId > 0) {
-            allowedClipMixes << mixData.second.secondClipId;
+        if (ok && mixData.second.firstClipId > 0) {
             if (moving_clips.contains(mixData.second.secondClipId)) {
                 allowedClipMixes << mixData.second.secondClipId;
             } else if (finalMove) {
-                removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
+                ok = removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
             }
         }
         if (mixData.first.firstClipId > 0 && m_groups->isInGroup(clipId)) {
@@ -976,65 +960,62 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
                 return result;
             };
         }
-    } else if (finalMove && !groupMove && isTrack(old_trackId) && hadMix) {
-        // Clip has a mix
+    } else if (finalMove && isTrack(old_trackId) && hadMix) {
+        // A mix survives only when both participants move together. Otherwise
+        // restore the clips' edit boundaries before validating the destination.
         if (mixData.first.firstClipId > -1) {
-            if (old_trackId == trackId) {
-                int mixCut = m_allClips[clipId]->getMixCutPosition();
-                // We are moving a clip on same track
-                if (position > mixData.first.secondClipInOut.first - mixCut || position < mixData.first.firstClipInOut.first) {
-                    position += m_allClips[clipId]->getMixDuration() - mixCut;
-                    removeMixWithUndo(clipId, local_undo, local_redo);
-                }
-            } else {
-                // Clip moved to another track, delete mix
-                position += (m_allClips[clipId]->getMixDuration() - m_allClips[clipId]->getMixCutPosition());
-                removeMixWithUndo(clipId, local_undo, local_redo);
-            }
-        }
-        if (mixData.second.firstClipId > -1) {
-            // We have a mix at clip end
-            if (old_trackId == trackId) {
-                int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition() + m_allClips[mixData.second.secondClipId]->getMixDuration();
-                if (position > mixEnd || position < m_allClips[mixData.second.secondClipId]->getPosition()) {
-                    // Moved outside mix zone
-                    removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
-                }
-            } else {
-                // Clip moved to another track, delete mix
-                // Mix will be deleted by syncronizeMixes operation, only
-                // re-add it on undo
-                removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
-            }
-        }
-    } else if (finalMove && groupMove && isTrack(old_trackId) && hadMix && old_trackId == trackId) {
-        // Group move on same track with mix
-        if (mixData.first.firstClipId > -1) {
-            // Mix on clip start, check if mix is still in range
-            if (!moving_clips.contains(mixData.first.firstClipId)) {
-                int mixCut = m_allClips[clipId]->getMixCutPosition();
-                // We are moving a clip on same track
-                if (position > mixData.first.secondClipInOut.first - mixCut || position < mixData.first.firstClipInOut.first) {
-                    // Mix will be deleted, recreate on undo
-                    position += m_allClips[mixData.first.secondClipId]->getMixDuration() - m_allClips[mixData.first.secondClipId]->getMixCutPosition();
-                    removeMixWithUndo(mixData.first.secondClipId, local_undo, local_redo);
-                }
-            } else {
+            if (groupMove && old_trackId == trackId && moving_clips.contains(mixData.first.firstClipId)) {
                 allowedClipMixes << mixData.first.firstClipId;
-            }
-        }
-        if (mixData.second.firstClipId > -1) {
-            // Mix on clip end, check if mix is still in range
-            if (!moving_clips.contains(mixData.second.secondClipId)) {
-                int mixEnd = m_allClips[mixData.second.secondClipId]->getPosition() + m_allClips[mixData.second.secondClipId]->getMixDuration();
-                if (mixEnd > position + m_allClips[clipId]->getPlaytime() || position > mixEnd) {
-                    // Mix will be deleted, recreate on undo
-                    removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
-                }
             } else {
-                allowedClipMixes << mixData.second.secondClipId;
+                position += m_allClips[clipId]->getMixDuration() - m_allClips[clipId]->getMixCutPosition();
+                ok = removeMixWithUndo(clipId, local_undo, local_redo);
             }
         }
+        if (ok && mixData.second.secondClipId > -1) {
+            if (groupMove && old_trackId == trackId && moving_clips.contains(mixData.second.secondClipId)) {
+                allowedClipMixes << mixData.second.secondClipId;
+            } else {
+                ok = removeMixWithUndo(mixData.second.secondClipId, local_undo, local_redo);
+            }
+        }
+    }
+    // Validate moves after restoring edit boundaries
+    if (ok && !revertMove && m_editMode == TimelineMode::NormalEdit && (!finalMove || old_trackId > -1 || previous_track > -1)) {
+        QVector<int> exceptions = {clipId};
+        // Other group members may still occupy their old positions while the
+        // group is moved one clip at a time.
+        for (auto it = moving_clips.cbegin(); it != moving_clips.cend(); ++it) {
+            exceptions << it.key();
+        }
+        for (int partner : std::as_const(allowedClipMixes)) {
+            exceptions << partner;
+        }
+        // Only mixes still registered on the destination can justify overlap.
+        const auto remainingMixes = getTrackById_const(trackId)->getMixInfo(clipId);
+        if (remainingMixes.first.firstClipId > -1) {
+            exceptions << remainingMixes.first.firstClipId;
+        }
+        if (remainingMixes.second.secondClipId > -1) {
+            exceptions << remainingMixes.second.secondClipId;
+        }
+        if (!finalMove) {
+            // Drag previews retain mixes until the move is committed or reverted.
+            if (mixData.first.firstClipId > -1) {
+                exceptions << mixData.first.firstClipId;
+            }
+            if (mixData.second.secondClipId > -1) {
+                exceptions << mixData.second.secondClipId;
+            }
+        }
+        ok = getTrackById_const(trackId)->isAvailableWithExceptions(position, getClipPlaytime(clipId), exceptions);
+        if (!ok) {
+            qWarning() << "No free space for clip move";
+        }
+    }
+    if (!ok) {
+        const bool undone = local_undo();
+        Q_ASSERT(undone);
+        return MoveErrorOther;
     }
     int currentGroup = -1;
     if (old_trackId != -1) {
@@ -3471,7 +3452,11 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
         while (i.hasNext()) {
             i.next();
             // Delete mix
-            getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo);
+            if (!getTrackById(i.value())->requestRemoveMix(i.key(), local_undo, local_redo)) {
+                const bool undone = local_undo();
+                Q_ASSERT(undone);
+                return false;
+            }
         }
     }
     // First, remove clips
