@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-06 03:06+0000\n"
-"PO-Revision-Date: 2026-09-24 15:53+0200\n"
+"PO-Revision-Date: 2026-10-09 15:57+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -35,7 +35,7 @@ msgstr "feus73@gmail.com,"
 #. i18n: file: data/layouts/editing_vertical.json
 #, kde-format
 msgid "Editing"
-msgstr "Modifica"
+msgstr "Montaggio"
 
 #. i18n: file: data/layouts/logging.json
 #, kde-format
