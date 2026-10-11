@@ -2438,6 +2438,14 @@ KIO::filesize_t RenderWidget::estimateOutputFilesize()
 
 void RenderWidget::updateRenderInfoMessage()
 {
+    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
+    QString summaryMessage = i18n("Rendered File Length: %1", stringDuration);
+    int sequenceOffset = pCore->currentTimelineOffset();
+    if (sequenceOffset > 0) {
+        summaryMessage.append(QStringLiteral("\n%1").arg(i18n("Timecode Offset: %1", pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false))));
+    }
+    m_view.output_summary->setText(summaryMessage);
+
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
         m_view.infoMessage->setMessageType(KMessageWidget::Warning);
@@ -2471,12 +2479,7 @@ void RenderWidget::updateRenderInfoMessage()
         break;
     }
 
-    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
-    QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
-    int sequenceOffset = pCore->currentTimelineOffset();
-    if (sequenceOffset > 0) {
-        infoMessage.append(QStringLiteral("\n%1 %2").arg(i18n("Timecode Offset:"), pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false)));
-    }
+    QString infoMessage;
     if (m_missingClips > 0) {
         infoMessage.append(QStringLiteral(". "));
         if (m_missingUsedClips == m_missingClips) {
@@ -2487,9 +2490,14 @@ void RenderWidget::updateRenderInfoMessage()
             infoMessage.append(i18n("%1 missing clips (<b>%2 used in the project</b>).", m_missingClips, m_missingUsedClips));
         }
     }
-    m_view.infoMessage->setMessageType(m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
-    m_view.infoMessage->setText(infoMessage);
-    m_view.infoMessage->show();
+
+    if (!infoMessage.isEmpty()) {
+        m_view.infoMessage->setMessageType(m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+        m_view.infoMessage->setText(infoMessage);
+        m_view.infoMessage->show();
+    } else {
+        m_view.infoMessage->hide();
+    }
 }
 
 void RenderWidget::showRenderDuration(int projectLength)
