@@ -232,6 +232,12 @@ private:
     /** Returns the first starting job */
     RenderJobItem *startingJob();
 
+    /** Returns the pixels per frame. This depends on whether the profile resolution, the preview resolution or rescaling is used.*/
+    qint32 outputPixelsPerFrame();
+
+    /** Returns a rough estimate for the file size of the output render file(s) */
+    KIO::filesize_t estimateOutputFilesize();
+
 Q_SIGNALS:
     void abortProcess(const QString &url);
     /** Send the info about rendering that will be saved in the document:

@@ -2384,10 +2384,40 @@ void RenderWidget::checkDriveSpace()
     }
     m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
 
+    KIO::filesize_t minimumSize = estimateOutputFilesize();
+    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
+    if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
+    } else if (m_lastFreeSpace < minimumSize) {
+        m_freeSpaceStatus = SpaceNone;
+    } else {
+        m_freeSpaceStatus = SpaceOk;
+    }
+    if (previousState != m_freeSpaceStatus) {
+        updateRenderInfoMessage();
+    }
+}
+
+qint32 RenderWidget::outputPixelsPerFrame()
+{
+    bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
+    bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
+    if (rescale) {
+        return m_view.rescale_width->value() * m_view.rescale_height->value();
+    } else if (previewRes) {
+        // Preview rendering
+        return pCore->getMonitorProfile().width() * pCore->getMonitorProfile().height();
+    }
+
+    QSize frameSize = pCore->getCurrentFrameSize();
+    return frameSize.width() * frameSize.height();
+}
+
+KIO::filesize_t RenderWidget::estimateOutputFilesize()
+{
     // Very rough estimate of h264 video size
     int sizePerFrame = 0;
-    const QSize frameSize = pCore->getCurrentFrameSize();
-    qint32 pixels = frameSize.width() * frameSize.height();
+    qint32 pixels = outputPixelsPerFrame();
     if (pixels > 28000000) {
         // Approximately 8K
         sizePerFrame = 490000;
@@ -2402,49 +2432,43 @@ void RenderWidget::checkDriveSpace()
         sizePerFrame = 20000;
     }
 
-    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
-    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
-    if (m_lastFreeSpace < 5 * minimumSize) {
-        m_freeSpaceStatus = SpaceLow;
-    } else if (m_lastFreeSpace < minimumSize) {
-        m_freeSpaceStatus = SpaceNone;
-    } else {
-        m_freeSpaceStatus = SpaceOk;
-    }
-    if (previousState != m_freeSpaceStatus) {
-        updateRenderInfoMessage();
-    }
+    KIO::filesize_t simpleEstimate = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
+    return simpleEstimate;
 }
 
 void RenderWidget::updateRenderInfoMessage()
 {
-    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
-        m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
-                                                                                                                   : KMessageWidget::Warning);
-    } else {
-        m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
-    }
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
         m_view.infoMessage->show();
         return;
     }
-    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
-        switch (m_freeSpaceStatus) {
-        case SpaceNotWritable:
-            m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
-            break;
-        case SpaceNone:
-            m_view.infoMessage->setText(i18n("Your disk is almost full, rendering might fail"));
-            break;
-        case SpaceLow:
-            m_view.infoMessage->setText(i18n("Your disk space is limited (%1)", KIO::convertSize(m_lastFreeSpace)));
-            break;
-        default:
-            break;
-        }
+
+    KIO::filesize_t minimumSize = estimateOutputFilesize();
+
+    switch (m_freeSpaceStatus) {
+    case SpaceNotWritable:
+        m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
+        m_view.infoMessage->setMessageType(KMessageWidget::Error);
         m_view.infoMessage->show();
         return;
+    case SpaceNone:
+        m_view.infoMessage->setText(i18n("The render result will roughly have a file size of %1, but there is only %2 free disk space. Rendering might fail.",
+                                         KIO::convertSize(minimumSize), KIO::convertSize(m_lastFreeSpace)));
+        m_view.infoMessage->setMessageType(KMessageWidget::Error);
+        m_view.infoMessage->show();
+        return;
+    case SpaceLow:
+        m_view.infoMessage->setText(i18n("Your disk space is limited.\nThere is %1 free disk space and the render result will roughly take %2.",
+                                         KIO::convertSize(m_lastFreeSpace), KIO::convertSize(minimumSize)));
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->show();
+        return;
+    case SpaceOk:
+    case SpaceUnknown:
+    default:
+        break;
     }
 
     QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
@@ -2463,6 +2487,7 @@ void RenderWidget::updateRenderInfoMessage()
             infoMessage.append(i18n("%1 missing clips (<b>%2 used in the project</b>).", m_missingClips, m_missingUsedClips));
         }
     }
+    m_view.infoMessage->setMessageType(m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
     m_view.infoMessage->setText(infoMessage);
     m_view.infoMessage->show();
 }
