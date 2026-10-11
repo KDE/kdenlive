@@ -92,12 +92,21 @@ public:
 
     void undo() override { m_widget->loadTitleState(m_oldDoc); }
 
-    void redo() override { m_widget->loadTitleState(m_newDoc); }
+    void redo() override
+    {
+        if (!used) {
+            used = true;
+            return;
+        }
+
+        m_widget->loadTitleState(m_newDoc);
+    }
 
 private:
     TitleWidget *m_widget;
     QDomDocument m_oldDoc;
     QDomDocument m_newDoc;
+    bool used{false};
 };
 
 void TitleWidget::refreshTemplateBoxContents()
