@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-10 00:45+0000\n"
+"POT-Creation-Date: 2026-10-11 00:48+0000\n"
 "PO-Revision-Date: 2024-03-27 23:13+0100\n"
 "Last-Translator: Enol P. <enolp@softastur.org>\n"
 "Language-Team: Asturian <alministradores@softastur.org>\n"
@@ -2679,7 +2679,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
 #: data/effects/avfilter/avfilter_gblur.xml:19 data/effects/greyedge.xml:16
-#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr ""
@@ -4122,8 +4121,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
-#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1564
-#: src/bin/projectitemmodel.cpp:334 src/ui/timeremap_ui.ui:197
+#: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
+#: src/bin/bin.cpp:1564 src/bin/projectitemmodel.cpp:334
+#: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
 msgstr ""
@@ -5721,7 +5721,7 @@ msgid "Set shuffle block height size"
 msgstr ""
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
-#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
+#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:18
 #, kde-format
 msgid "Random Seed"
 msgstr ""
@@ -17510,14 +17510,38 @@ msgstr ""
 msgid "Frames step"
 msgstr ""
 
-#: data/effects/typewriter.xml:17
+#: data/effects/typewriter.xml:10
 #, kde-format
-msgid "Macro type"
+msgid ""
+"Defines how many frames it takes<br>\n"
+"        to display the next character, word, or line"
 msgstr ""
 
-#: data/effects/typewriter.xml:18
+#: data/effects/typewriter.xml:13
 #, kde-format
-msgid "Char by char,Word by word,Line by line,Custom macro"
+msgid "Fluctuation"
+msgstr ""
+
+#: data/effects/typewriter.xml:15
+#, kde-format
+msgid ""
+"Varies the step position by<br>\n"
+"        random value following normal distribution"
+msgstr ""
+
+#: data/effects/typewriter.xml:19
+#, kde-format
+msgid "Seed value for the random generator"
+msgstr ""
+
+#: data/effects/typewriter.xml:23
+#, kde-format
+msgid "Expansion type"
+msgstr ""
+
+#: data/effects/typewriter.xml:24
+#, kde-format
+msgid "Char by char,Word by word,Line by line"
 msgstr ""
 
 #: data/effects/vidstab.xml:4

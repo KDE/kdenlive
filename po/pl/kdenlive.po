@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-10 00:45+0000\n"
+"POT-Creation-Date: 2026-10-11 00:48+0000\n"
 "PO-Revision-Date: 2026-07-12 09:49+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: pl\n"
@@ -2842,7 +2842,6 @@ msgstr ""
 #: data/effects/avfilter/avfilter_dctdnoiz.xml:8
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:8
 #: data/effects/avfilter/avfilter_gblur.xml:19 data/effects/greyedge.xml:16
-#: data/effects/typewriter.xml:11
 #, kde-format
 msgid "Sigma"
 msgstr "Sigma"
@@ -4413,8 +4412,9 @@ msgstr ""
 #: data/effects/frei0r/frei0r_colortap.xml:8
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
-#: data/effects/frei0r/frei0r_medians.xml:8 src/bin/bin.cpp:1564
-#: src/bin/projectitemmodel.cpp:334 src/ui/timeremap_ui.ui:197
+#: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
+#: src/bin/bin.cpp:1564 src/bin/projectitemmodel.cpp:334
+#: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
 msgstr "Rodzaj"
@@ -6104,7 +6104,7 @@ msgid "Set shuffle block height size"
 msgstr "Ustaw rozmiar bloku w pikselach"
 
 #: data/effects/avfilter/avfilter_shufflepixels.xml:27
-#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:14
+#: data/effects/ladspa/ladspa_1402.xml:8 data/effects/typewriter.xml:18
 #, kde-format
 msgid "Random Seed"
 msgstr "Losowe ziarno"
@@ -18897,14 +18897,41 @@ msgstr ""
 msgid "Frames step"
 msgstr "Krok klatkowy"
 
-#: data/effects/typewriter.xml:17
+#: data/effects/typewriter.xml:10
 #, kde-format
-msgid "Macro type"
-msgstr "Rodzaj makra"
+msgid ""
+"Defines how many frames it takes<br>\n"
+"        to display the next character, word, or line"
+msgstr ""
 
-#: data/effects/typewriter.xml:18
+#: data/effects/typewriter.xml:13
+#, fuzzy, kde-format
+#| msgid "Saturation"
+msgid "Fluctuation"
+msgstr "Nasycenie"
+
+#: data/effects/typewriter.xml:15
 #, kde-format
-msgid "Char by char,Word by word,Line by line,Custom macro"
+msgid ""
+"Varies the step position by<br>\n"
+"        random value following normal distribution"
+msgstr ""
+
+#: data/effects/typewriter.xml:19
+#, kde-format
+msgid "Seed value for the random generator"
+msgstr ""
+
+#: data/effects/typewriter.xml:23
+#, fuzzy, kde-format
+#| msgid "Expansion Mode"
+msgid "Expansion type"
+msgstr "Tryb rozszerzania"
+
+#: data/effects/typewriter.xml:24
+#, fuzzy, kde-format
+#| msgid "Char by char,Word by word,Line by line,Custom macro"
+msgid "Char by char,Word by word,Line by line"
 msgstr "Znak po znaku,Słowo po słowie,Wiersz po wierszu,Własne makro"
 
 #: data/effects/vidstab.xml:4
@@ -43066,6 +43093,9 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
+
+#~ msgid "Macro type"
+#~ msgstr "Rodzaj makra"
 
 #~ msgid "Cannot resize mix to less than 1 frame"
 #~ msgstr "Nie można zmienić miksu do mniej niż 1 klatka"
