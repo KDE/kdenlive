@@ -2416,7 +2416,7 @@ qint32 RenderWidget::outputPixelsPerFrame()
 KIO::filesize_t RenderWidget::estimateOutputFilesize()
 {
     // Very rough estimate of h264 video size
-    int sizePerFrame = 0;
+    KIO::filesize_t sizePerFrame = 0;
     qint32 pixels = outputPixelsPerFrame();
     if (pixels > 28000000) {
         // Approximately 8K
