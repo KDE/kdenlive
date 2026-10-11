@@ -105,7 +105,7 @@ void DCResolveDialog::newSelection(const QItemSelection &, const QItemSelection 
 QList<DocumentChecker::DocumentResource> DCResolveDialog::getItems()
 {
     QList<DocumentChecker::DocumentResource> items = m_model.get()->getDocumentResources();
-    for (auto item : items) {
+    for (auto &item : items) {
         if (item.type != DocumentChecker::MissingType::Proxy || item.status == DocumentChecker::MissingStatus::Fixed) {
             continue;
         }
