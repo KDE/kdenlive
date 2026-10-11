@@ -405,6 +405,7 @@ void KdenliveSettingsDialog::initEnviromentPage()
     // Window drag behavior on non KDE desktops
     if (qgetenv("XDG_CURRENT_DESKTOP") == QLatin1String("KDE")) {
         m_configEnv.dragFromTitlebarOnly->setVisible(false);
+        m_configEnv.kcontextualhelpbutton->setVisible(false);
     } else {
         auto cfg = KSharedConfig::openConfig(QStringLiteral("breezerc"), KConfig::SimpleConfig, QStandardPaths::GenericConfigLocation);
         KConfigGroup group(cfg, "Style");
