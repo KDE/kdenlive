@@ -1807,6 +1807,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
         ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
         if (value.isEmpty() || value == QLatin1String("-")) {
             // reset proxy
+            m_usesProxy = false;
             if (pCore->taskManager.hasPendingJob(oid, AbstractTask::PROXYJOB)) {
                 // The proxy clip is being created, abort
                 pCore->taskManager.discardJobs(oid, AbstractTask::PROXYJOB);
@@ -1899,6 +1900,7 @@ void ProjectClip::setProperties(const QMap<QString, QString> &properties, bool r
     if (reload) {
         // producer has changed, refresh monitor and thumbnail
         if (hasProxy()) {
+            // Disable proxy and start new one
             ObjectId oid(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid());
             pCore->taskManager.discardJobs(oid, AbstractTask::PROXYJOB);
             setProducerProperty(QStringLiteral("_overwriteproxy"), 1);
