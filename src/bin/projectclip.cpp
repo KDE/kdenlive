@@ -2093,6 +2093,18 @@ const QVariant ProjectClip::getData(DataType type) const
             return QVariant("emblem-warning");
         }
         return m_effectStack && m_effectStack->hasEffects() > 0 ? QVariant("tools-wizard") : QVariant();
+    case AbstractProjectItem::DataFPS: {
+        // FPS display only useful for AV clips
+        if (m_clipType != ClipType::Video && m_clipType != ClipType::AV) {
+            return QVariant();
+        }
+        // we have an AV clip
+        const auto fps = fpsInfo();
+        if (fps.first <= 0 || fps.second <= 0) {
+            return QVariant();
+        }
+        return QVariant(static_cast<double>(fps.first) / fps.second);
+    }
     default:
         return AbstractProjectItem::getData(type);
     }

@@ -115,6 +115,8 @@ public:
         DataTag,
         // Rating of the clip (0-5)
         DataRating,
+        // FPS of the clip
+        DataFPS,
         // Duration of the clip in frames
         ParentDuration,
         // Inpoint of the subclip (0 for clips)

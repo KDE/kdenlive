@@ -131,6 +131,9 @@ int ProjectItemModel::mapToColumn(int column) const
     case 8:
         return AbstractProjectItem::UsageCount;
         break;
+    case 9:
+        return AbstractProjectItem::DataFPS;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }
@@ -170,6 +173,9 @@ QList<int> ProjectItemModel::mapDataToColumn(AbstractProjectItem::DataType type)
         break;
     case AbstractProjectItem::UsageCount:
         return {0, 8};
+        break;
+    case AbstractProjectItem::DataFPS:
+        return {9};
         break;
     default:
         return {};
@@ -347,6 +353,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
             break;
         case 8:
             columnName = i18n("Usage");
+            break;
+        case 9:
+            columnName = i18n("FPS");
             break;
         default:
             columnName = i18n("Unknown");
