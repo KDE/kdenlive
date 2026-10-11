@@ -2386,10 +2386,10 @@ void RenderWidget::checkDriveSpace()
 
     KIO::filesize_t minimumSize = estimateOutputFilesize();
     qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
-    if (m_lastFreeSpace < 5 * minimumSize) {
-        m_freeSpaceStatus = SpaceLow;
-    } else if (m_lastFreeSpace < minimumSize) {
+    if (m_lastFreeSpace < minimumSize) {
         m_freeSpaceStatus = SpaceNone;
+    } else if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
     } else {
         m_freeSpaceStatus = SpaceOk;
     }
