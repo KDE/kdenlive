@@ -387,18 +387,19 @@
     </ul>
   </description>
   <releases>
-    <release version="26.11.70">
-    <description>
-      <p>Improvements and new features:</p>
-      <ul>
-        <li>Titler: undo/redo support</li>
-        <li>Titler: copy/paste support</li>
-        <li>Titler: support image drop</li>
-        <li>Titler: relative paths for images</li>
-        <li>Titler: allow multiple style in each text block</li>
-        <li>Project file: improved support for project folder</li>
-        <li>Project file: relative paths for all media</li>
-      </ul>
+    <release version="26.11.70" type="snapshot">
+      <description>
+        <p>Improvements and new features:</p>
+        <ul>
+          <li>Titler: undo/redo support</li>
+          <li>Titler: copy/paste support</li>
+          <li>Titler: support image drop</li>
+          <li>Titler: relative paths for images</li>
+          <li>Titler: allow multiple style in each text block</li>
+          <li>Project file: improved support for project folder</li>
+          <li>Project file: relative paths for all media</li>
+        </ul>
+      </description>
     </release>
     <release version="26.08.2" date="2026-10-08"/>
     <release version="26.08.1" date="2026-09-10"/>
