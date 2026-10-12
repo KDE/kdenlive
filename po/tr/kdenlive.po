@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-06 03:06+0000\n"
-"PO-Revision-Date: 2026-10-07 18:52+0300\n"
+"PO-Revision-Date: 2026-10-11 21:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15438,10 +15438,9 @@ msgid "The amount of the delays output that is mixed back into the delay"
 msgstr "Görsele eklenen toz taneciklerinin miktarı"
 
 #: data/effects/ladspa/ladspa_1886.xml:4
-#, fuzzy, kde-format
-#| msgid "Exponential In"
+#, kde-format
 msgid "Exponential Signal Decay"
-msgstr "Üstel İçeri"
+msgstr "Üstel Sinyal Bozulması"
 
 #: data/effects/ladspa/ladspa_1886.xml:5
 #, kde-format
@@ -15464,10 +15463,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1889.xml:9 data/effects/ladspa/ladspa_1895.xml:9
 #: data/effects/ladspa/ladspa_1896.xml:9 data/effects/ladspa/ladspa_1897.xml:9
 #: data/effects/ladspa/ladspa_1900.xml:9
-#, fuzzy, kde-format
-#| msgid "L Delay"
+#, kde-format
 msgid "Max Delay"
-msgstr "Sol Gecikme"
+msgstr "En Çok Gecikme"
 
 #: data/effects/ladspa/ladspa_1887.xml:11
 #: data/effects/ladspa/ladspa_1888.xml:11
@@ -15485,10 +15483,9 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1896.xml:12
 #: data/effects/ladspa/ladspa_1897.xml:12
 #: data/effects/ladspa/ladspa_1900.xml:12
-#, fuzzy, kde-format
-#| msgid "Delay time"
+#, kde-format
 msgid "Delay Time"
-msgstr "Gecikme süresi"
+msgstr "Gecikme Süresi"
 
 #: data/effects/ladspa/ladspa_1887.xml:20
 #: data/effects/ladspa/ladspa_1888.xml:20
@@ -15525,10 +15522,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/ladspa/ladspa_1890.xml:4
-#, fuzzy, kde-format
-#| msgid "High-pass"
+#, kde-format
 msgid "GLAME Highpass"
-msgstr "Yüksek Geçiş"
+msgstr "GLAME Yüksek Geçiş"
 
 #: data/effects/ladspa/ladspa_1890.xml:6
 #, kde-format
@@ -15542,18 +15538,16 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1890.xml:9 data/effects/ladspa/ladspa_1891.xml:9
 #: data/effects/ladspa/ladspa_1902.xml:8 data/effects/ladspa/ladspa_1903.xml:8
 #: data/effects/ladspa/ladspa_1904.xml:8
-#, fuzzy, kde-format
-#| msgid "Rotor Frequency"
+#, kde-format
 msgid "Cutoff Frequency"
-msgstr "Rotor Frekansı"
+msgstr "Kesim Sıklığı"
 
 #: data/effects/ladspa/ladspa_1890.xml:12
 #: data/effects/ladspa/ladspa_1891.xml:12
 #: data/effects/ladspa/ladspa_1892.xml:15
-#, fuzzy, kde-format
-#| msgid "Images"
+#, kde-format
 msgid "Stages"
-msgstr "Görseller"
+msgstr "Etaplar"
 
 #: data/effects/ladspa/ladspa_1890.xml:14
 #: data/effects/ladspa/ladspa_1891.xml:14
