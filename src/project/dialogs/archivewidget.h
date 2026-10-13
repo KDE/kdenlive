@@ -85,7 +85,7 @@ private:
     QStringList m_processedFiles;
     bool m_extractMode;
     QUrl m_extractUrl;
-    QString m_projectName;
+    QString m_projectFileName;
     QTimer *m_progressTimer;
     KArchive *m_archive;
     int m_missingClips;
