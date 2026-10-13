@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
+#include "project/projectmanager.h"
 #include <KGuiItem>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -367,7 +368,13 @@ void ArchiveWidget::openArchiveForExtraction()
     QStringList files = m_archive->directory()->entries();
     for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(QLatin1String(".kdenlive"))) {
-            m_projectName = files.at(i);
+            const QString matchFile = files.at(i);
+            auto archiveFile = m_archive->directory()->entry(matchFile);
+            if (!archiveFile->isFile() || !archiveFile->symLinkTarget().isEmpty()) {
+                // Symlink, do not allow this
+                continue;
+            }
+            m_projectFileName = matchFile;
             isProjectArchive = true;
             break;
         }
@@ -416,6 +423,9 @@ bool ArchiveWidget::closeAccepted()
             m_copyJob->kill();
         }
         m_archiveThread.waitForFinished();
+    }
+    if (!pCore->currentDoc()) {
+        pCore->projectManager()->newFile(false);
     }
     return true;
 }
@@ -1310,14 +1320,20 @@ void ArchiveWidget::slotExtractProgress()
 
 void ArchiveWidget::doExtracting()
 {
-    m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
+    bool result = m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
     m_archive->close();
-    Q_EMIT extractingFinished();
+    if (result) {
+        Q_EMIT extractingFinished();
+    } else {
+        m_progressTimer->stop();
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
+        reject();
+    }
 }
 
 QString ArchiveWidget::extractedProjectFile() const
 {
-    return archive_url->url().toLocalFile() + QDir::separator() + m_projectName;
+    return QDir(archive_url->url().toLocalFile()).absoluteFilePath(m_projectFileName);
 }
 
 void ArchiveWidget::slotExtractingFinished()
@@ -1326,11 +1342,23 @@ void ArchiveWidget::slotExtractingFinished()
     // Process project file
     QFile file(extractedProjectFile());
     bool error = false;
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.symLinkTarget().isEmpty()) {
+        error = true;
+    } else if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         error = true;
     } else {
+        // Minimal validation
         QString playList = QString::fromUtf8(file.readAll());
         file.close();
+        QDomDocument domDocument;
+        auto parseResults = domDocument.setContent(playList);
+        if (!parseResults) {
+            // Invalid file
+            playList.clear();
+        } else if (domDocument.documentElement().tagName() != QLatin1String("mlt")) {
+            // Invalid file
+            playList.clear();
+        }
         if (playList.isEmpty()) {
             error = true;
         } else {
