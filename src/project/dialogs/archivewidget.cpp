@@ -1320,7 +1320,7 @@ void ArchiveWidget::slotExtractProgress()
 
 void ArchiveWidget::doExtracting()
 {
-    bool result = m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
+    bool result = m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QLatin1Char('/'));
     m_archive->close();
     if (result) {
         Q_EMIT extractingFinished();
