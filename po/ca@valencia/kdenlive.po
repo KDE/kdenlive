@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-12 00:51+0000\n"
-"PO-Revision-Date: 2026-10-11 10:33+0200\n"
+"POT-Creation-Date: 2026-10-13 00:45+0000\n"
+"PO-Revision-Date: 2026-10-12 10:18+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -4943,7 +4943,7 @@ msgstr "Aplica l'operador Kirsch."
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: data/effects/frei0r/frei0r_shake0scillate.xml:26
 #: data/effects/frei0r/frei0r_squigglevision.xml:16
-#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2330
+#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2339
 #: src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
@@ -7543,7 +7543,7 @@ msgstr "Aplica un efecte de zoom i de panoràmica"
 #: data/effects/frei0r/frei0r_camerashake.xml:20
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:405
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:414
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -14327,7 +14327,7 @@ msgstr ""
 "    \tEls valors més petits que 100 amplien la imatge, els valors més grans "
 "que 100 la reduïxen. 0 l'oculta."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:409
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Background opacity"
 msgstr "Opacitat del fons"
@@ -14550,7 +14550,7 @@ msgstr "Mapa de degradats"
 msgid "Apply a gradient map to the video"
 msgstr "Aplica un mapa de degradats al vídeo"
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3803
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3812
 #, kde-format
 msgid "Gradient"
 msgstr "Degradat"
@@ -19818,9 +19818,9 @@ msgid "Crop to fill"
 msgstr "Escapça fins a omplir"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/titler/titlewidget.cpp:2406 src/titler/titlewidget.cpp:2421
-#: src/titler/titlewidget.cpp:2451 src/titler/titlewidget.cpp:2481
-#: src/titler/titlewidget.cpp:2511 src/titler/titlewidget.cpp:2541
+#: src/titler/titlewidget.cpp:2415 src/titler/titlewidget.cpp:2430
+#: src/titler/titlewidget.cpp:2460 src/titler/titlewidget.cpp:2490
+#: src/titler/titlewidget.cpp:2520 src/titler/titlewidget.cpp:2550
 #: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
@@ -20780,7 +20780,7 @@ msgstr "Mostra o oculta la descripció de les composicions"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
 #: src/dialogs/renderwidget.cpp:557 src/project/dialogs/profilewidget.cpp:40
-#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2662
+#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2671
 #, kde-format
 msgid "Search…"
 msgstr "Busca…"
@@ -21988,10 +21988,9 @@ msgid "Show Rating"
 msgstr "Mostra la puntuació"
 
 #: src/bin/bin.cpp:1642
-#, fuzzy, kde-format
-#| msgid "Show"
+#, kde-format
 msgid "Show FPS"
-msgstr "Mostra"
+msgstr "Mostra els FPS"
 
 #: src/bin/bin.cpp:1654
 #, kde-format
@@ -22668,7 +22667,7 @@ msgstr ""
 "Esteu editant un clip de títol extern (%1). Voleu guardar els canvis en el "
 "fitxer de títol o només guardar-los per a este projecte concret?"
 
-#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2602
+#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2611
 #, kde-format
 msgid "Save Title"
 msgstr "Guarda el títol"
@@ -23225,7 +23224,7 @@ msgstr ""
 "El fitxer %1 ja existix.\n"
 "Voleu sobreescriure'l?"
 
-#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:438
+#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:447
 #, kde-format
 msgid "Add Text"
 msgstr "Afig un text"
@@ -24315,7 +24314,7 @@ msgstr "Exporteu les dades de marcadors"
 #: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5944
 #: src/timeline2/view/timelinecontroller.cpp:5949
-#: src/titler/titlewidget.cpp:2615
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "No es pot escriure en el fitxer %1"
@@ -25145,10 +25144,9 @@ msgid "Rendered File Length: %1"
 msgstr "Duració del fitxer renderitzat: %1"
 
 #: src/dialogs/renderwidget.cpp:2445
-#, fuzzy, kde-format
-#| msgid "Timecode Offset:"
+#, kde-format
 msgid "Timecode Offset: %1"
-msgstr "Decalatge del codi de temps:"
+msgstr "Decalatge del codi de temps: %1"
 
 #: src/dialogs/renderwidget.cpp:2450
 #, kde-format
@@ -25166,6 +25164,8 @@ msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
 "free disk space. Rendering might fail."
 msgstr ""
+"El resultat de la renderització tindrà aproximadament una mida de fitxer de "
+"%1, però només hi ha %2 espai de disc lliure. La renderització pot fallar."
 
 #: src/dialogs/renderwidget.cpp:2471
 #, kde-format
@@ -25173,6 +25173,9 @@ msgid ""
 "Your disk space is limited.\n"
 "There is %1 free disk space and the render result will roughly take %2."
 msgstr ""
+"L'espai en disc és limitat.\n"
+"Hi ha %1 espai de disc lliure i el resultat de la renderització tindrà %2 "
+"aproximadament."
 
 #: src/dialogs/renderwidget.cpp:2486
 #, kde-format
@@ -30120,7 +30123,7 @@ msgstr "Torna'ls a crear"
 
 #: src/mainwindow.cpp:1140 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2598
+#: src/titler/titlewidget.cpp:2607
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30735,7 +30738,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Canvia la pista dels subtítols en la línia de temps."
 
-#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:429
+#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:438
 #, kde-format
 msgid "Selection Tool"
 msgstr "Eina de selecció"
@@ -32344,7 +32347,7 @@ msgstr "Volum d'àudio"
 #: src/monitor/monitor.cpp:91 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: src/monitor/monitor.cpp:229
 #, kde-format
@@ -36422,7 +36425,7 @@ msgid "Pasting Warning"
 msgstr "Avís d'apegat"
 
 #: src/timeline2/model/timelinefunctions.cpp:2309
-#: src/titler/titlewidget.cpp:4120
+#: src/titler/titlewidget.cpp:4129
 #, kde-format
 msgid "Paste"
 msgstr "Apega"
@@ -37791,7 +37794,7 @@ msgid "No available stream"
 msgstr "No hi ha cap flux disponible"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3770 src/titler/titlewidget.cpp:3773
+#: src/titler/titlewidget.cpp:3779 src/titler/titlewidget.cpp:3782
 #, kde-format
 msgid "Gradient %1"
 msgstr "Degradat %1"
@@ -37823,39 +37826,39 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Clips de text actualitzats"
 
-#: src/titler/titlewidget.cpp:164
+#: src/titler/titlewidget.cpp:173
 #, kde-format
 msgid "Outline width"
 msgstr "Amplària del contorn"
 
-#: src/titler/titlewidget.cpp:171
+#: src/titler/titlewidget.cpp:180
 #, kde-format
 msgid "Background color opacity"
 msgstr "Opacitat del color de fons"
 
-#: src/titler/titlewidget.cpp:177
+#: src/titler/titlewidget.cpp:186
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Gir al voltant de l'eix X"
 
-#: src/titler/titlewidget.cpp:183
+#: src/titler/titlewidget.cpp:192
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Gir al voltant de l'eix Y"
 
-#: src/titler/titlewidget.cpp:189
+#: src/titler/titlewidget.cpp:198
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Gir al voltant de l'eix Z"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:195 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:204 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "Amplària de la vora"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:205 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:214 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -37865,159 +37868,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:216 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:225 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " píxels"
 
-#: src/titler/titlewidget.cpp:317
+#: src/titler/titlewidget.cpp:326
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Fi"
 
-#: src/titler/titlewidget.cpp:318
+#: src/titler/titlewidget.cpp:327
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normal"
 
-#: src/titler/titlewidget.cpp:319
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Semi negreta"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:329
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Negreta"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:330
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Gruixut"
 
-#: src/titler/titlewidget.cpp:322 src/titler/titlewidget.cpp:2134
+#: src/titler/titlewidget.cpp:331 src/titler/titlewidget.cpp:2143
 #, kde-format
 msgid "Font weight"
 msgstr "Estil de la lletra"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Inserix un caràcter Unicode"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Raise object"
 msgstr "Eleva un objecte"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Lower object"
 msgstr "Enfonsa un objecte"
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Raise object to top"
 msgstr "Eleva un objecte a la part superior"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Enfonsa un objecte a la part inferior"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Mantín només els elements de text seleccionats"
 
-#: src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:391
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Mantín només els elements rectes seleccionats"
 
-#: src/titler/titlewidget.cpp:389
+#: src/titler/titlewidget.cpp:398
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Mantín només els elements d'imatge seleccionats"
 
-#: src/titler/titlewidget.cpp:396
+#: src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Deselect"
 msgstr "Desselecciona"
 
-#: src/titler/titlewidget.cpp:401
+#: src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "Invertix l'eix X i canvia el punt 0"
 
-#: src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:411
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Invertix l'eix Y i canvia el punt 0"
 
-#: src/titler/titlewidget.cpp:403
+#: src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Select fill color"
 msgstr "Tria el color d'emplenament"
 
-#: src/titler/titlewidget.cpp:404
+#: src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Select border color"
 msgstr "Tria el color de la vora"
 
-#: src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:415
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Mida original (1:1)"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Fit zoom"
 msgstr "Ajusta el zoom"
 
-#: src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:417
 #, kde-format
 msgid "Select background color"
 msgstr "Tria el color de fons"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:419
 #, kde-format
 msgid "Select all"
 msgstr "Selecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:411
+#: src/titler/titlewidget.cpp:420
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Tria els elements de text de la selecció actual"
 
-#: src/titler/titlewidget.cpp:412
+#: src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Tria els elements rectangulars de la selecció actual"
 
-#: src/titler/titlewidget.cpp:413
+#: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Tria els elements d'imatge de la selecció actual"
 
-#: src/titler/titlewidget.cpp:414
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Unselect all"
 msgstr "Desselecciona-ho tot"
 
-#: src/titler/titlewidget.cpp:434
+#: src/titler/titlewidget.cpp:443
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -38031,67 +38034,67 @@ msgstr ""
 "canvi de mida, «Ctrl+arrossega» per a desplaçar amb panorama. Desactiveu "
 "l'ajustament en moure un element amb «Ctrl»."
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:452
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Afig un rectangle"
 
-#: src/titler/titlewidget.cpp:448
+#: src/titler/titlewidget.cpp:457
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Afig una el·lipse"
 
-#: src/titler/titlewidget.cpp:453
+#: src/titler/titlewidget.cpp:462
 #, kde-format
 msgid "Add Image…"
 msgstr "Afig una imatge…"
 
-#: src/titler/titlewidget.cpp:460
+#: src/titler/titlewidget.cpp:469
 #, kde-format
 msgid "Undo"
 msgstr "Desfés"
 
-#: src/titler/titlewidget.cpp:468
+#: src/titler/titlewidget.cpp:477
 #, kde-format
 msgid "Redo"
 msgstr "Refés"
 
-#: src/titler/titlewidget.cpp:477
+#: src/titler/titlewidget.cpp:486
 #, kde-format
 msgid "Open Title…"
 msgstr "Obri un títol…"
 
-#: src/titler/titlewidget.cpp:482
+#: src/titler/titlewidget.cpp:491
 #, kde-format
 msgid "Save Title As…"
 msgstr "Anomena i guarda el títol…"
 
-#: src/titler/titlewidget.cpp:487
+#: src/titler/titlewidget.cpp:496
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Baixa plantilles de títols noves…"
 
-#: src/titler/titlewidget.cpp:562
+#: src/titler/titlewidget.cpp:571
 #, kde-format
 msgid "Move / Resize"
 msgstr "Mou / Redimensiona"
 
-#: src/titler/titlewidget.cpp:607
+#: src/titler/titlewidget.cpp:616
 #, kde-format
 msgid "Save and add to project"
 msgstr "Guarda i afig al projecte"
 
-#: src/titler/titlewidget.cpp:608
+#: src/titler/titlewidget.cpp:617
 #, kde-format
 msgid "Create Title"
 msgstr "Crea un títol"
 
-#: src/titler/titlewidget.cpp:725
+#: src/titler/titlewidget.cpp:734
 #, kde-format
 msgid "Keep Aspect Ratio"
 msgstr "Mantín la relació d'aspecte"
 
-#: src/titler/titlewidget.cpp:901
+#: src/titler/titlewidget.cpp:910
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -38100,61 +38103,61 @@ msgstr ""
 "Segur que voleu carregar una plantilla nova? Es perdran els canvis en este "
 "títol!"
 
-#: src/titler/titlewidget.cpp:1010
+#: src/titler/titlewidget.cpp:1019
 #, kde-format
 msgid "All Images"
 msgstr "Totes les imatges"
 
-#: src/titler/titlewidget.cpp:1012
+#: src/titler/titlewidget.cpp:1021
 #, kde-format
 msgid "%1 Image"
 msgstr "Imatge %1"
 
-#: src/titler/titlewidget.cpp:1022 src/titler/titlewidget.cpp:1067
+#: src/titler/titlewidget.cpp:1031 src/titler/titlewidget.cpp:1076
 #, kde-format
 msgid "Add Image"
 msgstr "Afig una imatge"
 
-#: src/titler/titlewidget.cpp:1376 src/titler/titlewidget.cpp:3259
-#: src/titler/titlewidget.cpp:3277 src/titler/titlewidget.cpp:3290
-#: src/titler/titlewidget.cpp:3308
+#: src/titler/titlewidget.cpp:1385 src/titler/titlewidget.cpp:3268
+#: src/titler/titlewidget.cpp:3286 src/titler/titlewidget.cpp:3299
+#: src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Z-Index"
 msgstr "Índex Z"
 
-#: src/titler/titlewidget.cpp:1615
+#: src/titler/titlewidget.cpp:1624
 #, kde-format
 msgid "Change Value"
 msgstr "Canvia el valor"
 
-#: src/titler/titlewidget.cpp:1880
+#: src/titler/titlewidget.cpp:1889
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1882 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1891 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1904
+#: src/titler/titlewidget.cpp:1913
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1906 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1915 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:1952
+#: src/titler/titlewidget.cpp:1961
 #, kde-format
 msgid "Change Background"
 msgstr "Canvia el fons"
 
-#: src/titler/titlewidget.cpp:2127
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
@@ -38163,7 +38166,7 @@ msgstr ""
 "Seleccioneu el text mesclat: mostra el primer caràcter seleccionat. Canviar "
 "un valor l'aplica a la selecció."
 
-#: src/titler/titlewidget.cpp:2151
+#: src/titler/titlewidget.cpp:2160
 #, kde-format
 msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
@@ -38172,7 +38175,7 @@ msgstr ""
 "Amplàries de contorn mesclades: mostra el primer caràcter seleccionat. "
 "Canviar l'amplària només aplica esta propietat a la selecció."
 
-#: src/titler/titlewidget.cpp:2152
+#: src/titler/titlewidget.cpp:2161
 #, kde-format
 msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
@@ -38181,7 +38184,7 @@ msgstr ""
 "Amplària del contorn. S'aplica al text seleccionat, o a tot l'objecte fora "
 "de l'edició de text."
 
-#: src/titler/titlewidget.cpp:2154
+#: src/titler/titlewidget.cpp:2163
 #, kde-format
 msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
@@ -38190,7 +38193,7 @@ msgstr ""
 "Colors de contorn mesclats: mostrant el primer caràcter seleccionat. Canviar "
 "el color conserva l'amplària del contorn de cada caràcter."
 
-#: src/titler/titlewidget.cpp:2155
+#: src/titler/titlewidget.cpp:2164
 #, kde-format
 msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
@@ -38199,33 +38202,33 @@ msgstr ""
 "Color del contorn S'aplica al text seleccionat, o a tot l'objecte fora de "
 "l'edició de text."
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2267
 #, kde-format
 msgid "Update Text"
 msgstr "Actualitza el text"
 
-#: src/titler/titlewidget.cpp:2311
+#: src/titler/titlewidget.cpp:2320
 #, kde-format
 msgid "Update Shape"
 msgstr "Actualitza la forma"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
-#: src/titler/titlewidget.cpp:2379 src/ui/titlewidget_ui.ui:526
+#: src/titler/titlewidget.cpp:2388 src/ui/titlewidget_ui.ui:526
 #, kde-format
 msgid "Rotate"
 msgstr "Gira"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2558
 #, kde-format
 msgid "Load Title"
 msgstr "Carrega un títol"
 
-#: src/titler/titlewidget.cpp:2550
+#: src/titler/titlewidget.cpp:2559
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Títol de Kdenlive"
 
-#: src/titler/titlewidget.cpp:2596
+#: src/titler/titlewidget.cpp:2605
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -38234,83 +38237,83 @@ msgstr ""
 "Voleu incrustar les imatges en este document de títol?\n"
 "Açò és molt necessari per a compartir títols."
 
-#: src/titler/titlewidget.cpp:2597
+#: src/titler/titlewidget.cpp:2606
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Imatges incrustades"
 
-#: src/titler/titlewidget.cpp:2661 src/titler/titlewidget.cpp:4385
+#: src/titler/titlewidget.cpp:2670 src/titler/titlewidget.cpp:4394
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Falta 1 element en este títol"
 msgstr[1] "Falten %1 elements en este títol"
 
-#: src/titler/titlewidget.cpp:2665
+#: src/titler/titlewidget.cpp:2674
 #, kde-format
 msgid "Remove missing elements"
 msgstr "Elimina els elements que falten"
 
-#: src/titler/titlewidget.cpp:2725
+#: src/titler/titlewidget.cpp:2734
 #, kde-format
 msgid "Update Title"
 msgstr "Actualitza el títol"
 
-#: src/titler/titlewidget.cpp:2728
+#: src/titler/titlewidget.cpp:2737
 #, kde-format
 msgid "Add as new Title"
 msgstr "Afig com a títol nou"
 
-#: src/titler/titlewidget.cpp:2773
+#: src/titler/titlewidget.cpp:2782
 #, kde-format
 msgid "Delete Missing Items"
 msgstr "Suprimix els elements que falten"
 
-#: src/titler/titlewidget.cpp:2791
+#: src/titler/titlewidget.cpp:2800
 #, kde-format
 msgid "The following files are missing:"
 msgstr "Falten els fitxers següents:"
 
-#: src/titler/titlewidget.cpp:2799
+#: src/titler/titlewidget.cpp:2808
 #, kde-format
 msgid "All missing files recovered"
 msgstr "S'han recuperat tots els fitxers que faltaven"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
-#: src/titler/titlewidget.cpp:2805 src/ui/textbasededit_ui.ui:263
+#: src/titler/titlewidget.cpp:2814 src/ui/textbasededit_ui.ui:263
 #, kde-format
 msgid "Search"
 msgstr "Busca"
 
-#: src/titler/titlewidget.cpp:2822
+#: src/titler/titlewidget.cpp:2831
 #, kde-format
 msgid "Enter folder for search"
 msgstr "Introduïu la carpeta a buscar"
 
-#: src/titler/titlewidget.cpp:3086
+#: src/titler/titlewidget.cpp:3095
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Inici de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:3087
+#: src/titler/titlewidget.cpp:3096
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Final de l'àrea de visualització"
 
-#: src/titler/titlewidget.cpp:3848
+#: src/titler/titlewidget.cpp:3857
 #, kde-format
 msgid "Update Shadow"
 msgstr "Actualitza l'ombra"
 
-#: src/titler/titlewidget.cpp:3873
+#: src/titler/titlewidget.cpp:3882
 #, kde-format
 msgid "Typewriter Effect"
 msgstr "Efecte de màquina d'escriure"
 
-#: src/titler/titlewidget.cpp:3999
+#: src/titler/titlewidget.cpp:4008
 #, kde-format
 msgid "Insert Pattern"
 msgstr "Inserix un patró"
@@ -43441,9 +43444,3 @@ msgstr "%1 m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1h"
-
-#~ msgid "Your disk is almost full, rendering might fail"
-#~ msgstr "El disc és quasi ple, la renderització podria fallar"
-
-#~ msgid "Your disk space is limited (%1)"
-#~ msgstr "L'espai en el disc és limitat (%1)"

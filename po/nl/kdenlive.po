@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-12 00:51+0000\n"
-"PO-Revision-Date: 2026-10-11 18:05+0200\n"
+"POT-Creation-Date: 2026-10-13 00:45+0000\n"
+"PO-Revision-Date: 2026-10-12 15:35+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -4906,7 +4906,7 @@ msgstr "Kirsch-operator toepassen"
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: data/effects/frei0r/frei0r_shake0scillate.xml:26
 #: data/effects/frei0r/frei0r_squigglevision.xml:16
-#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2330
+#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2339
 #: src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
@@ -7492,7 +7492,7 @@ msgstr "Zoom en rondkijkeffect toepassen"
 #: data/effects/frei0r/frei0r_camerashake.xml:20
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:405
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:414
 #, kde-format
 msgid "Zoom"
 msgstr "Zoom"
@@ -14277,7 +14277,7 @@ msgstr ""
 "    \tWaarden kleiner dan 100 zoomen in op de afbeelding, waarden groter dan "
 "100 zoomen uit. 0 verbergt het."
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:409
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Background opacity"
 msgstr "Transparante achtergrond"
@@ -14501,7 +14501,7 @@ msgstr "Kleurverloopkaart"
 msgid "Apply a gradient map to the video"
 msgstr "Past een kleurverloopkaart toe op de video"
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3803
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3812
 #, kde-format
 msgid "Gradient"
 msgstr "Gradiënt"
@@ -19742,9 +19742,9 @@ msgid "Crop to fill"
 msgstr "Afsnijden om te vullen"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/titler/titlewidget.cpp:2406 src/titler/titlewidget.cpp:2421
-#: src/titler/titlewidget.cpp:2451 src/titler/titlewidget.cpp:2481
-#: src/titler/titlewidget.cpp:2511 src/titler/titlewidget.cpp:2541
+#: src/titler/titlewidget.cpp:2415 src/titler/titlewidget.cpp:2430
+#: src/titler/titlewidget.cpp:2460 src/titler/titlewidget.cpp:2490
+#: src/titler/titlewidget.cpp:2520 src/titler/titlewidget.cpp:2550
 #: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
@@ -20701,7 +20701,7 @@ msgstr "Beschrijving van de composities tonen/verbergen"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
 #: src/dialogs/renderwidget.cpp:557 src/project/dialogs/profilewidget.cpp:40
-#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2662
+#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2671
 #, kde-format
 msgid "Search…"
 msgstr "Zoeken…"
@@ -21902,10 +21902,9 @@ msgid "Show Rating"
 msgstr "Waardering tonen"
 
 #: src/bin/bin.cpp:1642
-#, fuzzy, kde-format
-#| msgid "Show"
+#, kde-format
 msgid "Show FPS"
-msgstr "Tonen"
+msgstr "FPS tonen"
 
 #: src/bin/bin.cpp:1654
 #, kde-format
@@ -22578,7 +22577,7 @@ msgstr ""
 "Een externe titel clip (%1) wordt bewerkt. Moeten de veranderingen in het "
 "titel-bestand bewaard worden of alleen voor dit project?"
 
-#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2602
+#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2611
 #, kde-format
 msgid "Save Title"
 msgstr "Titel opslaan"
@@ -23136,7 +23135,7 @@ msgstr ""
 "Bestand %1 bestaat reeds.\n"
 "Wilt u het overschrijven?"
 
-#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:438
+#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:447
 #, kde-format
 msgid "Add Text"
 msgstr "Tekst toevoegen"
@@ -24229,7 +24228,7 @@ msgstr "Markeringsgegevens exporteren"
 #: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5944
 #: src/timeline2/view/timelinecontroller.cpp:5949
-#: src/titler/titlewidget.cpp:2615
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "Kan niet naar bestand %1 schrijven"
@@ -25057,10 +25056,9 @@ msgid "Rendered File Length: %1"
 msgstr "Bestandslengte na renderen: %1"
 
 #: src/dialogs/renderwidget.cpp:2445
-#, fuzzy, kde-format
-#| msgid "Timecode Offset:"
+#, kde-format
 msgid "Timecode Offset: %1"
-msgstr "Tijdcodeverschuiving:"
+msgstr "Tijdcodeverschuiving: %1"
 
 #: src/dialogs/renderwidget.cpp:2450
 #, kde-format
@@ -25078,6 +25076,8 @@ msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
 "free disk space. Rendering might fail."
 msgstr ""
+"Het renderresultaat zal een bestandsgrootte van ongeveer %1 hebben, maar er "
+"is slechts %2 vrije schijfruimte beschikbaar. Het renderen kan mislukken."
 
 #: src/dialogs/renderwidget.cpp:2471
 #, kde-format
@@ -25085,6 +25085,9 @@ msgid ""
 "Your disk space is limited.\n"
 "There is %1 free disk space and the render result will roughly take %2."
 msgstr ""
+"Uw schijfruimte is beperkt.\n"
+"Er is %1 vrije schijfruimte en het renderresultaat zal ongeveer %2 in beslag "
+"nemen."
 
 #: src/dialogs/renderwidget.cpp:2486
 #, kde-format
@@ -30008,7 +30011,7 @@ msgstr "Opnieuw aanmaken"
 
 #: src/mainwindow.cpp:1140 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2598
+#: src/titler/titlewidget.cpp:2607
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -30622,7 +30625,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "Schakelt de ondertiteltrack in de tijdlijn om."
 
-#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:429
+#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:438
 #, kde-format
 msgid "Selection Tool"
 msgstr "Selectiehulpmiddel"
@@ -36259,7 +36262,7 @@ msgid "Pasting Warning"
 msgstr "Waarschuwing voor plakken"
 
 #: src/timeline2/model/timelinefunctions.cpp:2309
-#: src/titler/titlewidget.cpp:4120
+#: src/titler/titlewidget.cpp:4129
 #, kde-format
 msgid "Paste"
 msgstr "Plakken"
@@ -37617,7 +37620,7 @@ msgid "No available stream"
 msgstr "Geen stream beschikbaar"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3770 src/titler/titlewidget.cpp:3773
+#: src/titler/titlewidget.cpp:3779 src/titler/titlewidget.cpp:3782
 #, kde-format
 msgid "Gradient %1"
 msgstr "Gradiënt %1"
@@ -37649,39 +37652,39 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "Tekst clips bijgewerkt"
 
-#: src/titler/titlewidget.cpp:164
+#: src/titler/titlewidget.cpp:173
 #, kde-format
 msgid "Outline width"
 msgstr "Buitenlijn breedte"
 
-#: src/titler/titlewidget.cpp:171
+#: src/titler/titlewidget.cpp:180
 #, kde-format
 msgid "Background color opacity"
 msgstr "Transparante achtergrond kleur"
 
-#: src/titler/titlewidget.cpp:177
+#: src/titler/titlewidget.cpp:186
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "Roteer om de X-as"
 
-#: src/titler/titlewidget.cpp:183
+#: src/titler/titlewidget.cpp:192
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "Roteer om de Y-as"
 
-#: src/titler/titlewidget.cpp:189
+#: src/titler/titlewidget.cpp:198
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "Roteer om de Z-as"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:195 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:204 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "Breedte omlijning"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:205 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:214 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -37691,159 +37694,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:216 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:225 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " pixels"
 
-#: src/titler/titlewidget.cpp:317
+#: src/titler/titlewidget.cpp:326
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "Licht"
 
-#: src/titler/titlewidget.cpp:318
+#: src/titler/titlewidget.cpp:327
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "Normaal"
 
-#: src/titler/titlewidget.cpp:319
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "Semi vet"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:329
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "Vet"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:330
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "Zwart "
 
-#: src/titler/titlewidget.cpp:322 src/titler/titlewidget.cpp:2134
+#: src/titler/titlewidget.cpp:331 src/titler/titlewidget.cpp:2143
 #, kde-format
 msgid "Font weight"
 msgstr "Teken grootte"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "Invoegen Unicode karakter "
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Raise object"
 msgstr "Project omhoog"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Lower object"
 msgstr "Object omlaag"
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Raise object to top"
 msgstr "Project bovenaan"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "Object onderaan plaatsen"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select All"
 msgstr "Alles selecteren"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "Alleen tekstitems geselecteerd houden"
 
-#: src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:391
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "Alleen rect-items geselecteerd houden"
 
-#: src/titler/titlewidget.cpp:389
+#: src/titler/titlewidget.cpp:398
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "Alleen afbeelding-items geselecteerd houden"
 
-#: src/titler/titlewidget.cpp:396
+#: src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Deselect"
 msgstr "Selectie opheffen"
 
-#: src/titler/titlewidget.cpp:401
+#: src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "X-as omkeren en 0-punt veranderen"
 
-#: src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:411
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "Y-as omkeren en 0-punt veranderen"
 
-#: src/titler/titlewidget.cpp:403
+#: src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Select fill color"
 msgstr "Vul-kleur selecteren"
 
-#: src/titler/titlewidget.cpp:404
+#: src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Select border color"
 msgstr "Randkleur kiezen"
 
-#: src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:415
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "Origineel formaat (1:1)"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Fit zoom"
 msgstr "Passend maken"
 
-#: src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:417
 #, kde-format
 msgid "Select background color"
 msgstr "Achtergrond kleur kiezen"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:419
 #, kde-format
 msgid "Select all"
 msgstr "Alles selecteren"
 
-#: src/titler/titlewidget.cpp:411
+#: src/titler/titlewidget.cpp:420
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "Tekst items in huidige selectie kiezen"
 
-#: src/titler/titlewidget.cpp:412
+#: src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "Rechthoek items in huidige selectie kiezen"
 
-#: src/titler/titlewidget.cpp:413
+#: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "Afbeeldingen in de huidige selectie kiezen"
 
-#: src/titler/titlewidget.cpp:414
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Unselect all"
 msgstr "Alles deselecteren"
 
-#: src/titler/titlewidget.cpp:434
+#: src/titler/titlewidget.cpp:443
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -37857,67 +37860,67 @@ msgstr ""
 "+Sleep om rond te draaien. Schakel de magneetfunctie uit tijdens het "
 "verplaatsen van een item met Ctrl."
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:452
 #, kde-format
 msgid "Add Rectangle"
 msgstr "Rechthoek toevoegen"
 
-#: src/titler/titlewidget.cpp:448
+#: src/titler/titlewidget.cpp:457
 #, kde-format
 msgid "Add Ellipse"
 msgstr "Ellips toevoegen"
 
-#: src/titler/titlewidget.cpp:453
+#: src/titler/titlewidget.cpp:462
 #, kde-format
 msgid "Add Image…"
 msgstr "Afbeelding toevoegen…"
 
-#: src/titler/titlewidget.cpp:460
+#: src/titler/titlewidget.cpp:469
 #, kde-format
 msgid "Undo"
 msgstr "Ongedaan maken"
 
-#: src/titler/titlewidget.cpp:468
+#: src/titler/titlewidget.cpp:477
 #, kde-format
 msgid "Redo"
 msgstr "Opnieuw"
 
-#: src/titler/titlewidget.cpp:477
+#: src/titler/titlewidget.cpp:486
 #, kde-format
 msgid "Open Title…"
 msgstr "Titel openen…"
 
-#: src/titler/titlewidget.cpp:482
+#: src/titler/titlewidget.cpp:491
 #, kde-format
 msgid "Save Title As…"
 msgstr "Titel opslaan als…"
 
-#: src/titler/titlewidget.cpp:487
+#: src/titler/titlewidget.cpp:496
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "Nieuwe titelsjablonen downloaden…"
 
-#: src/titler/titlewidget.cpp:562
+#: src/titler/titlewidget.cpp:571
 #, kde-format
 msgid "Move / Resize"
 msgstr "Verplaatsen / Grootte wijzigen"
 
-#: src/titler/titlewidget.cpp:607
+#: src/titler/titlewidget.cpp:616
 #, kde-format
 msgid "Save and add to project"
 msgstr "In/aan project opslaan en toevoegen"
 
-#: src/titler/titlewidget.cpp:608
+#: src/titler/titlewidget.cpp:617
 #, kde-format
 msgid "Create Title"
 msgstr "Titel aanmaken"
 
-#: src/titler/titlewidget.cpp:725
+#: src/titler/titlewidget.cpp:734
 #, kde-format
 msgid "Keep Aspect Ratio"
 msgstr "Beeldverhouding behouden"
 
-#: src/titler/titlewidget.cpp:901
+#: src/titler/titlewidget.cpp:910
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
@@ -37926,61 +37929,61 @@ msgstr ""
 "Wilt u echt een nieuwe sjabloon laden? Veranderingen in deze titel zullen "
 "kwijt raken!"
 
-#: src/titler/titlewidget.cpp:1010
+#: src/titler/titlewidget.cpp:1019
 #, kde-format
 msgid "All Images"
 msgstr "Alle afbeeldingen"
 
-#: src/titler/titlewidget.cpp:1012
+#: src/titler/titlewidget.cpp:1021
 #, kde-format
 msgid "%1 Image"
 msgstr "%1-afbeelding"
 
-#: src/titler/titlewidget.cpp:1022 src/titler/titlewidget.cpp:1067
+#: src/titler/titlewidget.cpp:1031 src/titler/titlewidget.cpp:1076
 #, kde-format
 msgid "Add Image"
 msgstr "Afbeelding toevoegen"
 
-#: src/titler/titlewidget.cpp:1376 src/titler/titlewidget.cpp:3259
-#: src/titler/titlewidget.cpp:3277 src/titler/titlewidget.cpp:3290
-#: src/titler/titlewidget.cpp:3308
+#: src/titler/titlewidget.cpp:1385 src/titler/titlewidget.cpp:3268
+#: src/titler/titlewidget.cpp:3286 src/titler/titlewidget.cpp:3299
+#: src/titler/titlewidget.cpp:3317
 #, kde-format
 msgid "Z-Index"
 msgstr "Z-index"
 
-#: src/titler/titlewidget.cpp:1615
+#: src/titler/titlewidget.cpp:1624
 #, kde-format
 msgid "Change Value"
 msgstr "Waarde wijzigen"
 
-#: src/titler/titlewidget.cpp:1880
+#: src/titler/titlewidget.cpp:1889
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1882 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1891 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1904
+#: src/titler/titlewidget.cpp:1913
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1906 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1915 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:1952
+#: src/titler/titlewidget.cpp:1961
 #, kde-format
 msgid "Change Background"
 msgstr "Achtergrond wijzigen"
 
-#: src/titler/titlewidget.cpp:2127
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
@@ -37989,7 +37992,7 @@ msgstr ""
 "Gemengde tekstselectie: het eerste geselecteerde teken wordt weergegeven. "
 "Het wijzigen van een waarde past deze toe op de selectie."
 
-#: src/titler/titlewidget.cpp:2151
+#: src/titler/titlewidget.cpp:2160
 #, kde-format
 msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
@@ -37999,7 +38002,7 @@ msgstr ""
 "weergegeven. Het wijzigen van de dikte past die eigenschap alleen op de "
 "selectie toe."
 
-#: src/titler/titlewidget.cpp:2152
+#: src/titler/titlewidget.cpp:2161
 #, kde-format
 msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
@@ -38008,7 +38011,7 @@ msgstr ""
 "Breedte van de omtreklijn. Van toepassing op geselecteerde tekst of op het "
 "gehele object buiten tekstbewerking."
 
-#: src/titler/titlewidget.cpp:2154
+#: src/titler/titlewidget.cpp:2163
 #, kde-format
 msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
@@ -38017,7 +38020,7 @@ msgstr ""
 "Gemengde omtrekkleuren: toont het eerst geselecteerde teken. Bij het "
 "wijzigen van de kleur blijft de omtrekbreedte van elk teken behouden."
 
-#: src/titler/titlewidget.cpp:2155
+#: src/titler/titlewidget.cpp:2164
 #, kde-format
 msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
@@ -38026,33 +38029,33 @@ msgstr ""
 "Omtrekkleur. Toegepast op geselecteerde tekst of op het gehele object buiten "
 "tekstbewerking."
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2267
 #, kde-format
 msgid "Update Text"
 msgstr "Tekst bijwerken"
 
-#: src/titler/titlewidget.cpp:2311
+#: src/titler/titlewidget.cpp:2320
 #, kde-format
 msgid "Update Shape"
 msgstr "Vorm bijwerken"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
-#: src/titler/titlewidget.cpp:2379 src/ui/titlewidget_ui.ui:526
+#: src/titler/titlewidget.cpp:2388 src/ui/titlewidget_ui.ui:526
 #, kde-format
 msgid "Rotate"
 msgstr "Draaien"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2558
 #, kde-format
 msgid "Load Title"
 msgstr "Haal titel op"
 
-#: src/titler/titlewidget.cpp:2550
+#: src/titler/titlewidget.cpp:2559
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive-titel"
 
-#: src/titler/titlewidget.cpp:2596
+#: src/titler/titlewidget.cpp:2605
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -38061,83 +38064,83 @@ msgstr ""
 "Zijn afbeeldingen in deze titel document gewenst?\n"
 "Dit is het meest zinvol wanneer de titel vaker voorkomt."
 
-#: src/titler/titlewidget.cpp:2597
+#: src/titler/titlewidget.cpp:2606
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "Afbeeldingen inbedden"
 
-#: src/titler/titlewidget.cpp:2661 src/titler/titlewidget.cpp:4385
+#: src/titler/titlewidget.cpp:2670 src/titler/titlewidget.cpp:4394
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "Deze titel heeft 1 ontbrekend element"
 msgstr[1] "Deze titel heeft %1 ontbrekend elementen"
 
-#: src/titler/titlewidget.cpp:2665
+#: src/titler/titlewidget.cpp:2674
 #, kde-format
 msgid "Remove missing elements"
 msgstr "Ontbrekende elementen verwijderen"
 
-#: src/titler/titlewidget.cpp:2725
+#: src/titler/titlewidget.cpp:2734
 #, kde-format
 msgid "Update Title"
 msgstr "Titel bijwerken"
 
-#: src/titler/titlewidget.cpp:2728
+#: src/titler/titlewidget.cpp:2737
 #, kde-format
 msgid "Add as new Title"
 msgstr "Als nieuwe titel toevoegen"
 
-#: src/titler/titlewidget.cpp:2773
+#: src/titler/titlewidget.cpp:2782
 #, kde-format
 msgid "Delete Missing Items"
 msgstr "Ontbrekende items verwijderen"
 
-#: src/titler/titlewidget.cpp:2791
+#: src/titler/titlewidget.cpp:2800
 #, kde-format
 msgid "The following files are missing:"
 msgstr "De volgende bestanden ontbreken:"
 
-#: src/titler/titlewidget.cpp:2799
+#: src/titler/titlewidget.cpp:2808
 #, kde-format
 msgid "All missing files recovered"
 msgstr "Alle ontbrekende bestanden hersteld"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
-#: src/titler/titlewidget.cpp:2805 src/ui/textbasededit_ui.ui:263
+#: src/titler/titlewidget.cpp:2814 src/ui/textbasededit_ui.ui:263
 #, kde-format
 msgid "Search"
 msgstr "Zoeken"
 
-#: src/titler/titlewidget.cpp:2822
+#: src/titler/titlewidget.cpp:2831
 #, kde-format
 msgid "Enter folder for search"
 msgstr "Selecteer een map om in te zoeken"
 
-#: src/titler/titlewidget.cpp:3086
+#: src/titler/titlewidget.cpp:3095
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "Start Viewport"
 
-#: src/titler/titlewidget.cpp:3087
+#: src/titler/titlewidget.cpp:3096
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "Eind Viewport"
 
-#: src/titler/titlewidget.cpp:3848
+#: src/titler/titlewidget.cpp:3857
 #, kde-format
 msgid "Update Shadow"
 msgstr "Schaduw bijwerken"
 
-#: src/titler/titlewidget.cpp:3873
+#: src/titler/titlewidget.cpp:3882
 #, kde-format
 msgid "Typewriter Effect"
 msgstr "Schrijfmachine-effect"
 
-#: src/titler/titlewidget.cpp:3999
+#: src/titler/titlewidget.cpp:4008
 #, kde-format
 msgid "Insert Pattern"
 msgstr "Patroon invoegen"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-12 00:51+0000\n"
+"POT-Creation-Date: 2026-10-13 00:45+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -4716,7 +4716,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_waveform.xml:59 data/effects/charcoal.xml:14
 #: data/effects/frei0r/frei0r_shake0scillate.xml:26
 #: data/effects/frei0r/frei0r_squigglevision.xml:16
-#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2330
+#: src/scopes/colorscopes/histogram.cpp:66 src/titler/titlewidget.cpp:2339
 #: src/widgets/geometrywidget.cpp:170
 #, kde-format
 msgid "Scale"
@@ -7195,7 +7195,7 @@ msgstr "Sox 頻段聲訊特效"
 #: data/effects/frei0r/frei0r_camerashake.xml:20
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
-#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:405
+#: src/project/dialogs/slideshowclip.cpp:66 src/titler/titlewidget.cpp:414
 #, kde-format
 msgid "Zoom"
 msgstr "縮放"
@@ -13696,7 +13696,7 @@ msgid ""
 "zoom out. 0 hides it."
 msgstr ""
 
-#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:409
+#: data/effects/gpsgraphic.xml:169 src/titler/titlewidget.cpp:418
 #, kde-format
 msgid "Background opacity"
 msgstr "背景不透明度"
@@ -13921,7 +13921,7 @@ msgstr "漸層"
 msgid "Apply a gradient map to the video"
 msgstr "將 GPS 相關文字覆蓋在影片上。"
 
-#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3803
+#: data/effects/gradientmap.xml:8 src/titler/titlewidget.cpp:3812
 #, kde-format
 msgid "Gradient"
 msgstr "漸層"
@@ -18988,9 +18988,9 @@ msgid "Crop to fill"
 msgstr "裁剪到填滿"
 
 #: data/transitions/composite.xml:18 data/transitions/region.xml:18
-#: src/titler/titlewidget.cpp:2406 src/titler/titlewidget.cpp:2421
-#: src/titler/titlewidget.cpp:2451 src/titler/titlewidget.cpp:2481
-#: src/titler/titlewidget.cpp:2511 src/titler/titlewidget.cpp:2541
+#: src/titler/titlewidget.cpp:2415 src/titler/titlewidget.cpp:2430
+#: src/titler/titlewidget.cpp:2460 src/titler/titlewidget.cpp:2490
+#: src/titler/titlewidget.cpp:2520 src/titler/titlewidget.cpp:2550
 #: src/widgets/geometrywidget.cpp:218
 #, kde-format
 msgid "Align"
@@ -19945,7 +19945,7 @@ msgstr "顯示/隱藏合成方案的描述"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
 #: src/dialogs/renderwidget.cpp:557 src/project/dialogs/profilewidget.cpp:40
-#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2662
+#: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2671
 #, kde-format
 msgid "Search…"
 msgstr "搜尋…"
@@ -21782,7 +21782,7 @@ msgstr ""
 "您正在編輯外部標題素材（%1）。您希望將變更儲存到該標題檔案，還是要只為此專案"
 "儲存變更？"
 
-#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2602
+#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2611
 #, kde-format
 msgid "Save Title"
 msgstr "儲存標題"
@@ -22336,7 +22336,7 @@ msgstr ""
 "檔案 %1 已經存在。\n"
 "是否要覆寫它?"
 
-#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:438
+#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:447
 #, kde-format
 msgid "Add Text"
 msgstr "新增文字"
@@ -23413,7 +23413,7 @@ msgstr "匯出標記資料"
 #: src/renderpresets/renderpresetrepository.cpp:484
 #: src/timeline2/view/timelinecontroller.cpp:5944
 #: src/timeline2/view/timelinecontroller.cpp:5949
-#: src/titler/titlewidget.cpp:2615
+#: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgid "Cannot write to file %1"
 msgstr "無法寫入檔案 %1"
@@ -29076,7 +29076,7 @@ msgstr "重新建立"
 
 #: src/mainwindow.cpp:1140 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
-#: src/titler/titlewidget.cpp:2598
+#: src/titler/titlewidget.cpp:2607
 #, kde-format
 msgctxt "@action:button"
 msgid "Continue without"
@@ -29679,7 +29679,7 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
 msgstr "切換時間軸中的字幕軌道。"
 
-#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:429
+#: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:438
 #, kde-format
 msgid "Selection Tool"
 msgstr "選取工具"
@@ -35235,7 +35235,7 @@ msgid "Pasting Warning"
 msgstr "貼上警告"
 
 #: src/timeline2/model/timelinefunctions.cpp:2309
-#: src/titler/titlewidget.cpp:4120
+#: src/titler/titlewidget.cpp:4129
 #, kde-format
 msgid "Paste"
 msgstr "貼上"
@@ -36578,7 +36578,7 @@ msgid "No available stream"
 msgstr "沒有可用的串流"
 
 #: src/titler/gradientwidget.cpp:167 src/titler/gradientwidget.cpp:170
-#: src/titler/titlewidget.cpp:3770 src/titler/titlewidget.cpp:3773
+#: src/titler/titlewidget.cpp:3779 src/titler/titlewidget.cpp:3782
 #, kde-format
 msgid "Gradient %1"
 msgstr "漸層 %1"
@@ -36609,39 +36609,39 @@ msgstr ""
 msgid "Text Clips Updated"
 msgstr "文字素材已更新"
 
-#: src/titler/titlewidget.cpp:164
+#: src/titler/titlewidget.cpp:173
 #, kde-format
 msgid "Outline width"
 msgstr "輪廓寬度"
 
-#: src/titler/titlewidget.cpp:171
+#: src/titler/titlewidget.cpp:180
 #, kde-format
 msgid "Background color opacity"
 msgstr "背景色彩不透明度"
 
-#: src/titler/titlewidget.cpp:177
+#: src/titler/titlewidget.cpp:186
 #, kde-format
 msgid "Rotation around the X axis"
 msgstr "繞 X 軸旋轉"
 
-#: src/titler/titlewidget.cpp:183
+#: src/titler/titlewidget.cpp:192
 #, kde-format
 msgid "Rotation around the Y axis"
 msgstr "繞 Y 軸旋轉"
 
-#: src/titler/titlewidget.cpp:189
+#: src/titler/titlewidget.cpp:198
 #, kde-format
 msgid "Rotation around the Z axis"
 msgstr "繞 Z 軸旋轉"
 
 #. i18n: ectx: property (text), widget (QLabel, label_borderWidth)
-#: src/titler/titlewidget.cpp:195 src/ui/titlewidget_ui.ui:1368
+#: src/titler/titlewidget.cpp:204 src/ui/titlewidget_ui.ui:1368
 #, kde-format
 msgid "Border width"
 msgstr "邊線方塊寬度"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, zoom_spin)
-#: src/titler/titlewidget.cpp:205 src/ui/titlewidget_ui.ui:90
+#: src/titler/titlewidget.cpp:214 src/ui/titlewidget_ui.ui:90
 #: src/widgets/geometrywidget.cpp:170 src/widgets/geometrywidget.cpp:180
 #, no-c-format, kde-format
 msgid "%"
@@ -36651,159 +36651,159 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:216 src/ui/configproxy_ui.ui:43
+#: src/titler/titlewidget.cpp:225 src/ui/configproxy_ui.ui:43
 #: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
 #: src/ui/configproxy_ui.ui:133
 #, kde-format
 msgid " pixels"
 msgstr " 像素"
 
-#: src/titler/titlewidget.cpp:317
+#: src/titler/titlewidget.cpp:326
 #, kde-format
 msgctxt "Font style"
 msgid "Light"
 msgstr "燈光"
 
-#: src/titler/titlewidget.cpp:318
+#: src/titler/titlewidget.cpp:327
 #, kde-format
 msgctxt "Font style"
 msgid "Normal"
 msgstr "普通"
 
-#: src/titler/titlewidget.cpp:319
+#: src/titler/titlewidget.cpp:328
 #, kde-format
 msgctxt "Font style"
 msgid "Demi-Bold"
 msgstr "微粗體"
 
-#: src/titler/titlewidget.cpp:320
+#: src/titler/titlewidget.cpp:329
 #, kde-format
 msgctxt "Font style"
 msgid "Bold"
 msgstr "粗體"
 
-#: src/titler/titlewidget.cpp:321
+#: src/titler/titlewidget.cpp:330
 #, kde-format
 msgctxt "Font style"
 msgid "Black"
 msgstr "黑色"
 
-#: src/titler/titlewidget.cpp:322 src/titler/titlewidget.cpp:2134
+#: src/titler/titlewidget.cpp:331 src/titler/titlewidget.cpp:2143
 #, kde-format
 msgid "Font weight"
 msgstr "字型粗細"
 
-#: src/titler/titlewidget.cpp:336
+#: src/titler/titlewidget.cpp:345
 #, kde-format
 msgid "Insert Unicode character"
 msgstr "插入 Unicode 字元"
 
-#: src/titler/titlewidget.cpp:342
+#: src/titler/titlewidget.cpp:351
 #, kde-format
 msgid "Raise object"
 msgstr "將物件上移一層"
 
-#: src/titler/titlewidget.cpp:348
+#: src/titler/titlewidget.cpp:357
 #, kde-format
 msgid "Lower object"
 msgstr "將物件下移一層"
 
-#: src/titler/titlewidget.cpp:356
+#: src/titler/titlewidget.cpp:365
 #, kde-format
 msgid "Raise object to top"
 msgstr "將物件移至最上層"
 
-#: src/titler/titlewidget.cpp:363
+#: src/titler/titlewidget.cpp:372
 #, kde-format
 msgid "Lower object to bottom"
 msgstr "將物件移至最下層"
 
-#: src/titler/titlewidget.cpp:369
+#: src/titler/titlewidget.cpp:378
 #, kde-format
 msgid "Select All"
 msgstr "全部選取"
 
-#: src/titler/titlewidget.cpp:375
+#: src/titler/titlewidget.cpp:384
 #, kde-format
 msgid "Keep only text items selected"
 msgstr "只保留選取文字項目"
 
-#: src/titler/titlewidget.cpp:382
+#: src/titler/titlewidget.cpp:391
 #, kde-format
 msgid "Keep only rect items selected"
 msgstr "只保留選取矩形項目"
 
-#: src/titler/titlewidget.cpp:389
+#: src/titler/titlewidget.cpp:398
 #, kde-format
 msgid "Keep only image items selected"
 msgstr "只保留選取圖片項目"
 
-#: src/titler/titlewidget.cpp:396
+#: src/titler/titlewidget.cpp:405
 #, kde-format
 msgid "Deselect"
 msgstr "取消選取"
 
-#: src/titler/titlewidget.cpp:401
+#: src/titler/titlewidget.cpp:410
 #, kde-format
 msgid "Invert x axis and change 0 point"
 msgstr "反轉 x 軸同時改變 0 點"
 
-#: src/titler/titlewidget.cpp:402
+#: src/titler/titlewidget.cpp:411
 #, kde-format
 msgid "Invert y axis and change 0 point"
 msgstr "反轉 y 軸同時改變 0 點"
 
-#: src/titler/titlewidget.cpp:403
+#: src/titler/titlewidget.cpp:412
 #, kde-format
 msgid "Select fill color"
 msgstr "選取填補色彩"
 
-#: src/titler/titlewidget.cpp:404
+#: src/titler/titlewidget.cpp:413
 #, kde-format
 msgid "Select border color"
 msgstr "選取邊線方塊色彩"
 
-#: src/titler/titlewidget.cpp:406
+#: src/titler/titlewidget.cpp:415
 #, kde-format
 msgid "Original size (1:1)"
 msgstr "初始大小 (1:1)"
 
-#: src/titler/titlewidget.cpp:407
+#: src/titler/titlewidget.cpp:416
 #, kde-format
 msgid "Fit zoom"
 msgstr "最佳檢視"
 
-#: src/titler/titlewidget.cpp:408
+#: src/titler/titlewidget.cpp:417
 #, kde-format
 msgid "Select background color"
 msgstr "選取背景色"
 
-#: src/titler/titlewidget.cpp:410
+#: src/titler/titlewidget.cpp:419
 #, kde-format
 msgid "Select all"
 msgstr "全選"
 
-#: src/titler/titlewidget.cpp:411
+#: src/titler/titlewidget.cpp:420
 #, kde-format
 msgid "Select text items in current selection"
 msgstr "選取目前選取區裡的文字項目"
 
-#: src/titler/titlewidget.cpp:412
+#: src/titler/titlewidget.cpp:421
 #, kde-format
 msgid "Select rect items in current selection"
 msgstr "選取目前選取區裡的矩形項目"
 
-#: src/titler/titlewidget.cpp:413
+#: src/titler/titlewidget.cpp:422
 #, kde-format
 msgid "Select image items in current selection"
 msgstr "選取目前選取區裡的圖片項目"
 
-#: src/titler/titlewidget.cpp:414
+#: src/titler/titlewidget.cpp:423
 #, kde-format
 msgid "Unselect all"
 msgstr "放棄所有選取"
 
-#: src/titler/titlewidget.cpp:434
+#: src/titler/titlewidget.cpp:443
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -36819,195 +36819,195 @@ msgstr ""
 "點擊選取項目，Alt+點擊來循環切換選取。Shift+拖曳來垂直移動，Alt+Shift+拖曳來"
 "水平移動，Shift+拖曳邊緣來進行中心調整大小，Ctrl+拖曳來平移。"
 
-#: src/titler/titlewidget.cpp:443
+#: src/titler/titlewidget.cpp:452
 #, kde-format
 msgid "Add Rectangle"
 msgstr "新增矩形"
 
-#: src/titler/titlewidget.cpp:448
+#: src/titler/titlewidget.cpp:457
 #, kde-format
 msgid "Add Ellipse"
 msgstr "新增橢圓"
 
-#: src/titler/titlewidget.cpp:453
+#: src/titler/titlewidget.cpp:462
 #, kde-format
 msgid "Add Image…"
 msgstr "新增圖片…"
 
-#: src/titler/titlewidget.cpp:460
+#: src/titler/titlewidget.cpp:469
 #, kde-format
 msgid "Undo"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:468
+#: src/titler/titlewidget.cpp:477
 #, kde-format
 msgid "Redo"
 msgstr ""
 
-#: src/titler/titlewidget.cpp:477
+#: src/titler/titlewidget.cpp:486
 #, kde-format
 msgid "Open Title…"
 msgstr "開啟標題…"
 
-#: src/titler/titlewidget.cpp:482
+#: src/titler/titlewidget.cpp:491
 #, kde-format
 msgid "Save Title As…"
 msgstr "標題另存為…"
 
-#: src/titler/titlewidget.cpp:487
+#: src/titler/titlewidget.cpp:496
 #, kde-format
 msgid "Download New Title Templates…"
 msgstr "下載新標題樣板…"
 
-#: src/titler/titlewidget.cpp:562
+#: src/titler/titlewidget.cpp:571
 #, fuzzy, kde-format
 #| msgid "Free Resize"
 msgid "Move / Resize"
 msgstr "自動調整大小"
 
-#: src/titler/titlewidget.cpp:607
+#: src/titler/titlewidget.cpp:616
 #, kde-format
 msgid "Save and add to project"
 msgstr "儲存並加入專案"
 
-#: src/titler/titlewidget.cpp:608
+#: src/titler/titlewidget.cpp:617
 #, kde-format
 msgid "Create Title"
 msgstr "建立標題"
 
-#: src/titler/titlewidget.cpp:725
+#: src/titler/titlewidget.cpp:734
 #, fuzzy, kde-format
 #| msgid "Keep aspect ratio"
 msgid "Keep Aspect Ratio"
 msgstr "保持縱橫比"
 
-#: src/titler/titlewidget.cpp:901
+#: src/titler/titlewidget.cpp:910
 #, kde-format
 msgid ""
 "Do you really want to load a new template? Changes in this title will be "
 "lost!"
 msgstr "你確定要載入這個新樣板嗎？這會導致老樣板中的字幕 / 標題丟失！"
 
-#: src/titler/titlewidget.cpp:1010
+#: src/titler/titlewidget.cpp:1019
 #, kde-format
 msgid "All Images"
 msgstr "所有圖片"
 
-#: src/titler/titlewidget.cpp:1012
+#: src/titler/titlewidget.cpp:1021
 #, kde-format
 msgid "%1 Image"
 msgstr "%1 圖片"
 
-#: src/titler/titlewidget.cpp:1022 src/titler/titlewidget.cpp:1067
+#: src/titler/titlewidget.cpp:1031 src/titler/titlewidget.cpp:1076
 #, kde-format
 msgid "Add Image"
 msgstr "新增圖片"
 
-#: src/titler/titlewidget.cpp:1376 src/titler/titlewidget.cpp:3259
-#: src/titler/titlewidget.cpp:3277 src/titler/titlewidget.cpp:3290
-#: src/titler/titlewidget.cpp:3308
+#: src/titler/titlewidget.cpp:1385 src/titler/titlewidget.cpp:3268
+#: src/titler/titlewidget.cpp:3286 src/titler/titlewidget.cpp:3299
+#: src/titler/titlewidget.cpp:3317
 #, fuzzy, kde-format
 #| msgid "Z-Index:"
 msgid "Z-Index"
 msgstr "Z-順序:"
 
-#: src/titler/titlewidget.cpp:1615
+#: src/titler/titlewidget.cpp:1624
 #, fuzzy, kde-format
 #| msgid "Change Speed"
 msgid "Change Value"
 msgstr "變更速度"
 
-#: src/titler/titlewidget.cpp:1880
+#: src/titler/titlewidget.cpp:1889
 #, kde-format
 msgid "−X"
 msgstr "−X"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_x_left)
-#: src/titler/titlewidget.cpp:1882 src/ui/titlewidget_ui.ui:337
+#: src/titler/titlewidget.cpp:1891 src/ui/titlewidget_ui.ui:337
 #, kde-format
 msgid "+X"
 msgstr "+X"
 
-#: src/titler/titlewidget.cpp:1904
+#: src/titler/titlewidget.cpp:1913
 #, kde-format
 msgid "−Y"
 msgstr "−Y"
 
 #. i18n: ectx: property (text), widget (QPushButton, origin_y_top)
-#: src/titler/titlewidget.cpp:1906 src/ui/titlewidget_ui.ui:266
+#: src/titler/titlewidget.cpp:1915 src/ui/titlewidget_ui.ui:266
 #, kde-format
 msgid "+Y"
 msgstr "+Y"
 
-#: src/titler/titlewidget.cpp:1952
+#: src/titler/titlewidget.cpp:1961
 #, fuzzy, kde-format
 msgid "Change Background"
 msgstr "無背景"
 
-#: src/titler/titlewidget.cpp:2127
+#: src/titler/titlewidget.cpp:2136
 #, kde-format
 msgid ""
 "Mixed text selection: showing the first selected character. Changing a value "
 "applies it to the selection."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2151
+#: src/titler/titlewidget.cpp:2160
 #, kde-format
 msgid ""
 "Mixed outline widths: showing the first selected character. Changing the "
 "width applies only that property to the selection."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2152
+#: src/titler/titlewidget.cpp:2161
 #, kde-format
 msgid ""
 "Outline width. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2154
+#: src/titler/titlewidget.cpp:2163
 #, kde-format
 msgid ""
 "Mixed outline colors: showing the first selected character. Changing the "
 "color preserves each character's outline width."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2155
+#: src/titler/titlewidget.cpp:2164
 #, kde-format
 msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
 
-#: src/titler/titlewidget.cpp:2258
+#: src/titler/titlewidget.cpp:2267
 #, fuzzy, kde-format
 #| msgid "Update Text Clips"
 msgid "Update Text"
 msgstr "更新文字素材"
 
-#: src/titler/titlewidget.cpp:2311
+#: src/titler/titlewidget.cpp:2320
 #, fuzzy, kde-format
 #| msgid "Update keyframe"
 msgid "Update Shape"
 msgstr "更新關鍵幀"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
-#: src/titler/titlewidget.cpp:2379 src/ui/titlewidget_ui.ui:526
+#: src/titler/titlewidget.cpp:2388 src/ui/titlewidget_ui.ui:526
 #, kde-format
 msgid "Rotate"
 msgstr "旋轉"
 
-#: src/titler/titlewidget.cpp:2549
+#: src/titler/titlewidget.cpp:2558
 #, kde-format
 msgid "Load Title"
 msgstr "載入標題"
 
-#: src/titler/titlewidget.cpp:2550
+#: src/titler/titlewidget.cpp:2559
 #, kde-format
 msgid "Kdenlive title"
 msgstr "Kdenlive 標題"
 
-#: src/titler/titlewidget.cpp:2596
+#: src/titler/titlewidget.cpp:2605
 #, kde-format
 msgid ""
 "Do you want to embed Images into this TitleDocument?\n"
@@ -37016,87 +37016,87 @@ msgstr ""
 "您要將圖片嵌入至此標題文件中嗎？\n"
 "這通常是分享標題時會最需要的。"
 
-#: src/titler/titlewidget.cpp:2597
+#: src/titler/titlewidget.cpp:2606
 #, kde-format
 msgctxt "@action:button"
 msgid "Embed Images"
 msgstr "嵌入圖片"
 
-#: src/titler/titlewidget.cpp:2661 src/titler/titlewidget.cpp:4385
+#: src/titler/titlewidget.cpp:2670 src/titler/titlewidget.cpp:4394
 #, kde-format
 msgid "This title has 1 missing element"
 msgid_plural "This title has %1 missing elements"
 msgstr[0] "此標題缺乏 %1 個元素"
 
-#: src/titler/titlewidget.cpp:2665
+#: src/titler/titlewidget.cpp:2674
 #, fuzzy, kde-format
 #| msgid "Delete missing elements"
 msgid "Remove missing elements"
 msgstr "刪除缺乏的元素"
 
-#: src/titler/titlewidget.cpp:2725
+#: src/titler/titlewidget.cpp:2734
 #, kde-format
 msgid "Update Title"
 msgstr "更新標題"
 
-#: src/titler/titlewidget.cpp:2728
+#: src/titler/titlewidget.cpp:2737
 #, kde-format
 msgid "Add as new Title"
 msgstr "作為新標題加入"
 
-#: src/titler/titlewidget.cpp:2773
+#: src/titler/titlewidget.cpp:2782
 #, fuzzy, kde-format
 #| msgid "All Missing Items:"
 msgid "Delete Missing Items"
 msgstr "所有缺乏的項目："
 
-#: src/titler/titlewidget.cpp:2791
+#: src/titler/titlewidget.cpp:2800
 #, kde-format
 msgid "The following files are missing:"
 msgstr "缺乏以下檔案："
 
-#: src/titler/titlewidget.cpp:2799
+#: src/titler/titlewidget.cpp:2808
 #, kde-format
 msgid "All missing files recovered"
 msgstr ""
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, search_line)
-#: src/titler/titlewidget.cpp:2805 src/ui/textbasededit_ui.ui:263
+#: src/titler/titlewidget.cpp:2814 src/ui/textbasededit_ui.ui:263
 #, kde-format
 msgid "Search"
 msgstr "搜尋"
 
-#: src/titler/titlewidget.cpp:2822
+#: src/titler/titlewidget.cpp:2831
 #, fuzzy, kde-format
 #| msgid "Enter a folder name"
 msgid "Enter folder for search"
 msgstr "輸入資料夾名稱"
 
-#: src/titler/titlewidget.cpp:3086
+#: src/titler/titlewidget.cpp:3095
 #, kde-format
 msgctxt "Indicates the start of an animation"
 msgid "Start Viewport"
 msgstr "開始檢視埠"
 
-#: src/titler/titlewidget.cpp:3087
+#: src/titler/titlewidget.cpp:3096
 #, kde-format
 msgctxt "Indicates the end of an animation"
 msgid "End Viewport"
 msgstr "結束檢視埠"
 
-#: src/titler/titlewidget.cpp:3848
+#: src/titler/titlewidget.cpp:3857
 #, fuzzy, kde-format
 #| msgid "Red Shadow"
 msgid "Update Shadow"
 msgstr "紅色陰影"
 
-#: src/titler/titlewidget.cpp:3873
+#: src/titler/titlewidget.cpp:3882
 #, fuzzy, kde-format
 #| msgid "&Typewriter effect"
 msgid "Typewriter Effect"
 msgstr "打字機效果(&T)"
 
-#: src/titler/titlewidget.cpp:3999
+#: src/titler/titlewidget.cpp:4008
 #, fuzzy, kde-format
 #| msgid "Insert Order"
 msgid "Insert Pattern"
