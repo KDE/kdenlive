@@ -61,6 +61,9 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         return;
     }
+    if (thumbOnly && !pCore->window()) {
+        return;
+    }
     ClipLoadTask *task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (task) {
         // Otherwise, start a new load task thread.
