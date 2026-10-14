@@ -52,6 +52,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QSaveFile>
+#include <QScopeGuard>
 #include <QStandardPaths>
 #include <QUndoGroup>
 #include <QUndoStack>
@@ -177,20 +178,25 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
 
     QDomDocument domDoc{};
     QString domErrorMessage;
+    // The policy is global, restore it so that it does not affect other documents
+    const QDomImplementation::InvalidDataPolicy invalidDataPolicy = QDomImplementation::invalidDataPolicy();
+    const auto restoreInvalidDataPolicy = qScopeGuard([invalidDataPolicy]() { QDomImplementation::setInvalidDataPolicy(invalidDataPolicy); });
     if (recoverCorruption) {
         // this seems to also drop valid non-BMP Unicode characters, so only do
         // it if the file is unreadable otherwise
         QDomImplementation::setInvalidDataPolicy(QDomImplementation::DropInvalidChars);
         result.setModified(true);
     }
-    QDomDocument::ParseResult parseResult = domDoc.setContent(&file);
+    // Keep the data, the file cannot be read again for the recovery once it was parsed
+    const QByteArray fileData = file.readAll();
+    QDomDocument::ParseResult parseResult = domDoc.setContent(fileData);
     //, false, &domErrorMessage, &line, &col);
 
     if (!parseResult) {
         if (recoverCorruption) {
             // Try to recover broken file produced by Kdenlive 0.9.4
             int correction = 0;
-            QString playlist = QString::fromUtf8(file.readAll());
+            QString playlist = QString::fromUtf8(fileData);
             while (!parseResult && correction < 2) {
                 int errorPos = 0;
                 int line = parseResult.errorLine;

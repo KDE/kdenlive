@@ -8,6 +8,7 @@
 #include "doc/kdenlivedoc.h"
 #include "timeline2/model/builders/meltBuilder.hpp"
 
+#include <QDomImplementation>
 #include <QTemporaryFile>
 #include <QUndoGroup>
 
@@ -242,6 +243,40 @@ TEST_CASE("Check File Corruption", "[CFC]")
         REQUIRE(timeline->getClipName(cid4) == QLatin1String("yellow.mpg"));
         REQUIRE(timeline->getClipName(cid4b) == QLatin1String("yellow.mpg"));
         pCore->projectManager()->closeCurrentDocument(false, false);
+    }
+
+    SECTION("Recover a corrupted file")
+    {
+        QFile source(sourcesPath + "/dataset/av.kdenlive");
+        REQUIRE(source.open(QIODevice::ReadOnly));
+        QByteArray contents = source.readAll();
+        source.close();
+        // Introduce a parsing error that the recovery is able to fix: a duplicated quote
+        const QByteArray producerTag("<producer id=\"producer0\"");
+        REQUIRE(contents.contains(producerTag));
+        contents.replace(producerTag, QByteArray(producerTag).append('"'));
+
+        QTemporaryFile corruptedFile(QDir::temp().absoluteFilePath(QStringLiteral("corrupted-XXXXXX.kdenlive")));
+        REQUIRE(corruptedFile.open());
+        corruptedFile.write(contents);
+        corruptedFile.close();
+        QUrl openURL = QUrl::fromLocalFile(corruptedFile.fileName());
+
+        QUndoGroup *undoGroup = new QUndoGroup();
+        undoGroup->addStack(undoStack.get());
+        DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
+        REQUIRE(openResults.isSuccessful() == false);
+
+        openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, true, nullptr);
+        CAPTURE(openResults.getError());
+        REQUIRE(openResults.isSuccessful() == true);
+        REQUIRE(openResults.wasModified() == true);
+        std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
+        pCore->projectManager()->testSetDocument(openedDoc.get());
+        pCore->projectManager()->closeCurrentDocument(false, false);
+
+        // The recovery must not change how other documents are parsed
+        REQUIRE(QDomImplementation::invalidDataPolicy() == QDomImplementation::AcceptInvalidChars);
     }
 }
 
