@@ -369,47 +369,57 @@ void GroupsModel::removeFromGroup(int id)
 bool GroupsModel::addToGroup(int id, int gid, Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    if (m_groupIds.count(gid) > 0) {
-        Fun reverse = [this, id]() {
-            removeFromGroup(id);
-            return true;
-        };
-        Fun operation = [this, id, gid]() {
-            setGroup(id, gid, false);
-            return true;
-        };
-        bool res = operation();
-        if (!res) {
-            bool undone = reverse();
-            Q_ASSERT(undone);
-            return res;
-        }
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    if (m_groupIds.count(gid) == 0) {
+        return false;
     }
-    return false;
+    Fun reverse = [this, id]() {
+        removeFromGroup(id);
+        return true;
+    };
+    Fun operation = [this, id, gid]() {
+        setGroup(id, gid, false);
+        return true;
+    };
+    bool res = operation();
+    if (!res) {
+        bool undone = reverse();
+        Q_ASSERT(undone);
+        return res;
+    }
+    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    return true;
 }
 
-bool GroupsModel::removeFromGroup(int id, Fun &undo, Fun &redo)
+bool GroupsModel::removeFromGroup(int id, Fun &undo, Fun &redo, bool mergeSingleGroups)
 {
     QWriteLocker locker(&m_lock);
-    int gid = getRootId(id);
-    if (m_groupIds.count(gid) > 0) {
-        Fun reverse = [this, id, gid]() {
-            setGroup(id, gid);
-            return true;
-        };
-        Fun operation = [this, id]() {
-            removeFromGroup(id);
-            return true;
-        };
-        bool res = operation();
-        if (!res) {
-            bool undone = reverse();
-            Q_ASSERT(undone);
-            return res;
-        }
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    Q_ASSERT(m_upLink.count(id) > 0);
+    int parent = m_upLink[id];
+    if (parent == -1) {
+        return true;
     }
+    int root = getRootId(id);
+    GroupType parentType = getType(parent);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    Fun operation = [this, id]() {
+        removeFromGroup(id);
+        return true;
+    };
+    Fun reverse = [this, id, parent, parentType]() {
+        // Restore the direct parent, which may have been downgraded to a leaf if it became empty
+        setGroup(id, parent);
+        setType(parent, parentType);
+        return true;
+    };
+    operation();
+    UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+    if (mergeSingleGroups && m_groupIds.count(root) > 0 && !this->mergeSingleGroups(root, local_undo, local_redo)) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
@@ -463,20 +473,24 @@ bool GroupsModel::mergeSingleGroups(int id, Fun &undo, Fun &redo)
         Q_ASSERT(undone);
         return res;
     }
-    UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+    // On failure, only our own changes are reverted: undo/redo are left untouched for the caller
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
 
     for (int gid : to_delete) {
         Q_ASSERT(m_downLink[gid].size() == 0);
         if (getType(gid) == GroupType::Selection) {
             continue;
         }
-        res = destructGroupItem(gid, false, undo, redo);
+        res = destructGroupItem(gid, false, local_undo, local_redo);
         if (!res) {
-            bool undone = undo();
+            bool undone = local_undo();
             Q_ASSERT(undone);
             return res;
         }
     }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
