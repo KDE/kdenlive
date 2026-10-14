@@ -139,12 +139,14 @@ void TaskManager::discardJob(const ObjectId &owner, const QUuid &uuid)
         // We are already deleting all tasks
         return;
     }
+    QWriteLocker lk(&m_tasksListLock);
     // See if there is already a task for this MLT service and resource.
-    if (m_taskList.find(owner.itemId) == m_taskList.end()) {
+    // The list has to be locked before, a finishing task might remove itself meanwhile
+    auto ownerTasks = m_taskList.find(owner.itemId);
+    if (ownerTasks == m_taskList.end()) {
         return;
     }
-    QWriteLocker lk(&m_tasksListLock);
-    std::vector<AbstractTask *> taskList = m_taskList.at(owner.itemId);
+    std::vector<AbstractTask *> taskList = ownerTasks->second;
     int ix = taskList.size() - 1;
     while (ix >= 0) {
         AbstractTask *t = taskList.at(ix);
