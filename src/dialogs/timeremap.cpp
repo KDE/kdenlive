@@ -1409,7 +1409,8 @@ void RemapView::addKeyframe()
                 std::pair<int, int> current = {i.key(), i.value()};
                 double ratio = (double)(m_bottomPosition + m_inFrame - previous.first) / (current.first - previous.first);
                 qDebug() << "=== RATIO: " << ratio;
-                newKeyframe.second = previous.second + (qAbs(current.second - previous.second) * ratio);
+                // The source position can decrease between keyframes when playing backwards
+                newKeyframe.second = previous.second + (current.second - previous.second) * ratio;
                 break;
             }
         }
