@@ -980,7 +980,9 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
             } else {
                 // Remove the clip now, so that the mix is deleted before checking items in range
                 timeline->requestClipUngroup(startClipId, undo, redo);
-                timeline->requestItemDeletion(startClipId, undo, redo);
+                if (!timeline->requestItemDeletion(startClipId, undo, redo)) {
+                    return false;
+                }
             }
         }
     }
@@ -1005,7 +1007,9 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
             } else {
                 // Remove the clip now, so that the mix is deleted before checking items in range
                 timeline->requestClipUngroup(endClipId, undo, redo);
-                timeline->requestItemDeletion(endClipId, undo, redo);
+                if (!timeline->requestItemDeletion(endClipId, undo, redo)) {
+                    return false;
+                }
             }
         }
     }
@@ -1014,7 +1018,9 @@ bool TimelineFunctions::liftZone(const std::shared_ptr<TimelineItemModel> &timel
         if (timeline->isInGroup(clipId)) {
             timeline->requestClipUngroup(clipId, undo, redo, true);
         }
-        timeline->requestItemDeletion(clipId, undo, redo);
+        if (!timeline->requestItemDeletion(clipId, undo, redo)) {
+            return false;
+        }
     }
     return true;
 }
@@ -3155,7 +3161,11 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
         return false;
     }
     for (int id : items) {
-        timeline->requestItemDeletion(id, undo, redo);
+        if (!timeline->requestItemDeletion(id, undo, redo)) {
+            bool undone = undo();
+            Q_ASSERT(undone);
+            return false;
+        }
     }
     pCore->pushUndo(undo, redo, i18n("Delete clips on track"));
     return true;

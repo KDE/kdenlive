@@ -2461,7 +2461,10 @@ void ProjectManager::slotCreateSequenceFromSelection()
     }
     const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
     std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
-    pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true);
+    if (!pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true)) {
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
+        return;
+    }
     const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
     if (newSequenceId.isEmpty()) {
         // Action canceled

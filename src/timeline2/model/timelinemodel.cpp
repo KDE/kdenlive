@@ -2645,7 +2645,10 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     } else {
         res = requestItemDeletion(itemId, undo, redo, logUndo);
     }
-    if (res && logUndo) {
+    if (!res) {
+        bool undone = undo();
+        Q_ASSERT(undone);
+    } else if (logUndo) {
         PUSH_UNDO(undo, redo, actionLabel);
     }
     TRACE_RES(res);
@@ -2728,24 +2731,28 @@ std::pair<int, int> TimelineModel::extractSelectionFromGroup(int selection, Fun 
 
 bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
 {
+    // On failure, only our own changes are reverted: undo/redo are left untouched for the caller
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     int trackId = getClipTrackId(clipId);
     if (trackId != -1) {
         bool res = true;
         if (getTrackById_const(trackId)->hasStartMix(clipId)) {
             MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).first;
             if (isClip(mixData.firstClipId)) {
-                res = getTrackById(trackId)->requestRemoveMix({mixData.firstClipId, clipId}, undo, redo);
+                res = getTrackById(trackId)->requestRemoveMix({mixData.firstClipId, clipId}, local_undo, local_redo);
             }
         }
-        if (getTrackById_const(trackId)->hasEndMix(clipId)) {
+        if (res && getTrackById_const(trackId)->hasEndMix(clipId)) {
             MixInfo mixData = getTrackById_const(trackId)->getMixInfo(clipId).second;
             if (isClip(mixData.secondClipId)) {
-                res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, undo, redo);
+                res = getTrackById(trackId)->requestRemoveMix({clipId, mixData.secondClipId}, local_undo, local_redo);
             }
         }
-        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, logUndo && !m_closing, undo, redo, false, true);
+        res = res && getTrackById(trackId)->requestClipDeletion(clipId, true, logUndo && !m_closing, local_undo, local_redo, false, true);
         if (!res) {
-            undo();
+            bool undone = local_undo();
+            Q_ASSERT(undone);
             return false;
         }
     }
@@ -2758,10 +2765,12 @@ bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool l
         return true;
     };
     if (operation()) {
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
-    undo();
+    bool undone = local_undo();
+    Q_ASSERT(undone);
     return false;
 }
 
@@ -2781,11 +2790,15 @@ bool TimelineModel::requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bo
 
 bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo)
 {
+    // On failure, only our own changes are reverted: undo/redo are left untouched for the caller
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     int trackId = getCompositionTrackId(compositionId);
     if (trackId != -1) {
-        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, true, undo, redo, true);
+        bool res = getTrackById(trackId)->requestCompositionDeletion(compositionId, true, true, local_undo, local_redo, true);
         if (!res) {
-            undo();
+            bool undone = local_undo();
+            Q_ASSERT(undone);
             return false;
         } else {
             Fun unplant_op = [this, compositionId]() {
@@ -2793,7 +2806,7 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
                 return true;
             };
             unplant_op();
-            PUSH_LAMBDA(unplant_op, redo);
+            PUSH_LAMBDA(unplant_op, local_redo);
         }
     }
     Fun operation = deregisterComposition_lambda(compositionId);
@@ -2816,10 +2829,12 @@ bool TimelineModel::requestCompositionDeletion(int compositionId, Fun &undo, Fun
         };
         update_monitor();
         PUSH_LAMBDA(update_monitor, operation);
-        UPDATE_UNDO_REDO(operation, reverse, undo, redo);
+        UPDATE_UNDO_REDO(operation, reverse, local_undo, local_redo);
+        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
-    undo();
+    bool undone = local_undo();
+    Q_ASSERT(undone);
     return false;
 }
 
@@ -3686,6 +3701,9 @@ bool TimelineModel::requestGroupDeletion(int clipId, bool logUndo)
 
 bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
 {
+    // On failure, only our own changes are reverted: undo/redo are left untouched for the caller
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
     // we do a breadth first exploration of the group tree, ungroup (delete) every inner node, and then delete all the leaves.
     std::queue<int> group_queue;
     group_queue.push(m_groups->getRootId(clipId));
@@ -3725,9 +3743,10 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool 
                 Fun tmp_redo = []() { return true; };
                 m_groups->ungroupItem(one_child, tmp_undo, tmp_redo);
             } else {
-                bool res = m_groups->ungroupItem(one_child, undo, redo);
+                bool res = m_groups->ungroupItem(one_child, local_undo, local_redo);
                 if (!res) {
-                    undo();
+                    bool undone = local_undo();
+                    Q_ASSERT(undone);
                     return false;
                 }
             }
@@ -3737,27 +3756,31 @@ bool TimelineModel::requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool 
         }
     }
     for (int clip : all_items) {
-        bool res = requestClipDeletion(clip, undo, redo, logUndo);
+        bool res = requestClipDeletion(clip, local_undo, local_redo, logUndo);
         if (!res) {
-            // Undo is processed in requestClipDeletion
+            bool undone = local_undo();
+            Q_ASSERT(undone);
             return false;
         }
     }
     for (int compo : all_compositions) {
-        bool res = requestCompositionDeletion(compo, undo, redo);
+        bool res = requestCompositionDeletion(compo, local_undo, local_redo);
         if (!res) {
-            undo();
+            bool undone = local_undo();
+            Q_ASSERT(undone);
             return false;
         }
     }
     std::set<int>::reverse_iterator rit;
     for (rit = all_subtitles.rbegin(); rit != all_subtitles.rend(); ++rit) {
-        bool res = requestSubtitleDeletion(*rit, undo, redo, rit == all_subtitles.rbegin(), rit == std::prev(all_subtitles.rend()));
+        bool res = requestSubtitleDeletion(*rit, local_undo, local_redo, rit == all_subtitles.rbegin(), rit == std::prev(all_subtitles.rend()));
         if (!res) {
-            undo();
+            bool undone = local_undo();
+            Q_ASSERT(undone);
             return false;
         }
     }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
     return true;
 }
 
@@ -7106,14 +7129,10 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     if (clipIsShorter) {
         // Check if clip should be completely deleted
         if (oldIn >= updatedDuration) {
-            bool result = true;
-            if (m_groups->isInGroup(clipId)) {
-                result = requestClipUngroup(clipId, local_undo, local_redo);
+            if (old_trackId == -1) {
+                return !m_groups->isInGroup(clipId) || requestClipUngroup(clipId, local_undo, local_redo);
             }
-            if (old_trackId != -1) {
-                result = requestClipDeletion(clipId, local_undo, local_redo, true);
-            }
-            return result;
+            return requestClipUngroupAndDeletion(clipId, local_undo, local_redo);
         }
     }
     bool refreshView = clipIsShorter || forceDuration > -1;
@@ -7137,6 +7156,25 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     return clipResized;
 }
 
+bool TimelineModel::requestClipUngroupAndDeletion(int clipId, Fun &undo, Fun &redo)
+{
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    bool result = true;
+    // ungroupItem only destroys the root group, so nested groups need several passes
+    while (result && m_groups->isInGroup(clipId)) {
+        result = requestClipUngroup(clipId, local_undo, local_redo);
+    }
+    result = result && requestClipDeletion(clipId, local_undo, local_redo, true);
+    if (!result) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
+}
+
 bool TimelineModel::limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo)
 {
     if (m_closing) {
@@ -7152,12 +7190,7 @@ bool TimelineModel::limitClipMaxDuration(int clipId, int maxDuration, Fun &local
     }
     // Check if clip should be completely deleted
     if (oldIn >= maxDuration) {
-        bool result = true;
-        if (m_groups->isInGroup(clipId)) {
-            result = requestClipUngroup(clipId, local_undo, local_redo);
-        }
-        result = requestClipDeletion(clipId, local_undo, local_redo, true);
-        return result;
+        return requestClipUngroupAndDeletion(clipId, local_undo, local_redo);
     }
 
     // resize
