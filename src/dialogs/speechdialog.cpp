@@ -308,6 +308,8 @@ void SpeechDialog::slotProcessSpeech()
     // TODO: do the rendering in another thread to not block the UI
     QReadLocker lock(&pCore->xmlMutex);
     Mlt::Producer producer(m_timeline->tractor()->get_profile(), "xml", sceneList.toUtf8().constData());
+    // Don't keep the lock while processing events below, an autosave would wait for it forever
+    lock.unlock();
     int tracksCount = m_timeline->tractor()->count();
     std::shared_ptr<Mlt::Service> s(new Mlt::Service(producer));
     std::shared_ptr<Mlt::Multitrack> multi = nullptr;
