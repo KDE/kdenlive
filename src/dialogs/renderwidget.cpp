@@ -2688,7 +2688,7 @@ void RenderWidget::showRenderDuration(int projectLength)
     }
 
     if (m_freeSpaceStatus != SpaceNotWritable) {
-        KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(0), static_cast<KIO::filesize_t>(m_renderDuration * 60000));
+        KIO::filesize_t minimumSize = static_cast<KIO::filesize_t>(qMax(0, m_renderDuration)) * 60000;
         if (5 * minimumSize > m_lastFreeSpace || m_freeSpaceStatus != SpaceOk) {
             // Space is limited, inform user
             m_lowSpaceTimer.start();
