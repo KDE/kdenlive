@@ -169,10 +169,13 @@ void ProjectManager::newFile(bool showProjectSettings)
 
 void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 {
-    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     Q_EMIT pCore->GUISetupDone();
-    if (checkForBackupFile(startFile, true)) {
-        return;
+    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
+    if (m_project == nullptr) {
+        // Opening app, check for previous crash
+        if (checkForBackupFile(startFile, true)) {
+            return;
+        }
     }
     m_fileRevert->setEnabled(false);
     QString projectFolder;
@@ -505,11 +508,10 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
     if (guiConstructed) {
         pCore->window()->cleanBins();
         delete m_project;
-        m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean(true);
-        m_project = nullptr;
     }
+    m_project = nullptr;
     ::mlt_pool_purge();
     return true;
 }
