@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-06 03:06+0000\n"
+"POT-Creation-Date: 2026-10-14 03:11+0000\n"
 "PO-Revision-Date: 2026-03-05 17:41+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
@@ -7536,7 +7536,7 @@ msgstr "Kesto"
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
 #: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:266
-#: src/project/dialogs/archivewidget.cpp:100
+#: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:434
 #, kde-format
 msgid "Subtitles"
@@ -20958,7 +20958,7 @@ msgid "Enter the name of this preset:"
 msgstr "Anna tälle esiasetukselle nimi:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:419
 #, kde-format
 msgid "Abort processing"
 msgstr "Keskeytä laskenta"
@@ -22944,8 +22944,8 @@ msgstr "Siirrä tekstitys"
 #: src/bin/model/subtitlemodel.cpp:1215
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:904
-#: src/project/dialogs/archivewidget.cpp:914 src/render/renderrequest.cpp:385
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:914
+#: src/project/dialogs/archivewidget.cpp:924 src/render/renderrequest.cpp:385
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -23833,7 +23833,7 @@ msgstr "Koodausprofiilien hallinta"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:303
-#: src/project/dialogs/archivewidget.cpp:95
+#: src/project/dialogs/archivewidget.cpp:96
 #, kde-format
 msgid "Proxy Clips"
 msgstr "Puskuroidut leikkeet"
@@ -24026,11 +24026,11 @@ msgstr "Vie opastetiedot"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:808
-#: src/project/dialogs/archivewidget.cpp:812
-#: src/project/dialogs/archivewidget.cpp:922
-#: src/project/dialogs/archivewidget.cpp:934
-#: src/project/dialogs/archivewidget.cpp:940
+#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:822
+#: src/project/dialogs/archivewidget.cpp:932
+#: src/project/dialogs/archivewidget.cpp:944
+#: src/project/dialogs/archivewidget.cpp:950
 #: src/project/projectmanager.cpp:2019 src/project/projectmanager.cpp:2025
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -24714,7 +24714,7 @@ msgid "Transcode"
 msgstr "Muunna"
 
 #: src/dialogs/renderwidget.cpp:973 src/dialogs/renderwidget.cpp:2033
-#: src/project/dialogs/archivewidget.cpp:928
+#: src/project/dialogs/archivewidget.cpp:938
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Tiedosto on jo olemassa. Korvataanko?"
@@ -26913,8 +26913,8 @@ msgstr "Käytössä MTS %1"
 
 #: src/dialogs/wizard.cpp:79 src/doc/kdenlivedoc.cpp:1902
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:785
-#: src/project/dialogs/archivewidget.cpp:1293
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:795
+#: src/project/dialogs/archivewidget.cpp:1303
 #, kde-format
 msgid "Abort"
 msgstr "Keskeytä"
@@ -27608,7 +27608,7 @@ msgid "Error moving project folder: %1"
 msgstr "Virhe siirrettäessä projektin kansiota: %1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2585
-#: src/project/dialogs/archivewidget.cpp:255
+#: src/project/dialogs/archivewidget.cpp:256
 #, kde-format
 msgid "Untitled"
 msgstr "Nimetön"
@@ -33308,116 +33308,116 @@ msgstr "Muuntaminen valmis."
 msgid "Transcoding failed"
 msgstr "Muuntaminen epäonnistui"
 
-#: src/project/dialogs/archivewidget.cpp:50
+#: src/project/dialogs/archivewidget.cpp:51
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "Arkistoi projekti"
 
-#: src/project/dialogs/archivewidget.cpp:62
+#: src/project/dialogs/archivewidget.cpp:63
 #, kde-format
 msgid "Video Clips"
 msgstr "Videoleikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:66
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Audio Clips"
 msgstr "Äänileikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:70
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Image Clips"
 msgstr "Kuvaleikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:74
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "Diaesitysleikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:78
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Text Clips"
 msgstr "Tekstileikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:82
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Playlist Clips"
 msgstr "Soittolistaleikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:86
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Other Clips"
 msgstr "Muut leikkeet"
 
-#: src/project/dialogs/archivewidget.cpp:90
+#: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Luma Files"
 msgstr "Luma-tiedostot"
 
-#: src/project/dialogs/archivewidget.cpp:227
+#: src/project/dialogs/archivewidget.cpp:228
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "Projektista puuttuu %1 leike."
 msgstr[1] "Projektista puuttuu %1 leikettä."
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:1431
-#: src/project/dialogs/archivewidget.cpp:1496
+#: src/project/dialogs/archivewidget.cpp:252
+#: src/project/dialogs/archivewidget.cpp:1459
+#: src/project/dialogs/archivewidget.cpp:1524
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 kohde)"
 msgstr[1] "(%1 kohdetta)"
 
-#: src/project/dialogs/archivewidget.cpp:257
-#: src/project/dialogs/archivewidget.cpp:1434
-#: src/project/dialogs/archivewidget.cpp:1499
+#: src/project/dialogs/archivewidget.cpp:258
+#: src/project/dialogs/archivewidget.cpp:1462
+#: src/project/dialogs/archivewidget.cpp:1527
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 arkistoitava tiedosto, vaaditaan %2"
 msgstr[1] "%1 arkistoitavaa tiedostoa, vaaditaan %2"
 
-#: src/project/dialogs/archivewidget.cpp:258
-#: src/project/dialogs/archivewidget.cpp:345
+#: src/project/dialogs/archivewidget.cpp:259
+#: src/project/dialogs/archivewidget.cpp:346
 #, kde-format
 msgid "Archive"
 msgstr "Arkisto"
 
-#: src/project/dialogs/archivewidget.cpp:269
-#: src/project/dialogs/archivewidget.cpp:834
+#: src/project/dialogs/archivewidget.cpp:270
+#: src/project/dialogs/archivewidget.cpp:844
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Projektin tiedoston laskennassa tapahtui virhe"
 
-#: src/project/dialogs/archivewidget.cpp:276
+#: src/project/dialogs/archivewidget.cpp:277
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "Tallenna projektisi ennen arkistointia"
 
-#: src/project/dialogs/archivewidget.cpp:312
+#: src/project/dialogs/archivewidget.cpp:313
 #, kde-format
 msgid "Extract to"
 msgstr "Poimi kohteeseen"
 
-#: src/project/dialogs/archivewidget.cpp:313
+#: src/project/dialogs/archivewidget.cpp:314
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Avaa arkistoitu projekti"
 
-#: src/project/dialogs/archivewidget.cpp:315
+#: src/project/dialogs/archivewidget.cpp:316
 #, kde-format
 msgid "Extract"
 msgstr "Poimi"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:351
 #, kde-format
 msgid "Opening archive…"
 msgstr "Avataan arkistoa…"
 
-#: src/project/dialogs/archivewidget.cpp:360
+#: src/project/dialogs/archivewidget.cpp:361
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -33426,7 +33426,7 @@ msgstr ""
 "Arkistotiedostoa ei voi avata:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:377
+#: src/project/dialogs/archivewidget.cpp:384
 #, kde-format
 msgid ""
 "File %1\n"
@@ -33435,89 +33435,89 @@ msgstr ""
 "Tiedosto %1\n"
 " ei ole arkistoitu Kdenlive-projekti"
 
-#: src/project/dialogs/archivewidget.cpp:383
+#: src/project/dialogs/archivewidget.cpp:390
 #, kde-format
 msgid "Ready"
 msgstr "Valmis"
 
-#: src/project/dialogs/archivewidget.cpp:407
+#: src/project/dialogs/archivewidget.cpp:414
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Arkistointi on käynnissä: haluatko keskeyttää sen?"
 
-#: src/project/dialogs/archivewidget.cpp:407
-#: src/project/dialogs/archivewidget.cpp:408
+#: src/project/dialogs/archivewidget.cpp:414
+#: src/project/dialogs/archivewidget.cpp:415
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Keskeytä arkistointi"
 
-#: src/project/dialogs/archivewidget.cpp:597
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Vapaa levytila: %1"
 
-#: src/project/dialogs/archivewidget.cpp:600
+#: src/project/dialogs/archivewidget.cpp:610
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Levyllä ei ole tarpeeksi tilaa, vapaana: %1"
 
-#: src/project/dialogs/archivewidget.cpp:615
+#: src/project/dialogs/archivewidget.cpp:625
 #, kde-format
 msgid "Starting archive job"
 msgstr "Arkistointityö alkaa"
 
-#: src/project/dialogs/archivewidget.cpp:636
+#: src/project/dialogs/archivewidget.cpp:646
 #, kde-format
 msgid "Archiving…"
 msgstr "Arkistoidaan…"
 
-#: src/project/dialogs/archivewidget.cpp:666
-#: src/project/dialogs/archivewidget.cpp:777
-#: src/project/dialogs/archivewidget.cpp:803
-#: src/project/dialogs/archivewidget.cpp:1290
+#: src/project/dialogs/archivewidget.cpp:676
+#: src/project/dialogs/archivewidget.cpp:787
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:1300
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Kansion %1 luonti epäonnistui"
 
-#: src/project/dialogs/archivewidget.cpp:692
-#: src/project/dialogs/archivewidget.cpp:700
-#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:710
+#: src/project/dialogs/archivewidget.cpp:767
 #, kde-format
 msgid "Copying %1"
 msgstr "Kopioidaan %1"
 
-#: src/project/dialogs/archivewidget.cpp:796
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:903
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Väliaikaista tiedostoa ei voitu luoda"
 
-#: src/project/dialogs/archivewidget.cpp:832
+#: src/project/dialogs/archivewidget.cpp:842
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Projekti arkistoitiin onnistuneesti."
 
-#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:852
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Virhe kopioitaessa tiedostoja: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1207
+#: src/project/dialogs/archivewidget.cpp:1217
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Arkistotiedostoa %1 ei voi avata"
 
-#: src/project/dialogs/archivewidget.cpp:1224
+#: src/project/dialogs/archivewidget.cpp:1234
 #, kde-format
 msgid "Archiving %1"
 msgstr "Arkistoidaan %1"
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1240
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Ei voi kopioida tiedostoa %1 kohteeseen %2."
 
-#: src/project/dialogs/archivewidget.cpp:1260
+#: src/project/dialogs/archivewidget.cpp:1270
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -33526,27 +33526,29 @@ msgstr ""
 "Projekti arkistoitiin onnistuneesti.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1263
+#: src/project/dialogs/archivewidget.cpp:1273
 #, kde-format
 msgid "Unknown Error"
 msgstr "Tuntematon virhe"
 
-#: src/project/dialogs/archivewidget.cpp:1263
+#: src/project/dialogs/archivewidget.cpp:1273
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Virhe projektin arkistoinnin aikana: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1292
+#: src/project/dialogs/archivewidget.cpp:1302
 #, kde-format
 msgid "Extracting…"
 msgstr "Puretaan…"
 
-#: src/project/dialogs/archivewidget.cpp:1351
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1379
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Projektin tiedostoa %1 ei voi avata"
 
-#: src/project/dialogs/archivewidget.cpp:1351
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1379
 #, kde-format
 msgid "Cannot open file"
 msgstr "Tiedostoa ei voi avata"

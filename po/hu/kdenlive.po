@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-06 03:06+0000\n"
+"POT-Creation-Date: 2026-10-14 03:11+0000\n"
 "PO-Revision-Date: 2026-06-16 22:40+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -7522,7 +7522,7 @@ msgstr "Időtartam"
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:82
 #: src/core.cpp:1128 src/kdenliveui.rc:195 src/mainwindow.cpp:266
-#: src/project/dialogs/archivewidget.cpp:100
+#: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:434
 #, fuzzy, kde-format
 #| msgid "untitled"
@@ -20883,7 +20883,7 @@ msgid "Enter the name of this preset:"
 msgstr ""
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:419
 #, kde-format
 msgid "Abort processing"
 msgstr ""
@@ -23036,8 +23036,8 @@ msgstr "Segédpont áthelyezése"
 #: src/bin/model/subtitlemodel.cpp:1215
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:778
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:904
-#: src/project/dialogs/archivewidget.cpp:914 src/render/renderrequest.cpp:385
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:914
+#: src/project/dialogs/archivewidget.cpp:924 src/render/renderrequest.cpp:385
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -23972,7 +23972,7 @@ msgstr "Kódoló profilok kezelése"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:303
-#: src/project/dialogs/archivewidget.cpp:95
+#: src/project/dialogs/archivewidget.cpp:96
 #, fuzzy, kde-format
 #| msgid "Proxy Clip"
 msgid "Proxy Clips"
@@ -24169,11 +24169,11 @@ msgstr "Jelölők betöltése"
 #: src/effects/effectstack/view/effectstackview.cpp:813
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:808
-#: src/project/dialogs/archivewidget.cpp:812
-#: src/project/dialogs/archivewidget.cpp:922
-#: src/project/dialogs/archivewidget.cpp:934
-#: src/project/dialogs/archivewidget.cpp:940
+#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:822
+#: src/project/dialogs/archivewidget.cpp:932
+#: src/project/dialogs/archivewidget.cpp:944
+#: src/project/dialogs/archivewidget.cpp:950
 #: src/project/projectmanager.cpp:2019 src/project/projectmanager.cpp:2025
 #: src/render/renderrequest.cpp:325
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -24892,7 +24892,7 @@ msgid "Transcode"
 msgstr "Átkódolás"
 
 #: src/dialogs/renderwidget.cpp:973 src/dialogs/renderwidget.cpp:2033
-#: src/project/dialogs/archivewidget.cpp:928
+#: src/project/dialogs/archivewidget.cpp:938
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
@@ -27209,8 +27209,8 @@ msgstr ""
 
 #: src/dialogs/wizard.cpp:79 src/doc/kdenlivedoc.cpp:1902
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:785
-#: src/project/dialogs/archivewidget.cpp:1293
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:795
+#: src/project/dialogs/archivewidget.cpp:1303
 #, kde-format
 msgid "Abort"
 msgstr "Megszakítás"
@@ -27908,7 +27908,7 @@ msgid "Error moving project folder: %1"
 msgstr "Projektmappa: %1"
 
 #: src/doc/kdenlivedoc.cpp:1135 src/doc/kdenlivedoc.cpp:2585
-#: src/project/dialogs/archivewidget.cpp:255
+#: src/project/dialogs/archivewidget.cpp:256
 #, kde-format
 msgid "Untitled"
 msgstr "Névtelen"
@@ -33886,127 +33886,127 @@ msgstr "Átkódolás befejeződött."
 msgid "Transcoding failed"
 msgstr "Az átkódolás sikertelen!"
 
-#: src/project/dialogs/archivewidget.cpp:50
+#: src/project/dialogs/archivewidget.cpp:51
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "Archív projekt"
 
-#: src/project/dialogs/archivewidget.cpp:62
+#: src/project/dialogs/archivewidget.cpp:63
 #, fuzzy, kde-format
 #| msgid "Video Clip"
 msgid "Video Clips"
 msgstr "Videoklip"
 
-#: src/project/dialogs/archivewidget.cpp:66
+#: src/project/dialogs/archivewidget.cpp:67
 #, fuzzy, kde-format
 #| msgid "Audio clips"
 msgid "Audio Clips"
 msgstr "Hangklipek"
 
-#: src/project/dialogs/archivewidget.cpp:70
+#: src/project/dialogs/archivewidget.cpp:71
 #, fuzzy, kde-format
 #| msgid "Image Clip"
 msgid "Image Clips"
 msgstr "Képklip"
 
-#: src/project/dialogs/archivewidget.cpp:74
+#: src/project/dialogs/archivewidget.cpp:75
 #, fuzzy, kde-format
 #| msgid "Slideshow Clip"
 msgid "Slideshow Clips"
 msgstr "Diavetítés klip"
 
-#: src/project/dialogs/archivewidget.cpp:78
+#: src/project/dialogs/archivewidget.cpp:79
 #, fuzzy, kde-format
 #| msgid "Text clip"
 msgid "Text Clips"
 msgstr "Szövegklip"
 
-#: src/project/dialogs/archivewidget.cpp:82
+#: src/project/dialogs/archivewidget.cpp:83
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Playlist Clips"
 msgstr "Lejátszólista klipek"
 
-#: src/project/dialogs/archivewidget.cpp:86
+#: src/project/dialogs/archivewidget.cpp:87
 #, fuzzy, kde-format
 #| msgid "Other clips"
 msgid "Other Clips"
 msgstr "Egyéb klipek"
 
-#: src/project/dialogs/archivewidget.cpp:90
+#: src/project/dialogs/archivewidget.cpp:91
 #, fuzzy, kde-format
 #| msgid "Luma File"
 msgid "Luma Files"
 msgstr "Luma fájl használata"
 
-#: src/project/dialogs/archivewidget.cpp:227
+#: src/project/dialogs/archivewidget.cpp:228
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "%1 hiányzó klipje van a projektben."
 msgstr[1] "%1 hiányzó klipje van a projektben."
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:1431
-#: src/project/dialogs/archivewidget.cpp:1496
+#: src/project/dialogs/archivewidget.cpp:252
+#: src/project/dialogs/archivewidget.cpp:1459
+#: src/project/dialogs/archivewidget.cpp:1524
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 elem)"
 msgstr[1] "(%1 elem)"
 
-#: src/project/dialogs/archivewidget.cpp:257
-#: src/project/dialogs/archivewidget.cpp:1434
-#: src/project/dialogs/archivewidget.cpp:1499
+#: src/project/dialogs/archivewidget.cpp:258
+#: src/project/dialogs/archivewidget.cpp:1462
+#: src/project/dialogs/archivewidget.cpp:1527
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "%1 fájl archiválásához %2 szükséges"
 msgstr[1] "%1 fájl archiválásához %2 szükséges"
 
-#: src/project/dialogs/archivewidget.cpp:258
-#: src/project/dialogs/archivewidget.cpp:345
+#: src/project/dialogs/archivewidget.cpp:259
+#: src/project/dialogs/archivewidget.cpp:346
 #, kde-format
 msgid "Archive"
 msgstr "Archívum"
 
-#: src/project/dialogs/archivewidget.cpp:269
-#: src/project/dialogs/archivewidget.cpp:834
+#: src/project/dialogs/archivewidget.cpp:270
+#: src/project/dialogs/archivewidget.cpp:844
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Hiba történt a projektfájl feldolgozásakor"
 
-#: src/project/dialogs/archivewidget.cpp:276
+#: src/project/dialogs/archivewidget.cpp:277
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:312
+#: src/project/dialogs/archivewidget.cpp:313
 #, kde-format
 msgid "Extract to"
 msgstr "Kibontás ide"
 
-#: src/project/dialogs/archivewidget.cpp:313
+#: src/project/dialogs/archivewidget.cpp:314
 #, fuzzy, kde-format
 #| msgid "Open Archived Project"
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "Archivált projekt megnyitása"
 
-#: src/project/dialogs/archivewidget.cpp:315
+#: src/project/dialogs/archivewidget.cpp:316
 #, kde-format
 msgid "Extract"
 msgstr "Kibontás"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:351
 #, fuzzy, kde-format
 #| msgid "Opening archive..."
 msgid "Opening archive…"
 msgstr "Archívum megnyitása…"
 
-#: src/project/dialogs/archivewidget.cpp:360
+#: src/project/dialogs/archivewidget.cpp:361
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -34015,7 +34015,7 @@ msgstr ""
 "Nem sikerült megnyitni az archívum fájlt:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:377
+#: src/project/dialogs/archivewidget.cpp:384
 #, kde-format
 msgid ""
 "File %1\n"
@@ -34024,77 +34024,77 @@ msgstr ""
 "A(z) %1 fájl\n"
 " nem Kdenlive archivált projekt"
 
-#: src/project/dialogs/archivewidget.cpp:383
+#: src/project/dialogs/archivewidget.cpp:390
 #, kde-format
 msgid "Ready"
 msgstr "Kész"
 
-#: src/project/dialogs/archivewidget.cpp:407
+#: src/project/dialogs/archivewidget.cpp:414
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Az archiválás folyamatban, szeretné leállítani?"
 
-#: src/project/dialogs/archivewidget.cpp:407
-#: src/project/dialogs/archivewidget.cpp:408
+#: src/project/dialogs/archivewidget.cpp:414
+#: src/project/dialogs/archivewidget.cpp:415
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Archiválás leállítása"
 
-#: src/project/dialogs/archivewidget.cpp:597
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Elérhető lemezterület a meghajtón: %1"
 
-#: src/project/dialogs/archivewidget.cpp:600
+#: src/project/dialogs/archivewidget.cpp:610
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Nincs elég szabad hely a meghajtón, szabad hely: %1"
 
-#: src/project/dialogs/archivewidget.cpp:615
+#: src/project/dialogs/archivewidget.cpp:625
 #, kde-format
 msgid "Starting archive job"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:636
+#: src/project/dialogs/archivewidget.cpp:646
 #, fuzzy, kde-format
 #| msgid "Archiving..."
 msgid "Archiving…"
 msgstr "Archiválás…"
 
-#: src/project/dialogs/archivewidget.cpp:666
-#: src/project/dialogs/archivewidget.cpp:777
-#: src/project/dialogs/archivewidget.cpp:803
-#: src/project/dialogs/archivewidget.cpp:1290
+#: src/project/dialogs/archivewidget.cpp:676
+#: src/project/dialogs/archivewidget.cpp:787
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:1300
 #, fuzzy, kde-format
 #| msgid "Cannot create consumer %1."
 msgid "Cannot create directory %1"
 msgstr "%1 fogyasztó nem hozható létre."
 
-#: src/project/dialogs/archivewidget.cpp:692
-#: src/project/dialogs/archivewidget.cpp:700
-#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:710
+#: src/project/dialogs/archivewidget.cpp:767
 #, fuzzy, kde-format
 #| msgid "Capturing to %1"
 msgid "Copying %1"
 msgstr "Felvétel ide: %1"
 
-#: src/project/dialogs/archivewidget.cpp:796
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:903
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Nem hozható létre átmeneti fájl"
 
-#: src/project/dialogs/archivewidget.cpp:832
+#: src/project/dialogs/archivewidget.cpp:842
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "A projekt archiválása sikeresen befejeződött."
 
-#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:852
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Hiba történt a fájlok másolása közben: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1207
+#: src/project/dialogs/archivewidget.cpp:1217
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open archive file:\n"
@@ -34104,19 +34104,19 @@ msgstr ""
 "Nem sikerült megnyitni az archívum fájlt:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:1224
+#: src/project/dialogs/archivewidget.cpp:1234
 #, fuzzy, kde-format
 #| msgid "Archiving..."
 msgid "Archiving %1"
 msgstr "Archiválás…"
 
-#: src/project/dialogs/archivewidget.cpp:1230
+#: src/project/dialogs/archivewidget.cpp:1240
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot copy file %1 to %2."
 msgstr "Nem lehet megnyitni a fájlt: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1260
+#: src/project/dialogs/archivewidget.cpp:1270
 #, fuzzy, kde-format
 #| msgid "Project was successfully archived."
 msgid ""
@@ -34124,30 +34124,32 @@ msgid ""
 "%1"
 msgstr "A projekt archiválása sikeresen befejeződött."
 
-#: src/project/dialogs/archivewidget.cpp:1263
+#: src/project/dialogs/archivewidget.cpp:1273
 #, fuzzy, kde-format
 #| msgid "Unknown"
 msgid "Unknown Error"
 msgstr "Ismeretlen"
 
-#: src/project/dialogs/archivewidget.cpp:1263
+#: src/project/dialogs/archivewidget.cpp:1273
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was an error while archiving the project: %1"
 msgstr "Hiba történt a fájlok másolása közben: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1292
+#: src/project/dialogs/archivewidget.cpp:1302
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting…"
 msgstr "Kibontás…"
 
-#: src/project/dialogs/archivewidget.cpp:1351
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1379
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/project/dialogs/archivewidget.cpp:1351
+#: src/project/dialogs/archivewidget.cpp:1329
+#: src/project/dialogs/archivewidget.cpp:1379
 #, kde-format
 msgid "Cannot open file"
 msgstr "Nem lehet megnyitni a fájlt"
