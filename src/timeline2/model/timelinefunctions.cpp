@@ -2249,8 +2249,9 @@ bool TimelineFunctions::pasteClips(const std::shared_ptr<TimelineItemModel> &tim
     }
     std::function<void(const QString &)> callBack = [timeline, copiedItems, position, inPos, duration](const QString &binId) {
         waitingBinIds.removeAll(binId);
+        // The clip is deleted again if its file could not be loaded
         auto clip = pCore->projectItemModel()->getClipByBinID(binId);
-        if (clip->clipType() == ClipType::Timeline) {
+        if (clip && clip->clipType() == ClipType::Timeline) {
             sequencesToInit[binId] = clip->getSequenceUuid();
         }
         if (waitingBinIds.isEmpty()) {
