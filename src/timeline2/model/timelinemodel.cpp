@@ -1024,7 +1024,8 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
         }
         if (m_singleSelectionMode) {
             // Clip is in a group, so we must re-add it to the group after move
-            currentGroup = extractSelectionFromGroup(clipId, local_undo, local_redo).first;
+            currentGroup = m_groups->getDirectAncestor(clipId);
+            extractItemFromGroup(clipId, local_undo, local_redo);
         }
         ok = getTrackById(old_trackId)->requestClipDeletion(clipId, updateView, finalMove, local_undo, local_redo, groupMove, false, allowedClipMixes);
         if (!ok) {
@@ -2581,8 +2582,7 @@ bool TimelineModel::requestSingleSubtitleDeletion(int subtitleId)
     }
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    extractSelectionFromGroup(subtitleId, undo, redo, true);
-    if (!requestSubtitleDeletion(subtitleId, undo, redo, true, true)) {
+    if (!extractItemFromGroup(subtitleId, undo, redo, true) || !requestSubtitleDeletion(subtitleId, undo, redo, true, true)) {
         undo();
         return false;
     }
@@ -2634,9 +2634,7 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
         // Ungroup all items first
         const auto selection = m_currentSelection;
         for (auto &s : selection) {
-            if (m_groups->isInGroup(s)) {
-                extractSelectionFromGroup(s, undo, redo, true);
-            }
+            res = res && extractItemFromGroup(s, undo, redo, true);
         }
         // loop deletion
         for (int id : selection) {
@@ -2655,78 +2653,33 @@ bool TimelineModel::requestItemDeletion(int itemId, bool logUndo)
     return res;
 }
 
-std::pair<int, int> TimelineModel::extractSelectionFromGroup(int selection, Fun &undo, Fun &redo, bool onDeletion)
+bool TimelineModel::extractItemFromGroup(int itemId, Fun &undo, Fun &redo, bool mergeSingleGroups)
 {
-    int gid = m_groups->getDirectAncestor(selection);
-    std::pair<int, int> grpPair = {gid, -1};
-    if (gid > -1) {
-        // Item is in a group, check if deletion would leave an orphaned group (with only 1 child)
-        auto siblings = m_groups->getLeaves(gid);
-        siblings.erase(selection);
-        if (siblings.size() < 2) {
-            // Parent group should be deleted
-            int grandParent = m_groups->getDirectAncestor(gid);
-            if (siblings.size() > 0) {
-                grpPair.second = *siblings.begin();
-            }
-            if (onDeletion) {
-                // Item will be deleted, remove the group
-                if (grandParent > -1) {
-                    // The group is inside another one, move remaining items in that top level group
-                    for (int id : siblings) {
-                        m_groups->setInGroupOf(id, gid, undo, redo);
-                    }
-                    // Remove group
-                    m_groups->removeFromGroup(gid, undo, redo);
-                }
-                // Remove all remaining items from group
-                siblings = m_groups->getLeaves(gid);
-                for (int id : siblings) {
-                    m_groups->removeFromGroup(id, undo, redo);
-                }
-                // Remove the top group
-                Fun local_redo = [this, cid = grpPair.second]() {
-                    // Clear selection
-                    int gid = m_groups->getDirectAncestor(cid);
-                    bool isSelected = m_currentSelection.count(gid) || m_currentSelection.count(cid);
-                    if (isSelected) {
-                        // Clear group selection to not leave an invalid selection
-                        requestClearSelection(true);
-                    }
-                    return true;
-                };
-                Fun local_undo = [this, cid = grpPair.second]() {
-                    // Clear selection
-                    int gid = m_groups->getDirectAncestor(cid);
-                    bool isSelected = m_currentSelection.count(cid) || m_currentSelection.count(gid);
-                    if (isSelected) {
-                        // Clear group selection to not leave an invalid selection
-                        requestClearSelection(true);
-                    }
-                    return true;
-                };
-                local_redo();
-                PUSH_FRONT_LAMBDA(local_redo, redo);
-                PUSH_LAMBDA(local_undo, undo);
-            }
-        }
-
-        // Remove the top group
-        Fun local_redo = [this, selection]() {
-            // Clear selection
-            m_groups->removeFromGroup(selection);
-            return true;
-        };
-        Fun local_undo = [this, selection, gid]() {
-            // Clear selection
-            m_groups->setGroup(selection, gid, false);
-            return true;
-        };
-        local_redo();
-        PUSH_FRONT_LAMBDA(local_redo, redo);
-        PUSH_LAMBDA(local_undo, undo);
+    if (!m_groups->isInGroup(itemId)) {
+        return true;
     }
-    return grpPair;
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    if (mergeSingleGroups) {
+        // Groups dissolved by the merge are deleted, so the selection must not reference them.
+        // A selection group would also prevent the merging of single groups
+        if (m_currentSelection.count(m_groups->getRootId(itemId)) > 0) {
+            requestClearSelection(true);
+        }
+    }
+    if (!m_groups->removeFromGroup(itemId, local_undo, local_redo, mergeSingleGroups)) {
+        bool undone = local_undo();
+        Q_ASSERT(undone);
+        return false;
+    }
+    if (mergeSingleGroups) {
+        // we make sure that the undo and the redo are going to unselect before changing the groups
+        Fun unselect = [this]() { return requestClearSelection(true); };
+        PUSH_FRONT_LAMBDA(unselect, local_undo);
+        PUSH_FRONT_LAMBDA(unselect, local_redo);
+    }
+    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    return true;
 }
 
 bool TimelineModel::requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo)
@@ -3125,53 +3078,26 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     bool res = false;
 
     if (m_singleSelectionMode) {
-        // A list of {gid, items to move inside that group}
-        QMap<int, std::unordered_set<int>> itemGroups;
-        QMap<int, std::unordered_set<int>> groupInitialItems;
-        std::unordered_set<int> ids;
-        // We have multiple single items selected, store their respective groups
+        // Extract the selected items from their groups, store the extraction separately so that it can be reverted after the move
+        Fun extract_undo = []() { return true; };
+        Fun extract_redo = []() { return true; };
         for (int id : m_currentSelection) {
-            int gid = m_groups->getDirectAncestor(id);
-            if (itemGroups.contains(gid)) {
-                ids = itemGroups.value(gid);
-                ids.insert(id);
-            } else if (gid > -1) {
-                groupInitialItems.insert(gid, m_groups->getLeaves(gid));
-                ids = {id};
-            } else {
-                // This is a single clip not in a group
-                gid = id;
-                ids = {id};
-            }
-            itemGroups.insert(gid, ids);
+            m_groups->removeFromGroup(id, extract_undo, extract_redo);
         }
-        // Ungroup the items
-        for (int id : m_currentSelection) {
-            // Ungroup item before move
-            m_groups->removeFromGroup(id, undo, redo);
-        }
-        // Group concerned items in a new group
-        int grp = m_groups->groupItems(m_currentSelection, undo, redo);
-        res = requestGroupMove(itemId, grp, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
-
-        // Move items back in their respective groups
-        QMapIterator<int, std::unordered_set<int>> g(itemGroups);
-        while (g.hasNext()) {
-            g.next();
-            if (!isGroup(g.key())) {
-                if (groupInitialItems.contains(g.key())) {
-                    m_groups->groupItems(groupInitialItems.value(g.key()), undo, redo);
-                } else if (g.value().size() > 1 || *g.value().begin() != g.key()) {
-                    m_groups->groupItems({g.value()}, undo, redo);
-                } else {
-                    m_groups->removeFromGroup(g.key());
-                }
-            } else {
-                int sibling = *(m_groups->getLeaves(g.key()).begin());
-                for (auto &id : g.value()) {
-                    m_groups->setInGroupOf(id, sibling, undo, redo);
-                }
-            }
+        Fun local_undo = extract_undo;
+        Fun local_redo = extract_redo;
+        // Group concerned items in a temporary group and move it
+        int grp = m_groups->groupItems(m_currentSelection, local_undo, local_redo);
+        res = grp > -1 && requestGroupMove(itemId, grp, delta_track, delta_pos, updateView, logUndo, local_undo, local_redo, revertMove, moveMirrorTracks);
+        // Delete the temporary group and move items back in their respective groups
+        res = res && m_groups->ungroupItem(grp, local_undo, local_redo);
+        if (res && extract_undo()) {
+            UPDATE_UNDO_REDO(extract_undo, extract_redo, local_undo, local_redo);
+            UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+        } else {
+            bool undone = local_undo();
+            Q_ASSERT(undone);
+            res = false;
         }
     } else {
         res = requestGroupMove(itemId, groupId, delta_track, delta_pos, updateView, logUndo, undo, redo, revertMove, moveMirrorTracks);
@@ -5364,13 +5290,8 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
     for (int clip : clips_to_delete) {
-        bool res = true;
-        while (res && m_groups->isInGroup(clip)) {
-            res = requestClipUngroup(clip, local_undo, local_redo);
-        }
-        if (res) {
-            res = requestClipDeletion(clip, local_undo, local_redo);
-        }
+        // Items on other tracks stay grouped
+        bool res = requestClipExtractAndDeletion(clip, local_undo, local_redo);
         if (!res) {
             bool u = local_undo();
             Q_ASSERT(u);
@@ -5382,13 +5303,7 @@ bool TimelineModel::requestTrackDeletion(int trackId, Fun &undo, Fun &redo)
         compositions_to_delete.push_back(it.first);
     }
     for (int compo : compositions_to_delete) {
-        bool res = true;
-        while (res && m_groups->isInGroup(compo)) {
-            res = requestClipUngroup(compo, local_undo, local_redo);
-        }
-        if (res) {
-            res = requestCompositionDeletion(compo, local_undo, local_redo);
-        }
+        bool res = extractItemFromGroup(compo, local_undo, local_redo, true) && requestCompositionDeletion(compo, local_undo, local_redo);
         if (!res) {
             bool u = local_undo();
             Q_ASSERT(u);
@@ -7130,9 +7045,9 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
         // Check if clip should be completely deleted
         if (oldIn >= updatedDuration) {
             if (old_trackId == -1) {
-                return !m_groups->isInGroup(clipId) || requestClipUngroup(clipId, local_undo, local_redo);
+                return extractItemFromGroup(clipId, local_undo, local_redo, true);
             }
-            return requestClipUngroupAndDeletion(clipId, local_undo, local_redo);
+            return requestClipExtractAndDeletion(clipId, local_undo, local_redo);
         }
     }
     bool refreshView = clipIsShorter || forceDuration > -1;
@@ -7156,16 +7071,11 @@ bool TimelineModel::requestClipReload(int clipId, int forceDuration, Fun &local_
     return clipResized;
 }
 
-bool TimelineModel::requestClipUngroupAndDeletion(int clipId, Fun &undo, Fun &redo)
+bool TimelineModel::requestClipExtractAndDeletion(int clipId, Fun &undo, Fun &redo)
 {
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };
-    bool result = true;
-    // ungroupItem only destroys the root group, so nested groups need several passes
-    while (result && m_groups->isInGroup(clipId)) {
-        result = requestClipUngroup(clipId, local_undo, local_redo);
-    }
-    result = result && requestClipDeletion(clipId, local_undo, local_redo, true);
+    bool result = extractItemFromGroup(clipId, local_undo, local_redo, true) && requestClipDeletion(clipId, local_undo, local_redo, true);
     if (!result) {
         bool undone = local_undo();
         Q_ASSERT(undone);
@@ -7190,7 +7100,7 @@ bool TimelineModel::limitClipMaxDuration(int clipId, int maxDuration, Fun &local
     }
     // Check if clip should be completely deleted
     if (oldIn >= maxDuration) {
-        return requestClipUngroupAndDeletion(clipId, local_undo, local_redo);
+        return requestClipExtractAndDeletion(clipId, local_undo, local_redo);
     }
 
     // resize

@@ -2353,13 +2353,27 @@ TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
 
+    GroupsModel *groups = KdenliveTests::groupsModel(timeline);
+    // For each item, the chain of its ancestors (from direct parent to root) with their types
+    auto hierarchy = [&](const std::vector<int> &ids) {
+        std::vector<std::vector<std::pair<int, GroupType>>> result;
+        for (int id : ids) {
+            std::vector<std::pair<int, GroupType>> chain;
+            for (int g = groups->getDirectAncestor(id); g != -1; g = groups->getDirectAncestor(g)) {
+                chain.emplace_back(g, groups->getType(g));
+            }
+            result.push_back(chain);
+        }
+        return result;
+    };
+
     SECTION("Ungrouped clip is deleted, and the operation is undoable")
     {
         int cid = -1;
         REQUIRE(timeline->requestClipInsertion(binId, tid1, 10, cid, true, true, false));
         REQUIRE_FALSE(timeline->isInGroup(cid));
 
-        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->requestClipExtractAndDeletion(cid, undo, redo));
         REQUIRE(timeline->checkConsistency());
         REQUIRE_FALSE(timeline->isClip(cid));
         REQUIRE(timeline->getClipsCount() == 0);
@@ -2385,7 +2399,7 @@ TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
         int partner = *elements.begin();
         REQUIRE(timeline->getClipTrackId(partner) == tidA);
 
-        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->requestClipExtractAndDeletion(cid, undo, redo));
         REQUIRE(timeline->checkConsistency());
         REQUIRE_FALSE(timeline->isClip(cid));
         REQUIRE(timeline->isClip(partner));
@@ -2405,31 +2419,157 @@ TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
         REQUIRE_FALSE(timeline->isInGroup(partner));
     }
 
-    SECTION("Clip in nested groups is fully ungrouped before deletion")
-    {
-        int cid = -1;
-        int other = -1;
+    // Builds an A/V pair grouped with another clip:
+    //         root (Normal)
+    //        /      \
+    //   av (AVSplit)  other
+    //     /  \
+    //   cid  partner
+    auto buildNestedGroups = [&](int &cid, int &partner, int &other) {
         REQUIRE(timeline->requestClipInsertion(binIdAV, tid1, 10, cid, true, true, false));
         REQUIRE(timeline->requestClipInsertion(binId, tid2, 50, other, true, true, false));
         auto elements = timeline->getGroupElements(cid);
         REQUIRE(elements.size() == 2);
-        // Group the A/V pair with another clip: the A/V group becomes a child of the new root
-        REQUIRE(timeline->requestClipsGroup({cid, other}) > -1);
-        REQUIRE(timeline->getGroupElements(cid).size() == 3);
-        REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(cid) != KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid));
-
-        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        elements.erase(cid);
+        partner = *elements.begin();
+        int root = timeline->requestClipsGroup({cid, other});
+        REQUIRE(root > -1);
+        REQUIRE(groups->getDirectChildren(root).size() == 2);
+        REQUIRE(groups->getDirectChildren(root).count(other) == 1);
+        REQUIRE(groups->getDirectAncestor(cid) != root);
+        REQUIRE(groups->getDirectAncestor(groups->getDirectAncestor(cid)) == root);
+        return root;
+    };
+    // After the deletion of cid, the A/V group only had one child left: partner moved up in the root, next to other
+    auto checkPluckedHierarchy = [&](int root, int partner, int other) {
         REQUIRE(timeline->checkConsistency());
-        REQUIRE_FALSE(timeline->isClip(cid));
-        REQUIRE(timeline->isClip(other));
+        REQUIRE(groups->getDirectAncestor(root) == -1);
+        REQUIRE(groups->getDirectChildren(root) == std::unordered_set<int>({partner, other}));
+        REQUIRE(groups->getType(root) == GroupType::Normal);
+    };
 
-        // Undo restores the whole hierarchy
+    SECTION("Clip in nested groups is plucked out of the hierarchy, other items stay grouped")
+    {
+        int cid, partner, other;
+        int root = buildNestedGroups(cid, partner, other);
+        auto initialHierarchy = hierarchy({cid, partner, other});
+
+        REQUIRE(timeline->requestClipExtractAndDeletion(cid, undo, redo));
+        REQUIRE_FALSE(timeline->isClip(cid));
+        checkPluckedHierarchy(root, partner, other);
+
+        // Undo restores the exact hierarchy
         REQUIRE(undo());
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->isClip(cid));
-        REQUIRE(timeline->getGroupElements(cid).size() == 3);
-        REQUIRE(timeline->getGroupElements(cid).count(other) == 1);
-        REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(cid) != KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid));
+        REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+
+        REQUIRE(redo());
+        REQUIRE_FALSE(timeline->isClip(cid));
+        checkPluckedHierarchy(root, partner, other);
+    }
+
+    SECTION("Deleting a single selected clip in nested groups keeps the other items grouped")
+    {
+        int cid, partner, other;
+        int root = buildNestedGroups(cid, partner, other);
+        auto initialHierarchy = hierarchy({cid, partner, other});
+        timeline->requestAddToSelection(cid, true, true);
+        REQUIRE(timeline->singleSelectionMode());
+
+        REQUIRE(timeline->requestItemDeletion(cid));
+        REQUIRE_FALSE(timeline->isClip(cid));
+        REQUIRE(timeline->isClip(partner));
+        checkPluckedHierarchy(root, partner, other);
+
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+
+        undoStack->redo();
+        REQUIRE_FALSE(timeline->isClip(cid));
+        checkPluckedHierarchy(root, partner, other);
+    }
+
+    SECTION("Moving single selected clips in nested groups keeps the hierarchy")
+    {
+        int cid, partner, other;
+        int root = buildNestedGroups(cid, partner, other);
+        auto initialHierarchy = hierarchy({cid, partner, other});
+        timeline->requestAddToSelection(cid, true, true);
+        timeline->requestAddToSelection(other, false, true);
+        REQUIRE(timeline->singleSelectionMode());
+        REQUIRE(timeline->getCurrentSelection() == std::unordered_set<int>({cid, other}));
+
+        REQUIRE(timeline->requestGroupMove(cid, root, 0, 20));
+        auto checkMoved = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPosition(cid) == 30);
+            REQUIRE(timeline->getClipPosition(other) == 70);
+            REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+        };
+        checkMoved();
+
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+        REQUIRE(timeline->getClipPosition(other) == 50);
+        REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+
+        undoStack->redo();
+        checkMoved();
+    }
+
+    SECTION("Moving all clips of nested groups in single selection keeps the hierarchy")
+    {
+        // All the groups are emptied during the move, they must be restored
+        int cid, partner, other;
+        int root = buildNestedGroups(cid, partner, other);
+        auto initialHierarchy = hierarchy({cid, partner, other});
+        timeline->requestAddToSelection(cid, true, true);
+        timeline->requestAddToSelection(partner, false, true);
+        timeline->requestAddToSelection(other, false, true);
+        REQUIRE(timeline->singleSelectionMode());
+
+        REQUIRE(timeline->requestGroupMove(cid, root, 0, 20));
+        auto checkMoved = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPosition(cid) == 30);
+            REQUIRE(timeline->getClipPosition(partner) == 30);
+            REQUIRE(timeline->getClipPosition(other) == 70);
+            REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+        };
+        checkMoved();
+
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+        REQUIRE(timeline->getClipPosition(partner) == 10);
+        REQUIRE(timeline->getClipPosition(other) == 50);
+        REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+
+        undoStack->redo();
+        checkMoved();
+    }
+
+    SECTION("Failed move of single selected clips leaves the hierarchy untouched")
+    {
+        int cid, partner, other;
+        int root = buildNestedGroups(cid, partner, other);
+        auto initialHierarchy = hierarchy({cid, partner, other});
+        timeline->requestAddToSelection(cid, true, true);
+        timeline->requestAddToSelection(other, false, true);
+        timeline->setTrackLockedState(tid2, true);
+        int undoIndex = undoStack->index();
+
+        REQUIRE_FALSE(timeline->requestGroupMove(cid, root, 0, 20));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+        REQUIRE(timeline->getClipPosition(other) == 50);
+        REQUIRE(hierarchy({cid, partner, other}) == initialHierarchy);
+        REQUIRE(undoStack->index() == undoIndex);
+        timeline->setTrackLockedState(tid2, false);
     }
 
     SECTION("Failure only reverts its own changes, the caller's previous operations are kept")
@@ -2447,7 +2587,7 @@ TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
 
         // Deletion is refused on a locked track, after the ungrouping already happened
         timeline->setTrackLockedState(tid1, true);
-        REQUIRE_FALSE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE_FALSE(timeline->requestClipExtractAndDeletion(cid, undo, redo));
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->isClip(cid));
         REQUIRE(timeline->getClipTrackId(cid) == tid1);

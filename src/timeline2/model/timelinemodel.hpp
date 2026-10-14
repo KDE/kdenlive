@@ -787,11 +787,13 @@ protected:
      */
     const std::vector<int> getBoundaries(int itemId);
 
-    /** @brief Extract selection from its group. To be used when operating on single items in a group
-     *  @returns a pair with { original group id of the element, the id of the other element
-     *  in the group if it was a 2 items group and group was deleted in the operation }
+    /** @brief Extract an item from its direct parent group. To be used when operating on single items in a group.
+     *  The rest of the group hierarchy is left untouched.
+     *  @param mergeSingleGroups if true, groups left with a single child are dissolved, and the selection is cleared if it contained the item's group.
+     *  Otherwise the parent group may be left with a single child, so the item should be put back in it afterwards.
+     *  On failure, nothing is modified and undo/redo are left untouched
      */
-    std::pair<int, int> extractSelectionFromGroup(int selection, Fun &undo, Fun &redo, bool onDeletion = false);
+    bool extractItemFromGroup(int itemId, Fun &undo, Fun &redo, bool mergeSingleGroups = false);
 
 public:
     /** @brief Requests the next snapped point
@@ -882,8 +884,9 @@ public:
      *  @returns true if the timeline clip was shortened by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
-    /** @brief Ungroup a clip if needed, then delete it. On failure, nothing is changed */
-    bool requestClipUngroupAndDeletion(int clipId, Fun &undo, Fun &redo);
+    /** @brief Extract a clip from its group hierarchy if needed, then delete it. Other items stay grouped.
+       On failure, nothing is changed and undo/redo are left untouched */
+    bool requestClipExtractAndDeletion(int clipId, Fun &undo, Fun &redo);
     /** @brief Ensure a clip occurrence is not longer than maxDuration
      *  @returns true if the timeline clip was shortened by the operation
      */
