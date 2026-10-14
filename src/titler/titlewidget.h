@@ -23,6 +23,7 @@
 #include <QMap>
 #include <QModelIndex>
 #include <QSignalMapper>
+#include <QUndoStack>
 
 class PatternsModel;
 
@@ -73,6 +74,7 @@ public:
     ~TitleWidget() override;
     QDomDocument xml();
     void setXml(const QString &path, const QDomDocument &doc, const QString &id = QString());
+    void loadTitleState(const QDomDocument &doc);
 
     /** @brief Checks for the images referenced by a title clip.
      * @param xml XML data representing the title
@@ -88,6 +90,9 @@ public:
      * @param xml XML data representing the title
      * @return list of the fonts in the title  */
     static QStringList extractFontList(const QString &xml);
+
+    /** @brief Ensure a title has relative paths for its content resources. */
+    static QString ensureRelativePaths(const QString xmlData, const QString &newRoot);
 
     /** @brief Returns clip duration. */
     int duration() const;
@@ -149,6 +154,12 @@ private:
     QAction *m_buttonSave;
     QAction *m_buttonLoad;
     KNSWidgets::Action *m_buttonDownload;
+    QAction *m_undoAction{nullptr};
+    QAction *m_redoAction{nullptr};
+    QUndoStack *m_undoStack{nullptr};
+    QDomDocument m_undoDoc;
+    bool m_blockUndo{false};
+    void pushUndo(const QString &text = QString());
 
     QAction *m_unicodeAction;
     QAction *m_zUp;
@@ -163,6 +174,7 @@ private:
     QAction *m_createTitleAction;
     QString m_lastDocumentHash;
     QList<QGraphicsLineItem *> m_guides;
+    QMap<QString, QString> m_remplacementPatterns;
 
     MySpinBox *rectCornerRadius;
 
@@ -210,6 +222,10 @@ private:
     /** @brief Set up the tools suiting referenceItem */
     void prepareTools(QGraphicsItem *referenceItem);
 
+    // Rich text: update text controls from the caret/selection.
+    void updateTextCursorTools(MyTextItem *item);
+    bool m_richInspectorUpdatePending{false};
+
     /** @brief Checks a tool button. */
     void checkButton(GraphicsSceneRectMove::TITLETOOL toolType);
 
@@ -252,6 +268,10 @@ private:
      */
     void writeBaseConfig();
 
+    /** @brief Check if there are still missing items
+     */
+    void updateMissingInfo();
+
 public Q_SLOTS:
     void slotNewText(MyTextItem *tt);
     void slotNewRect(QGraphicsRectItem *rect);
@@ -271,6 +291,8 @@ public Q_SLOTS:
     /** Load a title from a title file */
     void loadTitle(QUrl url = QUrl());
     void slotGotBackground(const QImage &img);
+    void slotUndo();
+    void slotRedo();
 
 private Q_SLOTS:
 
@@ -336,6 +358,8 @@ private Q_SLOTS:
 
     /** Called whenever text properties change (font e.g.) */
     void slotUpdateText();
+    void slotTextCursorFormatChanged(MyTextItem *item);
+    void slotRichDocumentChanged();
     void slotInsertUnicode();
     void slotInsertUnicodeString(const QString &string);
 

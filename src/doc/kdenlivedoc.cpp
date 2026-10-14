@@ -172,6 +172,9 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         return result;
     }
 
+    // Set default directory to project to ensure working relative paths
+    QDir::setCurrent(url.adjusted(QUrl::RemoveFilename).toLocalFile());
+
     QDomDocument domDoc{};
     QString domErrorMessage;
     if (recoverCorruption) {
@@ -282,23 +285,19 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
         result.setAborted();
         return result;
     }
-    if (!doc->m_projectFolder.isEmpty()) {
-        // Ask to create the project directory if it does not exist
-        QDir folder(doc->m_projectFolder);
-        if (!folder.mkpath(QStringLiteral("."))) {
-            // Project folder is not writable
-            doc->m_projectFolder = doc->m_url.toString(QUrl::RemoveFilename | QUrl::RemoveScheme);
-            folder.setPath(doc->m_projectFolder);
-            if (folder.exists()) {
-                KMessageBox::error(
-                    parent,
-                    i18n("The project directory %1, could not be created.\nPlease make sure you have the required permissions.\nDefaulting to system folders",
-                         doc->m_projectFolder));
-            } else {
-                KMessageBox::information(parent, i18n("Document project folder is invalid, using system default folders"));
-            }
-            doc->m_projectFolder.clear();
+    auto storageInfo = doc->projectTempFolder();
+    // Ask to create the project directory if it does not exist
+    QDir folder(storageInfo.first);
+    if (!folder.mkpath(QStringLiteral("."))) {
+        // Project folder is not writable
+        if (folder.exists()) {
+            KMessageBox::error(
+                parent, i18n("The project directory %1, is not writable.\nPlease check the permissions.\nDefaulting to system folders", storageInfo.first));
+        } else {
+            KMessageBox::information(parent, i18n("Document project folder:\n%1\nis invalid, using system default folders", storageInfo.first));
         }
+        // Revert to default cache
+        doc->setDocumentProperty(QStringLiteral("storagetype"), QString::number(int(StoreInDefaultLocation)));
     }
     doc->initCacheDirs();
 
@@ -450,6 +449,9 @@ const QByteArray KdenliveDoc::getAndClearProjectXml()
 {
     // Profile has already been set, dont overwrite it
     m_document.documentElement().removeChild(m_document.documentElement().firstChildElement(QLatin1String("profile")));
+    // The xml will be passed as a string, we need to set the root so it finds the relative paths
+    m_document.documentElement().setAttribute(QStringLiteral("root"), m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile());
+
     const QByteArray result = m_document.toString().toUtf8();
     // We don't need the xml data anymore, throw away
     m_document.clear();
@@ -733,6 +735,8 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1, scene list is corrupted.", path));
         return false;
     }
+    const QByteArray sceneData = sceneList.toString().toUtf8();
+    sceneList.clear();
 
     // Backup current version
     backupLastSavedVersion(path);
@@ -773,8 +777,6 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
         return false;
     }
 
-    const QByteArray sceneData = sceneList.toString().toUtf8();
-
     file.write(sceneData);
     if (!file.commit()) {
         KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", path));
@@ -791,18 +793,60 @@ bool KdenliveDoc::saveSceneList(const QString &path, const QString &scene, bool 
     return true;
 }
 
-QString KdenliveDoc::projectTempFolder() const
+std::pair<QString, ProjectStorageType> KdenliveDoc::projectTempFolder()
 {
-    if (m_projectFolder.isEmpty()) {
-        return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    std::pair<QString, ProjectStorageType> resultStorage;
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    qDebug() << "::: READING STORAGE INFO = " << int(storageType) << ", WITH URL: " << m_url;
+    if (storageType == StoreUndefined) {
+        // Old project format, guess from project folder path
+        if (m_url.isEmpty() || m_projectFolder.isEmpty() || m_projectFolder == QStandardPaths::writableLocation(QStandardPaths::CacheLocation)) {
+            // No storage folder specified, leave as default cache
+            storageType = StoreInDefaultLocation;
+        } else {
+            QDir fileFolder(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+            const QString tmpFolderPath = fileFolder.absoluteFilePath(m_projectFolder);
+            QString parentPath = QDir::cleanPath(fileFolder.absolutePath());
+            QString childPath = QDir::cleanPath(tmpFolderPath);
+            if (!parentPath.endsWith(QLatin1Char('/'))) {
+                parentPath += QLatin1Char('/');
+            }
+            if (!childPath.endsWith(QLatin1Char('/'))) {
+                childPath += QLatin1Char('/');
+            }
+            if (childPath == parentPath) {
+                storageType = StoreWithProjectFile;
+            } else {
+                storageType = StoreInCustomFolder;
+            }
+        }
+        m_documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(storageType)));
     }
-    return m_projectFolder;
+    resultStorage.second = storageType;
+    switch (storageType) {
+    case StoreWithProjectFile:
+        if (m_url.isEmpty()) {
+            // Unsaved project
+            resultStorage.first = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        } else {
+            resultStorage.first = QDir::cleanPath(QDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile()).absoluteFilePath(QStringLiteral("cachefiles/")));
+        }
+        break;
+    case StoreInCustomFolder:
+        resultStorage.first = m_projectFolder.isEmpty() ? QStandardPaths::writableLocation(QStandardPaths::CacheLocation) : m_projectFolder;
+        break;
+    default:
+        resultStorage.first = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        break;
+    }
+    return resultStorage;
 }
 
 QString KdenliveDoc::projectRenderFolder(const QString &newPath) const
 {
     // If the project is being saved to a new location, return the new path
-    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || storageType == StoreWithProjectFile)) {
         // If the project is being moved, and we use the location of the project file, return the new path
         return newPath;
     }
@@ -811,7 +855,7 @@ QString KdenliveDoc::projectRenderFolder(const QString &newPath) const
         return KdenliveSettings::videofolder();
     }
     // If we save to project folder, return it
-    if (m_url.isValid() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+    if (m_url.isValid() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || storageType == StoreWithProjectFile)) {
         // Always render to project folder
         return QFileInfo(m_url.toLocalFile()).absolutePath();
     }
@@ -823,39 +867,37 @@ QString KdenliveDoc::projectDataFolder(const QString &newPath) const
     if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::videofolder().isEmpty()) {
         return KdenliveSettings::videofolder();
     }
-    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder)) {
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    if (!newPath.isEmpty() && (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || storageType == StoreWithProjectFile)) {
         // If the project is being moved, and we use the location of the project file, return the new path
         return newPath;
     }
-    if (m_projectFolder.isEmpty()) {
+    if (!m_url.isValid()) {
         // Project has not been saved yet
-        if (KdenliveSettings::customprojectfolder()) {
+        if (storageType == StoreInCustomFolder) {
             return KdenliveSettings::defaultprojectfolder();
         }
         return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
     }
-    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder) {
+    if (KdenliveSettings::videotodefaultfolder() == KdenliveDoc::SaveToProjectFolder || storageType == StoreWithProjectFile) {
         // Always render to project folder
-        if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
+        if (storageType == StoreInCustomFolder) {
             return KdenliveSettings::defaultprojectfolder();
+        } else if (storageType == StoreWithProjectFile) {
+            return QFileInfo(m_url.toLocalFile()).absolutePath();
         }
-        return QFileInfo(m_url.toLocalFile()).absolutePath();
     }
     return QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 }
 
 const QString KdenliveDoc::extractFrameFolder(const QString &proposedPath) const
 {
-    if (m_projectFolder.isEmpty() || m_url.isEmpty()) {
-        return proposedPath;
-    }
-    // Check if the proposed path is inside our project folder
-    const QString projectPath = QFileInfo(m_url.toLocalFile()).absolutePath();
-    if (m_projectFolder == (projectPath + QStringLiteral("/cachefiles"))) {
-        // Save all files in project folder
-        if (!proposedPath.startsWith(projectPath)) {
-            return projectPath;
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    if (storageType == StoreWithProjectFile) {
+        if (m_url.isEmpty()) {
+            return proposedPath;
         }
+        return QFileInfo(m_url.toLocalFile()).absolutePath();
     }
     return proposedPath;
 }
@@ -865,19 +907,19 @@ QString KdenliveDoc::projectCaptureFolder() const
     if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToCustomFolder && !KdenliveSettings::capturefolder().isEmpty()) {
         return KdenliveSettings::capturefolder();
     }
-    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectFolder || m_sameProjectFolder ||
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectFolder || storageType == StoreWithProjectFile ||
         KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder) {
         QString projectFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
 
-        if (m_projectFolder.isEmpty()) {
-            // Project has not been saved yet
-            if (KdenliveSettings::customprojectfolder()) {
-                projectFolder = KdenliveSettings::defaultprojectfolder();
+        if (storageType == StoreWithProjectFile) {
+            if (m_url.isEmpty()) {
+                // Project has not been saved yet, leave in default movies location
+            } else {
+                projectFolder = QFileInfo(m_url.toLocalFile()).absolutePath();
             }
-        } else if (KdenliveSettings::customprojectfolder() && !m_sameProjectFolder) {
-            projectFolder = KdenliveSettings::defaultprojectfolder();
-        } else {
-            projectFolder = QFileInfo(m_url.toLocalFile()).absolutePath();
+        } else if (storageType == StoreInCustomFolder) {
+            projectFolder = m_projectFolder;
         }
 
         if (KdenliveSettings::capturetoprojectfolder() == KdenliveDoc::SaveToProjectSubFolder && !KdenliveSettings::captureprojectsubfolder().isEmpty()) {
@@ -939,6 +981,7 @@ const QList<QUrl> KdenliveDoc::getProjectData(bool *ok)
 void KdenliveDoc::slotMoveFinished(KJob *job)
 {
     if (job->error() != 0) {
+        qDebug() << "ERROR CASE B:::::" << job->errorString();
         KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
 }
@@ -988,6 +1031,9 @@ void KdenliveDoc::setUrl(const QUrl &url)
     m_url = url;
     if (url.isEmpty()) {
         setModified(true);
+    } else {
+        // Set default directory to project to ensure working relative paths
+        QDir::setCurrent(url.adjusted(QUrl::RemoveFilename).toLocalFile());
     }
 }
 
@@ -1186,17 +1232,38 @@ QStringList KdenliveDoc::getBinFolderClipIds(const QString &folderId) const
     return pCore->bin()->getBinFolderClipIds(folderId);
 }
 
+const QString KdenliveDoc::folderForProjectFiles() const
+{
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    switch (storageType) {
+    case StoreWithProjectFile:
+        if (m_url.isEmpty()) {
+            return QString();
+        }
+        return m_url.adjusted(QUrl::RemoveFilename).toLocalFile();
+    case StoreInCustomFolder:
+        return m_projectFolder;
+    default:
+        return QString();
+    }
+}
+
 void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
 {
     Q_UNUSED(group)
     // TODO refac: this seem to be a duplicate of ClipCreationDialog::createTitleTemplateClip. See if we can merge
-    QString titlesFolder = QDir::cleanPath(m_projectFolder + QStringLiteral("/titles/"));
+    QString defaultFolder = folderForProjectFiles();
+    if (defaultFolder.isEmpty()) {
+        // Use video folder
+        defaultFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+    }
+    QString titlesFolder = QDir::cleanPath(QDir(defaultFolder).absoluteFilePath(QStringLiteral("/titles/")));
     if (path.isEmpty()) {
         QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18nc("@title:window", "Enter Template Path"), titlesFolder);
         d->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
         d->setFileMode(QFileDialog::ExistingFile);
         if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
-            path = d->selectedUrls().first();
+            path = d->selectedUrls().constFirst();
         }
         delete d;
     }
@@ -1737,7 +1804,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
                                                                 : clipsWithAlpha.contains(item) ? alphaExtension
                                                                                                 : extension));
                 }
-                newProps.insert(QStringLiteral("kdenlive:proxy"), path);
+                newProps.insert(QStringLiteral("kdenlive:proxy"), QDir::cleanPath(path));
                 // We need to insert empty proxy so that undo will work
                 // TODO: how to handle clip properties
                 // oldProps = clip->currentProperties(newProps);
@@ -1778,9 +1845,9 @@ QMap<QString, QString> KdenliveDoc::documentProperties(bool saveHash)
     m_documentProperties.insert(QStringLiteral("patchversion"), QString::number(DOCUMENTPATCHVERSION));
     m_documentProperties.insert(QStringLiteral("kdenliveversion"), QStringLiteral(KDENLIVE_VERSION));
     m_documentProperties.insert(QStringLiteral("sessionid"), pCore->sessionId);
-    if (!m_projectFolder.isEmpty()) {
-        QDir folder(m_projectFolder);
-        m_documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(m_documentProperties.value(QStringLiteral("documentid"))));
+    auto storageInfo = projectTempFolder();
+    if (storageInfo.second == StoreInCustomFolder) {
+        m_documentProperties.insert(QStringLiteral("storagefolder"), storageInfo.first);
     }
     m_documentProperties.insert(QStringLiteral("profile"), pCore->getCurrentProfile()->path());
     if (m_documentProperties.contains(QStringLiteral("decimalPoint"))) {
@@ -1816,6 +1883,9 @@ bool KdenliveDoc::loadDocumentProperties()
     QDomNodeList list = m_document.elementsByTagName(QStringLiteral("playlist"));
     QDomElement baseElement = m_document.documentElement();
     m_documentRoot = baseElement.attribute(QStringLiteral("root"));
+    if (m_documentRoot.isEmpty() && !m_url.isEmpty()) {
+        m_documentRoot = QFileInfo(m_url.toLocalFile()).absolutePath();
+    }
     if (!m_documentRoot.isEmpty()) {
         m_documentRoot = QDir::cleanPath(m_documentRoot) + QLatin1Char('/');
     }
@@ -1858,7 +1928,7 @@ bool KdenliveDoc::loadDocumentProperties()
                 if (QFileInfo(value).isRelative()) {
                     value.prepend(m_documentRoot);
                 }
-                m_documentProperties.insert(name, value);
+                m_documentProperties.insert(name, QDir::cleanPath(value));
             } else {
                 m_documentProperties.insert(name, e.firstChild().nodeValue());
                 if (name == QLatin1String("uuid")) {
@@ -1963,24 +2033,33 @@ bool KdenliveDoc::loadDocumentProperties()
     }
 
     QString path = m_documentProperties.value(QStringLiteral("storagefolder"));
-    if (!path.isEmpty()) {
-        QDir dir(path);
-        dir.cdUp();
-        m_projectFolder = dir.absolutePath();
-        bool ok = false;
-        // Ensure document storage folder is writable
-        QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
-        documentId.toLongLong(&ok, 10);
-        if (ok) {
-            if (!dir.exists(documentId)) {
-                if (!dir.mkpath(documentId)) {
-                    // Invalid storage folder, reset to default
-                    m_projectFolder.clear();
-                }
-            }
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
+    if (storageType == StoreInCustomFolder) {
+        if (QFile::exists(path)) {
+            m_projectFolder = QDir::cleanPath(path);
         } else {
-            // Something is wrong, documentid not readable
-            qDebug() << "=========\n\nCannot read document id: " << documentId << "\n\n==========";
+            m_projectFolder.clear();
+        }
+    } else if (storageType == StoreUndefined || storageType == StoreWithProjectFile) {
+        if (!path.isEmpty()) {
+            QDir dir(path);
+            dir.cdUp();
+            m_projectFolder = dir.absolutePath();
+            bool ok = false;
+            // Ensure document storage folder is writable
+            QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
+            documentId.toLongLong(&ok, 10);
+            if (ok) {
+                if (!dir.exists(documentId)) {
+                    if (!dir.mkpath(documentId)) {
+                        // Invalid storage folder, reset to default
+                        m_projectFolder.clear();
+                    }
+                }
+            } else {
+                // Something is wrong, documentid not readable
+                qDebug() << "=========\n\nCannot read document id: " << documentId << "\n\n==========";
+            }
         }
     }
 
@@ -2367,21 +2446,38 @@ void KdenliveDoc::initCacheDirs()
 
 const QDir KdenliveDoc::getCacheDir(CacheType type, bool *ok, const QUuid uuid) const
 {
-    QString basePath;
+    ProjectStorageType storageType = ProjectStorageType(m_documentProperties.value(QStringLiteral("storagetype")).toInt());
     QString kdenliveCacheDir;
     QString documentId = QDir::cleanPath(m_documentProperties.value(QStringLiteral("documentid")));
     documentId.toLongLong(ok, 10);
-    if (m_projectFolder.isEmpty()) {
-        kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
-        if (!*ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
-            *ok = false;
-            return QDir(kdenliveCacheDir);
+
+    switch (storageType) {
+    case StoreWithProjectFile:
+        if (!m_url.isEmpty()) {
+            kdenliveCacheDir = m_url.adjusted(QUrl::RemoveFilename).toLocalFile() + QLatin1Char('/') + QStringLiteral("cachefiles/");
+        } else {
+            // Default cache location
+            kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
         }
-    } else {
-        // Use specified folder to store all files
-        kdenliveCacheDir = m_projectFolder;
+        break;
+    case StoreInCustomFolder:
+        if (!m_projectFolder.isEmpty()) {
+            kdenliveCacheDir = m_projectFolder;
+        } else {
+            // Default cache location
+            kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        }
+        break;
+    default:
+        kdenliveCacheDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+        break;
     }
-    basePath = kdenliveCacheDir + QLatin1Char('/') + documentId; // CacheBase
+    if (!*ok || documentId.isEmpty() || kdenliveCacheDir.isEmpty()) {
+        *ok = false;
+        return QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
+    }
+
+    QString basePath = kdenliveCacheDir + QLatin1Char('/') + documentId; // CacheBase
     switch (type) {
     case SystemCacheRoot:
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
@@ -2871,7 +2967,7 @@ void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root,
     QString prefix;
     for (int n = 0; n < producers.length(); ++n) {
         QDomElement e = producers.item(n).toElement();
-        producerResource = Xml::getXmlProperty(e, QStringLiteral("resource"));
+        producerResource = QDir::cleanPath(Xml::getXmlProperty(e, QStringLiteral("resource")));
         producerService = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
         originalProducerService = Xml::getXmlProperty(e, QStringLiteral("kdenlive:original.mlt_service"));
         if (producerResource.isEmpty() || producerService == QLatin1String("color")) {
@@ -2895,6 +2991,7 @@ void KdenliveDoc::processProxyNodes(QDomNodeList producers, const QString &root,
             if (QFileInfo(producerResource).isRelative()) {
                 producerResource.prepend(root);
             }
+            producerResource = QDir::cleanPath(producerResource);
             if (proxies.contains(producerResource)) {
                 if (!originalProducerService.isEmpty() && originalProducerService != producerService) {
                     // Proxy clips can sometimes use a different mlt service, for example playlists (xml) will use avformat. Fix
@@ -3025,4 +3122,38 @@ const QStringList KdenliveDoc::extractExternalEffectFiles()
     }
     externalFiles.removeDuplicates();
     return externalFiles;
+}
+
+std::pair<const QString, bool> KdenliveDoc::ensureRelativePath(QString currentPath, const QString &updatedRoot)
+{
+    if ((m_url.isEmpty() || QFileInfo(currentPath).isRelative()) && updatedRoot.isEmpty()) {
+        // Nothing to do, return original
+        return {QDir::cleanPath(currentPath), false};
+    }
+    if (!updatedRoot.isEmpty()) {
+        // We are moving to a new path
+        if (!QFileInfo(currentPath).isRelative()) {
+            if (QDir::cleanPath(currentPath).startsWith(QDir::cleanPath(updatedRoot))) {
+                currentPath = QDir(QDir::cleanPath(updatedRoot)).relativeFilePath(currentPath);
+                return {currentPath, true};
+            }
+        } else if (!m_url.isEmpty()) {
+            // Return absolute path
+            QDir previousRoot(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
+            if (QDir::cleanPath(updatedRoot) == previousRoot.absolutePath()) {
+                return {previousRoot.absoluteFilePath(currentPath), false};
+            }
+            return {previousRoot.absoluteFilePath(currentPath), true};
+        }
+        return {QDir::cleanPath(currentPath), false};
+    }
+    // Check against our current path
+    if (!QFileInfo(currentPath).isRelative()) {
+        const QString currentDocPath = QDir::cleanPath(m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile()) + QLatin1Char('/');
+        if (QDir::cleanPath(currentPath).startsWith(currentDocPath)) {
+            currentPath = QDir(currentDocPath).relativeFilePath(currentPath);
+            return {currentPath, true};
+        }
+    }
+    return {QDir::cleanPath(currentPath), false};
 }

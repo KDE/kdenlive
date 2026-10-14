@@ -14,6 +14,7 @@
 #include "xml/xml.hpp"
 
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KUrlRequester>
 #include <KUrlRequesterDialog>
 
@@ -66,24 +67,28 @@ DocumentChecker::DocumentChecker(QUrl url, const QDomDocument &doc)
     } else if (!QDir(m_root).exists()) {
         // Looks like project was moved, try recovering root from current project url
         m_rootReplacement.first = QDir(m_root).absolutePath();
-#ifndef Q_OS_WIN
-        // On Linux / Mac, check for Windows relative paths
-        QString tmpPath = m_root;
-        tmpPath.remove(0, 1);
-        if (tmpPath.startsWith(QLatin1String(":/"))) {
-            m_root.remove(0, 2);
-        }
-#endif
         if (!m_rootReplacement.first.endsWith(QLatin1Char('/'))) {
             m_rootReplacement.first.append(QLatin1Char('/'));
         }
+        qDebug() << "=============OPENING PROJECT WITH DETECTED ROOT: " << m_rootReplacement.first;
+#ifndef Q_OS_WIN
+        // On Linux / Mac, check for Windows relative paths
+        if (!m_root.isEmpty()) {
+            QString tmpPath = m_root;
+            tmpPath.remove(0, 1);
+            if (tmpPath.startsWith(QLatin1String(":/"))) {
+                m_root.remove(0, 2);
+            }
+        }
+#endif
         m_root = m_url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile();
-        baseElement.setAttribute(QStringLiteral("root"), m_root);
+        baseElement.removeAttribute(QStringLiteral("root"));
         m_root = QDir::cleanPath(m_root);
         if (!m_root.endsWith(QLatin1Char('/'))) {
             m_root.append(QLatin1Char('/'));
         }
         m_rootReplacement.second = m_root;
+        qDebug() << "=============FIXED PROJECT ROOT: " << m_rootReplacement.second;
     }
     if (!m_root.isEmpty() && QDir(m_root).exists()) {
         m_root = QDir::cleanPath(m_root);
@@ -197,7 +202,6 @@ bool DocumentChecker::hasErrorInProject()
     QString storageFolder;
     QDir projectDir(m_url.adjusted(QUrl::RemoveFilename).toLocalFile());
     QDomNodeList playlists = m_doc.elementsByTagName(QStringLiteral("playlist"));
-    const QString root = m_doc.documentElement().attribute(QStringLiteral("root"));
     QStringList timelinePreviewIds;
     QDomElement mainBinPlaylist;
     for (int i = 0; i < playlists.count(); ++i) {
@@ -216,35 +220,85 @@ bool DocumentChecker::hasErrorInProject()
             }
 
             // ensure the storage for temp files exists
-            storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
-            if (!storageFolder.isEmpty()) {
-                storageFolder = ensureAbsolutePath(storageFolder);
-                if (!QFile::exists(storageFolder)) {
-                    // Storage folder not found, warn user and allow selecting a new one
-                    KUrlRequesterDialog dlg(
-                        QUrl::fromLocalFile(projectDir.absolutePath()),
-                        i18n("The project's storage folder <b>%1</b> was not found. Please enter an updated location to store files for this project.",
-                             projectDir.absolutePath()),
-                        qApp->activeWindow());
-                    dlg.urlRequester()->setAcceptMode(QFileDialog::AcceptOpen);
-                    dlg.urlRequester()->setMode(KFile::ExistingOnly | KFile::Directory);
-                    dlg.exec();
-                    QUrl updatedProjectFolder = dlg.selectedUrl();
-                    if (!updatedProjectFolder.isEmpty()) {
-                        projectDir = QDir(updatedProjectFolder.toLocalFile());
+            ProjectStorageType storageType =
+                (ProjectStorageType)Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype")).toInt();
+            if (storageType == StoreUndefined) {
+                // Old project version, guess storage type
+                storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                if (!storageFolder.isEmpty()) {
+                    const QString finalStorageFolder = ensureAbsolutePath(storageFolder);
+                    QString projectFileFolder = QDir::cleanPath(projectDir.absolutePath());
+                    if (!projectFileFolder.endsWith(QLatin1Char('/'))) {
+                        projectFileFolder.append(QLatin1Char('/'));
                     }
-
-                    if (projectDir.mkpath(m_documentid)) {
-                        // Move storage folder inside the document folder
-                        storageFolder = projectDir.absolutePath();
-                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"), projectDir.absoluteFilePath(m_documentid));
-                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                    if (QDir::cleanPath(finalStorageFolder).startsWith(projectFileFolder)) {
+                        storageType = StoreWithProjectFile;
+                    } else if (QDir::cleanPath(finalStorageFolder) == QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))) {
+                        storageType = StoreInDefaultLocation;
                     } else {
-                        // Cannot create storage folder, use default location
+                        storageType = StoreInCustomFolder;
+                    }
+                } else {
+                    storageType = StoreInDefaultLocation;
+                }
+                Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"), QString::number(int(storageType)));
+                m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                qDebug() << "========================\n\nDETECTED PROJECT STORAGE TYPE: " << storageType << "\n\n=================================";
+            }
+
+            if (storageType == StoreWithProjectFile) {
+                storageFolder = QStringLiteral("%1/%2").arg(QStringLiteral("cachefiles"), m_documentid);
+                if (!QFile::exists(projectDir.absoluteFilePath(storageFolder))) {
+                    if (projectDir.mkpath(QStringLiteral("./%1").arg(storageFolder))) {
+                        if (pCore->window()) {
+                            KMessageBox::information(qApp->activeWindow(),
+                                                     i18n("Project's temporary folder was missing and now recreated at:\n%1", storageFolder));
+                        } else {
+                            qWarning() << "!!!!!\nProject's temporary folder was missing and now recreated at:" << storageFolder << "\n!!!!!";
+                        }
+                    } else {
+                        if (pCore->window()) {
+                            KMessageBox::information(
+                                qApp->activeWindow(),
+                                i18n("Could not access folder:\n%1\nDisabling storage of temporary files in project folder, using default location:\n%2",
+                                     projectDir.absoluteFilePath(storageFolder),
+                                     QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))));
+                        } else {
+                            qWarning() << "!!!!!\nCould not access folder:\n"
+                                       << projectDir.absoluteFilePath(storageFolder) << "\nDisabling storage of temporary files in project folder\n!!!!!";
+                        }
                         Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
                         m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"),
+                                            QString::number(int(StoreInDefaultLocation)));
                     }
                 }
+            } else if (storageType == StoreInCustomFolder) {
+                storageFolder = Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                if (!storageFolder.isEmpty()) {
+                    const QString finalStorageFolder = ensureAbsolutePath(storageFolder);
+                    if (!QFile::exists(finalStorageFolder)) {
+                        if (pCore->window()) {
+                            KMessageBox::information(
+                                qApp->activeWindow(),
+                                i18n("Could not access folder:\n%1\nDisabling storage of temporary files in custom folder, using default location:\n%2",
+                                     finalStorageFolder, QDir::cleanPath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation))));
+                        } else {
+                            qWarning() << "!!!!!\nCould not access folder:\n"
+                                       << projectDir.absoluteFilePath(storageFolder) << "\nDisabling custom storage of temporary files\n!!!!!";
+                        }
+                        Xml::removeXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagefolder"));
+                        m_doc.documentElement().setAttribute(QStringLiteral("modified"), 1);
+                        Xml::setXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.storagetype"),
+                                            QString::number(int(StoreInDefaultLocation)));
+                    }
+                }
+            }
+
+            // Get last save path for recovery
+            m_lastSavePath = QDir::cleanPath(Xml::getXmlProperty(mainBinPlaylist, QStringLiteral("kdenlive:docproperties.lastsavefolder")));
+            if (!m_lastSavePath.isEmpty() && !m_lastSavePath.endsWith(QLatin1Char('/'))) {
+                m_lastSavePath.append(QLatin1Char('/'));
             }
 
             // get bin ids
@@ -276,7 +330,7 @@ bool DocumentChecker::hasErrorInProject()
     renamedEffects.insert(QStringLiteral("frei0r.alphagrad"), QStringLiteral("frei0r.alpha0ps_alpha0grad"));
 
     m_safeImages.clear();
-    m_safeFonts.clear();
+    m_processedFonts.clear();
     QStringList remoteResources;
 
     const int taskCount = documentProducers.count() + documentChains.count() + documentTractors.count();
@@ -296,7 +350,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         int kid = Xml::getXmlProperty(e, "kdenlive:id").toInt();
         const QString resource = Xml::getXmlProperty(e, "resource");
-        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+        if (!resource.isEmpty() &&
+            (resource.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) || resource.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) &&
             !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
@@ -334,7 +389,8 @@ bool DocumentChecker::hasErrorInProject()
         const QString id = e.attribute(QLatin1String("id"));
         const QString resource = Xml::getXmlProperty(e, QStringLiteral("resource"));
 
-        if (!resource.isEmpty() && (resource.toLower().startsWith(QStringLiteral("http://")) || resource.toLower().startsWith(QStringLiteral("https://"))) &&
+        if (!resource.isEmpty() &&
+            (resource.startsWith(QStringLiteral("http://"), Qt::CaseInsensitive) || resource.startsWith(QStringLiteral("https://"), Qt::CaseInsensitive)) &&
             !remoteResources.contains(resource)) {
             // Trying to load resource from the web, warn user
             DocumentResource item;
@@ -626,18 +682,40 @@ DocumentChecker::~DocumentChecker() {}
 
 const QString DocumentChecker::relocateResource(QString sourceResource)
 {
-    if (m_rootReplacement.first.isEmpty()) {
+    if (m_rootReplacement.first.isEmpty() && m_lastSavePath.isEmpty()) {
         return QString();
     }
 
-    if (sourceResource.startsWith(m_rootReplacement.first)) {
-        sourceResource.replace(m_rootReplacement.first, m_rootReplacement.second);
+    if (!m_rootReplacement.first.isEmpty() && sourceResource.startsWith(m_rootReplacement.first)) {
+        sourceResource = QDir(m_rootReplacement.second).absoluteFilePath(QDir(m_rootReplacement.first).relativeFilePath(sourceResource));
         // Use QFileInfo to ensure we also handle directories (for slideshows)
         if (QFileInfo::exists(sourceResource)) {
             return sourceResource;
         }
         return QString();
     }
+
+    if (!m_lastSavePath.isEmpty()) {
+        if (sourceResource.startsWith(m_root)) {
+            QDir previousDir(m_lastSavePath);
+            QDir currentDir(m_root);
+            sourceResource = previousDir.absoluteFilePath(currentDir.relativeFilePath(sourceResource));
+            if (QFileInfo::exists(sourceResource)) {
+                return sourceResource;
+            }
+            return QString();
+        }
+        if (sourceResource.startsWith(m_lastSavePath)) {
+            QDir previousDir(m_lastSavePath);
+            QDir currentDir(m_root);
+            sourceResource = currentDir.absoluteFilePath(previousDir.relativeFilePath(sourceResource));
+            if (QFileInfo::exists(sourceResource)) {
+                return sourceResource;
+            }
+            return QString();
+        }
+    }
+
     // Check if we have a common root, if file has a common ancestor in its path
     QStringList replacedRoot = m_rootReplacement.second.split(QLatin1Char('/'));
     QStringList cutRoot = m_rootReplacement.first.split(QLatin1Char('/'));
@@ -813,6 +891,14 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             continue;
         }
         if (!QFile::exists(img)) {
+            int ix = itemIndexFromResource(MissingType::TitleImage, img);
+            if (ix > -1) {
+                // Item already exists
+                QStringList affectedClips = m_items.at(ix).relatedIds;
+                affectedClips << id;
+                m_items[ix].relatedIds = affectedClips;
+                continue;
+            }
             DocumentResource item;
             item.type = MissingType::TitleImage;
             item.status = MissingStatus::Missing;
@@ -830,7 +916,7 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
         }
     }
     for (const QString &fontelement : fonts) {
-        if (m_safeFonts.contains(fontelement) || itemsContain(MissingType::TitleFont, fontelement)) {
+        if (m_processedFonts.contains(fontelement)) {
             continue;
         }
         QFont f(fontelement);
@@ -841,9 +927,8 @@ void DocumentChecker::checkMissingImagesAndFonts(const QStringList &images, cons
             item.newFilePath = QFontInfo(f).family();
             item.status = MissingStatus::Placeholder;
             m_items.push_back(item);
-        } else {
-            m_safeFonts.append(fontelement);
         }
+        m_processedFonts.append(fontelement);
     }
 }
 
@@ -1394,7 +1479,7 @@ QString DocumentChecker::ensureAbsolutePath(QString filepath)
         filepath.remove(0, 2);
 #endif
     }
-    return filepath;
+    return QDir::cleanPath(filepath);
 }
 
 QStringList DocumentChecker::getAssetsFilesByMltTag(const QDomDocument &doc, const QString &tagName, const QMap<QString, QString> &searchPairs)
@@ -1720,7 +1805,7 @@ void DocumentChecker::fixClip(const QDomNodeList &items, const QString &clipId, 
         }
 
         QString service = Xml::getXmlProperty(e, QStringLiteral("mlt_service"));
-        QString updatedPath = newPath;
+        QString updatedPath = QDir::cleanPath(newPath);
 
         if (Xml::hasXmlProperty(e, QStringLiteral("kdenlive:originalurl"))) {
             // Only set originalurl on master producer
@@ -1811,8 +1896,8 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
         // edit images embedded in titles
         for (int i = 0; i < producers.count(); ++i) {
             e = producers.item(i).toElement();
-            QString parentId = getKdenliveClipId(e);
-            if (parentId == resource.clipId) {
+            const QString parentId = getKdenliveClipId(e);
+            if (parentId == resource.clipId || resource.relatedIds.contains(parentId)) {
                 fixTitleImage(e, resource.originalFilePath, resource.newFilePath);
             }
         }
@@ -1830,8 +1915,8 @@ void DocumentChecker::fixMissingItem(const DocumentChecker::DocumentResource &re
         }
     } else if (resource.type == MissingType::Proxy) {
         if (resource.status == MissingStatus::Fixed) {
-            fixProxyClip(producers, resource.clipId, resource.originalFilePath, resource.newFilePath);
-            fixProxyClip(chains, resource.clipId, resource.originalFilePath, resource.newFilePath);
+            fixProxyClip(producers, resource.clipId, resource.originalFilePath, QDir::cleanPath(resource.newFilePath));
+            fixProxyClip(chains, resource.clipId, resource.originalFilePath, QDir::cleanPath(resource.newFilePath));
         } else if (resource.status == MissingStatus::Reload) {
             removeProxy(producers, resource.clipId, true);
             removeProxy(chains, resource.clipId, true);
@@ -2017,6 +2102,20 @@ bool DocumentChecker::itemsContain(MissingType type, const QString &path, Missin
         }
     }
     return false;
+}
+
+int DocumentChecker::itemIndexFromResource(MissingType type, const QString &path)
+{
+    for (std::size_t i = 0; i < m_items.size(); i++) {
+        auto item = m_items.at(i);
+        if (type != item.type) {
+            continue;
+        }
+        if (item.originalFilePath == path) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 int DocumentChecker::itemIndexByClipId(const QString &clipId)

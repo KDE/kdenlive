@@ -521,7 +521,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        CHECK_MOVE(Once);
+        NO_OTHERS();
 
         REQUIRE_FALSE(timeline->requestClipMove(cid1, tid1, pos2 - 2));
         REQUIRE(timeline->checkConsistency());
@@ -531,7 +531,7 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         REQUIRE(timeline->getClipPosition(cid1) == pos);
         REQUIRE(timeline->getClipTrackId(cid2) == tid1);
         REQUIRE(timeline->getClipPosition(cid2) == pos2);
-        CHECK_MOVE(Once);
+        NO_OTHERS();
 
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
         REQUIRE(timeline->checkConsistency());
@@ -545,6 +545,24 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
     }
 
     int length = binModel->getClipByBinID(binId)->frameDuration();
+    SECTION("Clip lookup at timeline and clip boundaries")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, length));
+        REQUIRE(timeline->requestClipMove(cid3, tid2, length));
+        for (int playlist : {-1, 0, 1}) {
+            CHECK(timeline->getClipByPosition(tid1, -1, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid1, -length, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid1, 0, playlist) == (playlist == 1 ? -1 : cid1));
+            CHECK(timeline->getClipByPosition(tid1, length - 1, playlist) == (playlist == 1 ? -1 : cid1));
+            CHECK(timeline->getClipByPosition(tid1, length, playlist) == (playlist == 1 ? -1 : cid2));
+            CHECK(timeline->getClipByPosition(tid1, 2 * length, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid2, 0, playlist) == -1);
+            CHECK(timeline->getClipByPosition(tid3, 0, playlist) == -1);
+        }
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Insert consecutive clips")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 0));
@@ -2081,6 +2099,20 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
 
     RESET(timMock);
 
+    SECTION("Deleting a locked track with a grouped clip is refused and keeps the group")
+    {
+        int tidA = -1;
+        REQUIRE(timeline->requestTrackInsertion(0, tidA, QString(), true));
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId3, tid1, 0, cid1, true, true, false));
+        REQUIRE(timeline->getGroupElements(cid1).size() == 2);
+        timeline->setTrackLockedState(tid1, true);
+        // The clip on the locked track cannot be deleted
+        REQUIRE_FALSE(timeline->requestTrackDeletion(tid1));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getGroupElements(cid1).size() == 2);
+    }
+
     SECTION("Locked track can't receive insertion")
     {
         timeline->setTrackLockedState(tid1, true);
@@ -2288,6 +2320,156 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getClipsCount() == 0);
         REQUIRE(timeline->checkConsistency());
+    }
+
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}
+
+TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    binModel->clean();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+
+    KdenliveDoc document(undoStack);
+    Mock<KdenliveDoc> docMock(document);
+    pCore->projectManager()->testSetDocument(&document);
+    std::shared_ptr<TimelineItemModel> tim = KdenliveTests::createTimelineModel(document.uuid(), undoStack);
+    Mock<TimelineItemModel> timMock(*tim.get());
+    auto timeline = std::shared_ptr<TimelineItemModel>(&timMock.get(), [](...) {});
+    KdenliveTests::finishTimelineConstruct(timeline);
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    Fake(Method(timMock, adjustAssetRange));
+
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel);
+    QString binIdAV = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel);
+
+    int tidA, tid1, tid2;
+    REQUIRE(timeline->requestTrackInsertion(-1, tidA, QString(), true));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid1));
+    REQUIRE(timeline->requestTrackInsertion(-1, tid2));
+
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+
+    SECTION("Ungrouped clip is deleted, and the operation is undoable")
+    {
+        int cid = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 10, cid, true, true, false));
+        REQUIRE_FALSE(timeline->isInGroup(cid));
+
+        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid));
+        REQUIRE(timeline->getClipsCount() == 0);
+
+        REQUIRE(undo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(timeline->getClipTrackId(cid) == tid1);
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+
+        REQUIRE(redo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid));
+    }
+
+    SECTION("Grouped A/V clip is ungrouped and deleted, its partner is kept")
+    {
+        int cid = -1;
+        REQUIRE(timeline->requestClipInsertion(binIdAV, tid1, 10, cid, true, true, false));
+        auto elements = timeline->getGroupElements(cid);
+        REQUIRE(elements.size() == 2);
+        elements.erase(cid);
+        int partner = *elements.begin();
+        REQUIRE(timeline->getClipTrackId(partner) == tidA);
+
+        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid));
+        REQUIRE(timeline->isClip(partner));
+        REQUIRE(timeline->getClipTrackId(partner) == tidA);
+        REQUIRE_FALSE(timeline->isInGroup(partner));
+
+        // Undo restores both the clip and the group
+        REQUIRE(undo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(timeline->getClipTrackId(cid) == tid1);
+        REQUIRE(timeline->getGroupElements(cid) == std::unordered_set<int>({cid, partner}));
+
+        REQUIRE(redo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid));
+        REQUIRE_FALSE(timeline->isInGroup(partner));
+    }
+
+    SECTION("Clip in nested groups is fully ungrouped before deletion")
+    {
+        int cid = -1;
+        int other = -1;
+        REQUIRE(timeline->requestClipInsertion(binIdAV, tid1, 10, cid, true, true, false));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 50, other, true, true, false));
+        auto elements = timeline->getGroupElements(cid);
+        REQUIRE(elements.size() == 2);
+        // Group the A/V pair with another clip: the A/V group becomes a child of the new root
+        REQUIRE(timeline->requestClipsGroup({cid, other}) > -1);
+        REQUIRE(timeline->getGroupElements(cid).size() == 3);
+        REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(cid) != KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid));
+
+        REQUIRE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid));
+        REQUIRE(timeline->isClip(other));
+
+        // Undo restores the whole hierarchy
+        REQUIRE(undo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(timeline->getGroupElements(cid).size() == 3);
+        REQUIRE(timeline->getGroupElements(cid).count(other) == 1);
+        REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(cid) != KdenliveTests::groupsModel(timeline)->getDirectAncestor(cid));
+    }
+
+    SECTION("Failure only reverts its own changes, the caller's previous operations are kept")
+    {
+        int cid = -1;
+        int other = -1;
+        REQUIRE(timeline->requestClipInsertion(binIdAV, tid1, 10, cid, true, true, false));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 50, other, true, true, false));
+        auto groupBefore = timeline->getGroupElements(cid);
+        REQUIRE(groupBefore.size() == 2);
+
+        // An operation previously accumulated by the caller in the same undo/redo
+        REQUIRE(timeline->requestClipMove(other, tid2, 80, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess);
+        REQUIRE(timeline->getClipPosition(other) == 80);
+
+        // Deletion is refused on a locked track, after the ungrouping already happened
+        timeline->setTrackLockedState(tid1, true);
+        REQUIRE_FALSE(timeline->requestClipUngroupAndDeletion(cid, undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(timeline->getClipTrackId(cid) == tid1);
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+        // The ungrouping was reverted
+        REQUIRE(timeline->getGroupElements(cid) == groupBefore);
+        // The caller's move was not reverted
+        REQUIRE(timeline->getClipPosition(other) == 80);
+
+        // The caller can still roll back its own operations, exactly once
+        REQUIRE(undo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(other) == 50);
+        REQUIRE(timeline->getClipPosition(cid) == 10);
+        REQUIRE(timeline->getGroupElements(cid) == groupBefore);
+
+        REQUIRE(redo());
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(other) == 80);
+        REQUIRE(timeline->isClip(cid));
+        REQUIRE(timeline->getGroupElements(cid) == groupBefore);
+        timeline->setTrackLockedState(tid1, false);
     }
 
     pCore->projectManager()->closeCurrentDocument(false, false);

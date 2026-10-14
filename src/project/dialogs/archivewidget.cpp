@@ -19,6 +19,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
+#include "project/projectmanager.h"
 #include <KGuiItem>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -367,7 +368,13 @@ void ArchiveWidget::openArchiveForExtraction()
     QStringList files = m_archive->directory()->entries();
     for (int i = 0; i < files.count(); ++i) {
         if (files.at(i).endsWith(QLatin1String(".kdenlive"))) {
-            m_projectName = files.at(i);
+            const QString matchFile = files.at(i);
+            auto archiveFile = m_archive->directory()->entry(matchFile);
+            if (!archiveFile->isFile() || !archiveFile->symLinkTarget().isEmpty()) {
+                // Symlink, do not allow this
+                continue;
+            }
+            m_projectFileName = matchFile;
             isProjectArchive = true;
             break;
         }
@@ -416,6 +423,9 @@ bool ArchiveWidget::closeAccepted()
             m_copyJob->kill();
         }
         m_archiveThread.waitForFinished();
+    }
+    if (!pCore->currentDoc()) {
+        pCore->projectManager()->newFile(false);
     }
     return true;
 }
@@ -705,7 +715,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
             } else if (isSlideshow) {
                 // Special case: slideshows
                 destPath += item->data(0, Qt::UserRole).toString() + QLatin1Char('/');
-                destUrl = QDir(archive_url->url().toLocalFile() + QDir::separator() + destPath);
+                destUrl = QDir(archive_url->url().toLocalFile() + QLatin1Char('/') + destPath);
                 QStringList srcFiles = item->data(0, SlideshowImagesRole).toStringList();
                 for (int k = 0; k < srcFiles.count(); ++k) {
                     files << QUrl::fromLocalFile(srcFiles.at(k));
@@ -894,7 +904,7 @@ bool ArchiveWidget::processProjectFile()
         }
         m_temp->write(playList.toUtf8());
         m_temp->close();
-        m_archiveName = QString(archive_url->url().toLocalFile() + QDir::separator() + m_name);
+        m_archiveName = QString(archive_url->url().toLocalFile() + QLatin1Char('/') + m_name);
         if (compression_type->currentIndex() == 1) {
             m_archiveName.append(QStringLiteral(".zip"));
         } else {
@@ -910,7 +920,7 @@ bool ArchiveWidget::processProjectFile()
     }
 
     // Make a copy of original project file for extra safety
-    QString path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral("-backup.kdenlive");
+    QString path = archive_url->url().toLocalFile() + QLatin1Char('/') + m_name + QStringLiteral("-backup.kdenlive");
     if (QFile::exists(path) && KMessageBox::warningTwoActions(this, i18n("File %1 already exists.\nDo you want to overwrite it?", path), {},
                                                               KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
         return false;
@@ -923,7 +933,7 @@ bool ArchiveWidget::processProjectFile()
         return false;
     }
 
-    path = archive_url->url().toLocalFile() + QDir::separator() + m_name + QStringLiteral(".kdenlive");
+    path = archive_url->url().toLocalFile() + QLatin1Char('/') + m_name + QStringLiteral(".kdenlive");
     QFile file(path);
     if (file.exists() && KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {},
                                                         KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
@@ -1024,7 +1034,7 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            // QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            // QDir destFolder(archive_url->url().toLocalFile() + QLatin1Char('/') + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
@@ -1044,6 +1054,10 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
 
     QDomElement mlt = doc.documentElement();
     QString root = mlt.attribute(QStringLiteral("root"));
+    if (root.isEmpty()) {
+        // Use base project path as root
+        root = QDir::cleanPath(pCore->currentDoc()->url().adjusted(QUrl::RemoveFilename).toLocalFile());
+    }
     if (!root.isEmpty() && !root.endsWith(QLatin1Char('/'))) {
         root.append(QLatin1Char('/'));
     }
@@ -1135,7 +1149,7 @@ QString ArchiveWidget::processKdenliveTitleFile(const QDomDocument &doc, const Q
     for (int i = 0; i < files_list->topLevelItemCount(); ++i) {
         QTreeWidgetItem *parentItem = files_list->topLevelItem(i);
         if (parentItem->childCount() > 0) {
-            // QDir destFolder(archive_url->url().toLocalFile() + QDir::separator() + parentItem->data(0, Qt::UserRole).toString());
+            // QDir destFolder(archive_url->url().toLocalFile() + QLatin1Char('/') + parentItem->data(0, Qt::UserRole).toString());
             bool isSlideshow = parentItem->data(0, Qt::UserRole).toString() == QLatin1String("slideshows");
             for (int j = 0; j < parentItem->childCount(); ++j) {
                 item = parentItem->child(j);
@@ -1310,14 +1324,20 @@ void ArchiveWidget::slotExtractProgress()
 
 void ArchiveWidget::doExtracting()
 {
-    m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QDir::separator());
+    bool result = m_archive->directory()->copyTo(archive_url->url().toLocalFile() + QLatin1Char('/'));
     m_archive->close();
-    Q_EMIT extractingFinished();
+    if (result) {
+        Q_EMIT extractingFinished();
+    } else {
+        m_progressTimer->stop();
+        KMessageBox::error(QApplication::activeWindow(), i18n("Cannot open project file %1", extractedProjectFile()), i18n("Cannot open file"));
+        reject();
+    }
 }
 
 QString ArchiveWidget::extractedProjectFile() const
 {
-    return archive_url->url().toLocalFile() + QDir::separator() + m_projectName;
+    return QDir(archive_url->url().toLocalFile()).absoluteFilePath(m_projectFileName);
 }
 
 void ArchiveWidget::slotExtractingFinished()
@@ -1326,11 +1346,23 @@ void ArchiveWidget::slotExtractingFinished()
     // Process project file
     QFile file(extractedProjectFile());
     bool error = false;
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    if (!file.symLinkTarget().isEmpty()) {
+        error = true;
+    } else if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         error = true;
     } else {
+        // Minimal validation
         QString playList = QString::fromUtf8(file.readAll());
         file.close();
+        QDomDocument domDocument;
+        auto parseResults = domDocument.setContent(playList);
+        if (!parseResults) {
+            // Invalid file
+            playList.clear();
+        } else if (domDocument.documentElement().tagName() != QLatin1String("mlt")) {
+            // Invalid file
+            playList.clear();
+        }
         if (playList.isEmpty()) {
             error = true;
         } else {

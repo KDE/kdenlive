@@ -58,103 +58,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item row="8" column="0">
-           <widget class="KMessageWidget" name="infoMessage">
-            <property name="wordWrap">
-             <bool>true</bool>
-            </property>
-            <property name="closeButtonVisible">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="4" column="0">
-           <widget class="QGroupBox" name="guide_zone_box">
-            <property name="title">
-             <string/>
-            </property>
-            <layout class="QGridLayout" name="gridLayout1">
-             <item row="0" column="2">
-              <widget class="QLabel" name="toLabel">
-               <property name="text">
-                <string>to</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="KComboBox" name="guide_start">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="fromLabel">
-               <property name="text">
-                <string>From</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="3">
-              <widget class="KComboBox" name="guide_end">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <layout class="QHBoxLayout" name="outfileGroup">
-            <item>
-             <widget class="QLabel" name="outfileLabel">
-              <property name="text">
-               <string>Output file</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="KUrlRequester" name="out_file">
-              <property name="focusPolicy">
-               <enum>Qt::FocusPolicy::ClickFocus</enum>
-              </property>
-              <property name="toolTip">
-               <string>Select output destination</string>
-              </property>
-              <property name="mode">
-               <set>KFile::Mode::File</set>
-              </property>
-              <property name="acceptMode">
-               <enum>QFileDialog::AcceptMode::AcceptSave</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item row="7" column="0">
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QCheckBox" name="options">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="text">
-               <string>More options</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
           <item row="1" column="0">
            <widget class="QFrame" name="formatGroup">
             <property name="frameShape">
@@ -327,43 +230,101 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </layout>
            </widget>
           </item>
-          <item row="9" column="0">
-           <layout class="QHBoxLayout" name="targetGroup">
+          <item row="7" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <item>
-             <widget class="QPushButton" name="buttonRender">
+             <widget class="QCheckBox" name="options">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
-               <string>Render to File</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="buttonGenerateScript">
-              <property name="text">
-               <string>Generate Script</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <spacer name="targetSpace">
-              <property name="orientation">
-               <enum>Qt::Orientation::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>221</width>
-                <height>24</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QPushButton" name="buttonClose">
-              <property name="text">
-               <string>Close</string>
+               <string>More options</string>
               </property>
              </widget>
             </item>
            </layout>
+          </item>
+          <item row="6" column="0">
+           <widget class="QGroupBox" name="guide_multi_box">
+            <property name="title">
+             <string>Markers Multi-Export</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Markers to use as separator:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="MarkerCategoryChooser" name="guideCategoryChooser">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="onlyUsed">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="outfileGroup">
+            <item>
+             <widget class="QLabel" name="outfileLabel">
+              <property name="text">
+               <string>Output file</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="KUrlRequester" name="out_file">
+              <property name="focusPolicy">
+               <enum>Qt::FocusPolicy::ClickFocus</enum>
+              </property>
+              <property name="toolTip">
+               <string>Select output destination</string>
+              </property>
+              <property name="mode">
+               <set>KFile::Mode::File</set>
+              </property>
+              <property name="acceptMode">
+               <enum>QFileDialog::AcceptMode::AcceptSave</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="8" column="0">
+           <widget class="KMessageWidget" name="infoMessage">
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+            <property name="closeButtonVisible">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="output_summary">
+            <property name="text">
+             <string notr="true">Rendered File Length: xyz</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="0">
            <layout class="QHBoxLayout" name="zoneGroup">
@@ -406,40 +367,86 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
             </item>
            </layout>
           </item>
-          <item row="5" column="0">
-           <widget class="QGroupBox" name="guide_multi_box">
+          <item row="4" column="0">
+           <widget class="QGroupBox" name="guide_zone_box">
             <property name="title">
-             <string>Markers Multi-Export</string>
+             <string/>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label">
+            <layout class="QGridLayout" name="gridLayout1">
+             <item row="0" column="2">
+              <widget class="QLabel" name="toLabel">
                <property name="text">
-                <string>Markers to use as separator:</string>
+                <string>to</string>
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="MarkerCategoryChooser" name="guideCategoryChooser">
+             <item row="0" column="1">
+              <widget class="KComboBox" name="guide_start">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="onlyUsed" stdset="0">
-                <bool>true</bool>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QLabel" name="fromLabel">
+               <property name="text">
+                <string>From</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="3">
+              <widget class="KComboBox" name="guide_end">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
               </widget>
              </item>
             </layout>
            </widget>
+          </item>
+          <item row="9" column="0">
+           <layout class="QHBoxLayout" name="targetGroup">
+            <item>
+             <widget class="QPushButton" name="buttonRender">
+              <property name="text">
+               <string>Render to File</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonGenerateScript">
+              <property name="text">
+               <string>Generate Script</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="targetSpace">
+              <property name="orientation">
+               <enum>Qt::Orientation::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>221</width>
+                <height>24</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="buttonClose">
+              <property name="text">
+               <string>Close</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -463,8 +470,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>365</width>
-            <height>1240</height>
+            <width>387</width>
+            <height>1104</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -1137,6 +1144,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <header>kcombobox.h</header>
   </customwidget>
   <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>
    <header>kurlrequester.h</header>
@@ -1158,11 +1170,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <extends>QFrame</extends>
    <header>kseparator.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>MarkerCategoryChooser</class>
-   <extends>QComboBox</extends>
-   <header>widgets/markercategorychooser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

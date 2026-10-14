@@ -67,7 +67,7 @@ struct PreviewProject
     {
         KdenliveSettings::setTimelinechunks(25);
         KdenliveSettings::setAutopreview(false);
-        pCore->setCurrentProfile("atsc_1080p_25");
+        pCore->setCurrentProfile("quarter_pal");
         document = std::make_unique<KdenliveDoc>(std::make_shared<DocUndoStack>(nullptr));
         pCore->projectManager()->testSetDocument(document.get());
         REQUIRE(KdenliveTests::updateTimeline(false, QString(), QString(), QDateTime::currentDateTime(), false));

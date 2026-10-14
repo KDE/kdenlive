@@ -61,6 +61,9 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (!thumbOnly && pCore->taskManager.hasPendingJob(owner, AbstractTask::LOADJOB)) {
         return;
     }
+    if (thumbOnly && !pCore->window()) {
+        return;
+    }
     ClipLoadTask *task = new ClipLoadTask(owner, xml, thumbOnly, in, out, object);
     if (task) {
         // Otherwise, start a new load task thread.
@@ -548,7 +551,10 @@ void ClipLoadTask::run()
         QString path = producer->get("resource");
         if (!path.isEmpty() && QFileInfo(path).isRelative() && path != QLatin1String("<tractor>")) {
             path.prepend(pCore->currentDoc()->documentRoot());
+            path = QDir::cleanPath(path);
             producer->set("resource", path.toUtf8().constData());
+        } else {
+            path = QDir::cleanPath(path);
         }
         QString original = ProjectClip::getOriginalFromProxy(path);
         if (!original.isEmpty()) {

@@ -27,8 +27,10 @@ DCResolveDialog::DCResolveDialog(std::vector<DocumentChecker::DocumentResource> 
     treeView->setModel(m_sortModel.get());
     treeView->setAlternatingRowColors(true);
     treeView->setSortingEnabled(true);
-    treeView->header()->setSectionResizeMode(2, QHeaderView::Stretch);
-    // treeView->header()->resizeSections(QHeaderView::ResizeToContents);
+    QHeaderView *header = treeView->header();
+    header->setSectionResizeMode(QHeaderView::Interactive); // Allow manual resizing
+    header->setStretchLastSection(true);
+    treeView->setTextElideMode(Qt::ElideMiddle);
     treeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     bool showTreeView = !m_model.get()->isEmpty();
     treeView->setVisible(showTreeView);
@@ -103,7 +105,7 @@ void DCResolveDialog::newSelection(const QItemSelection &, const QItemSelection 
 QList<DocumentChecker::DocumentResource> DCResolveDialog::getItems()
 {
     QList<DocumentChecker::DocumentResource> items = m_model.get()->getDocumentResources();
-    for (auto item : items) {
+    for (auto &item : items) {
         if (item.type != DocumentChecker::MissingType::Proxy || item.status == DocumentChecker::MissingStatus::Fixed) {
             continue;
         }

@@ -1577,10 +1577,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     sortByRating->setCheckable(true);
     sortByRating->setData(7);
     sortByRating->setChecked(binSort == 7);
+    QAction *sortByFPS = new QAction(i18n("FPS"), m_sortGroup);
+    sortByFPS->setCheckable(true);
+    sortByFPS->setData(9);
+    sortByFPS->setChecked(binSort == 9);
     sortAction->addAction(sortByName);
     sortAction->addAction(sortByDate);
     sortAction->addAction(sortByDuration);
     sortAction->addAction(sortByRating);
+    sortAction->addAction(sortByFPS);
     sortAction->addAction(sortByType);
     sortAction->addAction(sortByInsert);
     sortAction->addAction(sortByDesc);
@@ -1634,10 +1639,15 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_showRating->setCheckable(true);
     m_showRating->setData(7);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
+    m_showFPS = new QAction(i18n("Show FPS"), this);
+    m_showFPS->setCheckable(true);
+    m_showFPS->setData(9);
+    connect(m_showFPS, &QAction::triggered, this, &Bin::slotShowColumn);
 
     settingsAction->addAction(m_showDate);
     settingsAction->addAction(m_showDesc);
     settingsAction->addAction(m_showRating);
+    settingsAction->addAction(m_showFPS);
     settingsAction->addAction(disableEffects);
     settingsAction->addAction(hoverPreview);
     settingsAction->addSeparator();
@@ -2388,6 +2398,7 @@ void Bin::slotReplaceClip()
             if (!fileName.isEmpty()) {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;
+                fileName = QDir::cleanPath(fileName);
                 std::pair<bool, bool> hasAV = {currentItem->hasAudio(), currentItem->hasVideo()};
                 sourceProps.insert(QStringLiteral("resource"), currentItem->url());
                 sourceProps.insert(QStringLiteral("kdenlive:originalurl"), currentItem->url());
@@ -3358,6 +3369,7 @@ void Bin::slotInitView(QAction *action)
             m_showDate->setEnabled(true);
             m_showDesc->setEnabled(true);
             m_showRating->setEnabled(true);
+            m_showFPS->setEnabled(true);
             m_upAction->setEnabled(false);
         }
         m_listType = static_cast<BinViewType>(viewType);
@@ -3378,6 +3390,7 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setEnabled(false);
         m_showDesc->setEnabled(false);
         m_showRating->setEnabled(false);
+        m_showFPS->setEnabled(false);
         m_upAction->setVisible(true);
         connect(lv, &MyListView::performDrag, this, &Bin::performDrag, Qt::QueuedConnection);
         break;
@@ -3389,6 +3402,7 @@ void Bin::slotInitView(QAction *action)
         m_showDate->setEnabled(true);
         m_showDesc->setEnabled(true);
         m_showRating->setEnabled(true);
+        m_showFPS->setEnabled(true);
         m_upAction->setVisible(false);
         connect(tv, &MyTreeView::performDrag, this, &Bin::performDrag, Qt::QueuedConnection);
         break;
@@ -3457,6 +3471,8 @@ void Bin::slotInitView(QAction *action)
             view->setColumnHidden(2, true);
             // Rating column
             view->setColumnHidden(7, true);
+            // FPS column
+            view->setColumnHidden(9, true);
         }
         // Type column
         view->setColumnHidden(3, true);
@@ -3468,11 +3484,14 @@ void Bin::slotInitView(QAction *action)
         view->setColumnHidden(6, true);
         // Rating column
         view->header()->resizeSection(7, QFontInfo(font()).pixelSize() * 4);
+        // FPS column
+        view->setColumnHidden(9, true);
         // Usage column
         view->setColumnHidden(8, true);
         m_showDate->setChecked(!view->isColumnHidden(1));
         m_showDesc->setChecked(!view->isColumnHidden(2));
         m_showRating->setChecked(!view->isColumnHidden(7));
+        m_showFPS->setChecked(!view->isColumnHidden(9));
         if (m_sortGroup->checkedAction()) {
             view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(),
                                              m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
@@ -5288,7 +5307,7 @@ void Bin::showTitleWidget(const std::shared_ptr<ProjectClip> &clip, int timeline
     pCore->temporaryUnplug(clips, true);
     TitleWidget dia_ui(QUrl(), titleFolder.absolutePath(), pCore->monitorManager()->projectMonitor(), pCore->window());
     QDomDocument doc;
-    QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
+    const QString xmldata = clip->getProducerProperty(QStringLiteral("xmldata"));
     if (xmldata.isEmpty() && QFile::exists(path)) {
         if (!Xml::docContentFromFile(doc, path, false)) {
             return;
@@ -6341,7 +6360,7 @@ bool Bin::addProjectClipInFolder(const QString &path, const QString &sourceClipI
     std::pair<ClipJobManager::JobCompletionAction, QString> jobAction = ClipJobManager::getJobAction(jobId);
     if (jobAction.first == ClipJobManager::JobCompletionAction::ReplaceOriginal) {
         // Simply replace source clip with stabilized version
-        replaceSingleClip(sourceClipId, path);
+        replaceSingleClip(sourceClipId, QDir::cleanPath(path));
         return true;
     }
     // Check if folder exists

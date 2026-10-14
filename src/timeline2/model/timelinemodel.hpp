@@ -594,7 +594,8 @@ public:
    Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
    /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
    bool requestSingleSubtitleDeletion(int subtitleId);
-   /* Same function, but accumulates undo and redo*/
+   /* Same function, but accumulates undo and redo.
+      If it fails, its own changes are reverted and undo/redo are left untouched: rolling back previous operations is the caller's responsibility */
    bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
    /** @brief Move a group to a specific position
@@ -622,6 +623,7 @@ public:
       @param clipId is the id of the clip that triggers the group deletion
    */
    Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
+   /* Same function, but accumulates undo and redo. On failure, undo/redo are left untouched */
    bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
 
    /** @brief Change the duration of an item (clip or composition)
@@ -881,6 +883,8 @@ public:
     *  @returns true if the timeline clip was shortened by the reload operation
     */
    bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
+   /** @brief Ungroup a clip if needed, then delete it. On failure, nothing is changed */
+   bool requestClipUngroupAndDeletion(int clipId, Fun &undo, Fun &redo);
    /** @brief Ensure a clip occurrence is not longer than maxDuration
     *  @returns true if the timeline clip was shortened by the operation
     */
@@ -1048,7 +1052,8 @@ public:
    /** @brief Unplant the composition with given Id */
    bool unplantComposition(int compoId);
 
-   /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
+   /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion
+          On failure, their own changes are reverted and undo/redo are left untouched */
    bool requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
    bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
    bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);

@@ -4,17 +4,23 @@
     <name>TypeWriter (for title clips)</name>
     <description>Typewriter effect v0.3.3 To be applied on title clips only.</description>
     <author>Rafal Lalik</author>
-    <parameter type="double" name="step_length" min="1" max="240" default="25">
+    <parameter type="double" name="step_length" min="1" max="240" default="5">
         <name>Frames step</name>
+        <comment><![CDATA[Defines how many frames it takes<br>
+        to display the next character, word, or line]]></comment>
     </parameter>
-    <parameter type="double" name="step_sigma" max="20" min="0" default="0">
-        <name>Sigma</name>
+    <parameter type="double" name="step_sigma" min="0" max="20" default="0">
+        <name>Fluctuation</name>
+        <comment><![CDATA[Varies the step position by<br>
+        random value following normal distribution]]></comment>
     </parameter>
     <parameter type="double" name="random_seed" min="0" max="100" default="0">
         <name>Random Seed</name>
+        <comment><![CDATA[Seed value for the random generator]]></comment>
     </parameter>
-    <parameter type="list" name="macro_type" default="1" paramlist="1;2;3;0">
-        <name>Macro type</name>
-        <paramlistdisplay>Char by char,Word by word,Line by line,Custom macro</paramlistdisplay>
+    <parameter type="list" name="macro_type" default="1" paramlist="1;2;3">
+        <name>Type</name>
+        <comment><![CDATA[Expansion type]]></comment>
+        <paramlistdisplay>Char by char,Word by word,Line by line</paramlistdisplay>
     </parameter>
 </effect>

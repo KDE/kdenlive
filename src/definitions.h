@@ -201,6 +201,8 @@ Q_ENUM_NS(ProducerType)
 
 enum ProjectItemType { ProjectClipType = 0, ProjectFolderType, ProjectSubclipType };
 
+enum ProjectStorageType { StoreUndefined = 0, StoreInDefaultLocation, StoreWithProjectFile, StoreInCustomFolder };
+
 enum GraphicsRectItem { AVWidget = 70000, LabelWidget, TransitionWidget, GroupWidget };
 
 namespace SpeechToTextEngine {
@@ -579,7 +581,7 @@ public:
     void setEncoding(int encoding) { m_encoding = encoding; }
 
 private:
-    QString m_fontName = "Arial";
+    QString m_fontName = QStringLiteral("Arial");
     double m_fontSize = 60;
     QColor m_primaryColour = QColor(255, 255, 255, 255);
     QColor m_secondaryColour = QColor(255, 0, 0, 255);

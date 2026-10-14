@@ -5759,8 +5759,8 @@ void TimelineController::expandActiveClip()
                 int inPos = m_model->getClipIn(id);
                 int duration = m_model->getClipPlaytime(id);
                 QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
-                m_model->requestClipDeletion(id, undo, redo);
-                result = TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo, inPos, duration);
+                result = m_model->requestClipDeletion(id, undo, redo) &&
+                         TimelineFunctions::pasteClips(m_model, doc.toString(), m_activeTrack, pos, undo, redo, inPos, duration);
                 if (result) {
                     pCore->pushUndo(undo, redo, i18n("Expand clip"));
                 } else {

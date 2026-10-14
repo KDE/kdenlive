@@ -189,6 +189,7 @@ inline constexpr int Name = 0;
 inline constexpr int Date = 1;
 inline constexpr int Description = 2;
 inline constexpr int Rating = 3;
+inline constexpr int FPS = 4;
 } // namespace BinColumns
 
 /**
@@ -594,6 +595,7 @@ private:
     QAction *m_showDate{nullptr};
     QAction *m_showDesc{nullptr};
     QAction *m_showRating{nullptr};
+    QAction *m_showFPS{nullptr};
     QAction *m_sortDescend{nullptr};
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;

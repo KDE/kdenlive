@@ -197,7 +197,7 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
         properties.insert(QStringLiteral("kdenlive:folderid"), parentId);
     }
     properties.insert(QStringLiteral("mlt_service"), QStringLiteral("glaxnimate"));
-    properties.insert(QStringLiteral("resource"), fileName);
+    properties.insert(QStringLiteral("resource"), QDir::cleanPath(fileName));
     Xml::addXmlProperties(prod, properties);
     QString clipId = QString::number(id);
     pCore->projectItemModel()->requestAddBinClip(clipId, xml.documentElement(), parentId, i18n("Create Animation clip"), readyCallBack);

@@ -279,6 +279,8 @@ public:
     const QString getBinClipIdByUuid(const QString uuid);
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
+    /** @brief Parse all titles's urls to ensure relative paths */
+    void ensureRelativeTitlerPaths(const QString updatedRoot);
 
 protected:
     bool closing;

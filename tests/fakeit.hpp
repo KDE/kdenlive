@@ -5536,7 +5536,7 @@ namespace fakeit {
 
         VirtualTableBase(void **firstMethod) : _firstMethod(firstMethod) { }
 
-        void *getCookie(int index) {
+        __declspec(no_sanitize_address) void *getCookie(int index) {
             return _firstMethod[-2 - index];
         }
 
