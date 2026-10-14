@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-13 00:45+0000\n"
+"POT-Creation-Date: 2026-10-14 00:46+0000\n"
 "PO-Revision-Date: 2026-09-13 22:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -7129,7 +7129,7 @@ msgstr "משך"
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:87
 #: src/core.cpp:1130 src/kdenliveui.rc:196 src/mainwindow.cpp:277
-#: src/project/dialogs/archivewidget.cpp:100
+#: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
 msgid "Subtitles"
@@ -20057,7 +20057,7 @@ msgid "Enter the name of this preset:"
 msgstr "נא למלא את שם הערכה:"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:412
+#: src/project/dialogs/archivewidget.cpp:419
 #, kde-format
 msgid "Abort processing"
 msgstr "ביטול תהליך העיבוד"
@@ -22000,8 +22000,8 @@ msgstr "העברת כתובית"
 #: src/bin/model/subtitlemodel.cpp:1229
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:904
-#: src/project/dialogs/archivewidget.cpp:914 src/render/renderrequest.cpp:383
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:914
+#: src/project/dialogs/archivewidget.cpp:924 src/render/renderrequest.cpp:383
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -22889,7 +22889,7 @@ msgstr "ניהול פרופילים של קידוד"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/project/dialogs/archivewidget.cpp:95
+#: src/project/dialogs/archivewidget.cpp:96
 #, kde-format
 msgid "Proxy Clips"
 msgstr "סרטוני תיווך"
@@ -23077,11 +23077,11 @@ msgstr "ייצוא נתוני סמנים"
 #: src/effects/effectstack/view/effectstackview.cpp:817
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:808
-#: src/project/dialogs/archivewidget.cpp:812
-#: src/project/dialogs/archivewidget.cpp:922
-#: src/project/dialogs/archivewidget.cpp:934
-#: src/project/dialogs/archivewidget.cpp:940
+#: src/project/dialogs/archivewidget.cpp:818
+#: src/project/dialogs/archivewidget.cpp:822
+#: src/project/dialogs/archivewidget.cpp:932
+#: src/project/dialogs/archivewidget.cpp:944
+#: src/project/dialogs/archivewidget.cpp:950
 #: src/project/projectmanager.cpp:2053 src/project/projectmanager.cpp:2059
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -23763,7 +23763,7 @@ msgid "Render"
 msgstr "תיצוג"
 
 #: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:2055
-#: src/project/dialogs/archivewidget.cpp:928
+#: src/project/dialogs/archivewidget.cpp:938
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "‫קובץ הפלט קיים. לדרוס אותו?"
@@ -25962,8 +25962,8 @@ msgstr "נעשה שימוש ב־MLT %1"
 
 #: src/dialogs/wizard.cpp:80 src/doc/kdenlivedoc.cpp:1972
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:785
-#: src/project/dialogs/archivewidget.cpp:1297
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:795
+#: src/project/dialogs/archivewidget.cpp:1307
 #, kde-format
 msgid "Abort"
 msgstr "ביטול"
@@ -26665,7 +26665,7 @@ msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
 
 #: src/doc/kdenlivedoc.cpp:1181 src/doc/kdenlivedoc.cpp:2681
-#: src/project/dialogs/archivewidget.cpp:255
+#: src/project/dialogs/archivewidget.cpp:256
 #, kde-format
 msgid "Untitled"
 msgstr "ללא כותרת"
@@ -32237,53 +32237,53 @@ msgstr "ההתמרה הסתיימה."
 msgid "Transcoding failed"
 msgstr "ההתמרה נכשלה"
 
-#: src/project/dialogs/archivewidget.cpp:50
+#: src/project/dialogs/archivewidget.cpp:51
 #, kde-format
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "העברת מיזם לארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:62
+#: src/project/dialogs/archivewidget.cpp:63
 #, kde-format
 msgid "Video Clips"
 msgstr "סרטוני וידאו"
 
-#: src/project/dialogs/archivewidget.cpp:66
+#: src/project/dialogs/archivewidget.cpp:67
 #, kde-format
 msgid "Audio Clips"
 msgstr "סרטוני שמע"
 
-#: src/project/dialogs/archivewidget.cpp:70
+#: src/project/dialogs/archivewidget.cpp:71
 #, kde-format
 msgid "Image Clips"
 msgstr "סרטוני תמונה"
 
-#: src/project/dialogs/archivewidget.cpp:74
+#: src/project/dialogs/archivewidget.cpp:75
 #, kde-format
 msgid "Slideshow Clips"
 msgstr "סרטוני מצגת"
 
-#: src/project/dialogs/archivewidget.cpp:78
+#: src/project/dialogs/archivewidget.cpp:79
 #, kde-format
 msgid "Text Clips"
 msgstr "סרטוני טקסט"
 
-#: src/project/dialogs/archivewidget.cpp:82
+#: src/project/dialogs/archivewidget.cpp:83
 #, kde-format
 msgid "Playlist Clips"
 msgstr "סרטוני רשימת נגינה"
 
-#: src/project/dialogs/archivewidget.cpp:86
+#: src/project/dialogs/archivewidget.cpp:87
 #, kde-format
 msgid "Other Clips"
 msgstr "סרטונים אחרים"
 
-#: src/project/dialogs/archivewidget.cpp:90
+#: src/project/dialogs/archivewidget.cpp:91
 #, kde-format
 msgid "Luma Files"
 msgstr "קובצי לומה"
 
-#: src/project/dialogs/archivewidget.cpp:227
+#: src/project/dialogs/archivewidget.cpp:228
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
@@ -32292,9 +32292,9 @@ msgstr[1] "חסרים לך שני סרטונים במיזם."
 msgstr[2] "חסרים לך %1 סרטונים במיזם."
 msgstr[3] "חסרים לך %1 סרטונים במיזם."
 
-#: src/project/dialogs/archivewidget.cpp:251
-#: src/project/dialogs/archivewidget.cpp:1435
-#: src/project/dialogs/archivewidget.cpp:1500
+#: src/project/dialogs/archivewidget.cpp:252
+#: src/project/dialogs/archivewidget.cpp:1463
+#: src/project/dialogs/archivewidget.cpp:1528
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -32303,9 +32303,9 @@ msgstr[1] "(שני פריטים)"
 msgstr[2] "(%1 פריטים)"
 msgstr[3] "(%1 פריטים)"
 
-#: src/project/dialogs/archivewidget.cpp:257
-#: src/project/dialogs/archivewidget.cpp:1438
-#: src/project/dialogs/archivewidget.cpp:1503
+#: src/project/dialogs/archivewidget.cpp:258
+#: src/project/dialogs/archivewidget.cpp:1466
+#: src/project/dialogs/archivewidget.cpp:1531
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -32314,45 +32314,45 @@ msgstr[1] "שני קבצים (%1) לארכיון, דרושים %2"
 msgstr[2] "%1 קבצים לארכיון, דרושים %2"
 msgstr[3] "%1 קבצים לארכיון, דרושים %2"
 
-#: src/project/dialogs/archivewidget.cpp:258
-#: src/project/dialogs/archivewidget.cpp:345
+#: src/project/dialogs/archivewidget.cpp:259
+#: src/project/dialogs/archivewidget.cpp:346
 #, kde-format
 msgid "Archive"
 msgstr "ארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:269
-#: src/project/dialogs/archivewidget.cpp:834
+#: src/project/dialogs/archivewidget.cpp:270
+#: src/project/dialogs/archivewidget.cpp:844
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "הייתה שגיאה בעיבוד קובץ המיזם"
 
-#: src/project/dialogs/archivewidget.cpp:276
+#: src/project/dialogs/archivewidget.cpp:277
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr "נא לשמור את המיזם שלך בטרם העברה לארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:312
+#: src/project/dialogs/archivewidget.cpp:313
 #, kde-format
 msgid "Extract to"
 msgstr "חילוץ אל"
 
-#: src/project/dialogs/archivewidget.cpp:313
+#: src/project/dialogs/archivewidget.cpp:314
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "פתיחת מיזם ארכיוני"
 
-#: src/project/dialogs/archivewidget.cpp:315
+#: src/project/dialogs/archivewidget.cpp:316
 #, kde-format
 msgid "Extract"
 msgstr "חילוץ"
 
-#: src/project/dialogs/archivewidget.cpp:350
+#: src/project/dialogs/archivewidget.cpp:351
 #, kde-format
 msgid "Opening archive…"
 msgstr "הארכיון נפתח…"
 
-#: src/project/dialogs/archivewidget.cpp:360
+#: src/project/dialogs/archivewidget.cpp:361
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -32361,7 +32361,7 @@ msgstr ""
 "לא ניתן לפתוח קובץ ארכיון:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:377
+#: src/project/dialogs/archivewidget.cpp:384
 #, kde-format
 msgid ""
 "File %1\n"
@@ -32370,89 +32370,89 @@ msgstr ""
 "הקובץ %1\n"
 " הוא לא מיזם של Kdenlive בארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:383
+#: src/project/dialogs/archivewidget.cpp:390
 #, kde-format
 msgid "Ready"
 msgstr "מוכן"
 
-#: src/project/dialogs/archivewidget.cpp:407
+#: src/project/dialogs/archivewidget.cpp:414
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "מתבצעת העברה לארכיון, לעצור אותה?"
 
-#: src/project/dialogs/archivewidget.cpp:407
-#: src/project/dialogs/archivewidget.cpp:408
+#: src/project/dialogs/archivewidget.cpp:414
+#: src/project/dialogs/archivewidget.cpp:415
 #, kde-format
 msgid "Stop Archiving"
 msgstr "עצירת העברה לארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:597
+#: src/project/dialogs/archivewidget.cpp:607
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "מקום פנוי בכונן: %1"
 
-#: src/project/dialogs/archivewidget.cpp:600
+#: src/project/dialogs/archivewidget.cpp:610
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "אין מספיק מקום בכונן, מקום פנוי: %1"
 
-#: src/project/dialogs/archivewidget.cpp:615
+#: src/project/dialogs/archivewidget.cpp:625
 #, kde-format
 msgid "Starting archive job"
 msgstr "משימת ההעברה לארכיון מתחילה"
 
-#: src/project/dialogs/archivewidget.cpp:636
+#: src/project/dialogs/archivewidget.cpp:646
 #, kde-format
 msgid "Archiving…"
 msgstr "מועבר לארכיון…"
 
-#: src/project/dialogs/archivewidget.cpp:666
-#: src/project/dialogs/archivewidget.cpp:777
-#: src/project/dialogs/archivewidget.cpp:803
-#: src/project/dialogs/archivewidget.cpp:1294
+#: src/project/dialogs/archivewidget.cpp:676
+#: src/project/dialogs/archivewidget.cpp:787
+#: src/project/dialogs/archivewidget.cpp:813
+#: src/project/dialogs/archivewidget.cpp:1304
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "לא ניתן ליצור את התיקייה %1"
 
-#: src/project/dialogs/archivewidget.cpp:692
-#: src/project/dialogs/archivewidget.cpp:700
-#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:702
+#: src/project/dialogs/archivewidget.cpp:710
+#: src/project/dialogs/archivewidget.cpp:767
 #, kde-format
 msgid "Copying %1"
 msgstr "%1 מועתק"
 
-#: src/project/dialogs/archivewidget.cpp:796
-#: src/project/dialogs/archivewidget.cpp:893
+#: src/project/dialogs/archivewidget.cpp:806
+#: src/project/dialogs/archivewidget.cpp:903
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "לא ניתן ליצור קובץ זמני"
 
-#: src/project/dialogs/archivewidget.cpp:832
+#: src/project/dialogs/archivewidget.cpp:842
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "המיזם הועבר בהצלחה לארכיון."
 
-#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:852
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "אירעה שגיאה בהעתקת הקבצים: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1211
+#: src/project/dialogs/archivewidget.cpp:1221
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "לא ניתן לפתוח את קובץ הארכיון %1"
 
-#: src/project/dialogs/archivewidget.cpp:1228
+#: src/project/dialogs/archivewidget.cpp:1238
 #, kde-format
 msgid "Archiving %1"
 msgstr "%1 מועבר לארכיון"
 
-#: src/project/dialogs/archivewidget.cpp:1234
+#: src/project/dialogs/archivewidget.cpp:1244
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "לא ניתן להעתיק את הקובץ %1 אל %2."
 
-#: src/project/dialogs/archivewidget.cpp:1264
+#: src/project/dialogs/archivewidget.cpp:1274
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -32461,27 +32461,29 @@ msgstr ""
 "המיזם הועבר לארכיון בהצלחה.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1267
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "Unknown Error"
 msgstr "שגיאה לא ידועה"
 
-#: src/project/dialogs/archivewidget.cpp:1267
+#: src/project/dialogs/archivewidget.cpp:1277
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "אירעה שגיאה בהעברת המיזם לארכיון: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1296
+#: src/project/dialogs/archivewidget.cpp:1306
 #, kde-format
 msgid "Extracting…"
 msgstr "מתבצע חילוץ…"
 
-#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1333
+#: src/project/dialogs/archivewidget.cpp:1383
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "לא ניתן לפתוח את קובץ המיזם %1"
 
-#: src/project/dialogs/archivewidget.cpp:1355
+#: src/project/dialogs/archivewidget.cpp:1333
+#: src/project/dialogs/archivewidget.cpp:1383
 #, kde-format
 msgid "Cannot open file"
 msgstr "לא ניתן לפתוח קובץ"
