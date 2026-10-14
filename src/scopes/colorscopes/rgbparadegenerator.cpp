@@ -32,7 +32,11 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
 {
     Q_ASSERT(accelFactor >= 1);
 
-    if (paradeSize.width() <= 0 || paradeSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
+    const uchar offset = 8;
+    // Size of a single parade part; the widget can be resized smaller than the margins
+    const int paradeW = (paradeSize.width() - 2 * offset - distRight - 2 * distBorder) / 3;
+    const int paradeH = paradeSize.height() - distBottom - 2 * distBorder;
+    if (paradeW <= 0 || paradeH <= 0 || image.width() <= 0 || image.height() <= 0) {
         return QImage();
     }
     QImage parade(paradeSize * scalingFactor, QImage::Format_ARGB32);
@@ -51,9 +55,8 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     const uint iw = uint(image.width());
     const uint ih = uint(image.height());
 
-    const uchar offset = 8;
-    const uint partW = (ww - 2 * offset - distRight - 2 * distBorder) / 3;
-    const uint partH = wh - distBottom - 2 * distBorder;
+    const uint partW = uint(paradeW);
+    const uint partH = uint(paradeH);
 
     // Statistics
     uchar minR = 255, minG = 255, minB = 255, maxR = 0, maxG = 0, maxB = 0;
