@@ -39,6 +39,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
+#include <KShell>
 #include <KStandardGuiItem>
 #include <KWindowConfig>
 #include <kmemoryinfo.h>
@@ -2355,17 +2356,25 @@ bool RenderWidget::startWaitingRenderJobs()
 #else
     const QLatin1String ScriptFormat(".sh");
 #endif
-    QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX") + ScriptFormat));
-    if (!tmp.open()) {
-        // Something went wrong
-        return false;
+    QString autoscriptFile;
+    {
+        // The temporary file keeps the file open for writing until it is destroyed, which prevents
+        // executing it (ETXTBSY). The script deletes itself when it is done.
+        QTemporaryFile tmp(QDir::temp().absoluteFilePath(QStringLiteral("kdenlive-XXXXXX") + ScriptFormat));
+        if (!tmp.open()) {
+            // Something went wrong
+            m_blockProcessing = false;
+            return false;
+        }
+        tmp.setAutoRemove(false);
+        autoscriptFile = tmp.fileName();
     }
-    tmp.close();
-    QString autoscriptFile = tmp.fileName();
     QFile file(autoscriptFile);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: " << autoscriptFile;
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
+        QFile::remove(autoscriptFile);
+        m_blockProcessing = false;
         return false;
     }
 
@@ -2376,27 +2385,38 @@ bool RenderWidget::startWaitingRenderJobs()
     auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(0));
     while (item != nullptr) {
         if (item->status() == WAITINGJOB) {
-            // Add render process for item
-            const QString params = item->data(1, ParametersRole).toStringList().join(QLatin1Char(' '));
-            outStream << '\"' << KdenliveSettings::kdenliverendererpath() << "\" " << params << '\n';
+            // Add render process for item, the paths might contain spaces
+            QStringList command = item->data(1, ParametersRole).toStringList();
+            command.prepend(KdenliveSettings::kdenliverendererpath());
+            for (QString &arg : command) {
+                arg = KShell::quoteArg(arg);
+            }
+            outStream << command.join(QLatin1Char(' ')) << '\n';
         }
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
 // erase itself when rendering is finished
 #ifndef Q_OS_WIN
-    outStream << "rm \"" << autoscriptFile << "\"\n";
+    outStream << "rm " << KShell::quoteArg(autoscriptFile) << '\n';
 #else
-    outStream << "del \"" << autoscriptFile << "\"\n";
+    outStream << "del " << KShell::quoteArg(autoscriptFile) << '\n';
 #endif
     if (file.error() != QFile::NoError) {
         KMessageBox::error(nullptr, i18n("Cannot write to file %1", autoscriptFile));
         file.close();
+        QFile::remove(autoscriptFile);
         m_blockProcessing = false;
         return false;
     }
     file.close();
     QFile::setPermissions(autoscriptFile, file.permissions() | QFile::ExeUser);
-    QProcess::startDetached(autoscriptFile, QStringList());
+    if (!QProcess::startDetached(autoscriptFile, QStringList())) {
+        qCWarning(KDENLIVE_LOG) << "Cannot start the waiting render jobs script" << autoscriptFile;
+        KMessageBox::error(nullptr, i18n("Cannot start the waiting render jobs"));
+        QFile::remove(autoscriptFile);
+        m_blockProcessing = false;
+        return false;
+    }
     return true;
 }
 
