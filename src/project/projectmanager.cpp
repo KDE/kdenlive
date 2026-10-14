@@ -717,7 +717,10 @@ bool ProjectManager::saveFile()
         return saveFileAs();
     }
     bool result = saveFileAs(m_project->url().toLocalFile());
-    m_project->m_autosave->resize(0);
+    if (result) {
+        // Only discard the autosave once the project was safely written, it might be the only copy otherwise
+        m_project->m_autosave->resize(0);
+    }
     return result;
 }
 
