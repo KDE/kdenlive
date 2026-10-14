@@ -29,6 +29,7 @@ set(KdenliveTest_SOURCES
     otiotest.cpp
     regressions.cpp
     rendermodeltest.cpp
+    renderservertest.cpp
     replacetest.cpp
     sequencetest.cpp
     snaptest.cpp
