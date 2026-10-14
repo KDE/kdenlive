@@ -259,6 +259,30 @@ surrounded by whitespace
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Cut all clips also cuts subtitles on every layer")
+    {
+        int subId = KdenliveTests::getNextId();
+        double fps = pCore->getCurrentFps();
+        REQUIRE(subtitleModel->addSubtitle(subId, {0, GenTime(50, fps)},
+                                           SubtitleEvent(true, GenTime(70, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Hello")), false, false));
+        REQUIRE(subtitleModel->getMaxLayer() == 0);
+        REQUIRE(TimelineFunctions::requestClipCutAll(timeline, 60));
+        REQUIRE(subtitleModel->rowCount() == 2);
+        undoStack->undo();
+        REQUIRE(subtitleModel->rowCount() == 1);
+
+        // Add a subtitle on a second layer
+        subtitleModel->requestCreateLayer();
+        int subId2 = KdenliveTests::getNextId();
+        REQUIRE(subtitleModel->addSubtitle(subId2, {1, GenTime(55, fps)},
+                                           SubtitleEvent(true, GenTime(80, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Hello2")), false, false));
+        REQUIRE(subtitleModel->getMaxLayer() == 1);
+        REQUIRE(TimelineFunctions::requestClipCutAll(timeline, 60));
+        REQUIRE(subtitleModel->rowCount() == 4);
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(subtitleModel->rowCount() == 0);
+    }
+
     SECTION("Read start/end time of the subtitles")
     {
         // srt
