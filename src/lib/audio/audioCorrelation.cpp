@@ -125,16 +125,17 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
 
     QElapsedTimer t;
     t.start();
-    for (size_t shift = -sizeSub; shift <= sizeMain; ++shift) {
+    // The shift is negative while sub starts before main, so it must be signed
+    for (qint64 shift = -qint64(sizeSub); shift <= qint64(sizeMain); ++shift) {
 
-        if (shift == 0) {
+        if (shift <= 0) {
             left = envSub - shift;
             right = envMain;
-            size = std::min(sizeSub + shift, sizeMain);
+            size = std::min(size_t(qint64(sizeSub) + shift), sizeMain);
         } else {
             left = envSub;
             right = envMain + shift;
-            size = std::min(sizeSub, sizeMain - shift);
+            size = std::min(sizeSub, sizeMain - size_t(shift));
         }
 
         sum = 0;
@@ -143,7 +144,7 @@ void AudioCorrelation::correlate(const qint64 *envMain, size_t sizeMain, const q
             left++;
             right++;
         }
-        correlation[sizeSub + shift] = qAbs(sum);
+        correlation[size_t(qint64(sizeSub) + shift)] = qAbs(sum);
 
         if (sum > max) {
             max = sum;
