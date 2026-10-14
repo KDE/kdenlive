@@ -425,7 +425,7 @@ bool TimelineFunctions::requestClipCutAll(std::shared_ptr<TimelineItemModel> tim
     unsigned count = 0;
     auto subModel = timeline->getSubtitleModel();
     if (subModel && !subModel->isLocked()) {
-        for (int layer = 0; layer < subModel->getMaxLayer(); layer++) {
+        for (int layer = 0; layer <= subModel->getMaxLayer(); layer++) {
             int clipId = timeline->getClipByPosition(-2, position, layer);
             if (clipId > -1) {
                 // Found subtitle clip at position in track, cut it. Update undo/redo as we go.
