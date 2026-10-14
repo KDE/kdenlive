@@ -157,14 +157,15 @@ void FFTTools::fftNormalized(const audioShortVector &audioFrame, const uint chan
         windowScaleFactor = 1.0f / window[int(windowSize)];
     }
 
-    // Prepare frequency space vector. The resulting FFT vector is only half as long.
-    auto *freqData = new kiss_fft_cpx[size_t(windowSize) / 2];
+    // Prepare frequency space vector. The resulting FFT vector is only half as long,
+    // kiss_fftr() writes windowSize / 2 + 1 values including the Nyquist frequency.
+    auto *freqData = new kiss_fft_cpx[size_t(windowSize) / 2 + 1];
     auto *data = new float[size_t(windowSize)];
 
     // Copy the first channel's audio into a vector for the FFT display;
     // Fill the data vector indices that cannot be covered with sample data with 0
     if (numSamples < windowSize) {
-        std::fill(&data[numSamples], &data[windowSize - 1], 0);
+        std::fill(data + numSamples, data + windowSize, 0.f);
     }
     // Normalize signals to [0,1] to get correct dB values later on
     for (uint i = 0; i < numSamples && i < windowSize; ++i) {

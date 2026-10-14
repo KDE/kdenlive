@@ -17,6 +17,7 @@ set(KdenliveTest_SOURCES
     documenttest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
+    ffttoolstest.cpp
     filetest.cpp # codespell:ignore filetest
     gradienteditwidgettest.cpp
     groupstest.cpp
