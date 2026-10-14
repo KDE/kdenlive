@@ -33,8 +33,8 @@ MonitorAudioLevel::~MonitorAudioLevel() = default;
 void MonitorAudioLevel::refreshScope(const QSize & /*size*/, bool /*full*/)
 {
     SharedFrame sFrame;
-    while (m_queue.count() > 0) {
-        sFrame = m_queue.pop();
+    // The queue can be cleared from the GUI thread meanwhile, so don't block on pop()
+    while (m_queue.tryPop(sFrame)) {
         if (sFrame.is_valid()) {
             int samples = sFrame.get_audio_samples();
             if (samples <= 0) {

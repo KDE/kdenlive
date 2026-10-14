@@ -64,9 +64,20 @@ public:
       Pops an item from the queue.
 
       If the queue is empty then this  function will block. If blocking is
-      undesired, then check the return of count() before calling pop().
+      undesired, use tryPop().
     */
     T pop();
+
+    /*!
+      Pops an item from the queue into \a item if there is one.
+
+      Returns false without blocking if the queue is empty. Unlike checking
+      count() before calling pop(), this is safe with several consumers.
+    */
+    bool tryPop(T &item);
+
+    //! Removes all items from the queue.
+    void clear();
 
     //! Returns the number of items in the queue.
     int count() const;
@@ -123,7 +134,7 @@ template <class T> T DataQueue<T>::pop()
 {
     T retVal;
     m_mutex.lock();
-    if (m_queue.size() == 0) {
+    while (m_queue.size() == 0) {
         m_notEmptyCondition.wait(&m_mutex);
     }
     retVal = m_queue.takeFirst();
@@ -132,6 +143,28 @@ template <class T> T DataQueue<T>::pop()
     }
     m_mutex.unlock();
     return retVal;
+}
+
+template <class T> bool DataQueue<T>::tryPop(T &item)
+{
+    QMutexLocker locker(&m_mutex);
+    if (m_queue.isEmpty()) {
+        return false;
+    }
+    item = m_queue.takeFirst();
+    if (m_mode == OverflowModeWait && m_queue.size() == m_maxSize - 1) {
+        m_notFullCondition.wakeOne();
+    }
+    return true;
+}
+
+template <class T> void DataQueue<T>::clear()
+{
+    QMutexLocker locker(&m_mutex);
+    m_queue.clear();
+    if (m_mode == OverflowModeWait) {
+        m_notFullCondition.wakeAll();
+    }
 }
 
 template <class T> int DataQueue<T>::count() const

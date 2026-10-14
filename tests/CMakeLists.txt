@@ -13,6 +13,7 @@ set(KdenliveTest_SOURCES
     cachetest.cpp
     colorscopestest.cpp
     compositiontest.cpp
+    dataqueuetest.cpp
     documenttest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
