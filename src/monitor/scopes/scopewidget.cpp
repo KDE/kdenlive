@@ -28,9 +28,7 @@ void ScopeWidget::onNewFrame(const SharedFrame &frame)
 
 void ScopeWidget::clear()
 {
-    while (m_queue.count() > 0) {
-        m_queue.pop();
-    }
+    m_queue.clear();
 }
 
 void ScopeWidget::requestRefresh()
