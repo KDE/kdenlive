@@ -17,6 +17,9 @@ class RenderServer : public QObject
 public:
     RenderServer(QObject *parent);
     ~RenderServer() override;
+    /** @brief Removes the complete JSON messages sent by render jobs from @p buffer and returns them.
+     *  Incomplete data is kept in the buffer until the rest is received. */
+    static QList<QByteArray> takeMessages(QByteArray &buffer);
 
 Q_SIGNALS:
     void setRenderingProgress(const QString &url, int progress, int frame);
@@ -32,6 +35,9 @@ private Q_SLOTS:
     void abortAllJobs();
 
 private:
+    void readMessages(QLocalSocket *socket);
     QLocalServer m_server;
     QHash<QString, QLocalSocket*> m_jobSocket;
+    /** @brief Data received from each job that is not a complete message yet */
+    QHash<QLocalSocket *, QByteArray> m_buffers;
 };
