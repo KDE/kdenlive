@@ -156,11 +156,16 @@ public:
     */
     bool checkConsistency(bool failOnSingleGroups = true, bool checkTimelineConsistency = false);
 
-    /** @brief Remove an item from all the groups it belongs to.
+    /** @brief Remove an item from its direct parent group. The rest of the hierarchy is left untouched.
        @param id of the groupItem
     */
     void removeFromGroup(int id);
-    bool removeFromGroup(int id, Fun &undo, Fun &redo);
+    /** @brief Undoable version of removeFromGroup. Undo puts the item back in its direct parent.
+       @param mergeSingleGroups if true, groups that are left with a single child are dissolved, up to the root.
+
+       On failure, nothing is modified and undo/redo are left untouched
+    */
+    bool removeFromGroup(int id, Fun &undo, Fun &redo, bool mergeSingleGroups = false);
 
     /** @brief change the group of a given item
        @param id of the groupItem
@@ -168,6 +173,7 @@ public:
        @param changeState when false, the grouped role for item won't be updated (for selection)
     */
     void setGroup(int id, int groupId, bool changeState = true);
+    /** @brief Undoably add an item to an existing group. Returns false if gid is not a group */
     bool addToGroup(int id, int gid, Fun &undo, Fun &redo);
 
     QString debugString();

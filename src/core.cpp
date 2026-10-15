@@ -95,6 +95,8 @@ void Core::updateHideBarsTimer(bool inhibit)
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
+    // Wait for pending timeline thumbnails, they would otherwise keep using MLT after it is closed
+    ThumbnailProvider::shutdown();
     // m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
     m_dopeSheetModel->clearModel();
     projectItemModel()->blockSignals(true);

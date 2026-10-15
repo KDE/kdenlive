@@ -1367,5 +1367,169 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         redo();
         test_tree2();
     }
+
+    // Tree used by the removeFromGroup tests:
+    //          6 (Normal)
+    //        /    \
+    //   4 (AVSplit) 5 (Normal)
+    //     / \       / \
+    //    0   1     2   3
+    auto build_tree = [&]() {
+        for (int i = 0; i <= 6; i++) {
+            groups->createGroupItem(i);
+        }
+        KdenliveTests::resetNextId(7);
+        groups->setGroup(0, 4);
+        groups->setGroup(1, 4);
+        groups->setGroup(2, 5);
+        groups->setGroup(3, 5);
+        groups->setGroup(4, 6);
+        groups->setGroup(5, 6);
+        KdenliveTests::setGroupType(timeline, 4, GroupType::AVSplit);
+        KdenliveTests::setGroupType(timeline, 5, GroupType::Normal);
+        KdenliveTests::setGroupType(timeline, 6, GroupType::Normal);
+    };
+    auto test_initial_tree = [&]() {
+        REQUIRE(groups->getDirectAncestor(6) == -1);
+        REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({4, 5}));
+        REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({0, 1}));
+        REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({2, 3}));
+        REQUIRE(groups->getType(4) == GroupType::AVSplit);
+        REQUIRE(groups->getType(5) == GroupType::Normal);
+        REQUIRE(groups->getType(6) == GroupType::Normal);
+        REQUIRE(groups->checkConsistency());
+    };
+
+    SECTION("removeFromGroup only detaches the item from its direct parent")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        build_tree();
+        test_initial_tree();
+
+        REQUIRE(groups->removeFromGroup(0, undo, redo));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups->getDirectAncestor(0) == -1);
+            REQUIRE(groups->isLeaf(0));
+            // The parent is left with a single child, the rest is untouched
+            REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({1}));
+            REQUIRE(groups->getType(4) == GroupType::AVSplit);
+            REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({4, 5}));
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({2, 3}));
+            REQUIRE(groups->checkConsistency(false));
+        };
+        test_tree2();
+
+        // Undo puts the item back in its direct parent, not in the root
+        REQUIRE(undo());
+        test_initial_tree();
+        REQUIRE(redo());
+        test_tree2();
+        REQUIRE(undo());
+        test_initial_tree();
+    }
+
+    SECTION("addToGroup puts an extracted item back")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        build_tree();
+        REQUIRE(groups->removeFromGroup(0, undo, redo));
+        REQUIRE(groups->addToGroup(0, 4, undo, redo));
+        test_initial_tree();
+        // 2 is a leaf, not a group
+        REQUIRE_FALSE(groups->addToGroup(0, 2, undo, redo));
+        test_initial_tree();
+        REQUIRE(undo());
+        test_initial_tree();
+    }
+
+    SECTION("removeFromGroup with merge dissolves the groups left with a single child")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        build_tree();
+
+        REQUIRE(groups->removeFromGroup(0, undo, redo, true));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups->getDirectAncestor(0) == -1);
+            REQUIRE(groups->isLeaf(0));
+            // 4 had a single child left: it is dissolved and 1 moves up
+            REQUIRE(groups->getDirectAncestor(1) == 6);
+            REQUIRE(groups->getDirectChildren(6) == std::unordered_set<int>({1, 5}));
+            // Unrelated groups are kept
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({2, 3}));
+            REQUIRE(groups->getType(6) == GroupType::Normal);
+            REQUIRE(groups->checkConsistency());
+        };
+        test_tree2();
+
+        // Undo restores the exact hierarchy, including group types
+        REQUIRE(undo());
+        test_initial_tree();
+        REQUIRE(redo());
+        test_tree2();
+        REQUIRE(undo());
+        test_initial_tree();
+    }
+
+    SECTION("removeFromGroup with merge propagates up to the root")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        build_tree();
+
+        REQUIRE(groups->removeFromGroup(0, undo, redo, true));
+        REQUIRE(groups->removeFromGroup(1, undo, redo, true));
+        auto test_tree2 = [&]() {
+            REQUIRE(groups->getDirectAncestor(0) == -1);
+            REQUIRE(groups->getDirectAncestor(1) == -1);
+            // The root was left with a single child: it is dissolved
+            REQUIRE(groups->getDirectAncestor(5) == -1);
+            REQUIRE(groups->getDirectChildren(5) == std::unordered_set<int>({2, 3}));
+            REQUIRE(groups->getRootId(2) == 5);
+            REQUIRE(groups->checkConsistency());
+        };
+        test_tree2();
+
+        REQUIRE(undo());
+        test_initial_tree();
+        REQUIRE(redo());
+        test_tree2();
+        REQUIRE(undo());
+        test_initial_tree();
+    }
+
+    SECTION("removeFromGroup with merge counts direct children, not leaves")
+    {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        //      4
+        //     / \
+        //    0   3
+        //       / \
+        //      1   2
+        for (int i = 0; i <= 4; i++) {
+            groups->createGroupItem(i);
+        }
+        KdenliveTests::resetNextId(5);
+        groups->setGroup(1, 3);
+        groups->setGroup(2, 3);
+        groups->setGroup(0, 4);
+        groups->setGroup(3, 4);
+        REQUIRE(groups->checkConsistency());
+
+        // 4 keeps two leaves (1 and 2) but a single child (3): it must be dissolved
+        REQUIRE(groups->removeFromGroup(0, undo, redo, true));
+        REQUIRE(groups->getDirectAncestor(0) == -1);
+        REQUIRE(groups->getDirectAncestor(3) == -1);
+        REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({1, 2}));
+        REQUIRE(groups->checkConsistency());
+
+        REQUIRE(undo());
+        REQUIRE(groups->getDirectChildren(4) == std::unordered_set<int>({0, 3}));
+        REQUIRE(groups->getDirectChildren(3) == std::unordered_set<int>({1, 2}));
+        REQUIRE(groups->checkConsistency());
+    }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
