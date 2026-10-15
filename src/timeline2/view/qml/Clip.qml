@@ -1604,7 +1604,7 @@ Rectangle {
 
                 active: clipRoot.visible
                 visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
-                source: clipRoot.hideClipViews || clipRoot.keyframeModel === undefined ? "" : "KeyframeView.qml"
+                source: "" //clipRoot.hideClipViews || clipRoot.keyframeModel === undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
                     property: "kfrModel"

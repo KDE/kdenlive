@@ -849,7 +849,8 @@ Rectangle {
         anchors.bottom: dopeBar.top
         anchors.top: parent.top
         anchors.topMargin: rulerLoader.height
-        width: dopeRoot.headerWidth
+        anchors.right: parent.right
+        //width: dopeRoot.headerWidth
         color: dopeActivePalette.alternateBase
     }
 

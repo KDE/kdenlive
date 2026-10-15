@@ -252,6 +252,8 @@ private:
                                 KeyframeType::KeyframeEnum type);
     /** @brief Returns a user formatted value */
     QString visibleValue(QVariant sourceValue) const;
+    /** @brief Get wanted keyframe type for a specific position */
+    KeyframeType::KeyframeEnum getKeyframeTypeForPos(const GenTime pos);
 
 Q_SIGNALS:
     void modelChanged();

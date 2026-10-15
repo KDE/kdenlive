@@ -162,7 +162,7 @@ Item {
         color: delegateRect.depth == 0 ? 'darkorange' : 'darkgoldenrod'
         opacity: 0.15
         visible: delegateRect.depth < 2
-        radius: 8
+        //radius: 8
         anchors.fill: kfContainer
         anchors.topMargin: 2
         anchors.bottomMargin: 2
@@ -179,16 +179,25 @@ Item {
         width: delegateRect.dopeRootItem.frameDuration * delegateRect.dopeRootItem.timeScale
         visible: !delegateRect.isBlankRecap
         Rectangle {
+            anchors.fill: parent
+            color: delegateRect.activePalette.highlight
+            opacity: delegateRect.current ? 0.5 : delegateRect.row == delegateRect.hoveredParam ? 0.2 : 0
+        }
+
+        Rectangle {
             // keyframe slider
             id: keyframeSlider
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            height: Math.max(4, K.UiUtils.baseSizeMedium / 4)
-            radius: height/3
-            color: delegateRect.current ? delegateRect.activePalette.highlight : delegateRect.row == delegateRect.hoveredParam ? Qt.rgba(delegateRect.activePalette.highlight.r * 0.6, delegateRect.activePalette.highlight.g * 0.6, delegateRect.activePalette.highlight.b * 0.6, 1) : delegateRect.activePalette.light
-            border.width: 1
-            border.color: delegateRect.activePalette.shadow
+            anchors.bottom: parent.bottom
+            //anchors.verticalCenter: parent.verticalCenter
+            color: delegateRect.activePalette.dark
+            height: 2
+            //height: Math.max(4, K.UiUtils.baseSizeMedium / 4)
+            //radius: height/3
+            //color: delegateRect.current ? delegateRect.activePalette.highlight : delegateRect.row == delegateRect.hoveredParam ? Qt.rgba(delegateRect.activePalette.highlight.r * 0.6, delegateRect.activePalette.highlight.g * 0.6, delegateRect.activePalette.highlight.b * 0.6, 1) : delegateRect.activePalette.light
+            //border.width: 1
+            //border.color: delegateRect.activePalette.shadow
         }
         MouseArea {
             id: kfMoveArea

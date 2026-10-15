@@ -211,8 +211,9 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
 {
     QVariant result = getNormalizedValue(normalizedValue);
     if (result.isValid()) {
-        // TODO: Use default configurable kf type
-        return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, result);
+        const GenTime pos = GenTime(frame, pCore->getCurrentFps());
+        KeyframeType::KeyframeEnum kfrType = getKeyframeTypeForPos(pos);
+        return addKeyframe(pos, kfrType, result);
     }
     return false;
 }
@@ -604,20 +605,26 @@ bool KeyframeModel::addKeyframe(int framePos)
     return false;
 }
 
+KeyframeType::KeyframeEnum KeyframeModel::getKeyframeTypeForPos(const GenTime pos)
+{
+    KeyframeType::KeyframeEnum kfrType = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
+    if (KdenliveSettings::usepreviouskeyframeinterp()) {
+        // Check if we have a previous keyframe
+        bool ok;
+        Keyframe previous = getPrevKeyframe(pos, &ok);
+        if (ok) {
+            kfrType = previous.second;
+        }
+    }
+    return kfrType;
+}
+
 bool KeyframeModel::addKeyframe(int framePos, Fun &undo, Fun &redo)
 {
     if (auto ptr = m_model.lock()) {
         GenTime pos(framePos, pCore->getCurrentFps());
         QVariant value = getInterpolatedValue(pos);
-        KeyframeType::KeyframeEnum kfrType = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
-        if (KdenliveSettings::usepreviouskeyframeinterp()) {
-            // Check if we have a precious keyframe
-            bool ok;
-            Keyframe previous = getPrevKeyframe(pos, &ok);
-            if (ok) {
-                kfrType = previous.second;
-            }
-        }
+        KeyframeType::KeyframeEnum kfrType = getKeyframeTypeForPos(pos);
         return addKeyframe(pos, kfrType, value, true, undo, redo);
     }
     return false;
