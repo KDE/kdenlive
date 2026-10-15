@@ -159,6 +159,8 @@ void EffectListWidget::editCustomAsset(const QModelIndex &index)
             return;
         }
         m_model->editCustomAsset(name, enteredDescription, m_proxyModel->mapToSource(index));
+        m_proxyModel->reloadFilterOnFavorite();
+        Q_EMIT reloadFavorites();
     }
 }
 
