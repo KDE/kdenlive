@@ -227,6 +227,11 @@ void MainWindow::setupActions()
     connect(m_useTimelineZone, &KDualAction::activeChangedByUser, this, &MainWindow::slotSwitchTimelineZone);
     addAction(QStringLiteral("use_timeline_zone_in_edit"), m_useTimelineZone);
 
+    auto showTimelineKF = new QAction(QIcon::fromTheme(QStringLiteral("keyframe")), i18n("Show Keyframes Panel"), this);
+    showTimelineKF->setCheckable(true);
+    connect(showTimelineKF, &QAction::triggered, this, &MainWindow::slotSwitchTimelineKeyframesPanel);
+    addAction(QStringLiteral("show_timeline_keyframes_panel"), showTimelineKF);
+
     m_compositeAction = new QAction(i18n("Enable Track Compositing"), this);
     m_compositeAction->setCheckable(true);
     connect(m_compositeAction, &QAction::triggered, this, &MainWindow::slotUpdateCompositing);
