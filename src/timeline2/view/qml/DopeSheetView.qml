@@ -1150,6 +1150,14 @@ Rectangle {
             anchors.bottom: parent.bottom
             x: dopeRoot.showRuler ? 0 : dopeRoot.itemPosition * dopeRoot.timeScale
             width: dopeRoot.frameDuration * dopeRoot.timeScale
+            Rectangle {
+                // keyframe view BG
+                anchors.fill: parent
+                border.color: dopeActivePalette.text
+                border.width: 1
+                color: dopeActivePalette.light
+            }
+
             Loader {
                 // Keyframe curve
                 id: dopeKeyframeCurve

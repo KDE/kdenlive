@@ -303,9 +303,10 @@ Item
             let xpos = currentKeyframe.pixelPos
             let ypos = currentKeyframe.pixelValue
             let skippedKF = 0
-            myPath.firstVisiblePosition = 0
             let nextKeyframe
             let previousKeyframe
+            myPath.startX = xpos
+            myPath.startY = ypos
             // Add first curve point
             paths.push(compline.createObject(keyframecanvas, {"x": xpos, "y": ypos} ))
             exitLoop = false
@@ -365,7 +366,7 @@ Item
                     {
                         // curve
                         console.log('control point:', i, ' is SMOOTH')
-                        if (type == KeyframeType.CurveSmooth) {
+                        if (type === KeyframeType.CurveSmooth) {
                             alpha = 0.6
                         } else {
                             alpha = 1.
@@ -595,17 +596,14 @@ Item
                     exitLoop = true
                 }
             }
-            paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": ypos} ))
-            paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": keyframecanvas.height} ))
+            //paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": ypos} ))
+            //paths.push(compline.createObject(keyframecanvas, {"x": keyframecanvas.width, "y": keyframecanvas.height} ))
             myPath.pathElements = paths
         }
 
         property var paths : []
         Path {
             id: myPath
-            property double firstVisiblePosition: 0
-            startX: firstVisiblePosition
-            startY: keyframeContainer.parent.height
         }
 
         onPaint: {
@@ -616,12 +614,14 @@ Item
             console.log('PAINTING KEYFRMS: ', keyframeContainer.kfrCount, ' / KFRS: ', keyframes.count)
             let ctx = getContext("2d");
             ctx.beginPath()
-            ctx.fillStyle = keyframeContainer.fgColor
+            //ctx.fillStyle = keyframeContainer.fgColor
+            ctx.strokeStyle = keyframeContainer.fgColor
+            ctx.lineWidth = 2
             ctx.clearRect(0,0, width, height);
             updatePaths()
             ctx.path = myPath;
-            ctx.closePath()
-            ctx.fill()
+            //ctx.closePath()
+            ctx.stroke()
 
         }
     }
