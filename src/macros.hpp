@@ -21,7 +21,7 @@
    to call it directly yourself
 */
 #define LOCK_IN_LAMBDA(lambda)                                                                                                                                 \
-    lambda = [this, lambda]() {                                                                                                                                \
+    lambda = [this, lambda = std::move(lambda)]() {                                                                                                            \
         m_lock.lockForWrite();                                                                                                                                 \
         bool res_lambda = lambda();                                                                                                                            \
         m_lock.unlock();                                                                                                                                       \
@@ -58,13 +58,14 @@ reading a Read-protected property. In that case, we try to write lock it first (
 /** @brief This macro takes as parameter one atomic operation and its reverse, and update
  * the undo and redo functional stacks/queue accordingly
  * This should be used in the rare case where we don't need a lock mutex. In general, prefer the other version
+ * undo and redo are moved into the new lambdas: copying them would copy all the functions they contain, which makes building a long chain quadratic
  */
 #define UPDATE_UNDO_REDO_NOLOCK(operation, reverse, undo, redo)                                                                                                \
-    undo = [reverse, undo]() {                                                                                                                                 \
+    undo = [reverse, undo = std::move(undo)]() {                                                                                                               \
         bool v = reverse();                                                                                                                                    \
         return undo() && v;                                                                                                                                    \
     };                                                                                                                                                         \
-    redo = [operation, redo]() {                                                                                                                               \
+    redo = [operation, redo = std::move(redo)]() {                                                                                                             \
         bool v = redo();                                                                                                                                       \
         return operation() && v;                                                                                                                               \
     };
