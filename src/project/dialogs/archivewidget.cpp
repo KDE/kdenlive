@@ -1361,7 +1361,7 @@ void ArchiveWidget::slotExtractingFinished()
         }
         if (playList.isEmpty()) {
             error = true;
-        } else {
+        } else if (playList.contains(QLatin1String("$CURRENTPATH"))) {
             playList.replace(QLatin1String("$CURRENTPATH"), archive_url->url().adjusted(QUrl::StripTrailingSlash).toLocalFile());
             if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
                 qCWarning(KDENLIVE_LOG) << "//////  ERROR writing to file: ";
