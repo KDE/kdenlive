@@ -480,6 +480,8 @@ void AssetListWidget::setFavorite(const QModelIndex &index, bool favorite)
 void AssetListWidget::deleteCustomEffect(const QModelIndex &index)
 {
     m_model->deleteEffect(m_proxyModel->mapToSource(index));
+    m_proxyModel->reloadFilterOnFavorite();
+    Q_EMIT reloadFavorites();
 }
 
 QString AssetListWidget::getDescription(const QModelIndex &index) const
