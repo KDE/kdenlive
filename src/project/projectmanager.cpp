@@ -58,6 +58,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QLocale>
+#include <QLockFile>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QProgressDialog>
@@ -504,6 +505,8 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             }
         }
     }
+    // Project is closed, remove its lock file
+    releaseProjectLock();
     // Release model shared pointers
     if (guiConstructed) {
         pCore->window()->cleanBins();
@@ -595,6 +598,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
             m_project->m_autosave->setManagedFile(autosaveUrl);
         }
 
+        updateProjectLock();
         pCore->window()->setWindowTitle(m_project->description());
         m_project->setModified(false);
     }
@@ -849,9 +853,23 @@ void ProjectManager::openFile(const QUrl &url)
     if ((m_project != nullptr) && m_project->url() == url) {
         return;
     }
+
+    std::unique_ptr<QLockFile> newLock;
+    if (!checkProjectLock(url, newLock)) {
+        // Project is opened elsewhere and the user chose not to open it
+        Q_EMIT pCore->loadingMessageHide();
+        if (freshStart) {
+            // Nothing else to do in this session (Kdenlive was started to open this project), quit
+            clearLockFile();
+            pCore->closeApp();
+        }
+        return;
+    }
     if (!closeCurrentDocument()) {
         return;
     }
+    m_projectLock = std::move(newLock);
+    m_lockedProjectPath = m_projectLock ? url.toLocalFile() : QString();
     if (checkForBackupFile(url)) {
         return;
     }
@@ -1018,6 +1036,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
+    if (!isBackup) {
+        // For backups the doc url is the backup file, not the project: slotOpenBackup() handles the lock
+        updateProjectLock();
+    }
     m_mltWarnings.clear();
     connect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog, Qt::QueuedConnection);
     pCore->monitorManager()->projectMonitor()->locked = true;
@@ -1263,7 +1285,13 @@ void ProjectManager::slotRevert()
         return;
     }
     QUrl url = m_project->url();
-    if (closeCurrentDocument(false)) {
+    // Keep the project lock while reloading, so there is no unlocked window
+    auto keptLock = std::move(m_projectLock);
+    const QString keptPath = m_lockedProjectPath;
+    const bool closed = closeCurrentDocument(false);
+    m_projectLock = std::move(keptLock);
+    m_lockedProjectPath = keptPath;
+    if (closed) {
         doOpenFile(url, nullptr);
     }
 }
@@ -1293,7 +1321,12 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         QString requestedBackup = dia->selectedFile();
         if (m_project) {
             m_project->backupLastSavedVersion(projectFile.toLocalFile());
+            // Keep the project lock while reloading, so there is no unlocked window
+            auto keptLock = std::move(m_projectLock);
+            const QString keptPath = m_lockedProjectPath;
             closeCurrentDocument(false);
+            m_projectLock = std::move(keptLock);
+            m_lockedProjectPath = keptPath;
         }
         doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr, true);
         if (m_project) {
@@ -1301,6 +1334,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
                 // Only update if restore succeeded
                 pCore->window()->slotEditSubtitle();
                 m_project->setUrl(projectFile);
+                updateProjectLock();
                 m_project->setModified(true);
             }
             pCore->window()->setWindowTitle(m_project->description());
@@ -2602,6 +2636,76 @@ void ProjectManager::updateSequenceOffset(const QUuid &uuid)
         // Update info in render dialog
         Q_EMIT pCore->updateRenderOffset();
     }
+}
+
+static QString projectLockFilePath(const QString &projectPath)
+{
+    return projectPath + QStringLiteral(".lock");
+}
+
+bool ProjectManager::checkProjectLock(const QUrl &url, std::unique_ptr<QLockFile> &lock)
+{
+    lock.reset();
+    if (!url.isLocalFile()) {
+        return true;
+    }
+    auto candidate = std::make_unique<QLockFile>(projectLockFilePath(url.toLocalFile()));
+    candidate->setStaleLockTime(0);
+    if (candidate->tryLock(0)) {
+        // We now own the lock; keep it until the project is closed
+        lock = std::move(candidate);
+        return true;
+    }
+    if (candidate->error() != QLockFile::LockFailedError) {
+        // Could not create the lock file (read only folder, ...), don't block the user
+        return true;
+    }
+
+    qint64 pid = 0;
+    QString hostname;
+    QString appname;
+    QString details;
+    if (candidate->getLockInfo(&pid, &hostname, &appname)) {
+        details = i18n("<br>Lock owner: process %1 on %2.", pid, hostname);
+    }
+    Q_EMIT pCore->GUISetupDone();
+    const QString message = i18n("The project <b>\"%1\"</b> seems to be already opened in another Kdenlive session.%2<br><br>"
+                                 "Opening it in two sessions can cause data loss.",
+                                 url.fileName(), details);
+    const int answer =
+        KMessageBox::warningContinueCancel(pCore->window(), message, i18n("Project Already Opened"), KGuiItem(i18n("Open Anyway")), KStandardGuiItem::cancel());
+    return answer == KMessageBox::Continue;
+}
+
+void ProjectManager::updateProjectLock()
+{
+    const QString path = (m_project != nullptr && m_project->url().isLocalFile()) ? m_project->url().toLocalFile() : QString();
+    if (path == m_lockedProjectPath) {
+        return;
+    }
+    // Acquire the new lock first, and only then release the previous one
+    std::unique_ptr<QLockFile> lock;
+    if (!path.isEmpty()) {
+        auto candidate = std::make_unique<QLockFile>(projectLockFilePath(path));
+        candidate->setStaleLockTime(0);
+        if (candidate->tryLock(0)) {
+            lock = std::move(candidate);
+        } else {
+            qDebug() << "Could not create project lock file for" << path << ", error:" << candidate->error();
+        }
+    }
+    releaseProjectLock();
+    m_projectLock = std::move(lock);
+    m_lockedProjectPath = m_projectLock ? path : QString();
+}
+
+void ProjectManager::releaseProjectLock()
+{
+    if (m_projectLock) {
+        m_projectLock->unlock();
+        m_projectLock.reset();
+    }
+    m_lockedProjectPath.clear();
 }
 
 void ProjectManager::clearLockFile()
