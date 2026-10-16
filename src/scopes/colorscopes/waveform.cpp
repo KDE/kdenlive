@@ -257,11 +257,11 @@ QImage Waveform::renderHUD(uint)
             davinci.drawLine(WaveformGenerator::distBorder, y, scopeRect().size().width() - m_textWidth - 2 * offset - WaveformGenerator::distBorder, y);
         }
 
-        if (scopeRect().width() > 0) {
+        // The widget can be resized smaller than the scale and borders, and clipX divides by drawingAreaWidth - 1
+        const int drawingAreaWidth = scopeRect().width() - 2 * offset - m_textWidth - 2 * WaveformGenerator::distBorder;
+        if (drawingAreaWidth > 1) {
             // Draw a vertical line and the x position of the source clip
             const int profileWidth = pCore->getCurrentProfile()->width();
-
-            const int drawingAreaWidth = scopeRect().width() - 2 * offset - m_textWidth - 2 * WaveformGenerator::distBorder;
 
             const int clipX = ((x - WaveformGenerator::distBorder) * (profileWidth - 1)) / (drawingAreaWidth - 1);
 
