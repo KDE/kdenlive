@@ -1,4 +1,5 @@
 /*
+    SPDX-FileCopyrightText: 2026 Nicolas Carion
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
