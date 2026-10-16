@@ -39,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+#include <QSet>
 #include <QStorageInfo>
 #include <QTemporaryFile>
 
@@ -514,6 +515,30 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
         return search->second;
     }
     return nullptr;
+}
+
+QList<std::shared_ptr<ProjectClip>> ProjectItemModel::sourceClips(const QList<std::shared_ptr<AbstractProjectItem>> &items)
+{
+    QList<std::shared_ptr<ProjectClip>> sources;
+    QSet<QString> seen;
+    for (const auto &item : items) {
+        if (!item) {
+            continue;
+        }
+        std::shared_ptr<ProjectClip> clip;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            clip = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            clip = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        } else if (item->itemType() == AbstractProjectItem::SubSequenceItem) {
+            clip = std::static_pointer_cast<PlaylistSubClip>(item)->getMasterClip();
+        }
+        if (clip && !seen.contains(clip->clipId())) {
+            seen.insert(clip->clipId());
+            sources.push_back(clip);
+        }
+    }
+    return sources;
 }
 
 const QVector<MaskInfo> ProjectItemModel::getClipMasks(const QString &binId) const

@@ -4660,9 +4660,11 @@ void TimelineController::replaceClip()
         return;
     }
     const QString sourceClipBinId = getClipBinId(clipId);
-    QList<std::shared_ptr<ProjectClip>> binSelection = pCore->bin()->selectedClips();
+    const auto binSelection = pCore->bin()->selectedClipsIds();
     std::shared_ptr<ProjectClip> binReplacement = nullptr;
-    for (auto &c : binSelection) {
+    // Replacement accepts whole clips only, not the masters of selected zones.
+    for (const auto &id : binSelection) {
+        const auto c = pCore->projectItemModel()->getClipByBinID(id);
         if (c && c->clipId() != sourceClipBinId) {
             binReplacement = c;
             break;

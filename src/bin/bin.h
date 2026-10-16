@@ -253,8 +253,8 @@ public:
      */
     std::vector<QString> selectedClipsIds(bool allowSubClips = false, bool allowFolders = false);
 
-    // Returns the selected clips
-    QList<std::shared_ptr<ProjectClip>> selectedClips();
+    /** @brief Selected source clips, resolving subclips to unique masters and ignoring folders. */
+    QList<std::shared_ptr<ProjectClip>> selectedSourceClips();
 
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);

@@ -1677,7 +1677,7 @@ void KdenliveDoc::slotProxyCurrentItem(bool doProxy, QList<std::shared_ptr<Proje
 {
     QList<std::shared_ptr<ProjectClip>> clipsWithAlpha;
     if (clipList.isEmpty()) {
-        clipList = pCore->bin()->selectedClips();
+        clipList = pCore->bin()->selectedSourceClips();
         // Check if there is a clip with alpha in the list
         for (auto &c : clipList) {
             ClipType::ProducerType t = c->clipType();
