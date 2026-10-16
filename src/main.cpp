@@ -374,31 +374,22 @@ int main(int argc, char *argv[])
     // Parse command line
     parser.process(app);
     aboutData.processCommandLine(&parser);
+
     if (parser.isSet(saveDebugOption)) {
-        QJsonObject report, property;
-        QJsonArray properties;
-        const auto components = KAboutData::applicationData().components();
-        for (auto &component : components) {
-            property["name"] = component.name();
-            property["version"] = component.version();
-            properties.append(property);
-            qDebug() << component.name() << " = " << component.version();
-        }
-        qDebug() << "Packaging = " << packageName;
-        report["components"] = properties;
-        report["packageType"] = packageName;
         const QString outputFilename = parser.value(saveDebugOption);
         if (!outputFilename.isEmpty()) {
-            QFile file(outputFilename);
-            if (file.exists()) {
-                qWarning() << "Cannot overwrite existing file " << outputFilename;
+
+            if (!Core::build(packageType, true)) {
                 return EXIT_FAILURE;
             }
-            if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qWarning() << "Cannot write into file " << outputFilename;
+            pCore->initHeadless({});
+            qDebug() << "Writing to" << outputFilename;
+            if (!pCore->writeJSONSetupReport(outputFilename)) {
                 return EXIT_FAILURE;
             }
-            file.write(QJsonDocument(report).toJson());
+            app.processEvents();
+            Core::clean();
+            app.processEvents();
         } else {
             qCritical() << "You need to provide a valid file path to the --setup-report command line option.";
             return EXIT_FAILURE;

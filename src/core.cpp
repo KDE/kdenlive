@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/timeremap.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
@@ -35,11 +36,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
 #include "qmltypes/thumbnailprovider.h"
+#include "renderpresets/renderpresetrepository.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "transitions/transitionsrepository.hpp"
 #include <mlt++/MltRepository.h>
 
+#include <KAboutData>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
 #include <kddockwidgets/Config.h>
@@ -623,6 +627,65 @@ void Core::buildDocks()
 
     // Guides
     m_guidesList = new GuidesList(m_mainWindow);
+}
+
+bool Core::writeJSONSetupReport(const QString &outputFilename)
+{
+    QString packageName;
+    switch (packageType()) {
+    case LinuxPackageType::AppImage:
+        packageName = QStringLiteral("appimage");
+        break;
+    case LinuxPackageType::Flatpak:
+        packageName = QStringLiteral("flatpak");
+        break;
+    case LinuxPackageType::Snap:
+        packageName = QStringLiteral("snap");
+        break;
+    default:
+        break;
+    }
+
+    QJsonObject report, property;
+    QJsonArray properties;
+    report["version"] = 1;
+    const auto components = KAboutData::applicationData().components();
+    for (auto &component : components) {
+        property["name"] = component.name();
+        property["version"] = component.version();
+        properties.append(property);
+        qDebug() << component.name() << " = " << component.version();
+    }
+    qDebug() << "Packaging = " << packageName;
+    report["components"] = properties;
+    report["packageType"] = packageName;
+    QStringList effectIds;
+    for (const auto &effect : EffectsRepository::get()->getNames()) {
+        effectIds.append(effect.first);
+    }
+    effectIds.sort();
+    report["enabledEffects"] = QJsonArray::fromStringList(effectIds);
+    QStringList transitionIds;
+    for (const auto &transition : TransitionsRepository::get()->getNames()) {
+        transitionIds.append(transition.first);
+    }
+    transitionIds.sort();
+    report["enabledTransitions"] = QJsonArray::fromStringList(transitionIds);
+    report["supportedFormats"] = QJsonArray::fromStringList(RenderPresetRepository::supportedFormats());
+    report["videoCodecs"] = QJsonArray::fromStringList(RenderPresetRepository::vcodecs());
+    report["audioCodecs"] = QJsonArray::fromStringList(RenderPresetRepository::acodecs().toList());
+
+    QFile file(outputFilename);
+    if (file.exists()) {
+        qWarning() << "Cannot overwrite existing file " << outputFilename;
+        return false;
+    }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Cannot write into file " << outputFilename;
+        return false;
+    }
+    file.write(QJsonDocument(report).toJson());
+    return true;
 }
 
 void Core::buildLumaThumbs(const QStringList &values)

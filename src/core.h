@@ -128,6 +128,11 @@ public:
     /** @brief Open a file using an external app. */
     QString openExternalApp(QString appPath, const QStringList args, ClipType::ProducerType clipType);
 
+    /** @brief Write info such as about data, available codecs and effects to a JSON file
+     *  @returns true on success and false otherwiese
+     */
+    bool writeJSONSetupReport(const QString &outputFilename);
+
     /** @brief Returns a pointer to the project manager. */
     ProjectManager *projectManager();
     /** @brief Returns a pointer to the current project. */
