@@ -3220,14 +3220,16 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders
     return ids;
 }
 
-QList<std::shared_ptr<ProjectClip>> Bin::selectedClips()
+QList<std::shared_ptr<ProjectClip>> Bin::selectedSourceClips()
 {
-    auto ids = selectedClipsIds();
-    QList<std::shared_ptr<ProjectClip>> ret;
-    for (const auto &id : ids) {
-        ret.push_back(m_itemModel->getClipByBinID(id));
+    QList<std::shared_ptr<AbstractProjectItem>> items;
+    const auto indexes = m_proxyModel->selectionModel()->selectedIndexes();
+    for (const auto &index : indexes) {
+        if (index.isValid() && index.column() == 0) {
+            items.push_back(m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(index)));
+        }
     }
-    return ret;
+    return ProjectItemModel::sourceClips(items);
 }
 
 void Bin::slotInitView(QAction *action)
@@ -6734,7 +6736,7 @@ void Bin::transcodeUsedClips()
 void Bin::applyClipAssetGroupCommand(int cid, const QString &assetId, const QModelIndex &index, const QString &previousValue, QString value,
                                      QUndoCommand *command)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return;
     }
@@ -6752,7 +6754,7 @@ void Bin::applyClipAssetGroupCommand(int cid, const QString &assetId, const QMod
 void Bin::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, const QModelIndex &index, GenTime pos, const QVariant &previousValue,
                                              const QVariant &value, int ix, QUndoCommand *command)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return;
     }
@@ -6769,7 +6771,7 @@ void Bin::applyClipAssetGroupKeyframeCommand(int cid, const QString &assetId, co
 
 QList<std::shared_ptr<KeyframeModelList>> Bin::getGroupKeyframeModels(int bid, const QString &assetId)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return {};
     }
@@ -6808,7 +6810,7 @@ QList<std::shared_ptr<KeyframeModelList>> Bin::getGroupKeyframeModels(int bid, c
 int Bin::clipAssetGroupInstances(int cid, const QString &assetId)
 {
     Q_UNUSED(cid);
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return 0;
     }
@@ -6825,7 +6827,7 @@ int Bin::clipAssetGroupInstances(int cid, const QString &assetId)
 void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetId, const QList<QModelIndex> &indexes, GenTime pos,
                                                   const QStringList &sourceValues, const QStringList &values, QUndoCommand *command)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return;
     }
@@ -6842,7 +6844,7 @@ void Bin::applyClipAssetGroupMultiKeyframeCommand(int cid, const QString &assetI
 
 void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.isEmpty()) {
         auto clp = m_itemModel->getClipByBinID(QString::number(bid));
         if (clp) {
@@ -6872,7 +6874,7 @@ void Bin::removeEffectFromGroup(int bid, const QString &assetId, int eid)
 
 void Bin::disableEffectFromGroup(int cid, const QString &assetId, bool disable, Fun &undo, Fun &redo)
 {
-    QList<std::shared_ptr<ProjectClip>> clips = selectedClips();
+    QList<std::shared_ptr<ProjectClip>> clips = selectedSourceClips();
     if (clips.size() < 2) {
         return;
     }
