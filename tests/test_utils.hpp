@@ -45,6 +45,13 @@
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 
+namespace Catch {
+template <> struct StringMaker<QString>
+{
+    static std::string convert(const QString &s) { return s.toUtf8().constData(); }
+};
+} // namespace Catch
+
 using namespace fakeit;
 #define RESET(mock)                                                                                                                                            \
     mock.Reset();                                                                                                                                              \
