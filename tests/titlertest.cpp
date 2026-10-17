@@ -1560,7 +1560,9 @@ inline std::unique_ptr<QTextDocument> makeDocument(int start, int end, qreal wid
     auto document = std::make_unique<QTextDocument>();
     QFont font(QStringLiteral("sans-serif"));
     font.setPixelSize(60);
-    font.setHintingPreference(QFont::PreferNoHinting);
+    font.setStyleStrategy(QFont::NoAntialias);
+    font.setHintingPreference(QFont::HintingPreference::PreferFullHinting);
+
     document->setDefaultFont(font);
     document->setDocumentMargin(0);
     document->setPlainText(QStringLiteral("ABCDEF"));
@@ -1930,6 +1932,8 @@ TEST_CASE("Outline changes preserve the layout anchor and text width", "[Titler]
                 QTextCharFormat familyFormat;
                 familyFormat.setFontFamilies(QStringList{family});
                 familyFormat.setFontStyleName(QString());
+                familyFormat.setFontStyleStrategy(QFont::NoAntialias);
+                familyFormat.setFontHintingPreference(QFont::HintingPreference::PreferFullHinting);
                 TitlerRichText::apply(&item, familyFormat);
                 QTextCharFormat sizeFormat;
                 sizeFormat.setProperty(QTextFormat::FontPixelSize, size);
