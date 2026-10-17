@@ -16,6 +16,22 @@
 #include "titler/richtextspacing.h"
 #include "titler/titledocument.h"
 
+namespace Catch {
+template <> struct StringMaker<QImage>
+{
+    static std::string convert(const QImage &image)
+    {
+        const QByteArray hash =
+            QCryptographicHash::hash(QByteArray(reinterpret_cast<const char *>(image.constBits()), image.sizeInBytes()), QCryptographicHash::Sha256);
+
+        std::ostringstream out;
+        out << "QImage(" << image.width() << "x" << image.height() << ", format=" << image.format() << ", depth=" << image.depth()
+            << ", dpr=" << image.devicePixelRatio() << ", sha256=" << hash.toHex().toStdString() << ')';
+        return out.str();
+    }
+};
+} // namespace Catch
+
 // Alignment follows the text-layout rectangle, not its asymmetric ink/stroke envelope.
 TEST_CASE("Title text left alignment", "[Titler]")
 {
