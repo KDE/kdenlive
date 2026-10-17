@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-16 00:47+0000\n"
+"POT-Creation-Date: 2026-10-17 00:48+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -4461,7 +4461,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
-#: src/bin/bin.cpp:1564 src/bin/projectitemmodel.cpp:340
+#: src/bin/bin.cpp:1564 src/bin/projectitemmodel.cpp:341
 #: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
@@ -7562,7 +7562,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:346
+#: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:347
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
 #: src/timeline2/view/qml/Track.qml:98 src/timeline2/view/qml/Track.qml:124
 #: src/timeline2/view/qml/Track.qml:132 src/ui/clipdurationdialog_ui.ui:18
@@ -13658,7 +13658,7 @@ msgid "Displacement amount"
 msgstr "색조 정도"
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1580
-#: src/bin/projectitemmodel.cpp:358
+#: src/bin/projectitemmodel.cpp:359
 #, kde-format
 msgid "FPS"
 msgstr ""
@@ -20796,7 +20796,7 @@ msgstr "트랙 %1 효과"
 msgid "Bin %1 effects"
 msgstr "보관함 %1 효과"
 
-#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4358
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4360
 #: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
@@ -20804,7 +20804,7 @@ msgstr "보관함 %1 효과"
 msgid "Show log"
 msgstr "로그 표시"
 
-#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4361
+#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4363
 #: src/dialogs/textbasededit.cpp:766
 #: src/effects/effectstack/view/maskmanager.cpp:117
 #, kde-format
@@ -21806,20 +21806,20 @@ msgstr "정렬 기준"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1552 src/bin/projectitemmodel.cpp:331
+#: src/bin/bin.cpp:1552 src/bin/projectitemmodel.cpp:332
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "이름"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1556 src/bin/projectitemmodel.cpp:334
+#: src/bin/bin.cpp:1556 src/bin/projectitemmodel.cpp:335
 #: src/project/dialogs/projectsettings.cpp:245 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "날짜"
 
-#: src/bin/bin.cpp:1560 src/bin/projectitemmodel.cpp:337
+#: src/bin/bin.cpp:1560 src/bin/projectitemmodel.cpp:338
 #, kde-format
 msgid "Description"
 msgstr "설명"
@@ -21829,7 +21829,7 @@ msgstr "설명"
 msgid "Insert Order"
 msgstr "순서 삽입"
 
-#: src/bin/bin.cpp:1576 src/bin/projectitemmodel.cpp:352
+#: src/bin/bin.cpp:1576 src/bin/projectitemmodel.cpp:353
 #, kde-format
 msgid "Rating"
 msgstr "등급"
@@ -22112,7 +22112,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "기본 타임라인"
 
-#: src/bin/bin.cpp:2471 src/bin/bin.cpp:6413 src/bin/clipcreator.cpp:357
+#: src/bin/bin.cpp:2471 src/bin/bin.cpp:6415 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -22234,7 +22234,7 @@ msgstr "재생 목록"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1742 src/project/projectmanager.cpp:1744
+#: src/project/projectmanager.cpp:1776 src/project/projectmanager.cpp:1778
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
@@ -22268,7 +22268,7 @@ msgstr "폴더"
 msgid "Create bin folder"
 msgstr "보관함 폴더 만들기"
 
-#: src/bin/bin.cpp:3153 src/bin/bin.cpp:3166 src/bin/bin.cpp:4245
+#: src/bin/bin.cpp:3153 src/bin/bin.cpp:3166 src/bin/bin.cpp:4247
 #: src/timeline2/model/timelinemodel.cpp:2623
 #, kde-format
 msgid "Delete Clip"
@@ -22282,7 +22282,7 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:3156 src/bin/bin.cpp:3169 src/bin/bin.cpp:4221
+#: src/bin/bin.cpp:3156 src/bin/bin.cpp:3169 src/bin/bin.cpp:4223
 #, kde-format
 msgid "Proxy Clip"
 msgstr "프록시 클립"
@@ -22297,17 +22297,17 @@ msgstr "폴더 삭제"
 msgid "Proxy Folder"
 msgstr "프록시 폴더"
 
-#: src/bin/bin.cpp:3440
+#: src/bin/bin.cpp:3442
 #, kde-format
 msgid "Edit rating"
 msgstr "등급 편집"
 
-#: src/bin/bin.cpp:3442
+#: src/bin/bin.cpp:3444
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "이 항목의 등급을 설정할 수 없음"
 
-#: src/bin/bin.cpp:4139 src/bin/bin.cpp:4275 src/mainwindow.cpp:147
+#: src/bin/bin.cpp:4141 src/bin/bin.cpp:4277 src/mainwindow.cpp:147
 #: src/timeline2/view/timelinewidget.cpp:241
 #, fuzzy, kde-format
 #| msgid "Add clip"
@@ -22315,13 +22315,13 @@ msgstr "이 항목의 등급을 설정할 수 없음"
 msgid "Add Clip"
 msgstr "클립 추가"
 
-#: src/bin/bin.cpp:4159
+#: src/bin/bin.cpp:4161
 #, fuzzy, kde-format
 #| msgid "Add Clip or Folder"
 msgid "Add Clip or Folder…"
 msgstr "클립이나 폴더 추가"
 
-#: src/bin/bin.cpp:4160
+#: src/bin/bin.cpp:4162
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22331,114 +22331,114 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:4166
+#: src/bin/bin.cpp:4168
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "색상 클립 추가"
 
-#: src/bin/bin.cpp:4168
+#: src/bin/bin.cpp:4170
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Image Sequence…"
 msgstr "이미지 시퀀스 추가"
 
-#: src/bin/bin.cpp:4170
+#: src/bin/bin.cpp:4172
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "타이틀 클립 추가"
 
-#: src/bin/bin.cpp:4172
+#: src/bin/bin.cpp:4174
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "템플릿 타이틀 추가"
 
-#: src/bin/bin.cpp:4174
+#: src/bin/bin.cpp:4176
 #, fuzzy, kde-format
 #| msgid "Create mix"
 msgid "Create Animation…"
 msgstr "믹스 만들기"
 
-#: src/bin/bin.cpp:4176
+#: src/bin/bin.cpp:4178
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Sequence…"
 msgstr "이미지 시퀀스 추가"
 
-#: src/bin/bin.cpp:4180 src/mainwindow.cpp:351
+#: src/bin/bin.cpp:4182 src/mainwindow.cpp:351
 #, kde-format
 msgid "Online Resources"
 msgstr "온라인 리소스"
 
-#: src/bin/bin.cpp:4184
+#: src/bin/bin.cpp:4186
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "클립 찾기..."
 
-#: src/bin/bin.cpp:4189
+#: src/bin/bin.cpp:4191
 #, kde-format
 msgid "Reload Clip"
 msgstr "클립 다시 불러오기"
 
-#: src/bin/bin.cpp:4195
+#: src/bin/bin.cpp:4197
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:4200
+#: src/bin/bin.cpp:4202
 #, fuzzy, kde-format
 #| msgid "Insert current timecode"
 msgid "Insert at Timecode"
 msgstr "현재 시간 코드 삽입"
 
-#: src/bin/bin.cpp:4205
+#: src/bin/bin.cpp:4207
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip…"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:4211
+#: src/bin/bin.cpp:4213
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip In Timeline…"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:4216 src/mainwindow_actions.cpp:958
+#: src/bin/bin.cpp:4218 src/mainwindow_actions.cpp:958
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "클립 복제"
 
-#: src/bin/bin.cpp:4228 src/bin/bin.cpp:4305
+#: src/bin/bin.cpp:4230 src/bin/bin.cpp:4307
 #, kde-format
 msgid "Clip Properties"
 msgstr "클립 속성"
 
-#: src/bin/bin.cpp:4233 src/mltcontroller/clippropertiescontroller.cpp:620
+#: src/bin/bin.cpp:4235 src/mltcontroller/clippropertiescontroller.cpp:620
 #, kde-format
 msgid "Edit Clip"
 msgstr "클립 편집"
 
-#: src/bin/bin.cpp:4251
+#: src/bin/bin.cpp:4253
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "기본 프로젝트 파일 폴더"
 
-#: src/bin/bin.cpp:4256
+#: src/bin/bin.cpp:4258
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Audio Captures"
 msgstr "기본 프로젝트 파일 폴더"
 
-#: src/bin/bin.cpp:4260
+#: src/bin/bin.cpp:4262
 #, kde-format
 msgid "Create Folder"
 msgstr "폴더 만들기"
 
-#: src/bin/bin.cpp:4263
+#: src/bin/bin.cpp:4265
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22446,60 +22446,60 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:4423 src/bin/bin.cpp:4456
+#: src/bin/bin.cpp:4425 src/bin/bin.cpp:4458
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "이미지 시퀀스"
 
-#: src/bin/bin.cpp:4426 src/bin/bin.cpp:4429 src/bin/bin.cpp:4459
+#: src/bin/bin.cpp:4428 src/bin/bin.cpp:4431 src/bin/bin.cpp:4461
 #, fuzzy, kde-format
 #| msgid "Scene %1"
 msgid "Sequence %1"
 msgstr "장면 %1"
 
-#: src/bin/bin.cpp:4490
+#: src/bin/bin.cpp:4492
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "클립 이동"
 
-#: src/bin/bin.cpp:4532
+#: src/bin/bin.cpp:4534
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "삽입할 유효한 클립이 없음"
 
-#: src/bin/bin.cpp:4545 src/timeline2/view/timelinecontroller.cpp:1886
+#: src/bin/bin.cpp:4547 src/timeline2/view/timelinecontroller.cpp:1886
 #: src/timeline2/view/timelinecontroller.cpp:4017
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "효과를 적용할 클립 선택"
 
-#: src/bin/bin.cpp:4579 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4581 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:745
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "클립에 효과를 추가할 수 없음"
 
-#: src/bin/bin.cpp:4653 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:4655 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "효과 붙여넣기"
 
-#: src/bin/bin.cpp:4690 src/bin/bin.cpp:4697
+#: src/bin/bin.cpp:4692 src/bin/bin.cpp:4699
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "태그를 추가할 클립 선택"
 
-#: src/bin/bin.cpp:4836
+#: src/bin/bin.cpp:4838
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tags"
 msgstr "등급 편집"
 
-#: src/bin/bin.cpp:5173 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:5175 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:2040 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
@@ -22507,24 +22507,24 @@ msgstr "등급 편집"
 msgid "Unnamed"
 msgstr "이름 없음"
 
-#: src/bin/bin.cpp:5237
+#: src/bin/bin.cpp:5239
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:5249
+#: src/bin/bin.cpp:5251
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
 msgid "Please set a default application to open image files"
 msgstr "설정 대화 상자에서 이미지 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5254
+#: src/bin/bin.cpp:5256
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:5266
+#: src/bin/bin.cpp:5268
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -22532,13 +22532,13 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5273
+#: src/bin/bin.cpp:5275
 #, fuzzy, kde-format
 #| msgid "Enter url for the new dictionary"
 msgid "Enter path for your video editing application"
 msgstr "새 사전의 URL 입력"
 
-#: src/bin/bin.cpp:5285
+#: src/bin/bin.cpp:5287
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -22546,7 +22546,7 @@ msgstr "새 사전의 URL 입력"
 msgid "Please set a default application to open video files"
 msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5295 src/core.cpp:647 src/core.cpp:675
+#: src/bin/bin.cpp:5297 src/core.cpp:647 src/core.cpp:675
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22556,12 +22556,12 @@ msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램�
 msgid "Cannot open file %1"
 msgstr "%1 파일을 열 수 없음"
 
-#: src/bin/bin.cpp:5332 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5334 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(사본)"
 
-#: src/bin/bin.cpp:5342
+#: src/bin/bin.cpp:5344
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -22570,99 +22570,99 @@ msgstr ""
 "외부 타이틀 클립(%1)을 편집하고 있습니다. 변경 사항을 타이틀 파일에 저장하거"
 "나 이 프로젝트의 변경 사항만 저장하시겠습니까?"
 
-#: src/bin/bin.cpp:5345 src/titler/titlewidget.cpp:2611
+#: src/bin/bin.cpp:5347 src/titler/titlewidget.cpp:2611
 #, kde-format
 msgid "Save Title"
 msgstr "타이틀 저장"
 
-#: src/bin/bin.cpp:5345
+#: src/bin/bin.cpp:5347
 #, kde-format
 msgid "Save to title file"
 msgstr "타이틀 파일에 저장"
 
-#: src/bin/bin.cpp:5346
+#: src/bin/bin.cpp:5348
 #, kde-format
 msgid "Save in project only"
 msgstr "프로젝트에만 저장"
 
-#: src/bin/bin.cpp:5373 src/dialogs/clipcreationdialog.cpp:347
+#: src/bin/bin.cpp:5375 src/dialogs/clipcreationdialog.cpp:347
 #, kde-format
 msgid "Title clip"
 msgstr "타이틀 클립"
 
-#: src/bin/bin.cpp:5379
+#: src/bin/bin.cpp:5381
 #, fuzzy, kde-format
 #| msgid "Cannot delete last track in timeline"
 msgid "Replace the title clip in the timeline with the new one?"
 msgstr "타임라인의 마지막 트랙을 삭제할 수 없음"
 
-#: src/bin/bin.cpp:5380
+#: src/bin/bin.cpp:5382
 #, fuzzy, kde-format
 #| msgid "Main timeline"
 msgid "Replace Title Clip"
 msgstr "기본 타임라인"
 
-#: src/bin/bin.cpp:5380
+#: src/bin/bin.cpp:5382
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:5380
+#: src/bin/bin.cpp:5382
 #, fuzzy, kde-format
 #| msgid "Testing"
 msgid "Keep Existing"
 msgstr "테스트"
 
-#: src/bin/bin.cpp:5440
+#: src/bin/bin.cpp:5442
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "클립이 잘못되었습니다. 프로젝트에서 삭제됩니다."
 
-#: src/bin/bin.cpp:5444
+#: src/bin/bin.cpp:5446
 #, kde-format
 msgid "Invalid clip"
 msgstr "잘못된 클립"
 
-#: src/bin/bin.cpp:5558
+#: src/bin/bin.cpp:5560
 #, kde-format
 msgid "Enable proxies"
 msgstr "프록시 사용"
 
-#: src/bin/bin.cpp:5558
+#: src/bin/bin.cpp:5560
 #, kde-format
 msgid "Disable proxies"
 msgstr "프록시 사용 안 함"
 
-#: src/bin/bin.cpp:5745
+#: src/bin/bin.cpp:5747
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "프록시 재구축"
 
-#: src/bin/bin.cpp:6011
+#: src/bin/bin.cpp:6013
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6027
+#: src/bin/bin.cpp:6029
 #, kde-format
 msgid "Add Tracks"
 msgstr "트랙 추가"
 
-#: src/bin/bin.cpp:6029
+#: src/bin/bin.cpp:6031
 #, kde-format
 msgid "Edit Streams"
 msgstr "스트림 편집"
 
-#: src/bin/bin.cpp:6048
+#: src/bin/bin.cpp:6050
 #, kde-format
 msgid "Don't ask again"
 msgstr "다시 묻지 않기"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:6052
+#: src/bin/bin.cpp:6054
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -22671,7 +22671,7 @@ msgstr ""
 "프로젝트의 모든 스트림을 처리하려면 더 많은 오디오 트랙이 필요합니다. 오디오 "
 "트랙 %1개를 추가하시겠습니까?"
 
-#: src/bin/bin.cpp:6064 src/mainwindow.cpp:1817
+#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1817
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "마커를 추가할 클립을 찾을 수 없음"
@@ -22679,7 +22679,7 @@ msgstr "마커를 추가할 클립을 찾을 수 없음"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:6078 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:6080 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:1850
@@ -22689,34 +22689,34 @@ msgstr "마커를 추가할 클립을 찾을 수 없음"
 msgid "Marker"
 msgstr "마커"
 
-#: src/bin/bin.cpp:6168
+#: src/bin/bin.cpp:6170
 #, kde-format
 msgid "Could not find master clip"
 msgstr "마스터 클립을 찾을 수 없음"
 
-#: src/bin/bin.cpp:6435
+#: src/bin/bin.cpp:6437
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:6437
+#: src/bin/bin.cpp:6439
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:6506 src/bin/bin.cpp:6584
+#: src/bin/bin.cpp:6508 src/bin/bin.cpp:6586
 #, fuzzy, kde-format
 #| msgid "Add additional streams for clip"
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "클립에 추가 스트림 추가"
 
-#: src/bin/bin.cpp:6527
+#: src/bin/bin.cpp:6529
 #, kde-format
 msgid "Import selected clips"
 msgstr "선택한 클립 가져오기"
 
-#: src/bin/bin.cpp:6529
+#: src/bin/bin.cpp:6531
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -22725,54 +22725,54 @@ msgstr ""
 "%1\n"
 "클립의 추가 스트림"
 
-#: src/bin/bin.cpp:6543 src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/bin/bin.cpp:6545 src/mltcontroller/clippropertiescontroller.cpp:734
 #, kde-format
 msgid "Video stream %1"
 msgstr "동영상 스트림 %1"
 
-#: src/bin/bin.cpp:6558
+#: src/bin/bin.cpp:6560
 #, kde-format
 msgid "Audio stream %1"
 msgstr "오디오 스트림 %1"
 
-#: src/bin/bin.cpp:6611
+#: src/bin/bin.cpp:6613
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "클립 삭제"
 
-#: src/bin/bin.cpp:6808
+#: src/bin/bin.cpp:6810
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6809
+#: src/bin/bin.cpp:6811
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD 프로젝트 저장"
 
-#: src/bin/bin.cpp:6810
+#: src/bin/bin.cpp:6812
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "트랜스코딩: %1"
 
-#: src/bin/bin.cpp:6968 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6970 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1128
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 효과 삭제"
 
-#: src/bin/bin.cpp:7034 src/mainwindow.cpp:272
+#: src/bin/bin.cpp:7036 src/mainwindow.cpp:272
 #, kde-format
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:7037 src/bin/bin.cpp:7040 src/mainwindow.cpp:3858
+#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3858
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -23340,22 +23340,22 @@ msgid "%1 clip"
 msgid_plural "%1 clips"
 msgstr[0] "클립 %1개"
 
-#: src/bin/projectitemmodel.cpp:343
+#: src/bin/projectitemmodel.cpp:344
 #, kde-format
 msgid "Tag"
 msgstr "태그"
 
-#: src/bin/projectitemmodel.cpp:349
+#: src/bin/projectitemmodel.cpp:350
 #, kde-format
 msgid "Id"
 msgstr "Id"
 
-#: src/bin/projectitemmodel.cpp:355
+#: src/bin/projectitemmodel.cpp:356
 #, kde-format
 msgid "Usage"
 msgstr ""
 
-#: src/bin/projectitemmodel.cpp:361 src/doc/documentchecker.cpp:2013
+#: src/bin/projectitemmodel.cpp:362 src/doc/documentchecker.cpp:2013
 #: src/doc/documentchecker.cpp:2043 src/doc/documentchecker.cpp:2065
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
@@ -23363,46 +23363,46 @@ msgstr ""
 msgid "Unknown"
 msgstr "알 수 없음"
 
-#: src/bin/projectitemmodel.cpp:711
+#: src/bin/projectitemmodel.cpp:736
 #, fuzzy, kde-format
 #| msgid "Add a sub clip"
 msgid "Add sub clips"
 msgstr "하위 클립 추가"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, maskTree)
-#: src/bin/projectitemmodel.cpp:746 src/ui/maskmanage_ui.ui:49
+#: src/bin/projectitemmodel.cpp:771 src/ui/maskmanage_ui.ui:49
 #, kde-format
 msgid "Zone"
 msgstr "영역"
 
-#: src/bin/projectitemmodel.cpp:1029
+#: src/bin/projectitemmodel.cpp:1054
 #, kde-format
 msgid "Add bin clip"
 msgstr "보관함 클립 추가"
 
-#: src/bin/projectitemmodel.cpp:1147
+#: src/bin/projectitemmodel.cpp:1172
 #, kde-format
 msgid "Add a sub clip"
 msgstr "하위 클립 추가"
 
-#: src/bin/projectitemmodel.cpp:1188
+#: src/bin/projectitemmodel.cpp:1213
 #, kde-format
 msgid "Rename Folder"
 msgstr "폴더 이름 바꾸기"
 
-#: src/bin/projectitemmodel.cpp:1232 src/mainwindow_actions.cpp:635
+#: src/bin/projectitemmodel.cpp:1257 src/mainwindow_actions.cpp:635
 #, fuzzy, kde-format
 #| msgid "Remove Guide"
 msgid "Remove Unused Media"
 msgstr "안내선 삭제"
 
-#: src/bin/projectitemmodel.cpp:1460
+#: src/bin/projectitemmodel.cpp:1485
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Reading project clips…"
 msgstr "프로젝트 클립 불러오는 중..."
 
-#: src/bin/projectitemmodel.cpp:1558
+#: src/bin/projectitemmodel.cpp:1583
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Loading project clips…"
@@ -23508,7 +23508,7 @@ msgid "Disable GPU processing"
 msgstr "프록시 사용 안 함"
 
 #: src/core.cpp:269 src/core.cpp:312 src/core.cpp:486
-#: src/project/projectmanager.cpp:904
+#: src/project/projectmanager.cpp:922
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Loading project…"
@@ -24253,12 +24253,12 @@ msgstr "안내선 가져오기"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2055 src/project/projectmanager.cpp:2061
+#: src/project/projectmanager.cpp:2089 src/project/projectmanager.cpp:2095
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5944
-#: src/timeline2/view/timelinecontroller.cpp:5949
+#: src/timeline2/view/timelinecontroller.cpp:5946
+#: src/timeline2/view/timelinecontroller.cpp:5951
 #: src/titler/titlewidget.cpp:2624
 #, kde-format
 msgid "Cannot write to file %1"
@@ -24353,7 +24353,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr ""
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1944
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1978
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
@@ -27913,8 +27913,8 @@ msgstr "다음 필터/전환 효과가 프로젝트에서 삭제되었습니다:
 msgid "Invalid file path"
 msgstr "프로필 잘못됨"
 
-#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:881
-#: src/project/projectmanager.cpp:933
+#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:899
+#: src/project/projectmanager.cpp:951
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Could not recover corrupted file."
@@ -27998,8 +27998,8 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1606
-#: src/project/projectmanager.cpp:1650
+#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1640
+#: src/project/projectmanager.cpp:1684
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
@@ -30243,12 +30243,12 @@ msgstr ""
 "현재 프로젝트가 저장되지 않았습니다. 프로젝트를 먼저 저장한 다음 모든 임시 파"
 "일을 <b>%1</b>에서 <b>%2</b>(으)로 이동하고 프로젝트 파일을 다시 불러옵니다"
 
-#: src/mainwindow.cpp:1263 src/project/projectmanager.cpp:628
+#: src/mainwindow.cpp:1263 src/project/projectmanager.cpp:632
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "작업을 수행할 수 없습니다. 유효하지 않은 문서 ID: %1"
 
-#: src/mainwindow.cpp:1268 src/project/projectmanager.cpp:635
+#: src/mainwindow.cpp:1268 src/project/projectmanager.cpp:639
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "작업을 수행할 수 없습니다. 대상 디렉터리가 이미 존재합니다: %1"
@@ -31763,7 +31763,7 @@ msgid "Fit all Tracks in View"
 msgstr "모든 트랙 활성 변경"
 
 #: src/mainwindow_actions.cpp:1046
-#: src/timeline2/view/timelinecontroller.cpp:5671
+#: src/timeline2/view/timelinecontroller.cpp:5673
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence effects"
@@ -32792,7 +32792,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "%1 파일의 재생 시간을 가져올 수 없음"
 
 #: src/monitor/monitor.cpp:3475 src/monitor/monitor.cpp:3506
-#: src/timeline2/view/timelinecontroller.cpp:6468
+#: src/timeline2/view/timelinecontroller.cpp:6470
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -32803,13 +32803,13 @@ msgid "Create Range Marker from Zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3491 src/monitor/monitor.cpp:3512
-#: src/timeline2/view/timelinecontroller.cpp:6483
+#: src/timeline2/view/timelinecontroller.cpp:6485
 #, kde-format
 msgid "Range marker created from zone"
 msgstr ""
 
 #: src/monitor/monitor.cpp:3493 src/monitor/monitor.cpp:3514
-#: src/timeline2/view/timelinecontroller.cpp:6486
+#: src/timeline2/view/timelinecontroller.cpp:6488
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgid "Failed to create range marker from zone"
@@ -32970,7 +32970,7 @@ msgid "Go to Zone End"
 msgstr "영역 끝으로 이동"
 
 #: src/monitor/monitorproxy.cpp:803
-#: src/timeline2/view/timelinecontroller.cpp:6475
+#: src/timeline2/view/timelinecontroller.cpp:6477
 #, fuzzy, kde-format
 #| msgid "Rename marker"
 msgid "Zone marker"
@@ -34924,35 +34924,35 @@ msgstr "메모를 추가할 수 없음, 프로젝트 보관함에서 클립을 �
 msgid "Cannot perform assign"
 msgstr "할당을 수행할 수 없음"
 
-#: src/project/projectmanager.cpp:72
+#: src/project/projectmanager.cpp:73
 #, fuzzy, kde-format
 #| msgid "Render Project"
 msgid "Kdenlive Project"
 msgstr "프로젝트 렌더링"
 
-#: src/project/projectmanager.cpp:74
+#: src/project/projectmanager.cpp:75
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgid "Archived Project"
 msgstr "프로젝트 압축"
 
-#: src/project/projectmanager.cpp:143
+#: src/project/projectmanager.cpp:144
 #, kde-format
 msgid "Save Copy…"
 msgstr "복사본 저장…"
 
-#: src/project/projectmanager.cpp:147
+#: src/project/projectmanager.cpp:148
 #, fuzzy, kde-format
 #| msgid "Open Backup File"
 msgid "Open Backup File…"
 msgstr "백업 파일 열기"
 
-#: src/project/projectmanager.cpp:434
+#: src/project/projectmanager.cpp:435
 #, kde-format
 msgid "Save changes to document?"
 msgstr "변경 사항을 문서에 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:436 src/project/projectmanager.cpp:1881
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1915
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34961,18 +34961,18 @@ msgstr ""
 "<b>\"%1\"</b> 프로젝트가 변경되었습니다.\n"
 "변경 사항을 저장하시겠습니까?"
 
-#: src/project/projectmanager.cpp:555
+#: src/project/projectmanager.cpp:558
 #, kde-format
 msgid "Saving project file <br><b>%1</B> failed"
 msgstr ""
 
-#: src/project/projectmanager.cpp:601
+#: src/project/projectmanager.cpp:605
 #, fuzzy, kde-format
 #| msgid "Starting process"
 msgid "Saving successful"
 msgstr "작업 시작 중"
 
-#: src/project/projectmanager.cpp:616
+#: src/project/projectmanager.cpp:620
 #, kde-format
 msgid ""
 "The location of the project file changed. You selected to use the location "
@@ -34983,45 +34983,45 @@ msgstr ""
 "경로를 선택했습니다. 프로젝트를 먼저 저장한 다음 모든 임시 파일을 <b>%1</b>에"
 "서 <b>%2</b>(으)로 이동하고 프로젝트 파일을 다시 불러옵니다"
 
-#: src/project/projectmanager.cpp:665
+#: src/project/projectmanager.cpp:669
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "복사본 저장"
 
-#: src/project/projectmanager.cpp:786
+#: src/project/projectmanager.cpp:790
 #, fuzzy, kde-format
 #| msgid "Auto-saved file exist. Do you want to recover now?"
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "자동 저장된 파일이 있습니다. 지금 복구하시겠습니까?"
 
-#: src/project/projectmanager.cpp:786
+#: src/project/projectmanager.cpp:790
 #, kde-format
 msgid "File Recovery"
 msgstr "파일 복구"
 
-#: src/project/projectmanager.cpp:787 src/project/projectmanager.cpp:919
+#: src/project/projectmanager.cpp:791 src/project/projectmanager.cpp:937
 #, kde-format
 msgid "Recover"
 msgstr "복구"
 
-#: src/project/projectmanager.cpp:787
+#: src/project/projectmanager.cpp:791
 #, kde-format
 msgid "Do not recover"
 msgstr "복구하지 않기"
 
-#: src/project/projectmanager.cpp:826
+#: src/project/projectmanager.cpp:830
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "File %1 does not exist"
 msgstr "분류"
 
-#: src/project/projectmanager.cpp:858
+#: src/project/projectmanager.cpp:876
 #, kde-format
 msgid "Opening file %1"
 msgstr "파일 %1 여는 중"
 
-#: src/project/projectmanager.cpp:918
+#: src/project/projectmanager.cpp:936
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open the project file %1,\n"
@@ -35034,46 +35034,46 @@ msgstr ""
 "%1 프로젝트 파일을 열 수 없습니다.\n"
 "백업 파일을 여시겠습니까?"
 
-#: src/project/projectmanager.cpp:919 src/project/projectmanager.cpp:1194
+#: src/project/projectmanager.cpp:937 src/project/projectmanager.cpp:1216
 #, kde-format
 msgid "Error opening file"
 msgstr "파일 열기 오류"
 
-#: src/project/projectmanager.cpp:919 src/project/projectmanager.cpp:1195
+#: src/project/projectmanager.cpp:937 src/project/projectmanager.cpp:1217
 #, kde-format
 msgid "Open Backup"
 msgstr "백업 열기"
 
-#: src/project/projectmanager.cpp:937
+#: src/project/projectmanager.cpp:955
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Could not open the backup project file."
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:952
+#: src/project/projectmanager.cpp:970
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "프로젝트가 업그레이드 되었으며 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:954
+#: src/project/projectmanager.cpp:972
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "프로젝트가 열릴 때 수정되었습니다. 다음 저장 시 백업이 생성됩니다"
 
-#: src/project/projectmanager.cpp:1025
+#: src/project/projectmanager.cpp:1047
 #, fuzzy, kde-format
 #| msgid "Downloading model..."
 msgid "Loading timeline…"
 msgstr "모델 다운로드 중..."
 
-#: src/project/projectmanager.cpp:1048
+#: src/project/projectmanager.cpp:1070
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Building sequences…"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1221
+#: src/project/projectmanager.cpp:1243
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid ""
@@ -35081,7 +35081,7 @@ msgid ""
 "%1\n"
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/projectmanager.cpp:1261
+#: src/project/projectmanager.cpp:1283
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -35090,12 +35090,12 @@ msgstr ""
 "마지막으로 프로젝트를 저장한 이후의 모든 변경 사항이 손실됩니다. 계속 진행하"
 "시겠습니까?"
 
-#: src/project/projectmanager.cpp:1262
+#: src/project/projectmanager.cpp:1284
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "마지막으로 저장된 버전으로 되돌리기"
 
-#: src/project/projectmanager.cpp:1361
+#: src/project/projectmanager.cpp:1395
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -35104,38 +35104,38 @@ msgstr ""
 "프로젝트가 손상되어서 백업할 수 없습니다. 프로젝트 파일을 닫았다 다시 열어서 "
 "마지막 백업에서 복구하십시오"
 
-#: src/project/projectmanager.cpp:1582
+#: src/project/projectmanager.cpp:1616
 #, fuzzy, kde-format
 #| msgid "Error moving project folder: %1"
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/project/projectmanager.cpp:1620
+#: src/project/projectmanager.cpp:1654
 #, kde-format
 msgid "Moving project folder"
 msgstr "프로젝트 폴더 이동"
 
-#: src/project/projectmanager.cpp:1721 src/project/projectmanager.cpp:1777
-#: src/project/projectmanager.cpp:1781
+#: src/project/projectmanager.cpp:1755 src/project/projectmanager.cpp:1811
+#: src/project/projectmanager.cpp:1815
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgid "Sequence 1"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:1732
+#: src/project/projectmanager.cpp:1766
 #, fuzzy, kde-format
 #| msgid "Project file is corrupted (no tracks). Try to find a backup file?"
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "프로젝트 파일이 잘못되었습니다(트랙 없음). 백업 파일이 있습니까?"
 
-#: src/project/projectmanager.cpp:1873 src/project/projectmanager.cpp:1886
-#: src/project/projectmanager.cpp:1910 src/project/projectmanager.cpp:1919
+#: src/project/projectmanager.cpp:1907 src/project/projectmanager.cpp:1920
+#: src/project/projectmanager.cpp:1944 src/project/projectmanager.cpp:1953
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "프로젝트 프로필 변경 중단됨"
 
-#: src/project/projectmanager.cpp:2049
+#: src/project/projectmanager.cpp:2083
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -35144,12 +35144,12 @@ msgstr ""
 "출력 파일 %1이(가) 이미 있습니다.\n"
 "덮어쓰시겠습니까?"
 
-#: src/project/projectmanager.cpp:2074
+#: src/project/projectmanager.cpp:2108
 #, kde-format
 msgid "Project profile changed"
 msgstr "프로젝트 프로필 변경됨"
 
-#: src/project/projectmanager.cpp:2138
+#: src/project/projectmanager.cpp:2172
 #, fuzzy, kde-format
 #| msgid "Cannot create filter %1"
 msgid ""
@@ -35157,41 +35157,65 @@ msgid ""
 "%1"
 msgstr "%1 필터를 만들 수 없음"
 
-#: src/project/projectmanager.cpp:2227
+#: src/project/projectmanager.cpp:2261
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 
-#: src/project/projectmanager.cpp:2461 src/project/projectmanager.cpp:2516
+#: src/project/projectmanager.cpp:2495 src/project/projectmanager.cpp:2550
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Select a clip to create sequence"
 msgstr "효과를 비교할 클립을 선택하십시오"
 
-#: src/project/projectmanager.cpp:2467 src/project/projectmanager.cpp:2474
-#: src/project/projectmanager.cpp:2525
+#: src/project/projectmanager.cpp:2501 src/project/projectmanager.cpp:2508
+#: src/project/projectmanager.cpp:2559
 #, fuzzy, kde-format
 #| msgid "Speech recognition failed"
 msgid "Sequence creation failed"
 msgstr "음성 인식 실패"
 
-#: src/project/projectmanager.cpp:2501
+#: src/project/projectmanager.cpp:2535
 #, fuzzy, kde-format
 #| msgid "You cannot add a project inside itself."
 msgid "Cannot insert sequence in current timeline"
 msgstr "프로젝트 안에 자기 자신을 추가할 수 없습니다."
 
-#: src/project/projectmanager.cpp:2505
+#: src/project/projectmanager.cpp:2539
 #, fuzzy, kde-format
 #| msgid "Image sequence"
 msgid "Create Sequence Clip"
 msgstr "이미지 시퀀스"
 
-#: src/project/projectmanager.cpp:2543
+#: src/project/projectmanager.cpp:2577
 #, fuzzy, kde-format
 #| msgid "Select a clip to compare effect"
 msgid "Copy clips to new Sequence"
 msgstr "효과를 비교할 클립을 선택하십시오"
+
+#: src/project/projectmanager.cpp:2669
+#, kde-format
+msgid "<br>Lock owner: process %1 on %2."
+msgstr ""
+
+#: src/project/projectmanager.cpp:2672
+#, kde-format
+msgid ""
+"The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
+"session.%2<br><br>Opening it in two sessions can cause data loss."
+msgstr ""
+
+#: src/project/projectmanager.cpp:2676
+#, fuzzy, kde-format
+#| msgid "Project profile changed"
+msgid "Project Already Opened"
+msgstr "프로젝트 프로필 변경됨"
+
+#: src/project/projectmanager.cpp:2676
+#, fuzzy, kde-format
+#| msgid "Render time"
+msgid "Open Anyway"
+msgstr "렌더 시간"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, fuzzy, kde-format
@@ -36919,7 +36943,7 @@ msgstr "합성 삭제"
 
 #: src/timeline2/model/timelinemodel.cpp:2832
 #: src/timeline2/model/timelinemodel.cpp:3106
-#: src/timeline2/view/timelinecontroller.cpp:4975
+#: src/timeline2/view/timelinecontroller.cpp:4977
 #, kde-format
 msgid "Move group"
 msgstr "그룹 이동"
@@ -37590,7 +37614,7 @@ msgid "Could not duplicate clip"
 msgstr "마스터 클립을 찾을 수 없음"
 
 #: src/timeline2/view/timelinecontroller.cpp:1022
-#: src/timeline2/view/timelinecontroller.cpp:5832
+#: src/timeline2/view/timelinecontroller.cpp:5834
 #, kde-format
 msgid "Could not insert track"
 msgstr "트랙을 삽입할 수 없음"
@@ -37687,7 +37711,7 @@ msgid "Cannot change speed of item(s)"
 msgstr "클립을 만들 수 없음"
 
 #: src/timeline2/view/timelinecontroller.cpp:3473
-#: src/timeline2/view/timelinecontroller.cpp:6097
+#: src/timeline2/view/timelinecontroller.cpp:6099
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr "트랙의 레이블을 클릭하여 이 작업에 사용할 트랙을 활성화하십시오"
@@ -37803,60 +37827,60 @@ msgstr "항목이 타이틀 클립이 아님"
 msgid "%1 items selected (%2) |"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4673
+#: src/timeline2/view/timelinecontroller.cpp:4675
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
 "try this action again, or import a new clip."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4674
-#: src/timeline2/view/timelinecontroller.cpp:4730
+#: src/timeline2/view/timelinecontroller.cpp:4676
+#: src/timeline2/view/timelinecontroller.cpp:4732
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "클립 대체"
 
-#: src/timeline2/view/timelinecontroller.cpp:4674
+#: src/timeline2/view/timelinecontroller.cpp:4676
 #, fuzzy, kde-format
 #| msgid "Import selected clips"
 msgid "Import New Clip"
 msgstr "선택한 클립 가져오기"
 
-#: src/timeline2/view/timelinecontroller.cpp:4717
+#: src/timeline2/view/timelinecontroller.cpp:4719
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4724
+#: src/timeline2/view/timelinecontroller.cpp:4726
 #, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4727
+#: src/timeline2/view/timelinecontroller.cpp:4729
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] ""
 
-#: src/timeline2/view/timelinecontroller.cpp:4730
+#: src/timeline2/view/timelinecontroller.cpp:4732
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip"
 msgstr "클립 대체"
 
-#: src/timeline2/view/timelinecontroller.cpp:4954
+#: src/timeline2/view/timelinecontroller.cpp:4956
 #, kde-format
 msgid "Move item"
 msgstr "항목 이동"
 
-#: src/timeline2/view/timelinecontroller.cpp:5520
+#: src/timeline2/view/timelinecontroller.cpp:5522
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "잠긴 트랙에서 캡처할 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5531
+#: src/timeline2/view/timelinecontroller.cpp:5533
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -37865,44 +37889,44 @@ msgstr ""
 "캡처할 수 없음: 캡처 시 클립을 덮어쓸 수 있습니다. 현재 위치 이후의 클립을 삭"
 "제하거나 다른 트랙을 선택하십시오"
 
-#: src/timeline2/view/timelinecontroller.cpp:5625
+#: src/timeline2/view/timelinecontroller.cpp:5627
 #, kde-format
 msgid "Record audio"
 msgstr "오디오 녹음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5772
+#: src/timeline2/view/timelinecontroller.cpp:5774
 #, kde-format
 msgid "Expand clip"
 msgstr "클립 펼치기"
 
-#: src/timeline2/view/timelinecontroller.cpp:5775
+#: src/timeline2/view/timelinecontroller.cpp:5777
 #, kde-format
 msgid "Could not expand clip"
 msgstr "클립을 펼칠 수 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5830
+#: src/timeline2/view/timelinecontroller.cpp:5832
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "트랙 삽입"
 
-#: src/timeline2/view/timelinecontroller.cpp:5898
+#: src/timeline2/view/timelinecontroller.cpp:5900
 #, fuzzy, kde-format
 #| msgid "No subtitles in current project"
 msgid "No subtitles in current project. Export not possible."
 msgstr "현재 프로젝트에 자막 없음"
 
-#: src/timeline2/view/timelinecontroller.cpp:5909
+#: src/timeline2/view/timelinecontroller.cpp:5911
 #, kde-format
 msgid "Export subtitle file"
 msgstr "자막 파일 내보내기"
 
-#: src/timeline2/view/timelinecontroller.cpp:5910
+#: src/timeline2/view/timelinecontroller.cpp:5912
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5924
+#: src/timeline2/view/timelinecontroller.cpp:5926
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -37911,55 +37935,55 @@ msgid ""
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5929
+#: src/timeline2/view/timelinecontroller.cpp:5931
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgid "Warning"
 msgstr "스캔라인"
 
-#: src/timeline2/view/timelinecontroller.cpp:5967
+#: src/timeline2/view/timelinecontroller.cpp:5969
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
 
-#: src/timeline2/view/timelinecontroller.cpp:5984
+#: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Show subtitle track"
 msgstr "자막 트랙 표시"
 
-#: src/timeline2/view/timelinecontroller.cpp:5984
+#: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "자막 트랙 숨기기"
 
-#: src/timeline2/view/timelinecontroller.cpp:6007
+#: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "자막 트랙 잠금 해제"
 
-#: src/timeline2/view/timelinecontroller.cpp:6007
+#: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "자막 트랙 잠금"
 
-#: src/timeline2/view/timelinecontroller.cpp:6174
-#: src/timeline2/view/timelinecontroller.cpp:6183
+#: src/timeline2/view/timelinecontroller.cpp:6176
+#: src/timeline2/view/timelinecontroller.cpp:6185
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "자막"
 
-#: src/timeline2/view/timelinecontroller.cpp:6185
+#: src/timeline2/view/timelinecontroller.cpp:6187
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "자막"
 
-#: src/timeline2/view/timelinecontroller.cpp:6416
+#: src/timeline2/view/timelinecontroller.cpp:6418
 #, fuzzy, kde-format
 #| msgid "No guide found at current position"
 msgid "No range guide found at position"
