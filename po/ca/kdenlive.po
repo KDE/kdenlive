@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-17 00:48+0000\n"
-"PO-Revision-Date: 2026-10-12 10:18+0200\n"
+"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"PO-Revision-Date: 2026-10-17 08:21+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -7579,7 +7579,7 @@ msgstr "Durada"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:87
-#: src/core.cpp:1132 src/kdenliveui.rc:196 src/mainwindow.cpp:277
+#: src/core.cpp:1195 src/kdenliveui.rc:196 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
@@ -22642,7 +22642,7 @@ msgstr "Introduïu el camí a l'aplicació d'edició de vídeo"
 msgid "Please set a default application to open video files"
 msgstr "Establiu l'aplicació predeterminada per a obrir fitxers de vídeo"
 
-#: src/bin/bin.cpp:5297 src/core.cpp:647 src/core.cpp:675
+#: src/bin/bin.cpp:5297 src/core.cpp:710 src/core.cpp:738
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -23535,7 +23535,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "captura"
 
-#: src/core.cpp:170
+#: src/core.cpp:174
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -23544,18 +23544,18 @@ msgstr ""
 "El Kdenlive va fallar en l'últim inici.\n"
 "Voleu desactivar el processament experimental de la GPU (Movit)?"
 
-#: src/core.cpp:171
+#: src/core.cpp:175
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "Desactiva el processament de la GPU"
 
-#: src/core.cpp:269 src/core.cpp:312 src/core.cpp:486
+#: src/core.cpp:273 src/core.cpp:316 src/core.cpp:490
 #: src/project/projectmanager.cpp:922
 #, kde-format
 msgid "Loading project…"
 msgstr "S'està carregant el projecte…"
 
-#: src/core.cpp:446
+#: src/core.cpp:450
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -23564,19 +23564,19 @@ msgstr ""
 "No s'ha definit cap perfil predeterminat del Kdenlive o no és vàlid. Premeu "
 "d'Acord per a establir el seu valor correcte."
 
-#: src/core.cpp:458
+#: src/core.cpp:462
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Selecció del perfil predeterminat"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:458 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:462 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Perfil:"
 
-#: src/core.cpp:471
+#: src/core.cpp:475
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -23585,262 +23585,262 @@ msgstr ""
 "El perfil indicat no és vàlid. S'estableix el perfil predeterminat «dv_pal», "
 "però podeu canviar-ho en el plafó d'arranjament del Kdenlive"
 
-#: src/core.cpp:727
+#: src/core.cpp:790
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Barres de quadrat 2"
 
-#: src/core.cpp:728
+#: src/core.cpp:791
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Tauler d'escacs petit"
 
-#: src/core.cpp:729
+#: src/core.cpp:792
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Persianes horitzontals"
 
-#: src/core.cpp:730
+#: src/core.cpp:793
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Radial"
 
-#: src/core.cpp:731
+#: src/core.cpp:794
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Lineal X"
 
-#: src/core.cpp:732
+#: src/core.cpp:795
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Bilineal X"
 
-#: src/core.cpp:733
+#: src/core.cpp:796
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Lineal Y"
 
-#: src/core.cpp:734
+#: src/core.cpp:797
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Bilineal Y"
 
-#: src/core.cpp:735
+#: src/core.cpp:798
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Quadrat"
 
-#: src/core.cpp:736
+#: src/core.cpp:799
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Quadrat 2"
 
-#: src/core.cpp:737
+#: src/core.cpp:800
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Núvol"
 
-#: src/core.cpp:738
+#: src/core.cpp:801
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Rellotge simètric"
 
-#: src/core.cpp:739
+#: src/core.cpp:802
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Barres radials"
 
-#: src/core.cpp:740
+#: src/core.cpp:803
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Espiral"
 
-#: src/core.cpp:741
+#: src/core.cpp:804
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Espiral 2"
 
-#: src/core.cpp:742
+#: src/core.cpp:805
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Cortina"
 
-#: src/core.cpp:743
+#: src/core.cpp:806
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Ràfega"
 
-#: src/core.cpp:744
+#: src/core.cpp:807
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Rellotge"
 
-#: src/core.cpp:746
+#: src/core.cpp:809
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Barra horitzontal"
 
-#: src/core.cpp:747
+#: src/core.cpp:810
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Barra vertical"
 
-#: src/core.cpp:748
+#: src/core.cpp:811
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Porta de graner horitzontal"
 
-#: src/core.cpp:749
+#: src/core.cpp:812
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Porta de graner vertical"
 
-#: src/core.cpp:750
+#: src/core.cpp:813
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Porta doble de graner diagonal SO-NE"
 
-#: src/core.cpp:751
+#: src/core.cpp:814
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Porta doble de graner diagonal NO-SE"
 
-#: src/core.cpp:752
+#: src/core.cpp:815
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Diagonal a dalt a l'esquerra"
 
-#: src/core.cpp:753
+#: src/core.cpp:816
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Diagonal a dalt a la dreta"
 
-#: src/core.cpp:754
+#: src/core.cpp:817
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Cascada de matriu horitzontal"
 
-#: src/core.cpp:755
+#: src/core.cpp:818
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Cascada de matriu vertical"
 
-#: src/core.cpp:756
+#: src/core.cpp:819
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Serp de matriu horitzontal"
 
-#: src/core.cpp:757
+#: src/core.cpp:820
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Serp de matriu paral·lela i horitzontal"
 
-#: src/core.cpp:758
+#: src/core.cpp:821
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Serp de matriu vertical"
 
-#: src/core.cpp:759
+#: src/core.cpp:822
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Serp de matriu paral·lela i vertical"
 
-#: src/core.cpp:760
+#: src/core.cpp:823
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "V de graner amunt"
 
-#: src/core.cpp:761
+#: src/core.cpp:824
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "Iris de cercle"
 
-#: src/core.cpp:762
+#: src/core.cpp:825
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Iris doble"
 
-#: src/core.cpp:763
+#: src/core.cpp:826
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "Iris de quadre"
 
-#: src/core.cpp:764
+#: src/core.cpp:827
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Quadre inferior dret"
 
-#: src/core.cpp:765
+#: src/core.cpp:828
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Quadre inferior esquerre"
 
-#: src/core.cpp:766
+#: src/core.cpp:829
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Quadre central dret"
 
-#: src/core.cpp:767
+#: src/core.cpp:830
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Rellotge a dalt"
 
-#: src/core.cpp:1078
+#: src/core.cpp:1141
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "El perfil del projecte no és vàlid, la renderització podria fallar."
 
-#: src/core.cpp:1443
+#: src/core.cpp:1506
 #, kde-format
 msgid "Loading clips"
 msgstr "S'estan carregant els clips"
 
-#: src/core.cpp:1953
+#: src/core.cpp:2016
 #, kde-format
 msgid "Marker %1"
 msgstr "Marcador %1"
 
-#: src/core.cpp:2314
+#: src/core.cpp:2377
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23851,12 +23851,12 @@ msgstr ""
 "a l'URL següent:\n"
 " %1"
 
-#: src/core.cpp:2315 src/core.cpp:2326
+#: src/core.cpp:2378 src/core.cpp:2389
 #, kde-format
 msgid "Open Browser"
 msgstr "Obre en un navegador"
 
-#: src/core.cpp:2325
+#: src/core.cpp:2388
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -25047,7 +25047,7 @@ msgstr "Vídeo sense pista d'àudio"
 msgid "Audio without video track"
 msgstr "Àudio sense pista de vídeo"
 
-#: src/dialogs/renderwidget.cpp:1227 src/main.cpp:555
+#: src/dialogs/renderwidget.cpp:1227 src/main.cpp:546
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Ha començat la renderització de %1"
@@ -31747,7 +31747,7 @@ msgstr "Inhabilita els subtítols"
 #: src/mainwindow_actions.cpp:1121
 #, kde-format
 msgid "Lock Subtitle"
-msgstr "Bloca els subtítols"
+msgstr "Bloqueja els subtítols"
 
 #: src/mainwindow_actions.cpp:1123
 #, kde-format
@@ -34959,7 +34959,7 @@ msgstr "Copia els clips a una seqüència nova"
 #: src/project/projectmanager.cpp:2669
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
-msgstr ""
+msgstr "<br>Propietari del bloqueig: procés %1 a %2."
 
 #: src/project/projectmanager.cpp:2672
 #, kde-format
@@ -34967,19 +34967,18 @@ msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
+"El projecte <b>«%1»</b> sembla que ja està obert en una altra sessió del "
+"Kdenlive.%2<br><br>L'obertura en dues sessions pot causar pèrdua de dades."
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "S'ha canviat el perfil del projecte"
+msgstr "El projecte ja està obert"
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "Renderitza igualment"
+msgstr "Obre igualment"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
@@ -37703,7 +37702,7 @@ msgstr "Desbloqueja la pista de subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Lock subtitle track"
-msgstr "Bloca la pista de subtítols"
+msgstr "Bloqueja la pista de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:6176
 #: src/timeline2/view/timelinecontroller.cpp:6185
