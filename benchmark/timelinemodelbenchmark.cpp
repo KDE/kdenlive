@@ -15,6 +15,7 @@
 #include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
+#include "undohelper.hpp"
 
 #include <mlt++/MltFactory.h>
 #include <mlt++/MltRepository.h>
@@ -424,6 +425,79 @@ void groupMoves(int sample)
     }
 }
 
+// Operations that collect the undo/redo of many clips in one pair of functions, like loading a project,
+// grouping, moving or deleting many clips. The clips are spread over many tracks, so that the cost of
+// editing long MLT playlists doesn't dominate.
+void longUndoChains(int sample)
+{
+    const int tracks = 40;
+    for (int count : {250, 500, 1000}) {
+        std::cerr << "\nLong undo chains: " << count << " clips over " << tracks << " video tracks\n";
+        auto undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack, {tracks, 0});
+        pCore->projectManager()->testSetDocument(&document);
+        auto timeline = TimelineItemModel::construct(document.uuid(), undoStack);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+        std::vector<int> trackIds(tracks);
+        for (int &trackId : trackIds) {
+            require(timeline->requestTrackInsertion(-1, trackId), "Cannot insert track");
+        }
+        const QString binId = createProducer("red", 20);
+        std::vector<int> clips(count);
+        const auto trackOf = [&](int i) { return trackIds[i % tracks]; };
+        const auto startOf = [&](int i) { return 100 + (i / tracks) * 30; };
+        // Checking every clip catches partial operations and partial undo/redo.
+        const auto checkClips = [&](int delta) {
+            require(timeline->getClipsCount() == count, "Wrong clip count");
+            for (int i = 0; i < count; ++i) {
+                require(timeline->getClipTrackId(clips[i]) == trackOf(i) && timeline->getClipPosition(clips[i]) == startOf(i) + delta,
+                        "Wrong clip position");
+            }
+            require(timeline->checkConsistency(), "Inconsistent timeline");
+        };
+        undoStack->clear();
+
+        measure("insert clips in one undo entry", count, sample, count, [&]() {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            for (int i = 0; i < count; ++i) {
+                require(timeline->requestClipInsertion(binId, trackOf(i), startOf(i), clips[i], false, false, false, undo, redo), "Clip insertion failed");
+            }
+            undoStack->push(new FunctionalUndoCommand(undo, redo, QStringLiteral("Insert clips")));
+        });
+        checkClips(0);
+        measure("undo insert clips in one undo entry", count, sample, count, [&]() { undoStack->undo(); });
+        require(timeline->getClipsCount() == 0 && timeline->checkConsistency(), "Insertion undo failed");
+        measure("redo insert clips in one undo entry", count, sample, count, [&]() { undoStack->redo(); });
+        checkClips(0);
+
+        const std::unordered_set<int> members(clips.begin(), clips.end());
+        measure("group clips over tracks", count, sample, 1, [&]() { require(timeline->requestClipsGroup(members) >= 0, "Cannot group clips"); });
+        require(timeline->getGroupElements(clips[0]).size() == size_t(count), "Wrong group size");
+        measure("undo group clips over tracks", count, sample, 1, [&]() { undoStack->undo(); });
+        require(timeline->getGroupElements(clips[0]).size() == 1, "Group undo failed");
+        measure("redo group clips over tracks", count, sample, 1, [&]() { undoStack->redo(); });
+        require(timeline->getGroupElements(clips[0]).size() == size_t(count), "Group redo failed");
+
+        measure("move group over tracks", count, sample, 1,
+                [&]() { require(timeline->requestClipMove(clips[0], trackOf(0), startOf(0) + 7), "Group move failed"); });
+        checkClips(7);
+        measure("undo move group over tracks", count, sample, 1, [&]() { undoStack->undo(); });
+        checkClips(0);
+        measure("redo move group over tracks", count, sample, 1, [&]() { undoStack->redo(); });
+        checkClips(7);
+        undoStack->undo();
+
+        measure("delete group over tracks", count, sample, count, [&]() { require(timeline->requestItemDeletion(clips[0]), "Group deletion failed"); });
+        require(timeline->getClipsCount() == 0 && timeline->checkConsistency(), "Group deletion left clips");
+        measure("undo delete group over tracks", count, sample, count, [&]() { undoStack->undo(); });
+        checkClips(0);
+        measure("redo delete group over tracks", count, sample, count, [&]() { undoStack->redo(); });
+        require(timeline->getClipsCount() == 0 && timeline->checkConsistency(), "Group deletion redo failed");
+        require(pCore->projectManager()->closeCurrentDocument(false, false), "Cannot close document");
+    }
+}
+
 void mixesAndSpacers(int sample)
 {
     std::cerr << "\nMixes and spacers\n";
@@ -536,6 +610,7 @@ int main(int argc, char **argv)
         clipAndTrackEdits(sample);
         mixesAndSpacers(sample);
         groupMoves(sample);
+        longUndoChains(sample);
         keyframes(sample);
     }
 
