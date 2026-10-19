@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-18 00:48+0000\n"
-"PO-Revision-Date: 2026-10-17 19:50+0300\n"
+"PO-Revision-Date: 2026-10-18 18:42+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9944,12 +9944,12 @@ msgstr "Yok,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "Kamerayı Salla"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "Döndürme, matlık ve bulanıklık parametreli kamera hareketi efekti"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
 #, kde-format
@@ -9957,10 +9957,9 @@ msgid "Amplitude X"
 msgstr "X genliği"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "En çok yatay hareket"
+msgstr "En büyük yatay sallama genişliği"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
 #, kde-format
@@ -9968,10 +9967,9 @@ msgid "Amplitude Y"
 msgstr "Y genliği"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "En çok dikey hareket"
+msgstr "En büyük dikey sallama genişliği"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
@@ -9985,6 +9983,10 @@ msgid ""
 "        This is in addition to 100%. For example: 0% means not additional "
 "zoom; 100% means image is twice as large (total of 200% of original size)."
 msgstr ""
+"Siyah kenarlıkları gizlemek için yakınlaştırma çarpanı<br>\n"
+"        Bu, %​100’e ek olarak verilir. Örneğin, %​0, ek yakınlaştırma "
+"yapılmayacağını, %​100 ise iki kat büyüklükte yakınlaştırma yapılacağını "
+"belirtir (toplam boyutun %​200’ü kadar)."
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
 #, kde-format
@@ -9994,7 +9996,7 @@ msgstr "Sallama yoğunluğu"
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
 msgid "Speed or frequency of the shake"
-msgstr ""
+msgstr "Sallamanın hızı veya sıklığı"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
 #, kde-format
@@ -10009,7 +10011,7 @@ msgstr "Hareket bulanıklığı"
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
 msgid "Amount of motion blur (capped at 20px)"
-msgstr ""
+msgstr "Hareket bulanıklığı miktarı (en çok 20 piksel)"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
 #, kde-format
@@ -12628,16 +12630,14 @@ msgid "Pixel sorting effect"
 msgstr "Piksel sıralama efekti"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
-#, fuzzy, kde-format
-#| msgid "Defines the rectangle of the area that will be removed."
+#, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr "Kaldırılacak olan alanın dörtgenini tanımlar."
+msgstr "Sıralanacak çizginin göreceli büyüklüğü"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
-#, fuzzy, kde-format
-#| msgid "Mirroring direction"
+#, kde-format
 msgid "Sorting direction"
-msgstr "Yansılama yönü"
+msgstr "Sıralama yönü"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
@@ -12645,23 +12645,23 @@ msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
 msgstr ""
+"Yukarıdan aşağıya dikey,Aşağıdan yukarıya dikey,Soldan sağa yatay,Sağdan "
+"sola yatay"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
-#, fuzzy, kde-format
-#| msgid "Reverse"
+#, kde-format
 msgid "Reversed"
-msgstr "Tersine çevir"
+msgstr "Tersine çevrilmiş"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "Piksellerin tersine çevrilmiş sırada olup olmaması gerektiği"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
-#, fuzzy, kde-format
-#| msgid "Transparency Top"
+#, kde-format
 msgid "Transparency Threshold"
-msgstr "Saydamlık Üst"
+msgstr "Saydamlık Eşiği"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12670,6 +12670,9 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"Hangi saydamlık düzeyinin<br>\n"
+"        süzgeç tarafından geçirilmesi gerektiği. 0 tüm pikselleri işler, 1 "
+"ise tüm saydam pikselleri yok sayar."
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-18 00:48+0000\n"
-"PO-Revision-Date: 2026-10-12 07:55+0200\n"
+"PO-Revision-Date: 2026-10-18 19:06+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -35030,7 +35030,7 @@ msgstr "Копировать клипы в новую последователь
 #: src/project/projectmanager.cpp:2669
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
-msgstr ""
+msgstr "<br>Владелец блокировки: процесс %1 на %2."
 
 #: src/project/projectmanager.cpp:2672
 #, kde-format
@@ -35038,19 +35038,18 @@ msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
+"Проект <b>«%1»</b>, по-видимому, уже открыт в другом сеансе Kdenlive."
+"%2<br><br>Открытие проекта в двух сеансах может привести к потере данных."
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "Профиль проекта изменён"
+msgstr "Проект уже открыт"
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "Всё равно собрать"
+msgstr "Всё равно открыть"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format

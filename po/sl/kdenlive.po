@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-18 00:48+0000\n"
-"PO-Revision-Date: 2026-10-12 10:20+0200\n"
+"PO-Revision-Date: 2026-10-18 09:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -18984,9 +18984,9 @@ msgstr ""
 "        za prikaz naslednjega znaka, besede ali vrstice"
 
 #: data/effects/typewriter.xml:13
-#, fuzzy, kde-format
+#, kde-format
 msgid "Fluctuation"
-msgstr "Fluktuacija / Kroženje"
+msgstr "Fluktuacija"
 
 #: data/effects/typewriter.xml:15
 #, kde-format
@@ -34711,7 +34711,7 @@ msgstr "Kopiraj posnetke v novo zaporedje"
 #: src/project/projectmanager.cpp:2669
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
-msgstr ""
+msgstr "<br>Lastnik zaklepa: proces %1 na %2."
 
 #: src/project/projectmanager.cpp:2672
 #, kde-format
@@ -34719,19 +34719,18 @@ msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
+"Projekt <b>»%1«</b> se zdi že odprt v drugi seji Kdenlive.%2<br><br>Če ga "
+"odprete v dveh ločenih sejah, lahko povzročite izgubo podatkov."
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "Profil projekta spremenjen"
+msgstr "Projekt je že odprt"
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "Izriši vseeno"
+msgstr "Vseeno odpri"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
