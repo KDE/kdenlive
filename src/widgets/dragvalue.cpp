@@ -27,6 +27,7 @@
 #include <QMouseEvent>
 #include <QStack>
 #include <QStyle>
+#include <QTimer>
 #include <QWheelEvent>
 
 namespace {
@@ -420,9 +421,10 @@ bool MySpinBox::eventFilter(QObject *watched, QEvent *event)
                 m_dragging = false;
                 event->accept();
                 return true;
-            } else {
+            } else if (!m_editing) {
                 m_editing = true;
                 lineEdit()->setFocus(Qt::MouseFocusReason);
+                QTimer::singleShot(0, this, [this]{ lineEdit()->selectAll(); });
             }
         }
         if (type == QEvent::Enter) {
@@ -585,6 +587,7 @@ bool MyDoubleSpinBox::eventFilter(QObject *watched, QEvent *event)
             } else if (!m_editing) {
                 m_editing = true;
                 lineEdit()->setFocus(Qt::MouseFocusReason);
+                QTimer::singleShot(0, this, [this]{ lineEdit()->selectAll(); });
             }
         }
         if (type == QEvent::Enter) {
