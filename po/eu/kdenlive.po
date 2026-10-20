@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
 "PO-Revision-Date: 2026-08-21 10:37+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
@@ -35827,12 +35827,12 @@ msgstr "Hautatu izena uneko errendatzerako."
 msgid "begin"
 msgstr "hasi"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Ezin da %1 errendatze-lanarekin komunikazioa ireki"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Komunikazio akatsa errendatze lanarekin"

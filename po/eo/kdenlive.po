@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
 "PO-Revision-Date: 2025-03-22 22:36+0100\n"
 "Last-Translator: Oliver Kellogg <olivermkellogg@gmail.com>\n"
 "Language-Team: Esperanto <kde-i18n-eo@kde.org>\n"
@@ -36138,12 +36138,12 @@ msgstr "Elektu nomon por ĉi tiu bildigo."
 msgid "begin"
 msgstr "komenci"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Ne povas malfermi komunikadon kun renderlaboro %1"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Eraro pri komunikado kun bildigo"

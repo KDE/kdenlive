@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive Trunk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
 "PO-Revision-Date: 2026-10-18 09:53+0200\n"
 "Last-Translator: Martin Srebotnjak <miles@filmsi.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -35311,12 +35311,12 @@ msgstr "Izberite ime za to izrisovanje."
 msgid "begin"
 msgstr "začni"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Komunikacije z opravilom izrisovanja %1 ni možno odpreti"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Napaka v komunikaciji z opravilom izrisovanja"

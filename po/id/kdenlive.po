@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE Frameworks 5 Applications\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
 "PO-Revision-Date: 2024-10-03 20:43+0700\n"
 "Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
 "Language-Team: https://t.me/Localizations_KDE_Indonesia\n"
@@ -35531,12 +35531,12 @@ msgstr "Pilih nama untuk perenderan ini."
 msgid "begin"
 msgstr "awal"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "Tidak dapat membuka komunikasi dengan tugas render %1"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "Kesalahan komunikasi dengan tugas render"

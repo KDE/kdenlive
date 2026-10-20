@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -35639,12 +35639,12 @@ msgstr "अस्य प्रतिपादनस्य कृते नाम
 msgid "begin"
 msgstr "आरम्भ"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "render job %1 इत्यनेन सह संचारं उद्घाटयितुं न शक्यते"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "रेण्डर् जॉब् इत्यनेन सह संचारदोषः"

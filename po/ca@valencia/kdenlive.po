@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-18 00:48+0000\n"
-"PO-Revision-Date: 2026-10-12 10:18+0200\n"
+"POT-Creation-Date: 2026-10-20 00:52+0000\n"
+"PO-Revision-Date: 2026-10-17 08:21+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -31743,7 +31743,7 @@ msgstr "Inhabilita els subtítols"
 #: src/mainwindow_actions.cpp:1121
 #, kde-format
 msgid "Lock Subtitle"
-msgstr "Bloca els subtítols"
+msgstr "Bloqueja els subtítols"
 
 #: src/mainwindow_actions.cpp:1123
 #, kde-format
@@ -34952,7 +34952,7 @@ msgstr "Copia els clips a una seqüència nova"
 #: src/project/projectmanager.cpp:2669
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
-msgstr ""
+msgstr "<br>Propietari del bloqueig: procés %1 a %2."
 
 #: src/project/projectmanager.cpp:2672
 #, kde-format
@@ -34960,19 +34960,18 @@ msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
+"El projecte <b>«%1»</b> pareix que ja es troba obert en una altra sessió de "
+"Kdenlive.%2<br><br>L'obertura en dues sessions pot causar pèrdua de dades."
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "S'ha canviat el perfil del projecte"
+msgstr "El projecte ja es troba obert"
 
 #: src/project/projectmanager.cpp:2676
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "Renderitza igualment"
+msgstr "Obri igualment"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
@@ -35557,12 +35556,12 @@ msgstr "Trieu un nom per a esta renderització."
 msgid "begin"
 msgstr "començament"
 
-#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:88
+#: src/render/renderserver.cpp:23 src/render/renderserver.cpp:121
 #, kde-format
 msgid "Can't open communication with render job %1"
 msgstr "No s'ha pogut obrir la comunicació amb el treball de renderització %1"
 
-#: src/render/renderserver.cpp:51
+#: src/render/renderserver.cpp:85
 #, kde-format
 msgid "Communication error with render job"
 msgstr "S'ha produït un error de comunicació amb el treball de renderització"
@@ -37697,7 +37696,7 @@ msgstr "Desbloqueja la pista de subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Lock subtitle track"
-msgstr "Bloca la pista de subtítols"
+msgstr "Bloqueja la pista de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:6176
 #: src/timeline2/view/timelinecontroller.cpp:6185
