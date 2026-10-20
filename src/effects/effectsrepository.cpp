@@ -7,6 +7,7 @@
 #include "assets/assetlist/view/assetlistwidget.hpp"
 #include "core.h"
 #include "kdenlivesettings.h"
+#include "utils/qstringutils.h"
 #include "xml/xml.hpp"
 
 #include <QApplication>
@@ -444,10 +445,13 @@ void EffectsRepository::deleteEffect(const QString &id)
     }
     QDir dir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/effects/"));
     QFile file(dir.absoluteFilePath(id + QStringLiteral(".xml")));
+    if (!file.exists()) {
+        file.setFileName(dir.absoluteFilePath(QStringUtils::getCleanFileName(id) + QStringLiteral(".xml")));
+    }
     if (file.exists()) {
         file.remove();
-        m_assets.erase(id);
     }
+    m_assets.erase(id);
 }
 
 bool EffectsRepository::isAudioEffect(const QString &assetId) const
