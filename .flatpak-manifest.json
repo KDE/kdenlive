@@ -42,7 +42,8 @@
             "add-ld-path": "lib",
             "merge-dirs": "ladspa",
             "autodelete": false,
-            "subdirectories": true
+            "subdirectories": true,
+            "no-autodownload": false
         },
         "org.freedesktop.LinuxAudio.Plugins.swh": {
             "directory": "extensions/Plugins/swh",
@@ -50,7 +51,8 @@
             "add-ld-path": "lib",
             "merge-dirs": "ladspa",
             "autodelete": false,
-            "subdirectories": true
+            "subdirectories": true,
+            "no-autodownload": false
         },
         "org.freedesktop.LinuxAudio.Plugins.TAP": {
             "directory": "extensions/Plugins/TAP",
@@ -58,7 +60,8 @@
             "add-ld-path": "lib",
             "merge-dirs": "ladspa",
             "autodelete": false,
-            "subdirectories": true
+            "subdirectories": true,
+            "no-autodownload": false
         }
     },
     "cleanup": [
