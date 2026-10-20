@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-14 03:11+0000\n"
-"PO-Revision-Date: 2026-10-07 09:44+0200\n"
+"PO-Revision-Date: 2026-10-17 08:20+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -30931,7 +30931,7 @@ msgstr "Inhabilita els subtítols"
 #: src/mainwindow.cpp:2208
 #, kde-format
 msgid "Lock Subtitle"
-msgstr "Bloca els subtítols"
+msgstr "Bloqueja els subtítols"
 
 #: src/mainwindow.cpp:2210
 #, kde-format
@@ -31943,7 +31943,7 @@ msgstr "Volum d'àudio"
 #: src/monitor/monitor.cpp:91 src/scopes/colorscopes/vectorscope.cpp:432
 #, kde-format
 msgid "%1%"
-msgstr "%1%"
+msgstr "%1 %"
 
 #: src/monitor/monitor.cpp:229
 #, kde-format
@@ -37279,7 +37279,7 @@ msgstr "Desbloqueja la pista de subtítols"
 #: src/timeline2/view/timelinecontroller.cpp:5962
 #, kde-format
 msgid "Lock subtitle track"
-msgstr "Bloca la pista de subtítols"
+msgstr "Bloqueja la pista de subtítols"
 
 #: src/timeline2/view/timelinecontroller.cpp:6129
 #: src/timeline2/view/timelinecontroller.cpp:6138

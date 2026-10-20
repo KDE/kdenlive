@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-14 03:11+0000\n"
-"PO-Revision-Date: 2026-10-17 19:50+0300\n"
+"PO-Revision-Date: 2026-10-19 12:15+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -15902,6 +15902,9 @@ msgid ""
 "      to the input stage. Can be used to trim gain to bring it roughly under "
 "the limit or to push the signal against the limit."
 msgstr ""
+"Giriş etabına uygulanan kazanç.<br>\n"
+"      Kazancı sınırın hemen altına düşürmek için veya sınırın üzerine "
+"çıkarmak için kullanılabilir."
 
 #: data/effects/ladspa/ladspa_1913.xml:16
 #, kde-format
@@ -15910,6 +15913,9 @@ msgid ""
 "      Peaks over this level will be attenuated as smoothly as possible to "
 "bring them as close as possible to this level."
 msgstr ""
+"En yüksek çıkış genliği.<br>\n"
+"      Bu düzeyin üstündeki tavanlar, onları bu düzeye olabildiğince "
+"pürüzsüze getirmek için zayıflatılırlar."
 
 #: data/effects/ladspa/ladspa_1913.xml:21
 #, kde-format
@@ -15917,6 +15923,8 @@ msgid ""
 "The time taken for the<br>\n"
 "      limiters attenuation to return to 0 dB"
 msgstr ""
+"Sınırlayıcıların, zayıflamayı<br>\n"
+"      0 dB’e döndürmesi için gereken zaman"
 
 #: data/effects/ladspa/ladspa_1913.xml:24
 #, kde-format
@@ -15929,6 +15937,8 @@ msgid ""
 "The current attenuation<br>\n"
 "      of the signal coming out of the delay buffer"
 msgstr ""
+"Gecikme arabelleğinden gelen sinyalin<br>\n"
+"      şu anki geçerli zayıflaması"
 
 #: data/effects/ladspa/ladspa_2141.xml:4
 #, kde-format
