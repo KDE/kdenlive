@@ -25,7 +25,8 @@ void TransitionFilter::setFilterType(bool enabled, AssetListType::AssetType type
 void TransitionFilter::reloadFilterOnFavorite()
 {
     if (m_type_enabled && m_type_value == AssetListType::AssetType::Favorites) {
-        invalidateFilter();
+        beginFilterChange();
+        endFilterChange();
     }
 }
 

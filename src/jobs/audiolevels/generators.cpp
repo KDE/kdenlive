@@ -259,7 +259,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
             break;
         }
 
-        if (packet->stream_index != streamIdx) {
+        if (packet->stream_index != static_cast<int>(streamIdx)) {
             av_packet_unref(packet);
             continue;
         }
@@ -320,7 +320,7 @@ QVector<int16_t> generateLibav(const size_t streamIdx, const QString &uri, const
             // If there is enough samples for one MLT frame in the fifo, compute the peaks and advance one MLT frame !
             while (av_audio_fifo_size(fifo) >= samplesPerMLTFrame) {
                 av_audio_fifo_read(fifo, reinterpret_cast<void **>(buf), samplesPerMLTFrame);
-                const size_t requiredSize = (MLTFrameCount + 1) * AUDIOLEVELS_POINTS_PER_FRAME * dst_nb_channels;
+                const qsizetype requiredSize = static_cast<qsizetype>((MLTFrameCount + 1) * AUDIOLEVELS_POINTS_PER_FRAME * dst_nb_channels);
                 if (requiredSize > levels.size()) {
                     levels.resize(requiredSize);
                 }

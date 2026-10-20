@@ -73,9 +73,12 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
 
     if (!QFile::exists(workPath)) {
         QFile newSub(workPath);
-        newSub.open(QIODevice::WriteOnly);
-        newSub.close();
-        qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
+        if (newSub.open(QIODevice::WriteOnly)) {
+            newSub.close();
+            qDebug() << "MISSING SUBTITLE FILE, create tmp: " << workPath;
+        } else {
+            qWarning() << "Failed to create temporary subtitle file:" << workPath << newSub.errorString();
+        }
     }
 
     registerSnap(snapModel);
@@ -2027,9 +2030,13 @@ void SubtitleModel::activateSubtitle(int ix)
     QFile file(workPath);
     if (!file.exists()) {
         // Create work file
-        file.open(QIODevice::WriteOnly);
+        if (!file.open(QIODevice::WriteOnly)) {
+            qWarning() << "Failed to create subtitle work file:" << workPath << file.errorString();
+            return;
+        }
         file.close();
     }
+
     beginRemoveRows(QModelIndex(), 0, m_allSubtitles.size());
     m_subtitleList.clear();
     m_subtitleStyles.clear();

@@ -695,8 +695,11 @@ bool ProjectManager::saveFileAs(bool saveACopy)
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
         QFile file(cacheDir.absoluteFilePath(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral(".") + outputFile))));
-        file.open(QIODevice::ReadWrite | QIODevice::Text);
-        file.close();
+        if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            qCWarning(KDENLIVE_LOG) << "Failed to create project cache file:" << file.fileName() << file.errorString();
+        } else {
+            file.close();
+        }
     }
     return saveFileAs(outputFile, false, saveACopy);
 }
@@ -2551,7 +2554,6 @@ void ProjectManager::slotCopyAndCreateSequenceFromSelection()
         return;
     }
     const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
-    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
     const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
     if (newSequenceId.isEmpty()) {
         // Action canceled

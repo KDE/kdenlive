@@ -52,8 +52,6 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, qreal sca
         return wave;
     }
 
-    const uint ww = uint(scaledWaveformSize.width());
-    const uint wh = uint(scaledWaveformSize.height());
     const uint iw = uint(image.width());
     const auto totalPixels = image.width() * image.height();
 

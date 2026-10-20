@@ -180,7 +180,10 @@ void ClipCreationDialog::createAnimationClip(KdenliveDoc *doc, const QString &pa
             .arg(pCore->getCurrentFrameSize().width())
             .arg(pCore->getCurrentFrameSize().height());*/
     QFile file(fileName);
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Failed to create animation file:" << fileName << file.errorString();
+        return;
+    }
     QTextStream out(&file);
     out << templateRawr;
     file.close();
@@ -207,6 +210,8 @@ const QString ClipCreationDialog::createPlaylistClip(const QString &name, std::p
                                                      std::shared_ptr<ProjectItemModel> model, const std::function<void(const QString &)> &readyCallBack,
                                                      int suggestedDuration)
 {
+    Q_UNUSED(suggestedDuration);
+
     return ClipCreator::createPlaylistClip(name, tracks, parentFolder, model, readyCallBack);
 }
 
@@ -304,6 +309,8 @@ void ClipCreationDialog::createQTextClip(const QString &parentId, Bin *bin, Proj
 void ClipCreationDialog::createSlideshowClip(KdenliveDoc *doc, const QString &parentId, std::shared_ptr<ProjectItemModel> model,
                                              const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
+    Q_UNUSED(suggestedDuration);
+
     QScopedPointer<SlideshowClip> dia(
         new SlideshowClip(doc->timecode(), KRecentDirs::dir(QStringLiteral(":KdenliveSlideShowFolder")), nullptr, QApplication::activeWindow()));
 
@@ -441,6 +448,8 @@ for (const QUrl & file :  list) {
 void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &parentFolder, const std::shared_ptr<ProjectItemModel> &model,
                                             const std::function<void(const QString &)> &readyCallBack, int suggestedDuration)
 {
+    Q_UNUSED(suggestedDuration);
+
     qDebug() << "/////////// starting to add bin clips";
     QList<QUrl> list;
     QCheckBox *b = new QCheckBox(i18n("Import image sequence"));

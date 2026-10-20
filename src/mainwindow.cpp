@@ -518,7 +518,6 @@ void MainWindow::init()
     m_mixerDock->close();
     m_projectBinDock->setAsCurrentTab();
 
-    bool firstRun = readOptions();
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
         KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());

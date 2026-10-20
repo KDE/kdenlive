@@ -187,9 +187,12 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bo
             }
         } else {
             // Create lock file
-            lockFile.open(QFile::WriteOnly);
-            lockFile.write(QByteArray());
-            lockFile.close();
+            if (!lockFile.open(QFile::WriteOnly)) {
+                qCWarning(KDENLIVE_LOG) << "Failed to create lock file:" << lockFile.fileName() << lockFile.errorString();
+            } else {
+                lockFile.write(QByteArray());
+                lockFile.close();
+            }
         }
         if (currentVersion.length() == 3 && (firstRun || KdenliveSettings::lastSeenVersionMajor() == 0)) {
             // Store current Kdenlive version

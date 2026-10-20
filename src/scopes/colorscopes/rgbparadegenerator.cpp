@@ -148,7 +148,7 @@ QImage RGBParadeGenerator::calculateRGBParade(const QSize &paradeSize, qreal sca
     // there are only 255 different values which would lead to gaps if the height is not exactly 255.
     // Don't use bilinear transformation because the fast transformation meets the goal better.
     davinci.drawImage(distBorder, distBorder,
-                      unscaled.mirrored(false, true).scaled(unscaled.width(), int(partH), Qt::IgnoreAspectRatio, Qt::FastTransformation));
+                      unscaled.flipped(Qt::Vertical).scaled(unscaled.width(), int(partH), Qt::IgnoreAspectRatio, Qt::FastTransformation));
 
     if (drawAxis) {
         davinci.setPen(QPen(QColor(150, 255, 200, 32), 1));

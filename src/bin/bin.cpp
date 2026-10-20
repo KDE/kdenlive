@@ -84,13 +84,13 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMimeData>
 #include <QSlider>
 #include <QStyledItemDelegate>
+#include <QThreadPool>
 #include <QTimeLine>
 #include <QToolBar>
 #include <QToolTip>
 #include <QUndoCommand>
 #include <QUrl>
 #include <QVBoxLayout>
-#include <QtConcurrent/QtConcurrentRun>
 
 #include <memory>
 #include <utility>
@@ -5693,7 +5693,7 @@ void Bin::checkAudioThumbs()
     if (!KdenliveSettings::audiothumbnails()) {
         // Abort all thumbs jobs if any
         // pCore->taskManager.discardJobsByType(AbstractTask::AUDIOTHUMBJOB);
-        QtConcurrent::run(&TaskManager::discardJobsByType, &pCore->taskManager, AbstractTask::AUDIOTHUMBJOB);
+        QThreadPool::globalInstance()->start([this]() { pCore->taskManager.discardJobsByType(AbstractTask::AUDIOTHUMBJOB); });
         return;
     }
     QList<std::shared_ptr<ProjectClip>> clipList = m_itemModel->getRootFolder()->childClips();
