@@ -1329,6 +1329,7 @@ void MainWindow::slotRenderProject()
     if (!m_renderWidget && project) {
         m_renderWidget = new RenderWidget(project->useProxy(), this);
         connect(m_renderWidget, &RenderWidget::shutdown, this, &MainWindow::slotShutdown);
+        connect(m_renderWidget, &RenderWidget::closeAfterRender, this, &MainWindow::slotCloseAfterRender);
         connect(m_renderWidget, &RenderWidget::selectedRenderProfile, this, &MainWindow::slotSetDocumentRenderProfile);
         connect(m_renderWidget, &RenderWidget::abortProcess, this, &MainWindow::abortRenderJob);
         connect(pCore.get(), &Core::gotMissingClipsCount, m_renderWidget, &RenderWidget::updateMissingClipsCount);
@@ -3023,7 +3024,9 @@ void MainWindow::slotRemoveFocus()
 
 void MainWindow::slotShutdown()
 {
-    pCore->currentDoc()->setModified(false);
+    if (pCore->currentDoc() && pCore->currentDoc()->isModified()) {
+        pCore->projectManager()->saveFile();
+    }
     // Call shutdown
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
@@ -3037,6 +3040,14 @@ void MainWindow::slotShutdown()
         smserver.call(QStringLiteral("Shutdown"));
     }
 #endif
+}
+
+void MainWindow::slotCloseAfterRender()
+{
+    if (pCore->currentDoc() && pCore->currentDoc()->isModified()) {
+        pCore->projectManager()->saveFile();
+    }
+    close();
 }
 
 void MainWindow::slotSwitchMonitors()

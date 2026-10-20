@@ -564,6 +564,7 @@ private Q_SLOTS:
     /** @brief Removes the focus of anything. */
     void slotRemoveFocus();
     void slotShutdown();
+    void slotCloseAfterRender();
 
     void slotSwitchMonitors();
     void slotSwitchMonitorOverlay(QAction *);

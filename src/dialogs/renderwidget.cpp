@@ -47,10 +47,12 @@
 #ifndef NODBUS
 #include <QDBusConnectionInterface>
 #endif
+#include <QClipboard>
 #include <QDesktopServices>
 #include <QDir>
 #include <QDomDocument>
 #include <QFileIconProvider>
+#include <QGuiApplication>
 #include <QHeaderView>
 #include <QHelpEvent>
 #include <QInputDialog>
@@ -480,6 +482,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.scripts_list->setUniformRowHeights(false);
     connect(m_view.start_script, &QAbstractButton::clicked, this, &RenderWidget::slotStartScript);
     connect(m_view.delete_script, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteScript);
+    connect(m_view.copy_script_command, &QAbstractButton::clicked, this, &RenderWidget::slotCopyScriptCommand);
     connect(m_view.scripts_list, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckScript);
     connect(m_view.running_jobs, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckJob);
     connect(m_view.running_jobs, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotPlayRendering);
@@ -537,14 +540,14 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
     }
 
+    m_view.post_render_action->addItem(i18n("Do nothing"), 0);
+    m_view.post_render_action->addItem(i18n("Close Kdenlive"), 1);
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface == nullptr) ||
-        (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
-        m_view.shutdown->setEnabled(false);
+    if ((interface != nullptr) &&
+        (interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) || interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
+        m_view.post_render_action->addItem(i18n("Shut down computer"), 2);
     }
-#else
-    m_view.shutdown->setEnabled(false);
 #endif
 
     m_shareMenu = new Purpose::Menu();
@@ -1199,8 +1202,13 @@ void RenderWidget::checkRenderStatus(int lastStatus)
             m_renderStatus = NotRendering;
             Q_EMIT renderStatusChanged();
         }
-        if (m_view.shutdown->isChecked() && lastStatus != -3) {
-            Q_EMIT shutdown();
+        if (lastStatus != -3) {
+            int action = m_view.post_render_action->currentData().toInt();
+            if (action == 1) {
+                Q_EMIT closeAfterRender();
+            } else if (action == 2) {
+                Q_EMIT shutdown();
+            }
         }
     }
 }
@@ -1908,9 +1916,20 @@ void RenderWidget::slotAbortCurrentJob()
 {
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
-        if (current->status() == RUNNINGJOB) {
+        if (current->status() == RUNNINGJOB || current->status() == STARTINGJOB) {
+            if (KMessageBox::warningTwoActions(this, i18n("Are you sure you want to abort the current job?"), i18n("Abort Job"),
+                                               KGuiItem(i18n("Abort"), QStringLiteral("dialog-cancel")),
+                                               KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                return;
+            }
             Q_EMIT abortProcess(current->data(1, Qt::DisplayRole).toString());
         } else {
+            if (current->status() == WAITINGJOB) {
+                if (KMessageBox::warningTwoActions(this, i18n("Are you sure you want to remove the waiting job from queue?"), i18n("Remove Job"),
+                                                   KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                    return;
+                }
+            }
             delete current;
             slotCheckJob();
             checkRenderStatus(-3);
@@ -1981,6 +2000,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
     // List the project scripts
     QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
+        slotCheckScript();
         return;
     }
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
@@ -1990,6 +2010,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         if (projectFolder.dirName() == QStringLiteral("kdenlive-renderqueue") &&
             projectFolder.entryList(scriptsFilter, QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
             projectFolder.removeRecursively();
+            slotCheckScript();
             return;
         }
     }
@@ -2026,19 +2047,26 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         m_view.scripts_list->setCurrentItem(lastCreatedScript);
         lastCreatedScript->setSelected(true);
     }
+    slotCheckScript();
 }
 
 void RenderWidget::slotCheckScript()
 {
-    QTreeWidgetItem *current = m_view.scripts_list->currentItem();
-    if (current == nullptr) {
-        return;
-    }
-    m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
-    m_view.delete_script->setEnabled(true);
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    const int count = selected.count();
+    const bool hasSelection = count > 0;
+
+    m_view.start_script->setEnabled(hasSelection);
+    m_view.delete_script->setEnabled(hasSelection);
+    m_view.copy_script_command->setEnabled(hasSelection);
+
+    m_view.start_script->setText(count > 1 ? i18n("Start Selected Scripts") : i18n("Start Script"));
+    m_view.delete_script->setText(count > 1 ? i18n("Delete Selected Scripts") : i18n("Delete Script"));
+    m_view.copy_script_command->setText(count > 1 ? i18n("Copy Selected Commands") : i18n("Copy Command"));
+
     for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); ++i) {
-        current = m_view.scripts_list->topLevelItem(i);
-        if (current == m_view.scripts_list->currentItem()) {
+        QTreeWidgetItem *current = m_view.scripts_list->topLevelItem(i);
+        if (selected.contains(current)) {
             current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 3));
         } else {
             current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 2));
@@ -2048,13 +2076,17 @@ void RenderWidget::slotCheckScript()
 
 void RenderWidget::slotStartScript()
 {
-    auto *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
-    if (item) {
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    bool jobAdded = false;
+    for (auto *item : selected) {
         QString destination = item->data(1, Qt::UserRole).toString();
         if (QFile::exists(destination)) {
-            if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
-                                               KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
-                return;
+            if (KMessageBox::warningTwoActions(this, i18n("Output file %1 already exists. Do you want to overwrite it?", destination), {},
+                                               KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                continue;
             }
         }
         const QString path = item->data(1, ParametersRole).toString();
@@ -2067,7 +2099,7 @@ void RenderWidget::slotStartScript()
                 KMessageBox::information(
                     this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", destination),
                     i18n("Already running"));
-                return;
+                continue;
             }
             delete renderItem;
             renderItem = nullptr;
@@ -2087,6 +2119,9 @@ void RenderWidget::slotStartScript()
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         renderItem->setData(1, PlaylistFileRole, path);
+        jobAdded = true;
+    }
+    if (jobAdded) {
         checkRenderStatus(-1);
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     }
@@ -2094,15 +2129,51 @@ void RenderWidget::slotStartScript()
 
 void RenderWidget::slotDeleteScript()
 {
-    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
-    if (item) {
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    if (KMessageBox::warningTwoActions(
+            this, i18np("Are you sure you want to delete the selected script?", "Are you sure you want to delete %1 selected scripts?", selected.count()),
+            i18n("Delete Script"), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+        return;
+    }
+    for (auto *item : selected) {
         QString path = item->data(1, ParametersRole).toString();
-        bool success = true;
-        success &= static_cast<int>(QFile::remove(path));
+        bool success = QFile::remove(path);
         if (!success) {
-            qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";
+            qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path;
         }
-        parseScriptFiles();
+    }
+    parseScriptFiles();
+}
+
+void RenderWidget::slotCopyScriptCommand()
+{
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    QStringList commands;
+    const QString meltPath = KdenliveSettings::meltpath();
+    const QString appImagePath = qEnvironmentVariable("APPIMAGE");
+
+    for (auto *item : selected) {
+        const QString playlistPath = item->data(1, ParametersRole).toString();
+        if (playlistPath.isEmpty()) {
+            continue;
+        }
+        if (!appImagePath.isEmpty()) {
+            commands << QStringLiteral("\"%1\" --render \"%2\"").arg(appImagePath, playlistPath);
+        } else if (!meltPath.isEmpty()) {
+            commands << QStringLiteral("\"%1\" \"%2\"").arg(meltPath, playlistPath);
+        } else {
+            commands << QStringLiteral("melt \"%1\"").arg(playlistPath);
+        }
+    }
+    if (!commands.isEmpty()) {
+        QGuiApplication::clipboard()->setText(commands.join(QLatin1Char('\n')));
+        pCore->displayMessage(i18np("Render command copied to clipboard", "%1 render commands copied to clipboard", commands.count()), InformationMessage);
     }
 }
 

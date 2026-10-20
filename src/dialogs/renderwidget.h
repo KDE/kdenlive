@@ -169,6 +169,7 @@ private Q_SLOTS:
 
     void slotStartScript();
     void slotDeleteScript();
+    void slotCopyScriptCommand();
     void parseScriptFiles(const QString lastScript = QString());
     void slotCheckScript();
     void slotCheckJob();
@@ -245,4 +246,5 @@ Q_SIGNALS:
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
     void renderStatusChanged();
     void shutdown();
+    void closeAfterRender();
 };
