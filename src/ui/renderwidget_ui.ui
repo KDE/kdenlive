@@ -274,7 +274,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="onlyUsed">
+               <property name="onlyUsed" stdset="0">
                 <bool>true</bool>
                </property>
               </widget>
@@ -470,8 +470,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>387</width>
-            <height>1104</height>
+            <width>365</width>
+            <height>1240</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -1095,53 +1095,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
        <string>Scripts</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout4">
-       <item row="0" column="0" colspan="5">
-        <widget class="QTreeWidget" name="scripts_list">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="selectionMode">
-          <enum>QAbstractItemView::ExtendedSelection</enum>
-         </property>
-         <property name="rootIsDecorated">
-          <bool>false</bool>
-         </property>
-         <property name="allColumnsShowFocus">
-          <bool>true</bool>
-         </property>
-         <property name="columnCount">
-          <number>0</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="start_script">
-         <property name="text">
-          <string>Start Script</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="delete_script">
-         <property name="text">
-          <string>Delete Script</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
+       <item row="2" column="2">
         <widget class="QPushButton" name="copy_script_command">
          <property name="text">
           <string>Copy Command</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="3">
+       <item row="2" column="3">
         <spacer name="scriptsSpace">
          <property name="orientation">
           <enum>Qt::Orientation::Horizontal</enum>
@@ -1154,12 +1115,54 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
          </property>
         </spacer>
        </item>
-       <item row="1" column="4">
+       <item row="0" column="0" colspan="5">
+        <widget class="QTreeWidget" name="scripts_list">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
+         </property>
+         <property name="rootIsDecorated">
+          <bool>false</bool>
+         </property>
+         <property name="allColumnsShowFocus">
+          <bool>true</bool>
+         </property>
+         <property name="columnCount">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="delete_script">
+         <property name="text">
+          <string>Delete Script</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="start_script">
+         <property name="text">
+          <string>Start Script</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
         <widget class="QPushButton" name="buttonClose3">
          <property name="text">
           <string>Close</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="0" colspan="5">
+        <widget class="KMessageWidget" name="scriptInfo"/>
        </item>
       </layout>
      </widget>
@@ -1172,11 +1175,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>MarkerCategoryChooser</class>
-   <extends>QComboBox</extends>
-   <header>widgets/markercategorychooser.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
@@ -1200,6 +1198,11 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <extends>QFrame</extends>
    <header>kseparator.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MarkerCategoryChooser</class>
+   <extends>QComboBox</extends>
+   <header>widgets/markercategorychooser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

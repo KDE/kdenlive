@@ -472,6 +472,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
+    m_view.scriptInfo->hide();
     parseProfiles();
 
     // ===== "Job Queue" tab =====
@@ -2163,7 +2164,7 @@ void RenderWidget::slotCopyScriptCommand()
         if (playlistPath.isEmpty()) {
             continue;
         }
-        if (!appImagePath.isEmpty()) {
+        if (pCore->packageType() == LinuxPackageType::AppImage && !appImagePath.isEmpty()) {
             commands << QStringLiteral("\"%1\" --render \"%2\"").arg(appImagePath, playlistPath);
         } else if (!meltPath.isEmpty()) {
             commands << QStringLiteral("\"%1\" \"%2\"").arg(meltPath, playlistPath);
@@ -2173,7 +2174,8 @@ void RenderWidget::slotCopyScriptCommand()
     }
     if (!commands.isEmpty()) {
         QGuiApplication::clipboard()->setText(commands.join(QLatin1Char('\n')));
-        pCore->displayMessage(i18np("Render command copied to clipboard", "%1 render commands copied to clipboard", commands.count()), InformationMessage);
+        m_view.scriptInfo->setText(i18n("Render command copied to clipboard:\n%1", commands.join(QLatin1Char('\n'))));
+        m_view.scriptInfo->animatedShow();
     }
 }
 
