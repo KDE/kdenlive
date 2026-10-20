@@ -20,11 +20,126 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QHeaderView>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPainter>
 #include <QSplitter>
 #include <QTextEdit>
 #include <QToolButton>
 #include <QTreeView>
 #include <QVBoxLayout>
+
+ProfilePreviewWidget::ProfilePreviewWidget(QWidget *parent)
+    : QWidget(parent)
+{
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+}
+
+void ProfilePreviewWidget::setDimensions(int width, int height, int aspectNum, int aspectDen)
+{
+    m_width = width;
+    m_height = height;
+    m_aspectNum = aspectNum;
+    m_aspectDen = aspectDen;
+    m_valid = (m_width > 0 && m_height > 0);
+    update();
+}
+
+void ProfilePreviewWidget::clear()
+{
+    m_width = 0;
+    m_height = 0;
+    m_aspectNum = 0;
+    m_aspectDen = 0;
+    m_valid = false;
+    update();
+}
+
+QSize ProfilePreviewWidget::sizeHint() const
+{
+    return QSize(160, 64);
+}
+
+QSize ProfilePreviewWidget::minimumSizeHint() const
+{
+    return QSize(120, 50);
+}
+
+void ProfilePreviewWidget::paintEvent(QPaintEvent * /*event*/)
+{
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+    QRectF totalRect = rect();
+    if (totalRect.width() <= 0 || totalRect.height() <= 0) {
+        return;
+    }
+
+    if (!m_valid) {
+        painter.setPen(QPen(palette().color(QPalette::Disabled, QPalette::Text), 1, Qt::DashLine));
+        painter.setBrush(Qt::NoBrush);
+        QRectF emptyBox = totalRect.adjusted(8, 8, -8, -8);
+        painter.drawRoundedRect(emptyBox, 4, 4);
+        painter.drawText(emptyBox, Qt::AlignCenter, i18n("No profile selected"));
+        return;
+    }
+
+    double aspect = 16.0 / 9.0;
+    if (m_aspectNum > 0 && m_aspectDen > 0) {
+        aspect = double(m_aspectNum) / double(m_aspectDen);
+    } else if (m_height > 0) {
+        aspect = double(m_width) / double(m_height);
+    }
+
+    QString ratioStr;
+    if (m_aspectNum > 0 && m_aspectDen > 0) {
+        ratioStr = QStringLiteral("%1:%2").arg(m_aspectNum).arg(m_aspectDen);
+    } else {
+        ratioStr = QString::number(aspect, 'f', 2) + QStringLiteral(":1");
+    }
+
+    QRectF previewArea = totalRect.adjusted(8, 4, -8, -4);
+
+    if (previewArea.width() <= 0 || previewArea.height() <= 0) {
+        return;
+    }
+
+    double maxW = previewArea.width();
+    double maxH = previewArea.height();
+    double boxAspect = maxW / maxH;
+    double shapeW = 0;
+    double shapeH = 0;
+
+    if (aspect >= boxAspect) {
+        shapeW = maxW;
+        shapeH = maxW / aspect;
+    } else {
+        shapeH = maxH;
+        shapeW = maxH * aspect;
+    }
+
+    QRectF shapeRect(previewArea.center().x() - shapeW / 2.0, previewArea.center().y() - shapeH / 2.0, shapeW, shapeH);
+
+    // Shape rectangle with theme highlight color
+    QColor highlightColor = palette().highlight().color();
+    QColor fillColor = highlightColor;
+    fillColor.setAlpha(60);
+
+    QPen strokePen(highlightColor, 2);
+    painter.setPen(strokePen);
+    painter.setBrush(fillColor);
+    painter.drawRoundedRect(shapeRect, 4, 4);
+
+    // Aspect ratio label inside shape if space allows
+    if (shapeRect.width() >= 26 && shapeRect.height() >= 18) {
+        QFont ratioFont = font();
+        ratioFont.setBold(true);
+        if (shapeRect.height() < 30 || shapeRect.width() < 50) {
+            ratioFont.setPointSize(qMax(7, ratioFont.pointSize() - 2));
+        }
+        painter.setFont(ratioFont);
+        painter.setPen(palette().color(QPalette::Text));
+        painter.drawText(shapeRect, Qt::AlignCenter, ratioStr);
+    }
+}
 
 ProfileWidget::ProfileWidget(QWidget *parent)
     : QWidget(parent)
@@ -103,14 +218,30 @@ ProfileWidget::ProfileWidget(QWidget *parent)
     m_treeView->setMinimumHeight(treeViewFontHeight);
     profileSplitter->addWidget(m_treeView);
     m_treeView->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+
+    auto *detailsWidget = new QWidget(this);
+    auto *detailsLayout = new QVBoxLayout(detailsWidget);
+    detailsLayout->setContentsMargins(0, 0, 0, 0);
+    detailsLayout->setSpacing(4);
+
+    m_previewWidget = new ProfilePreviewWidget(this);
+    detailsLayout->addWidget(m_previewWidget);
+
+    m_previewLabel = new QLabel(this);
+    m_previewLabel->setAlignment(Qt::AlignCenter);
+    m_previewLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    detailsLayout->addWidget(m_previewLabel);
+
     m_descriptionPanel = new QTextEdit(this);
     m_descriptionPanel->setReadOnly(true);
     m_descriptionPanel->viewport()->setCursor(Qt::ArrowCursor);
     m_descriptionPanel->viewport()->setBackgroundRole(QPalette::Mid);
-    m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    m_descriptionPanel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     m_descriptionPanel->setFrameStyle(QFrame::NoFrame);
     m_descriptionPanel->setMinimumHeight(treeViewFontHeight);
-    profileSplitter->addWidget(m_descriptionPanel);
+    detailsLayout->addWidget(m_descriptionPanel, 1);
+
+    profileSplitter->addWidget(detailsWidget);
 
     lay->addWidget(profileSplitter);
     profileSplitter->setStretchFactor(0, 4);
@@ -209,9 +340,28 @@ void ProfileWidget::fillDescriptionPanel(const QString &profile_path)
 {
     QString description;
     if (profile_path.isEmpty()) {
+        if (m_previewWidget) {
+            m_previewWidget->clear();
+        }
+        if (m_previewLabel) {
+            m_previewLabel->clear();
+        }
         description += i18n("No profile selected");
     } else {
         std::unique_ptr<ProfileModel> &profile = ProfileRepository::get()->getProfile(profile_path);
+        if (m_previewWidget) {
+            m_previewWidget->setDimensions(profile->width(), profile->height(), profile->display_aspect_num(), profile->display_aspect_den());
+        }
+        if (m_previewLabel) {
+            double aspect = 16.0 / 9.0;
+            if (profile->display_aspect_num() > 0 && profile->display_aspect_den() > 0) {
+                aspect = double(profile->display_aspect_num()) / double(profile->display_aspect_den());
+            } else if (profile->height() > 0) {
+                aspect = double(profile->width()) / double(profile->height());
+            }
+            QString orientationStr = aspect > 1.05 ? i18n("Landscape") : (aspect < 0.95 ? i18n("Portrait") : i18n("Square"));
+            m_previewLabel->setText(QStringLiteral("%1 • %2 x %3").arg(orientationStr).arg(profile->width()).arg(profile->height()));
+        }
 
         description += QStringLiteral("<h5>%1</h5>").arg(i18n("Video Settings"));
         description +=
