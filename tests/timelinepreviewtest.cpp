@@ -220,67 +220,6 @@ TEST_CASE_METHOD(PreviewProject, "Timeline preview switching preserves rendered 
     }
 }
 
-TEST_CASE_METHOD(PreviewProject, "Timeline preview chunk changes refresh only the paused playhead", "[TimelinePreview]")
-{
-    createProject();
-    renderPreview();
-    distinguishPreviewFromTimeline();
-    TimelineController controller(nullptr);
-    controller.setModel(timeline);
-    TimelinePreviewTests::PreviewMonitor monitor(timeline, controller);
-
-    SECTION("Invalidating and completing the current chunk redraws immediately")
-    {
-        preview()->invalidatePreview(0, 24);
-        CHECK(isRed(monitor.color()));
-        CHECK(monitor.refreshCount() == 1);
-        preview()->gotPreviewRender(0, cache.filePath(QStringLiteral("0.avi")), 1000);
-        CHECK(isBlack(monitor.color()));
-        CHECK(monitor.refreshCount() == 2);
-        CHECK(monitor.position() == 0);
-        CHECK(monitor.speed() == 0);
-    }
-    SECTION("The next chunk does not refresh a playhead at the previous chunk's last frame")
-    {
-        monitor.seek(24);
-        preview()->invalidatePreview(25, 49);
-        preview()->gotPreviewRender(25, cache.filePath(QStringLiteral("25.avi")), 1000);
-        CHECK(monitor.refreshCount() == 0);
-        CHECK(isBlack(monitor.color()));
-    }
-    SECTION("A disabled preview does not refresh when a chunk completes")
-    {
-        controller.setPreviewEnabled(false);
-        monitor.resetRefreshCount();
-        preview()->invalidatePreview(0, 24);
-        preview()->gotPreviewRender(0, cache.filePath(QStringLiteral("0.avi")), 1000);
-        CHECK(monitor.refreshCount() == 0);
-        CHECK(isRed(monitor.color()));
-    }
-    SECTION("Completing a preview chunk during playback does not request an explicit monitor refresh")
-    {
-        monitor.play();
-        preview()->invalidatePreview(0, 24);
-        preview()->gotPreviewRender(0, cache.filePath(QStringLiteral("0.avi")), 1000);
-        CHECK(monitor.refreshCount() == 0);
-    }
-    SECTION("Removing the current preview range redraws immediately")
-    {
-        preview()->addPreviewRange({0, 24}, false);
-        CHECK(monitor.refreshCount() == 1);
-        CHECK(isRed(monitor.color()));
-        CHECK(monitor.position() == 0);
-    }
-    SECTION("Clearing all preview ranges redraws the current chunk")
-    {
-        monitor.seek(25);
-        preview()->clearPreviewRange(true);
-        CHECK(monitor.refreshCount() == 1);
-        CHECK(isRed(monitor.color()));
-        CHECK(monitor.position() == 25);
-    }
-}
-
 TEST_CASE_METHOD(PreviewProject, "Timeline edits invalidate disabled previews", "[TimelinePreview]")
 {
     createProject();

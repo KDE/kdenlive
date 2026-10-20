@@ -38,6 +38,7 @@ set(KdenliveTest_SOURCES
     spacertest.cpp
     subtitlestest.cpp
     timelinepreviewtest.cpp
+    timelinepreviewtestb.cpp
     timewarptest.cpp
     titlertest.cpp
     treetest.cpp
@@ -64,3 +65,4 @@ foreach(_source ${KdenliveTest_SOURCES})
 endforeach()
 
 target_sources(timelinepreviewtest PRIVATE timelinepreviewmonitor.cpp)
+target_sources(timelinepreviewtestb PRIVATE timelinepreviewmonitor.cpp)
