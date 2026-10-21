@@ -2145,3 +2145,178 @@ TEST_CASE("Font resize undo and redo preserve the committed layout anchor", "[Ti
     REQUIRE(rows.size() == 72);
     REQUIRE(failures == 0);
 }
+
+namespace {
+const QString selectiveGradientRecipe = QStringLiteral("#ffffff00;#ffff0000;0;100;0");
+
+std::unique_ptr<MyTextItem> selectiveGradientGeometryTitle(int start)
+{
+    auto item = std::make_unique<MyTextItem>(QStringLiteral("MMMM XXXX"), nullptr);
+    QFont font(QStringLiteral("DejaVu Sans"));
+    font.setPixelSize(64);
+    item->setFont(font);
+    item->setPos(40, 40);
+    item->setAlignment(Qt::AlignLeft);
+    item->setOutline(0, Qt::black);
+    QTextCharFormat white;
+    white.setForeground(Qt::white);
+    richSelect(item.get(), 0, item->toPlainText().size());
+    TitlerRichText::apply(item.get(), white);
+    QTextCharFormat gradient;
+    gradient.setProperty(TitlerGradientV1::Property, selectiveGradientRecipe);
+    const QRectF box = item->baseBoundingRect();
+    gradient.setForeground(QBrush(TitlerGradientV1::gradientFromString(selectiveGradientRecipe, int(box.width()), int(box.height()))));
+    richSelect(item.get(), start, start + 4);
+    TitlerRichText::apply(item.get(), gradient);
+    richSelect(item.get(), 0, 0);
+    return item;
+}
+
+QImage selectiveGradientPixels(const QImage &image)
+{
+    QImage result(image.size(), QImage::Format_RGBA8888);
+    result.fill(Qt::transparent);
+    for (int y = 0; y < image.height(); ++y) {
+        for (int x = 0; x < image.width(); ++x) {
+            const QColor color = image.pixelColor(x, y);
+            if (color.alpha() > 0 && color.red() > 200 && color.blue() < 32) {
+                result.setPixelColor(x, y, color);
+            }
+        }
+    }
+    return result;
+}
+
+qreal selectiveGradientMeanGreen(const QImage &image)
+{
+    qint64 sum = 0;
+    int count = 0;
+    for (int y = 0; y < image.height(); ++y) {
+        for (int x = 0; x < image.width(); ++x) {
+            const QColor color = image.pixelColor(x, y);
+            if (color.alpha() > 240 && color.red() > 220 && color.blue() < 20) {
+                sum += color.green();
+                ++count;
+            }
+        }
+    }
+    REQUIRE(count > 100);
+    return qreal(sum) / count;
+}
+
+void checkSelectiveGradientTransition(const QImage &image)
+{
+    int minimumGreen = 255;
+    int maximumGreen = 0;
+    int interiors = 0;
+    for (int y = 0; y < image.height(); ++y) {
+        for (int x = 0; x < image.width(); ++x) {
+            const QColor color = image.pixelColor(x, y);
+            if (color.alpha() > 240 && color.red() > 220 && color.blue() < 20) {
+                minimumGreen = qMin(minimumGreen, color.green());
+                maximumGreen = qMax(maximumGreen, color.green());
+                ++interiors;
+            }
+        }
+    }
+    REQUIRE(interiors > 100);
+    // The original object-sized brush cannot reach both ends on either word.
+    REQUIRE(minimumGreen < 65);
+    REQUIRE(maximumGreen > 190);
+}
+} // namespace
+
+TEST_CASE("Selective gradients cover their own words after XML restore", "[Titler][SelectiveGradientGeometry][RichText]")
+{
+    REQUIRE(richTextSupported());
+    for (int start : {0, 5}) {
+        INFO("Gradient starts at UTF-16 position " << start);
+        auto source = selectiveGradientGeometryTitle(start);
+        const QImage before = paintOutlinedTitle(source.get());
+        checkSelectiveGradientTransition(before);
+        const auto xml = TitleDocument::xmlItem(source.get(), 1280, 720);
+        int missing = 0, maxZ = 0;
+        QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(xml.documentElement(), QString(), 1280, 720, missing, maxZ));
+        REQUIRE(loaded);
+        auto *restored = dynamic_cast<MyTextItem *>(loaded.data());
+        REQUIRE(restored);
+        REQUIRE(missing == 0);
+        REQUIRE(paintOutlinedTitle(restored) == before);
+    }
+}
+
+TEST_CASE("Removing an unrelated suffix leaves selective gradient pixels unchanged", "[Titler][SelectiveGradientGeometry][RichText]")
+{
+    REQUIRE(richTextSupported());
+    auto source = selectiveGradientGeometryTitle(0);
+    const QImage before = selectiveGradientPixels(paintOutlinedTitle(source.get()));
+    QTextCursor cursor(source->document());
+    cursor.setPosition(4);
+    cursor.setPosition(source->toPlainText().size(), QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
+    const QImage after = selectiveGradientPixels(paintOutlinedTitle(source.get()));
+    checkSelectiveGradientTransition(after);
+    REQUIRE(after == before);
+}
+
+TEST_CASE("Removing an unrelated prefix preserves selective gradient colors", "[Titler][SelectiveGradientGeometry][RichText]")
+{
+    REQUIRE(richTextSupported());
+    auto source = selectiveGradientGeometryTitle(5);
+    const QImage before = paintOutlinedTitle(source.get());
+    checkSelectiveGradientTransition(before);
+    QTextCursor cursor(source->document());
+    cursor.setPosition(0);
+    cursor.setPosition(5, QTextCursor::KeepAnchor);
+    cursor.removeSelectedText();
+    const QImage after = paintOutlinedTitle(source.get());
+    checkSelectiveGradientTransition(after);
+    // Removing a fractional-width prefix can shift glyph rasterization phase.
+    // Compare the color distribution with a narrow channel tolerance instead.
+    REQUIRE(qAbs(selectiveGradientMeanGreen(after) - selectiveGradientMeanGreen(before)) < 3.0);
+}
+
+TEST_CASE("Selective gradient editor and MLT pixels agree through typewriter seeking", "[Titler][SelectiveGradientGeometry][RichTextRender]")
+{
+    REQUIRE(richTextSupported());
+    Mlt::Profile profile("atsc_720p_25");
+    for (int start : {0, 5}) {
+        INFO("Gradient starts at UTF-16 position " << start);
+        auto source = selectiveGradientGeometryTitle(start);
+        const QImage preview = paintOutlinedTitle(source.get());
+        const auto xml = outlinedTitleXml(source.get());
+        Mlt::Producer reference(profile, "kdenlivetitle", "");
+        setProducerTitle(reference, xml);
+        const QImage exported = renderProducerFrame(reference, 240);
+        checkSelectiveGradientTransition(exported);
+        REQUIRE(exported == preview);
+        Mlt::Producer native(profile, "kdenlivetitle", "");
+        setProducerTitle(native, outlinedTitleXml(source.get(), 1));
+        Mlt::Producer external(profile, "kdenlivetitle", "");
+        setProducerTitle(external, xml);
+        Mlt::Filter effect(profile, "typewriter");
+        REQUIRE(effect.is_valid());
+        effect.set("macro_type", 1);
+        effect.set("step_length", 2);
+        effect.set("step_sigma", 0);
+        effect.set("random_seed", 37);
+        REQUIRE(external.attach(effect) == 0);
+        for (Mlt::Producer *animated : {&native, &external}) {
+            const QImage early = renderProducerFrame(*animated, 0);
+            REQUIRE(early != exported);
+            int interiors = 0;
+            for (int y = 0; y < early.height(); ++y) {
+                for (int x = 0; x < early.width(); ++x) {
+                    const QColor color = early.pixelColor(x, y);
+                    if (color.alpha() == 255) {
+                        REQUIRE(color == exported.pixelColor(x, y));
+                        ++interiors;
+                    }
+                }
+            }
+            REQUIRE(interiors > 20);
+            REQUIRE(renderProducerFrame(*animated, 240) == exported);
+            REQUIRE(renderProducerFrame(*animated, 0) == early);
+        }
+    }
+}

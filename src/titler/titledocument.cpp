@@ -747,7 +747,6 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
                     qWarning() << "Ignoring invalid title rich-text gradient metadata";
                 }
                 txt->document()->setDocumentMargin(0);
-                TitlerGradientV1::applyBrushes(txt->document(), int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
             }
 
             txt->setTextInteractionFlags(Qt::NoTextInteraction);
@@ -797,6 +796,12 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
 
             if (!txtProperties.namedItem(QStringLiteral("alignment")).isNull()) {
                 txt->setAlignment(Qt::Alignment(txtProperties.namedItem(QStringLiteral("alignment")).nodeValue().toInt()));
+            }
+
+            // Restore presentation brushes after alignment has finalized layout.
+            // Legacy object-level gradients retain their existing precedence.
+            if (hasRichText && txtProperties.namedItem(QStringLiteral("gradient")).isNull()) {
+                TitlerGradientV1::applyBrushes(txt->document(), int(txt->baseBoundingRect().width()), int(txt->baseBoundingRect().height()));
             }
 
             if (!txtProperties.namedItem(QStringLiteral("kdenlive-axis-x-inverted")).isNull()) {
