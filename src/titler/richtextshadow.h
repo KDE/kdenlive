@@ -1,3 +1,4 @@
+// SPDX-FileCopyrightText: 2026 klg . <faction-frail-22@proton.me>
 // SPDX-License-Identifier: LGPL-2.1-or-later
 #pragma once
 
@@ -671,7 +672,9 @@ inline Layers render(QTextDocument *document,
         const QRect rect = source.toAlignedRect().adjusted(-pad, -pad, pad, pad);
         // Each style has its own image. Large offsets do not allocate a giant
         // mostly-empty union image, and hidden typewriter suffixes never paint.
-        QImage image(rect.size(), QImage::Format_ARGB32_Premultiplied);
+        // A shadow needs grayscale coverage, independent of the screen subpixel layout.
+        // ARGB32_Premultiplied enables ClearType in the Windows raster engine.
+        QImage image(rect.size(), QImage::Format_RGBA8888_Premultiplied);
         if (image.isNull())
             continue;
         image.fill(Qt::transparent);
