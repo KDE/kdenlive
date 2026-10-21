@@ -605,6 +605,24 @@
             ]
         },
         {
+            "name": "libspatialaudio",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/videolan/libspatialaudio/releases/download/0.4.1/libspatialaudio-0.4.1.tar.xz",
+                    "sha256": "215980432e3980d7733caa7d5051887f0d604cb8a265adf1311087c0fe7d3892",
+                    "x-checker-data": {
+                        "type": "anitya",
+                        "project-id": 388333,
+                        "stable-only": true,
+                        "url-template": "https://github.com/videolan/libspatialaudio/releases/download/$version/libspatialaudio-$version.tar.xz"
+                    }
+                }
+            ]
+        },
+        {
             "name": "mlt",
             "buildsystem": "cmake-ninja",
             "builddir": true,
@@ -615,6 +633,7 @@
                 "-DMOD_QT=OFF",
                 "-DMOD_QT6=ON",
                 "-DMOD_GLAXNIMATE_QT6=ON",
+                "-DMOD_SPATIALAUDIO=ON",
                 "-DMOD_MOVIT=OFF",
                 "-DMOD_PLACEBO=OFF",
                 "-DMOD_RNNOISE=OFF",
