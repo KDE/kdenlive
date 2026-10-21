@@ -2164,7 +2164,9 @@ void RenderWidget::slotCopyScriptCommand()
         if (playlistPath.isEmpty()) {
             continue;
         }
-        if (pCore->packageType() == LinuxPackageType::AppImage && !appImagePath.isEmpty()) {
+        if (pCore->packageType() == LinuxPackageType::Flatpak) {
+            commands << QStringLiteral("flatpak run --command=melt org.kde.kdenlive \"%2\"").arg(appImagePath, playlistPath);
+        } else if (pCore->packageType() == LinuxPackageType::AppImage && !appImagePath.isEmpty()) {
             commands << QStringLiteral("\"%1\" --render \"%2\"").arg(appImagePath, playlistPath);
         } else if (!meltPath.isEmpty()) {
             commands << QStringLiteral("\"%1\" \"%2\"").arg(meltPath, playlistPath);
