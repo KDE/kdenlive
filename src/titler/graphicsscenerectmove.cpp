@@ -102,11 +102,8 @@ void MyTextItem::updateShadow(bool enabled, int blur, int xoffset, int yoffset, 
     m_shadowOffset = QPoint(xoffset, yoffset);
     m_shadowBlur = blur;
     m_shadowColor = std::move(color);
-    m_shadowEffect->setEnabled(enabled);
-    m_shadowEffect->setOffset(xoffset, yoffset, blur);
-    if (enabled) {
-        updateShadow();
-    }
+    m_shadowEnabled = enabled;
+    updateShadow();
     update();
 }
 
@@ -119,9 +116,24 @@ void MyTextItem::setTextColor(const QColor &col)
 QStringList MyTextItem::shadowInfo() const
 {
     QStringList info;
-    info << QString::number(static_cast<int>(m_shadowEffect->isEnabled())) << m_shadowColor.name(QColor::HexArgb) << QString::number(m_shadowBlur)
+    info << QString::number(static_cast<int>(m_shadowEnabled)) << m_shadowColor.name(QColor::HexArgb) << QString::number(m_shadowBlur)
          << QString::number(m_shadowOffset.x()) << QString::number(m_shadowOffset.y());
     return info;
+}
+
+TitlerShadowV1::Style MyTextItem::defaultShadow() const
+{
+    return {m_shadowEnabled, m_shadowColor.isValid() ? m_shadowColor : QColor(0, 0, 0, 100), m_shadowBlur, m_shadowOffset.x(), m_shadowOffset.y()};
+}
+
+void MyTextItem::applyShadowProperty(int property, const QVariant &value)
+{
+    if (!TitlerShadowV1::valid(property, value)) return;
+    QTextCharFormat delta;
+    delta.setProperty(property, value);
+    TitlerRichText::apply(this, delta);
+    doUpdateGeometry();
+    Q_EMIT cursorFormatChanged(this);
 }
 
 void MyTextItem::loadShadow(const QStringList &info)
@@ -233,9 +245,7 @@ void MyTextItem::doUpdateGeometry()
     }
     updateGeometry();
     refreshFormat();
-    if (m_shadowEffect->isEnabled()) {
-        updateShadow();
-    }
+    updateShadow();
     update();
 }
 
@@ -278,6 +288,7 @@ void MyTextItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 {
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
+    TitlerShadowV1::paint(painter, m_selectiveShadows);
     paintTitleOutline(painter, document(), m_outlinePen);
     // Qt paints the rich fill, selection and blinking caret only once.
     QGraphicsTextItem::paint(painter, option, w);
@@ -318,6 +329,16 @@ QStringList MyTextItem::twInfo() const
 
 void MyTextItem::updateShadow()
 {
+    prepareGeometryChange();
+    if (TitlerShadowV1::hasOverrides(document())) {
+        m_shadowEffect->setEnabled(false);
+        m_selectiveShadows = TitlerShadowV1::render(document(), defaultShadow(), m_outlinePen, -1, defaultTextColor());
+        return;
+    }
+    m_selectiveShadows.clear();
+    m_shadowEffect->setEnabled(m_shadowEnabled);
+    m_shadowEffect->setOffset(m_shadowOffset.x(), m_shadowOffset.y(), m_shadowBlur);
+    if (!m_shadowEnabled) return;
     if (toPlainText().isEmpty()) {
         m_shadowEffect->setShadow(QImage());
         return;
@@ -457,6 +478,8 @@ QRectF MyTextItem::boundingRect() const
 {
     const qreal margin = m_outlineMargin;
     QRectF base = baseBoundingRect().united(m_inkBounds).adjusted(-margin, -margin, margin, margin);
+    for (const auto &layer : m_selectiveShadows)
+        base = base.united(QRectF(layer.origin, layer.image.size()));
     if (m_shadowEffect->isEnabled() && m_shadowOffset.x() > 0) {
         base.setRight(base.right() + m_shadowOffset.x());
     }

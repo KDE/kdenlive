@@ -15,6 +15,7 @@
 #include "gradientwidget.h"
 #include "richtextgradient.h"
 #include "richtextoutline.h"
+#include "richtextshadow.h"
 #include "richtextspacing.h"
 #include <QDebug>
 #include <QFontInfo>
@@ -417,6 +418,9 @@ QDomDocument TitleDocument::xmlItem(const QGraphicsItem *item, int width, int he
             content.appendChild(outlines);
         }
 
+        const QDomElement shadows = TitlerShadowV1::save(doc, t->document());
+        if (!shadows.isNull()) content.appendChild(shadows);
+
         // Use the first run for legacy fallback, without changing the live item.
         QTextCursor fallback(t->document());
         fallback.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
@@ -814,6 +818,12 @@ QGraphicsItem *TitleDocument::loadItemFromXml(const QDomNode &itemNode, const QS
             if (!txtProperties.namedItem(QStringLiteral("shadow")).isNull()) {
                 QString info = txtProperties.namedItem(QStringLiteral("shadow")).nodeValue();
                 txt->loadShadow(info.split(QLatin1Char(';')));
+            }
+            if (hasRichText) {
+                if (!TitlerShadowV1::restore(contentElement, txt->document())) {
+                    qWarning() << "Ignoring invalid title rich-text shadow metadata";
+                }
+                txt->doUpdateGeometry();
             }
 
             // Effects

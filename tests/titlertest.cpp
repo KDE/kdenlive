@@ -2320,3 +2320,237 @@ TEST_CASE("Selective gradient editor and MLT pixels agree through typewriter see
         }
     }
 }
+
+namespace {
+void selectShadowRange(MyTextItem *item, int start, int end)
+{
+    QTextCursor cursor(item->document());
+    cursor.setPosition(start);
+    cursor.setPosition(end, QTextCursor::KeepAnchor);
+    item->setTextCursor(cursor);
+}
+
+std::unique_ptr<MyTextItem> selectiveShadowTitle(int start, int blur = 3)
+{
+    auto item = std::make_unique<MyTextItem>(QStringLiteral("MMMM XXXX"), nullptr);
+    QFont font(QStringLiteral("DejaVu Sans"));
+    font.setPixelSize(64);
+    item->setFont(font);
+    item->setPos(40, 40);
+    item->setAlignment(Qt::AlignLeft);
+    item->setOutline(0, Qt::black);
+    item->updateShadow(false, 3, 3, 3, QColor(0, 0, 0, 100));
+    item->setTextInteractionFlags(Qt::TextEditorInteraction);
+    selectShadowRange(item.get(), 0, 9);
+    QTextCharFormat format;
+    format.setForeground(Qt::white);
+    TitlerRichText::apply(item.get(), format);
+    selectShadowRange(item.get(), start, start + 4);
+    format = QTextCharFormat();
+    format.setProperty(TitlerShadowV1::Enabled, true);
+    format.setProperty(TitlerShadowV1::Color, QColor(0, 255, 0));
+    format.setProperty(TitlerShadowV1::Blur, blur);
+    format.setProperty(TitlerShadowV1::OffsetX, 0);
+    format.setProperty(TitlerShadowV1::OffsetY, 100);
+    TitlerRichText::apply(item.get(), format);
+    selectShadowRange(item.get(), 0, 0);
+    item->setTextInteractionFlags(Qt::NoTextInteraction);
+    return item;
+}
+
+QImage greenShadowPixels(const QImage &image)
+{
+    QImage result(image.size(), QImage::Format_RGBA8888);
+    result.fill(Qt::transparent);
+    for (int y = 0; y < image.height(); ++y) {
+        for (int x = 0; x < image.width(); ++x) {
+            const auto color = image.pixelColor(x, y);
+            if (color.alpha() > 0 && color.green() > color.red() + 60 && color.green() > color.blue() + 60) result.setPixelColor(x, y, color);
+        }
+    }
+    return result;
+}
+} // namespace
+
+TEST_CASE("Selected shadow pixels survive title XML restore and neighboring deletion", "[Titler][SelectiveShadow][RichText]")
+{
+    REQUIRE(richTextSupported());
+    for (int start : {0, 5}) {
+        for (int blur : {0, 3, 12}) {
+            INFO("start=" << start << ", blur=" << blur);
+            auto item = selectiveShadowTitle(start, blur);
+            const auto expected = paintOutlinedTitle(item.get());
+            REQUIRE(!greenShadowPixels(expected).isNull());
+            bool found = false;
+            const qreal boundary = 40 + item->document()->begin().layout()->lineAt(0).cursorToX(5);
+            const auto shadow = greenShadowPixels(expected);
+            for (int y = 120; y < shadow.height(); ++y) {
+                for (int x = 0; x < shadow.width(); ++x) {
+                    if (!qAlpha(shadow.pixel(x, y))) continue;
+                    found = true;
+                    REQUIRE((start == 0 ? x <= boundary + 2 * blur + 3 : x >= boundary - 2 * blur - 3));
+                }
+            }
+            REQUIRE(found);
+            const auto xml = TitleDocument::xmlItem(item.get(), 1280, 720);
+            REQUIRE(!xml.documentElement().firstChildElement("content").firstChildElement("richtext-shadows").isNull());
+            int missing = 0, maxZ = 0;
+            QScopedPointer<QGraphicsItem> loaded(TitleDocument::loadItemFromXml(xml.documentElement(), QString(), 1280, 720, missing, maxZ));
+            auto *restored = dynamic_cast<MyTextItem *>(loaded.data());
+            REQUIRE(restored);
+            REQUIRE(missing == 0);
+            REQUIRE(paintOutlinedTitle(restored) == expected);
+            if (start == 0) {
+                QTextCursor cursor(item->document());
+                cursor.setPosition(4);
+                cursor.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+                cursor.removeSelectedText();
+                REQUIRE(greenShadowPixels(paintOutlinedTitle(item.get())) == shadow);
+            }
+        }
+    }
+}
+
+TEST_CASE("Selective shadow edits preserve selection and unrelated formats through undo", "[Titler][SelectiveShadow][RichText]")
+{
+    auto item = selectiveShadowTitle(5);
+    item->setTextInteractionFlags(Qt::TextEditorInteraction);
+    selectShadowRange(item.get(), 5, 9);
+    const auto original = paintOutlinedTitle(item.get());
+    const auto fill = item->textCursor().charFormat().foreground();
+    item->applyShadowProperty(TitlerShadowV1::Blur, 12);
+    REQUIRE(item->textCursor().selectionStart() == 5);
+    REQUIRE(item->textCursor().selectionEnd() == 9);
+    REQUIRE(item->textCursor().charFormat().foreground() == fill);
+    item->document()->undo();
+    REQUIRE(paintOutlinedTitle(item.get()) == original);
+    item->document()->redo();
+    REQUIRE(item->textCursor().charFormat().property(TitlerShadowV1::Blur).toInt() == 12);
+}
+
+TEST_CASE("Selective shadow editor and export agree including typewriter seeking", "[Titler][SelectiveShadow][RichTextRender]")
+{
+    REQUIRE(richTextSupported());
+    QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
+    REQUIRE(metadata);
+    REQUIRE(metadata->get_double("version") >= 9);
+    Mlt::Profile profile("atsc_720p_25");
+    for (int start : {0, 5}) {
+        for (int blur : {0, 3, 12}) {
+            for (auto alignment : {Qt::AlignLeft, Qt::AlignHCenter, Qt::AlignRight}) {
+                auto item = selectiveShadowTitle(start, blur);
+                item->setTextWidth(600);
+                item->setAlignment(alignment);
+                const auto expected = paintOutlinedTitle(item.get());
+                const auto xml = outlinedTitleXml(item.get());
+                Mlt::Producer reference(profile, "kdenlivetitle", "");
+                setProducerTitle(reference, xml);
+                REQUIRE(renderProducerFrame(reference, 240) == expected);
+                for (int mode : {1, 2, 3}) {
+                    Mlt::Producer native(profile, "kdenlivetitle", "");
+                    setProducerTitle(native, outlinedTitleXml(item.get(), mode));
+                    Mlt::Producer external(profile, "kdenlivetitle", "");
+                    setProducerTitle(external, xml);
+                    Mlt::Filter effect(profile, "typewriter");
+                    REQUIRE(effect.is_valid());
+                    effect.set("macro_type", mode);
+                    effect.set("step_length", 2);
+                    effect.set("step_sigma", 0);
+                    effect.set("random_seed", 37);
+                    REQUIRE(external.attach(effect) == 0);
+                    for (auto *animated : {&native, &external}) {
+                        const QByteArray before(animated->get("xmldata"));
+                        const auto first = renderProducerFrame(*animated, 0);
+                        REQUIRE(!first.isNull());
+                        if (start == 5 && mode != 3) {
+                            const auto mask = greenShadowPixels(first);
+                            for (int y = 0; y < mask.height(); ++y)
+                                for (int x = 0; x < mask.width(); ++x)
+                                    REQUIRE(qAlpha(mask.pixel(x, y)) == 0);
+                        }
+                        REQUIRE(renderProducerFrame(*animated, 240) == expected);
+                        REQUIRE(renderProducerFrame(*animated, 0) == first);
+                        REQUIRE(QByteArray(animated->get("xmldata")) == before);
+                    }
+                }
+            }
+        }
+    }
+}
+
+TEST_CASE("Selective shadow silhouette follows actual text alpha", "[Titler][SelectiveShadow][RichText]")
+{
+    for (const auto &text : {QStringLiteral("MMMM XXXX"), QStringLiteral("MMMM\nXXX yyyy"), QString::fromUtf8("ABC مرحبا بالعالم XYZ"),
+                             QString::fromUtf8("Ä office 🙂 ffi")}) {
+        for (int decoration : {0, 1, 2, 3}) {
+            INFO("text=" << text.toStdString() << ", decoration=" << decoration);
+            auto item = selectiveShadowTitle(0, 0);
+            item->setPlainText(text);
+            item->setTextInteractionFlags(Qt::TextEditorInteraction);
+            selectShadowRange(item.get(), 0, text.size());
+            QTextCharFormat format;
+            format.setForeground(Qt::white);
+            format.setProperty(TitlerShadowV1::Enabled, false);
+            format.setFontUnderline(decoration == 1);
+            format.setFontOverline(decoration == 2);
+            format.setFontStrikeOut(decoration == 2);
+            if (decoration == 3) {
+                format.setFontWeight(QFont::Bold);
+                format.setFontItalic(true);
+                format.setFontLetterSpacingType(QFont::AbsoluteSpacing);
+                format.setFontLetterSpacing(2.5);
+                item->setOutline(6, Qt::black);
+            }
+            TitlerRichText::apply(item.get(), format);
+            selectShadowRange(item.get(), 0, 0);
+            item->setTextInteractionFlags(Qt::NoTextInteraction);
+            const auto body = paintOutlinedTitle(item.get());
+            item->setTextInteractionFlags(Qt::TextEditorInteraction);
+            selectShadowRange(item.get(), 0, text.size());
+            format = QTextCharFormat();
+            format.setProperty(TitlerShadowV1::Enabled, true);
+            format.setProperty(TitlerShadowV1::Color, QColor(0, 255, 0));
+            format.setProperty(TitlerShadowV1::Blur, 0);
+            format.setProperty(TitlerShadowV1::OffsetX, 0);
+            format.setProperty(TitlerShadowV1::OffsetY, 100);
+            TitlerRichText::apply(item.get(), format);
+            selectShadowRange(item.get(), 0, 0);
+            item->setTextInteractionFlags(Qt::NoTextInteraction);
+            QImage tinted = body;
+            {
+                QPainter painter(&tinted);
+                painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+                painter.fillRect(tinted.rect(), Qt::green);
+            }
+            QImage expected(body.size(), body.format());
+            expected.fill(Qt::transparent);
+            {
+                QPainter painter(&expected);
+                painter.drawImage(0, 100, tinted);
+                painter.drawImage(0, 0, body);
+            }
+            const auto actual = paintOutlinedTitle(item.get()).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            expected = expected.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+            int mismatched = 0;
+            // Two channel levels allow premultiplied-alpha conversion rounding.
+            for (int y = 0; y < body.height(); ++y)
+                for (int x = 0; x < body.width(); ++x) {
+                    const auto a = actual.pixel(x, y), b = expected.pixel(x, y);
+                    mismatched +=
+                        qAbs(qAlpha(a) - qAlpha(b)) > 2 || qAbs(qRed(a) - qRed(b)) > 2 || qAbs(qGreen(a) - qGreen(b)) > 2 || qAbs(qBlue(a) - qBlue(b)) > 2;
+                }
+            if (mismatched != 0) {
+                const QString directory = qEnvironmentVariable("SHADOW_TEST_ARTIFACTS");
+                if (!directory.isEmpty() && QDir().mkpath(directory)) {
+                    const QString name = QStringLiteral("native-alpha-%1-%2")
+                                             .arg(QString::fromLatin1(QCryptographicHash::hash(text.toUtf8(), QCryptographicHash::Sha256).toHex()).left(12))
+                                             .arg(decoration);
+                    body.save(QDir(directory).filePath(name + QStringLiteral("-body.png")));
+                    expected.save(QDir(directory).filePath(name + QStringLiteral("-expected.png")));
+                    actual.save(QDir(directory).filePath(name + QStringLiteral("-actual.png")));
+                }
+            }
+            REQUIRE(mismatched == 0);
+        }
+    }
+}

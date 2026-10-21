@@ -7,6 +7,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "richtextshadow.h"
+
 #include <QGraphicsEffect>
 #include <QGraphicsScene>
 #include <QGraphicsSvgItem>
@@ -45,6 +47,8 @@ public:
     Qt::Alignment alignment() const;
     void updateShadow(bool enabled, int blur, int xoffset, int yoffset, QColor color);
     QStringList shadowInfo() const;
+    TitlerShadowV1::Style defaultShadow() const;
+    void applyShadowProperty(int property, const QVariant &value);
     void loadShadow(const QStringList &info);
     void updateTW(bool enabled, int step, int mode, int sigma, int seed);
     QStringList twInfo() const;
@@ -70,6 +74,8 @@ protected:
 private:
     bool m_richTextLayoutBusy{false}; // Rich text layout recursion guard
     Qt::Alignment m_alignment;
+    bool m_shadowEnabled{false};
+    TitlerShadowV1::Layers m_selectiveShadows;
     QPoint m_shadowOffset;
     int m_shadowBlur{0};
     QColor m_shadowColor;

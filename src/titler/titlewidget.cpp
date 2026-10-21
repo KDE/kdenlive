@@ -36,6 +36,7 @@
 #include "titler/richtextformat.h"
 #include "titler/richtextgradient.h"
 #include "titler/richtextoutline.h"
+#include "titler/richtextshadow.h"
 #include <QButtonGroup>
 #include <QClipboard>
 #include <QCryptographicHash>
@@ -73,6 +74,7 @@ static QList<TitleTemplate> titleTemplates;
 int settingUp = 0;
 
 static int TITLERVERSION = 0;
+static bool SELECTIVE_SHADOWS_SUPPORTED = false;
 const int IMAGEITEM = 7;
 const int RECTITEM = QGraphicsRectItem::Type;
 const int TEXTITEM = QGraphicsTextItem::Type;
@@ -139,6 +141,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
             KdenliveSettings::setTitlerVersion(int(ceil(100 * metadata->get_double("version"))));
         }
         TITLERVERSION = KdenliveSettings::titlerVersion();
+    }
+    {
+        QScopedPointer<Mlt::Properties> metadata(pCore->getMltRepository()->metadata(mlt_service_producer_type, "kdenlivetitle"));
+        SELECTIVE_SHADOWS_SUPPORTED = metadata && metadata->get_double("version") >= 9;
     }
     setMinimumSize(200, 200);
     setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
@@ -2162,6 +2168,20 @@ void TitleWidget::updateTextCursorTools(MyTextItem *item)
     textOutlineColor->setToolTip(
         outline.mixedColor ? i18n("Mixed outline colors: showing the first selected character. Changing the color preserves each character's outline width.")
                            : i18n("Outline color. Applies to selected text, or to the whole object outside text editing."));
+
+    const auto shadow = TitlerShadowV1::selectionState(outlineCursor, item->defaultShadow());
+    const QSignalBlocker blockShadow(shadowBox), blockShadowColor(shadowColor), blockBlur(blur_radius), blockX(shadowX), blockY(shadowY);
+    shadowBox->setChecked(shadow.style.enabled);
+    shadowColor->setColor(shadow.style.color);
+    blur_radius->setValue(shadow.style.blur);
+    shadowX->setValue(shadow.style.x);
+    shadowY->setValue(shadow.style.y);
+    const bool needsSelective =
+        item->textCursor().hasSelection() || item->textInteractionFlags().testFlag(Qt::TextEditable) || TitlerShadowV1::hasOverrides(item->document());
+    shadowBox->setEnabled(!needsSelective || SELECTIVE_SHADOWS_SUPPORTED);
+    shadowBox->setToolTip(!SELECTIVE_SHADOWS_SUPPORTED && needsSelective ? i18n("Selection-only shadows require an updated MLT title renderer.")
+                          : shadow.mixed ? i18n("Mixed shadows: showing the first selected character. Changes apply only the edited property.")
+                                         : i18n("Shadow. Applies to selected text, or to the whole object outside text editing."));
 }
 
 void TitleWidget::slotUpdateText()
@@ -3525,20 +3545,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     }
                 }
 
-                QStringList sInfo = i->shadowInfo();
-                if (sInfo.count() >= 5) {
-                    QSignalBlocker bk1(shadowBox);
-                    QSignalBlocker bk2(shadowColor);
-                    QSignalBlocker bk3(blur_radius);
-                    QSignalBlocker bk4(shadowX);
-                    QSignalBlocker bk5(shadowY);
-                    shadowBox->setChecked(static_cast<bool>(sInfo.at(0).toInt()));
-                    shadowColor->setColor(QColor(sInfo.at(1)));
-                    blur_radius->setValue(sInfo.at(2).toInt());
-                    shadowX->setValue(sInfo.at(3).toInt());
-                    shadowY->setValue(sInfo.at(4).toInt());
-                }
-
+                QStringList sInfo;
                 sInfo = i->twInfo();
                 if (sInfo.count() >= 5) {
                     QSignalBlocker bk(typewriterBox);
@@ -3852,7 +3859,24 @@ void TitleWidget::slotUpdateShadow()
             // No text item, try next one.
             continue;
         }
-        item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
+        const QTextCursor cursor = item->textCursor();
+        const bool objectMode = !cursor.hasSelection() && !item->textInteractionFlags().testFlag(Qt::TextEditable);
+        if (objectMode && !TitlerShadowV1::hasOverrides(item->document())) {
+            item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
+            continue;
+        }
+        if (!SELECTIVE_SHADOWS_SUPPORTED) continue;
+        const QObject *control = sender();
+        if (control == shadowBox)
+            item->applyShadowProperty(TitlerShadowV1::Enabled, shadowBox->isChecked());
+        else if (control == shadowColor)
+            item->applyShadowProperty(TitlerShadowV1::Color, shadowColor->color());
+        else if (control == blur_radius)
+            item->applyShadowProperty(TitlerShadowV1::Blur, blur_radius->value());
+        else if (control == shadowX)
+            item->applyShadowProperty(TitlerShadowV1::OffsetX, shadowX->value());
+        else if (control == shadowY)
+            item->applyShadowProperty(TitlerShadowV1::OffsetY, shadowY->value());
     }
     pushUndo(i18n("Update Shadow"));
 }
