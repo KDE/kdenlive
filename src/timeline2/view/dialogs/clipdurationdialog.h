@@ -39,6 +39,7 @@ private:
     double m_fps;
     int m_minPos{-1};
     int m_maxPos{-1};
+    int m_groupMaxDuration{-1};
     std::shared_ptr<TimelineItemModel> m_model;
     ItemInfo m_firstItemInfo;
     QStringList m_infoMessageStrings;
