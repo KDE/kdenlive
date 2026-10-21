@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-20 00:52+0000\n"
+"POT-Creation-Date: 2026-10-21 00:50+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -8596,7 +8596,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:800 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:804 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -20213,7 +20213,7 @@ msgid "Show/hide description of the compositions"
 msgstr "ສະແດງ/ເຊື່ອງ ຄຳອະທິບາຍຂອງອົງປະກອບ"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
-#: src/dialogs/renderwidget.cpp:557 src/project/dialogs/profilewidget.cpp:40
+#: src/dialogs/renderwidget.cpp:561 src/project/dialogs/profilewidget.cpp:155
 #: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2671
 #, kde-format
 msgid "Search…"
@@ -22142,7 +22142,7 @@ msgid ""
 "tracks ?"
 msgstr "ໂຄງການຂອງເຈົ້າຕ້ອງການແທຣັກສຽງເພີ່ມເພື່ອຮອງຮັບສະຕຣີມທັງໝົດ. ເພີ່ມ %1 ແທຣັກສຽງບໍ່?"
 
-#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1817
+#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1818
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "ບໍ່ສາມາດຊອກຫາຄລິບເພື່ອເພີ່ມເຄື່ອງໝາຍ"
@@ -22239,7 +22239,7 @@ msgstr "ລຶບເອັບເຟັກ %1"
 msgid "Project Bin"
 msgstr "ຄັງໂຄງການ"
 
-#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3858
+#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3869
 #, kde-format
 msgid "Project Bin %1"
 msgstr "ຄັງໂຄງການ %1"
@@ -23647,12 +23647,12 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "ສົ່ງອອກຂໍ້ມູນຕົວໝາຍ"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2260
-#: src/dialogs/renderwidget.cpp:2284 src/doc/kdenlivedoc.cpp:776
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2333
+#: src/dialogs/renderwidget.cpp:2357 src/doc/kdenlivedoc.cpp:776
 #: src/doc/kdenlivedoc.cpp:782 src/doc/kdenlivedoc.cpp:1416
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
-#: src/effects/effectsrepository.cpp:432
+#: src/effects/effectsrepository.cpp:433
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:811
 #: src/effects/effectstack/view/effectstackview.cpp:817
 #: src/layouts/layoutmanagerdialog.cpp:316
@@ -23896,7 +23896,7 @@ msgid "Top Right"
 msgstr "ເທິງຂວາ"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:383
+#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:385
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:877
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:47
 #, kde-format
@@ -24089,7 +24089,7 @@ msgstr ""
 "ພາຣາມິເຕີຕໍ່ໄປນີ້ຈະບໍ່ມີຜົນ, ເພາະວ່າພວກມັນຖືກຂຽນທັບໂດຍຕົວເລືອກອິນເຕີເຟດຜູ້ໃຊ້ທີ່ທຽບເທົ່າ: <icode>%1</"
 "icode>"
 
-#: src/dialogs/renderwidget.cpp:99
+#: src/dialogs/renderwidget.cpp:101
 #, kde-format
 msgid ""
 "Show xml playlist used for rendering:\n"
@@ -24098,7 +24098,7 @@ msgstr ""
 "ສະແດງ xml playlist ທີ່ໃຊ້ສຳລັບການເຣັນເດີ:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:104
+#: src/dialogs/renderwidget.cpp:106
 #, kde-format
 msgid ""
 "Show render log file:\n"
@@ -24107,127 +24107,127 @@ msgstr ""
 "ສະແດງໄຟລ໌ log ການເຣັນເດີ:\n"
 " %1"
 
-#: src/dialogs/renderwidget.cpp:209 src/dialogs/renderwidget.cpp:213
+#: src/dialogs/renderwidget.cpp:211 src/dialogs/renderwidget.cpp:215
 #, kde-format
 msgid "Show Log"
 msgstr "ສະແດງ Log"
 
-#: src/dialogs/renderwidget.cpp:228 src/dialogs/renderwidget.cpp:230
+#: src/dialogs/renderwidget.cpp:230 src/dialogs/renderwidget.cpp:232
 #, kde-format
 msgid "Show Xml"
 msgstr "ສະແດງ Xml"
 
-#: src/dialogs/renderwidget.cpp:256 src/dialogs/renderwidget.cpp:2082
+#: src/dialogs/renderwidget.cpp:258 src/dialogs/renderwidget.cpp:2115
 #, kde-format
 msgid "Waiting…"
 msgstr "ກຳລັງລໍຖ້າ…"
 
-#: src/dialogs/renderwidget.cpp:260 src/dialogs/Simplesplash.qml:209
+#: src/dialogs/renderwidget.cpp:262 src/dialogs/Simplesplash.qml:209
 #: src/dialogs/Simplesplash.qml:240 src/dialogs/Simplesplash.qml:319
 #, kde-format
 msgid "Starting…"
 msgstr "ກຳລັງເລີ່ມ…"
 
-#: src/dialogs/renderwidget.cpp:263
+#: src/dialogs/renderwidget.cpp:265
 #, kde-format
 msgid "Rendering finished"
 msgstr "ການເຣັນເດີສຳເລັດແລ້ວ"
 
-#: src/dialogs/renderwidget.cpp:268
+#: src/dialogs/renderwidget.cpp:270
 #, kde-format
 msgid "Rendering crashed"
 msgstr "ການເຣັນເດີຂັດຂ້ອງ"
 
-#: src/dialogs/renderwidget.cpp:273
+#: src/dialogs/renderwidget.cpp:275
 #, kde-format
 msgid "Rendering aborted"
 msgstr "ການເຣັນເດີຖືກຍົກເລີກ"
 
-#: src/dialogs/renderwidget.cpp:371
+#: src/dialogs/renderwidget.cpp:373
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Nearest (ໄວ)"
 
-#: src/dialogs/renderwidget.cpp:372 src/monitor/monitormanager.cpp:657
+#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:657
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bilinear (ດີ)"
 
-#: src/dialogs/renderwidget.cpp:373 src/monitor/monitormanager.cpp:658
+#: src/dialogs/renderwidget.cpp:375 src/monitor/monitormanager.cpp:658
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bicubic (ດີກວ່າ)"
 
-#: src/dialogs/renderwidget.cpp:374
+#: src/dialogs/renderwidget.cpp:376
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (ດີທີ່ສຸດ)"
 
-#: src/dialogs/renderwidget.cpp:384
+#: src/dialogs/renderwidget.cpp:386
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "ລວງນອນ (16:9)"
 
-#: src/dialogs/renderwidget.cpp:385
+#: src/dialogs/renderwidget.cpp:387
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "ລວງຕັ້ງ (9:16)"
 
-#: src/dialogs/renderwidget.cpp:386
+#: src/dialogs/renderwidget.cpp:388
 #, kde-format
 msgid "Square (1:1)"
 msgstr "ສີ່ຫຼ່ຽມ (1:1)"
 
-#: src/dialogs/renderwidget.cpp:390
+#: src/dialogs/renderwidget.cpp:392
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:391 src/monitor/monitormanager.cpp:639
+#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Linear Blend (ໄວ)"
 
-#: src/dialogs/renderwidget.cpp:392 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:394 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - temporal only (ດີ)"
 
-#: src/dialogs/renderwidget.cpp:393
+#: src/dialogs/renderwidget.cpp:395
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (ດີກວ່າ)"
 
-#: src/dialogs/renderwidget.cpp:394
+#: src/dialogs/renderwidget.cpp:396
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (ດີທີ່ສຸດ)"
 
-#: src/dialogs/renderwidget.cpp:404 src/dialogs/subtitleedit.cpp:1561
+#: src/dialogs/renderwidget.cpp:406 src/dialogs/subtitleedit.cpp:1561
 #: src/dialogs/subtitleedit.cpp:1578 src/dialogs/subtitleedit.cpp:1592
 #: src/dialogs/subtitleedit.cpp:1632 src/project/dialogs/slideshowclip.cpp:59
 #, kde-format
 msgid "None"
 msgstr "ບໍ່ມີ"
 
-#: src/dialogs/renderwidget.cpp:405
+#: src/dialogs/renderwidget.cpp:407
 #: src/mltcontroller/clippropertiescontroller.cpp:1414
 #: src/mltcontroller/clippropertiescontroller.cpp:1456
 #, kde-format
 msgid "Timecode"
 msgstr "ລະຫັດເວລາ"
 
-#: src/dialogs/renderwidget.cpp:406
+#: src/dialogs/renderwidget.cpp:408
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "ລະຫັດເວລາ Non Drop Frame"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:409
 #, kde-format
 msgid "Frame Number"
 msgstr "ໝາຍເລກເຟຣມ"
 
-#: src/dialogs/renderwidget.cpp:410
+#: src/dialogs/renderwidget.cpp:412
 #, kde-format
 msgctxt "Explanation for the 2 pass rendering feature"
 msgid ""
@@ -24239,22 +24239,22 @@ msgstr ""
 "ການເຣັນເດີແບບສອງຮອບຊ່ວຍໃຫ້ຄວບຄຸມຂະໜາດໄຟລ໌ສຸດທ້າຍໄດ້ດີກວ່າ.\n"
 "ບໍ່ເຂົ້າກັນກັບບິດເຣດແບບປ່ຽນແປງໄດ້, ແລະ ກ່ຽວຂ້ອງກັບບາງໂຄເດັກວິດີໂອເທົ່ານັ້ນ."
 
-#: src/dialogs/renderwidget.cpp:414
+#: src/dialogs/renderwidget.cpp:416
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "ກຳລັງເຣັນເດີໂດຍໃຊ້ພຣັອກຊີຄຸນນະພາບຕ່ຳ"
 
-#: src/dialogs/renderwidget.cpp:499
+#: src/dialogs/renderwidget.cpp:503
 #, kde-format
 msgid "File"
 msgstr "ໄຟລ໌"
 
-#: src/dialogs/renderwidget.cpp:516
+#: src/dialogs/renderwidget.cpp:520
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Playlists ທີ່ເກັບໄວ້"
 
-#: src/dialogs/renderwidget.cpp:537 src/timeline2/view/previewmanager.cpp:46
+#: src/dialogs/renderwidget.cpp:541 src/timeline2/view/previewmanager.cpp:46
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -24262,49 +24262,67 @@ msgid ""
 msgstr ""
 "ບໍ່ພົບແອັບພລິເຄຊັນ kdenlive_render, ມີບາງຢ່າງຜິດພາດກັບການຕິດຕັ້ງຂອງທ່ານ. ການເຣັນເດີຈະບໍ່ເຮັດວຽກ"
 
-#: src/dialogs/renderwidget.cpp:584
+#: src/dialogs/renderwidget.cpp:544
+#, fuzzy, kde-format
+#| msgid "Smoothing"
+msgid "Do nothing"
+msgstr "ການເຮັດໃຫ້ລຽບ (Smoothing)"
+
+#: src/dialogs/renderwidget.cpp:545
+#, fuzzy, kde-format
+#| msgid "Kdenlive"
+msgid "Close Kdenlive"
+msgstr "Kdenlive"
+
+#: src/dialogs/renderwidget.cpp:550
+#, fuzzy, kde-format
+#| msgid "Shutdown computer after renderings"
+msgid "Shut down computer"
+msgstr "ປິດຄອມພິວເຕີຫຼັງຈາກການປະມວນຜົນ"
+
+#: src/dialogs/renderwidget.cpp:588
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "ໃຊ້ໄດ້ສະເພາະກັບຮູບແບບ matroska (mkv)"
 
-#: src/dialogs/renderwidget.cpp:599
+#: src/dialogs/renderwidget.cpp:603
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "ມີບັນຫາໃນການແບ່ງປັນເອກະສານ: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:599 src/dialogs/renderwidget.cpp:607
-#: src/ui/renderwidget_ui.ui:937
+#: src/dialogs/renderwidget.cpp:603 src/dialogs/renderwidget.cpp:611
+#: src/ui/renderwidget_ui.ui:970
 #, kde-format
 msgid "Share"
 msgstr "ແບ່ງປັນ"
 
-#: src/dialogs/renderwidget.cpp:604
+#: src/dialogs/renderwidget.cpp:608
 #, kde-format
 msgid "Document shared successfully"
 msgstr "ແບ່ງປັນເອກະສານສຳເລັດແລ້ວ"
 
-#: src/dialogs/renderwidget.cpp:607
+#: src/dialogs/renderwidget.cpp:611
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "ທ່ານສາມາດຊອກຫາເອກະສານທີ່ແບ່ງປັນໄດ້ທີ່: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:782
+#: src/dialogs/renderwidget.cpp:786
 #, kde-format
 msgid "Beginning"
 msgstr "ຈຸດເລີ່ມຕົ້ນ"
 
-#: src/dialogs/renderwidget.cpp:923
+#: src/dialogs/renderwidget.cpp:927
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "ເພີ່ມຄລິບໃສ່ເສັ້ນເວລາກ່ອນການເຣັນເດີ"
 
-#: src/dialogs/renderwidget.cpp:929
+#: src/dialogs/renderwidget.cpp:933
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "ບໍ່ພົບໂປຣແກຣມ melt ທີ່ຈຳເປັນສຳລັບການເຣັນເດີ (ສ່ວນໜຶ່ງຂອງ Mlt)"
 
-#: src/dialogs/renderwidget.cpp:938
+#: src/dialogs/renderwidget.cpp:942
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -24315,39 +24333,38 @@ msgstr ""
 "ການເຣັນເດີໂຄງການທີ່ມີຄລິບເຟຣມເຣດແບບປ່ຽນແປງໄດ້ອາດເຮັດໃຫ້ສຽງ/ວິດີໂອບໍ່ກົງກັນ.\n"
 "ພວກເຮົາແນະນຳໃຫ້ແປງລະຫັດເປັນຮູບແບບທີ່ເປັນມິດກັບການແກ້ໄຂ."
 
-#: src/dialogs/renderwidget.cpp:947
+#: src/dialogs/renderwidget.cpp:951
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "ເຣັນເດີຕໍ່ໄປ"
 
-#: src/dialogs/renderwidget.cpp:960
+#: src/dialogs/renderwidget.cpp:964
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "ແປງລະຫັດ"
 
-#: src/dialogs/renderwidget.cpp:983
+#: src/dialogs/renderwidget.cpp:987
 #, kde-format
 msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:984
+#: src/dialogs/renderwidget.cpp:988
 #, fuzzy, kde-format
 #| msgid "Render…"
 msgctxt "@action:button"
 msgid "Render"
 msgstr "ປະມວນຜົນ…"
 
-#: src/dialogs/renderwidget.cpp:994 src/dialogs/renderwidget.cpp:2055
-#: src/project/dialogs/archivewidget.cpp:938
+#: src/dialogs/renderwidget.cpp:998 src/project/dialogs/archivewidget.cpp:938
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "ໄຟລ໌ຜົນອອກມີຢູ່ແລ້ວ. ທ່ານຕ້ອງການຂຽນທັບມັນບໍ່?"
 
-#: src/dialogs/renderwidget.cpp:1001 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:1005 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -24356,175 +24373,259 @@ msgstr ""
 "ບໍ່ສາມາດສ້າງໄດເຣັກທໍຣີ %1 ໄດ້.\n"
 "ກະລຸນາກວດສອບວ່າທ່ານມີສິດທິທີ່ຈຳເປັນ."
 
-#: src/dialogs/renderwidget.cpp:1073
+#: src/dialogs/renderwidget.cpp:1077
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "ເກີດຂໍ້ຜິດພາດຕໍ່ໄປນີ້ຂະນະພະຍາຍາມເຣັນເດີ"
 
-#: src/dialogs/renderwidget.cpp:1113 src/dialogs/renderwidget.cpp:2068
+#: src/dialogs/renderwidget.cpp:1117 src/dialogs/renderwidget.cpp:2101
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr "ມີວຽກທີ່ກຳລັງຂຽນໄຟລ໌ຢູ່ແລ້ວ:<br /><b>%1</b><br />ຍົກເລີກວຽກຖ້າທ່ານຕ້ອງການຂຽນທັບມັນ…"
 
-#: src/dialogs/renderwidget.cpp:1114 src/dialogs/renderwidget.cpp:2069
+#: src/dialogs/renderwidget.cpp:1118 src/dialogs/renderwidget.cpp:2102
 #, kde-format
 msgid "Already running"
 msgstr "ກຳລັງເຮັດວຽກຢູ່ແລ້ວ"
 
-#: src/dialogs/renderwidget.cpp:1143
+#: src/dialogs/renderwidget.cpp:1147
 #, kde-format
 msgid "Video without audio track"
 msgstr "ວິດີໂອທີ່ບໍ່ມີແທຣັກສຽງ"
 
-#: src/dialogs/renderwidget.cpp:1145
+#: src/dialogs/renderwidget.cpp:1149
 #, kde-format
 msgid "Audio without video track"
 msgstr "ສຽງທີ່ບໍ່ມີແທຣັກວິດີໂອ"
 
-#: src/dialogs/renderwidget.cpp:1227 src/main.cpp:546
+#: src/dialogs/renderwidget.cpp:1236 src/main.cpp:546
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "ການເຣັນເດີ %1 ເລີ່ມຕົ້ນແລ້ວ"
 
-#: src/dialogs/renderwidget.cpp:1284 src/monitor/monitor.cpp:1536
+#: src/dialogs/renderwidget.cpp:1293 src/monitor/monitor.cpp:1536
 #, kde-format
 msgid "untitled"
 msgstr "ບໍ່ມີຊື່"
 
-#: src/dialogs/renderwidget.cpp:1332
+#: src/dialogs/renderwidget.cpp:1341
 #, kde-format
 msgid "No preset selected"
 msgstr "ບໍ່ໄດ້ເລືອກພຣີເຊັດ"
 
-#: src/dialogs/renderwidget.cpp:1334
+#: src/dialogs/renderwidget.cpp:1343
 #, kde-format
 msgid "No matching preset"
 msgstr "ບໍ່ມີພຣີເຊັດທີ່ກົງກັນ"
 
-#: src/dialogs/renderwidget.cpp:1346
+#: src/dialogs/renderwidget.cpp:1355
 #, kde-format
 msgid "Invalid preset"
 msgstr "ພຣີເຊັດບໍ່ຖືກຕ້ອງ"
 
-#: src/dialogs/renderwidget.cpp:1487
+#: src/dialogs/renderwidget.cpp:1496
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr "ການເຣັນເດີໂດຍບໍ່ມີສຽງ ແລະ ວິດີໂອບໍ່ສາມາດເຮັດວຽກໄດ້. ກະລຸນາເປີດໃຊ້ຢ່າງໜ້ອຍໜຶ່ງຢ່າງ."
 
-#: src/dialogs/renderwidget.cpp:1722
+#: src/dialogs/renderwidget.cpp:1731
 #, kde-format
 msgid "Remaining time "
 msgstr "ເວລາທີ່ຍັງເຫຼືອ "
 
-#: src/dialogs/renderwidget.cpp:1724 src/dialogs/renderwidget.cpp:1827
+#: src/dialogs/renderwidget.cpp:1733 src/dialogs/renderwidget.cpp:1836
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 ມື້ "
 
-#: src/dialogs/renderwidget.cpp:1736
+#: src/dialogs/renderwidget.cpp:1745
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (ເຟຣມ %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1758
+#: src/dialogs/renderwidget.cpp:1767
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "ໜ່ວຍຄວາມຈຳທີ່ໃຊ້ໄດ້ເຫຼືອໜ້ອຍກວ່າ %1MB."
 
-#: src/dialogs/renderwidget.cpp:1829
+#: src/dialogs/renderwidget.cpp:1838
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "ການເຣັນເດີສຳເລັດໃນ %1"
 
-#: src/dialogs/renderwidget.cpp:1841
+#: src/dialogs/renderwidget.cpp:1850
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "ການເຣັນເດີຂອງ %1 ສຳເລັດໃນ %2"
 
-#: src/dialogs/renderwidget.cpp:1844
+#: src/dialogs/renderwidget.cpp:1853
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "ການເຣັນເດີຮອບທຳອິດຂອງ %1 ສຳເລັດແລ້ວ"
 
-#: src/dialogs/renderwidget.cpp:1867
+#: src/dialogs/renderwidget.cpp:1876
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>ການເຣັນເດີຂັດຂ້ອງ</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1869
+#: src/dialogs/renderwidget.cpp:1878
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>ການເຣັນເດີຂອງ %1 ຂັດຂ້ອງ</strong><br />"
 
+#: src/dialogs/renderwidget.cpp:1921
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to delete the layout %1?"
+msgid "Are you sure you want to abort the current job?"
+msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຮູບແບບຈັດວາງ %1?"
+
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1936 src/ui/renderwidget_ui.ui:930
+#: src/dialogs/renderwidget.cpp:1921 src/dialogs/renderwidget.cpp:1956
+#: src/ui/renderwidget_ui.ui:940
 #, kde-format
 msgid "Abort Job"
 msgstr "ຍົກເລີກວຽກ"
 
-#: src/dialogs/renderwidget.cpp:1939
+#: src/dialogs/renderwidget.cpp:1922 src/dialogs/wizard.cpp:80
+#: src/doc/kdenlivedoc.cpp:1972 src/onlineresources/resourcewidget.cpp:50
+#: src/project/cliptranscode.cpp:193 src/project/cliptranscode.cpp:227
+#: src/project/dialogs/archivewidget.cpp:795
+#: src/project/dialogs/archivewidget.cpp:1307
+#, kde-format
+msgid "Abort"
+msgstr "ຍົກເລີກ"
+
+#: src/dialogs/renderwidget.cpp:1929
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to delete the layout %1?"
+msgid "Are you sure you want to remove the waiting job from queue?"
+msgstr "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຮູບແບບຈັດວາງ %1?"
+
+#: src/dialogs/renderwidget.cpp:1929 src/dialogs/renderwidget.cpp:1959
 #, kde-format
 msgid "Remove Job"
 msgstr "ລຶບວຽກ"
 
-#: src/dialogs/renderwidget.cpp:2442
+#: src/dialogs/renderwidget.cpp:2064
+#, fuzzy, kde-format
+#| msgid "Start Script"
+msgid "Start Selected Scripts"
+msgstr "ເລີ່ມສະຄຣິບ"
+
+#. i18n: ectx: property (text), widget (QPushButton, start_script)
+#: src/dialogs/renderwidget.cpp:2064 src/ui/renderwidget_ui.ui:1153
+#, kde-format
+msgid "Start Script"
+msgstr "ເລີ່ມສະຄຣິບ"
+
+#: src/dialogs/renderwidget.cpp:2065
+#, fuzzy, kde-format
+#| msgid "Delete Selected Item"
+msgid "Delete Selected Scripts"
+msgstr "ລຶບລາຍການທີ່ເລືອກ"
+
+#. i18n: ectx: property (text), widget (QPushButton, delete_script)
+#: src/dialogs/renderwidget.cpp:2065 src/dialogs/renderwidget.cpp:2139
+#: src/ui/renderwidget_ui.ui:1146
+#, kde-format
+msgid "Delete Script"
+msgstr "ລຶບສະຄຣິບ"
+
+#: src/dialogs/renderwidget.cpp:2066
+#, fuzzy, kde-format
+#| msgid "Loop Selected Clip"
+msgid "Copy Selected Commands"
+msgstr "ຫຼິ້ນວົນຄລິບທີ່ເລືອກ"
+
+#. i18n: ectx: property (text), widget (QPushButton, copy_script_command)
+#: src/dialogs/renderwidget.cpp:2066 src/ui/renderwidget_ui.ui:1101
+#, fuzzy, kde-format
+#| msgid "Copy to Clipboard"
+msgid "Copy Command"
+msgstr "ກັອບປີ້ໃສ່ຄລິບບອດ"
+
+#: src/dialogs/renderwidget.cpp:2088
+#, fuzzy, kde-format
+#| msgid ""
+#| "Output file %1 already exists.\n"
+#| "Do you want to overwrite it?"
+msgid "Output file %1 already exists. Do you want to overwrite it?"
+msgstr ""
+"ມີຟາຍຜົນລັັບ %1 ຢູ່ແລ້ວ.\n"
+"ເຈົ້າຕ້ອງການຂຽນທັບມັນບໍ່?"
+
+#: src/dialogs/renderwidget.cpp:2138
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to delete the layout %1?"
+msgid "Are you sure you want to delete the selected script?"
+msgid_plural "Are you sure you want to delete %1 selected scripts?"
+msgstr[0] "ທ່ານແນ່ໃຈບໍ່ວ່າຕ້ອງການລຶບຮູບແບບຈັດວາງ %1?"
+
+#: src/dialogs/renderwidget.cpp:2177
+#, kde-format
+msgid ""
+"Render command copied to clipboard:\n"
+"%1"
+msgstr ""
+
+#: src/dialogs/renderwidget.cpp:2515
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "ຄວາມຍາວໄຟລ໌ທີ່ເຣັນເດີ: %1"
 
-#: src/dialogs/renderwidget.cpp:2445
+#: src/dialogs/renderwidget.cpp:2518
 #, fuzzy, kde-format
 #| msgid "Timecode Offset:"
 msgid "Timecode Offset: %1"
 msgstr "Timecode Offset:"
 
-#: src/dialogs/renderwidget.cpp:2450
+#: src/dialogs/renderwidget.cpp:2523
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "ເພີ່ມຄລິບໃນເສັ້ນເວລາກ່ອນການເຣັນເດີ"
 
-#: src/dialogs/renderwidget.cpp:2460
+#: src/dialogs/renderwidget.cpp:2533
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "ຕຳແໜ່ງຜົນອອກບໍ່ສາມາດຂຽນໄດ້, ກະລຸນາເລືອກບ່ອນອື່ນ"
 
-#: src/dialogs/renderwidget.cpp:2465
+#: src/dialogs/renderwidget.cpp:2538
 #, kde-format
 msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
 "free disk space. Rendering might fail."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2471
+#: src/dialogs/renderwidget.cpp:2544
 #, kde-format
 msgid ""
 "Your disk space is limited.\n"
 "There is %1 free disk space and the render result will roughly take %2."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2486
+#: src/dialogs/renderwidget.cpp:2559
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>%1 ຄລິບທີ່ຂາດຫາຍໄປຖືກໃຊ້ໃນໂຄງການ.</b>"
 
-#: src/dialogs/renderwidget.cpp:2488
+#: src/dialogs/renderwidget.cpp:2561
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "%1 ຄລິບທີ່ຂາດຫາຍໄປ (ບໍ່ໄດ້ໃຊ້)."
 
-#: src/dialogs/renderwidget.cpp:2490
+#: src/dialogs/renderwidget.cpp:2563
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 ຄລິບທີ່ຂາດຫາຍໄປ (<b>%2 ຖືກໃຊ້ໃນໂຄງການ</b>)."
 
-#: src/dialogs/renderwidget.cpp:2634
+#: src/dialogs/renderwidget.cpp:2707
 #, kde-format
 msgid ""
 "One Field deinterlacing may halve the vertical resolution of interlaced clip "
@@ -24534,7 +24635,7 @@ msgid_plural ""
 "clips: %2"
 msgstr[0] ""
 
-#: src/dialogs/renderwidget.cpp:2674
+#: src/dialogs/renderwidget.cpp:2747
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -24543,12 +24644,12 @@ msgstr ""
 "ພາຣາມິເຕີຄວາມໄວໂຄເດັກ:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2694
+#: src/dialogs/renderwidget.cpp:2767
 #, kde-format
 msgid "Add to Current Project"
 msgstr "ເພີ່ມໃສ່ໂຄງການປັດຈຸບັນ"
 
-#: src/dialogs/renderwidget.cpp:2703
+#: src/dialogs/renderwidget.cpp:2776
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -25947,7 +26048,7 @@ msgstr "ເຟຣມເຣດ"
 #: src/dialogs/Splash.qml:988
 #: src/mltcontroller/clippropertiescontroller.cpp:689
 #: src/mltcontroller/clippropertiescontroller.cpp:1379
-#: src/project/dialogs/profilewidget.cpp:132 src/ui/editrenderpreset_ui.ui:215
+#: src/project/dialogs/profilewidget.cpp:263 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
 msgid "Interlaced"
@@ -26531,14 +26632,6 @@ msgstr "ຍິນດີຕ້ອນຮັບສູ່ Kdenlive %1"
 msgid "Using MLT %1"
 msgstr "ກຳລັງໃຊ້ MLT %1"
 
-#: src/dialogs/wizard.cpp:80 src/doc/kdenlivedoc.cpp:1972
-#: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:795
-#: src/project/dialogs/archivewidget.cpp:1307
-#, kde-format
-msgid "Abort"
-msgstr "ຍົກເລີກ"
-
 #: src/dialogs/wizard.cpp:81
 #, kde-format
 msgid "OK"
@@ -26564,8 +26657,8 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:130 src/project/cliptranscode.cpp:271
-#: src/ui/renderwidget_ui.ui:445 src/ui/renderwidget_ui.ui:973
-#: src/ui/renderwidget_ui.ui:1130
+#: src/ui/renderwidget_ui.ui:445 src/ui/renderwidget_ui.ui:986
+#: src/ui/renderwidget_ui.ui:1160
 #, kde-format
 msgid "Close"
 msgstr "ປິດ"
@@ -27103,7 +27196,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "ໄຟລ໌ຄຳບັນຍາຍ:<br/>%1<br/>ມີຢູ່ແລ້ວ. ທ່ານຕ້ອງການຂຽນທັບມັນບໍ່?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2432
+#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2433
 #, kde-format
 msgid "Overwrite"
 msgstr "ຂຽນທັບ"
@@ -27472,7 +27565,7 @@ msgctxt "@title:window"
 msgid "Export Custom Effect"
 msgstr "ສົ່ງອອກເອັບເຟັກກຳນົດເອງ"
 
-#: src/effects/effectsrepository.cpp:39
+#: src/effects/effectsrepository.cpp:40
 #, kde-format
 msgid "Some of your favorite effects are invalid and were removed: %1"
 msgstr "ເອັບເຟັກທີ່ທ່ານມັກບາງອັນບໍ່ຖືກຕ້ອງ ແລະ ຖືກລຶບອອກແລ້ວ: %1"
@@ -28271,7 +28364,7 @@ msgid "Generators"
 msgstr "ຕົວສ້າງ"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:2772
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:2773
 #, kde-format
 msgid "Extract Audio"
 msgstr "ແຍກສຽງ"
@@ -29359,28 +29452,28 @@ msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ລະຫ�
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "ບໍ່ສາມາດດຳເນີນການໄດ້, ໄດເຣັກທໍຣີປາຍທາງມີຢູ່ແລ້ວ: %1"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "ລະບົບຈະລຶບຄລິບທີ່ບໍ່ໄດ້ໃຊ້ທັງໝົດອອກຈາກໂຄງການຂອງເຈົ້າ."
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "Clean up project"
 msgstr "ທຳຄວາມສະອາດໂຄງການ"
 
-#: src/mainwindow.cpp:1545
+#: src/mainwindow.cpp:1546
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "ດາວໂຫຼດຮູບແບບແປ້ນພິມໃໝ່..."
 
-#: src/mainwindow.cpp:1589
+#: src/mainwindow.cpp:1590
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "ທົ່ວໄປ"
 
-#: src/mainwindow.cpp:1662
+#: src/mainwindow.cpp:1663
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -29388,28 +29481,28 @@ msgid ""
 msgstr ""
 "ລະບົບຈະລຶບໄຟລ໌ການຕັ້ງຄ່າຂອງ Kdenlive ແລະ ເປີດແອັບພລິເຄຊັນໃໝ່. ເຈົ້າຕ້ອງການດຳເນີນການຕໍ່ບໍ່?"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1664
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "ຣີເຊັດການຕັ້ງຄ່າ"
 
-#: src/mainwindow.cpp:1835 src/mainwindow.cpp:1862
+#: src/mainwindow.cpp:1836 src/mainwindow.cpp:1863
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:1845 src/mainwindow.cpp:1901
+#: src/mainwindow.cpp:1846 src/mainwindow.cpp:1902
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "ບໍ່ພົບຕົວໝາຍຢູ່ທີ່ເວລາຂອງເຄີເຊີ"
 
-#: src/mainwindow.cpp:1867 src/mainwindow.cpp:1877
+#: src/mainwindow.cpp:1868 src/mainwindow.cpp:1878
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ລຶບຕົວໝາຍ"
 
-#: src/mainwindow.cpp:1894 src/timeline2/view/timelinecontroller.cpp:1460
+#: src/mainwindow.cpp:1895 src/timeline2/view/timelinecontroller.cpp:1460
 #: src/timeline2/view/timelinecontroller.cpp:1468
 #: src/timeline2/view/timelinecontroller.cpp:1489
 #: src/timeline2/view/timelinecontroller.cpp:1529
@@ -29419,46 +29512,46 @@ msgstr "ເກີດຂໍ້ຜິດພາດຂະນະທີ່ລຶບຕ
 msgid "Cannot find clip to edit marker"
 msgstr "ບໍ່ພົບຄລິບທີ່ຈະແກ້ໄຂຕົວໝາຍ"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "ບໍ່ມີໝວດໝູ່ຂອງຕົວໝາຍ"
 
-#: src/mainwindow.cpp:2081 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2082 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Overwrite zone"
 msgstr "ຂຽນທັບເຂດ"
 
-#: src/mainwindow.cpp:2083 src/mainwindow.cpp:2102
+#: src/mainwindow.cpp:2084 src/mainwindow.cpp:2103
 #: src/timeline2/model/timelinefunctions.cpp:867
 #: src/timeline2/view/timelinecontroller.cpp:3696
 #, kde-format
 msgid "Could not insert zone"
 msgstr "ບໍ່ສາມາດແຊກເຂດໄດ້"
 
-#: src/mainwindow.cpp:2093
+#: src/mainwindow.cpp:2094
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "ບໍ່ມີຄລິບຖືກເລືອກໃນຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:2100 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2101 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Insert zone"
 msgstr "ແຊກເຂດ"
 
-#: src/mainwindow.cpp:2167
+#: src/mainwindow.cpp:2168
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "ບໍ່ສາມາດເພີ່ມເອັບເຟັກໃສ່ລາຍການທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:2229
+#: src/mainwindow.cpp:2230
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "ລະດັບການຊູມ: %1/%2"
 
-#: src/mainwindow.cpp:2383
+#: src/mainwindow.cpp:2384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29470,7 +29563,7 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:2387
+#: src/mainwindow.cpp:2388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29483,24 +29576,24 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Meta + Alt ລາກ</shortcut> "
 "ເພື່ອຍ້າຍຄລິບທີ່ຈັດກຸ່ມໄປຍັງແທຣັກອື່ນ, <shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:2390
+#: src/mainwindow.cpp:2391
 #, kde-format
 msgid "Select"
 msgstr "ເລືອກ"
 
-#: src/mainwindow.cpp:2392
+#: src/mainwindow.cpp:2393
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> ເພື່ອເບິ່ງຕົວຢ່າງເຟຣມທີ່ຕັດ"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:2393 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:2394 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "ມີດຕັດ"
 
-#: src/mainwindow.cpp:2397
+#: src/mainwindow.cpp:2398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29510,12 +29603,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> ເພື່ອໃຊ້ກັບແທຣັກປະຈຸບັນເທົ່ານັ້ນ, <shortcut>Shift</shortcut> "
 "ເພື່ອຍ້າຍເສັ້ນນຳທາງນຳ. ເຈົ້າສາມາດໃຊ້ປຸ່ມທັງສອງຮ່ວມກັນໄດ້."
 
-#: src/mainwindow.cpp:2398
+#: src/mainwindow.cpp:2399
 #, kde-format
 msgid "Spacer"
 msgstr "ຕົວຍະຫວ່າງ"
 
-#: src/mainwindow.cpp:2400
+#: src/mainwindow.cpp:2401
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29525,13 +29618,13 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ລາຍການເພື່ອເລື່ອນ (slip), <shortcut>Shift ຄລິກ</"
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ"
 
-#: src/mainwindow.cpp:2401
+#: src/mainwindow.cpp:2402
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Slip"
 
-#: src/mainwindow.cpp:2406
+#: src/mainwindow.cpp:2407
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29543,13 +29636,13 @@ msgstr ""
 "shortcut> ເພື່ອເລືອກຫຼາຍອັນ, <shortcut>Alt ຄລິກ</shortcut> ເພື່ອເລືອກລາຍການໃນກຸ່ມ, "
 "<shortcut>Ctrl ລາກ</shortcut> ເພື່ອເລື່ອນພາບ"
 
-#: src/mainwindow.cpp:2408
+#: src/mainwindow.cpp:2409
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Ripple"
 
-#: src/mainwindow.cpp:2414
+#: src/mainwindow.cpp:2415
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29559,145 +29652,145 @@ msgstr ""
 "<shortcut>ຄລິກ</shortcut> ໃສ່ມຸມມອງແທຣັກໃນຈໍມໍນິເຕີໂຄງການ ເພື່ອທຳການຍົກທຸກແທຣັກອອກ "
 "ຍົກເວັ້ນແທຣັກທີ່ໃຊ້ງານຢູ່"
 
-#: src/mainwindow.cpp:2415 src/mainwindow_actions.cpp:545
+#: src/mainwindow.cpp:2416 src/mainwindow_actions.cpp:545
 #, kde-format
 msgid "Multicam"
 msgstr "ຫຼາຍກ້ອງ"
 
-#: src/mainwindow.cpp:2430
+#: src/mainwindow.cpp:2431
 #, kde-format
 msgid "Insert"
 msgstr "ແຊກ"
 
-#: src/mainwindow.cpp:2662 src/mainwindow.cpp:2664
+#: src/mainwindow.cpp:2663 src/mainwindow.cpp:2665
 #, kde-format
 msgid "Scopes"
 msgstr "ສະໂຄບ"
 
-#: src/mainwindow.cpp:2669
+#: src/mainwindow.cpp:2670
 #, kde-format
 msgid "Project Bins"
 msgstr "ຖັງໂຄງການ"
 
-#: src/mainwindow.cpp:2746
+#: src/mainwindow.cpp:2747
 #, kde-format
 msgid "Clip Jobs"
 msgstr "ວຽກຂອງຄລິບ"
 
-#: src/mainwindow.cpp:2765
+#: src/mainwindow.cpp:2766
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "ຕັ້ງຄ່າວຽກຂອງຄລິບ..."
 
-#: src/mainwindow.cpp:2771
+#: src/mainwindow.cpp:2772
 #, kde-format
 msgid "Transcoders"
 msgstr "ຕົວປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:2838
+#: src/mainwindow.cpp:2839
 #, kde-format
 msgid "-merged"
 msgstr "-ຮວມແລ້ວ"
 
-#: src/mainwindow.cpp:2841
+#: src/mainwindow.cpp:2842
 #, kde-format
 msgid "-stream-%1"
 msgstr "-ສະຕຣີມ-%1"
 
-#: src/mainwindow.cpp:2874 src/mainwindow.cpp:3202
+#: src/mainwindow.cpp:2875 src/mainwindow.cpp:3213
 #, kde-format
 msgid "Interface"
 msgstr "ອິນເຕີເຟດ"
 
-#: src/mainwindow.cpp:2945
+#: src/mainwindow.cpp:2946
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "ໄຟລ໌ທີ່ຈະປ່ຽນລະຫັດ"
 
-#: src/mainwindow.cpp:3109
+#: src/mainwindow.cpp:3120
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "ບໍ່ສາມາດບັນທຶກໄຟລ໌ໂຄງການສຳລັບການຈັດເກັບໄດ້."
 
-#: src/mainwindow.cpp:3117
+#: src/mainwindow.cpp:3128
 #, kde-format
 msgid "Archiving project"
 msgstr "ກຳລັງຈັດເກັບໂຄງການ"
 
-#: src/mainwindow.cpp:3216
+#: src/mainwindow.cpp:3227
 #, fuzzy, kde-format
 #| msgid "Disable %1"
 msgid "Raise %1"
 msgstr "ປິດໃຊ້ງານ %1"
 
-#: src/mainwindow.cpp:3287
+#: src/mainwindow.cpp:3298
 #, kde-format
 msgid "Icon Size"
 msgstr "ຂະໜາດໄອຄອນ"
 
-#: src/mainwindow.cpp:3291
+#: src/mainwindow.cpp:3302
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ຄ່າເລີ່ມຕົ້ນ"
 
-#: src/mainwindow.cpp:3312 src/mainwindow.cpp:3340
+#: src/mainwindow.cpp:3323 src/mainwindow.cpp:3351
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "ນ້ອຍ (%1x%2)"
 
-#: src/mainwindow.cpp:3314 src/mainwindow.cpp:3342
+#: src/mainwindow.cpp:3325 src/mainwindow.cpp:3353
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "ກາງ (%1x%2)"
 
-#: src/mainwindow.cpp:3316 src/mainwindow.cpp:3344
+#: src/mainwindow.cpp:3327 src/mainwindow.cpp:3355
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "ໃຫຍ່ (%1x%2)"
 
-#: src/mainwindow.cpp:3318 src/mainwindow.cpp:3346
+#: src/mainwindow.cpp:3329 src/mainwindow.cpp:3357
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ໃຫຍ່ຫຼາຍ (%1x%2)"
 
-#: src/mainwindow.cpp:3402
+#: src/mainwindow.cpp:3413
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
 "+M."
 msgstr "ສິ່ງນີ້ຈະເຊື່ອງແຖບເມນູທັງໝົດ. ເຈົ້າສາມາດສະແດງມັນໄດ້ອີກຄັ້ງໂດຍການກົດ Ctrl+M."
 
-#: src/mainwindow.cpp:3402
+#: src/mainwindow.cpp:3413
 #, kde-format
 msgid "Hide menu bar"
 msgstr "ເຊື່ອງແຖບເມນູ"
 
-#: src/mainwindow.cpp:4026
+#: src/mainwindow.cpp:4037
 #, kde-format
 msgid "Go to download page"
 msgstr "ໄປທີ່ໜ້າດາວໂຫຼດ"
 
-#: src/mainwindow.cpp:4032
+#: src/mainwindow.cpp:4043
 #, kde-format
 msgid "Never check again"
 msgstr "ບໍ່ຕ້ອງກວດສອບອີກ"
 
-#: src/mainwindow.cpp:4035
+#: src/mainwindow.cpp:4046
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 1 ປີ, ພວກເຮົາຂໍແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:4039
+#: src/mainwindow.cpp:4050
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "ເວີຊັນ Kdenlive ຂອງເຈົ້າເກົ່າກວ່າ 6 ເດືອນ, ພວກເຮົາແນະນຳໃຫ້ເຈົ້າອັບເກຣດ"
 
-#: src/mainwindow.cpp:4081
+#: src/mainwindow.cpp:4092
 #, kde-format
 msgid "Checking cached data size"
 msgstr "ກຳລັງກວດສອບຂະໜາດຂໍ້ມູນແຄຊ໌"
@@ -31174,7 +31267,7 @@ msgstr "ອັດຕາເຟຣມ:"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/mltcontroller/clippropertiescontroller.cpp:689
 #: src/mltcontroller/clippropertiescontroller.cpp:1379
-#: src/project/dialogs/profilewidget.cpp:133 src/ui/editrenderpreset_ui.ui:220
+#: src/project/dialogs/profilewidget.cpp:264 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
 msgid "Progressive"
@@ -33235,23 +33328,29 @@ msgstr "ບໍ່ມີຄລິບຖືກເລືອກໃນເສັ້ນ
 msgid "Select some timecodes to create markers"
 msgstr "ເລືອກລະຫັດເວລາເພື່ອສ້າງຕົວໝາຍ"
 
-#: src/project/dialogs/profilewidget.cpp:44
+#: src/project/dialogs/profilewidget.cpp:81
+#: src/project/dialogs/profilewidget.cpp:349
+#, kde-format
+msgid "No profile selected"
+msgstr "ບໍ່ມີໂປຣໄຟລ໌ຖືກເລືອກ"
+
+#: src/project/dialogs/profilewidget.cpp:159
 #, kde-format
 msgid "Fps:"
 msgstr "Fps:"
 
-#: src/project/dialogs/profilewidget.cpp:50
+#: src/project/dialogs/profilewidget.cpp:165
 #, kde-format
 msgctxt "@label Scanning as the video method: interlaced or progressive"
 msgid "Scanning:"
 msgstr "ການສະແກນ:"
 
-#: src/project/dialogs/profilewidget.cpp:60
+#: src/project/dialogs/profilewidget.cpp:175
 #, kde-format
 msgid "Manage project profiles"
 msgstr "ຈັດການໂປຣໄຟລ໌ໂຄງການ"
 
-#: src/project/dialogs/profilewidget.cpp:63
+#: src/project/dialogs/profilewidget.cpp:178
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -33261,68 +33360,80 @@ msgstr ""
 "ເປີດໜ້າຕ່າງໂປຣໄຟລ໌ທີ່ເຈົ້າສາມາດປ່ຽນໂປຣໄຟລ໌ໂຄງການໄດ້. ໝາຍເຫດ: "
 "ໂປຣໄຟລ໌ທີ່ໃຊ້ໃນໂຄງການທີ່ເປີດຢູ່ບໍ່ສາມາດປ່ຽນໄດ້."
 
-#: src/project/dialogs/profilewidget.cpp:131
-#: src/project/dialogs/profilewidget.cpp:162
+#: src/project/dialogs/profilewidget.cpp:262
+#: src/project/dialogs/profilewidget.cpp:293
 #, kde-format
 msgid "Any"
 msgstr "ໃດໆ"
 
-#: src/project/dialogs/profilewidget.cpp:212
+#: src/project/dialogs/profilewidget.cpp:362
 #, kde-format
-msgid "No profile selected"
-msgstr "ບໍ່ມີໂປຣໄຟລ໌ຖືກເລືອກ"
+msgid "Landscape"
+msgstr ""
 
-#: src/project/dialogs/profilewidget.cpp:216
+#: src/project/dialogs/profilewidget.cpp:362
+#, kde-format
+msgid "Portrait"
+msgstr ""
+
+#: src/project/dialogs/profilewidget.cpp:362
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Square"
+msgid "Square"
+msgstr "ສີ່ຫຼ່ຽມ"
+
+#: src/project/dialogs/profilewidget.cpp:366
 #, kde-format
 msgid "Video Settings"
 msgstr "ການຕັ້ງຄ່າວິດີໂອ"
 
-#: src/project/dialogs/profilewidget.cpp:219
+#: src/project/dialogs/profilewidget.cpp:369
 #, kde-format
 msgid "Frame size: %1 x %2 (%3:%4)"
 msgstr "ຂະໜາດເຟຣມ: %1 x %2 (%3:%4)"
 
-#: src/project/dialogs/profilewidget.cpp:220
+#: src/project/dialogs/profilewidget.cpp:370
 #, kde-format
 msgid "Frame rate: %1 fps"
 msgstr "ອັດຕາເຟຣມ: %1 fps"
 
-#: src/project/dialogs/profilewidget.cpp:222
+#: src/project/dialogs/profilewidget.cpp:372
 #, kde-format
 msgid "Pixel aspect ratio: %1"
 msgstr "ອັດຕາສ່ວນພິກເຊວ: %1"
 
-#: src/project/dialogs/profilewidget.cpp:224
+#: src/project/dialogs/profilewidget.cpp:374
 #, kde-format
 msgid "Color space: %1"
 msgstr "ຂອບເຂດສີ: %1"
 
-#: src/project/dialogs/profilewidget.cpp:226
+#: src/project/dialogs/profilewidget.cpp:376
 #, kde-format
 msgid "no"
 msgstr "ບໍ່"
 
-#: src/project/dialogs/profilewidget.cpp:226
+#: src/project/dialogs/profilewidget.cpp:376
 #, kde-format
 msgid "yes"
 msgstr "ແມ່ນ"
 
-#: src/project/dialogs/profilewidget.cpp:226
+#: src/project/dialogs/profilewidget.cpp:376
 #, kde-format
 msgid "Interlaced: %1"
 msgstr "Interlaced: %1"
 
-#: src/project/dialogs/profilewidget.cpp:229
+#: src/project/dialogs/profilewidget.cpp:379
 #, kde-format
 msgid "Bottom field first"
 msgstr "Bottom field first"
 
-#: src/project/dialogs/profilewidget.cpp:229
+#: src/project/dialogs/profilewidget.cpp:379
 #, kde-format
 msgid "Top field first"
 msgstr "Top field first"
 
-#: src/project/dialogs/profilewidget.cpp:229
+#: src/project/dialogs/profilewidget.cpp:379
 #, kde-format
 msgid "Field order: %1"
 msgstr "ລຳດັບ Field: %1"
@@ -34994,16 +35105,16 @@ msgstr "ແຕ້ມແກນ"
 msgid "Gradient reference line"
 msgstr "ເສັ້ນອ້າງອີງ Gradient"
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:173
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:179
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:185
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:176
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:182
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:188
 #, kde-format
 msgid "min: "
 msgstr "ຕໍ່າສຸດ: "
 
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:193
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:199
-#: src/scopes/colorscopes/rgbparadegenerator.cpp:205
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:196
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:202
+#: src/scopes/colorscopes/rgbparadegenerator.cpp:208
 #, kde-format
 msgid "max: "
 msgstr "ສູງສຸດ: "
@@ -37993,7 +38104,7 @@ msgstr "ລຶບຈຸດປັດຈຸບັນ."
 #: src/ui/projectsettings_ui.ui:531 src/ui/projectsettings_ui.ui:541
 #: src/ui/projectsettings_ui.ui:558 src/ui/projectsettings_ui.ui:640
 #: src/ui/projectsettings_ui.ui:647 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1033 src/ui/resourcewidget_ui.ui:214
+#: src/ui/renderwidget_ui.ui:1046 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
 #: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
@@ -41502,46 +41613,35 @@ msgid "Job Queue"
 msgstr "ຄິວວຽກ"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:956
+#: src/ui/renderwidget_ui.ui:930
 #, kde-format
 msgid "Start Job"
 msgstr "ເລີ່ມວຽກ"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:966
+#: src/ui/renderwidget_ui.ui:950
 #, kde-format
 msgid "Clean Up"
 msgstr "ລ້າງອອກ"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:1026
+#: src/ui/renderwidget_ui.ui:1039
 #, kde-format
 msgid "Error Log"
 msgstr "ບັນທຶກຂໍ້ຜິດພາດ"
 
-#. i18n: ectx: property (text), widget (QCheckBox, shutdown)
-#: src/ui/renderwidget_ui.ui:1060
-#, kde-format
-msgid "Shutdown computer after renderings"
-msgstr "ປິດຄອມພິວເຕີຫຼັງຈາກການປະມວນຜົນ"
+#. i18n: ectx: property (text), widget (QLabel, postRenderLabel)
+#: src/ui/renderwidget_ui.ui:1062
+#, fuzzy, kde-format
+#| msgid "Abort rendering"
+msgid "After rendering:"
+msgstr "ຍົກເລີກການປະມວນຜົນ"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1075
+#: src/ui/renderwidget_ui.ui:1095
 #, kde-format
 msgid "Scripts"
 msgstr "ສະຄຣິບ"
-
-#. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/ui/renderwidget_ui.ui:1103
-#, kde-format
-msgid "Start Script"
-msgstr "ເລີ່ມສະຄຣິບ"
-
-#. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/ui/renderwidget_ui.ui:1110
-#, kde-format
-msgid "Delete Script"
-msgstr "ລຶບສະຄຣິບ"
 
 #. i18n: ectx: property (placeholderText), widget (KLineEdit, search_text)
 #: src/ui/resourcewidget_ui.ui:53
