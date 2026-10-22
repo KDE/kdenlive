@@ -739,7 +739,7 @@ bool TimelineItemModel::copyClipEffect(int clipId, const QString sourceId)
     int itemId = source.at(1).toInt();
     int itemRow = source.at(2).toInt();
     const QUuid uuid(source.at(3));
-    bool singleTarget = source.at(4).toInt() == 1;
+    bool singleTarget = source.at(4).toInt() & 1;
     std::shared_ptr<EffectStackModel> effectStack = pCore->getItemEffectStack(uuid, itemType, itemId);
     if (effectStack == nullptr) {
         pCore->displayMessage(i18n("Cannot add effect to clip"), MessageType::ErrorMessage);

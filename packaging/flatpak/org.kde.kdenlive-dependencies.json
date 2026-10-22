@@ -544,6 +544,7 @@
             "builddir": true,
             "config-opts": [
                 "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+                "-DCMAKE_CXX_FLAGS=-DNDEBUG",
                 "-DWITHOUT_OPENCV=ON"
             ],
             "sources": [

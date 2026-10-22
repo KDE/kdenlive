@@ -23,6 +23,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "dialogs/timeremap.h"
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
+#include "effects/effectsrepository.hpp"
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
@@ -35,11 +36,14 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "project/dialogs/guideslist.h"
 #include "project/projectmanager.h"
 #include "qmltypes/thumbnailprovider.h"
+#include "renderpresets/renderpresetrepository.hpp"
 #include "timeline2/model/timelineitemmodel.hpp"
 #include "timeline2/view/timelinecontroller.h"
 #include "timeline2/view/timelinewidget.h"
+#include "transitions/transitionsrepository.hpp"
 #include <mlt++/MltRepository.h>
 
+#include <KAboutData>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KMessageBox>
 #include <kddockwidgets/Config.h>
@@ -66,6 +70,7 @@ Core::Core(LinuxPackageType packageType, bool debugMode)
     m_hideTimer.setInterval(5000);
     m_hideTimer.setSingleShot(true);
     connect(&m_hideTimer, &QTimer::timeout, this, [&]() { Q_EMIT hideBars(!KdenliveSettings::showtitlebars()); });
+    connect(m_capture.get(), &MediaCapture::displayMessage, this, &Core::gotAudioDeviceMessage);
 }
 
 void Core::startHideBarsTimer()
@@ -93,6 +98,8 @@ void Core::updateHideBarsTimer(bool inhibit)
 void Core::prepareShutdown()
 {
     m_guiConstructed = false;
+    // Wait for pending timeline thumbnails, they would otherwise keep using MLT after it is closed
+    ThumbnailProvider::shutdown();
     // m_mainWindow->getCurrentTimeline()->controller()->prepareClose();
     projectItemModel()->blockSignals(true);
     QThreadPool::globalInstance()->clear();
@@ -180,9 +187,12 @@ bool Core::build(LinuxPackageType packageType, bool testMode, bool debugMode, bo
             }
         } else {
             // Create lock file
-            lockFile.open(QFile::WriteOnly);
-            lockFile.write(QByteArray());
-            lockFile.close();
+            if (!lockFile.open(QFile::WriteOnly)) {
+                qCWarning(KDENLIVE_LOG) << "Failed to create lock file:" << lockFile.fileName() << lockFile.errorString();
+            } else {
+                lockFile.write(QByteArray());
+                lockFile.close();
+            }
         }
         if (currentVersion.length() == 3 && (firstRun || KdenliveSettings::lastSeenVersionMajor() == 0)) {
             // Store current Kdenlive version
@@ -584,6 +594,7 @@ void Core::buildDocks()
     // Mixer
     m_mixerWidget = new MixerManager(m_mainWindow);
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
+    connect(m_capture.get(), &MediaCapture::monitorFailed, m_mixerWidget, &MixerManager::monitorFailed);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
     m_mixerWidget->checkAudioLevelVersion();
     connect(m_mixerWidget, &MixerManager::showEffectStack, m_projectManager, &ProjectManager::showTrackEffectStack);
@@ -618,6 +629,65 @@ void Core::buildDocks()
 
     // Guides
     m_guidesList = new GuidesList(m_mainWindow);
+}
+
+bool Core::writeJSONSetupReport(const QString &outputFilename)
+{
+    QString packageName;
+    switch (packageType()) {
+    case LinuxPackageType::AppImage:
+        packageName = QStringLiteral("appimage");
+        break;
+    case LinuxPackageType::Flatpak:
+        packageName = QStringLiteral("flatpak");
+        break;
+    case LinuxPackageType::Snap:
+        packageName = QStringLiteral("snap");
+        break;
+    default:
+        break;
+    }
+
+    QJsonObject report, property;
+    QJsonArray properties;
+    report["version"] = 1;
+    const auto components = KAboutData::applicationData().components();
+    for (auto &component : components) {
+        property["name"] = component.name();
+        property["version"] = component.version();
+        properties.append(property);
+        qDebug() << component.name() << " = " << component.version();
+    }
+    qDebug() << "Packaging = " << packageName;
+    report["components"] = properties;
+    report["packageType"] = packageName;
+    QStringList effectIds;
+    for (const auto &effect : EffectsRepository::get()->getNames()) {
+        effectIds.append(effect.first);
+    }
+    effectIds.sort();
+    report["enabledEffects"] = QJsonArray::fromStringList(effectIds);
+    QStringList transitionIds;
+    for (const auto &transition : TransitionsRepository::get()->getNames()) {
+        transitionIds.append(transition.first);
+    }
+    transitionIds.sort();
+    report["enabledTransitions"] = QJsonArray::fromStringList(transitionIds);
+    report["supportedFormats"] = QJsonArray::fromStringList(RenderPresetRepository::supportedFormats());
+    report["videoCodecs"] = QJsonArray::fromStringList(RenderPresetRepository::vcodecs());
+    report["audioCodecs"] = QJsonArray::fromStringList(RenderPresetRepository::acodecs().toList());
+
+    QFile file(outputFilename);
+    if (file.exists()) {
+        qWarning() << "Cannot overwrite existing file " << outputFilename;
+        return false;
+    }
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qWarning() << "Cannot write into file " << outputFilename;
+        return false;
+    }
+    file.write(QJsonDocument(report).toJson());
+    return true;
 }
 
 void Core::buildLumaThumbs(const QStringList &values)
@@ -1164,10 +1234,6 @@ int Core::getItemPosition(const ObjectId &id)
 
 int Core::getItemIn(const ObjectId &id)
 {
-    if (!m_guiConstructed) {
-        qWarning() << "GUI not build";
-        return 0;
-    }
     switch (id.type) {
     case KdenliveObjectType::TimelineClip: {
         auto timeline = currentDoc()->getTimeline(id.uuid);
@@ -1322,6 +1388,11 @@ void Core::refreshProjectItem(const ObjectId &id)
         break;
     case KdenliveObjectType::TimelineComposition:
         if (currentDoc()->getTimeline(id.uuid)->isComposition(id.itemId)) {
+            m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
+        }
+        break;
+    case KdenliveObjectType::TimelineSubtitle:
+        if (currentDoc()->getTimeline(id.uuid)->isSubTitle(id.itemId)) {
             m_mainWindow->getTimeline(id.uuid)->controller()->refreshItem(id.itemId);
         }
         break;
@@ -1571,6 +1642,7 @@ void Core::invalidateItem(ObjectId itemId)
     switch (itemId.type) {
     case KdenliveObjectType::TimelineClip:
     case KdenliveObjectType::TimelineComposition:
+    case KdenliveObjectType::TimelineSubtitle:
         if (tl) {
             tl->controller()->invalidateItem(itemId.itemId);
         }
@@ -1781,6 +1853,15 @@ int Core::getMediaCaptureState()
     return m_capture->getState();
 }
 
+void Core::gotAudioDeviceMessage(const QString &message, KMessageWidget::MessageType mType)
+{
+    if (m_mixerWidget && m_mixerWidget->isVisible() && mType == KMessageWidget::Warning) {
+        m_mixerWidget->displayMessage(message, mType);
+    } else {
+        displayMessage(message, mType == KMessageWidget::Warning ? ErrorMessage : InformationMessage);
+    }
+}
+
 bool Core::isMediaMonitoring() const
 {
     return m_capture && m_capture->recordStatus() == MediaCapture::RecordMonitoring;
@@ -1814,20 +1895,20 @@ std::shared_ptr<MediaCapture> Core::getAudioDevice()
 void Core::resetAudioMonitoring()
 {
     if (isMediaMonitoring()) {
-        m_capture->switchMonitorState(false);
-        m_capture->switchMonitorState(true);
+        m_capture->changeMonitorState(-1, false);
+        m_capture->changeMonitorState(-1, true);
     }
 }
 
 void Core::setAudioMonitoring(bool enable)
 {
-    m_capture->switchMonitorState(enable);
+    m_capture->changeMonitorState(-1, enable);
 }
 
 QString Core::getProjectCaptureFolderName()
 {
     if (currentDoc()) {
-        return currentDoc()->projectCaptureFolder() + QDir::separator();
+        return currentDoc()->projectCaptureFolder() + QLatin1Char('/');
     }
     return QString();
 }
@@ -2031,7 +2112,6 @@ void Core::cleanup()
         guidesList()->clear();
         disconnect(m_mainWindow->getCurrentTimeline()->controller(), &TimelineController::durationChanged, m_projectManager,
                    &ProjectManager::adjustProjectDuration);
-        m_mainWindow->getCurrentTimeline()->controller()->clipActions.clear();
     }
 }
 

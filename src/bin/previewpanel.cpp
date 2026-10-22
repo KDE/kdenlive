@@ -285,6 +285,7 @@ void PreviewPanel::showIcon(const KFileItem &item)
 void PreviewPanel::showPreview(const KFileItem &item, const QPixmap &pixmap)
 {
     // m_outdatedPreviewTimer->stop();
+    Q_UNUSED(item);
 
     QPixmap p = pixmap;
     m_imageWidget->setPixmap(p.scaled(m_imageWidget->size(), Qt::KeepAspectRatio));

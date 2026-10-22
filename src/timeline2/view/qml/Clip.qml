@@ -134,6 +134,16 @@ Rectangle {
 
     signal blockAutoScroll(bool enabled)
 
+    component ClipMarker: Rectangle {
+        property string markerText
+        property color markerColor
+        property int position
+        property bool hasRange: false
+        property real duration: 0
+        property int id
+        signal restorePositionBindings()
+    }
+
     onVisibleChanged: {
         if (clipRoot.visible) {
             updateLabelOffset()
@@ -176,8 +186,7 @@ Rectangle {
     }
 
     function grabItem() {
-        clipRoot.forceActiveFocus()
-        mouseArea.focus = true
+        mouseArea.forceActiveFocus()
     }
 
     function resetSelection() {
@@ -319,11 +328,29 @@ Rectangle {
         }
         onDropped: drag => {
             console.log("Add effect: ", dropData)
+            let focusTarget = false
             if (dropSource == '') {
                 // drop from effects list
                 clipRoot.controller.addClipEffect(clipRoot.clipId, dropData)
+                focusTarget = true
             } else {
                 clipRoot.controller.copyClipEffect(clipRoot.clipId, dropSource)
+                dropSource = dropSource.trim();
+                if (dropSource) {
+                    let lastChar = dropSource.slice(-1)
+                    if (!isNaN(lastChar)) {
+                        // dropSource ends with a number
+                        // check if > 1, means we want to focus target
+                        if (Number(lastChar) > 1) {
+                            focusTarget = true
+                        }
+                    }
+                }
+            }
+            if (focusTarget) {
+                // Select the clip and open its effects stack
+                clipRoot.controller.requestAddToSelection(clipRoot.clipId, true)
+                clipRoot.timeline.showAsset(clipRoot.clipId)
             }
             if (K.KdenliveSettings.seekonaddeffect && !clipRoot.isTimlineCursorOnClip) {
                 // If timeline cursor is not inside clip, seek to drop position
@@ -368,6 +395,7 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
         Keys.onRightPressed: event => {
             var offset = event.modifiers === Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
@@ -382,22 +410,25 @@ Rectangle {
             }
             Logic.scrollToPosIfNeeded(clipRoot.x)
             clipRoot.timeline.showToolTip(KI18n.i18n("Position: %1", clipRoot.timeline.simplifiedTC(clipRoot.modelStart)));
+            event.accepted = true
         }
-        Keys.onUpPressed: {
+        Keys.onUpPressed: event => {
             var nextTrack = clipRoot.controller.getNextTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, nextTrack, clipRoot.modelStart, true, true, true) && nextTrack !== clipRoot.controller.getNextTrackId(nextTrack)) {
                 nextTrack = clipRoot.controller.getNextTrackId(nextTrack);
             }
+            event.accepted = true
         }
-        Keys.onDownPressed: {
+        Keys.onDownPressed: event => {
             var previousTrack = clipRoot.controller.getPreviousTrackId(clipRoot.trackId);
             while(!clipRoot.controller.requestClipMove(clipRoot.clipId, previousTrack, clipRoot.modelStart, true, true, true) && previousTrack !== clipRoot.controller.getPreviousTrackId(previousTrack)) {
                 previousTrack = clipRoot.controller.getPreviousTrackId(previousTrack);
             }
+            event.accepted = true
         }
-        Keys.onEscapePressed: {
+        Keys.onEscapePressed: event => {
             clipRoot.timeline.grabCurrent()
-            //focus = false
+            event.accepted = true
         }
         onEntered: {
             if (clipRoot.isPanning) {
@@ -584,7 +615,9 @@ Rectangle {
                         hoverEnabled: !clipRoot.isPanning
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton | Qt.LeftButton
-                        enabled: !clipRoot.isPanning && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
+                        // Let razor clicks reach the timeline's cut handler instead of selecting the mix.
+                        enabled: !clipRoot.isPanning && K.Core.activeTool !== K.ToolType.RazorTool
+                                 && container.handleVisible && width > K.UiUtils.baseSizeMedium * 0.8
                         onPressed: mouse => {
                             if (mouse.modifiers & Qt.ControlModifier && (K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool)) {
                                 mouse.accepted = false
@@ -698,15 +731,8 @@ Rectangle {
             }
             Component {
                 id: markerComponent
-                Rectangle {
+                ClipMarker {
                     id: markerBase
-                    property string markerText
-                    property color markerColor
-                    property int position
-                    property bool hasRange: false
-                    property real duration: 0
-                    property int id
-                    signal restorePositionBindings()
 
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
@@ -1062,8 +1088,9 @@ Rectangle {
                         Connections {
                             target: loader.item
                             function onRestorePositionBindings() {
-                                loader.item.position = Qt.binding(function() { return loader.modelData.frame })
-                                loader.item.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
+                                const marker = loader.item as ClipMarker
+                                marker.position = Qt.binding(function() { return loader.modelData.frame })
+                                marker.duration = Qt.binding(function() { return loader.modelData.duration || 0 })
                             }
                         }
                         sourceComponent: markerComponent
@@ -1570,9 +1597,8 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                property bool hasKeyframes: false
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
+                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && (effectRow.item as KeyframeView).kfrCount > 1 && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item

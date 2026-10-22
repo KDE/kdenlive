@@ -11,6 +11,7 @@
 #include "dialogs/managesubtitles.h"
 #include "dialogs/subtitlestyleedit.h"
 #include "kdenlivesettings.h"
+#include "timeline2/model/timelineitemmodel.hpp"
 #include "widgets/subtitletextedit.h"
 #include "widgets/timecodedisplay.h"
 
@@ -276,7 +277,11 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
     connect(buttonIn, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_start")); });
     connect(buttonOut, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
-    connect(buttonDelete, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("delete_timeline_clip")); });
+    connect(buttonDelete, &QToolButton::clicked, this, [this]() {
+        if (m_model && m_activeSub >= 0) {
+            Q_EMIT deleteSubtitleRequested(m_activeSub);
+        }
+    });
     buttonNext->setToolTip(i18n("Go to next subtitle"));
     buttonNext->setWhatsThis(xi18nc("@info:whatsthis", "Moves the playhead in the timeline to the beginning of the subtitle to the right."));
     buttonPrev->setToolTip(i18n("Go to previous subtitle"));
@@ -440,29 +445,23 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     applyFontSize();
 }
 
-void SubtitleEdit::slotZoomIn()
+void SubtitleEdit::zoom(qreal factor)
 {
-    qreal fontSize;
-    if (m_isSimpleEdit) {
-        fontSize = simpleSubText->fontPointSize() * 1.2;
-    } else {
-        fontSize = subText->fontPointSize() * 1.2;
-    }
+    KTextEdit *editor = m_isSimpleEdit ? simpleSubText : subText;
+    qreal currentSize = editor->fontPointSize() > 0 ? editor->fontPointSize() : QFontInfo(editor->currentFont()).pointSizeF();
+    qreal fontSize = qMax(currentSize * factor, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
     KdenliveSettings::setSubtitleEditFontSize(fontSize);
     applyFontSize();
 }
 
+void SubtitleEdit::slotZoomIn()
+{
+    zoom(1.2);
+}
+
 void SubtitleEdit::slotZoomOut()
 {
-    qreal fontSize;
-    if (m_isSimpleEdit) {
-        fontSize = simpleSubText->fontPointSize() / 1.2;
-    } else {
-        fontSize = subText->fontPointSize() / 1.2;
-    }
-    fontSize = qMax(fontSize, QFontInfo(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont)).pointSizeF());
-    KdenliveSettings::setSubtitleEditFontSize(fontSize);
-    applyFontSize();
+    zoom(1.0 / 1.2);
 }
 
 void SubtitleEdit::applyFontSize()
@@ -494,16 +493,25 @@ void SubtitleEdit::setModel(std::shared_ptr<SubtitleModel> model)
 {
     if (m_model) {
         disconnect(this, &SubtitleEdit::showSubtitleManager, m_model.get(), &SubtitleModel::showSubtitleManager);
+        disconnect(this, &SubtitleEdit::deleteSubtitleRequested, m_model->timeline().get(), &TimelineModel::requestSingleSubtitleDeletion);
+        disconnect(m_model.get(), nullptr, this, nullptr);
     }
     m_model = model;
     m_activeSub = -1;
     buttonApply->setEnabled(false);
     buttonCut->setEnabled(false);
+    buttonDelete->setEnabled(false);
     if (m_model == nullptr) {
         QSignalBlocker bk(subText);
         subText->clear();
         frame_position->setEnabled(false);
     } else {
+        connect(this, &SubtitleEdit::deleteSubtitleRequested, m_model->timeline().get(), &TimelineModel::requestSingleSubtitleDeletion);
+        connect(m_model.get(), &SubtitleModel::rowsRemoved, this, [this]() {
+            if (m_activeSub >= 0 && !m_model->hasSubtitle(m_activeSub)) {
+                setActiveSubtitle(-1);
+            }
+        });
         connect(m_model.get(), &SubtitleModel::dataChanged, this, [this](const QModelIndex &start, const QModelIndex &, const QVector<int> &roles) {
             if (m_activeSub > -1 && start.row() == m_model->getRowForId(m_activeSub)) {
                 if (roles.contains(SubtitleModel::SubtitleRole) || roles.contains(SubtitleModel::StartFrameRole) ||

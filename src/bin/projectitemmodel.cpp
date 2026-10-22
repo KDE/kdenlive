@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "projectfolder.h"
 #include "projectsubclip.h"
 #include "sequenceclip.h"
+#include "titler/titlewidget.h"
 #include "utils/thumbnailcache.hpp"
 #include "xml/xml.hpp"
 
@@ -38,6 +39,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonObject>
 #include <QMimeData>
 #include <QProgressDialog>
+#include <QSet>
 #include <QStorageInfo>
 #include <QTemporaryFile>
 
@@ -130,6 +132,9 @@ int ProjectItemModel::mapToColumn(int column) const
     case 8:
         return AbstractProjectItem::UsageCount;
         break;
+    case 9:
+        return AbstractProjectItem::DataFPS;
+        break;
     default:
         return AbstractProjectItem::DataName;
     }
@@ -169,6 +174,9 @@ QList<int> ProjectItemModel::mapDataToColumn(AbstractProjectItem::DataType type)
         break;
     case AbstractProjectItem::UsageCount:
         return {0, 8};
+        break;
+    case AbstractProjectItem::DataFPS:
+        return {9};
         break;
     default:
         return {};
@@ -347,6 +355,9 @@ QVariant ProjectItemModel::headerData(int section, Qt::Orientation orientation, 
         case 8:
             columnName = i18n("Usage");
             break;
+        case 9:
+            columnName = i18n("FPS");
+            break;
         default:
             columnName = i18n("Unknown");
             break;
@@ -504,6 +515,30 @@ std::shared_ptr<ProjectClip> ProjectItemModel::getClipByBinID(const QString &bin
         return search->second;
     }
     return nullptr;
+}
+
+QList<std::shared_ptr<ProjectClip>> ProjectItemModel::sourceClips(const QList<std::shared_ptr<AbstractProjectItem>> &items)
+{
+    QList<std::shared_ptr<ProjectClip>> sources;
+    QSet<QString> seen;
+    for (const auto &item : items) {
+        if (!item) {
+            continue;
+        }
+        std::shared_ptr<ProjectClip> clip;
+        if (item->itemType() == AbstractProjectItem::ClipItem) {
+            clip = std::static_pointer_cast<ProjectClip>(item);
+        } else if (item->itemType() == AbstractProjectItem::SubClipItem) {
+            clip = std::static_pointer_cast<ProjectSubClip>(item)->getMasterClip();
+        } else if (item->itemType() == AbstractProjectItem::SubSequenceItem) {
+            clip = std::static_pointer_cast<PlaylistSubClip>(item)->getMasterClip();
+        }
+        if (clip && !seen.contains(clip->clipId())) {
+            seen.insert(clip->clipId());
+            sources.push_back(clip);
+        }
+    }
+    return sources;
 }
 
 const QVector<MaskInfo> ProjectItemModel::getClipMasks(const QString &binId) const
@@ -1737,6 +1772,7 @@ const std::pair<QString, QString> ProjectItemModel::sceneList(const QString &roo
     if (!xmlConsumer.is_valid()) {
         return {};
     }
+    xmlConsumer.set("no_root", 1);
     xmlConsumer.set("store", "kdenlive");
     xmlConsumer.set("time_format", "clock");
     // Disabling meta creates cleaner files, but then we don't have access to metadata on the fly (meta channels, etc)
@@ -2100,4 +2136,19 @@ std::pair<PlaylistState::ClipState, ClipType::ProducerType> ProjectItemModel::ge
     bool audio = clip->hasAudio();
     bool video = clip->hasVideo();
     return {audio ? (video ? PlaylistState::Disabled : PlaylistState::AudioOnly) : PlaylistState::VideoOnly, clip->clipType()};
+}
+
+void ProjectItemModel::ensureRelativeTitlerPaths(const QString updatedRoot)
+{
+    QList<std::shared_ptr<ProjectClip>> clips = getRootFolder()->childClips();
+    for (auto &clip : clips) {
+        auto type = clip->clipType();
+        if (type != ClipType::Text && type != ClipType::TextTemplate) {
+            continue;
+        }
+        const QString updatedXml = TitleWidget::ensureRelativePaths(clip->getProducerProperty(QStringLiteral("xmldata")), updatedRoot);
+        if (!updatedXml.isEmpty()) {
+            clip->setProducerProperty(QStringLiteral("xmldata"), updatedXml);
+        }
+    }
 }

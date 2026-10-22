@@ -6,21 +6,25 @@
 #pragma once
 
 #include <functional>
+#include <utility>
 
 using Fun = std::function<bool(void)>;
 
 /** @brief this macro executes an operation after a given lambda
+    The lambda is moved into the new one: copying it would copy all the functions it contains, which makes building a long chain quadratic.
+    The operation is copied since callers may reuse it.
  */
 #define PUSH_LAMBDA(operation, lambda)                                                                                                                         \
-    lambda = [lambda, operation]() {                                                                                                                           \
+    lambda = [lambda = std::move(lambda), operation]() {                                                                                                       \
         bool v = lambda();                                                                                                                                     \
         return v && operation();                                                                                                                               \
     };
 
 /** @brief this macro executes an operation before a given lambda
+    The lambda is moved into the new one, see PUSH_LAMBDA
  */
 #define PUSH_FRONT_LAMBDA(operation, lambda)                                                                                                                   \
-    lambda = [lambda, operation]() {                                                                                                                           \
+    lambda = [lambda = std::move(lambda), operation]() {                                                                                                       \
         bool v = operation();                                                                                                                                  \
         return v && lambda();                                                                                                                                  \
     };

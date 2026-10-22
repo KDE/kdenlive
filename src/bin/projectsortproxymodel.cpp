@@ -185,7 +185,6 @@ void ProjectSortProxyModel::slotClearSearchFilters()
     m_searchRating.clear();
     m_searchType.clear();
     m_usageFilter = UsageFilter::All;
-    invalidateFilter();
     endFilterChange(QSortFilterProxyModel::Direction::Rows);
 }
 

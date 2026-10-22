@@ -73,6 +73,7 @@ list(APPEND kdenlive_SRCS
     core.cpp
     definitions.cpp
     mainwindow.cpp
+    mainwindow_actions.cpp
     kddocksetup.cpp
     mltconnection.cpp
     statusbarmessagelabel.cpp
@@ -104,6 +105,22 @@ file(GLOB kdenlive_UIS "ui/*.ui")
 ki18n_wrap_ui(kdenlive_UIS ${kdenlive_UIS})
 
 add_library(kdenliveLib STATIC ${kdenlive_SRCS} ${kdenlive_UIS} definitions.h lib/localeHandling.cpp lib/localeHandling.h)
+
+# Precompile some stdlib/Qt headers for faster build time
+target_precompile_headers(kdenliveLib PRIVATE
+    "$<$<COMPILE_LANGUAGE:CXX>:<memory$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<utility$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QObject$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QString$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QDebug$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QMutex$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QTimer$<ANGLE-R>>"
+    "$<$<COMPILE_LANGUAGE:CXX>:<QWidget$<ANGLE-R>>"
+)
+if(APPLE)
+    # CMake classifies .mm as CXX unless OBJCXX is enabled.
+    set_source_files_properties(monitor/metalvideowidget.mm PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+endif()
 
 kconfig_target_kcfg_file(kdenliveLib
     FILE kdenlivesettings.kcfg
@@ -307,7 +324,7 @@ endif()
 if(BUILD_COVERAGE)
   target_link_libraries(kdenliveLib PUBLIC gcov)
 endif()
-set_property(TARGET kdenliveLib PROPERTY CXX_STANDARD 14)
+
 add_definitions(${qt${QT_MAJOR_VERSION}gui_definitions} -DQT_STRICT_ITERATORS -DQT_NO_CAST_FROM_BYTEARRAY)
 
 # Optional deps

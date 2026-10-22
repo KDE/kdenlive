@@ -23,9 +23,23 @@ ThumbnailProvider::ThumbnailProvider()
 
 ThumbnailProvider::~ThumbnailProvider() = default;
 
+QReadWriteLock ThumbnailProvider::s_shutdownLock;
+bool ThumbnailProvider::s_shuttingDown = false;
+
+void ThumbnailProvider::shutdown()
+{
+    QWriteLocker lock(&s_shutdownLock);
+    s_shuttingDown = true;
+}
+
 QImage ThumbnailProvider::requestImage(const QString &id, QSize *size, const QSize &requestedSize)
 {
     QImage result;
+    QReadLocker lock(&s_shutdownLock);
+    if (s_shuttingDown) {
+        if (size) *size = result.size();
+        return result;
+    }
     // id is binID/#frameNumber
     QString binId = id.section('/', 0, 0);
     bool ok;

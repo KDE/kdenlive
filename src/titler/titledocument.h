@@ -35,7 +35,7 @@ public:
     bool saveDocument(const QUrl &url, QGraphicsRectItem *startv, QGraphicsRectItem *endv, int duration, bool embed_images = false);
     /** @brief Save XML for this title. It calls static version for the function.
      */
-    QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false);
+    QDomDocument xml(QGraphicsRectItem *startv, QGraphicsRectItem *endv, bool embed_images = false, const QString &saveFolder = QString());
     /** @brief Load XML for this title. It calls static version for the function.
      */
     int loadFromXml(const QString &path, const QDomDocument &doc, GraphicsSceneRectMove *scene, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
@@ -59,7 +59,7 @@ public:
      */
     static QDomDocument xml(const QList<QGraphicsItem *> &items, int width, int height, QGraphicsRectItem *startv, QGraphicsRectItem *endv,
                             bool embedImages = false, const QString &projectPath = QString());
-    static QDomDocument xmlItem(QGraphicsItem *item, int width, int height, bool embedImages = false, const QString &projectPath = QString());
+    static QDomDocument xmlItem(const QGraphicsItem *item, int width, int height, bool embedImages = false, const QString &projectPath = QString());
 
     /**
      * @brief General static function to load items into list from a xml file.
@@ -80,6 +80,6 @@ private:
     static QColor stringToColor(const QString &);
     static QTransform stringToTransform(const QString &);
     static QList<QVariant> stringToList(const QString &);
-    static int base64ToUrl(QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath);
-    static QPixmap createInvalidPixmap(const QString &url, int height);
+    static int base64ToUrl(const QGraphicsItem *item, QDomElement &content, bool embed, const QString &projectPath);
+    static QPixmap createInvalidPixmap(const QString &url, int width, int height);
 };

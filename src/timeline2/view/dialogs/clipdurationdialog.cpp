@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <QFontDatabase>
 
+#include <KMessageBox>
 #include <QWheelEvent>
 
 ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeline, std::unordered_set<int> clipIds, QWidget *parent)
@@ -35,6 +36,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
     int maximumOffset = INT_MAX;
     // Use first item in timeline as reference item
     bool groupedSameClip = true;
+    bool groupHasUnlimitedClip = false;
     for (auto &id : clipIds) {
         if (!m_model->isItem(id)) {
             continue;
@@ -73,8 +75,16 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
                 if (maxLength == -1 || currentMaxLength < maxLength) {
                     maxLength = currentMaxLength;
                 }
+                int usableRoom = currentMaxLength - currentIn;
+                if (!groupHasUnlimitedClip) {
+                    if (m_groupMaxDuration == -1 || usableRoom > m_groupMaxDuration) {
+                        m_groupMaxDuration = usableRoom;
+                    }
+                }
             } else {
                 itemIn = -2;
+                groupHasUnlimitedClip = true;
+                m_groupMaxDuration = -1;
             }
             // Check if there is another selected clip appended
             int nextPos = currentPos + currentInfo.playTime;
@@ -207,6 +217,95 @@ void ClipDurationDialog::accept()
             children.insert(i);
         }
     }
+    std::unordered_map<int, int> targetDurations;
+    bool applyToAll = duration_for_all->isChecked() || !duration_for_all->isVisible();
+
+    if (!rippleMode && applyToAll) {
+        bool anyClipLacksSpace = false;
+        int uniformFit = newDuration;
+
+        for (const auto &c : children) {
+            if (!m_model->isClip(c)) {
+                continue;
+            }
+
+            ItemInfo currentInfo = m_model->getItemInfo(c);
+
+            if (newDuration <= currentInfo.playTime) {
+                targetDurations[c] = currentInfo.playTime;
+                continue;
+            }
+
+            int nextPos = currentInfo.position + currentInfo.playTime;
+            int nextId = m_model->getTrackById(currentInfo.trackId)->getClipByStartPosition(nextPos);
+
+            int available;
+            if (nextId > -1 && children.find(nextId) != children.end()) {
+                available = INT_MAX;
+            } else {
+                available = m_model->getTrackById(currentInfo.trackId)->getBlankSizeNearClip(c, true);
+            }
+
+            int prospectiveDuration = currentInfo.playTime;
+            if (m_cropStart->isVisible()) {
+                prospectiveDuration += currentInfo.cropStart - newIn;
+            }
+
+            int maxClipDuration = INT_MAX;
+            const QString binId = m_model->getClipBinId(c);
+            std::shared_ptr<ProjectClip> clip = pCore->projectItemModel()->getClipByBinID(binId);
+
+            if (clip && clip->hasLimitedDuration()) {
+                maxClipDuration = qMax(0, clip->getProducerDuration() - newIn);
+            }
+
+            int maxFit;
+
+            if (available == INT_MAX) {
+                maxFit = m_groupMaxDuration;
+            } else if (available < INT_MAX - prospectiveDuration) {
+                maxFit = prospectiveDuration + available;
+            } else {
+                maxFit = INT_MAX;
+            }
+
+            maxFit = qMin(maxFit, maxClipDuration);
+            maxFit = qMax(maxFit, currentInfo.playTime);
+
+            targetDurations[c] = qMin(newDuration, maxFit);
+
+            if (targetDurations[c] < newDuration) {
+                anyClipLacksSpace = true;
+                uniformFit = qMin(uniformFit, targetDurations[c]);
+            }
+        }
+
+        if (anyClipLacksSpace) {
+            KGuiItem uniformItem(i18n("Resize All to Same Duration"));
+            KGuiItem availableItem(i18n("Resize Each Clip Using Available Space"));
+            KGuiItem abortItem(i18n("Abort"));
+
+            KMessageBox::ButtonCode answer =
+                KMessageBox::questionTwoActionsCancel(this,
+                                                      i18n("There is not enough space to reach the requested duration for all clips.\n\n"
+                                                           "You can resize all clips to the same duration of %1 frames, resize each clip using\n"
+                                                           "available space, or abort the operation\n\nUse Ripple mode to push other clips out of the way\n",
+                                                           uniformFit),
+                                                      i18n("Not Enough Space"), uniformItem, availableItem, abortItem);
+
+            if (answer == KMessageBox::PrimaryAction) {
+                for (auto &c : children) {
+                    if (!m_model->isClip(c)) {
+                        continue;
+                    }
+                    targetDurations[c] = uniformFit;
+                }
+            } else if (answer == KMessageBox::SecondaryAction) {
+            } else {
+                return;
+            }
+        }
+    }
     if (moveFirst) {
         // First move if required
         // Sort items by position
@@ -243,15 +342,18 @@ void ClipDurationDialog::accept()
                 for (auto &c : children) {
                     bool isClip = m_model->isClip(c);
                     ItemInfo currentInfo = m_model->getItemInfo(c);
-                    if (currentInfo.playTime == newDuration) {
+                    int clipTarget = targetDurations.count(c) ? targetDurations[c] : newDuration;
+                    if (currentInfo.playTime == clipTarget) {
                         continue;
                     }
                     // if (newDuration != m_firstItemInfo.playTime + (m_firstItemInfo.cropStart - newIn)) {
+                    bool clipResult;
                     if (rippleMode && isClip) {
-                        result = m_model->requestItemRippleResize(m_model, c, newDuration, true, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                        clipResult = m_model->requestItemRippleResize(m_model, c, newDuration, true, true, !KdenliveSettings::lockedGuides(), undo, redo);
                     } else {
-                        result = result && m_model->requestItemResize(c, newDuration, true, true, undo, redo);
+                        clipResult = m_model->requestItemResize(c, clipTarget, true, true, undo, redo);
                     }
+                    result = result && clipResult;
                 }
             }
         }
@@ -269,18 +371,21 @@ void ClipDurationDialog::accept()
             }
         }
         m_firstItemInfo = m_model->getItemInfo(m_firstItemInfo.itemId);
-        if ((newDuration != m_firstItemInfo.playTime && duration_for_all->isChecked()) || !duration_for_all->isVisible()) {
+        if (duration_for_all->isChecked() || !duration_for_all->isVisible()) {
             for (auto &c : children) {
                 ItemInfo currentInfo = m_model->getItemInfo(c);
-                if (currentInfo.playTime == newDuration) {
+                int clipTarget = targetDurations.count(c) ? targetDurations[c] : newDuration;
+                if (currentInfo.playTime == clipTarget) {
                     continue;
                 }
                 bool isClip = m_model->isClip(c);
+                bool clipResult;
                 if (rippleMode && isClip) {
-                    result = m_model->requestItemRippleResize(m_model, c, newDuration, true, true, !KdenliveSettings::lockedGuides(), undo, redo);
+                    clipResult = m_model->requestItemRippleResize(m_model, c, newDuration, true, true, !KdenliveSettings::lockedGuides(), undo, redo);
                 } else {
-                    result = result && m_model->requestItemResize(c, newDuration, true, true, undo, redo);
+                    clipResult = m_model->requestItemResize(c, clipTarget, true, true, undo, redo);
                 }
+                result = result && clipResult;
             }
         }
         if (m_firstItemInfo.position != newPos) {
@@ -337,10 +442,13 @@ void ClipDurationDialog::slotCheckDuration()
     int cropStart = m_cropStart->getValue();
     int maxDuration;
 
-    if (m_firstItemInfo.maxDuration < 0) {
-        maxDuration = m_maxPos;
+    bool batchMode = duration_for_all->isVisible() && duration_for_all->isChecked();
+    int sourceCap = batchMode ? m_groupMaxDuration : m_firstItemInfo.maxDuration;
+    int blankCap = batchMode ? -1 : m_maxPos;
+    if (sourceCap < 0) {
+        maxDuration = blankCap;
     } else {
-        maxDuration = m_maxPos == -1 ? start + m_firstItemInfo.maxDuration - cropStart : qMin(m_maxPos, start + m_firstItemInfo.maxDuration - cropStart);
+        maxDuration = blankCap == -1 ? start + sourceCap - cropStart : qMin(blankCap, start + sourceCap - cropStart);
     }
 
     if (maxDuration > 0 && start + duration > maxDuration) {

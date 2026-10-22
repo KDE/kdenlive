@@ -136,8 +136,8 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
     KdenliveDoc *project = pCore->currentDoc();
 
     // On delayed rendering, make a copy of all assets
+    QDir dir = QFileInfo(playlistPath).absoluteDir();
     if (m_delayedRendering) {
-        QDir dir = QFileInfo(playlistPath).absoluteDir();
         if (!dir.mkpath(QFileInfo(playlistPath).baseName())) {
             addErrorMessage(i18n("Could not create assets folder:\n %1", dir.absoluteFilePath(QFileInfo(playlistPath).baseName())));
             return {};
@@ -146,9 +146,7 @@ std::vector<RenderRequest::RenderJob> RenderRequest::process()
         project->prepareRenderAssets(dir);
     }
     bool modified = false;
-
-    std::pair<QString, QString> playlistContent = pCore->projectManager()->projectSceneList(
-        project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile(), false, m_overlayData, m_aspectRatio);
+    std::pair<QString, QString> playlistContent = pCore->projectManager()->projectSceneList(dir.absolutePath(), false, m_overlayData, m_aspectRatio);
 
     QDomDocument doc;
     if (!playlistContent.second.isEmpty()) {

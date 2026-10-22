@@ -5,6 +5,8 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #pragma once
 
+#include "definitions.h"
+
 #include <KRecentFilesAction>
 #include <QDir>
 #include <QElapsedTimer>
@@ -23,6 +25,7 @@ class Project;
 class QAction;
 class QProgressDialog;
 class QUrl;
+class QLockFile;
 class DocUndoStack;
 class TimelineWidget;
 class TimelineItemModel;
@@ -81,7 +84,7 @@ public:
     static const QString getDefaultProjectFormat();
     void saveZone(const QStringList &info, const QDir &dir);
     /** @brief Move project data files to new url */
-    void moveProjectData(const QString &src, const QString &dest);
+    void moveProjectData(ProjectStorageType storageType, const QString &src, const QString &dest);
     /** @brief Retrieve current project's notes */
     QString documentNotes() const;
 
@@ -187,6 +190,8 @@ public Q_SLOTS:
      * @return Whether the file was saved. */
     bool saveFileAs(bool saveACopy = false);
 
+    const QString getSavePath(const QUrl &url = QUrl(), bool saveACopy = false);
+
     /** @brief Set properties to match outputFileName and save the document.
      * Creates an autosave version of the output file too (only if not in copymode), at
      * ~/.kde/data/stalefiles/kdenlive/ \n
@@ -287,6 +292,9 @@ private:
     std::shared_ptr<TimelineItemModel> m_activeTimelineModel;
     QElapsedTimer m_lastSave;
     QTimer m_autoSaveTimer;
+    /** @brief Per project lock file, used to warn when a project is already opened in another session */
+    std::unique_ptr<QLockFile> m_projectLock;
+    QString m_lockedProjectPath;
     int m_autoSaveChangeCount{0};
     QUrl m_startUrl;
     QStringList m_loadClipsOnOpen;
@@ -309,6 +317,13 @@ private:
     void abortProjectLoad(const QUrl &url);
     /** @brief Remove startup lock file */
     void clearLockFile();
+    /** @brief Check if the project file at @param url is locked by another Kdenlive session.
+     *  If so, ask the user what to do. Returns false if the project should not be opened. */
+    bool checkProjectLock(const QUrl &url, std::unique_ptr<QLockFile> &lock);
+    /** @brief Make sure the per-project lock file matches the currently opened project (acquire, move on "save as", or release if untitled) */
+    void updateProjectLock();
+    /** @brief Release and remove the lock file of the current project, if we own it */
+    void releaseProjectLock();
     /** @brief Process a few last things once a document is fully loaded */
     void finalizeDocumentOpening(KdenliveDoc *document);
 };

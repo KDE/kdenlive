@@ -27,6 +27,7 @@ class Menu;
 
 class QDomElement;
 class QKeyEvent;
+class QShowEvent;
 
 // RenderViewDelegate is used to draw the progress bars.
 class RenderViewDelegate : public QStyledItemDelegate
@@ -67,7 +68,7 @@ class RenderWidget : public QDialog
     Q_OBJECT
 
 public:
-    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning };
+    enum RenderError { CompositeError = 0, PresetError = 1, ProxyWarning = 2, PlaybackError = 3, OptionsError = 4, PresetWarning, DeinterlaceWarning };
     enum RenderStatus { NotRendering = 0, Rendering = 1 };
     enum DriveSpaceStatus { SpaceOk = 0, SpaceLow = 1, SpaceNone = 2, SpaceNotWritable = 3, SpaceUnknown = 4 };
     // Render job roles
@@ -119,6 +120,7 @@ public:
 protected:
     QSize sizeHint() const override;
     void keyPressEvent(QKeyEvent *e) override;
+    void showEvent(QShowEvent *event) override;
     void parseProfile(QDomElement profile, QTreeWidgetItem *childitem, QString groupName, QString extension = QString(),
                       QString renderer = QStringLiteral("avformat"));
 
@@ -167,6 +169,7 @@ private Q_SLOTS:
 
     void slotStartScript();
     void slotDeleteScript();
+    void slotCopyScriptCommand();
     void parseScriptFiles(const QString lastScript = QString());
     void slotCheckScript();
     void slotCheckJob();
@@ -184,6 +187,10 @@ private Q_SLOTS:
     void slotCheckFreeMemory();
     void updatePowerManagement();
     void checkDriveSpace();
+    /** @brief Warn when the One Field deinterlacer is selected and the current sequence contains interlaced clips. */
+    void checkDeinterlacerWarning();
+    /** @brief Names of interlaced clips used in the current sequence. */
+    QStringList interlacedClipNames() const;
 
 private:
     enum Tabs { RenderTab = 0, JobsTab, ScriptsTab };
@@ -226,6 +233,12 @@ private:
     /** Returns the first starting job */
     RenderJobItem *startingJob();
 
+    /** Returns the pixels per frame. This depends on whether the profile resolution, the preview resolution or rescaling is used.*/
+    qint32 outputPixelsPerFrame();
+
+    /** Returns a rough estimate for the file size of the output render file(s) */
+    KIO::filesize_t estimateOutputFilesize();
+
 Q_SIGNALS:
     void abortProcess(const QString &url);
     /** Send the info about rendering that will be saved in the document:
@@ -233,4 +246,5 @@ Q_SIGNALS:
     void selectedRenderProfile(const QMap<QString, QString> &renderProps);
     void renderStatusChanged();
     void shutdown();
+    void closeAfterRender();
 };

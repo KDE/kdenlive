@@ -185,6 +185,7 @@ frei0r.rgbsplit0r
 frei0r.saturat0r
 frei0r.scanline0r
 frei0r.select0r
+frei0r.shake0scillate
 frei0r.sharpness
 frei0r.sigmoidaltransfer
 frei0r.sobel

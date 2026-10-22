@@ -22,8 +22,8 @@ class ProjectSettings : public QDialog, public Ui::ProjectSettings_UI
     Q_OBJECT
 
 public:
-    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels, const QString &projectPath,
-                    bool readOnlyTracks, bool unsavedProject, QWidget *parent = nullptr);
+    ProjectSettings(KdenliveDoc *doc, QMap<QString, QString> metadata, int videotracks, int audiotracks, int audiochannels, bool readOnlyTracks,
+                    bool unsavedProject, QWidget *parent = nullptr);
     QString selectedProfile() const;
     std::pair<int, int> tracks() const;
     const QStringList guidesCategories() const;
@@ -50,6 +50,7 @@ public:
     static QStringList extractSlideshowUrls(const QString &url);
     const QString selectedPreview() const;
     const QString storageFolder() const;
+    ProjectStorageType storageType() const;
 
 public Q_SLOTS:
     void accept() override;

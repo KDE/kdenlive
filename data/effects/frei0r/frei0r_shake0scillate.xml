@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.shake0scillate" id="frei0r.shake0scillate">
+    <name>Shake0scillate</name>
+    <description><![CDATA[Animates the input image with adjustable parameters such as amount, speed, rotation, scale and option to mirror the image if it goes outside the screen bounds.<br><br>This effect is for a smooth and controlled oscillation.]]></description>
+    <author>Johann JEG</author>
+    <parameter type="constant" name="movement_amount_x" max="1" min="0" default="0.5" decimals="3">
+        <name>X Movement</name>
+    </parameter>
+    <parameter type="constant" name="movement_speed_x" max="1" min="0" default="0.5" decimals="3">
+        <name>X Speed</name>
+    </parameter>
+    <parameter type="constant" name="movement_amount_y" max="1" min="0" default="0.5" decimals="3">
+        <name>Y Movement</name>
+    </parameter>
+    <parameter type="constant" name="movement_speed_y" max="1" min="0" default="0.2" decimals="3">
+        <name>Y Speed</name>
+    </parameter>
+    <parameter type="constant" name="rotation_amount" max="1" min="0" default="0.5" decimals="3">
+        <name>Rotation</name>
+    </parameter>
+    <parameter type="constant" name="rotation_speed" max="1" min="0" default="0.2" decimals="3">
+        <name>Rotation Speed</name>
+    </parameter>
+    <parameter type="constant" name="scale" max="1" min="0" default="0.5" decimals="3">
+        <name>Scale</name>
+    </parameter>
+    <parameter type="constant" name="phase" max="1" min="0" default="0" decimals="3">
+        <name>Phase</name>
+    </parameter>
+    <parameter type="bool" name="mirrored" max="1" min="0" default="1">
+        <name>Mirrored</name>
+    </parameter>
+</effect>

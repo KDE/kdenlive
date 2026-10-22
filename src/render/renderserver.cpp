@@ -35,25 +35,58 @@ void RenderServer::jobConnected()
 {
     QLocalSocket *socket = m_server.nextPendingConnection();
     connect(socket, &QLocalSocket::readyRead, this, &RenderServer::jobSent);
+    connect(socket, &QLocalSocket::disconnected, this, [this, socket]() {
+        // Handle what the job sent before it exited
+        readMessages(socket);
+        m_buffers.remove(socket);
+        for (auto it = m_jobSocket.begin(); it != m_jobSocket.end();) {
+            if (it.value() == socket) {
+                it = m_jobSocket.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        socket->deleteLater();
+    });
+}
+
+QList<QByteArray> RenderServer::takeMessages(QByteArray &buffer)
+{
+    // The jobs send indented JSON objects (QJsonDocument::toJson()), so a message ends with a line containing only "}"
+    QList<QByteArray> messages;
+    const QByteArray end("\n}\n");
+    int ix = buffer.indexOf(end);
+    while (ix >= 0) {
+        messages << buffer.left(ix + end.size());
+        buffer.remove(0, ix + end.size());
+        ix = buffer.indexOf(end);
+    }
+    return messages;
 }
 
 void RenderServer::jobSent()
 {
-    QLocalSocket *socket = qobject_cast<QLocalSocket *>(sender());
-    QTextStream text(socket);
-    QString block, line;
-    while (text.readLineInto(&line)) {
-        block.append(line);
-        if (line == QLatin1String("}")) { // end of json object
-            QJsonParseError error;
-            const QJsonObject json = QJsonDocument::fromJson(block.toUtf8(), &error).object();
-            if (error.error != QJsonParseError::NoError) {
-                pCore->displayMessage(i18n("Communication error with render job"), ErrorMessage);
-                qWarning() << "RenderServer received error: " << error.errorString() << block;
-            }
-            handleJson(json, socket);
-            block.clear();
+    readMessages(qobject_cast<QLocalSocket *>(sender()));
+}
+
+void RenderServer::readMessages(QLocalSocket *socket)
+{
+    if (!socket || socket->bytesAvailable() <= 0) {
+        return;
+    }
+    // A message can be split over several readyRead() signals, e.g. the job's log sent when it is finished
+    QByteArray &buffer = m_buffers[socket];
+    buffer.append(socket->readAll());
+    const QList<QByteArray> messages = takeMessages(buffer);
+    for (const QByteArray &message : messages) {
+        QJsonParseError error;
+        const QJsonObject json = QJsonDocument::fromJson(message, &error).object();
+        if (error.error != QJsonParseError::NoError) {
+            pCore->displayMessage(i18n("Communication error with render job"), ErrorMessage);
+            qWarning() << "RenderServer received error: " << error.errorString() << message;
+            continue;
         }
+        handleJson(json, socket);
     }
 }
 

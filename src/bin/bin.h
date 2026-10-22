@@ -189,6 +189,7 @@ inline constexpr int Name = 0;
 inline constexpr int Date = 1;
 inline constexpr int Description = 2;
 inline constexpr int Rating = 3;
+inline constexpr int FPS = 4;
 } // namespace BinColumns
 
 /**
@@ -252,8 +253,8 @@ public:
      */
     std::vector<QString> selectedClipsIds(bool allowSubClips = false, bool allowFolders = false);
 
-    // Returns the selected clips
-    QList<std::shared_ptr<ProjectClip>> selectedClips();
+    /** @brief Selected source clips, resolving subclips to unique masters and ignoring folders. */
+    QList<std::shared_ptr<ProjectClip>> selectedSourceClips();
 
     /** @brief Current producer has changed, refresh monitor and timeline*/
     void refreshClip(const QString &id);
@@ -594,6 +595,7 @@ private:
     QAction *m_showDate{nullptr};
     QAction *m_showDesc{nullptr};
     QAction *m_showRating{nullptr};
+    QAction *m_showFPS{nullptr};
     QAction *m_sortDescend{nullptr};
     /** @brief Default view type (icon, tree, ...) */
     BinViewType m_listType;
@@ -706,6 +708,8 @@ Q_SIGNALS:
     /** @brief Upon selection, activate timeline target tracks. */
     void setupTargets(bool hasVideo, QMap<int, QString> audioStreams);
     void requestBinClose();
+    /** @brief Request any secondary bin rooted on the folder should close. */
+    void requestBinCloseForFolder(const QString &folderId);
     /** @brief Update a timeline tab name on clip rename. */
     void updateTabName(const QUuid &, const QString &);
     /** @brief Some timeline sequence producers have been updated, refresh their occurrences. */

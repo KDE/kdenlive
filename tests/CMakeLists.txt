@@ -9,9 +9,11 @@ kde_enable_exceptions()
 set(KdenliveTest_SOURCES
     avcurvetest.cpp
     audiolevelstasktest.cpp
+    bintest.cpp
     cachetest.cpp
     colorscopestest.cpp
     compositiontest.cpp
+    dataqueuetest.cpp
     documenttest.cpp
     effectstest.cpp
     effectsgrouptest.cpp
@@ -25,15 +27,19 @@ set(KdenliveTest_SOURCES
     modeltest.cpp
     movetest.cpp
     nestingtest.cpp
+    projectpathstest.cpp
     otiotest.cpp
     regressions.cpp
     rendermodeltest.cpp
+    renderservertest.cpp
     replacetest.cpp
+    selectionstatetest.cpp
     sequencetest.cpp
     snaptest.cpp
     spacertest.cpp
     subtitlestest.cpp
     timelinepreviewtest.cpp
+    timelinepreviewtestb.cpp
     timewarptest.cpp
     titlertest.cpp
     treetest.cpp
@@ -43,15 +49,21 @@ set(KdenliveTest_SOURCES
 
 include(ECMAddTests)
 
+# Shared test library
+add_library(kdenliveTestSupport OBJECT TestMain.cpp test_utils.cpp abortutil.cpp)
+target_link_libraries(kdenliveTestSupport PRIVATE kdenliveLib)
+set_property(TARGET kdenliveTestSupport PROPERTY CXX_STANDARD 14)
+target_compile_definitions(kdenliveTestSupport PRIVATE QT_FORCE_ASSERTS)
+
 foreach(_source ${KdenliveTest_SOURCES})
   get_filename_component(_targetname ${_source} NAME_WE)
   ecm_add_test(
-      TestMain.cpp
-      test_utils.cpp
-      abortutil.cpp
       ${_source}
       TEST_NAME ${_targetname}
-      LINK_LIBRARIES kdenliveLib
+      LINK_LIBRARIES kdenliveTestSupport kdenliveLib
   )
   set_property(TARGET ${_targetname} PROPERTY CXX_STANDARD 14)
 endforeach()
+
+target_sources(timelinepreviewtest PRIVATE timelinepreviewmonitor.cpp)
+target_sources(timelinepreviewtestb PRIVATE timelinepreviewmonitor.cpp)

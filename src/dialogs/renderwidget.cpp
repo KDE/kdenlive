@@ -6,7 +6,10 @@
 */
 
 #include "renderwidget.h"
+#include "audiomixer/mixermanager.hpp"
 #include "bin/bin.h"
+#include "bin/projectclip.h"
+#include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
 #include "core.h"
 #include "dialogs/renderpresetdialog.h"
@@ -27,6 +30,7 @@
 #include "renderpresets/renderpresetrepository.hpp"
 
 #include <KColorScheme>
+#include <KGuiItem>
 #include <KIO/DesktopExecParser>
 #include <KIO/JobUiDelegateFactory>
 #include <KIO/OpenFileManagerWindowJob>
@@ -35,6 +39,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNotification>
+#include <KStandardGuiItem>
 #include <KWindowConfig>
 #include <kmemoryinfo.h>
 
@@ -42,10 +47,12 @@
 #ifndef NODBUS
 #include <QDBusConnectionInterface>
 #endif
+#include <QClipboard>
 #include <QDesktopServices>
 #include <QDir>
 #include <QDomDocument>
 #include <QFileIconProvider>
+#include <QGuiApplication>
 #include <QHeaderView>
 #include <QHelpEvent>
 #include <QInputDialog>
@@ -57,6 +64,7 @@
 #include <QProcess>
 #include <QScreen>
 #include <QScrollBar>
+#include <QShowEvent>
 #include <QStandardPaths>
 #include <QString>
 #include <QTemporaryFile>
@@ -250,7 +258,7 @@ void RenderJobItem::setStatus(int status)
         setData(1, Qt::UserRole, i18n("Waiting…"));
         break;
     case STARTINGJOB:
-        setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
+        setIcon(0, QIcon::fromTheme(QStringLiteral("run-build")));
         setData(1, Qt::UserRole, i18n("Starting…"));
         break;
     case FINISHEDJOB:
@@ -372,7 +380,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     }
     connect(m_view.interp_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
             [&]() { KdenliveSettings::setRenderInterp(m_view.interp_type->currentData().toString()); });
-    
+
     // Aspect Ratio
     m_view.aspect_ratio_type->addItem(i18n("Default"));
     m_view.aspect_ratio_type->addItem(i18n("Horizontal (16:9)"), QStringLiteral("horizontal"));
@@ -381,7 +389,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.aspect_ratio_type->setCurrentIndex(0);
 
     // Deinterlacer
-    m_view.deinterlacer_type->addItem(i18n("One Field (fast)"), QStringLiteral("onefield"));
+    m_view.deinterlacer_type->addItem(i18n("One Field (fast, half vertical resolution)"), QStringLiteral("onefield"));
     m_view.deinterlacer_type->addItem(i18n("Linear Blend (fast)"), QStringLiteral("linearblend"));
     m_view.deinterlacer_type->addItem(i18n("YADIF - temporal only (good)"), QStringLiteral("yadif-nospatial"));
     m_view.deinterlacer_type->addItem(i18n("YADIF (better)"), QStringLiteral("yadif"));
@@ -390,8 +398,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     if (ix > -1) {
         m_view.deinterlacer_type->setCurrentIndex(ix);
     }
-    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this,
-            [&]() { KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString()); });
+    connect(m_view.deinterlacer_type, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [&]() {
+        KdenliveSettings::setRenderDeinterlacer(m_view.deinterlacer_type->currentData().toString());
+        checkDeinterlacerWarning();
+    });
 
     m_view.tc_type->addItem(i18n("None"));
     m_view.tc_type->addItem(i18n("Timecode"), QStringLiteral("#timecode#"));
@@ -402,8 +412,10 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
                                           "Two pass rendering allows a better control over the final rendered file size.\nNot compatible "
                                           "with variable bitrate, and only relevant for some video codecs."));
     m_view.proxy_render->setHidden(!enableProxy);
-    connect(m_view.proxy_render, &QCheckBox::toggled, this,
-            [&](bool enabled) { errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString()); });
+    connect(m_view.proxy_render, &QCheckBox::toggled, this, [&](bool enabled) {
+        errorMessage(ProxyWarning, enabled ? i18n("Rendering using low quality proxy") : QString());
+        checkDeinterlacerWarning();
+    });
 
     connect(m_view.quality, &QAbstractSlider::valueChanged, this, &RenderWidget::refreshParams);
     connect(m_view.qualityGroup, &QGroupBox::toggled, this, &RenderWidget::refreshParams);
@@ -460,6 +472,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
+    m_view.scriptInfo->hide();
     parseProfiles();
 
     // ===== "Job Queue" tab =====
@@ -470,6 +483,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.scripts_list->setUniformRowHeights(false);
     connect(m_view.start_script, &QAbstractButton::clicked, this, &RenderWidget::slotStartScript);
     connect(m_view.delete_script, &QAbstractButton::clicked, this, &RenderWidget::slotDeleteScript);
+    connect(m_view.copy_script_command, &QAbstractButton::clicked, this, &RenderWidget::slotCopyScriptCommand);
     connect(m_view.scripts_list, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckScript);
     connect(m_view.running_jobs, &QTreeWidget::itemSelectionChanged, this, &RenderWidget::slotCheckJob);
     connect(m_view.running_jobs, &QTreeWidget::itemDoubleClicked, this, &RenderWidget::slotPlayRendering);
@@ -527,14 +541,14 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
         KMessageBox::error(this, i18n("Could not find the kdenlive_render application, something is wrong with your installation. Rendering will not work"));
     }
 
+    m_view.post_render_action->addItem(i18n("Do nothing"), 0);
+    m_view.post_render_action->addItem(i18n("Close Kdenlive"), 1);
 #ifndef NODBUS
     QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
-    if ((interface == nullptr) ||
-        (!interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) && !interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
-        m_view.shutdown->setEnabled(false);
+    if ((interface != nullptr) &&
+        (interface->isServiceRegistered(QStringLiteral("org.kde.ksmserver")) || interface->isServiceRegistered(QStringLiteral("org.gnome.SessionManager")))) {
+        m_view.post_render_action->addItem(i18n("Shut down computer"), 2);
     }
-#else
-    m_view.shutdown->setEnabled(false);
 #endif
 
     m_shareMenu = new Purpose::Menu();
@@ -968,6 +982,17 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
 void RenderWidget::slotPrepareExport2(bool delayedRendering)
 {
+    if (m_view.audio_box->isChecked() && pCore->mixer() && pCore->mixer()->isMasterMute()) {
+        if (KMessageBox::warningTwoActions(
+                this, i18n("Master audio is muted, so there will be no audio stream in the rendered file. Do you want to continue rendering?"), QString(),
+                KGuiItem(i18nc("@action:button", "Render")), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+            if (pCore->window()) {
+                pCore->window()->raiseMixer();
+            }
+            return;
+        }
+    }
+
     QFileInfo info(m_view.out_file->text());
     if (info.exists()) {
         if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
@@ -1178,8 +1203,13 @@ void RenderWidget::checkRenderStatus(int lastStatus)
             m_renderStatus = NotRendering;
             Q_EMIT renderStatusChanged();
         }
-        if (m_view.shutdown->isChecked() && lastStatus != -3) {
-            Q_EMIT shutdown();
+        if (lastStatus != -3) {
+            int action = m_view.post_render_action->currentData().toInt();
+            if (action == 1) {
+                Q_EMIT closeAfterRender();
+            } else if (action == 2) {
+                Q_EMIT shutdown();
+            }
         }
     }
 }
@@ -1613,6 +1643,7 @@ void RenderWidget::refreshParams()
         }
     }
     m_view.advanced_params->setPlainText(m_params.toString());
+    checkDeinterlacerWarning();
 }
 
 void RenderWidget::parseProfiles(const QString &selectedProfile)
@@ -1665,7 +1696,7 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
     item->setData(1, ProgressRole, progress);
     if (progress == 0) {
         item->setStatus(STARTINGJOB);
-        item->setIcon(0, QIcon::fromTheme(QStringLiteral("media-record")));
+        item->setIcon(0, QIcon::fromTheme(QStringLiteral("run-build")));
         slotCheckJob();
     } else {
         item->setStatus(RUNNINGJOB);
@@ -1886,9 +1917,20 @@ void RenderWidget::slotAbortCurrentJob()
 {
     auto *current = static_cast<RenderJobItem *>(m_view.running_jobs->currentItem());
     if (current) {
-        if (current->status() == RUNNINGJOB) {
+        if (current->status() == RUNNINGJOB || current->status() == STARTINGJOB) {
+            if (KMessageBox::warningTwoActions(this, i18n("Are you sure you want to abort the current job?"), i18n("Abort Job"),
+                                               KGuiItem(i18n("Abort"), QStringLiteral("dialog-cancel")),
+                                               KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                return;
+            }
             Q_EMIT abortProcess(current->data(1, Qt::DisplayRole).toString());
         } else {
+            if (current->status() == WAITINGJOB) {
+                if (KMessageBox::warningTwoActions(this, i18n("Are you sure you want to remove the waiting job from queue?"), i18n("Remove Job"),
+                                                   KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                    return;
+                }
+            }
             delete current;
             slotCheckJob();
             checkRenderStatus(-3);
@@ -1959,6 +2001,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
     // List the project scripts
     QDir projectFolder(pCore->currentDoc()->projectRenderFolder());
     if (!projectFolder.exists(QStringLiteral("kdenlive-renderqueue"))) {
+        slotCheckScript();
         return;
     }
     projectFolder.cd(QStringLiteral("kdenlive-renderqueue"));
@@ -1968,6 +2011,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         if (projectFolder.dirName() == QStringLiteral("kdenlive-renderqueue") &&
             projectFolder.entryList(scriptsFilter, QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
             projectFolder.removeRecursively();
+            slotCheckScript();
             return;
         }
     }
@@ -2004,19 +2048,26 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         m_view.scripts_list->setCurrentItem(lastCreatedScript);
         lastCreatedScript->setSelected(true);
     }
+    slotCheckScript();
 }
 
 void RenderWidget::slotCheckScript()
 {
-    QTreeWidgetItem *current = m_view.scripts_list->currentItem();
-    if (current == nullptr) {
-        return;
-    }
-    m_view.start_script->setEnabled(current->data(0, Qt::UserRole).toString().isEmpty());
-    m_view.delete_script->setEnabled(true);
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    const int count = selected.count();
+    const bool hasSelection = count > 0;
+
+    m_view.start_script->setEnabled(hasSelection);
+    m_view.delete_script->setEnabled(hasSelection);
+    m_view.copy_script_command->setEnabled(hasSelection);
+
+    m_view.start_script->setText(count > 1 ? i18n("Start Selected Scripts") : i18n("Start Script"));
+    m_view.delete_script->setText(count > 1 ? i18n("Delete Selected Scripts") : i18n("Delete Script"));
+    m_view.copy_script_command->setText(count > 1 ? i18n("Copy Selected Commands") : i18n("Copy Command"));
+
     for (int i = 0; i < m_view.scripts_list->topLevelItemCount(); ++i) {
-        current = m_view.scripts_list->topLevelItem(i);
-        if (current == m_view.scripts_list->currentItem()) {
+        QTreeWidgetItem *current = m_view.scripts_list->topLevelItem(i);
+        if (selected.contains(current)) {
             current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 3));
         } else {
             current->setSizeHint(1, QSize(m_view.scripts_list->columnWidth(1), fontMetrics().height() * 2));
@@ -2026,13 +2077,17 @@ void RenderWidget::slotCheckScript()
 
 void RenderWidget::slotStartScript()
 {
-    auto *item = static_cast<RenderJobItem *>(m_view.scripts_list->currentItem());
-    if (item) {
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    bool jobAdded = false;
+    for (auto *item : selected) {
         QString destination = item->data(1, Qt::UserRole).toString();
         if (QFile::exists(destination)) {
-            if (KMessageBox::warningTwoActions(this, i18n("Output file already exists. Do you want to overwrite it?"), {}, KStandardGuiItem::overwrite(),
-                                               KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
-                return;
+            if (KMessageBox::warningTwoActions(this, i18n("Output file %1 already exists. Do you want to overwrite it?", destination), {},
+                                               KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+                continue;
             }
         }
         const QString path = item->data(1, ParametersRole).toString();
@@ -2045,7 +2100,7 @@ void RenderWidget::slotStartScript()
                 KMessageBox::information(
                     this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", destination),
                     i18n("Already running"));
-                return;
+                continue;
             }
             delete renderItem;
             renderItem = nullptr;
@@ -2065,6 +2120,9 @@ void RenderWidget::slotStartScript()
                                QString::number(QCoreApplication::applicationPid())};
         renderItem->setData(1, ParametersRole, argsJob);
         renderItem->setData(1, PlaylistFileRole, path);
+        jobAdded = true;
+    }
+    if (jobAdded) {
         checkRenderStatus(-1);
         m_view.tabWidget->setCurrentIndex(Tabs::JobsTab);
     }
@@ -2072,15 +2130,54 @@ void RenderWidget::slotStartScript()
 
 void RenderWidget::slotDeleteScript()
 {
-    QTreeWidgetItem *item = m_view.scripts_list->currentItem();
-    if (item) {
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    if (KMessageBox::warningTwoActions(
+            this, i18np("Are you sure you want to delete the selected script?", "Are you sure you want to delete %1 selected scripts?", selected.count()),
+            i18n("Delete Script"), KStandardGuiItem::del(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
+        return;
+    }
+    for (auto *item : selected) {
         QString path = item->data(1, ParametersRole).toString();
-        bool success = true;
-        success &= static_cast<int>(QFile::remove(path));
+        bool success = QFile::remove(path);
         if (!success) {
-            qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path << ", " << path << ".mlt";
+            qCWarning(KDENLIVE_LOG) << "// Error removing script or playlist: " << path;
         }
-        parseScriptFiles();
+    }
+    parseScriptFiles();
+}
+
+void RenderWidget::slotCopyScriptCommand()
+{
+    const QList<QTreeWidgetItem *> selected = m_view.scripts_list->selectedItems();
+    if (selected.isEmpty()) {
+        return;
+    }
+    QStringList commands;
+    const QString meltPath = KdenliveSettings::meltpath();
+    const QString appImagePath = qEnvironmentVariable("APPIMAGE");
+
+    for (auto *item : selected) {
+        const QString playlistPath = item->data(1, ParametersRole).toString();
+        if (playlistPath.isEmpty()) {
+            continue;
+        }
+        if (pCore->packageType() == LinuxPackageType::Flatpak) {
+            commands << QStringLiteral("flatpak run --command=melt org.kde.kdenlive \"%2\"").arg(appImagePath, playlistPath);
+        } else if (pCore->packageType() == LinuxPackageType::AppImage && !appImagePath.isEmpty()) {
+            commands << QStringLiteral("\"%1\" --render \"%2\"").arg(appImagePath, playlistPath);
+        } else if (!meltPath.isEmpty()) {
+            commands << QStringLiteral("\"%1\" \"%2\"").arg(meltPath, playlistPath);
+        } else {
+            commands << QStringLiteral("melt \"%1\"").arg(playlistPath);
+        }
+    }
+    if (!commands.isEmpty()) {
+        QGuiApplication::clipboard()->setText(commands.join(QLatin1Char('\n')));
+        m_view.scriptInfo->setText(i18n("Render command copied to clipboard:\n%1", commands.join(QLatin1Char('\n'))));
+        m_view.scriptInfo->animatedShow();
     }
 }
 
@@ -2362,10 +2459,40 @@ void RenderWidget::checkDriveSpace()
     }
     m_lastFreeSpace = static_cast<KIO::filesize_t>(info.bytesAvailable());
 
+    KIO::filesize_t minimumSize = estimateOutputFilesize();
+    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
+    if (m_lastFreeSpace < minimumSize) {
+        m_freeSpaceStatus = SpaceNone;
+    } else if (m_lastFreeSpace < 5 * minimumSize) {
+        m_freeSpaceStatus = SpaceLow;
+    } else {
+        m_freeSpaceStatus = SpaceOk;
+    }
+    if (previousState != m_freeSpaceStatus) {
+        updateRenderInfoMessage();
+    }
+}
+
+qint32 RenderWidget::outputPixelsPerFrame()
+{
+    bool rescale = m_view.rescale->isEnabled() && m_view.rescale->isChecked();
+    bool previewRes = m_view.render_at_preview_res->isChecked() && pCore->getMonitorProfile().height() != pCore->getCurrentFrameSize().height();
+    if (rescale) {
+        return m_view.rescale_width->value() * m_view.rescale_height->value();
+    } else if (previewRes) {
+        // Preview rendering
+        return pCore->getMonitorProfile().width() * pCore->getMonitorProfile().height();
+    }
+
+    QSize frameSize = pCore->getCurrentFrameSize();
+    return frameSize.width() * frameSize.height();
+}
+
+KIO::filesize_t RenderWidget::estimateOutputFilesize()
+{
     // Very rough estimate of h264 video size
-    int sizePerFrame = 0;
-    const QSize frameSize = pCore->getCurrentFrameSize();
-    qint32 pixels = frameSize.width() * frameSize.height();
+    KIO::filesize_t sizePerFrame = 0;
+    qint32 pixels = outputPixelsPerFrame();
     if (pixels > 28000000) {
         // Approximately 8K
         sizePerFrame = 490000;
@@ -2380,57 +2507,54 @@ void RenderWidget::checkDriveSpace()
         sizePerFrame = 20000;
     }
 
-    KIO::filesize_t minimumSize = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
-    qDebug() << "::::: ESTIMATED RENDER DURATION FOR: " << m_renderDuration << " = " << KIO::convertSize(minimumSize);
-    if (m_lastFreeSpace < 5 * minimumSize) {
-        m_freeSpaceStatus = SpaceLow;
-    } else if (m_lastFreeSpace < minimumSize) {
-        m_freeSpaceStatus = SpaceNone;
-    } else {
-        m_freeSpaceStatus = SpaceOk;
-    }
-    if (previousState != m_freeSpaceStatus) {
-        updateRenderInfoMessage();
-    }
+    KIO::filesize_t simpleEstimate = qMax(static_cast<KIO::filesize_t>(10000000), static_cast<KIO::filesize_t>(m_renderDuration * sizePerFrame));
+    return simpleEstimate;
 }
 
 void RenderWidget::updateRenderInfoMessage()
 {
-    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
-        m_view.infoMessage->setMessageType(m_freeSpaceStatus == SpaceNone || m_freeSpaceStatus == SpaceNotWritable ? KMessageWidget::Error
-                                                                                                                   : KMessageWidget::Warning);
-    } else {
-        m_view.infoMessage->setMessageType(m_renderDuration <= 0 || m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
+    QString summaryMessage = i18n("Rendered File Length: %1", stringDuration);
+    int sequenceOffset = pCore->currentTimelineOffset();
+    if (sequenceOffset > 0) {
+        summaryMessage.append(QStringLiteral("\n%1").arg(i18n("Timecode Offset: %1", pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false))));
     }
+    m_view.output_summary->setText(summaryMessage);
+
     if (m_renderDuration <= 0) {
         m_view.infoMessage->setText(i18n("Add clips in timeline before rendering"));
-        m_view.infoMessage->show();
-        return;
-    }
-    if (m_freeSpaceStatus != SpaceOk && m_freeSpaceStatus != SpaceUnknown) {
-        switch (m_freeSpaceStatus) {
-        case SpaceNotWritable:
-            m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
-            break;
-        case SpaceNone:
-            m_view.infoMessage->setText(i18n("Your disk is almost full, rendering might fail"));
-            break;
-        case SpaceLow:
-            m_view.infoMessage->setText(i18n("Your disk space is limited (%1)", KIO::convertSize(m_lastFreeSpace)));
-            break;
-        default:
-            break;
-        }
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
         m_view.infoMessage->show();
         return;
     }
 
-    QString stringDuration = pCore->timecode().getDisplayTimecodeFromFrames(qMax(0, m_renderDuration), false);
-    QString infoMessage = i18n("Rendered File Length: %1", stringDuration);
-    int sequenceOffset = pCore->currentTimelineOffset();
-    if (sequenceOffset > 0) {
-        infoMessage.append(QStringLiteral("\n%1 %2").arg(i18n("Timecode Offset:"), pCore->timecode().getDisplayTimecodeFromFrames(sequenceOffset, false)));
+    KIO::filesize_t minimumSize = estimateOutputFilesize();
+
+    switch (m_freeSpaceStatus) {
+    case SpaceNotWritable:
+        m_view.infoMessage->setText(i18n("Output location is not writable, please select another one"));
+        m_view.infoMessage->setMessageType(KMessageWidget::Error);
+        m_view.infoMessage->show();
+        return;
+    case SpaceNone:
+        m_view.infoMessage->setText(i18n("The render result will roughly have a file size of %1, but there is only %2 free disk space. Rendering might fail.",
+                                         KIO::convertSize(minimumSize), KIO::convertSize(m_lastFreeSpace)));
+        m_view.infoMessage->setMessageType(KMessageWidget::Error);
+        m_view.infoMessage->show();
+        return;
+    case SpaceLow:
+        m_view.infoMessage->setText(i18n("Your disk space is limited.\nThere is %1 free disk space and the render result will roughly take %2.",
+                                         KIO::convertSize(m_lastFreeSpace), KIO::convertSize(minimumSize)));
+        m_view.infoMessage->setMessageType(KMessageWidget::Warning);
+        m_view.infoMessage->show();
+        return;
+    case SpaceOk:
+    case SpaceUnknown:
+    default:
+        break;
     }
+
+    QString infoMessage;
     if (m_missingClips > 0) {
         infoMessage.append(QStringLiteral(". "));
         if (m_missingUsedClips == m_missingClips) {
@@ -2441,8 +2565,14 @@ void RenderWidget::updateRenderInfoMessage()
             infoMessage.append(i18n("%1 missing clips (<b>%2 used in the project</b>).", m_missingClips, m_missingUsedClips));
         }
     }
-    m_view.infoMessage->setText(infoMessage);
-    m_view.infoMessage->show();
+
+    if (!infoMessage.isEmpty()) {
+        m_view.infoMessage->setMessageType(m_missingClips > 0 ? KMessageWidget::Warning : KMessageWidget::Information);
+        m_view.infoMessage->setText(infoMessage);
+        m_view.infoMessage->show();
+    } else {
+        m_view.infoMessage->hide();
+    }
 }
 
 void RenderWidget::showRenderDuration(int projectLength)
@@ -2560,6 +2690,54 @@ void RenderWidget::keyPressEvent(QKeyEvent *e)
     } else {
         QDialog::keyPressEvent(e);
     }
+}
+
+void RenderWidget::showEvent(QShowEvent *event)
+{
+    // The timeline may have changed since the dialog was last shown
+    checkDeinterlacerWarning();
+    QDialog::showEvent(event);
+}
+
+void RenderWidget::checkDeinterlacerWarning()
+{
+    QStringList interlacedClips;
+    if (m_view.deinterlacer_type->currentData().toString() == QLatin1String("onefield") && m_view.video_box->isChecked() && pCore->projectItemModel()) {
+        interlacedClips = interlacedClipNames();
+    }
+    const QString message = interlacedClips.isEmpty() ? QString()
+                                                      : i18np("One Field deinterlacing may halve the vertical resolution of interlaced clip %2",
+                                                              "One Field deinterlacing may halve the vertical resolution of %1 interlaced clips: %2",
+                                                              interlacedClips.count(), interlacedClips.join(QStringLiteral(", ")));
+    // Avoid resetting the info message on every parameter refresh
+    if (message != m_errorMessages.value(DeinterlaceWarning)) {
+        errorMessage(DeinterlaceWarning, message);
+    }
+}
+
+QStringList RenderWidget::interlacedClipNames() const
+{
+    // MLT deinterlaces whenever an interlaced frame is resized or rendered progressive, and some effects force it too,
+    // so any interlaced clip can be affected
+    const QUuid uuid = pCore->currentTimelineId();
+    const bool useProxy = m_view.proxy_render->isChecked();
+    QStringList names;
+    const QList<std::shared_ptr<ProjectClip>> clips = pCore->projectItemModel()->getRootFolder()->childClips();
+    for (const std::shared_ptr<ProjectClip> &clip : clips) {
+        if ((clip->clipType() != ClipType::AV && clip->clipType() != ClipType::Video) || !clip->isIncludedInSequence(uuid)) {
+            continue;
+        }
+        // Proxied clips store the source properties with a prefix, the original is rendered unless proxy rendering is enabled
+        const QString prefix = clip->hasProxy() && !useProxy ? QStringLiteral("kdenlive:original.") : QString();
+        const QString progressiveKey = clip->hasProducerProperty(QStringLiteral("force_progressive")) ? QStringLiteral("force_progressive")
+                                                                                                      : prefix + QStringLiteral("meta.media.progressive");
+        // Scanning is only known once a frame was fetched, skip unknown clips
+        if (!clip->hasProducerProperty(progressiveKey) || clip->getProducerIntProperty(progressiveKey) != 0) {
+            continue;
+        }
+        names << clip->clipName();
+    }
+    return names;
 }
 
 void RenderWidget::adjustSpeed(int speedIndex)

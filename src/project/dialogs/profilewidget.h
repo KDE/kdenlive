@@ -18,6 +18,32 @@ class ProfileFilter;
 class TreeView;
 class QTreeView;
 class QComboBox;
+class QLabel;
+
+/** @class ProfilePreviewWidget
+    @brief Small preview widget showing proportional shape of the selected video profile (landscape/portrait/square)
+ */
+class ProfilePreviewWidget : public QWidget
+{
+    Q_OBJECT
+public:
+    explicit ProfilePreviewWidget(QWidget *parent = nullptr);
+    void setDimensions(int width, int height, int aspectNum = 0, int aspectDen = 0);
+    void clear();
+
+    QSize sizeHint() const override;
+    QSize minimumSizeHint() const override;
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
+private:
+    int m_width{0};
+    int m_height{0};
+    int m_aspectNum{0};
+    int m_aspectDen{0};
+    bool m_valid{false};
+};
 
 /** @class ProfileWidget
     @brief Provides interface to choose and filter profiles
@@ -46,7 +72,9 @@ private:
     std::shared_ptr<ProfileTreeModel> m_treeModel;
     ProfileFilter *m_filter;
 
-    QTextEdit *m_descriptionPanel;
+    ProfilePreviewWidget *m_previewWidget{nullptr};
+    QLabel *m_previewLabel{nullptr};
+    QTextEdit *m_descriptionPanel{nullptr};
 
     /** @brief Open project profile management dialog. */
     void slotEditProfiles();

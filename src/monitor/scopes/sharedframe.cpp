@@ -90,7 +90,12 @@ Mlt::Frame SharedFrame::clone(bool audio, bool image, bool alpha) const
     data = d->f.get_data("image", size);
     if (image && (data != nullptr)) {
         if (size == 0) {
-            size = mlt_image_format_size(get_image_format(), get_image_width(), get_image_height(), nullptr);
+            mlt_image_s imageInfo{};
+            imageInfo.format = get_image_format();
+            imageInfo.width = get_image_width();
+            imageInfo.height = get_image_height();
+
+            size = mlt_image_calculate_size(&imageInfo);
         }
         copy = mlt_pool_alloc(size);
         memcpy(copy, data, size_t(size));
@@ -230,11 +235,13 @@ int SharedFrame::get_audio_samples() const
     return d->f.get_int("audio_samples");
 }
 
-const int16_t *SharedFrame::get_audio() const
+const void *SharedFrame::get_audio(mlt_audio_format format) const
 {
-    mlt_audio_format format = get_audio_format();
+    if (format == mlt_audio_none) {
+        format = get_audio_format();
+    }
     int frequency = get_audio_frequency();
     int channels = get_audio_channels();
     int samples = get_audio_samples();
-    return static_cast<int16_t *>(d->f.get_audio(format, frequency, channels, samples));
+    return d->f.get_audio(format, frequency, channels, samples);
 }

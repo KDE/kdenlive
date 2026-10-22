@@ -64,6 +64,8 @@ public:
 
     /** @brief Returns a clip from the hierarchy, given its id */
     std::shared_ptr<ProjectClip> getClipByBinID(const QString &binId) const;
+    /** @brief Returns unique source clips for bin items: subclips resolve to masters, folders and null items are ignored. */
+    static QList<std::shared_ptr<ProjectClip>> sourceClips(const QList<std::shared_ptr<AbstractProjectItem>> &items);
     /** @brief Returns existing masks for a clip */
     const QVector<MaskInfo> getClipMasks(const QString &binId) const;
     /** @brief Returns audio levels for a clip from its id */
@@ -279,6 +281,8 @@ public:
     const QString getBinClipIdByUuid(const QString uuid);
     /** @brief Returns the state of a given clip: AudioOnly, VideoOnly, Disabled (Disabled means it has audio and video capabilities */
     std::pair<PlaylistState::ClipState, ClipType::ProducerType> getClipState(int itemId) const;
+    /** @brief Parse all titles's urls to ensure relative paths */
+    void ensureRelativeTitlerPaths(const QString updatedRoot);
 
 protected:
     bool closing;

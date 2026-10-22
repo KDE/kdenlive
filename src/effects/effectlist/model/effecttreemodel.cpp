@@ -173,6 +173,10 @@ void EffectTreeModel::deleteEffect(const QModelIndex &index)
         // ERROR
         return;
     }
+    QStringList favs = KdenliveSettings::favorite_effects();
+    if (favs.removeAll(id) > 0) {
+        KdenliveSettings::setFavorite_effects(favs);
+    }
     EffectsRepository::get()->deleteEffect(id);
 }
 
@@ -305,6 +309,15 @@ void EffectTreeModel::editCustomAsset(const QString &newName, const QString &new
             KMessageBox::error(QApplication::activeWindow(), i18n("Cannot write to file %1", file.fileName()));
         }
         file.close();
+
+        // Update favorite effects if current effect is favorite
+        const QString currentId = item->dataColumn(AssetTreeModel::IdCol).toString();
+        QStringList favs = KdenliveSettings::favorite_effects();
+        int favIndex = favs.indexOf(currentId);
+        if (favIndex != -1) {
+            favs[favIndex] = newName;
+            KdenliveSettings::setFavorite_effects(favs);
+        }
 
         deleteEffect(index);
         reloadEffect(dir.absoluteFilePath(newName + QStringLiteral(".xml")));

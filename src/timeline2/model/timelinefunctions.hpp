@@ -151,13 +151,8 @@ struct TimelineFunctions
     static void showClipKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, bool value);
     static void showCompositionKeyframes(const std::shared_ptr<TimelineItemModel> &timeline, int compoId, bool value);
 
-    /** @brief If the clip is activated, disable, otherwise enable
-     * @param timeline: pointer to the timeline that we modify
-     * @param clipId: Id of the clip to modify
-     * @param status: target status of the clip
-     This function creates an undo object and returns true on success
-     */
-    static bool switchEnableState(const std::shared_ptr<TimelineItemModel> &timeline, std::unordered_set<int> selection);
+    /** @brief Set all selected clips to the same enabled state in one undoable operation. */
+    static bool setClipsEnabled(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, bool enabled);
     /** @brief change the clip state and accumulates for undo/redo
      */
     static bool changeClipState(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, PlaylistState::ClipState status, Fun &undo, Fun &redo);

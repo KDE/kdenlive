@@ -14,6 +14,7 @@
 #include "titlewidget.h"
 #include "bin/bin.h"
 #include "core.h"
+#include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "gradientwidget.h"
 #include "kdenlivesettings.h"
@@ -32,6 +33,9 @@
 #include <KMessageWidget>
 #include <KRecentDirs>
 
+#include "titler/richtextformat.h"
+#include "titler/richtextgradient.h"
+#include "titler/richtextoutline.h"
 #include <QButtonGroup>
 #include <QClipboard>
 #include <QCryptographicHash>
@@ -45,11 +49,17 @@
 #include <QGraphicsSvgItem>
 #include <QImageReader>
 #include <QKeyEvent>
+#include <QLineEdit>
 #include <QMenu>
 #include <QMimeData>
 #include <QSpinBox>
+#include <QSvgRenderer>
+#include <QTextBlock>
 #include <QTextBlockFormat>
 #include <QTextCursor>
+#include <QTextDocument>
+#include <QTextEdit>
+#include <QTextFragment>
 #include <QTimer>
 #include <QToolBar>
 
@@ -68,12 +78,36 @@ const int RECTITEM = QGraphicsRectItem::Type;
 const int TEXTITEM = QGraphicsTextItem::Type;
 const int ELLIPSEITEM = QGraphicsEllipseItem::Type;
 
-/*
-const int NOEFFECT = 0;
-const int BLUREFFECT = 1;
-const int SHADOWEFFECT = 2;
-const int TYPEWRITEREFFECT = 3;
-*/
+class TitleUndoCommand : public QUndoCommand
+{
+public:
+    TitleUndoCommand(TitleWidget *widget, const QDomDocument &oldDoc, const QDomDocument &newDoc, const QString &text = QString(),
+                     QUndoCommand *parent = nullptr)
+        : QUndoCommand(text, parent)
+        , m_widget(widget)
+        , m_oldDoc(oldDoc)
+        , m_newDoc(newDoc)
+    {
+    }
+
+    void undo() override { m_widget->loadTitleState(m_oldDoc); }
+
+    void redo() override
+    {
+        if (!used) {
+            used = true;
+            return;
+        }
+
+        m_widget->loadTitleState(m_newDoc);
+    }
+
+private:
+    TitleWidget *m_widget;
+    QDomDocument m_oldDoc;
+    QDomDocument m_newDoc;
+    bool used{false};
+};
 
 void TitleWidget::refreshTemplateBoxContents()
 {
@@ -431,7 +465,24 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_buttonImage, &QAction::triggered, this, &TitleWidget::slotImageTool);
 
     m_toolbar->addSeparator();
+    m_undoStack = new QUndoStack(this);
+    m_undoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Undo"), this);
+    m_undoAction->setShortcut(QKeySequence::Undo);
+    m_undoAction->setShortcutContext(Qt::WindowShortcut);
+    m_undoAction->setEnabled(false);
+    connect(m_undoStack, &QUndoStack::canUndoChanged, m_undoAction, &QAction::setEnabled);
+    connect(m_undoAction, &QAction::triggered, this, &TitleWidget::slotUndo);
+    m_toolbar->addAction(m_undoAction);
 
+    m_redoAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-redo")), i18n("Redo"), this);
+    m_redoAction->setShortcut(QKeySequence::Redo);
+    m_redoAction->setShortcutContext(Qt::WindowShortcut);
+    m_redoAction->setEnabled(false);
+    connect(m_undoStack, &QUndoStack::canRedoChanged, m_redoAction, &QAction::setEnabled);
+    connect(m_redoAction, &QAction::triggered, this, &TitleWidget::slotRedo);
+    m_toolbar->addAction(m_redoAction);
+
+    m_toolbar->addSeparator();
     m_buttonLoad = m_toolbar->addAction(QIcon::fromTheme(QStringLiteral("document-open")), i18n("Open Title…"));
     m_buttonLoad->setCheckable(false);
     m_buttonLoad->setShortcut(Qt::CTRL | Qt::Key_O);
@@ -515,7 +566,10 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     connect(m_scene, &QGraphicsScene::selectionChanged, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::itemMoved, this, &TitleWidget::selectionChanged);
     connect(m_scene, &GraphicsSceneRectMove::sceneZoom, this, &TitleWidget::slotZoom);
-    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, &TitleWidget::slotSelectTool);
+    connect(m_scene, &GraphicsSceneRectMove::actionFinished, this, [this]() {
+        slotSelectTool();
+        pushUndo(i18n("Move / Resize"));
+    });
     connect(m_scene, &GraphicsSceneRectMove::newRect, this, &TitleWidget::slotNewRect);
     connect(m_scene, &GraphicsSceneRectMove::newEllipse, this, &TitleWidget::slotNewEllipse);
     connect(m_scene, &GraphicsSceneRectMove::newText, this, &TitleWidget::slotNewText);
@@ -604,6 +658,7 @@ TitleWidget::TitleWidget(const QUrl &url, QString projectTitlePath, Monitor *mon
     // templateBox->setIconSize(QSize(60,60));
     refreshTemplateBoxContents();
     m_lastDocumentHash = QCryptographicHash::hash(xml().toString().toLatin1(), QCryptographicHash::Md5).toHex();
+    m_undoDoc = xml();
 }
 
 TitleWidget::~TitleWidget()
@@ -676,6 +731,7 @@ void TitleWidget::updateItemRatio(Qt::CheckState state)
         }
     }
     slotValueChanged(ValueWidth);
+    pushUndo(i18n("Keep Aspect Ratio"));
 }
 
 // static
@@ -705,7 +761,7 @@ QStringList TitleWidget::extractImageList(const QString &xml, const QString &roo
 // static
 QPair<QStringList, QStringList> TitleWidget::extractAndFixImageAndFontsList(QDomElement &e, const QString &root)
 {
-    QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
+    const QString xml = Xml::getXmlProperty(e, QStringLiteral("xmldata"));
     if (xml.isEmpty()) {
         return {};
     }
@@ -771,17 +827,47 @@ QStringList TitleWidget::extractFontList(const QString &xml)
     if (xml.isEmpty()) {
         return result;
     }
+
     QDomDocument doc;
     doc.setContent(xml);
+
     QDomNodeList elements = doc.elementsByTagName(QStringLiteral("content"));
     for (int i = 0; i < elements.count(); ++i) {
         QDomElement element = elements.at(i).toElement();
+
+        // Legacy/default object font.
         if (element.hasAttribute(QStringLiteral("font"))) {
             result.append(element.attribute(QStringLiteral("font")));
         }
+
+        // Rich text: include fonts used only by selected character runs.
+        QDomElement richText = element.firstChildElement(QStringLiteral("richtext"));
+        if (!richText.isNull() && richText.attribute(QStringLiteral("format")) == QLatin1String("qt-html-v1")) {
+            QTextDocument richDocument;
+            richDocument.setHtml(richText.text());
+
+            for (QTextBlock block = richDocument.begin(); block.isValid(); block = block.next()) {
+                for (auto it = block.begin(); !it.atEnd(); ++it) {
+                    const QTextFragment fragment = it.fragment();
+                    if (!fragment.isValid()) {
+                        continue;
+                    }
+
+                    const QStringList families = fragment.charFormat().fontFamilies().toStringList();
+                    for (const QString &family : families) {
+                        if (!family.isEmpty()) {
+                            result.append(family);
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    result.removeDuplicates();
     return result;
 }
+
 // static
 void TitleWidget::refreshTitleTemplates(const QString &projectPath)
 {
@@ -987,6 +1073,7 @@ void TitleWidget::addImageToScene(const QUrl url, QPoint pos)
     m_scene->setTool(GraphicsSceneRectMove::TITLE_SELECT);
     showToolbars(GraphicsSceneRectMove::TITLE_SELECT);
     checkButton(GraphicsSceneRectMove::TITLE_SELECT);
+    pushUndo(i18n("Add Image"));
 }
 
 void TitleWidget::showToolbars(GraphicsSceneRectMove::TITLETOOL toolType)
@@ -1254,23 +1341,20 @@ void TitleWidget::slotNewText(MyTextItem *tt)
     QTextCharFormat cformat = cur.charFormat();
     double outlineWidth = textOutline->value();
 
-    tt->setData(TitleDocument::OutlineWidth, outlineWidth);
-    tt->setData(TitleDocument::OutlineColor, outlineColor);
-    if (outlineWidth > 0.0) {
-        cformat.setTextOutline(QPen(outlineColor, outlineWidth));
-    }
+    tt->setOutline(outlineWidth, outlineColor);
+    cformat.setTextOutline(QPen(Qt::NoPen));
     tt->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     if (gradient_color->isChecked()) {
         QString gradientData = gradients_combo->currentData().toString();
         tt->setData(TitleDocument::Gradient, gradientData);
-        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(tt->boundingRect().width()), int(tt->boundingRect().height()));
+        QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(tt->baseBoundingRect().width()), int(tt->baseBoundingRect().height()));
         cformat.setForeground(QBrush(gr));
     } else {
         cformat.setForeground(QBrush(color));
     }
+    cur.select(QTextCursor::Document);
     cur.setCharFormat(cformat);
     cur.setBlockFormat(format);
-    cur.select(QTextCursor::Document);
     tt->setTextCursor(cur);
     tt->setZValue(m_count++);
     setCurrentItem(tt);
@@ -1298,6 +1382,7 @@ void TitleWidget::zIndexChanged(int v)
     for (auto &i : l) {
         i->setZValue(v);
     }
+    pushUndo(i18n("Z-Index"));
 }
 
 void TitleWidget::selectionChanged()
@@ -1536,6 +1621,7 @@ void TitleWidget::slotValueChanged(int type)
             }
         }
     }
+    pushUndo(i18n("Change Value"));
 }
 
 void TitleWidget::scalePixmap(QGraphicsItem *item, double scalex, double scaley, GraphicsSceneRectMove::resizeModes resize, bool center)
@@ -1872,6 +1958,7 @@ void TitleWidget::slotChangeBackground()
     m_scene->setBackgroundBrush(QBrush(color));
     color.setAlpha(backgroundAlpha->value());
     m_frameBackground->setBrush(QBrush(color));
+    pushUndo(i18n("Change Background"));
 }
 
 void TitleWidget::slotChanged()
@@ -1937,86 +2024,247 @@ void TitleWidget::slotInsertUnicodeString(const QString &string)
     }
 }
 
+void TitleWidget::slotRichDocumentChanged()
+{
+    // Rich text: coalesce read-back until the edit completes.
+    if (m_richInspectorUpdatePending) return;
+    m_richInspectorUpdatePending = true;
+    QTimer::singleShot(0, this, [this]() {
+        m_richInspectorUpdatePending = false;
+        const auto items = m_scene->selectedItems();
+        if (items.size() == 1 && items.first()->type() == TEXTITEM) {
+            updateTextCursorTools(static_cast<MyTextItem *>(items.first()));
+        }
+    });
+}
+
+void TitleWidget::slotTextCursorFormatChanged(MyTextItem *item)
+{
+    if (!item || !item->isSelected()) {
+        return;
+    }
+
+    updateTextCursorTools(item);
+}
+
+void TitleWidget::updateTextCursorTools(MyTextItem *item)
+{
+    if (!item || item->document()->isEmpty()) {
+        return;
+    }
+
+    const QTextCharFormat format = TitlerRichText::activeFormat(item);
+
+    // Rich text: inherit missing properties from the document font.
+    const QFont formatFont = format.font().resolve(item->document()->defaultFont());
+
+    const QSignalBlocker blockFamily(font_family);
+    const QSignalBlocker blockSize(font_size);
+    const QSignalBlocker blockWeight(font_weight_box);
+    const QSignalBlocker blockItalic(buttonItalic);
+    const QSignalBlocker blockUnderline(buttonUnder);
+    const QSignalBlocker blockColor(fontColorButton);
+    const QSignalBlocker blockLetter(letter_spacing);
+    const QSignalBlocker blockLine(line_spacing);
+
+    QString family;
+
+    const QStringList families = format.fontFamilies().toStringList();
+
+    if (!families.isEmpty()) {
+        family = families.constFirst();
+    }
+
+    if (family.isEmpty()) {
+        family = formatFont.family();
+    }
+
+    if (family.isEmpty()) {
+        family = item->font().family();
+    }
+
+    if (!family.isEmpty()) {
+        font_family->setCurrentFont(QFont(family));
+    }
+
+    int pixelSize = format.property(QTextFormat::FontPixelSize).toInt();
+
+    if (pixelSize <= 0) {
+        pixelSize = formatFont.pixelSize();
+    }
+
+    if (pixelSize <= 0) {
+        pixelSize = item->font().pixelSize();
+    }
+
+    if (pixelSize > 0) {
+        font_size->setValue(pixelSize);
+        m_scene->slotUpdateFontSize(pixelSize);
+    }
+
+    setFontBoxWeight(formatFont.weight());
+    buttonItalic->setChecked(formatFont.italic());
+    buttonUnder->setChecked(formatFont.underline());
+
+    const QString runGradient = format.property(TitlerGradientV1::Property).toString();
+    const QString gradientData = runGradient.isEmpty() ? item->data(TitleDocument::Gradient).toString() : runGradient;
+    if (!gradientData.isEmpty()) {
+        const QSignalBlocker blockGradient(gradients_combo);
+        gradient_color->setChecked(true);
+        const int index = gradients_combo->findData(gradientData);
+        if (index >= 0) {
+            gradients_combo->setCurrentIndex(index);
+        }
+    } else {
+        plain_color->setChecked(true);
+        if (format.foreground().style() == Qt::SolidPattern) {
+            const QColor color = format.foreground().color();
+            if (color.isValid()) {
+                fontColorButton->setColor(color);
+            }
+        }
+    }
+
+    letter_spacing->setValue(formatFont.letterSpacingType() == QFont::AbsoluteSpacing ? qRound(formatFont.letterSpacing()) : 0);
+
+    QTextCursor cursor = item->textCursor();
+
+    line_spacing->setValue(qRound(cursor.blockFormat().lineHeight()));
+
+    const bool mixed = TitlerRichText::selectionHasMixedCharacterFormat(item);
+
+    const QString mixedTip = mixed ? i18n("Mixed text selection: showing the first selected "
+                                          "character. Changing a value applies it to the selection.")
+                                   : QString();
+
+    font_family->setToolTip(mixedTip);
+    font_size->setToolTip(mixedTip);
+
+    font_weight_box->setToolTip(mixed ? mixedTip : i18n("Font weight"));
+
+    buttonItalic->setToolTip(mixedTip);
+    buttonUnder->setToolTip(mixedTip);
+    fontColorButton->setToolTip(mixedTip);
+    letter_spacing->setToolTip(mixedTip);
+
+    QTextCursor outlineCursor = item->textCursor();
+    if (!outlineCursor.hasSelection() && !item->textInteractionFlags().testFlag(Qt::TextEditable)) {
+        outlineCursor.select(QTextCursor::Document);
+    }
+    const auto outline = TitlerOutline::selectionState(outlineCursor, item->defaultOutline());
+    const QSignalBlocker blockOutlineWidth(textOutline);
+    const QSignalBlocker blockOutlineColor(textOutlineColor);
+    textOutline->setValue(qRound(TitlerOutline::width(outline.pen)));
+    textOutlineColor->setColor(outline.pen.color());
+    textOutline->setToolTip(
+        outline.mixedWidth ? i18n("Mixed outline widths: showing the first selected character. Changing the width applies only that property to the selection.")
+                           : i18n("Outline width. Applies to selected text, or to the whole object outside text editing."));
+    textOutlineColor->setToolTip(
+        outline.mixedColor ? i18n("Mixed outline colors: showing the first selected character. Changing the color preserves each character's outline width.")
+                           : i18n("Outline color. Applies to selected text, or to the whole object outside text editing."));
+}
+
 void TitleWidget::slotUpdateText()
 {
-    QFont font = font_family->currentFont();
-    QString selected = font.family();
-    if (!QFontDatabase::families().contains(selected)) {
-        QSignalBlocker bk(font_family);
-        font = QFontDatabase::systemFont(QFontDatabase::GeneralFont);
-        font_family->setCurrentFont(font);
+    // Rich text: a color change must not send a new font, or vice versa.
+    const QObject *control = sender();
+    QTextCharFormat delta;
+    const bool solid = control == fontColorButton || control == plain_color;
+    const bool gradient = control == gradient_color || control == gradients_combo;
+    const bool outline = control == textOutline || control == textOutlineColor;
+    const bool alignment = control == m_textAlignGroup || control == buttonAlignLeft || control == buttonAlignCenter || control == buttonAlignRight;
+    const bool lineSpacing = control == line_spacing;
+
+    if (control == font_family) {
+        delta.setFontFamilies(QStringList{font_family->currentFont().family()});
+        delta.setFontStyleName(QString());
+    } else if (control == font_size) {
+        delta.setProperty(QTextFormat::FontPixelSize, font_size->value());
+    } else if (control == font_weight_box) {
+        delta.setFontWeight(font_weight_box->currentData().toInt());
+        delta.setFontStyleName(QString());
+    } else if (control == buttonItalic) {
+        delta.setFontItalic(buttonItalic->isChecked());
+        delta.setFontStyleName(QString());
+    } else if (control == buttonUnder) {
+        delta.setFontUnderline(buttonUnder->isChecked());
+    } else if (control == letter_spacing) {
+        delta.setFontLetterSpacingType(QFont::AbsoluteSpacing);
+        delta.setFontLetterSpacing(letter_spacing->value());
+    } else if (solid) {
+        delta.setForeground(QBrush(fontColorButton->color()));
+        delta.setProperty(TitlerGradientV1::Property, QString());
+    } else if (!gradient && !outline && !alignment && !lineSpacing) {
+        return; // Never flatten text to handle an unidentified caller.
     }
-    font.setPixelSize(font_size->value());
-    font.setItalic(buttonItalic->isChecked());
-    font.setUnderline(buttonUnder->isChecked());
-    font.setWeight(QFont::Weight(font_weight_box->itemData(font_weight_box->currentIndex()).toInt()));
-    font.setLetterSpacing(QFont::AbsoluteSpacing, letter_spacing->value());
 
-    QColor color = fontColorButton->color();
-    QColor outlineColor = textOutlineColor->color();
-    QString gradientData;
-    if (gradient_color->isChecked()) {
-        // user wants a gradient
-        gradientData = gradients_combo->currentData().toString();
-    }
-
-    double outlineWidth = textOutline->value();
-
-    int i;
-    QList<QGraphicsItem *> l = graphicsView->scene()->selectedItems();
-    for (i = 0; i < l.length(); ++i) {
-        MyTextItem *item = nullptr;
-        if (l.at(i)->type() == TEXTITEM) {
-            item = static_cast<MyTextItem *>(l.at(i));
-        }
-        if (!item) {
-            // No text item, try next one.
+    const auto items = graphicsView->scene()->selectedItems();
+    for (QGraphicsItem *graphicsItem : items) {
+        if (graphicsItem->type() != TEXTITEM) {
             continue;
         }
+        auto *item = static_cast<MyTextItem *>(graphicsItem);
+        if (alignment) {
+            const Qt::Alignment value = buttonAlignCenter->isChecked() ? Qt::AlignHCenter : buttonAlignRight->isChecked() ? Qt::AlignRight : Qt::AlignLeft;
+            item->setAlignment(value);
+        } else if (lineSpacing) {
+            QTextCursor cursor(item->document());
+            cursor.select(QTextCursor::Document);
+            QTextBlockFormat block;
+            block.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
+            item->setData(TitleDocument::LineSpacing, line_spacing->value());
+            cursor.mergeBlockFormat(block);
+        } else if (outline) {
+            if (control == textOutline) {
+                item->applyOutlineWidth(textOutline->value());
+            } else {
+                item->applyOutlineColor(textOutlineColor->color());
+            }
+        } else if (gradient || solid) {
+            const QTextCursor active = item->textCursor();
+            const bool objectMode = !active.hasSelection() && !item->textInteractionFlags().testFlag(Qt::TextEditable);
+            const auto rect = item->baseBoundingRect();
 
-        // Set alignment of all text in the text item
-        QTextCursor cur(item->document());
-        cur.select(QTextCursor::Document);
-        QTextBlockFormat format = cur.blockFormat();
-        item->setData(TitleDocument::LineSpacing, line_spacing->value());
-        format.setLineHeight(line_spacing->value(), QTextBlockFormat::LineDistanceHeight);
-        if (buttonAlignLeft->isChecked() || buttonAlignCenter->isChecked() || buttonAlignRight->isChecked()) {
-            if (buttonAlignCenter->isChecked()) {
-                item->setAlignment(Qt::AlignHCenter);
-            } else if (buttonAlignRight->isChecked()) {
-                item->setAlignment(Qt::AlignRight);
-            } else if (buttonAlignLeft->isChecked()) {
-                item->setAlignment(Qt::AlignLeft);
+            if (objectMode) {
+                QTextCursor cursor(item->document());
+                cursor.select(QTextCursor::Document);
+                QTextCharFormat effect;
+                effect.setProperty(TitlerGradientV1::Property, QString());
+                if (gradient) {
+                    const QString data = gradients_combo->currentData().toString();
+                    item->setData(TitleDocument::Gradient, data);
+                    effect.setForeground(QBrush(TitlerGradientV1::gradientFromString(data, int(rect.width()), int(rect.height()))));
+                } else {
+                    item->setData(TitleDocument::Gradient, QString());
+                    effect.setForeground(QBrush(fontColorButton->color()));
+                }
+                cursor.mergeCharFormat(effect);
+            } else {
+                const QString legacy = item->data(TitleDocument::Gradient).toString();
+                if (!legacy.isEmpty()) {
+                    QTextCursor cursor(item->document());
+                    cursor.select(QTextCursor::Document);
+                    QTextCharFormat promoted;
+                    promoted.setProperty(TitlerGradientV1::Property, legacy);
+                    cursor.mergeCharFormat(promoted);
+                    item->setData(TitleDocument::Gradient, QString());
+                    TitlerGradientV1::applyBrushes(item->document(), int(rect.width()), int(rect.height()));
+                }
+
+                QTextCharFormat effect = delta;
+                if (gradient) {
+                    const QString data = gradients_combo->currentData().toString();
+                    effect.setProperty(TitlerGradientV1::Property, data);
+                    effect.setForeground(QBrush(TitlerGradientV1::gradientFromString(data, int(rect.width()), int(rect.height()))));
+                }
+                TitlerRichText::apply(item, effect);
+                item->setData(TitleDocument::Gradient, QString());
             }
         } else {
-            item->setAlignment(qApp->isLeftToRight() ? Qt::AlignRight : Qt::AlignLeft);
+            TitlerRichText::apply(item, delta);
         }
-
-        // Set font properties
-        item->setFont(font);
-        QTextCharFormat cformat = cur.charFormat();
-
-        item->setData(TitleDocument::OutlineWidth, outlineWidth);
-        item->setData(TitleDocument::OutlineColor, outlineColor);
-        if (outlineWidth > 0.0) {
-            cformat.setTextOutline(QPen(outlineColor, outlineWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-        }
-
-        if (gradientData.isEmpty()) {
-            cformat.setForeground(QBrush(color));
-        } else {
-            QLinearGradient gr = GradientWidget::gradientFromString(gradientData, int(item->boundingRect().width()), int(item->boundingRect().height()));
-            cformat.setForeground(QBrush(gr));
-        }
-        // Store gradient in item properties
-        item->setData(TitleDocument::Gradient, gradientData);
-        cur.setCharFormat(cformat);
-        cur.setBlockFormat(format);
-        //  item->setTextCursor(cur);
-        cur.clearSelection();
-        item->setTextCursor(cur);
-        item->setTextColor(color);
     }
+    pushUndo(i18n("Update Text"));
 }
 
 void TitleWidget::rectChanged()
@@ -2069,6 +2317,7 @@ void TitleWidget::rectChanged()
             }
         }
     }
+    pushUndo(i18n("Update Shape"));
 }
 
 void TitleWidget::itemScaled(int val)
@@ -2087,6 +2336,7 @@ void TitleWidget::itemScaled(int val)
         l[0]->setData(TitleDocument::ZoomFactor, val);
         m_transformations[l.at(0)] = x;
         updateDimension(l.at(0));
+        pushUndo(i18n("Scale"));
     }
 }
 
@@ -2135,6 +2385,7 @@ void TitleWidget::itemRotate(int val, int axis)
             l[0]->setData(TitleDocument::ZoomFactor, 100);
         }
         updateDimension(l.at(0));
+        pushUndo(i18n("Rotate"));
     }
 }
 
@@ -2161,6 +2412,7 @@ void TitleWidget::itemHCenter()
         graphicsView->centerOn(m_frameBorder);
         slotAdjustZoom();
         graphicsView->centerOn(m_frameBorder);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2175,6 +2427,7 @@ void TitleWidget::itemVCenter()
         newPos += int(item->pos().y() - br.top()); // Check item transformation
         item->setPos(item->pos().x(), newPos);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2204,6 +2457,7 @@ void TitleWidget::itemTop()
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2233,6 +2487,7 @@ void TitleWidget::itemBottom()
         }
         item->moveBy(0, diff);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2262,6 +2517,7 @@ void TitleWidget::itemLeft()
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2291,6 +2547,7 @@ void TitleWidget::itemRight()
         }
         item->moveBy(diff, 0);
         updateCoordinates(item);
+        pushUndo(i18n("Align"));
     }
 }
 
@@ -2411,10 +2668,10 @@ void TitleWidget::setXml(const QString &path, const QDomDocument &doc, const QSt
         m_missingMessage->setWordWrap(true);
         m_missingMessage->setMessageType(KMessageWidget::Warning);
         m_missingMessage->setText(i18np("This title has 1 missing element", "This title has %1 missing elements", m_titledocument.invalidCount()));
-        QAction *action = new QAction(i18n("Details"));
+        QAction *action = new QAction(i18n("Search…"), m_missingMessage);
         m_missingMessage->addAction(action);
         connect(action, &QAction::triggered, this, &TitleWidget::showMissingItems);
-        action = new QAction(i18n("Delete missing elements"));
+        action = new QAction(i18n("Remove missing elements"), m_missingMessage);
         m_missingMessage->addAction(action);
         connect(action, &QAction::triggered, this, &TitleWidget::deleteMissingItems);
         messageLayout->addWidget(m_missingMessage);
@@ -2484,6 +2741,10 @@ void TitleWidget::setXml(const QString &path, const QDomDocument &doc, const QSt
     QTimer::singleShot(200, this, &TitleWidget::slotAdjustZoom);
     slotSelectTool();
     selectionChanged();
+    m_undoDoc = xml();
+    if (m_undoStack) {
+        m_undoStack->clear();
+    }
 }
 
 void TitleWidget::slotAccepted()
@@ -2518,6 +2779,7 @@ void TitleWidget::deleteMissingItems()
         }
     }
     m_missingMessage->deleteLater();
+    pushUndo(i18n("Delete Missing Items"));
 }
 
 void TitleWidget::showMissingItems()
@@ -2531,7 +2793,97 @@ void TitleWidget::showMissingItems()
         }
     }
     missingUrls.removeDuplicates();
-    KMessageBox::informationList(QApplication::activeWindow(), i18n("The following files are missing:"), missingUrls);
+    m_remplacementPatterns.clear();
+    QDialog d(this);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    auto *l = new QVBoxLayout(&d);
+    QLabel *lab = new QLabel(i18n("The following files are missing:"), &d);
+    l->addWidget(lab);
+    QListWidget *lw = new QListWidget(&d);
+    l->addWidget(lw);
+    lw->addItems(missingUrls);
+    lw->setSizeAdjustPolicy(QAbstractScrollArea::AdjustToContentsOnFirstShow);
+    KMessageWidget *info = new KMessageWidget(&d);
+    info->setMessageType(KMessageWidget::Positive);
+    info->setText(i18n("All missing files recovered"));
+    info->setCloseButtonVisible(false);
+    info->setWordWrap(true);
+    info->hide();
+    l->addWidget(info);
+    QHBoxLayout *buttonsLayout = new QHBoxLayout;
+    QPushButton *searchButton = new QPushButton(i18n("Search"), this);
+    buttonsLayout->addWidget(searchButton);
+    buttonsLayout->addSpacing(10);
+    buttonsLayout->addWidget(buttonBox);
+    l->addLayout(buttonsLayout);
+    d.connect(buttonBox, &QDialogButtonBox::accepted, &d, &QDialog::accept);
+    d.connect(buttonBox, &QDialogButtonBox::rejected, &d, &QDialog::reject);
+    d.connect(searchButton, &QPushButton::clicked, &d, [&d, this, lw = lw, info = info, searchButton = searchButton]() {
+        QString startUrl;
+        if (!m_path.isEmpty()) {
+            startUrl = QDir::cleanPath(QFileInfo(m_path).absolutePath());
+        } else if (pCore->currentDoc()->url().isValid()) {
+            startUrl = pCore->currentDoc()->documentRoot();
+        }
+        if (!startUrl.isEmpty() && !startUrl.endsWith(QLatin1Char('/'))) {
+            startUrl.append(QLatin1Char('/'));
+        }
+        const QString searchFolder = QFileDialog::getExistingDirectory(&d, i18n("Enter folder for search"), startUrl);
+        if (!searchFolder.isEmpty()) {
+            // Start searching
+            QStringList stillMissingUrls;
+            QDir baseFolder(searchFolder);
+            QStringList missingUrls;
+            for (auto i = 0; i < lw->count(); i++) {
+                missingUrls << lw->item(i)->text();
+            }
+            for (auto &missing : missingUrls) {
+                if (baseFolder.exists(QFileInfo(missing).fileName())) {
+                    QString updatedUrl = baseFolder.absoluteFilePath(QFileInfo(missing).fileName());
+                    if (!startUrl.isEmpty() && updatedUrl.startsWith(startUrl)) {
+                        updatedUrl = QDir(startUrl).relativeFilePath(updatedUrl);
+                    }
+                    m_remplacementPatterns.insert(missing, updatedUrl);
+                } else {
+                    stillMissingUrls << missing;
+                }
+            }
+            lw->clear();
+            lw->addItems(stillMissingUrls);
+            if (stillMissingUrls.isEmpty()) {
+                info->animatedShow();
+                searchButton->setEnabled(false);
+            }
+        }
+    });
+    if (d.exec() == QDialog::Accepted) {
+        // Handle replacement
+        if (!m_remplacementPatterns.isEmpty()) {
+            for (int i = 0; i < items.count(); ++i) {
+                if (items.at(i)->data(Qt::UserRole + 2).toInt() == 1) {
+                    // We found a missing item
+                    const QString currentUrl = items.at(i)->data(Qt::UserRole).toString();
+                    if (m_remplacementPatterns.contains(currentUrl)) {
+                        if (items.at(i)->type() == QGraphicsSvgItem::Type) {
+                            auto *gi = static_cast<MySvgItem *>(items.at(i));
+                            QSvgRenderer *renderer = new QSvgRenderer(m_remplacementPatterns.value(currentUrl), gi);
+                            gi->setSharedRenderer(renderer);
+
+                        } else if (items.at(i)->type() == IMAGEITEM) {
+                            auto *gi = static_cast<MyPixmapItem *>(items.at(i));
+                            QPixmap pix(m_remplacementPatterns.value(currentUrl));
+                            gi->setPixmap(pix);
+                        }
+                        items.at(i)->setData(Qt::UserRole, m_remplacementPatterns.value(currentUrl));
+                        items.at(i)->setData(Qt::UserRole + 2, QVariant());
+                        items.at(i)->update();
+                    }
+                }
+            }
+            m_remplacementPatterns.clear();
+            updateMissingInfo();
+        }
+    }
 }
 
 void TitleWidget::writeChoices()
@@ -2634,6 +2986,9 @@ void TitleWidget::slotAnimStart(bool anim)
         anim_end->setChecked(false);
         m_endViewport->setZValue(-1000);
         m_endViewport->setBrush(QBrush());
+        m_endViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_endViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_endViewport->setSelected(false);
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
@@ -2669,6 +3024,10 @@ void TitleWidget::slotAnimStart(bool anim)
     } else {
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
+        m_startViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_startViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_startViewport->setSelected(false);
+        selectionChanged();
         if (!anim_end->isChecked()) {
             deleteAnimInfoText();
         }
@@ -2681,6 +3040,9 @@ void TitleWidget::slotAnimEnd(bool anim)
         anim_start->setChecked(false);
         m_startViewport->setZValue(-1000);
         m_startViewport->setBrush(QBrush());
+        m_startViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
+        m_startViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_startViewport->setSelected(false);
     }
     slotSelectTool();
     QList<QGraphicsItem *> list = m_scene->items();
@@ -2719,6 +3081,8 @@ void TitleWidget::slotAnimEnd(bool anim)
         m_endViewport->setBrush(QBrush());
         m_endViewport->setFlag(QGraphicsItem::ItemIsMovable, false);
         m_endViewport->setFlag(QGraphicsItem::ItemIsSelectable, false);
+        m_endViewport->setSelected(false);
+        selectionChanged();
         if (!anim_start->isChecked()) {
             deleteAnimInfoText();
         }
@@ -2901,6 +3265,7 @@ void TitleWidget::slotZIndexUp()
         if (currentZ <= max) {
             l[0]->setZValue(currentZ + 1);
             updateDimension(l[0]);
+            pushUndo(i18n("Z-Index"));
         }
     }
 }
@@ -2918,6 +3283,7 @@ void TitleWidget::slotZIndexTop()
     // Update the z index value in the GUI
     if (!l.isEmpty()) {
         updateDimension(l[0]);
+        pushUndo(i18n("Z-Index"));
     }
 }
 
@@ -2930,6 +3296,7 @@ void TitleWidget::slotZIndexDown()
         if (currentZ >= min) {
             l[0]->setZValue(currentZ - 1);
             updateDimension(l[0]);
+            pushUndo(i18n("Z-Index"));
         }
     }
 }
@@ -2947,6 +3314,7 @@ void TitleWidget::slotZIndexBottom()
     // Update the z index value in the GUI
     if (!l.isEmpty()) {
         updateDimension(l[0]);
+        pushUndo(i18n("Z-Index"));
     }
 }
 
@@ -3125,49 +3493,24 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                 buttonAlignRight->blockSignals(true);
                 buttonAlignCenter->blockSignals(true);
 
-                QFont font = i->font();
-                font_family->setCurrentFont(font);
-                font_size->setValue(font.pixelSize());
-                m_scene->slotUpdateFontSize(font.pixelSize());
-                buttonItalic->setChecked(font.italic());
-                buttonUnder->setChecked(font.underline());
-                setFontBoxWeight(font.weight());
+                // Rich text: show actual caret/run formatting.
+                connect(i, &MyTextItem::cursorFormatChanged, this, &TitleWidget::slotTextCursorFormatChanged, Qt::UniqueConnection);
+                connect(i->document(), &QTextDocument::contentsChanged, this, &TitleWidget::slotRichDocumentChanged, Qt::UniqueConnection);
 
-                QTextCursor cursor(i->document());
-                cursor.select(QTextCursor::Document);
-                QColor color = cursor.charFormat().foreground().color();
-                fontColorButton->setColor(color);
+                updateTextCursorTools(i);
 
-                if (!i->data(TitleDocument::OutlineWidth).isNull()) {
-                    textOutline->blockSignals(true);
-                    textOutline->setValue(int(i->data(TitleDocument::OutlineWidth).toDouble()));
-                    textOutline->blockSignals(false);
-                } else {
-                    textOutline->blockSignals(true);
-                    textOutline->setValue(0);
-                    textOutline->blockSignals(false);
-                }
-                if (!i->data(TitleDocument::OutlineColor).isNull()) {
-                    textOutlineColor->blockSignals(true);
-                    QVariant variant = i->data(TitleDocument::OutlineColor);
-                    color = variant.value<QColor>();
-                    textOutlineColor->setColor(color);
-                    textOutlineColor->blockSignals(false);
-                }
-                if (!i->data(TitleDocument::Gradient).toString().isNull()) {
+                const QString legacyGradient = i->data(TitleDocument::Gradient).toString();
+                if (!legacyGradient.isEmpty()) {
                     gradients_combo->blockSignals(true);
                     gradient_color->setChecked(true);
-                    const QString gradientData = i->data(TitleDocument::Gradient).toString();
-                    int ix = gradients_combo->findData(gradientData);
+                    int ix = gradients_combo->findData(legacyGradient);
                     if (ix == -1) {
-                        // This gradient does not exist in our settings, store it
-                        storeGradient(gradientData);
-                        ix = gradients_combo->findData(gradientData);
+                        // This legacy object gradient does not exist in our settings, store it.
+                        storeGradient(legacyGradient);
+                        ix = gradients_combo->findData(legacyGradient);
                     }
                     gradients_combo->setCurrentIndex(ix);
                     gradients_combo->blockSignals(false);
-                } else {
-                    plain_color->setChecked(true);
                 }
                 if (i->alignment() == Qt::AlignHCenter) {
                     buttonAlignCenter->setChecked(true);
@@ -3226,14 +3569,7 @@ void TitleWidget::prepareTools(QGraphicsItem *referenceItem)
                     tw_sb_seed->setValue(sInfo.at(4).toInt());
                 }
 
-                letter_spacing->blockSignals(true);
-                line_spacing->blockSignals(true);
                 QTextCursor cur = i->textCursor();
-                QTextBlockFormat format = cur.blockFormat();
-                letter_spacing->setValue(int(font.letterSpacing()));
-                line_spacing->setValue(int(format.lineHeight()));
-                letter_spacing->blockSignals(false);
-                line_spacing->blockSignals(false);
 
                 font_size->blockSignals(false);
                 font_family->blockSignals(false);
@@ -3518,6 +3854,7 @@ void TitleWidget::slotUpdateShadow()
         }
         item->updateShadow(shadowBox->isChecked(), blur_radius->value(), shadowX->value(), shadowY->value(), shadowColor->color());
     }
+    pushUndo(i18n("Update Shadow"));
 }
 
 void TitleWidget::slotUpdateTW()
@@ -3542,6 +3879,7 @@ void TitleWidget::slotUpdateTW()
 
         item->updateTW(typewriterBox->isChecked(), tw_sb_step->value(), mode, tw_sb_sigma->value(), tw_sb_seed->value());
     }
+    pushUndo(i18n("Typewriter Effect"));
 }
 
 const QString TitleWidget::titleSuggest()
@@ -3667,6 +4005,7 @@ void TitleWidget::slotPatternDblClicked(const QModelIndex &idx)
     for (QGraphicsItem *item : std::as_const(items)) {
         item->setSelected(true);
     }
+    pushUndo(i18n("Insert Pattern"));
 }
 
 void TitleWidget::slotPatternBtnAddClicked()
@@ -3731,7 +4070,8 @@ void TitleWidget::slotCopy()
     QDomElement documentElement = document.createElement(QStringLiteral("items"));
     document.appendChild(documentElement);
 
-    for (auto selected : m_scene->selectedItems()) {
+    const QList<QGraphicsItem *> items = m_scene->selectedItems();
+    for (QGraphicsItem *selected : items) {
         QDomDocument itemDocument = m_titledocument.xmlItem(selected, m_frameWidth, m_frameHeight);
         if (!itemDocument.hasChildNodes()) continue;
         documentElement.appendChild(itemDocument);
@@ -3763,27 +4103,19 @@ void TitleWidget::slotPaste()
     int maxZIndex = 0;
     m_scene->clearSelection();
     QList<QGraphicsItem *> items;
-    for (auto item : documentElement.elementsByTagName("item")) {
-        QGraphicsItem *gitem = m_titledocument.loadItemFromXml(item, m_path, m_frameWidth, m_frameHeight, missingElements, maxZIndex);
+    const QDomNodeList nodeItems = documentElement.elementsByTagName("item");
+    const auto allItems = m_scene->items();
+    for (int i = 0; i < nodeItems.count(); ++i) {
+        QGraphicsItem *gitem = m_titledocument.loadItemFromXml(nodeItems.item(i), m_path, m_frameWidth, m_frameHeight, missingElements, maxZIndex);
         if (!gitem) continue;
-
         QPointF position = gitem->pos();
-        while (true) {
-            bool existingItemAtPosition = false;
-            for (auto sceneItem : m_scene->items()) {
-                if (sceneItem->pos() == position) {
-                    existingItemAtPosition = true;
-                    position += QPointF(50, 50);
-                    gitem->setPos(position);
-                    break;
-                }
-            }
-
-            if (!existingItemAtPosition) {
+        for (auto sceneItem : allItems) {
+            if (sceneItem->pos() == position) {
+                position += QPointF(50, 50);
+                gitem->setPos(position);
                 break;
             }
         }
-
         m_scene->addItem(gitem);
         items.append(gitem);
     }
@@ -3793,5 +4125,273 @@ void TitleWidget::slotPaste()
         for (auto item : items) {
             item->setSelected(true);
         }
+    }
+    pushUndo(i18n("Paste"));
+}
+
+void TitleWidget::loadTitleState(const QDomDocument &doc)
+{
+    m_blockUndo = true;
+
+    int selType = -1;
+    QPointF selPos;
+    qreal selZ = 0;
+    if (m_scene) {
+        QList<QGraphicsItem *> selectedItems = m_scene->selectedItems();
+        if (!selectedItems.isEmpty()) {
+            selType = selectedItems.first()->type();
+            selPos = selectedItems.first()->pos();
+            selZ = selectedItems.first()->zValue();
+        }
+        m_scene->clearTextSelection(true);
+        m_scene->setSelectedItem(nullptr);
+    }
+
+    QList<QGraphicsItem *> items = m_scene->items();
+    for (auto item : std::as_const(items)) {
+        if (item == m_frameBorder || item == m_frameBackground || item == m_frameImage || item == m_startViewport || item == m_endViewport ||
+            item->parentItem() != nullptr || item->data(-1).toInt() == -1) {
+            continue;
+        }
+        if (item->zValue() > -1000) {
+            m_scene->removeItem(item);
+            delete item;
+        }
+    }
+
+    QDomDocument stateDoc;
+    stateDoc.setContent(doc.toString());
+    int duration = 0;
+    m_count = m_titledocument.loadFromXml(m_path, stateDoc, m_scene, m_startViewport, m_endViewport, &duration, m_projectTitlePath);
+    m_duration->setValue(GenTime(duration, m_fps));
+
+    m_transformations.clear();
+    QList<QGraphicsItem *> sceneItems = graphicsView->scene()->items();
+    const double PI = 4.0 * atan(1.0);
+    for (int i = 0; i < sceneItems.count(); ++i) {
+        QGraphicsItem *sItem = sceneItems.at(i);
+        if (sItem == m_frameBorder || sItem == m_frameBackground || sItem == m_frameImage || sItem == m_startViewport || sItem == m_endViewport ||
+            sItem->parentItem() != nullptr || sItem->data(-1).toInt() == -1) {
+            continue;
+        }
+        QTransform t = sItem->transform();
+        Transform x;
+        x.scalex = t.m11();
+        x.scaley = t.m22();
+        if (!sItem->data(TitleDocument::RotateFactor).isNull()) {
+            QList<QVariant> rotlist = sItem->data(TitleDocument::RotateFactor).toList();
+            if (rotlist.count() >= 3) {
+                x.rotatex = rotlist[0].toInt();
+                x.rotatey = rotlist[1].toInt();
+                x.rotatez = rotlist[2].toInt();
+
+                t.rotate(x.rotatex * (-1), Qt::XAxis);
+                t.rotate(x.rotatey * (-1), Qt::YAxis);
+                t.rotate(x.rotatez * (-1), Qt::ZAxis);
+                x.scalex = t.m11();
+                x.scaley = t.m22();
+            } else {
+                x.rotatex = 0;
+                x.rotatey = 0;
+                x.rotatez = 0;
+            }
+        } else {
+            x.rotatex = 0;
+            x.rotatey = 0;
+            x.rotatez = int(180. / PI * atan2(-t.m21(), t.m11()));
+        }
+        m_transformations[sItem] = x;
+    }
+
+    QColor background_color = m_titledocument.getBackgroundColor();
+    backgroundAlpha->blockSignals(true);
+    backgroundColor->blockSignals(true);
+    bgAlphaSlider->blockSignals(true);
+    backgroundAlpha->setValue(background_color.alpha());
+    bgAlphaSlider->setValue(background_color.alpha());
+    background_color.setAlpha(255);
+    backgroundColor->setColor(background_color);
+    backgroundAlpha->blockSignals(false);
+    backgroundColor->blockSignals(false);
+    bgAlphaSlider->blockSignals(false);
+
+    QColor color = backgroundColor->color();
+    m_scene->setBackgroundBrush(QBrush(color));
+    color.setAlpha(backgroundAlpha->value());
+    m_frameBackground->setBrush(color);
+
+    QGraphicsItem *foundItem = nullptr;
+    if (selType != -1) {
+        qreal minDistance = 1e9;
+        const QList<QGraphicsItem *> items = m_scene->items();
+        for (auto item : items) {
+            if (item->type() == selType && item->zValue() > -1000 && item->data(-1).toInt() != -1 && item->parentItem() == nullptr) {
+                qreal dist = (item->pos() - selPos).manhattanLength() + qAbs(item->zValue() - selZ) * 10;
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    foundItem = item;
+                }
+            }
+        }
+    }
+
+    if (foundItem) {
+        m_scene->setSelectedItem(foundItem);
+        prepareTools(foundItem);
+        selectionChanged();
+    } else {
+        m_scene->setSelectedItem(nullptr);
+        slotSelectTool();
+        prepareTools(nullptr);
+        selectionChanged();
+    }
+
+    m_undoDoc = stateDoc;
+    m_blockUndo = false;
+}
+
+void TitleWidget::pushUndo(const QString &text)
+{
+    if (m_blockUndo) {
+        return;
+    }
+    QDomDocument currentDoc = xml();
+    if (currentDoc.toString() == m_undoDoc.toString()) {
+        return;
+    }
+    if (!m_undoStack) {
+        m_undoStack = new QUndoStack(this);
+    }
+    m_undoStack->push(new TitleUndoCommand(this, m_undoDoc, currentDoc, text));
+    m_undoDoc = currentDoc;
+}
+
+void TitleWidget::slotUndo()
+{
+    if (m_scene) {
+        QGraphicsItem *focused = m_scene->focusItem();
+        if (focused && focused->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(focused);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+        QGraphicsItem *selected = nullptr;
+        const QList<QGraphicsItem *> sel = m_scene->selectedItems();
+        if (!sel.isEmpty()) {
+            selected = sel.first();
+        }
+        if (selected && selected->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(selected);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+    }
+    QWidget *fw = focusWidget();
+    if (fw) {
+        auto *lineEdit = qobject_cast<QLineEdit *>(fw);
+        if (lineEdit && lineEdit->isUndoAvailable()) {
+            lineEdit->undo();
+            return;
+        }
+        auto *textEdit = qobject_cast<QTextEdit *>(fw);
+        if (textEdit && textEdit->document()->isUndoAvailable()) {
+            textEdit->document()->undo();
+            return;
+        }
+    }
+    if (m_undoStack && m_undoStack->canUndo()) {
+        m_undoStack->undo();
+    }
+}
+
+void TitleWidget::slotRedo()
+{
+    if (m_scene) {
+        QGraphicsItem *focused = m_scene->focusItem();
+        if (focused && focused->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(focused);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+        QGraphicsItem *selected = nullptr;
+        const QList<QGraphicsItem *> sel = m_scene->selectedItems();
+        if (!sel.isEmpty()) {
+            selected = sel.first();
+        }
+        if (selected && selected->type() == QGraphicsTextItem::Type) {
+            auto *t = static_cast<MyTextItem *>(selected);
+            if ((t->textInteractionFlags() & Qt::TextEditorInteraction) && t->document()->isUndoAvailable()) {
+                t->document()->undo();
+                return;
+            }
+        }
+    }
+    QWidget *fw = focusWidget();
+    if (fw) {
+        auto *lineEdit = qobject_cast<QLineEdit *>(fw);
+        if (lineEdit && lineEdit->isUndoAvailable()) {
+            lineEdit->undo();
+            return;
+        }
+        auto *textEdit = qobject_cast<QTextEdit *>(fw);
+        if (textEdit && textEdit->document()->isUndoAvailable()) {
+            textEdit->document()->undo();
+            return;
+        }
+    }
+    if (m_undoStack && m_undoStack->canRedo()) {
+        m_undoStack->redo();
+    }
+}
+
+// static
+QString TitleWidget::ensureRelativePaths(const QString xmlData, const QString &newRoot)
+{
+    if (xmlData.isEmpty()) {
+        qDebug() << ":::: NO XML DATA....";
+        return QString();
+    }
+    QDomDocument doc;
+    doc.setContent(xmlData);
+    bool updated = false;
+    QDomNodeList images = doc.documentElement().elementsByTagName(QStringLiteral("content"));
+    for (int i = 0; i < images.count(); ++i) {
+        QDomElement element = images.at(i).toElement();
+        if (element.hasAttribute(QStringLiteral("url"))) {
+            std::pair<const QString, bool> adjustedPath = pCore->currentDoc()->ensureRelativePath(element.attribute(QStringLiteral("url")), newRoot);
+            if (adjustedPath.second) {
+                // Path was modified
+                updated = true;
+                element.setAttribute(QStringLiteral("url"), adjustedPath.first);
+            }
+        }
+    }
+    if (updated) {
+        return doc.toString();
+    }
+    return QString();
+}
+
+void TitleWidget::updateMissingInfo()
+{
+    QList<QGraphicsItem *> items = graphicsView->scene()->items();
+    int missingItems = 0;
+    for (int i = 0; i < items.count(); ++i) {
+        if (items.at(i)->data(Qt::UserRole + 2).toInt() == 1) {
+            // We found a missing item
+            missingItems++;
+        }
+    }
+    if (missingItems == 0) {
+        m_missingMessage->animatedHide();
+    } else {
+        m_missingMessage->setText(i18np("This title has 1 missing element", "This title has %1 missing elements", missingItems));
+        m_missingMessage->show();
     }
 }

@@ -2,13 +2,15 @@
 <!DOCTYPE kpartgui>
 <effect xmlns="https://www.kdenlive.org" tag="avfilter.lagfun" id="avfilter.lagfun">
     <name>Lag Fun</name>
-    <description><![CDATA[Slowly update darker pixels.<br>
+    <description><![CDATA[Slowly update darker pixels. Results of using different <i>Planes</i> depends on pixel format.<br>
         <b><i>Note</i></b>: This effect does not reset during playback due to frame buffer issues but renders correctly.]]></description>
     <author>libavfilter</author>
-    <parameter type="fixed" name="av.planes" default="1">
+    <parameter type="list" name="av.planes" default="15" paramlist="15;0;1;2;4;8;3;5;6;7;9;10;11;12;13;14">
         <name>Planes</name>
+        <comment><![CDATA[Results depend on pixel format]]></comment>
+        <paramlistdisplay>All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,Uα,YUα,Vα,YVα,UVα</paramlistdisplay>
     </parameter>
-    <parameter type="float" name="av.decay" default="0.95" min="0" max="1" decimals="2">
+    <parameter type="animated" name="av.decay" default="0.95" min="0" max="1" decimals="2">
         <name>Decay</name>
     </parameter>
 </effect>

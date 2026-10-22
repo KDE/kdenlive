@@ -552,6 +552,7 @@ public:
     void setOverlayTrack(Mlt::Playlist *overlay);
     void removeOverlayTrack();
     void deletePreviewTrack();
+    void setPreviewEnabled(bool enabled);
     std::shared_ptr<PreviewManager> previewManager();
     /**  @brief We want to delete the timelineModel without removing clips from tractor
      */
@@ -590,7 +591,10 @@ public:
        @param clipId is the ID of the clip/composition
        @param logUndo if set to false, no undo object is stored */
     Q_INVOKABLE bool requestItemDeletion(int itemId, bool logUndo = true);
-    /* Same function, but accumulates undo and redo*/
+    /** @brief Undoably delete one subtitle, leaving other selected or grouped items intact. */
+    bool requestSingleSubtitleDeletion(int subtitleId);
+    /* Same function, but accumulates undo and redo.
+       If it fails, its own changes are reverted and undo/redo are left untouched: rolling back previous operations is the caller's responsibility */
     bool requestItemDeletion(int itemId, Fun &undo, Fun &redo, bool logUndo = false);
 
     /** @brief Move a group to a specific position
@@ -618,6 +622,7 @@ public:
        @param clipId is the id of the clip that triggers the group deletion
     */
     Q_INVOKABLE bool requestGroupDeletion(int clipId, bool logUndo = true);
+    /* Same function, but accumulates undo and redo. On failure, undo/redo are left untouched */
     bool requestGroupDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
 
     /** @brief Change the duration of an item (clip or composition)
@@ -782,11 +787,13 @@ protected:
      */
     const std::vector<int> getBoundaries(int itemId);
 
-    /** @brief Extract selection from its group. To be used when operating on single items in a group
-     *  @returns a pair with { original group id of the element, the id of the other element
-     *  in the group if it was a 2 items group and group was deleted in the operation }
+    /** @brief Extract an item from its direct parent group. To be used when operating on single items in a group.
+     *  The rest of the group hierarchy is left untouched.
+     *  @param mergeSingleGroups if true, groups left with a single child are dissolved, and the selection is cleared if it contained the item's group.
+     *  Otherwise the parent group may be left with a single child, so the item should be put back in it afterwards.
+     *  On failure, nothing is modified and undo/redo are left untouched
      */
-    std::pair<int, int> extractSelectionFromGroup(int selection, Fun &undo, Fun &redo, bool onDeletion = false);
+    bool extractItemFromGroup(int itemId, Fun &undo, Fun &redo, bool mergeSingleGroups = false);
 
 public:
     /** @brief Requests the next snapped point
@@ -877,6 +884,9 @@ public:
      *  @returns true if the timeline clip was shortened by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
+    /** @brief Extract a clip from its group hierarchy if needed, then delete it. Other items stay grouped.
+       On failure, nothing is changed and undo/redo are left untouched */
+    bool requestClipExtractAndDeletion(int clipId, Fun &undo, Fun &redo);
     /** @brief Ensure a clip occurrence is not longer than maxDuration
      *  @returns true if the timeline clip was shortened by the operation
      */
@@ -959,6 +969,7 @@ public:
     int getMixCutPos(int cid) const;
     MixAlignment getMixAlign(int cid) const;
     bool hasSubtitleModel();
+    bool hasSubtitles() const;
     /** @brief Get the frame size of the clip above a composition */
     const QSize getCompositionSizeOnTrack(const ObjectId &id);
     /** @brief Get a track tag (A1, V1, V2,...) through its id */
@@ -1043,7 +1054,8 @@ protected:
     /** @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
-    /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion */
+    /** @brief Internal functions to delete a clip or a composition. In general, you should call requestItemDeletion
+       On failure, their own changes are reverted and undo/redo are left untouched */
     bool requestClipDeletion(int clipId, Fun &undo, Fun &redo, bool logUndo = true);
     bool requestCompositionDeletion(int compositionId, Fun &undo, Fun &redo);
     bool requestSubtitleDeletion(int clipId, Fun &undo, Fun &redo, bool first, bool last);
@@ -1095,8 +1107,8 @@ Q_SIGNALS:
     void visibleSequenceNameChanged();
     /** @brief Connect the preview manager with timelinecontroller */
     void connectPreviewManager();
-    /** @brief An editable clip action changed, refresh menus */
-    void refreshClipActions();
+    /** @brief A clip's speed or time-remap state changed, including undo and redo. */
+    void clipTimeWarpChanged(int clipId);
     /** @brief We switched from single to normal selection mode */
     void selectionModeChanged();
 

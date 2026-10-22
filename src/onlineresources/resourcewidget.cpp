@@ -609,7 +609,7 @@ void ResourceWidget::slotPreviewItem()
     blockUI(true);
     const QString path = m_currentItem->data(previewRole).toString();
     if (m_showloadingWarning && !QUrl::fromUserInput(path).isLocalFile()) {
-        message_line->setText(i18n("It maybe takes a while until the preview is loaded"));
+        message_line->setText(i18n("Please be patient while the preview is loading"));
         message_line->setMessageType(KMessageWidget::Warning);
         message_line->show();
         QTimer::singleShot(6000, message_line, &KMessageWidget::animatedHide);
@@ -701,7 +701,7 @@ void ResourceWidget::slotSaveItem(const QString &originalUrl, const QString &acc
 
     QString attribution;
     if (KMessageBox::questionTwoActions(this,
-                                        i18n("Be aware that the usage of the resource is maybe restricted by license terms or law!\n"
+                                        i18n("Using these resources may be restricted by license terms or local laws.\n"
                                              "Do you want to add license attribution to your Project Notes?"),
                                         QString(), KStandardGuiItem::add(), KGuiItem(i18nc("@action:button", "Continue without")),
                                         i18n("Remember this decision")) == KMessageBox::PrimaryAction) {
@@ -786,7 +786,7 @@ void ResourceWidget::slotAccessTokenReceived(const QString &accessToken)
         }
 
     } else {
-        KMessageBox::error(this, i18n("Try importing again to obtain a new connection"),
+        KMessageBox::error(this, i18n("Try importing again to establish a new connection"),
                            i18n("Error Getting Access Token from %1.", m_currentProvider->get()->name()));
     }
 }

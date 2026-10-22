@@ -57,6 +57,8 @@ public:
     bool buildPreviewTrack();
     /** @brief: Delete the preview track. */
     void deletePreviewTrack();
+    /** @brief Attach or detach the preview track while preserving cached chunks. */
+    void setPreviewEnabled(bool enabled);
     /** @brief: Whenever we save or render our project, we remove the preview track so it is not saved. */
     void reconnectTrack();
     /** @brief: After project save or render, re-add our preview track. */
@@ -82,6 +84,7 @@ public:
 
 private:
     Mlt::Tractor *m_tractor;
+    bool m_previewEnabled = true;
     QUuid m_uuid;
     Mlt::Playlist *m_previewTrack;
     Mlt::Playlist *m_overlayTrack;
@@ -158,5 +161,7 @@ Q_SIGNALS:
     void previewRender(int frame, const QString &file, int progress);
     void dirtyChunksChanged();
     void renderedChunksChanged();
+    /** @brief A preview chunk was inserted or removed; its playlist is ready for playback. */
+    void previewChunkChanged(int frame);
     void workingPreviewChanged();
 };

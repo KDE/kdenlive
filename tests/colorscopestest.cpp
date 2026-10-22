@@ -69,3 +69,39 @@ TEST_CASE("Colorscope RGB/BGR handling")
         CHECK(rgbScope == bgrScope);
     }
 }
+
+// The scope widgets can be resized to only a few pixels, e.g. in a narrow dock.
+// The scope area sizes must not underflow then.
+TEST_CASE("Colorscopes handle sizes smaller than their margins")
+{
+    QImage inputImage(480, 320, QImage::Format_RGB32);
+    inputImage.fill(Qt::red);
+    qreal scalingFactor = 1.0;
+
+    SECTION("RGB Parade")
+    {
+        RGBParadeGenerator rgb{};
+        for (const QSize &size : {QSize(20, 200), QSize(40, 200), QSize(53, 200), QSize(200, 30), QSize(200, 44)}) {
+            CAPTURE(size);
+            QImage scope = rgb.calculateRGBParade(size, scalingFactor, inputImage, RGBParadeGenerator::PaintMode::PaintMode_RGB, true, true, 1);
+            CHECK(scope.size().boundedTo(size) == scope.size());
+        }
+        // The smallest size that still has room for the parade
+        QImage scope = rgb.calculateRGBParade(QSize(54, 45), scalingFactor, inputImage, RGBParadeGenerator::PaintMode::PaintMode_RGB, true, true, 1);
+        CHECK(scope.size() == QSize(54, 45));
+    }
+
+    SECTION("Waveform")
+    {
+        WaveformGenerator waveform{};
+        for (const QSize &size : {QSize(1, 100), QSize(4, 100), QSize(100, 1), QSize(100, 4)}) {
+            CAPTURE(size);
+            QImage scope =
+                waveform.calculateWaveform(size, scalingFactor, inputImage, WaveformGenerator::PaintMode::PaintMode_Yellow, true, ITURec::Rec_709, 1);
+            CHECK(scope.size().boundedTo(size) == scope.size());
+        }
+        QImage scope =
+            waveform.calculateWaveform(QSize(5, 5), scalingFactor, inputImage, WaveformGenerator::PaintMode::PaintMode_Yellow, true, ITURec::Rec_709, 1);
+        CHECK(scope.size() == QSize(5, 5));
+    }
+}

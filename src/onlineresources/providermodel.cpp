@@ -37,7 +37,12 @@ ProviderModel::ProviderModel(const QString &path)
         qCWarning(KDENLIVE_LOG) << "WARNING, can not find provider configuration file at" << path << ".";
         m_invalid = true;
     } else {
-        file.open(QFile::ReadOnly);
+        if (!file.open(QFile::ReadOnly)) {
+            qCWarning(KDENLIVE_LOG) << "Cannot open provider configuration file at" << path << ":" << file.errorString();
+            m_invalid = true;
+            return;
+        }
+
         m_doc = QJsonDocument::fromJson(file.readAll(), &jsonError);
         if (jsonError.error != QJsonParseError::NoError) {
             m_invalid = true;
@@ -98,7 +103,7 @@ void ProviderModel::initOAuth2()
     m_replyHandler->close();
     m_oauth2.setReplyHandler(m_replyHandler);
     m_oauth2.setAuthorizationUrl(QUrl(ouath2Info["authorizationUrl"].toString()));
-    m_oauth2.setAccessTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
+    m_oauth2.setTokenUrl(QUrl(ouath2Info["accessTokenUrl"].toString()));
     m_oauth2.setClientIdentifier(ouath2Info["clientId"].toString());
     m_oauth2.setClientIdentifierSharedKey(m_clientkey);
     connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::refreshTokenChanged, this, [&](const QString &refreshToken) {
@@ -109,7 +114,7 @@ void ProviderModel::initOAuth2()
 
     m_oauth2.setModifyParametersFunction([&](QAbstractOAuth::Stage stage, QMultiMap<QString, QVariant> *parameters) {
         if (stage == QAbstractOAuth::Stage::RequestingAuthorization) {
-            if (m_oauth2.scope().isEmpty()) {
+            if (m_oauth2.requestedScopeTokens().isEmpty()) {
                 parameters->remove("scope");
             }
         }
@@ -127,7 +132,7 @@ void ProviderModel::initOAuth2()
         }
     });
     connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::granted, this, [&]() { m_replyHandler->close(); });
-    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::error, this, [this](const QString &error, const QString &errorDescription) {
+    connect(&m_oauth2, &QAbstractOAuth2::serverReportedErrorOccurred, this, [this](const QString &error, const QString &errorDescription, const QUrl &) {
         m_replyHandler->close();
         qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
         Q_EMIT authenticated(QString());
@@ -149,7 +154,7 @@ void ProviderModel::authorize()
     if (m_oauth2.token().isEmpty()) {
         if (!strRefreshTokenFromSettings.isEmpty()) {
             m_oauth2.setRefreshToken(strRefreshTokenFromSettings);
-            m_oauth2.refreshAccessToken();
+            m_oauth2.refreshTokens();
         } else {
             m_replyHandler->listen(QHostAddress::Any, 1337);
             m_oauth2.grant();
@@ -158,7 +163,7 @@ void ProviderModel::authorize()
         if (m_oauth2.expirationAt() < QDateTime::currentDateTime()) {
             Q_EMIT authenticated(m_oauth2.token());
         } else {
-            m_oauth2.refreshAccessToken();
+            m_oauth2.refreshTokens();
         }
     }
 }
@@ -166,7 +171,7 @@ void ProviderModel::authorize()
 void ProviderModel::refreshAccessToken()
 {
     initOAuth2();
-    m_oauth2.refreshAccessToken();
+    m_oauth2.refreshTokens();
 }
 
 /**

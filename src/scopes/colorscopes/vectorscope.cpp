@@ -741,6 +741,9 @@ void Vectorscope::slotBackgroundChanged()
             slotPaintModeChanged();
         }
         break;
+    case BG_CHROMA:
+    case BG_YPbPr:
+        break;
     }
     forceUpdateBackground();
 }

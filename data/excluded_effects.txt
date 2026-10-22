@@ -153,10 +153,14 @@ sox.pad
 text
 
 #####################
-# NEED A GPU OPENCL VAAPI SUPPORT
+# NEED A GPU OPENCL VAAPI VULKAN SUPPORT
 #####################
 avfilter.avgblur_opencl
 avfilter.boxblur_opencl
+avfilter.boxblur_vulkan
+avfilter.blackdetect_vulkan
+avfilter.bwdif_vulkan
+avfilter.chromaber_vulkan
 avfilter.colorkey_opencl
 avfilter.convolution_opencl
 avfilter.deinterlace_qsv
@@ -166,24 +170,36 @@ avfilter.deshake_opencl
 avfilter.dilation_opencl
 avfilter.dnn_processing
 avfilter.erosion_opencl
+avfilter.flip_vulkan
+avfilter.gblur_vulkan
+avfilter.hflip_vulkan
+avfilter.interlace_vulkan
 avfilter.hwupload_cuda
 avfilter.nlmeans_opencl
+avfilter.nlmeans_vulkan
 avfilter.pad_opencl
+avfilter.pad_cuda
 avfilter.prewitt_opencl
 avfilter.procamp_vaapi
 avfilter.roberts_opencl
 avfilter.scale_cuda
 avfilter.scale_vaapi
+avfilter.scale_vulkan
 avfilter.scale_qsv
+avfilter.scdet_vulkan
 avfilter.sharpness_vaapi
 avfilter.shuffleplanes
 avfilter.sobel_opencl
 avfilter.tonemap
 avfilter.tonemap_opencl
 avfilter.tonemap_vaapi
+avfilter.transpose_cuda
 avfilter.transpose_opencl
 avfilter.transpose_vaapi
+avfilter.transpose_vulkan
 avfilter.unsharp_opencl
+avfilter.v360_vulkan
+avfilter.vflip_vulkan
 avfilter.vpp_qsv
 avfilter.yadif_cuda
 avfilter.zmq

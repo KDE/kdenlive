@@ -40,6 +40,7 @@ public: // STATIC
                                    const QString &filter = QString(), const QString &extension = QString());
     static const QStringList getProxyForbiddenParams();
     static const QStringList getRenderForbiddenParams();
+    static const QStringList getProxySafeParams();
     static QStringList checkUnknownProxyParams(QString proxyData);
     static void addSafeParameters(QStringList unknownParams);
 };

@@ -282,7 +282,11 @@ void FilterTask::run()
     }
 
     QFile f1(sourceFile.fileName());
-    f1.open(QIODevice::WriteOnly);
+    if (!f1.open(QIODevice::WriteOnly)) {
+        qWarning() << "Failed to open temporary XML file for writing:" << f1.fileName() << f1.errorString();
+        return;
+    }
+
     QTextStream stream(&f1);
     stream << dom.toString();
     f1.close();

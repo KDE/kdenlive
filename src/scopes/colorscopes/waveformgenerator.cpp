@@ -34,12 +34,16 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, qreal sca
     // time.start();
 
     QSize scaledWaveformSize = waveformSize * scalingFactor;
-    QImage wave(scaledWaveformSize, QImage::Format_ARGB32);
-    wave.setDevicePixelRatio(scalingFactor);
-
-    if (scaledWaveformSize.width() <= 0 || scaledWaveformSize.height() <= 0 || image.width() <= 0 || image.height() <= 0) {
+    // Calculate the actual scope area dimensions (excluding borders); the widget can be resized smaller than the borders
+    const int scopeWidth = int(scaledWaveformSize.width() - 2 * (distBorder * scalingFactor));
+    const int scopeHeight = int(scaledWaveformSize.height() - 2 * (distBorder * scalingFactor));
+    if (scopeWidth <= 0 || scopeHeight <= 0 || waveformSize.width() <= 2 * distBorder || waveformSize.height() <= 2 * distBorder || image.width() <= 0 ||
+        image.height() <= 0) {
         return QImage();
     }
+
+    QImage wave(scaledWaveformSize, QImage::Format_ARGB32);
+    wave.setDevicePixelRatio(scalingFactor);
 
     QPainter davinci;
     bool ok = davinci.begin(&wave);
@@ -48,14 +52,11 @@ QImage WaveformGenerator::calculateWaveform(const QSize &waveformSize, qreal sca
         return wave;
     }
 
-    const uint ww = uint(scaledWaveformSize.width());
-    const uint wh = uint(scaledWaveformSize.height());
     const uint iw = uint(image.width());
     const auto totalPixels = image.width() * image.height();
 
-    // Calculate the actual scope area dimensions (excluding borders)
-    const uint scopeW = ww - 2 * (distBorder * scalingFactor);
-    const uint scopeH = wh - 2 * (distBorder * scalingFactor);
+    const uint scopeW = uint(scopeWidth);
+    const uint scopeH = uint(scopeHeight);
     const uint scopeWLogicalPixels = waveformSize.width() - 2 * distBorder;
     const uint scopeHLogicalPixels = waveformSize.height() - 2 * distBorder;
 

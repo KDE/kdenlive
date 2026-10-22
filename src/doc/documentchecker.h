@@ -27,7 +27,10 @@ public:
         MissingType type;
         QString originalFilePath;
         QString newFilePath;
+        /** @brief id of the clip that includes the missing item */
         QString clipId;
+        /** @brief id of other clips that includes the missing item - used for title images - so that only one occurrence appears in the dialog. */
+        QStringList relatedIds;
         QString hash;
         QString fileSize;
         ClipType::ProducerType clipType;
@@ -71,12 +74,13 @@ private:
     QString m_documentid;
     QString m_root;
     QPair<QString, QString> m_rootReplacement;
+    QString m_lastSavePath;
 
     QDomNodeList m_binEntries;
     std::vector<DocumentResource> m_items;
 
     QStringList m_safeImages;
-    QStringList m_safeFonts;
+    QStringList m_processedFonts;
 
     QStringList m_binIds;
     QStringList m_warnings;
@@ -123,6 +127,7 @@ private:
                         const QDomNodeList &filters);
 
     bool itemsContain(MissingType type, const QString &path = QString(), MissingStatus status = MissingStatus::Missing);
+    int itemIndexFromResource(MissingType type, const QString &path);
     int itemIndexByClipId(const QString &clipId);
 
     void fixTitleImage(QDomElement &e, const QString &oldPath, const QString &newPath);

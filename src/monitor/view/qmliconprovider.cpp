@@ -13,6 +13,7 @@ QmlIconProvider::QmlIconProvider(QSize iconSize, QObject *parent)
     : QQuickImageProvider(QQuickImageProvider::Pixmap)
     , m_defaultSize(iconSize)
 {
+    Q_UNUSED(parent);
 }
 
 QPixmap QmlIconProvider::requestPixmap(const QString &id, QSize *size, const QSize &requestedSize)

@@ -189,6 +189,11 @@ const std::shared_ptr<TrackModel> KdenliveTests::getTrackById_const(std::shared_
     return timeline->getTrackById_const(tid);
 }
 
+int KdenliveTests::isOnCut(const std::shared_ptr<TrackModel> &track, int cid)
+{
+    return track->isOnCut(cid);
+}
+
 QDomDocument KdenliveTests::getDocument(KdenliveDoc *openedDoc)
 {
     return openedDoc->m_document;

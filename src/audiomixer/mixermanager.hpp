@@ -8,6 +8,7 @@
 #include <memory>
 #include <unordered_map>
 
+#include <KMessageWidget>
 #include <QWidget>
 
 namespace Mlt {
@@ -44,11 +45,17 @@ public:
     int recordTrack() const;
     /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
     bool audioLevelV2() const;
+    /** @brief Return true if the master audio mixer is muted */
+    bool isMasterMute() const;
 
 public Q_SLOTS:
     void recordStateChanged(int tid, bool recording);
+    void monitorFailed(int tid);
     /** @brief Enable/disable audio monitoring on a track */
     void monitorAudio(int tid, bool monitor);
+    void displayMessage(const QString &message, KMessageWidget::MessageType type);
+    /** @brief Enable/disable audio solo on a track */
+    void slotSwitchSoloMode(int tid);
 
 private Q_SLOTS:
     void resetSizePolicy();
@@ -74,6 +81,7 @@ private:
     QHBoxLayout *m_masterBox;
     QHBoxLayout *m_channelsLayout;
     QScrollArea *m_channelsBox;
+    KMessageWidget *m_messageWidget;
     bool m_visibleMixerManager;
     int m_expandedWidth;
     QVector<int> m_soloMuted;

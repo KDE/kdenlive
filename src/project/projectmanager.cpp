@@ -58,12 +58,15 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QLocale>
+#include <QLockFile>
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QProgressDialog>
 #include <QSaveFile>
 #include <QTimeZone>
 #include <QUndoGroup>
+
+static int m_pendingStorage = -1;
 
 static QString getProjectNameFilters(bool ark = true)
 {
@@ -167,10 +170,13 @@ void ProjectManager::newFile(bool showProjectSettings)
 
 void ProjectManager::newFile(QString profileName, bool showProjectSettings)
 {
-    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
     Q_EMIT pCore->GUISetupDone();
-    if (checkForBackupFile(startFile, true)) {
-        return;
+    QUrl startFile = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder() + QStringLiteral("/_untitled.kdenlive"));
+    if (m_project == nullptr) {
+        // Opening app, check for previous crash
+        if (checkForBackupFile(startFile, true)) {
+            return;
+        }
     }
     m_fileRevert->setEnabled(false);
     QString projectFolder;
@@ -186,12 +192,11 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     pCore->monitorManager()->resetDisplay();
     QString documentId = QString::number(QDateTime::currentMSecsSinceEpoch());
     documentProperties.insert(QStringLiteral("documentid"), documentId);
-    bool sameProjectFolder = KdenliveSettings::sameprojectfolder();
     if (!showProjectSettings) {
         if (!closeCurrentDocument()) {
             return;
         }
-        if (KdenliveSettings::customprojectfolder()) {
+        if (KdenliveSettings::defaultprojectstoragetype() == StoreInCustomFolder) {
             projectFolder = KdenliveSettings::defaultprojectfolder();
             QDir folder(projectFolder);
             if (!projectFolder.endsWith(QLatin1Char('/'))) {
@@ -199,9 +204,10 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             }
             documentProperties.insert(QStringLiteral("storagefolder"), folder.absoluteFilePath(documentId));
         }
+        documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(KdenliveSettings::defaultprojectstoragetype())));
     } else {
-        QPointer<ProjectSettings> w = new ProjectSettings(nullptr, QMap<QString, QString>(), projectTracks.first, projectTracks.second, audioChannels,
-                                                          KdenliveSettings::defaultprojectfolder(), false, true, pCore->window());
+        QPointer<ProjectSettings> w =
+            new ProjectSettings(nullptr, QMap<QString, QString>(), projectTracks.first, projectTracks.second, audioChannels, false, true, pCore->window());
         connect(w.data(), &ProjectSettings::refreshProfiles, pCore->window(), &MainWindow::slotRefreshProfiles);
         if (w->exec() != QDialog::Accepted) {
             delete w;
@@ -221,6 +227,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             pCore->window()->slotSwitchAudioThumbs();
         }
         profileName = w->selectedProfile();
+        ProjectStorageType storageType = w->storageType();
         projectFolder = w->storageFolder();
         projectTracks = w->tracks();
         audioChannels = w->audioChannels();
@@ -232,6 +239,7 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
         documentProperties.insert(QStringLiteral("proxyresize"), QString::number(w->proxyResize()));
         documentProperties.insert(QStringLiteral("audioChannels"), QString::number(w->audioChannels()));
         documentProperties.insert(QStringLiteral("generateimageproxy"), QString::number(int(w->generateImageProxy())));
+        documentProperties.insert(QStringLiteral("storagetype"), QString::number(int(storageType)));
         QString preview = w->selectedPreview();
         if (!preview.isEmpty()) {
             documentProperties.insert(QStringLiteral("previewparameters"), preview.section(QLatin1Char(';'), 0, 0));
@@ -248,7 +256,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
             documentProperties.insert(QStringLiteral("enableexternalproxy"), QStringLiteral("1"));
             documentProperties.insert(QStringLiteral("externalproxyparams"), w->externalProxyParams());
         }
-        sameProjectFolder = w->docFolderAsStorageFolder();
         // Metadata
         documentMetadata = w->metadata();
         delete w;
@@ -260,7 +267,6 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     KdenliveDoc *doc = new KdenliveDoc(projectFolder, pCore->window()->m_commandStack, profileName, documentProperties, documentMetadata, projectTracks,
                                        audioChannels, pCore->window());
     doc->m_autosave = new KAutoSaveFile(startFile, doc);
-    doc->m_sameProjectFolder = sameProjectFolder;
     ThumbnailCache::get()->clearCache();
     m_project = doc;
     initSequenceProperties(m_project->uuid(), {KdenliveSettings::audiotracks(), KdenliveSettings::videotracks()});
@@ -282,6 +288,8 @@ void ProjectManager::newFile(QString profileName, bool showProjectSettings)
     }
     finalizeDocumentOpening(m_project);
     Q_EMIT pCore->gotMissingClipsCount(0, 0);
+    // Update active Track to ensure proper vertical scrolling now that everything is built
+    polishTimelines(m_project->getTimelinesUuids());
     m_project->loading = false;
     m_lastSave.start();
     if (pCore->monitorManager()) {
@@ -351,8 +359,8 @@ void ProjectManager::testSetActiveTimeline(std::shared_ptr<TimelineItemModel> ti
                 std::shared_ptr<TimelineItemModel> timelineModel = TimelineItemModel::construct(uid, m_project->commandStack());
                 const QString chunks = m_project->getSequenceProperty(uid, QStringLiteral("previewchunks"));
                 const QString dirty = m_project->getSequenceProperty(uid, QStringLiteral("dirtypreviewchunks"));
+                m_project->addTimeline(uid, timelineModel, false);
                 if (constructTimelineFromTractor(timelineModel, nullptr, *tc.get(), m_project->modifiedDecimalPoint(), chunks, dirty)) {
-                    m_project->addTimeline(uid, timelineModel, false);
                     pCore->projectItemModel()->setExtraTimelineSaved(uid.toString());
                     std::shared_ptr<Mlt::Producer> prod = std::make_shared<Mlt::Producer>(timelineModel->tractor());
                     passSequenceProperties(uid, prod, *tc.get(), timelineModel, nullptr);
@@ -497,16 +505,16 @@ bool ProjectManager::closeCurrentDocument(bool saveChanges, bool quit)
             }
         }
     }
+    // Project is closed, remove its lock file
+    releaseProjectLock();
     // Release model shared pointers
     if (guiConstructed) {
         pCore->window()->cleanBins();
         delete m_project;
-        m_project = nullptr;
     } else {
         pCore->projectItemModel()->clean(true);
-        m_project = nullptr;
     }
-    mlt_service_cache_set_size(nullptr, "producer_avformat", 0);
+    m_project = nullptr;
     ::mlt_pool_purge();
     return true;
 }
@@ -517,11 +525,10 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     m_autoSaveTimer.stop();
     m_autoSaveChangeCount = 0;
     pCore->monitorManager()->pauseActiveMonitor();
-    QString oldProjectFolder =
-        m_project->url().isEmpty() ? QString() : QFileInfo(m_project->url().toLocalFile()).absolutePath() + QStringLiteral("/cachefiles");
-    // this was the old project folder in case the "save in project file location" setting was active
+    auto previousStorageInfo = m_project->projectTempFolder();
 
     // Sync document properties
+    QString lastDocumentSavePath = m_project->getDocumentProperty(QStringLiteral("lastsavefolder"));
     if (!saveACopy && outputFileName != m_project->url().toLocalFile()) {
         // Project filename changed
         pCore->window()->updateProjectPath(outputFileName);
@@ -531,10 +538,13 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     if (m_project->sequenceThumbRequiresRefresh(activeUuid)) {
         pCore->bin()->updateSequenceClip(activeUuid, m_activeTimelineModel->durations(), -1);
     }
+    const QString saveFolder = QFileInfo(outputFileName).absolutePath();
+    m_project->setDocumentProperty(QStringLiteral("lastsavefolder"), saveFolder);
     prepareSave();
-    QString saveFolder = QFileInfo(outputFileName).absolutePath();
     m_project->updateWorkFilesBeforeSave(outputFileName);
     checkProjectIntegrity();
+    bool firstSave = m_project->url().isEmpty();
+    pCore->projectItemModel()->ensureRelativeTitlerPaths(saveFolder);
     QString scene = projectSceneList(saveFolder).first;
     if (!m_replacementPattern.isEmpty()) {
         QMapIterator<QString, QString> i(m_replacementPattern);
@@ -546,9 +556,13 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     m_project->updateWorkFilesAfterSave();
     if (!m_project->saveSceneList(outputFileName, scene, saveOverExistingFile)) {
         KNotification::event(QStringLiteral("ErrorMessage"), i18n("Saving project file <br><b>%1</B> failed", outputFileName), QPixmap());
+        if (!firstSave) {
+            const QString projectFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile() + QLatin1Char('/');
+            pCore->projectItemModel()->ensureRelativeTitlerPaths(projectFolder);
+        }
+        m_project->setDocumentProperty(QStringLiteral("lastsavefolder"), lastDocumentSavePath);
         return false;
     }
-    QUrl url = QUrl::fromLocalFile(outputFileName);
     // Save timeline thumbnails
     std::unordered_map<QString, std::vector<int>> thumbKeys = pCore->window()->getCurrentTimeline()->controller()->getThumbKeys();
     pCore->projectItemModel()->updateCacheThumbnail(thumbKeys);
@@ -560,7 +574,15 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     }
     ThumbnailCache::get()->saveCachedThumbs(thumbKeys);
     pCore->bin()->saveSequenceAudioThumb();
-    if (!saveACopy) {
+    const QUrl url = QUrl::fromLocalFile(outputFileName);
+    if (saveACopy) {
+        // Restore initial paths
+        if (!firstSave) {
+            const QString projectFolder = m_project->url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).toLocalFile() + QLatin1Char('/');
+            pCore->projectItemModel()->ensureRelativeTitlerPaths(projectFolder);
+        }
+        m_project->setDocumentProperty(QStringLiteral("lastsavefolder"), lastDocumentSavePath);
+    } else {
         m_project->setUrl(url);
         // setting up autosave file in ~/.kde/data/stalefiles/kdenlive/
         // saved under file name
@@ -576,6 +598,7 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
             m_project->m_autosave->setManagedFile(autosaveUrl);
         }
 
+        updateProjectLock();
         pCore->window()->setWindowTitle(m_project->description());
         m_project->setModified(false);
     }
@@ -585,37 +608,45 @@ bool ProjectManager::saveFileAs(const QString &outputFileName, bool saveOverExis
     // remember folder for next project opening
     KRecentDirs::add(QStringLiteral(":KdenliveProjectsFolder"), saveFolder);
     saveRecentFiles();
+    qDebug() << ":::: READY TO SAVE PROJECT FROM: " << previousStorageInfo.first << "\nTO: " << saveFolder << "\n1111111111111111111111111111111111";
     if (!saveACopy) {
         m_fileRevert->setEnabled(true);
         pCore->window()->m_undoView->stack()->setClean();
-        QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
-        if (((oldProjectFolder.isEmpty() && m_project->m_sameProjectFolder) || m_project->projectTempFolder() == oldProjectFolder) &&
-            newProjectFolder != m_project->projectTempFolder()) {
-            KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
-                pCore->window(), i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
-                                      "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
-                                      m_project->projectTempFolder(), newProjectFolder));
+        if (previousStorageInfo.second == StoreWithProjectFile) {
+            QString newProjectFolder(saveFolder + QStringLiteral("/cachefiles"));
+            if (QDir::cleanPath(newProjectFolder) != QDir::cleanPath(previousStorageInfo.first)) {
+                KMessageBox::ButtonCode answer = KMessageBox::warningContinueCancel(
+                    pCore->window(),
+                    i18n("The location of the project file changed. You selected to use the location of the project file to save temporary files. "
+                         "This will move all temporary files from <b>%1</b> to <b>%2</b>, the project file will then be reloaded",
+                         previousStorageInfo.first, newProjectFolder));
 
-            if (answer == KMessageBox::Continue) {
-                // Discard running jobs, for example proxy clips since data will be moved
-                pCore->taskManager.slotCancelJobs();
-                // Proceed with move
-                QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
-                bool ok;
-                documentId.toLongLong(&ok, 10);
-                if (!ok || documentId.isEmpty()) {
-                    KMessageBox::error(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
-                } else {
-                    QDir newDir(newProjectFolder);
-                    QDir oldDir(m_project->projectTempFolder());
-                    if (newDir.exists(documentId)) {
-                        KMessageBox::error(pCore->window(),
-                                           i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                if (answer == KMessageBox::Continue) {
+                    // Discard running jobs, for example proxy clips since data will be moved
+                    pCore->taskManager.slotCancelJobs();
+                    // Proceed with move
+                    QString documentId = QDir::cleanPath(m_project->getDocumentProperty(QStringLiteral("documentid")));
+                    bool ok;
+                    documentId.toLongLong(&ok, 10);
+                    if (!ok || documentId.isEmpty()) {
+                        KMessageBox::error(pCore->window(), i18n("Cannot perform operation, invalid document id: %1", documentId));
                     } else {
-                        // Proceed with the move
-                        // KIO::move needs to have dest folder existing to keep source folder name
-                        newDir.mkpath(".");
-                        moveProjectData(oldDir.absoluteFilePath(documentId), newDir.absolutePath());
+                        QDir newDir(newProjectFolder);
+                        auto storageInfo = m_project->projectTempFolder();
+                        QDir oldDir(previousStorageInfo.first);
+                        if (newDir.exists(documentId)) {
+                            KMessageBox::error(pCore->window(),
+                                               i18n("Cannot perform operation, target directory already exists: %1", newDir.absoluteFilePath(documentId)));
+                        } else {
+                            // Proceed with the move
+                            // KIO::move needs to have dest folder existing to keep source folder name
+                            newDir.mkpath(".");
+                            QString destPath = newDir.absolutePath();
+                            if (!destPath.endsWith(QLatin1Char('/'))) {
+                                destPath.append(QLatin1Char('/'));
+                            }
+                            moveProjectData(storageInfo.second, oldDir.absoluteFilePath(documentId), destPath);
+                        }
                     }
                 }
             }
@@ -631,14 +662,14 @@ void ProjectManager::saveRecentFiles()
     config->sync();
 }
 
-bool ProjectManager::saveFileAs(bool saveACopy)
+const QString ProjectManager::getSavePath(const QUrl &url, bool saveACopy)
 {
     QFileDialog fd(pCore->window());
     if (saveACopy) {
         fd.setWindowTitle(i18nc("@title:window", "Save Copy"));
     }
-    if (m_project->url().isValid()) {
-        fd.selectUrl(m_project->url());
+    if (url.isValid()) {
+        fd.selectUrl(url);
     } else {
         fd.setDirectory(KdenliveSettings::defaultprojectfolder());
     }
@@ -647,17 +678,28 @@ bool ProjectManager::saveFileAs(bool saveACopy)
     fd.setFileMode(QFileDialog::AnyFile);
     fd.setDefaultSuffix(QStringLiteral("kdenlive"));
     if (fd.exec() != QDialog::Accepted || fd.selectedFiles().isEmpty()) {
-        return false;
+        return QString();
     }
 
-    QString outputFile = fd.selectedFiles().constFirst();
+    return fd.selectedFiles().constFirst();
+}
+
+bool ProjectManager::saveFileAs(bool saveACopy)
+{
+    QString outputFile = getSavePath(m_project->url(), saveACopy);
+    if (outputFile.isEmpty()) {
+        return false;
+    }
 
     bool ok;
     QDir cacheDir = m_project->getCacheDir(CacheBase, &ok);
     if (ok) {
         QFile file(cacheDir.absoluteFilePath(QString::fromLatin1(QUrl::toPercentEncoding(QStringLiteral(".") + outputFile))));
-        file.open(QIODevice::ReadWrite | QIODevice::Text);
-        file.close();
+        if (!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            qCWarning(KDENLIVE_LOG) << "Failed to create project cache file:" << file.fileName() << file.errorString();
+        } else {
+            file.close();
+        }
     }
     return saveFileAs(outputFile, false, saveACopy);
 }
@@ -814,9 +856,23 @@ void ProjectManager::openFile(const QUrl &url)
     if ((m_project != nullptr) && m_project->url() == url) {
         return;
     }
+
+    std::unique_ptr<QLockFile> newLock;
+    if (!checkProjectLock(url, newLock)) {
+        // Project is opened elsewhere and the user chose not to open it
+        Q_EMIT pCore->loadingMessageHide();
+        if (freshStart) {
+            // Nothing else to do in this session (Kdenlive was started to open this project), quit
+            clearLockFile();
+            pCore->closeApp();
+        }
+        return;
+    }
     if (!closeCurrentDocument()) {
         return;
     }
+    m_projectLock = std::move(newLock);
+    m_lockedProjectPath = m_projectLock ? url.toLocalFile() : QString();
     if (checkForBackupFile(url)) {
         return;
     }
@@ -983,6 +1039,10 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
 
     // Set default target tracks to upper audio / lower video tracks
     m_project = doc;
+    if (!isBackup) {
+        // For backups the doc url is the backup file, not the project: slotOpenBackup() handles the lock
+        updateProjectLock();
+    }
     m_mltWarnings.clear();
     connect(pCore.get(), &Core::mltWarning, this, &ProjectManager::handleLog, Qt::QueuedConnection);
     pCore->monitorManager()->projectMonitor()->locked = true;
@@ -1228,7 +1288,13 @@ void ProjectManager::slotRevert()
         return;
     }
     QUrl url = m_project->url();
-    if (closeCurrentDocument(false)) {
+    // Keep the project lock while reloading, so there is no unlocked window
+    auto keptLock = std::move(m_projectLock);
+    const QString keptPath = m_lockedProjectPath;
+    const bool closed = closeCurrentDocument(false);
+    m_projectLock = std::move(keptLock);
+    m_lockedProjectPath = keptPath;
+    if (closed) {
         doOpenFile(url, nullptr);
     }
 }
@@ -1248,7 +1314,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         projectFolder = QUrl::fromLocalFile(KdenliveSettings::defaultprojectfolder());
         projectFile = url;
     } else {
-        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder() : QString());
+        projectFolder = QUrl::fromLocalFile(m_project ? m_project->projectTempFolder().first : QString());
         projectFile = m_project->url();
         projectId = m_project->getDocumentProperty(QStringLiteral("documentid"));
     }
@@ -1258,7 +1324,12 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
         QString requestedBackup = dia->selectedFile();
         if (m_project) {
             m_project->backupLastSavedVersion(projectFile.toLocalFile());
+            // Keep the project lock while reloading, so there is no unlocked window
+            auto keptLock = std::move(m_projectLock);
+            const QString keptPath = m_lockedProjectPath;
             closeCurrentDocument(false);
+            m_projectLock = std::move(keptLock);
+            m_lockedProjectPath = keptPath;
         }
         doOpenFile(QUrl::fromLocalFile(requestedBackup), nullptr, true);
         if (m_project) {
@@ -1266,6 +1337,7 @@ bool ProjectManager::slotOpenBackup(const QUrl &url)
                 // Only update if restore succeeded
                 pCore->window()->slotEditSubtitle();
                 m_project->setUrl(projectFile);
+                updateProjectLock();
                 m_project->setModified(true);
             }
             pCore->window()->setWindowTitle(m_project->description());
@@ -1537,7 +1609,7 @@ void ProjectManager::saveZone(const QStringList &info, const QDir &dir)
     pCore->bin()->saveZone(info, dir);
 }
 
-void ProjectManager::moveProjectData(const QString &src, const QString &dest)
+void ProjectManager::moveProjectData(ProjectStorageType storageType, const QString &src, const QString &dest)
 {
     // Move proxies
     bool ok;
@@ -1557,6 +1629,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
         connect(copyJob, &KJob::result, this, &ProjectManager::slotMoveFinished);
         return true;
     };
+    m_pendingStorage = storageType;
     if (!proxyUrls.isEmpty()) {
         QDir proxyDir(dest + QStringLiteral("/proxy/"));
         if (proxyDir.mkpath(QStringLiteral("."))) {
@@ -1566,6 +1639,7 @@ void ProjectManager::moveProjectData(const QString &src, const QString &dest)
                 if (job->error() == 0) {
                     copyTmp();
                 } else {
+                    qDebug() << "ERROR CASE A:::::" << job->errorString();
                     KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
                 }
             });
@@ -1591,19 +1665,28 @@ void ProjectManager::slotMoveFinished(KJob *job)
         QString newFolder = copyJob->destUrl().toLocalFile();
         // Check if project folder is inside document folder, in which case, paths will be relative
         QDir projectDir(m_project->url().toString(QUrl::RemoveFilename | QUrl::RemoveScheme));
-        QDir srcDir(m_project->projectTempFolder());
+        QDir srcDir(m_project->projectTempFolder().first);
         if (srcDir.absolutePath().startsWith(projectDir.absolutePath())) {
             m_replacementPattern.insert(QStringLiteral(">proxy/"), QStringLiteral(">") + newFolder + QStringLiteral("/proxy/"));
         } else {
-            m_replacementPattern.insert(m_project->projectTempFolder() + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
+            m_replacementPattern.insert(m_project->projectTempFolder().first + QStringLiteral("/proxy/"), newFolder + QStringLiteral("/proxy/"));
         }
-        m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
+        qDebug() << ":::: MOVING FILES DONE; SETTING STORAGE TYPE: " << m_pendingStorage;
+        if (m_pendingStorage > -1) {
+            if (m_pendingStorage == int(StoreInCustomFolder)) {
+                // Update custom folder
+                m_project->setProjectFolder(QUrl::fromLocalFile(newFolder));
+            }
+            m_project->setDocumentProperty(QStringLiteral("storagetype"), QString::number(m_pendingStorage));
+        }
         saveFile();
         m_replacementPattern.clear();
         slotRevert();
     } else {
+        qDebug() << "ERROR CASE C:::::" << job->errorString();
         KMessageBox::error(pCore->window(), i18n("Error moving project folder: %1", job->errorText()));
     }
+    m_pendingStorage = -1;
 }
 
 void ProjectManager::requestBackup(const QString &errorMessage)
@@ -1666,12 +1749,13 @@ bool ProjectManager::updateTimeline(bool createNewTab, const QString &chunks, co
 
     m_project->cleanupTimelinePreview(documentDate);
     if (pCore->window()) {
+        const bool previewEnabled = m_project->getSequenceProperty(uuid, QStringLiteral("disablepreview"), QStringLiteral("0")).toInt() == 0;
         if (!createNewTab) {
             documentTimeline = pCore->window()->getCurrentTimeline();
-            documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy());
+            documentTimeline->setModel(timelineModel, pCore->monitorManager()->projectMonitor()->getControllerProxy(), previewEnabled);
         } else {
             // Create a new timeline tab
-            documentTimeline = pCore->window()->openTimeline(uuid, -1, i18n("Sequence 1"), timelineModel);
+            documentTimeline = pCore->window()->openTimeline(uuid, -1, i18n("Sequence 1"), timelineModel, true, previewEnabled);
         }
     }
     pCore->projectItemModel()->buildPlaylist(uuid);
@@ -2222,7 +2306,8 @@ bool ProjectManager::openTimeline(const QString &id, int ix, const QUuid &uuid, 
     }
     if (pCore->window()) {
         // Create tab widget
-        timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor);
+        const bool previewEnabled = m_project->getSequenceProperty(uuid, QStringLiteral("disablepreview"), QStringLiteral("0")).toInt() == 0;
+        timeline = pCore->window()->openTimeline(uuid, ix, clip->clipName(), timelineModel, openInMonitor, previewEnabled);
     }
 
     if (timeline == nullptr) {
@@ -2415,7 +2500,10 @@ void ProjectManager::slotCreateSequenceFromSelection()
     }
     const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
     std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
-    pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true);
+    if (!pCore->window()->getCurrentTimeline()->model()->requestItemDeletion(copiedData.first, undo, redo, true)) {
+        pCore->displayMessage(i18n("Sequence creation failed"), ErrorMessage);
+        return;
+    }
     const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
     if (newSequenceId.isEmpty()) {
         // Action canceled
@@ -2466,7 +2554,6 @@ void ProjectManager::slotCopyAndCreateSequenceFromSelection()
         return;
     }
     const QUuid sourceSequence = pCore->window()->getCurrentTimeline()->getUuid();
-    std::pair<int, int> vPosition = pCore->window()->getCurrentTimeline()->controller()->selectionPosition(&aTracks, &vTracks);
     const QString newSequenceId = pCore->bin()->buildSequenceClipWithUndo(undo, redo, aTracks, vTracks);
     if (newSequenceId.isEmpty()) {
         // Action canceled
@@ -2551,6 +2638,76 @@ void ProjectManager::updateSequenceOffset(const QUuid &uuid)
         // Update info in render dialog
         Q_EMIT pCore->updateRenderOffset();
     }
+}
+
+static QString projectLockFilePath(const QString &projectPath)
+{
+    return projectPath + QStringLiteral(".lock");
+}
+
+bool ProjectManager::checkProjectLock(const QUrl &url, std::unique_ptr<QLockFile> &lock)
+{
+    lock.reset();
+    if (!url.isLocalFile()) {
+        return true;
+    }
+    auto candidate = std::make_unique<QLockFile>(projectLockFilePath(url.toLocalFile()));
+    candidate->setStaleLockTime(0);
+    if (candidate->tryLock(0)) {
+        // We now own the lock; keep it until the project is closed
+        lock = std::move(candidate);
+        return true;
+    }
+    if (candidate->error() != QLockFile::LockFailedError) {
+        // Could not create the lock file (read only folder, ...), don't block the user
+        return true;
+    }
+
+    qint64 pid = 0;
+    QString hostname;
+    QString appname;
+    QString details;
+    if (candidate->getLockInfo(&pid, &hostname, &appname)) {
+        details = i18n("<br>Lock owner: process %1 on %2.", pid, hostname);
+    }
+    Q_EMIT pCore->GUISetupDone();
+    const QString message = i18n("The project <b>\"%1\"</b> seems to be already opened in another Kdenlive session.%2<br><br>"
+                                 "Opening it in two sessions can cause data loss.",
+                                 url.fileName(), details);
+    const int answer =
+        KMessageBox::warningContinueCancel(pCore->window(), message, i18n("Project Already Opened"), KGuiItem(i18n("Open Anyway")), KStandardGuiItem::cancel());
+    return answer == KMessageBox::Continue;
+}
+
+void ProjectManager::updateProjectLock()
+{
+    const QString path = (m_project != nullptr && m_project->url().isLocalFile()) ? m_project->url().toLocalFile() : QString();
+    if (path == m_lockedProjectPath) {
+        return;
+    }
+    // Acquire the new lock first, and only then release the previous one
+    std::unique_ptr<QLockFile> lock;
+    if (!path.isEmpty()) {
+        auto candidate = std::make_unique<QLockFile>(projectLockFilePath(path));
+        candidate->setStaleLockTime(0);
+        if (candidate->tryLock(0)) {
+            lock = std::move(candidate);
+        } else {
+            qDebug() << "Could not create project lock file for" << path << ", error:" << candidate->error();
+        }
+    }
+    releaseProjectLock();
+    m_projectLock = std::move(lock);
+    m_lockedProjectPath = m_projectLock ? path : QString();
+}
+
+void ProjectManager::releaseProjectLock()
+{
+    if (m_projectLock) {
+        m_projectLock->unlock();
+        m_projectLock.reset();
+    }
+    m_lockedProjectPath.clear();
 }
 
 void ProjectManager::clearLockFile()

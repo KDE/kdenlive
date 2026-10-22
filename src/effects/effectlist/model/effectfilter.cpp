@@ -43,7 +43,8 @@ bool EffectFilter::lessThan(const QModelIndex &left, const QModelIndex &right) c
 void EffectFilter::reloadFilterOnFavorite()
 {
     if (m_type_enabled && m_type_value == AssetListType::AssetType::Favorites) {
-        invalidateFilter();
+        beginFilterChange();
+        endFilterChange(QSortFilterProxyModel::Direction::Rows);
     }
 }
 

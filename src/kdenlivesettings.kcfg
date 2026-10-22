@@ -336,7 +336,7 @@
 
     <entry name="renderDeinterlacer" type="String">
     <label>default deinterlacer.</label>
-      <default>onefield</default>
+      <default>yadif</default>
     </entry>
 
     <entry name="vaapiEnabled" type="Bool">
@@ -687,8 +687,8 @@
     </entry>
 
     <entry name="safeFFmpegParams" type="StringList">
-      <label>Safe known parameters for ffmpeg.</label>
-      <default>f,vf,af,c:v,c:a,codec:v,codec:a,g,qscale,filter_hw_device,i,vsync,fps_mode,ab,qp,bf,crf,preset,vendor,vb,vprofile,init_hw_device,hwaccel,hwaccel_output_format,resize,rc,pix_fmt,vcodec,acodec</default>
+      <label>Custom safe known parameters for ffmpeg.</label>
+      <default></default>
     </entry>
 
 
@@ -747,14 +747,9 @@
       <default></default>
     </entry>
 
-    <entry name="customprojectfolder" type="Bool">
-      <label>Don't use default XDG folders to store project files.</label>
-      <default>false</default>
-    </entry>
-
-    <entry name="sameprojectfolder" type="Bool">
-      <label>Use the parent folder of the *.kdenlive file to store project files.</label>
-      <default>false</default>
+    <entry name="defaultprojectstoragetype" type="Int">
+      <label>Default location for project file storage.</label>
+      <default>1</default>
     </entry>
 
     <entry name="capturetoprojectfolder" type="Int">

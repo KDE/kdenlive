@@ -55,7 +55,7 @@ public:
     int get_audio_channels() const;
     int get_audio_frequency() const;
     int get_audio_samples() const;
-    const int16_t *get_audio() const;
+    const void *get_audio(mlt_audio_format format) const;
 
 private:
     QExplicitlySharedDataPointer<FrameData> d; // NOLINT

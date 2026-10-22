@@ -288,6 +288,8 @@ MySpinBox::MySpinBox(QWidget *parent)
 
 QValidator::State MySpinBox::validate(QString &text, int &pos) const
 {
+    Q_UNUSED(pos);
+
     if (m_cachedText == text && !text.isEmpty()) return m_cachedState;
 
     QValidator::State state;
@@ -450,6 +452,8 @@ MyDoubleSpinBox::MyDoubleSpinBox(QWidget *parent)
 
 QValidator::State MyDoubleSpinBox::validate(QString &text, int &pos) const
 {
+    Q_UNUSED(pos);
+
     if (m_cachedText == text && !text.isEmpty()) return m_cachedState;
 
     QValidator::State state;

@@ -98,6 +98,9 @@ public:
     /** @brief Set the filter type */
     virtual void setFilterType(const QString &type) = 0;
 
+    /** @brief Returns the list's search line */
+    QWidget *searchLine();
+
     /** @brief Toggle between tree view and icon view */
     void toggleViewMode(bool checked);
 

@@ -85,8 +85,6 @@ public:
     int height() const;
     QUrl url() const;
     KAutoSaveFile *m_autosave;
-    /** @brief Whether the project folder should be in the same folder as the project file (var is only used for new projects)*/
-    bool m_sameProjectFolder{false};
     bool m_restoreFromBackup{false};
     Timecode timecode() const;
     std::shared_ptr<DocUndoStack> commandStack();
@@ -112,8 +110,8 @@ public:
      */
     void requestBackup();
 
-    /** @brief Returns the project folder, used to store project temporary files. */
-    QString projectTempFolder() const;
+    /** @brief Returns the project folder, used to store project temporary files, and the storage type */
+    std::pair<QString, ProjectStorageType> projectTempFolder();
     /** @brief Returns the folder used to store project data files (titles, etc).
      *
      * @param newPath If the project file is being moved, this is the new location.
@@ -315,9 +313,12 @@ public:
     /** @brief Returns a list of all external files used in effects (LUT, Masks, etc) */
     const QStringList extractExternalEffectFiles();
     enum RENDERLOCATION { SaveToVideoFolder = 0, SaveToProjectFolder, SaveToCustomFolder, SaveToProjectSubFolder };
+    std::pair<const QString, bool> ensureRelativePath(QString currentPath, const QString &updatedRoot = QString());
 
 protected:
     static int next_id; /// next valid id to assign
+    /** @brief Returns project or custom folder if set for project */
+    const QString folderForProjectFiles() const;
 
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
