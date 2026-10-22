@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-21 00:50+0000\n"
+"POT-Creation-Date: 2026-10-22 00:49+0000\n"
 "PO-Revision-Date: 2026-09-13 22:07+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: צוות התרגום של KDE ישראל\n"
@@ -1242,7 +1242,7 @@ msgstr ""
 #: data/effects/mute.xml:8 data/effects/normalise.xml:8
 #: data/effects/sox/sox_bass.xml:8 data/effects/sox/sox_gain.xml:8
 #: data/effects/volume.xml:8 src/assets/view/widgets/lumaliftgainparam.cpp:32
-#: src/scopes/colorscopes/vectorscope.cpp:772
+#: src/scopes/colorscopes/vectorscope.cpp:775
 #, kde-format
 msgid "Gain"
 msgstr "שבח"
@@ -7127,8 +7127,8 @@ msgid "Duration"
 msgstr "משך"
 
 #. i18n: ectx: Menu (subtitles)
-#: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:87
-#: src/core.cpp:1195 src/kdenliveui.rc:196 src/mainwindow.cpp:277
+#: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:90
+#: src/core.cpp:1198 src/kdenliveui.rc:196 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
@@ -9932,7 +9932,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, lblScaling)
 #: data/effects/frei0r/frei0r_defish0r.xml:18
 #: src/scopes/colorscopes/colorplaneexport.cpp:198
-#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:717
+#: src/ui/colorplaneexport_ui.ui:78 src/widgets/dragvalue.cpp:721
 #, kde-format
 msgid "Scaling"
 msgstr "שינוי קנה־מידה"
@@ -18557,7 +18557,7 @@ msgid "MLT LADSPA"
 msgstr "MLT LADSPA"
 
 #: data/kdenliveeffectscategory.rc:170
-#: src/effects/effectlist/model/effectfilter.cpp:104
+#: src/effects/effectlist/model/effectfilter.cpp:105
 #: src/effects/effectlist/model/effecttreemodel.cpp:100
 #, kde-format
 msgid "Deprecated"
@@ -20468,7 +20468,7 @@ msgid "CH"
 msgstr "ער׳"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:427
-#: src/bin/previewpanel.cpp:381
+#: src/bin/previewpanel.cpp:382
 #, kde-format
 msgid "No audio"
 msgstr "אין שמע"
@@ -20912,7 +20912,7 @@ msgstr ""
 "ההחלפה קצרה ב־%1 תמוניות."
 
 #: src/bin/bin.cpp:2259 src/bin/bin.cpp:2489
-#: src/bin/model/subtitlemodel.cpp:418
+#: src/bin/model/subtitlemodel.cpp:421
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "הקובץ הנבחר %1 שגוי."
@@ -21139,7 +21139,7 @@ msgstr "רשימת נגינה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1776 src/project/projectmanager.cpp:1778
+#: src/project/projectmanager.cpp:1779 src/project/projectmanager.cpp:1781
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -21430,7 +21430,7 @@ msgstr "נא למלא את הנתיב ליישום עריכת הווידאו ש�
 msgid "Please set a default application to open video files"
 msgstr "נא להגדיר יישום ברירת מחדל לפתיחת קובצי וידאו"
 
-#: src/bin/bin.cpp:5297 src/core.cpp:710 src/core.cpp:738
+#: src/bin/bin.cpp:5297 src/core.cpp:713 src/core.cpp:741
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -21469,7 +21469,7 @@ msgstr "שמירה לקובץ כותר"
 msgid "Save in project only"
 msgstr "שמירה במיזם בלבד"
 
-#: src/bin/bin.cpp:5375 src/dialogs/clipcreationdialog.cpp:347
+#: src/bin/bin.cpp:5375 src/dialogs/clipcreationdialog.cpp:354
 #, kde-format
 msgid "Title clip"
 msgstr "סרטון כותר"
@@ -21550,7 +21550,7 @@ msgid ""
 msgstr ""
 "המיזם שלך צריך יותר רצועות שמע כדי לטפל בכל התזרימים. להוסיף %1 רצועות שמע?"
 
-#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1818
+#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1817
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "לא נמצא סרטון להוספת סמן"
@@ -21650,7 +21650,7 @@ msgstr "מחיקת אפקט %1"
 msgid "Project Bin"
 msgstr "סל מיזם"
 
-#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3869
+#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3868
 #, kde-format
 msgid "Project Bin %1"
 msgstr "סל המיזם %1"
@@ -21746,7 +21746,7 @@ msgstr "התקן נתיק"
 msgid "Loading done"
 msgstr "הטעינה הושלמה"
 
-#: src/bin/clipcreator.cpp:653 src/dialogs/clipcreationdialog.cpp:545
+#: src/bin/clipcreator.cpp:653 src/dialogs/clipcreationdialog.cpp:554
 #, kde-format
 msgid "Add clip"
 msgid_plural "Add clips"
@@ -21819,17 +21819,17 @@ msgstr "שם:"
 msgid "Filter:"
 msgstr "מסנן:"
 
-#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:451
+#: src/bin/mediabrowser.cpp:213 src/dialogs/clipcreationdialog.cpp:460
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "התעלמות ממבנה תת־תיקיות"
 
-#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:453
+#: src/bin/mediabrowser.cpp:215 src/dialogs/clipcreationdialog.cpp:462
 #, kde-format
 msgid "Do not create subfolders in Project Bin"
 msgstr "לט ליצוא תת־תיקיות בסל המיזם"
 
-#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:456
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:465
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21839,17 +21839,17 @@ msgstr ""
 "כשהאפשרות מסומנת, Kdenlive ייבא את כל הסרטונים בתיקייה על תת־תיקיותיה מבלי "
 "ליצור את תת־התיקיות בסל המיזם."
 
-#: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:446
+#: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:455
 #, kde-format
 msgid "Import image sequence"
 msgstr "ייבוא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:447
+#: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:456
 #, kde-format
 msgid "Try to import an image sequence"
 msgstr "לנסות לייבא רצף תמונות"
 
-#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:449
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21965,39 +21965,39 @@ msgstr "המרה לסמן טווח"
 msgid "Add range marker"
 msgstr "הוספת סמן טווח"
 
-#: src/bin/model/subtitlemodel.cpp:109
+#: src/bin/model/subtitlemodel.cpp:112
 #, kde-format
 msgid "Edit global subtitle style"
 msgstr "עריכת סגנון כתוביות מקיף"
 
-#: src/bin/model/subtitlemodel.cpp:428 src/bin/model/subtitlemodel.cpp:650
-#: src/bin/model/subtitlemodel.cpp:1612 src/bin/model/subtitlemodel.cpp:2206
-#: src/bin/model/subtitlemodel.cpp:2273 src/bin/model/subtitlemodel.cpp:2306
-#: src/bin/model/subtitlemodel.cpp:2339 src/bin/model/subtitlemodel.cpp:2372
-#: src/bin/model/subtitlemodel.cpp:2405
+#: src/bin/model/subtitlemodel.cpp:431 src/bin/model/subtitlemodel.cpp:653
+#: src/bin/model/subtitlemodel.cpp:1615 src/bin/model/subtitlemodel.cpp:2213
+#: src/bin/model/subtitlemodel.cpp:2280 src/bin/model/subtitlemodel.cpp:2313
+#: src/bin/model/subtitlemodel.cpp:2346 src/bin/model/subtitlemodel.cpp:2379
+#: src/bin/model/subtitlemodel.cpp:2412
 #, kde-format
 msgid "Edit subtitle"
 msgstr "עריכת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:685 src/bin/model/subtitlemodel.cpp:1711
+#: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1714
 #: src/timeline2/model/timelinefunctions.cpp:288
 #, kde-format
 msgid "Cut clip"
 msgstr "גזירת סרטון"
 
-#: src/bin/model/subtitlemodel.cpp:861 src/bin/model/subtitlemodel.cpp:1635
+#: src/bin/model/subtitlemodel.cpp:864 src/bin/model/subtitlemodel.cpp:1638
 #: src/timeline2/model/timelinemodel.cpp:4461
 #, kde-format
 msgid "Resize subtitle"
 msgstr "שינוי גודל כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1062
+#: src/bin/model/subtitlemodel.cpp:1065
 #: src/timeline2/model/timelinemodel.cpp:1471
 #, kde-format
 msgid "Move subtitle"
 msgstr "העברת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1229
+#: src/bin/model/subtitlemodel.cpp:1232
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:914
@@ -22010,44 +22010,44 @@ msgstr ""
 "הקובץ %1 קיים.\n"
 "לדרוס אותו?"
 
-#: src/bin/model/subtitlemodel.cpp:1647 src/titler/titlewidget.cpp:447
+#: src/bin/model/subtitlemodel.cpp:1650 src/titler/titlewidget.cpp:447
 #, kde-format
 msgid "Add Text"
 msgstr "הוספת טקסט"
 
-#: src/bin/model/subtitlemodel.cpp:1672 src/dialogs/subtitleedit.cpp:289
+#: src/bin/model/subtitlemodel.cpp:1675 src/dialogs/subtitleedit.cpp:289
 #, kde-format
 msgid "Add subtitle"
 msgstr "הוספת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1735 src/dialogs/managesubtitles.cpp:730
+#: src/bin/model/subtitlemodel.cpp:1738 src/dialogs/managesubtitles.cpp:730
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-format
 msgid "Delete subtitle"
 msgstr "מחיקת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1807
+#: src/bin/model/subtitlemodel.cpp:1810
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "מחיקת שכבת כתובית"
 
-#: src/bin/model/subtitlemodel.cpp:1834
+#: src/bin/model/subtitlemodel.cpp:1837
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "יצירת שכבת כתוביות"
 
-#: src/bin/model/subtitlemodel.cpp:1940 src/bin/model/subtitlemodel.cpp:1943
+#: src/bin/model/subtitlemodel.cpp:1943 src/bin/model/subtitlemodel.cpp:1946
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "כתובית %1"
 
-#: src/bin/model/subtitlemodel.cpp:2050
+#: src/bin/model/subtitlemodel.cpp:2057
 #, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
 msgstr "לא ניתן ליצור יותר מ־%1 שכבות בכתוביות."
 
-#: src/bin/model/subtitlemodel.cpp:2242
+#: src/bin/model/subtitlemodel.cpp:2249
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "הקצאת סגנון חדש לכתוביות."
@@ -22108,13 +22108,13 @@ msgctxt "@action:button"
 msgid "Import Folder"
 msgstr "ייבוא תיקייה"
 
-#: src/bin/previewpanel.cpp:373
+#: src/bin/previewpanel.cpp:374
 #, kde-format
 msgctxt "@info:label fps as frames per second shortcut"
 msgid "fps"
 msgstr "תמוניות לשנייה"
 
-#: src/bin/previewpanel.cpp:384
+#: src/bin/previewpanel.cpp:385
 #, kde-format
 msgctxt "@info:label indicate the number of audio tracks (streams) in a file"
 msgid "1 audio track"
@@ -22340,13 +22340,13 @@ msgstr ""
 msgid "Disable GPU processing"
 msgstr "השבתת עיבוד במעבד גרפי"
 
-#: src/core.cpp:273 src/core.cpp:316 src/core.cpp:490
-#: src/project/projectmanager.cpp:922
+#: src/core.cpp:276 src/core.cpp:319 src/core.cpp:493
+#: src/project/projectmanager.cpp:925
 #, kde-format
 msgid "Loading project…"
 msgstr "המיזם נטען…"
 
-#: src/core.cpp:450
+#: src/core.cpp:453
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -22355,19 +22355,19 @@ msgstr ""
 "פרופיל ברירת המחדל של Kdenlive לא מוגדר או שהוא שגוי, יש ללחוץ על אישור כדי "
 "להגדיר אותו לערך הנכון."
 
-#: src/core.cpp:462
+#: src/core.cpp:465
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "בחירת פרופיל ברירת מחדל"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:462 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:465 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "פרופיל:"
 
-#: src/core.cpp:475
+#: src/core.cpp:478
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -22376,262 +22376,262 @@ msgstr ""
 "הפרופיל שסופק שגוי. אנו נסוגים לפרופיל „dv_pal” כברירת מחדל, אך ניתן לשנות "
 "את זה מלוח ההגדרות של Kdenlive"
 
-#: src/core.cpp:790
+#: src/core.cpp:793
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "ריבוע 2 עמודות"
 
-#: src/core.cpp:791
+#: src/core.cpp:794
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "לוח שחמט קטן"
 
-#: src/core.cpp:792
+#: src/core.cpp:795
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "תריסים אופקיים"
 
-#: src/core.cpp:793
+#: src/core.cpp:796
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "מעגלי"
 
-#: src/core.cpp:794
+#: src/core.cpp:797
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "X קווי"
 
-#: src/core.cpp:795
+#: src/core.cpp:798
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "X דו־קווי"
 
-#: src/core.cpp:796
+#: src/core.cpp:799
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Y קווי"
 
-#: src/core.cpp:797
+#: src/core.cpp:800
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Y דו־קווי"
 
-#: src/core.cpp:798
+#: src/core.cpp:801
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "ריבוע"
 
-#: src/core.cpp:799
+#: src/core.cpp:802
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "ריבוע 2"
 
-#: src/core.cpp:800
+#: src/core.cpp:803
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "ענן"
 
-#: src/core.cpp:801
+#: src/core.cpp:804
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "שעון סימטרי"
 
-#: src/core.cpp:802
+#: src/core.cpp:805
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "עמודות מעגליות"
 
-#: src/core.cpp:803
+#: src/core.cpp:806
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "ספירלה"
 
-#: src/core.cpp:804
+#: src/core.cpp:807
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "ספירלה 2"
 
-#: src/core.cpp:805
+#: src/core.cpp:808
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "וילון"
 
-#: src/core.cpp:806
+#: src/core.cpp:809
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "התפרצות"
 
-#: src/core.cpp:807
+#: src/core.cpp:810
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "שעון"
 
-#: src/core.cpp:809
+#: src/core.cpp:812
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "עמודה אופקית"
 
-#: src/core.cpp:810
+#: src/core.cpp:813
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "עמודה אנכית"
 
-#: src/core.cpp:811
+#: src/core.cpp:814
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "דלת אורווה אופקית"
 
-#: src/core.cpp:812
+#: src/core.cpp:815
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "דלת אורווה אנכית"
 
-#: src/core.cpp:813
+#: src/core.cpp:816
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "דלת אסם אלכסונית דר׳ מע׳-צפ׳ מז׳"
 
-#: src/core.cpp:814
+#: src/core.cpp:817
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "דלת אסם אלכסונית צפ׳ מע׳-דר׳ מז׳"
 
-#: src/core.cpp:815
+#: src/core.cpp:818
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "אלכסון שמאל למעלה"
 
-#: src/core.cpp:816
+#: src/core.cpp:819
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "אלכסון ימינה למעלה"
 
-#: src/core.cpp:817
+#: src/core.cpp:820
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "מפל מטריקס אופקי"
 
-#: src/core.cpp:818
+#: src/core.cpp:821
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "מפל מטריקס אנכי"
 
-#: src/core.cpp:819
+#: src/core.cpp:822
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "נחש מטריקס אופקי"
 
-#: src/core.cpp:820
+#: src/core.cpp:823
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "נחש מטריקס מקבילי אופקי"
 
-#: src/core.cpp:821
+#: src/core.cpp:824
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "נחש מטריקס אנכי"
 
-#: src/core.cpp:822
+#: src/core.cpp:825
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "נחש מטריקס מקבילי אנכי"
 
-#: src/core.cpp:823
+#: src/core.cpp:826
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "V למעלה של אסם"
 
-#: src/core.cpp:824
+#: src/core.cpp:827
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "עיגול קשתית"
 
-#: src/core.cpp:825
+#: src/core.cpp:828
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "קשתית כפולה"
 
-#: src/core.cpp:826
+#: src/core.cpp:829
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "תיבת קשתית"
 
-#: src/core.cpp:827
+#: src/core.cpp:830
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "תיבה מימין למטה"
 
-#: src/core.cpp:828
+#: src/core.cpp:831
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "תיבה משמאל למטה"
 
-#: src/core.cpp:829
+#: src/core.cpp:832
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "תיבה מימין במרכז"
 
-#: src/core.cpp:830
+#: src/core.cpp:833
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "שעון מלמעלה"
 
-#: src/core.cpp:1141
+#: src/core.cpp:1144
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "פרופיל המיזם שלך שגוי, התיצוג עלול להיכשל."
 
-#: src/core.cpp:1506
+#: src/core.cpp:1509
 #, kde-format
 msgid "Loading clips"
 msgstr "סרטונים נטענים"
 
-#: src/core.cpp:2016
+#: src/core.cpp:2019
 #, kde-format
 msgid "Marker %1"
 msgstr "סמן %1"
 
-#: src/core.cpp:2377
+#: src/core.cpp:2380
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -22641,12 +22641,12 @@ msgstr ""
 "הפעולה הזאת תפתח דפדפן כדי להציג את התיעוד המקוון של Kdenlive בכתובת הבאה:\n"
 " %1"
 
-#: src/core.cpp:2378 src/core.cpp:2389
+#: src/core.cpp:2381 src/core.cpp:2392
 #, kde-format
 msgid "Open Browser"
 msgstr "פתיחת דפדפן"
 
-#: src/core.cpp:2388
+#: src/core.cpp:2391
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -22691,28 +22691,28 @@ msgstr "שמירת הנפשה בשם"
 msgid "Animation duration"
 msgstr "משך הנפשה"
 
-#: src/dialogs/clipcreationdialog.cpp:203
+#: src/dialogs/clipcreationdialog.cpp:206
 #, kde-format
 msgid "Create Animation clip"
 msgstr "יצירת סרטון הנפשה"
 
-#: src/dialogs/clipcreationdialog.cpp:221
+#: src/dialogs/clipcreationdialog.cpp:226
 #, kde-format
 msgctxt "@title:window"
 msgid "Text Clip"
 msgstr "סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:239
+#: src/dialogs/clipcreationdialog.cpp:244
 #, kde-format
 msgid "Text Clip"
 msgstr "סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:298
+#: src/dialogs/clipcreationdialog.cpp:303
 #, kde-format
 msgid "Create Text clip"
 msgstr "יצירת סרטון טקסט"
 
-#: src/dialogs/clipcreationdialog.cpp:369 src/doc/kdenlivedoc.cpp:1276
+#: src/dialogs/clipcreationdialog.cpp:376 src/doc/kdenlivedoc.cpp:1276
 #, kde-format
 msgid "Template title clip"
 msgstr "תבנית סרטון כותר"
@@ -23067,8 +23067,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "ייצוא נתוני סמנים"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2333
-#: src/dialogs/renderwidget.cpp:2357 src/doc/kdenlivedoc.cpp:776
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2335
+#: src/dialogs/renderwidget.cpp:2359 src/doc/kdenlivedoc.cpp:776
 #: src/doc/kdenlivedoc.cpp:782 src/doc/kdenlivedoc.cpp:1416
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
@@ -23082,7 +23082,7 @@ msgstr "ייצוא נתוני סמנים"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2089 src/project/projectmanager.cpp:2095
+#: src/project/projectmanager.cpp:2092 src/project/projectmanager.cpp:2098
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23175,7 +23175,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "במקרה של ספק, עדיף לנסות :<br/><b>יוניקוד (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1978
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1981
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -23924,6 +23924,7 @@ msgstr "ביטול משימה"
 #: src/project/cliptranscode.cpp:193 src/project/cliptranscode.cpp:227
 #: src/project/dialogs/archivewidget.cpp:795
 #: src/project/dialogs/archivewidget.cpp:1307
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:286
 #, kde-format
 msgid "Abort"
 msgstr "ביטול"
@@ -23997,49 +23998,49 @@ msgstr[1] "למחוק את הפריסה %1?"
 msgstr[2] "למחוק את הפריסה %1?"
 msgstr[3] "למחוק את הפריסה %1?"
 
-#: src/dialogs/renderwidget.cpp:2177
+#: src/dialogs/renderwidget.cpp:2179
 #, kde-format
 msgid ""
 "Render command copied to clipboard:\n"
 "%1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2515
+#: src/dialogs/renderwidget.cpp:2517
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "אורך קובץ לאחר תיצוג: %1"
 
-#: src/dialogs/renderwidget.cpp:2518
+#: src/dialogs/renderwidget.cpp:2520
 #, fuzzy, kde-format
 #| msgid "Timecode Offset:"
 msgid "Timecode Offset: %1"
 msgstr "הפרש קוד זמן:"
 
-#: src/dialogs/renderwidget.cpp:2523
+#: src/dialogs/renderwidget.cpp:2525
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "הוספת סרטונים לציר הזמן בטרם התיצוג"
 
-#: src/dialogs/renderwidget.cpp:2533
+#: src/dialogs/renderwidget.cpp:2535
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "מקום הפלט לא נגיש לכתיבה, נא לבחור מקום אחר"
 
-#: src/dialogs/renderwidget.cpp:2538
+#: src/dialogs/renderwidget.cpp:2540
 #, kde-format
 msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
 "free disk space. Rendering might fail."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2544
+#: src/dialogs/renderwidget.cpp:2546
 #, kde-format
 msgid ""
 "Your disk space is limited.\n"
 "There is %1 free disk space and the render result will roughly take %2."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2559
+#: src/dialogs/renderwidget.cpp:2561
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
@@ -24048,7 +24049,7 @@ msgstr[1] "<b>נעשה שימוש בשני סרטונים חסרים במיזם.
 msgstr[2] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 msgstr[3] "<b>נעשה שימוש ב־%1 סרטונים חסרים במיזם.</b>"
 
-#: src/dialogs/renderwidget.cpp:2561
+#: src/dialogs/renderwidget.cpp:2563
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
@@ -24057,12 +24058,12 @@ msgstr[1] "שני סרטונים חסרים (לא בשימוש)."
 msgstr[2] "%1 סרטונים חסרים (לא בשימוש)."
 msgstr[3] "%1 סרטונים חסרים (לא בשימוש)."
 
-#: src/dialogs/renderwidget.cpp:2563
+#: src/dialogs/renderwidget.cpp:2565
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 סרטונים חסרים (<b>%2 נמצאים בשימוש במיזם</b>)."
 
-#: src/dialogs/renderwidget.cpp:2707
+#: src/dialogs/renderwidget.cpp:2709
 #, kde-format
 msgid ""
 "One Field deinterlacing may halve the vertical resolution of interlaced clip "
@@ -24075,7 +24076,7 @@ msgstr[1] ""
 msgstr[2] ""
 msgstr[3] ""
 
-#: src/dialogs/renderwidget.cpp:2747
+#: src/dialogs/renderwidget.cpp:2749
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -24084,12 +24085,12 @@ msgstr ""
 "משתני מהירות מפענח:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2767
+#: src/dialogs/renderwidget.cpp:2769
 #, kde-format
 msgid "Add to Current Project"
 msgstr "הוספה למיזם הנוכחי"
 
-#: src/dialogs/renderwidget.cpp:2776
+#: src/dialogs/renderwidget.cpp:2778
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -26636,7 +26637,7 @@ msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "קובץ הכתוביות:<br/>%1<br/>כבר קיים. לשכתב אותו?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2433
+#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2432
 #, kde-format
 msgid "Overwrite"
 msgstr "שכתוב"
@@ -26668,8 +26669,8 @@ msgstr "המסננים/מעברונים הבאים נמחקו מהמיזם הז�
 msgid "Invalid file path"
 msgstr "נתיב שגוי לקובץ"
 
-#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:899
-#: src/project/projectmanager.cpp:951
+#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:902
+#: src/project/projectmanager.cpp:954
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "לא ניתן לשחזר קובץ פגום."
@@ -26754,8 +26755,8 @@ msgstr ""
 "קובץ המיזם שלך שודרג לגרסת המסמך העדכנית ביותר של Kdenlive, אבל יצירת עותק "
 "הגיבוי %1 לא מצליחה."
 
-#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1640
-#: src/project/projectmanager.cpp:1684
+#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1643
+#: src/project/projectmanager.cpp:1687
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "שגיאה בהעברת תיקיית המיזם: %1"
@@ -27637,12 +27638,12 @@ msgstr "לא ניתן לייצר צרכן."
 msgid "Cannot create filter %1"
 msgstr "לא ניתן ליצור מסנן %1"
 
-#: src/jobs/filtertask.cpp:306
+#: src/jobs/filtertask.cpp:310
 #, kde-format
 msgid "Failed to filter source."
 msgstr "סינון המקור נכשל."
 
-#: src/jobs/filtertask.cpp:338
+#: src/jobs/filtertask.cpp:342
 #, kde-format
 msgid "Effect analysis failed for %1"
 msgstr "ניתוח האפקטים עבור %1 נכשל"
@@ -27822,7 +27823,7 @@ msgid "Generators"
 msgstr "מחוללים"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:2773
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:2772
 #, kde-format
 msgid "Extract Audio"
 msgstr "חילוץ שמע"
@@ -28709,7 +28710,7 @@ msgstr "ערמת אפקטים/תרכובות"
 
 #. i18n: file: data/layouts/effects.json
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
-#: src/mainwindow.cpp:456 src/mainwindow.cpp:529 src/ui/editsub_ui.ui:550
+#: src/mainwindow.cpp:456 src/mainwindow.cpp:528 src/ui/editsub_ui.ui:550
 #, kde-format
 msgid "Effects"
 msgstr "אפקטים"
@@ -28743,29 +28744,29 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "מחליף את מצב חלון/וידג׳ט מערבל השמע."
 
-#: src/mainwindow.cpp:528
+#: src/mainwindow.cpp:527
 #, kde-format
 msgid "Add Effect"
 msgstr "הוספת אפקט"
 
-#: src/mainwindow.cpp:532
+#: src/mainwindow.cpp:531
 #, kde-format
 msgid "Add Transition"
 msgstr "הוספת מעברון"
 
-#: src/mainwindow.cpp:533 src/mainwindow_actions.cpp:1230
+#: src/mainwindow.cpp:532 src/mainwindow_actions.cpp:1230
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:37
 #, kde-format
 msgid "Transitions"
 msgstr "מעברונים"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:547 src/mainwindow.cpp:559 src/mainwindow_actions.cpp:126
+#: src/mainwindow.cpp:546 src/mainwindow.cpp:558 src/mainwindow_actions.cpp:126
 #, kde-format
 msgid "Favorite Effects"
 msgstr "אפקטים מועדפים"
 
-#: src/mainwindow.cpp:548 src/mainwindow.cpp:561
+#: src/mainwindow.cpp:547 src/mainwindow.cpp:560
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -28774,23 +28775,23 @@ msgid ""
 msgstr ""
 "לחיצה תציג רשימת אפקטים מועדפים. לחיצה כפולה על אפקט תוסיף אותו לסרטון הנבחר."
 
-#: src/mainwindow.cpp:571 src/mainwindow_actions.cpp:629
+#: src/mainwindow.cpp:570 src/mainwindow_actions.cpp:629
 #, kde-format
 msgid "Render…"
 msgstr "תיצוג…"
 
-#: src/mainwindow.cpp:579
+#: src/mainwindow.cpp:578
 #, kde-format
 msgid "Rendering preview"
 msgstr "תצוגה מקדימה לתיצוג"
 
-#: src/mainwindow.cpp:731
+#: src/mainwindow.cpp:730
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "המיזם נטען"
 
-#: src/mainwindow.cpp:878
+#: src/mainwindow.cpp:877
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -28811,17 +28812,17 @@ msgstr[3] ""
 "יש %1 משימות תיצוג פעילות.\n"
 "מה לעשות עם המשימות האלו?"
 
-#: src/mainwindow.cpp:880
+#: src/mainwindow.cpp:879
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr "להמשיך לעבד ברקע"
 
-#: src/mainwindow.cpp:880
+#: src/mainwindow.cpp:879
 #, kde-format
 msgid "Abort rendering"
 msgstr "ביטול העיבוד"
 
-#: src/mainwindow.cpp:897
+#: src/mainwindow.cpp:896
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -28842,35 +28843,35 @@ msgstr[3] ""
 "%1 משימות תיצוג ממתינות בתור.\n"
 "מה לעשות עם המשימות האלו?"
 
-#: src/mainwindow.cpp:900
+#: src/mainwindow.cpp:899
 #, kde-format
 msgid "Start them now"
 msgstr "התחלתם כעת"
 
-#: src/mainwindow.cpp:900
+#: src/mainwindow.cpp:899
 #, kde-format
 msgid "Delete them"
 msgstr "מחיקתם"
 
-#: src/mainwindow.cpp:999 src/timeline2/view/timelinecontroller.cpp:2547
+#: src/mainwindow.cpp:998 src/timeline2/view/timelinecontroller.cpp:2547
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "בחירת סרטון להשוואת האפקט"
 
-#: src/mainwindow.cpp:1138
+#: src/mainwindow.cpp:1137
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
 "clips for this project?"
 msgstr "שינית את משתני התיווך. ליצור מחדש את כל סרטוני התיווך למיזם הזה?"
 
-#: src/mainwindow.cpp:1139
+#: src/mainwindow.cpp:1138
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "יצירה מחדש"
 
-#: src/mainwindow.cpp:1140 src/onlineresources/resourcewidget.cpp:706
+#: src/mainwindow.cpp:1139 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2607
 #, kde-format
@@ -28878,7 +28879,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "להמשיך ללא"
 
-#: src/mainwindow.cpp:1197 src/mainwindow.cpp:1253
+#: src/mainwindow.cpp:1196 src/mainwindow.cpp:1252
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -28887,7 +28888,7 @@ msgstr ""
 "הפעולה הזאת תסיר את כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>,<br/"
 ">קובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:1205
+#: src/mainwindow.cpp:1204
 #, fuzzy, kde-format
 #| msgid ""
 #| "The current project has not been saved.<br/>This will first save the "
@@ -28901,7 +28902,7 @@ msgstr ""
 "המיזם הנוכחי לא נשמר.<br/>הפעולה הזאת תשמור קודם א המיזם, לאחר מכן תעביר את "
 "כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>, וקובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:1245
+#: src/mainwindow.cpp:1244
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -28911,38 +28912,38 @@ msgstr ""
 "המיזם הנוכחי לא נשמר.<br/>הפעולה הזאת תשמור קודם א המיזם, לאחר מכן תעביר את "
 "כל הקבצים הזמניים מ־<br/><b>%1</b> אל <b>%2</b>, וקובץ המיזם ייטען מחדש"
 
-#: src/mainwindow.cpp:1263 src/project/projectmanager.cpp:632
+#: src/mainwindow.cpp:1262 src/project/projectmanager.cpp:632
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "לא ניתן לבצע את הפעולה, מזהה מסמך שגוי: %1"
 
-#: src/mainwindow.cpp:1268 src/project/projectmanager.cpp:639
+#: src/mainwindow.cpp:1267 src/project/projectmanager.cpp:639
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "לא ניתן לבצע את הפעולה, תיקיית היעד כבר קיימת: %1"
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "הפעולה הזאת תסיר מהמיזם שלך את הסרטונים שלא בשימוש."
 
-#: src/mainwindow.cpp:1418
+#: src/mainwindow.cpp:1417
 #, kde-format
 msgid "Clean up project"
 msgstr "ניקוי מיזם"
 
-#: src/mainwindow.cpp:1546
+#: src/mainwindow.cpp:1545
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "הורדות תצורות מקלדת חדשות…"
 
-#: src/mainwindow.cpp:1590
+#: src/mainwindow.cpp:1589
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "כללי"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1662
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -28950,28 +28951,28 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את קובץ ההגדרות של Kdenlive ותפעיל את היישום מחדש. להמשיך?"
 
-#: src/mainwindow.cpp:1664
+#: src/mainwindow.cpp:1663
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "איפוס הגדרות"
 
-#: src/mainwindow.cpp:1836 src/mainwindow.cpp:1863
+#: src/mainwindow.cpp:1835 src/mainwindow.cpp:1862
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "לא נמצא סרטון להסרת סמן"
 
-#: src/mainwindow.cpp:1846 src/mainwindow.cpp:1902
+#: src/mainwindow.cpp:1845 src/mainwindow.cpp:1901
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "לא נמצא סימון בנקודת זמן הסמן"
 
-#: src/mainwindow.cpp:1868 src/mainwindow.cpp:1878
+#: src/mainwindow.cpp:1867 src/mainwindow.cpp:1877
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 
-#: src/mainwindow.cpp:1895 src/timeline2/view/timelinecontroller.cpp:1460
+#: src/mainwindow.cpp:1894 src/timeline2/view/timelinecontroller.cpp:1460
 #: src/timeline2/view/timelinecontroller.cpp:1468
 #: src/timeline2/view/timelinecontroller.cpp:1489
 #: src/timeline2/view/timelinecontroller.cpp:1529
@@ -28981,46 +28982,46 @@ msgstr "אירעה שגיאה במהלך מחיקת הסמנים"
 msgid "Cannot find clip to edit marker"
 msgstr "לא ניתן לאתר את הסרטון לעריכת הסמן"
 
-#: src/mainwindow.cpp:1947
+#: src/mainwindow.cpp:1946
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "קטגוריית הסמנים לא קיימת"
 
-#: src/mainwindow.cpp:2082 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2081 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Overwrite zone"
 msgstr "שכתוב קטע"
 
-#: src/mainwindow.cpp:2084 src/mainwindow.cpp:2103
+#: src/mainwindow.cpp:2083 src/mainwindow.cpp:2102
 #: src/timeline2/model/timelinefunctions.cpp:867
 #: src/timeline2/view/timelinecontroller.cpp:3696
 #, kde-format
 msgid "Could not insert zone"
 msgstr "לא ניתן להוסיף קטע"
 
-#: src/mainwindow.cpp:2094
+#: src/mainwindow.cpp:2093
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "לא נבחר אף סרטון בסל המיזם"
 
-#: src/mainwindow.cpp:2101 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2100 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Insert zone"
 msgstr "הוספת קטע"
 
-#: src/mainwindow.cpp:2168
+#: src/mainwindow.cpp:2167
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "לא ניתן להוסיף אפקט לפריט פעיל"
 
-#: src/mainwindow.cpp:2230
+#: src/mainwindow.cpp:2229
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "רמת תקריב: %1/%2"
 
-#: src/mainwindow.cpp:2384
+#: src/mainwindow.cpp:2383
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29033,7 +29034,7 @@ msgstr ""
 "כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</shortcut> כדי "
 "להזיז את התצוגה"
 
-#: src/mainwindow.cpp:2388
+#: src/mainwindow.cpp:2387
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29047,24 +29048,24 @@ msgstr ""
 "shortcut> כדי להעביר סרטון מקובץ לרצועה אחרת, <shortcut>Ctrl גרירה</"
 "shortcut> כדי להזיז את התצוגה"
 
-#: src/mainwindow.cpp:2391
+#: src/mainwindow.cpp:2390
 #, kde-format
 msgid "Select"
 msgstr "בחירה"
 
-#: src/mainwindow.cpp:2393
+#: src/mainwindow.cpp:2392
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "<shortcut>Shift</shortcut> לתצוגה מקדימה של תמונית חיתוך"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:2394 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:2393 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "סכין"
 
-#: src/mainwindow.cpp:2398
+#: src/mainwindow.cpp:2397
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29074,12 +29075,12 @@ msgstr ""
 "<shortcut>Ctrl</shortcut> כדי להחיל רק על הרצועה הנוכחית, <shortcut>Shift</"
 "shortcut> כדי להסיר גם קווים מנחים. אפשר גם לשלב בין שני מקשי ההחלפה."
 
-#: src/mainwindow.cpp:2399
+#: src/mainwindow.cpp:2398
 #, kde-format
 msgid "Spacer"
 msgstr "מרווח"
 
-#: src/mainwindow.cpp:2401
+#: src/mainwindow.cpp:2400
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29089,13 +29090,13 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על פריט להחלקה, <shortcut>Shift ולחיצה</shortcut> "
 "לבחירה במרוכז"
 
-#: src/mainwindow.cpp:2402
+#: src/mainwindow.cpp:2401
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "הזחה"
 
-#: src/mainwindow.cpp:2407
+#: src/mainwindow.cpp:2406
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29107,13 +29108,13 @@ msgstr ""
 "shortcut> כדי לבחור במרוכז, <shortcut>Alt לחיצה</shortcut> כדי לבחור פריט "
 "בקבוצה, <shortcut>Ctrl גרירה</shortcut> כדי להסיט את התצוגה"
 
-#: src/mainwindow.cpp:2409
+#: src/mainwindow.cpp:2408
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "אדווה"
 
-#: src/mainwindow.cpp:2415
+#: src/mainwindow.cpp:2414
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29123,109 +29124,109 @@ msgstr ""
 "<shortcut>לחיצה</shortcut> על תצוגת רצועה בצג המיזם תגביה את כל הרצועות למעט "
 "אחת"
 
-#: src/mainwindow.cpp:2416 src/mainwindow_actions.cpp:545
+#: src/mainwindow.cpp:2415 src/mainwindow_actions.cpp:545
 #, kde-format
 msgid "Multicam"
 msgstr "ריבוי מצלמות"
 
-#: src/mainwindow.cpp:2431
+#: src/mainwindow.cpp:2430
 #, kde-format
 msgid "Insert"
 msgstr "הוספה"
 
-#: src/mainwindow.cpp:2663 src/mainwindow.cpp:2665
+#: src/mainwindow.cpp:2662 src/mainwindow.cpp:2664
 #, kde-format
 msgid "Scopes"
 msgstr "טווחים"
 
-#: src/mainwindow.cpp:2670
+#: src/mainwindow.cpp:2669
 #, kde-format
 msgid "Project Bins"
 msgstr "סלי מיזמים"
 
-#: src/mainwindow.cpp:2747
+#: src/mainwindow.cpp:2746
 #, kde-format
 msgid "Clip Jobs"
 msgstr "משימות סרטונים"
 
-#: src/mainwindow.cpp:2766
+#: src/mainwindow.cpp:2765
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "הגדרת משימות סרטונים…"
 
-#: src/mainwindow.cpp:2772
+#: src/mainwindow.cpp:2771
 #, kde-format
 msgid "Transcoders"
 msgstr "מתמירים"
 
-#: src/mainwindow.cpp:2839
+#: src/mainwindow.cpp:2838
 #, kde-format
 msgid "-merged"
 msgstr "-ממוזג"
 
-#: src/mainwindow.cpp:2842
+#: src/mainwindow.cpp:2841
 #, kde-format
 msgid "-stream-%1"
 msgstr "-תזרים-%1"
 
-#: src/mainwindow.cpp:2875 src/mainwindow.cpp:3213
+#: src/mainwindow.cpp:2874 src/mainwindow.cpp:3212
 #, kde-format
 msgid "Interface"
 msgstr "ממשק"
 
-#: src/mainwindow.cpp:2946
+#: src/mainwindow.cpp:2945
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "קבצים להתמרה"
 
-#: src/mainwindow.cpp:3120
+#: src/mainwindow.cpp:3119
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "לא ניתן לשמור קובץ מיזם לארכיון."
 
-#: src/mainwindow.cpp:3128
+#: src/mainwindow.cpp:3127
 #, kde-format
 msgid "Archiving project"
 msgstr "המיזם מועבר לארכיון"
 
-#: src/mainwindow.cpp:3227
+#: src/mainwindow.cpp:3226
 #, kde-format
 msgid "Raise %1"
 msgstr "הגבהת %1"
 
-#: src/mainwindow.cpp:3298
+#: src/mainwindow.cpp:3297
 #, kde-format
 msgid "Icon Size"
 msgstr "גודל סמל"
 
-#: src/mainwindow.cpp:3302
+#: src/mainwindow.cpp:3301
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "ברירת מחדל"
 
-#: src/mainwindow.cpp:3323 src/mainwindow.cpp:3351
+#: src/mainwindow.cpp:3322 src/mainwindow.cpp:3350
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "קטן (%1×%2)"
 
-#: src/mainwindow.cpp:3325 src/mainwindow.cpp:3353
+#: src/mainwindow.cpp:3324 src/mainwindow.cpp:3352
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "בינוני (%1×%2)"
 
-#: src/mainwindow.cpp:3327 src/mainwindow.cpp:3355
+#: src/mainwindow.cpp:3326 src/mainwindow.cpp:3354
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "גדול (%1×%2)"
 
-#: src/mainwindow.cpp:3329 src/mainwindow.cpp:3357
+#: src/mainwindow.cpp:3328 src/mainwindow.cpp:3356
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "ענק (%1×%2)"
 
-#: src/mainwindow.cpp:3413
+#: src/mainwindow.cpp:3412
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -29234,35 +29235,35 @@ msgstr ""
 "הפעולה הזאת תסתיר את סרגל התפריטים לחלוטין. אפשר להציג אותו שוב בלחיצה על "
 "Ctrl+M."
 
-#: src/mainwindow.cpp:3413
+#: src/mainwindow.cpp:3412
 #, kde-format
 msgid "Hide menu bar"
 msgstr "הסתרת סרגל תפריטים"
 
-#: src/mainwindow.cpp:4037
+#: src/mainwindow.cpp:4036
 #, kde-format
 msgid "Go to download page"
 msgstr "מעבר לעמוד ההורדה"
 
-#: src/mainwindow.cpp:4043
+#: src/mainwindow.cpp:4042
 #, kde-format
 msgid "Never check again"
 msgstr "לא לבדוק שוב"
 
-#: src/mainwindow.cpp:4046
+#: src/mainwindow.cpp:4045
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר משנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:4050
+#: src/mainwindow.cpp:4049
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr "גרסת ה־Kdenlive שלך בת יותר מחצי שנה, אנו ממליצים בחום לשדרג"
 
-#: src/mainwindow.cpp:4092
+#: src/mainwindow.cpp:4091
 #, kde-format
 msgid "Checking cached data size"
 msgstr "גודל הנתונים ששמורים במטמון נבדקים"
@@ -31873,7 +31874,7 @@ msgstr "הפעלת התמרה"
 msgid "Add/Remove Marker"
 msgstr "הוספת/הסרת סמן"
 
-#: src/onlineresources/providermodel.cpp:45
+#: src/onlineresources/providermodel.cpp:50
 #, kde-format
 msgctxt "@title:window"
 msgid "Error Loading Data"
@@ -33410,7 +33411,7 @@ msgstr "פתיחת קובץ גיבוי…"
 msgid "Save changes to document?"
 msgstr "לשמור שינויים למסמך‫?"
 
-#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1915
+#: src/project/projectmanager.cpp:437 src/project/projectmanager.cpp:1918
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -33446,37 +33447,37 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "שמירת עותק"
 
-#: src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:793
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "קובץ השמירה האוטומטית קיים. לשחזר ממנו עכשיו?"
 
-#: src/project/projectmanager.cpp:790
+#: src/project/projectmanager.cpp:793
 #, kde-format
 msgid "File Recovery"
 msgstr "שחזור קובץ"
 
-#: src/project/projectmanager.cpp:791 src/project/projectmanager.cpp:937
+#: src/project/projectmanager.cpp:794 src/project/projectmanager.cpp:940
 #, kde-format
 msgid "Recover"
 msgstr "שחזור"
 
-#: src/project/projectmanager.cpp:791
+#: src/project/projectmanager.cpp:794
 #, kde-format
 msgid "Do not recover"
 msgstr "לא לשחזר"
 
-#: src/project/projectmanager.cpp:830
+#: src/project/projectmanager.cpp:833
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "הקובץ %1 לא קיים"
 
-#: src/project/projectmanager.cpp:876
+#: src/project/projectmanager.cpp:879
 #, kde-format
 msgid "Opening file %1"
 msgstr "הקובץ %1 נפתח"
 
-#: src/project/projectmanager.cpp:936
+#: src/project/projectmanager.cpp:939
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33487,43 +33488,43 @@ msgstr ""
 "%1\n"
 "לפתוח את קובץ הגיבוי?"
 
-#: src/project/projectmanager.cpp:937 src/project/projectmanager.cpp:1216
+#: src/project/projectmanager.cpp:940 src/project/projectmanager.cpp:1219
 #, kde-format
 msgid "Error opening file"
 msgstr "שגיאה בפתיחת קובץ"
 
-#: src/project/projectmanager.cpp:937 src/project/projectmanager.cpp:1217
+#: src/project/projectmanager.cpp:940 src/project/projectmanager.cpp:1220
 #, kde-format
 msgid "Open Backup"
 msgstr "פתיחת גיבוי"
 
-#: src/project/projectmanager.cpp:955
+#: src/project/projectmanager.cpp:958
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "לא ניתן לפתוח את קובץ גיבוי המיזם."
 
-#: src/project/projectmanager.cpp:970
+#: src/project/projectmanager.cpp:973
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "המיזם שלך שודרג, ייווצר גיבוי עם השמירה הבאה"
 
-#: src/project/projectmanager.cpp:972
+#: src/project/projectmanager.cpp:975
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "המיזם שלך נערך עם פתיחתו, ייווצר גיבוי עם השמירה הבאה"
 
-#: src/project/projectmanager.cpp:1047
+#: src/project/projectmanager.cpp:1050
 #, kde-format
 msgid "Loading timeline…"
 msgstr "ציר הזמן נטען…"
 
-#: src/project/projectmanager.cpp:1070
+#: src/project/projectmanager.cpp:1073
 #, kde-format
 msgid "Building sequences…"
 msgstr "הרצפים נבנים…"
 
-#: src/project/projectmanager.cpp:1243
+#: src/project/projectmanager.cpp:1246
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33532,7 +33533,7 @@ msgstr ""
 "לא ניתן לפתוח את קובץ המיזם. שגיאה:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1283
+#: src/project/projectmanager.cpp:1286
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -33540,12 +33541,12 @@ msgid ""
 msgstr ""
 "הפעולה הזאת תמחק את השינויים שערכת מאז השמירה האחרונה של המיזם שלך. להמשיך?"
 
-#: src/project/projectmanager.cpp:1284
+#: src/project/projectmanager.cpp:1287
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "חזרה לגרסה השמורה האחרונה"
 
-#: src/project/projectmanager.cpp:1395
+#: src/project/projectmanager.cpp:1398
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -33554,35 +33555,35 @@ msgstr ""
 "המיזם נפגם, אי אפשר לגבות. נא לסגור את המיזם שלך ולפתוח אותו מחדש כדי לשחזר "
 "מהגיבוי האחרון"
 
-#: src/project/projectmanager.cpp:1616
+#: src/project/projectmanager.cpp:1619
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "שגיאה בהעברת תיקיית המיזם, אי אפשר לגשת לתיקיית המטמון"
 
-#: src/project/projectmanager.cpp:1654
+#: src/project/projectmanager.cpp:1657
 #, kde-format
 msgid "Moving project folder"
 msgstr "תיקיית המיזם מועברת"
 
-#: src/project/projectmanager.cpp:1755 src/project/projectmanager.cpp:1811
-#: src/project/projectmanager.cpp:1815
+#: src/project/projectmanager.cpp:1758 src/project/projectmanager.cpp:1814
+#: src/project/projectmanager.cpp:1818
 #, kde-format
 msgid "Sequence 1"
 msgstr "רצף 1"
 
-#: src/project/projectmanager.cpp:1766
+#: src/project/projectmanager.cpp:1769
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "קובץ המיזם פגום - טעינת הרצועות נכשלה. לנסות למצוא קובץ גיבוי?"
 
-#: src/project/projectmanager.cpp:1907 src/project/projectmanager.cpp:1920
-#: src/project/projectmanager.cpp:1944 src/project/projectmanager.cpp:1953
+#: src/project/projectmanager.cpp:1910 src/project/projectmanager.cpp:1923
+#: src/project/projectmanager.cpp:1947 src/project/projectmanager.cpp:1956
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "השינוי לפרופיל המיזם בוטל"
 
-#: src/project/projectmanager.cpp:2083
+#: src/project/projectmanager.cpp:2086
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -33591,12 +33592,12 @@ msgstr ""
 "קובץ הפלט %1 כבר קיים.\n"
 "לשכתב אותו?"
 
-#: src/project/projectmanager.cpp:2108
+#: src/project/projectmanager.cpp:2111
 #, kde-format
 msgid "Project profile changed"
 msgstr "פרופיל המיזם השתנה"
 
-#: src/project/projectmanager.cpp:2172
+#: src/project/projectmanager.cpp:2175
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -33605,56 +33606,56 @@ msgstr ""
 "לא ניתן ליצור ציר זמן מהסרטון הזה:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2261
+#: src/project/projectmanager.cpp:2264
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "מתבצע ייבוא של סרטון רצף, זה כרגע במצב ניסיוני"
 
-#: src/project/projectmanager.cpp:2495 src/project/projectmanager.cpp:2550
+#: src/project/projectmanager.cpp:2498 src/project/projectmanager.cpp:2553
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "בחירת סרטון ליצירת רצף"
 
-#: src/project/projectmanager.cpp:2501 src/project/projectmanager.cpp:2508
-#: src/project/projectmanager.cpp:2559
+#: src/project/projectmanager.cpp:2504 src/project/projectmanager.cpp:2511
+#: src/project/projectmanager.cpp:2561
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "יצירת רצף נכשלה"
 
-#: src/project/projectmanager.cpp:2535
+#: src/project/projectmanager.cpp:2538
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "לא ניתן להוסיף רצף בציר הזמן הנוכחי"
 
-#: src/project/projectmanager.cpp:2539
+#: src/project/projectmanager.cpp:2542
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "יצירת סרטון רצף"
 
-#: src/project/projectmanager.cpp:2577
+#: src/project/projectmanager.cpp:2579
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "העתקת סרטונים לרצף חדש"
 
-#: src/project/projectmanager.cpp:2669
+#: src/project/projectmanager.cpp:2671
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2672
+#: src/project/projectmanager.cpp:2674
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2678
 #, fuzzy, kde-format
 #| msgid "Project profile changed"
 msgid "Project Already Opened"
 msgstr "פרופיל המיזם השתנה"
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2678
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Render Anyway"
@@ -34663,7 +34664,7 @@ msgstr "תיבה של 75%"
 msgid "Draw I/Q lines"
 msgstr "ציור קווי I/Q"
 
-#: src/scopes/colorscopes/vectorscope.cpp:772
+#: src/scopes/colorscopes/vectorscope.cpp:775
 #, kde-format
 msgid "Gain value:"
 msgstr "ערך שבח:"
@@ -35549,21 +35550,48 @@ msgstr[3] "הסרטון הנבחר צריך %1 רצועות שמע נוספות 
 msgid "Create all required tracks (%1)"
 msgstr "יצירת כל הרצועות הנחוצות (%1)"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:114
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:124
 #, kde-format
 msgid "Editing duration for %1 clips."
 msgstr "משך הזמן של %1 פריטים נערך."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:121
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:127
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:128
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:137
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:138
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:151
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "מתבצע שינוי גודל במצב אדווה."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:315
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:284
+#, kde-format
+msgid "Resize All to Same Duration"
+msgstr ""
+
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:285
+#, kde-format
+msgid "Resize Each Clip Using Available Space"
+msgstr ""
+
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
+#, kde-format
+msgid ""
+"There is not enough space to reach the requested duration for all clips.\n"
+"\n"
+"You can resize all clips to the same duration of %1 frames, resize each clip "
+"using\n"
+"available space, or abort the operation\n"
+"\n"
+"Use Ripple mode to push other clips out of the way\n"
+msgstr ""
+
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:294
+#, kde-format
+msgid "Not Enough Space"
+msgstr ""
+
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:420
 #, kde-format
 msgid "Edit item"
 msgstr "עריכת פריט"
@@ -41906,37 +41934,37 @@ msgstr ""
 "תמיכה בביטויים מתמטיים בסיסיים\n"
 "יש להשתמש ב־„%1” כדי להפנות לערך של תיבות טווח אחרות"
 
-#: src/widgets/dragvalue.cpp:718
+#: src/widgets/dragvalue.cpp:722
 #, kde-format
 msgid "Normal scale"
 msgstr "קנה־מידה רגיל"
 
-#: src/widgets/dragvalue.cpp:719
+#: src/widgets/dragvalue.cpp:723
 #, kde-format
 msgid "Pixel scale"
 msgstr "קנה־מידה פיקסלים"
 
-#: src/widgets/dragvalue.cpp:720
+#: src/widgets/dragvalue.cpp:724
 #, kde-format
 msgid "Nonlinear scale"
 msgstr "קנה־מידה א־ליניארי"
 
-#: src/widgets/dragvalue.cpp:724
+#: src/widgets/dragvalue.cpp:728
 #, kde-format
 msgid "Direct update"
 msgstr "עדכון ישיר"
 
-#: src/widgets/dragvalue.cpp:729
+#: src/widgets/dragvalue.cpp:733
 #, kde-format
 msgid "Reset value"
 msgstr "איפוס הערך"
 
-#: src/widgets/dragvalue.cpp:734
+#: src/widgets/dragvalue.cpp:738
 #, kde-format
 msgid "Show %1 in timeline"
 msgstr "הצגת %1 בציר הזמן"
 
-#: src/widgets/dragvalue.cpp:1077
+#: src/widgets/dragvalue.cpp:1081
 #, kde-kuit-format
 msgid "Shift + Drag to adjust value one by one."
 msgstr "Shift + גרירה כדי להתאים את הערך אחד אחד."
