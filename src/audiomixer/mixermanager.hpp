@@ -39,12 +39,8 @@ public:
     void pauseMonitoring(bool pause);
     /** @brief Release the timeline model ownership */
     void unsetModel();
-    /** @brief Some features rely on a specific version of MLT's audiolevel filter, so check it */
-    void checkAudioLevelVersion();
     /** @brief Track currently monitored that will be used for recording */
     int recordTrack() const;
-    /** @brief Return true if we have MLT's audiolevel filter version 2 or above (fixes reading track audio level) */
-    bool audioLevelV2() const;
     /** @brief Return true if the master audio mixer is muted */
     bool isMasterMute() const;
 
@@ -88,5 +84,4 @@ private:
     QVector<int> m_soloTracks;
     int m_recommendedWidth;
     int m_monitorTrack;
-    bool m_filterIsV2;
 };

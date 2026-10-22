@@ -596,7 +596,6 @@ void Core::buildDocks()
     connect(m_capture.get(), &MediaCapture::recordStateChanged, m_mixerWidget, &MixerManager::recordStateChanged);
     connect(m_capture.get(), &MediaCapture::monitorFailed, m_mixerWidget, &MixerManager::monitorFailed);
     connect(m_mixerWidget, &MixerManager::updateRecVolume, m_capture.get(), &MediaCapture::setAudioVolume);
-    m_mixerWidget->checkAudioLevelVersion();
     connect(m_mixerWidget, &MixerManager::showEffectStack, m_projectManager, &ProjectManager::showTrackEffectStack);
 
     // Media Browser

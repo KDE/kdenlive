@@ -298,12 +298,8 @@ void MixerWidget::setupFilters(Mlt::Tractor *service)
         if (m_monitorFilter->is_valid()) {
             m_monitorFilter->set("iec_scale", 0);
             m_monitorFilter->set("internal_added", 237);
-            qDebug() << "::::::::\nSETTING TRACK AUDIO FILTER ON: " << m_tid << "\n\n============";
             const QByteArray trackAudioKey = QStringLiteral("meta.audio.track.%1.audio_level.").arg(m_tid).toLatin1();
             m_monitorFilter->set("prefix", trackAudioKey.constData());
-            // if (m_manager->audioLevelV2()) {
-            //     m_monitorFilter->set("dbpeak", 1);
-            // }
             service->attach(*m_monitorFilter.get());
         }
     }

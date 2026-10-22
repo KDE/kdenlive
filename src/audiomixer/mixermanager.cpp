@@ -33,7 +33,6 @@ MixerManager::MixerManager(QWidget *parent)
     , m_expandedWidth(-1)
     , m_recommendedWidth(300)
     , m_monitorTrack(-1)
-    , m_filterIsV2(false)
 {
     m_masterBox = new QHBoxLayout;
     setContentsMargins(kNoMargin);
@@ -63,11 +62,6 @@ MixerManager::MixerManager(QWidget *parent)
     m_messageWidget->setWordWrap(true);
     m_messageWidget->setVisible(false);
     vBox->addWidget(m_messageWidget);
-}
-
-void MixerManager::checkAudioLevelVersion()
-{
-    m_filterIsV2 = EffectsRepository::get()->exists(QStringLiteral("audiolevel")) && EffectsRepository::get()->getVersion(QStringLiteral("audiolevel")) > 100;
 }
 
 bool MixerManager::isMasterMute() const
@@ -429,11 +423,6 @@ void MixerManager::pauseMonitoring(bool pause)
 int MixerManager::recordTrack() const
 {
     return m_monitorTrack;
-}
-
-bool MixerManager::audioLevelV2() const
-{
-    return m_filterIsV2;
 }
 
 void MixerManager::displayMessage(const QString &message, KMessageWidget::MessageType type)
