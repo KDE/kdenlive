@@ -17,6 +17,7 @@
 #include <QDomDocument>
 #include <QImageReader>
 #include <QTemporaryFile>
+#include <QUrl>
 #include <QtGlobal>
 
 QString getCIMltRepositoryPath()
@@ -251,8 +252,18 @@ int main(int argc, char **argv)
             in = consumer.attribute(QStringLiteral("in"), QString::number(-1)).toInt();
             out = consumer.attribute(QStringLiteral("out"), QString::number(-1)).toInt();
             target = consumer.attribute(QStringLiteral("target"));
+            if (!target.isEmpty()) {
+                if (target.startsWith(QLatin1String("file:"), Qt::CaseInsensitive)) {
+                    target = QUrl(target).toLocalFile();
+                }
+                target = QDir::cleanPath(QDir::fromNativeSeparators(target));
+            }
             QString output = parser.value(outputOption);
             if (!output.isEmpty()) {
+                if (output.startsWith(QLatin1String("file:"), Qt::CaseInsensitive)) {
+                    output = QUrl(output).toLocalFile();
+                }
+                output = QDir::cleanPath(QDir::fromNativeSeparators(output));
                 // A custom output target was set.
                 // To apply it we store a copy of the source file with the modified target
                 // in a temporary file and use this file instead of the original source file.

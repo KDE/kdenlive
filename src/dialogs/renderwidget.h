@@ -232,6 +232,8 @@ private:
     RenderJobItem *createRenderJob(const RenderRequest::RenderJob &job);
     /** Returns the first starting job */
     RenderJobItem *startingJob();
+    /** Returns the job matching the destination */
+    RenderJobItem *findJobItem(const QString &dest);
 
     /** Returns the pixels per frame. This depends on whether the profile resolution, the preview resolution or rescaling is used.*/
     qint32 outputPixelsPerFrame();

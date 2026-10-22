@@ -79,6 +79,20 @@
 // Running job status
 enum JOBSTATUS { WAITINGJOB = 0, STARTINGJOB, RUNNINGJOB, FINISHEDJOB, FAILEDJOB, ABORTEDJOB };
 
+namespace {
+QString normalizeRenderPath(const QString &rawPath)
+{
+    if (rawPath.isEmpty()) {
+        return QString();
+    }
+    QString clean = rawPath;
+    if (clean.startsWith(QLatin1String("file:"), Qt::CaseInsensitive)) {
+        clean = QUrl(clean).toLocalFile();
+    }
+    return QDir::cleanPath(QDir::fromNativeSeparators(clean));
+}
+} // namespace
+
 RenderViewDelegate::RenderViewDelegate(QWidget *parent, bool secondaryLineIsPath)
     : QStyledItemDelegate(parent)
     , m_adjustSecondaryPath(secondaryLineIsPath)
@@ -1106,10 +1120,8 @@ void RenderWidget::slotPrepareExport2(bool delayedRendering)
 
 RenderJobItem *RenderWidget::createRenderJob(const RenderRequest::RenderJob &job)
 {
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(job.outputPath, Qt::MatchExactly, 1);
-    RenderJobItem *renderItem = nullptr;
-    if (!existing.isEmpty()) {
-        renderItem = static_cast<RenderJobItem *>(existing.at(0));
+    RenderJobItem *renderItem = findJobItem(job.outputPath);
+    if (renderItem) {
         if (renderItem->data(1, TwoPassRole).isNull()) {
             if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 // There is an existing job that is still pending
@@ -1672,12 +1684,9 @@ void RenderWidget::parseProfiles(const QString &selectedProfile)
 
 void RenderWidget::setRenderProgress(const QString &dest, int progress, int frame)
 {
-    RenderJobItem *item = nullptr;
+    RenderJobItem *item = findJobItem(dest);
     qDebug() << "RECEIVED PROGRESS INFO: " << dest << ", progress:" << progress << ", FRM: " << frame;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
-    if (!existing.isEmpty()) {
-        item = static_cast<RenderJobItem *>(existing.at(0));
-    } else {
+    if (!item) {
         if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
             // 2 pass rendering, look for first matching job
             for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
@@ -1793,12 +1802,9 @@ void RenderWidget::slotCheckFreeMemory()
 
 void RenderWidget::setRenderStatus(const QString &dest, int status, const QString &error)
 {
-    RenderJobItem *item = nullptr;
-    QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(dest, Qt::MatchExactly, 1);
+    RenderJobItem *item = findJobItem(dest);
     bool firstPassRendering = false;
-    if (!existing.isEmpty()) {
-        item = static_cast<RenderJobItem *>(existing.at(0));
-    } else {
+    if (!item) {
         if (dest == QLatin1String("/dev/null") || dest == QLatin1String("NUL")) {
             // 2 pass rendering, look for first matching job
             for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); i++) {
@@ -1911,6 +1917,35 @@ RenderJobItem *RenderWidget::startingJob()
         item = static_cast<RenderJobItem *>(m_view.running_jobs->itemBelow(item));
     }
     return nullptr;
+}
+
+RenderJobItem *RenderWidget::findJobItem(const QString &dest)
+{
+    if (dest.isEmpty()) {
+        return nullptr;
+    }
+    const QString normDest = normalizeRenderPath(dest);
+    RenderJobItem *fallback = nullptr;
+    for (int i = 0; i < m_view.running_jobs->topLevelItemCount(); ++i) {
+        auto *item = static_cast<RenderJobItem *>(m_view.running_jobs->topLevelItem(i));
+        if (item) {
+            const QString itemPath = normalizeRenderPath(item->text(1));
+#ifdef Q_OS_WIN
+            const bool match = (QString::compare(itemPath, normDest, Qt::CaseInsensitive) == 0);
+#else
+            const bool match = (QString::compare(itemPath, normDest, Qt::CaseSensitive) == 0);
+#endif
+            if (match) {
+                if (item->status() == STARTINGJOB || item->status() == RUNNINGJOB) {
+                    return item;
+                }
+                if (!fallback) {
+                    fallback = item;
+                }
+            }
+        }
+    }
+    return fallback;
 }
 
 void RenderWidget::slotAbortCurrentJob()
@@ -2035,7 +2070,7 @@ void RenderWidget::parseScriptFiles(const QString lastScript)
         auto icon = QFileIconProvider().icon(QFileInfo(f));
         item->setIcon(0, icon.isNull() ? QIcon::fromTheme(QStringLiteral("application-x-executable-script")) : icon);
         item->setSizeHint(0, QSize(m_view.scripts_list->columnWidth(0), fontMetrics().height() * 2));
-        item->setData(1, Qt::UserRole, QUrl(QUrl::fromEncoded(target.toUtf8())).url(QUrl::PreferLocalFile));
+        item->setData(1, Qt::UserRole, normalizeRenderPath(target));
         item->setData(1, ParametersRole, scriptpath.toLocalFile());
         if (scriptFiles.at(i) == lastScript) {
             lastCreatedScript = item;
@@ -2083,7 +2118,7 @@ void RenderWidget::slotStartScript()
     }
     bool jobAdded = false;
     for (auto *item : selected) {
-        QString destination = item->data(1, Qt::UserRole).toString();
+        QString destination = normalizeRenderPath(item->data(1, Qt::UserRole).toString());
         if (QFile::exists(destination)) {
             if (KMessageBox::warningTwoActions(this, i18n("Output file %1 already exists. Do you want to overwrite it?", destination), {},
                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) != KMessageBox::PrimaryAction) {
@@ -2092,10 +2127,8 @@ void RenderWidget::slotStartScript()
         }
         const QString path = item->data(1, ParametersRole).toString();
         // Insert new job in queue
-        RenderJobItem *renderItem = nullptr;
-        QList<QTreeWidgetItem *> existing = m_view.running_jobs->findItems(destination, Qt::MatchExactly, 1);
-        if (!existing.isEmpty()) {
-            renderItem = static_cast<RenderJobItem *>(existing.at(0));
+        RenderJobItem *renderItem = findJobItem(destination);
+        if (renderItem) {
             if (renderItem->status() == RUNNINGJOB || renderItem->status() == WAITINGJOB || renderItem->status() == STARTINGJOB) {
                 KMessageBox::information(
                     this, i18n("There is already a job writing file:<br /><b>%1</b><br />Abort the job if you want to overwrite it…", destination),
