@@ -806,7 +806,10 @@ void ManageSubtitles::editStyle(bool global)
     if (ok) {
         m_model->setSubtitleStyle(styleName, style, global);
         parseStyleList(global);
-        styleList->setCurrentItem(styleList->topLevelItem(styleList->topLevelItemCount() - 1));
+        const auto matches = styleList->findItems(styleName, Qt::MatchExactly, 0);
+        if (!matches.isEmpty()) {
+            styleList->setCurrentItem(matches.first());
+        }
     }
 }
 
