@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-22 00:49+0000\n"
-"PO-Revision-Date: 2026-10-21 17:29+0200\n"
+"POT-Creation-Date: 2026-10-23 00:48+0000\n"
+"PO-Revision-Date: 2026-10-22 18:15+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8767,7 +8767,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:804 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:818 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -20700,7 +20700,7 @@ msgid "Show/hide description of the compositions"
 msgstr "Beschrijving van de composities tonen/verbergen"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
-#: src/dialogs/renderwidget.cpp:561 src/project/dialogs/profilewidget.cpp:155
+#: src/dialogs/renderwidget.cpp:575 src/project/dialogs/profilewidget.cpp:155
 #: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2671
 #, kde-format
 msgid "Search…"
@@ -24207,8 +24207,8 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "Markeringsgegevens exporteren"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2335
-#: src/dialogs/renderwidget.cpp:2359 src/doc/kdenlivedoc.cpp:776
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2368
+#: src/dialogs/renderwidget.cpp:2392 src/doc/kdenlivedoc.cpp:776
 #: src/doc/kdenlivedoc.cpp:782 src/doc/kdenlivedoc.cpp:1416
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
@@ -24456,7 +24456,7 @@ msgid "Top Right"
 msgstr "Rechtsboven"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:385
+#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:399
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:877
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:47
 #, kde-format
@@ -24655,7 +24655,7 @@ msgstr ""
 "De volgende parameters zullen geen effect hebben, omdat ze overschreven "
 "worden door de equivalente gebruikerersinterface-opties: <icode>%1</icode>"
 
-#: src/dialogs/renderwidget.cpp:101
+#: src/dialogs/renderwidget.cpp:115
 #, kde-format
 msgid ""
 "Show xml playlist used for rendering:\n"
@@ -24664,7 +24664,7 @@ msgstr ""
 "XML-afspeellijst gebruikt voor renderen tonen:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:106
+#: src/dialogs/renderwidget.cpp:120
 #, kde-format
 msgid ""
 "Show render log file:\n"
@@ -24673,127 +24673,127 @@ msgstr ""
 "Logbestand van renderen tonen:\n"
 " %1"
 
-#: src/dialogs/renderwidget.cpp:211 src/dialogs/renderwidget.cpp:215
+#: src/dialogs/renderwidget.cpp:225 src/dialogs/renderwidget.cpp:229
 #, kde-format
 msgid "Show Log"
 msgstr "Log tonen"
 
-#: src/dialogs/renderwidget.cpp:230 src/dialogs/renderwidget.cpp:232
+#: src/dialogs/renderwidget.cpp:244 src/dialogs/renderwidget.cpp:246
 #, kde-format
 msgid "Show Xml"
 msgstr "XML tonen"
 
-#: src/dialogs/renderwidget.cpp:258 src/dialogs/renderwidget.cpp:2115
+#: src/dialogs/renderwidget.cpp:272 src/dialogs/renderwidget.cpp:2148
 #, kde-format
 msgid "Waiting…"
 msgstr "Wacht..."
 
-#: src/dialogs/renderwidget.cpp:262 src/dialogs/Simplesplash.qml:209
+#: src/dialogs/renderwidget.cpp:276 src/dialogs/Simplesplash.qml:209
 #: src/dialogs/Simplesplash.qml:240 src/dialogs/Simplesplash.qml:319
 #, kde-format
 msgid "Starting…"
 msgstr "Bezig met starten…"
 
-#: src/dialogs/renderwidget.cpp:265
+#: src/dialogs/renderwidget.cpp:279
 #, kde-format
 msgid "Rendering finished"
 msgstr "Renderen voltooid"
 
-#: src/dialogs/renderwidget.cpp:270
+#: src/dialogs/renderwidget.cpp:284
 #, kde-format
 msgid "Rendering crashed"
 msgstr "Renderen mislukt"
 
-#: src/dialogs/renderwidget.cpp:275
+#: src/dialogs/renderwidget.cpp:289
 #, kde-format
 msgid "Rendering aborted"
 msgstr "Renderen afgebroken"
 
-#: src/dialogs/renderwidget.cpp:373
+#: src/dialogs/renderwidget.cpp:387
 #, kde-format
 msgid "Nearest (fast)"
 msgstr "Dichtstbijzijnde (snel)"
 
-#: src/dialogs/renderwidget.cpp:374 src/monitor/monitormanager.cpp:657
+#: src/dialogs/renderwidget.cpp:388 src/monitor/monitormanager.cpp:657
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "Bi-lineair (goed)"
 
-#: src/dialogs/renderwidget.cpp:375 src/monitor/monitormanager.cpp:658
+#: src/dialogs/renderwidget.cpp:389 src/monitor/monitormanager.cpp:658
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "Bi-kubisch (beter)"
 
-#: src/dialogs/renderwidget.cpp:376
+#: src/dialogs/renderwidget.cpp:390
 #, kde-format
 msgid "Lanczos (best)"
 msgstr "Lanczos (beste)"
 
-#: src/dialogs/renderwidget.cpp:386
+#: src/dialogs/renderwidget.cpp:400
 #, kde-format
 msgid "Horizontal (16:9)"
 msgstr "Horizontaal (16:9)"
 
-#: src/dialogs/renderwidget.cpp:387
+#: src/dialogs/renderwidget.cpp:401
 #, kde-format
 msgid "Vertical (9:16)"
 msgstr "Verticaal (9:16)"
 
-#: src/dialogs/renderwidget.cpp:388
+#: src/dialogs/renderwidget.cpp:402
 #, kde-format
 msgid "Square (1:1)"
 msgstr "Vierkant (1:1)"
 
-#: src/dialogs/renderwidget.cpp:392
+#: src/dialogs/renderwidget.cpp:406
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
 msgstr "Eén veld (snel, halve verticale resolutie)"
 
-#: src/dialogs/renderwidget.cpp:393 src/monitor/monitormanager.cpp:639
+#: src/dialogs/renderwidget.cpp:407 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "Lineair mengen (snel)"
 
-#: src/dialogs/renderwidget.cpp:394 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:408 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - alleen tijdelijk (goed)"
 
-#: src/dialogs/renderwidget.cpp:395
+#: src/dialogs/renderwidget.cpp:409
 #, kde-format
 msgid "YADIF (better)"
 msgstr "YADIF (beter)"
 
-#: src/dialogs/renderwidget.cpp:396
+#: src/dialogs/renderwidget.cpp:410
 #, kde-format
 msgid "BWDIF (best)"
 msgstr "BWDIF (beste)"
 
-#: src/dialogs/renderwidget.cpp:406 src/dialogs/subtitleedit.cpp:1561
+#: src/dialogs/renderwidget.cpp:420 src/dialogs/subtitleedit.cpp:1561
 #: src/dialogs/subtitleedit.cpp:1578 src/dialogs/subtitleedit.cpp:1592
 #: src/dialogs/subtitleedit.cpp:1632 src/project/dialogs/slideshowclip.cpp:59
 #, kde-format
 msgid "None"
 msgstr "Geen"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:421
 #: src/mltcontroller/clippropertiescontroller.cpp:1414
 #: src/mltcontroller/clippropertiescontroller.cpp:1456
 #, kde-format
 msgid "Timecode"
 msgstr "Tijdcode"
 
-#: src/dialogs/renderwidget.cpp:408
+#: src/dialogs/renderwidget.cpp:422
 #, kde-format
 msgid "Timecode Non Drop Frame"
 msgstr "Tijdcode frame dat niet wordt losgelaten"
 
-#: src/dialogs/renderwidget.cpp:409
+#: src/dialogs/renderwidget.cpp:423
 #, kde-format
 msgid "Frame Number"
 msgstr "Framenummer"
 
-#: src/dialogs/renderwidget.cpp:412
+#: src/dialogs/renderwidget.cpp:426
 #, kde-format
 msgctxt "Explanation for the 2 pass rendering feature"
 msgid ""
@@ -24807,22 +24807,22 @@ msgstr ""
 "Niet vergelijkbaar met variabele bitsnelheid en alleen relevant voor sommige "
 "videocodecs."
 
-#: src/dialogs/renderwidget.cpp:416
+#: src/dialogs/renderwidget.cpp:430
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "Rendering met lage kwaliteitsproxy"
 
-#: src/dialogs/renderwidget.cpp:503
+#: src/dialogs/renderwidget.cpp:517
 #, kde-format
 msgid "File"
 msgstr "Bestand"
 
-#: src/dialogs/renderwidget.cpp:520
+#: src/dialogs/renderwidget.cpp:534
 #, kde-format
 msgid "Stored Playlists"
 msgstr "Opgeslagen afspeellijsten"
 
-#: src/dialogs/renderwidget.cpp:541 src/timeline2/view/previewmanager.cpp:46
+#: src/dialogs/renderwidget.cpp:555 src/timeline2/view/previewmanager.cpp:46
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
@@ -24831,66 +24831,66 @@ msgstr ""
 "Kon de toepassing kdenlive_render niet vinden, er is iets fout met uw "
 "installatie. Renderen zal niet werken"
 
-#: src/dialogs/renderwidget.cpp:544
+#: src/dialogs/renderwidget.cpp:558
 #, kde-format
 msgid "Do nothing"
 msgstr "Doe niets"
 
-#: src/dialogs/renderwidget.cpp:545
+#: src/dialogs/renderwidget.cpp:559
 #, kde-format
 msgid "Close Kdenlive"
 msgstr "Kdenlive sluiten"
 
-#: src/dialogs/renderwidget.cpp:550
+#: src/dialogs/renderwidget.cpp:564
 #, kde-format
 msgid "Shut down computer"
 msgstr "Computer afsluiten"
 
-#: src/dialogs/renderwidget.cpp:588
+#: src/dialogs/renderwidget.cpp:602
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr "Werkt alleen voor het matroska-formaat (mkv)"
 
-#: src/dialogs/renderwidget.cpp:603
+#: src/dialogs/renderwidget.cpp:617
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "Er was een probleem bij het delen van het document: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:603 src/dialogs/renderwidget.cpp:611
+#: src/dialogs/renderwidget.cpp:617 src/dialogs/renderwidget.cpp:625
 #: src/ui/renderwidget_ui.ui:970
 #, kde-format
 msgid "Share"
 msgstr "Delen"
 
-#: src/dialogs/renderwidget.cpp:608
+#: src/dialogs/renderwidget.cpp:622
 #, kde-format
 msgid "Document shared successfully"
 msgstr "Document met succes gedeeld"
 
-#: src/dialogs/renderwidget.cpp:611
+#: src/dialogs/renderwidget.cpp:625
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "U kunt het gedeelde document vinden op: <a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:786
+#: src/dialogs/renderwidget.cpp:800
 #, kde-format
 msgid "Beginning"
 msgstr "Startend"
 
-#: src/dialogs/renderwidget.cpp:927
+#: src/dialogs/renderwidget.cpp:941
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr "Een clip voor het renderen toevoegen aan tijdlijn"
 
-#: src/dialogs/renderwidget.cpp:933
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr ""
 "Kan het melt programma; benodigd voor renderen (onderdeel van MLT), niet "
 "vinden"
 
-#: src/dialogs/renderwidget.cpp:942
+#: src/dialogs/renderwidget.cpp:956
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -24902,19 +24902,19 @@ msgstr ""
 "uit synchronisatie raken van audio/video.\n"
 "We bevelen codering overzetten naar een formaat vriendelijk voor bewerken."
 
-#: src/dialogs/renderwidget.cpp:951
+#: src/dialogs/renderwidget.cpp:965
 #, kde-format
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "Toch renderen"
 
-#: src/dialogs/renderwidget.cpp:964
+#: src/dialogs/renderwidget.cpp:978
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "Codering overzetten"
 
-#: src/dialogs/renderwidget.cpp:987
+#: src/dialogs/renderwidget.cpp:1001
 #, kde-format
 msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
@@ -24923,18 +24923,18 @@ msgstr ""
 "Het hoofdaudio-kanaal is gedempt, dus het gerenderde bestand zal geen "
 "audiostream bevatten. Wilt u doorgaan met renderen?"
 
-#: src/dialogs/renderwidget.cpp:988
+#: src/dialogs/renderwidget.cpp:1002
 #, kde-format
 msgctxt "@action:button"
 msgid "Render"
 msgstr "Renderen (omzetten)"
 
-#: src/dialogs/renderwidget.cpp:998 src/project/dialogs/archivewidget.cpp:938
+#: src/dialogs/renderwidget.cpp:1012 src/project/dialogs/archivewidget.cpp:938
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Bestand bestaat reeds, overschrijven?"
 
-#: src/dialogs/renderwidget.cpp:1005 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:1019 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -24943,12 +24943,12 @@ msgstr ""
 "De map %1 kon niet gemaakt worden.\n"
 "Zorg ervoor dat U de nodige rechten heeft."
 
-#: src/dialogs/renderwidget.cpp:1077
+#: src/dialogs/renderwidget.cpp:1091
 #, kde-format
 msgid "The following errors occurred while trying to render"
 msgstr "De volgende fouten deden zich voor tijdens de poging te renderen"
 
-#: src/dialogs/renderwidget.cpp:1117 src/dialogs/renderwidget.cpp:2101
+#: src/dialogs/renderwidget.cpp:1129 src/dialogs/renderwidget.cpp:2134
 #, kde-format
 msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -24957,47 +24957,47 @@ msgstr ""
 "Een opdracht schrijft al naar dit bestand:<br /><b>%1</b><br />Stop die "
 "opdracht als u deze wilt overschrijven…"
 
-#: src/dialogs/renderwidget.cpp:1118 src/dialogs/renderwidget.cpp:2102
+#: src/dialogs/renderwidget.cpp:1130 src/dialogs/renderwidget.cpp:2135
 #, kde-format
 msgid "Already running"
 msgstr "Loopt reeds"
 
-#: src/dialogs/renderwidget.cpp:1147
+#: src/dialogs/renderwidget.cpp:1159
 #, kde-format
 msgid "Video without audio track"
 msgstr "Video zonder audio track"
 
-#: src/dialogs/renderwidget.cpp:1149
+#: src/dialogs/renderwidget.cpp:1161
 #, kde-format
 msgid "Audio without video track"
 msgstr "Audio zonder videotrack"
 
-#: src/dialogs/renderwidget.cpp:1236 src/main.cpp:546
+#: src/dialogs/renderwidget.cpp:1248 src/main.cpp:546
 #, kde-format
 msgid "Rendering %1 started"
 msgstr "Renderen %1 gestart"
 
-#: src/dialogs/renderwidget.cpp:1293 src/monitor/monitor.cpp:1536
+#: src/dialogs/renderwidget.cpp:1305 src/monitor/monitor.cpp:1536
 #, kde-format
 msgid "untitled"
 msgstr "naamloos"
 
-#: src/dialogs/renderwidget.cpp:1341
+#: src/dialogs/renderwidget.cpp:1353
 #, kde-format
 msgid "No preset selected"
 msgstr "Geen voor-instelling geselecteerd"
 
-#: src/dialogs/renderwidget.cpp:1343
+#: src/dialogs/renderwidget.cpp:1355
 #, kde-format
 msgid "No matching preset"
 msgstr "Geen overeenkomende voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1355
+#: src/dialogs/renderwidget.cpp:1367
 #, kde-format
 msgid "Invalid preset"
 msgstr "Ongeldige voorinstelling"
 
-#: src/dialogs/renderwidget.cpp:1496
+#: src/dialogs/renderwidget.cpp:1508
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
@@ -25006,66 +25006,66 @@ msgstr ""
 "Renderen zonder audio en video werkt niet. Schakel minstens een van beiden "
 "in."
 
-#: src/dialogs/renderwidget.cpp:1731
+#: src/dialogs/renderwidget.cpp:1740
 #, kde-format
 msgid "Remaining time "
 msgstr "Resterende tijd "
 
-#: src/dialogs/renderwidget.cpp:1733 src/dialogs/renderwidget.cpp:1836
+#: src/dialogs/renderwidget.cpp:1742 src/dialogs/renderwidget.cpp:1842
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1 dag "
 msgstr[1] "%1 dagen "
 
-#: src/dialogs/renderwidget.cpp:1745
+#: src/dialogs/renderwidget.cpp:1754
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (frame %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1767
+#: src/dialogs/renderwidget.cpp:1776
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr "Minder dan %1MB van beschikbaar geheugen resteert."
 
-#: src/dialogs/renderwidget.cpp:1838
+#: src/dialogs/renderwidget.cpp:1844
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "Renderen over %1 voltooid"
 
-#: src/dialogs/renderwidget.cpp:1850
+#: src/dialogs/renderwidget.cpp:1856
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "Renderen van %1 is klaar in %2"
 
-#: src/dialogs/renderwidget.cpp:1853
+#: src/dialogs/renderwidget.cpp:1859
 #, kde-format
 msgid "First pass rendering of %1 finished"
 msgstr "Eerste passage van renderen van %1 is voltooid"
 
-#: src/dialogs/renderwidget.cpp:1876
+#: src/dialogs/renderwidget.cpp:1882
 #, kde-format
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) is gecrasht</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1878
+#: src/dialogs/renderwidget.cpp:1884
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>Het omzetten (renderen) van %1 is vastgelopen</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1921
+#: src/dialogs/renderwidget.cpp:1956
 #, kde-format
 msgid "Are you sure you want to abort the current job?"
 msgstr "Wilt u de huidige taak afbreken?"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1921 src/dialogs/renderwidget.cpp:1956
+#: src/dialogs/renderwidget.cpp:1956 src/dialogs/renderwidget.cpp:1991
 #: src/ui/renderwidget_ui.ui:940
 #, kde-format
 msgid "Abort Job"
 msgstr "Taak afbreken"
 
-#: src/dialogs/renderwidget.cpp:1922 src/dialogs/wizard.cpp:80
+#: src/dialogs/renderwidget.cpp:1957 src/dialogs/wizard.cpp:80
 #: src/doc/kdenlivedoc.cpp:1972 src/onlineresources/resourcewidget.cpp:50
 #: src/project/cliptranscode.cpp:193 src/project/cliptranscode.cpp:227
 #: src/project/dialogs/archivewidget.cpp:795
@@ -25075,63 +25075,63 @@ msgstr "Taak afbreken"
 msgid "Abort"
 msgstr "Afbreken"
 
-#: src/dialogs/renderwidget.cpp:1929
+#: src/dialogs/renderwidget.cpp:1964
 #, kde-format
 msgid "Are you sure you want to remove the waiting job from queue?"
 msgstr "Wilt u de wachtende taak in de wachtrij verwijderen?"
 
-#: src/dialogs/renderwidget.cpp:1929 src/dialogs/renderwidget.cpp:1959
+#: src/dialogs/renderwidget.cpp:1964 src/dialogs/renderwidget.cpp:1994
 #, kde-format
 msgid "Remove Job"
 msgstr "Opdracht verwijderen"
 
-#: src/dialogs/renderwidget.cpp:2064
+#: src/dialogs/renderwidget.cpp:2099
 #, kde-format
 msgid "Start Selected Scripts"
 msgstr "Geselecteerde scripts starten"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/dialogs/renderwidget.cpp:2064 src/ui/renderwidget_ui.ui:1153
+#: src/dialogs/renderwidget.cpp:2099 src/ui/renderwidget_ui.ui:1153
 #, kde-format
 msgid "Start Script"
 msgstr "Start script"
 
-#: src/dialogs/renderwidget.cpp:2065
+#: src/dialogs/renderwidget.cpp:2100
 #, kde-format
 msgid "Delete Selected Scripts"
 msgstr "Geselecteerde scripts verwijderen"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/dialogs/renderwidget.cpp:2065 src/dialogs/renderwidget.cpp:2139
+#: src/dialogs/renderwidget.cpp:2100 src/dialogs/renderwidget.cpp:2172
 #: src/ui/renderwidget_ui.ui:1146
 #, kde-format
 msgid "Delete Script"
 msgstr "Script verwijderen"
 
-#: src/dialogs/renderwidget.cpp:2066
+#: src/dialogs/renderwidget.cpp:2101
 #, kde-format
 msgid "Copy Selected Commands"
 msgstr "Geselecteerde commando's kopiëren"
 
 #. i18n: ectx: property (text), widget (QPushButton, copy_script_command)
-#: src/dialogs/renderwidget.cpp:2066 src/ui/renderwidget_ui.ui:1101
+#: src/dialogs/renderwidget.cpp:2101 src/ui/renderwidget_ui.ui:1101
 #, kde-format
 msgid "Copy Command"
 msgstr "Commando kopiëren"
 
-#: src/dialogs/renderwidget.cpp:2088
+#: src/dialogs/renderwidget.cpp:2123
 #, kde-format
 msgid "Output file %1 already exists. Do you want to overwrite it?"
 msgstr "Uitvoerbestand %1 bestaat al. Wilt u het overschrijven?"
 
-#: src/dialogs/renderwidget.cpp:2138
+#: src/dialogs/renderwidget.cpp:2171
 #, kde-format
 msgid "Are you sure you want to delete the selected script?"
 msgid_plural "Are you sure you want to delete %1 selected scripts?"
 msgstr[0] "Wilt u het geselecteerde script verwijderen?"
 msgstr[1] "Wilt u de %1 geselecteerde scripts verwijderen?"
 
-#: src/dialogs/renderwidget.cpp:2179
+#: src/dialogs/renderwidget.cpp:2212
 #, kde-format
 msgid ""
 "Render command copied to clipboard:\n"
@@ -25140,27 +25140,27 @@ msgstr ""
 "Renderopdracht gekopieerd naar klembord:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2517
+#: src/dialogs/renderwidget.cpp:2550
 #, kde-format
 msgid "Rendered File Length: %1"
 msgstr "Bestandslengte na renderen: %1"
 
-#: src/dialogs/renderwidget.cpp:2520
+#: src/dialogs/renderwidget.cpp:2553
 #, kde-format
 msgid "Timecode Offset: %1"
 msgstr "Tijdcodeverschuiving: %1"
 
-#: src/dialogs/renderwidget.cpp:2525
+#: src/dialogs/renderwidget.cpp:2558
 #, kde-format
 msgid "Add clips in timeline before rendering"
 msgstr "Clip in de tijdlijn toevoegen alvorens te renderen"
 
-#: src/dialogs/renderwidget.cpp:2535
+#: src/dialogs/renderwidget.cpp:2568
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr "Uitvoerlocatie is niet beschrijfbaar, selecteer een andere"
 
-#: src/dialogs/renderwidget.cpp:2540
+#: src/dialogs/renderwidget.cpp:2573
 #, kde-format
 msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
@@ -25169,7 +25169,7 @@ msgstr ""
 "Het renderresultaat zal een bestandsgrootte van ongeveer %1 hebben, maar er "
 "is slechts %2 vrije schijfruimte beschikbaar. Het renderen kan mislukken."
 
-#: src/dialogs/renderwidget.cpp:2546
+#: src/dialogs/renderwidget.cpp:2579
 #, kde-format
 msgid ""
 "Your disk space is limited.\n"
@@ -25179,26 +25179,26 @@ msgstr ""
 "Er is %1 vrije schijfruimte en het renderresultaat zal ongeveer %2 in beslag "
 "nemen."
 
-#: src/dialogs/renderwidget.cpp:2561
+#: src/dialogs/renderwidget.cpp:2594
 #, kde-format
 msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "<b>Er ontbreekt een clip gebruikt in het project.</b>"
 msgstr[1] "<b>Er ontbreken %1 clips gebruikt in het project.</b>"
 
-#: src/dialogs/renderwidget.cpp:2563
+#: src/dialogs/renderwidget.cpp:2596
 #, kde-format
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "Eén ontbrekende clip (niet gebruikt)."
 msgstr[1] "%1 ontbrekende clips (niet gebruikt)."
 
-#: src/dialogs/renderwidget.cpp:2565
+#: src/dialogs/renderwidget.cpp:2598
 #, kde-format
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "%1 ontbrekende clips (<b>%2 worden gebruikt in het project</b>)."
 
-#: src/dialogs/renderwidget.cpp:2709
+#: src/dialogs/renderwidget.cpp:2742
 #, kde-format
 msgid ""
 "One Field deinterlacing may halve the vertical resolution of interlaced clip "
@@ -25213,7 +25213,7 @@ msgstr[1] ""
 "Bij het de-interlacen van één veld kan de verticale resolutie van %1 "
 "geïnterlinieerde clips halveren: %2"
 
-#: src/dialogs/renderwidget.cpp:2749
+#: src/dialogs/renderwidget.cpp:2782
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -25222,12 +25222,12 @@ msgstr ""
 "Snelheidsparameters van codec:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2769
+#: src/dialogs/renderwidget.cpp:2802
 #, kde-format
 msgid "Add to Current Project"
 msgstr "Aan huidig project toevoegen"
 
-#: src/dialogs/renderwidget.cpp:2778
+#: src/dialogs/renderwidget.cpp:2811
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, kde-format
@@ -36857,12 +36857,12 @@ msgstr "In modus Aaneenvoegen grootte wijzigen."
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:284
 #, kde-format
 msgid "Resize All to Same Duration"
-msgstr ""
+msgstr "Alles naar dezelfde duur aanpassen"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:285
 #, kde-format
 msgid "Resize Each Clip Using Available Space"
-msgstr ""
+msgstr "Pas het formaat van elke clip aan op basis van de beschikbare ruimte"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:290
 #, kde-format
@@ -36875,11 +36875,18 @@ msgid ""
 "\n"
 "Use Ripple mode to push other clips out of the way\n"
 msgstr ""
+"Er is onvoldoende ruimte om de gewenste duur voor alle clips te bereiken.\n"
+"\n"
+"U kunt alle clips aanpassen naar een gelijke duur van %1 frames, elke clip "
+"aanpassen\n"
+"op basis van de beschikbare ruimte, of de bewerking afbreken.\n"
+"\n"
+"Gebruik de 'Ripple'-modus om andere clips opzij te schuiven.\n"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:294
 #, kde-format
 msgid "Not Enough Space"
-msgstr ""
+msgstr "Niet genoeg ruimte"
 
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:420
 #, kde-format
