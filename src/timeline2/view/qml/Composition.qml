@@ -33,6 +33,7 @@ Item {
     required property bool showKeyframes
     required property bool isGrabbed
     required property var keyframeModel
+    required property var keyframeModelList
     required property bool grouped
     required property int trackId// Id in the model
     required property int fakeTid
@@ -505,6 +506,12 @@ Item {
                 }
                 Binding {
                     target: effectRow.item
+                    property: "kfrModelList"
+                    value: compositionRoot.keyframeModelList
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                }
+                Binding {
+                    target: effectRow.item
                     property: "selected"
                     value: compositionRoot.selected
                     when: effectRow.status == Loader.Ready && effectRow.item
@@ -571,10 +578,6 @@ Item {
             Connections {
                 target: effectRow.item
                 function onSeek(position) { compositionRoot.seek(position) }
-            }
-            Connections {
-                target: effectRow.item
-                function onUpdateEffectKeyframe(clipId, oldFrame, newFrame) { compositionRoot.timeline.updateEffectKeyframe(clipId, oldFrame, newFrame) }
             }
             Connections {
                 target: effectRow.item

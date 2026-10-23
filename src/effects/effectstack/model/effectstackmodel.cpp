@@ -1647,6 +1647,7 @@ void EffectStackModel::setActiveEffect(int ix)
             Q_EMIT currentChanged(getIndexFromItem(effect), true);
         }
     }
+    Q_EMIT customDataChanged(QModelIndex(), QModelIndex(), {TimelineModel::KeyframesListRole});
 }
 
 int EffectStackModel::getActiveEffect() const
@@ -1813,6 +1814,21 @@ KeyframeModel *EffectStackModel::getEffectKeyframeModel()
         if (listModel) {
             return listModel->getKeyModel();
         }
+    }
+    return nullptr;
+}
+
+KeyframeModelList *EffectStackModel::getEffectKeyframeModelList()
+{
+    if (rootItem->childCount() == 0) return nullptr;
+    int ix = getActiveEffect();
+    if (ix < 0 || ix >= rootItem->childCount()) {
+        return nullptr;
+    }
+    std::shared_ptr<EffectItemModel> sourceEffect = std::static_pointer_cast<EffectItemModel>(rootItem->child(ix));
+    if (sourceEffect->isAssetEnabled()) {
+        std::shared_ptr<KeyframeModelList> listModel = sourceEffect->getKeyframeModel();
+        return listModel.get();
     }
     return nullptr;
 }

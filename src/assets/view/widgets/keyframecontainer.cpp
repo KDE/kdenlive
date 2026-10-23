@@ -1170,7 +1170,9 @@ void KeyframeContainer::slotImportKeyframes()
     connect(import, &KeyframeImport::updateQmlView, this, [this](QPersistentModelIndex ix, const QString animData) {
         auto kfModel = m_keyframes->getKeyModel(ix);
         if (kfModel) {
-            kfModel->parseAnimProperty(animData);
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            kfModel->parseAnimProperty(animData, -1, -1, undo, redo);
         }
     });
     import->updateView();

@@ -168,6 +168,7 @@ public:
     bool adjustEffectLength(const QString &effectName, int duration, int originalDuration, Fun &undo, Fun &redo);
     void passTimelineProperties(const std::shared_ptr<ClipModel> &other);
     KeyframeModel *getKeyframeModel();
+    KeyframeModelList *getKeyframeModelList();
 
     int fadeIn() const;
     int fadeOut() const;

@@ -131,8 +131,8 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
         Keyframe kf = kfr->getNextKeyframe(GenTime(-1), &ok);
         int i = 0;
         while (ok) {
-            QString rectData = kfr->getInterpolatedValue(kf.first).toString();
-            QStringList data = rectData.split(QLatin1Char(' '));
+            const QString rectData = kfr->getInterpolatedValue(kf.first).toString();
+            const QStringList data = rectData.split(QLatin1Char(' '));
             if (data.size() > 3) {
                 QRectF r(data.at(0).toInt(), data.at(1).toInt(), data.at(2).toInt(), data.at(3).toInt());
                 QPointF pt(r.center());
@@ -145,7 +145,7 @@ void KeyframeMonitorHelper::slotUpdateFromMonitorData(const QVariantList &center
                     if (data.size() > 4) {
                         res.append(QStringLiteral(" %1").arg(data.at(4)));
                     }
-                    kfr->updateKeyframe(kf.first, res);
+                    kfr->updateKeyframe(kf.first, res, true);
                 }
             }
             kf = kfr->getNextKeyframe(kf.first, &ok);
