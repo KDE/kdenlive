@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-14 03:11+0000\n"
-"PO-Revision-Date: 2026-10-07 08:39+0200\n"
+"PO-Revision-Date: 2026-10-22 05:43+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
@@ -2623,7 +2623,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
 #, kde-format
 msgid "Crystalizer"
-msgstr "Кристализатор"
+msgstr "Кристаллизатор"
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:6
 #, kde-format
@@ -2632,7 +2632,7 @@ msgid ""
 "This filter linearly increases differences between each audio sample."
 msgstr ""
 "Простой алгоритм для придания чёткости звуковому шуму.\n"
-"Этот фильтр выполняет линейное увеличение разницы между звуковыми сэмплами."
+"Этот фильтр выполняет линейное увеличение разницы между звуковыми семплами."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:12
 #, kde-format
@@ -10910,7 +10910,7 @@ msgstr "Цвет 4"
 #: data/effects/frei0r/frei0r_facedetect.xml:59
 #, kde-format
 msgid "Set the shape color of the fourth detected face."
-msgstr "Установить цвет фигуры четвертого найденного лица"
+msgstr "Установить цвет фигуры четвёртого найденного лица"
 
 #: data/effects/frei0r/frei0r_facedetect.xml:63 data/effects/gpsgraphic.xml:112
 #, kde-format
@@ -16006,12 +16006,12 @@ msgstr ""
 #: data/effects/ladspa/ladspa_1902.xml:4
 #, kde-format
 msgid "GLAME Butterworth X-Over"
-msgstr "Перекрестный Баттерворта GLAME"
+msgstr "Перекрёстный Баттерворта GLAME"
 
 #: data/effects/ladspa/ladspa_1902.xml:5
 #, kde-format
 msgid "Butterworth Crossover Filter (LADSPA 1902)"
-msgstr "Перекрестный фильтр Баттерворта (LADSPA 1902)"
+msgstr "Перекрёстный фильтр Баттерворта (LADSPA 1902)"
 
 #: data/effects/ladspa/ladspa_1902.xml:11
 #: data/effects/ladspa/ladspa_1903.xml:11
@@ -19225,7 +19225,7 @@ msgid ""
 "SMPTE color bars,Philips PM5544,FuBK,Simplified FuBK"
 msgstr ""
 "Цветные полосы PAL,Цветные полосы PAL с красным,Цветные полосы BBC 95%,"
-"Цветные полосы EBU 75%,Цветные полосы SMPTE,Philips PM5544,FuBK,Упрощенные "
+"Цветные полосы EBU 75%,Цветные полосы SMPTE,Philips PM5544,FuBK,Упрощённые "
 "FuBK"
 
 #: data/generators/frei0r_test_pat_b.xml:8
@@ -19655,7 +19655,7 @@ msgid ""
 "A) * 256) / (B + 1)"
 msgstr ""
 "Выполняет RGB[A] операцию осветления между источниками\n"
-"пикселов, с использованием обобщенного алгоритма:\n"
+"пикселов, с использованием обобщённого алгоритма:\n"
 "D = насыщенность 255 или истощение 0, из ((255 - А) * 256) / (B + 1)"
 
 #: data/transitions/frei0r/frei0r_cairoaffineblend.xml:4
@@ -19795,7 +19795,7 @@ msgid ""
 "generalised algorithm: D = saturation of 255 or (A * 256) / (256 - B)"
 msgstr ""
 "Выполняет RGB[A] операцию осветления между источниками\n"
-"пикселов, используя обобщенный алгоритм:\n"
+"пикселов, используя обобщённый алгоритм:\n"
 "D = насыщенность 255 или (А * 256) / (256 - B)"
 
 #: data/transitions/frei0r/frei0r_euclid_eraser.xml:4
@@ -19896,7 +19896,7 @@ msgid ""
 "generalised algorithm: D = A * (B + (2 * B) * (255 - A))"
 msgstr ""
 "Выполняет RGB[A] операцию наложения между\n"
-"источниками пикселов, используя обобщенный\n"
+"источниками пикселов, используя обобщённый\n"
 "алгоритм: D = A * (B + (2 * B) * (255 - А))"
 
 #: data/transitions/frei0r/frei0r_push-down.xml:4
@@ -29121,7 +29121,7 @@ msgstr "Гц "
 #: src/lib/audio/audioStreamInfo.cpp:164 src/monitor/monitor.cpp:325
 #, kde-format
 msgid "Merged streams"
-msgstr "Объединенные потоки"
+msgstr "Объединённые потоки"
 
 #: src/library/librarywidget.cpp:181 src/statusbarmessagelabel.cpp:81
 #, kde-format
@@ -38076,8 +38076,8 @@ msgid ""
 "\">Wikipedia:Sixteenth_note</a>"
 msgstr ""
 "Шестнадцатая нота. Длительностью в половину восьмой ноты (U+266a). См. <a "
-"href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">Википедия: Шестнадцая "
-"нота (на английском)</a>"
+"href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">Википедия: "
+"Шестнадцатая нота (на английском)</a>"
 
 #: src/titler/unicodedialog.cpp:208
 #, kde-format

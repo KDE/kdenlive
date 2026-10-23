@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-14 03:11+0000\n"
-"PO-Revision-Date: 2026-10-17 08:20+0200\n"
+"PO-Revision-Date: 2026-10-21 09:41+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -41973,7 +41973,7 @@ msgstr "Scripts"
 #: src/ui/renderwidget_ui.ui:1096
 #, kde-format
 msgid "Start Script"
-msgstr "Iniciar script"
+msgstr "Inicia script"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
 #: src/ui/renderwidget_ui.ui:1103

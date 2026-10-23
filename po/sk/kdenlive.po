@@ -30726,19 +30726,15 @@ msgid "Continue without"
 msgstr "Pokračovať bez"
 
 #: src/mainwindow.cpp:2528
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
 "project, then move all temporary files from <br/><b>%1</b> to the project "
 "file location and reload"
 msgstr ""
-"Aktuálny projekt nebol uložený. Toto najprv uloží projekt, potom presunie "
-"všetky dočasné súbory z <b>%1</b> do <b>%2</b>, a súbory projektu sa znovu "
-"načítajú"
+"Aktuálny projekt nebol uložený.<br/>Najprv sa uloží projekt, potom sa všetky "
+"dočasné súbory presunú z <br/><b>%1</b> do umiestnenia súboru projektu a "
+"projekt sa znova načíta"
 
 #: src/mainwindow.cpp:2540
 #, kde-format
