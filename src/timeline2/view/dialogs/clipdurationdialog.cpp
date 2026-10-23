@@ -260,9 +260,8 @@ void ClipDurationDialog::accept()
             }
 
             int maxFit;
-
             if (available == INT_MAX) {
-                maxFit = m_groupMaxDuration;
+                maxFit = m_groupMaxDuration == -1 ? INT_MAX : m_groupMaxDuration;
             } else if (available < INT_MAX - prospectiveDuration) {
                 maxFit = prospectiveDuration + available;
             } else {
@@ -280,7 +279,7 @@ void ClipDurationDialog::accept()
             }
         }
 
-        if (anyClipLacksSpace) {
+        if (anyClipLacksSpace && m_itemIds.size() > 1) {
             KGuiItem uniformItem(i18n("Resize All to Same Duration"));
             KGuiItem availableItem(i18n("Resize Each Clip Using Available Space"));
             KGuiItem abortItem(i18n("Abort"));
