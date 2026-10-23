@@ -230,9 +230,9 @@ void ClipDurationDialog::accept()
             }
 
             ItemInfo currentInfo = m_model->getItemInfo(c);
-
             if (newDuration <= currentInfo.playTime) {
-                targetDurations[c] = currentInfo.playTime;
+                // Making clip shorter, nothing else to do
+                targetDurations[c] = newDuration;
                 continue;
             }
 
