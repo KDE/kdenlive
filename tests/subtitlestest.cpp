@@ -283,6 +283,45 @@ surrounded by whitespace
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Delete a subtitle layer with overlapping starts in ID order")
+    {
+        const double fps = pCore->getCurrentFps();
+        subtitleModel->setMaxLayer(3);
+        std::vector<int> ids(4);
+        // Higher layers have lower IDs, so an ID-ordered move would encounter occupied destinations.
+        for (int layer = 3; layer >= 0; --layer) {
+            ids[layer] = KdenliveTests::getNextId();
+            REQUIRE(subtitleModel->addSubtitle(ids[layer], {layer, GenTime(10, fps)},
+                                               SubtitleEvent(true, GenTime(30, fps), "Default", "", 0, 0, 0, "", QString::number(layer)), false, false));
+        }
+        subtitleModel->requestDeleteLayer(1);
+        REQUIRE(subtitleModel->getMaxLayer() == 2);
+        REQUIRE(subtitleModel->rowCount() == 3);
+        CHECK_FALSE(subtitleModel->hasSubtitle(ids[1]));
+        CHECK(subtitleModel->getLayerForId(ids[0]) == 0);
+        CHECK(subtitleModel->getLayerForId(ids[2]) == 1);
+        CHECK(subtitleModel->getLayerForId(ids[3]) == 2);
+        for (int layer : {0, 2, 3}) {
+            CHECK(subtitleModel->getStartPosForId(ids[layer]) == GenTime(10, fps));
+            CHECK(subtitleModel->getText(ids[layer]) == QString::number(layer));
+        }
+        undoStack->undo();
+        REQUIRE(subtitleModel->rowCount() == 4);
+        CHECK(subtitleModel->getMaxLayer() == 3);
+        for (int layer = 0; layer < 4; ++layer) {
+            CHECK(subtitleModel->getLayerForId(ids[layer]) == layer);
+            CHECK(subtitleModel->getText(ids[layer]) == QString::number(layer));
+        }
+        undoStack->redo();
+        REQUIRE(subtitleModel->rowCount() == 3);
+        CHECK(subtitleModel->getMaxLayer() == 2);
+        CHECK_FALSE(subtitleModel->hasSubtitle(ids[1]));
+        CHECK(subtitleModel->getLayerForId(ids[2]) == 1);
+        CHECK(subtitleModel->getLayerForId(ids[3]) == 2);
+        undoStack->clear();
+        subtitleModel->removeAllSubtitles();
+    }
+
     SECTION("Read start/end time of the subtitles")
     {
         // srt

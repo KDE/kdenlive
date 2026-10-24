@@ -1847,8 +1847,14 @@ void SubtitleModel::deleteLayer(int layer)
     for (const auto &sub : subs) {
         if (sub.second.first == layer) {
             removeSubtitle(sub.first);
-        } else if (sub.second.first > layer) {
-            moveSubtitle(sub.first, sub.second.first - 1, sub.second.second, false, true);
+        }
+    }
+    // Empty each layer before moving subtitles from the next one into it.
+    for (int sourceLayer = layer + 1; sourceLayer <= getMaxLayer(); ++sourceLayer) {
+        for (const auto &sub : subs) {
+            if (sub.second.first == sourceLayer) {
+                moveSubtitle(sub.first, sourceLayer - 1, sub.second.second, false, true);
+            }
         }
     }
 
