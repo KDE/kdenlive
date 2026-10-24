@@ -322,6 +322,42 @@ surrounded by whitespace
         subtitleModel->removeAllSubtitles();
     }
 
+    SECTION("Query subtitle ranges across layers")
+    {
+        const double fps = pCore->getCurrentFps();
+        subtitleModel->setMaxLayer(1);
+        auto add = [&](int layer, int start, int end) {
+            int id = KdenliveTests::getNextId();
+            REQUIRE(subtitleModel->addSubtitle(id, {layer, GenTime(start, fps)},
+                                               SubtitleEvent(true, GenTime(end, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Subtitle")), false, false));
+            return id;
+        };
+        // Insert out of time order, including equal starts and overlapping events on different layers.
+        const int later = add(0, 100, 150);
+        const int first = add(0, 10, 20);
+        const int overlapping = add(1, 10, 40);
+        const int boundary = add(0, 30, 50);
+
+        CHECK(subtitleModel->getItemsInRange(-1, 0, -1) == std::unordered_set<int>{later, first, overlapping, boundary});
+        CHECK(subtitleModel->getItemsInRange(0, 0, -1) == std::unordered_set<int>{later, first, boundary});
+        CHECK(subtitleModel->getItemsInRange(1, 0, -1) == std::unordered_set<int>{overlapping});
+        CHECK(subtitleModel->getItemsInRange(-1, 20, 30) == std::unordered_set<int>{overlapping, boundary});
+        CHECK(subtitleModel->getItemsInRange(-1, 20, 20) == std::unordered_set<int>{overlapping});
+        CHECK(subtitleModel->getItemsInRange(-1, 10, 10) == std::unordered_set<int>{first, overlapping});
+        CHECK(subtitleModel->getItemsInRange(-1, 40, 40) == std::unordered_set<int>{boundary});
+        CHECK(subtitleModel->getItemsInRange(-1, 50, 99).empty());
+        CHECK(subtitleModel->getItemsInRange(2, 0, -1).empty());
+
+        REQUIRE(subtitleModel->moveSubtitle(overlapping, 1, GenTime(200, fps), false, false));
+        CHECK(subtitleModel->getItemsInRange(-1, 20, 30) == std::unordered_set<int>{boundary});
+        CHECK(subtitleModel->getItemsInRange(1, 200, -1) == std::unordered_set<int>{overlapping});
+        subtitleModel->switchLocked();
+        CHECK(subtitleModel->getItemsInRange(-1, 0, -1).empty());
+        subtitleModel->switchLocked();
+        subtitleModel->removeAllSubtitles();
+        CHECK(subtitleModel->getItemsInRange(-1, 0, -1).empty());
+    }
+
     SECTION("Read start/end time of the subtitles")
     {
         // srt

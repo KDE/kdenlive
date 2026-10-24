@@ -23,6 +23,7 @@
 #include <QJsonObject>
 #include <QRegularExpression>
 #include <QStringConverter>
+#include <limits>
 #include <utility>
 
 std::shared_ptr<TimelineItemModel> SubtitleModel::timeline() const
@@ -662,18 +663,41 @@ std::unordered_set<int> SubtitleModel::getItemsInRange(int layer, int startFrame
     GenTime startTime(startFrame, pCore->getCurrentFps());
     GenTime endTime(endFrame, pCore->getCurrentFps());
     std::unordered_set<int> matching;
-    for (const auto &subtitles : m_subtitleList) {
+    std::vector<std::pair<int, GenTime>> positions;
+    for (auto it = m_subtitleList.cbegin(); it != m_subtitleList.cend();) {
+        const auto &subtitles = *it;
+        if (endFrame > -1 && subtitles.first.second > endTime) {
+            // Each layer is ordered by start time, so its remaining events are outside the range.
+            it = m_subtitleList.upper_bound({subtitles.first.first, GenTime(std::numeric_limits<double>::max())});
+            continue;
+        }
         // if layer is -1, we check all layers
-        if ((endFrame > -1 && subtitles.first.second > endTime) || (layer != -1 && subtitles.first.first != layer)) {
+        if (layer != -1 && subtitles.first.first != layer) {
             // Outside range
+            ++it;
             continue;
         }
         if (subtitles.first.second >= startTime || subtitles.second.endTime() > startTime) {
-            int sid = getIdForStartPos(layer, subtitles.first.second);
-            if (sid > -1) {
-                matching.emplace(sid);
-            } else {
-                qDebug() << "==== FOUND INVALID SUBTITLE AT: " << subtitles.first.second.frames(pCore->getCurrentFps());
+            // Resolve the first match immediately to preserve the access order of single-match queries.
+            if (positions.empty()) {
+                const int id = getIdForStartPos(subtitles.first.first, subtitles.first.second);
+                if (id > -1) {
+                    matching.emplace(id);
+                }
+            }
+            positions.push_back(subtitles.first);
+        }
+        ++it;
+    }
+    if (positions.size() > 1) {
+        // Positions are already sorted by layer and time. Resolve their IDs in one pass
+        // instead of searching the entire ID table separately for every matching event.
+        for (const auto &subtitle : m_allSubtitles) {
+            if (std::binary_search(positions.cbegin(), positions.cend(), subtitle.second)) {
+                matching.emplace(subtitle.first);
+                if (matching.size() == positions.size()) {
+                    break;
+                }
             }
         }
     }
