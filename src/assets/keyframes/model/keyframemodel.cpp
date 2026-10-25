@@ -17,6 +17,7 @@
 #include <QJsonDocument>
 #include <QLineF>
 #include <QSize>
+#include <limits>
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -790,10 +791,10 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
 void KeyframeModel::updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
                                            KeyframeType::KeyframeEnum type)
 {
-    if ((m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
-         m_paramType == ParamType::AnimatedPoint)) {
-        QStringList stringRect = value.toString().split(QLatin1Char(' '));
-        mlt_rect rect;
+    if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
+        const QStringList stringRect = value.toString().split(QLatin1Char(' '));
+        mlt_rect rect = {std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min(),
+                         std::numeric_limits<double>::min(), std::numeric_limits<double>::min()};
         if (!stringRect.isEmpty()) {
             rect.x = stringRect.at(0).toDouble();
         }
@@ -806,8 +807,19 @@ void KeyframeModel::updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> 
         if (stringRect.size() > 3) {
             rect.h = stringRect.at(3).toDouble();
         }
-        if (stringRect.size() > 4) {
+        if (stringRect.size() > 4 && model->data(m_index, AssetParameterModel::OpacityRole).toBool()) {
             rect.o = stringRect.at(4).toDouble();
+        }
+        model->getAsset()->anim_set(paramName.toLatin1().constData(), rect, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+    } else if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+        const QStringList stringRect = value.toString().split(QLatin1Char(' '));
+        mlt_rect rect = {std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min(),
+                         std::numeric_limits<double>::min(), std::numeric_limits<double>::min()};
+        if (!stringRect.isEmpty()) {
+            rect.x = stringRect.at(0).toDouble();
+        }
+        if (stringRect.size() > 1) {
+            rect.y = stringRect.at(1).toDouble();
         }
         model->getAsset()->anim_set(paramName.toLatin1().constData(), rect, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
     } else {
@@ -1217,7 +1229,9 @@ void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out, Fun 
             in = ptr->data(m_index, AssetParameterModel::RelativePosRole).toBool() ? 0 : ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
             out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         }
-        bool useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
+        bool useOpacity = m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect
+                              ? ptr->data(m_index, AssetParameterModel::OpacityRole).toBool()
+                              : false;
 
         // This is a fake query to force the animation to be parsed
         (void)mlt_prop->anim_get_double(paramName.constData(), 0, in + out);
@@ -1432,7 +1446,6 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
 
     if (auto ptr = m_model.lock()) {
         QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-        bool useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
         if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
             // This is a fake query to force the animation to be parsed
             return QVariant(ptr->getAsset()->anim_get_double(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps())));
@@ -1451,8 +1464,9 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
                 const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
                 return QVariant(res);
             }
+            // Rect or FakeRect
             QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-            if (useOpacity) {
+            if (ptr->data(m_index, AssetParameterModel::OpacityRole).toBool()) {
                 res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
             }
             return QVariant(res);
