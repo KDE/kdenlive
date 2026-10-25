@@ -33,6 +33,11 @@ Window {
     property bool wasUpgraded: false
     property bool palFps: true
     property int border: 10
+    readonly property int sizeUnit: Math.ceil(splashFontMetrics.height * 2.2)
+
+    FontMetrics {
+        id: splashFontMetrics
+    }
 
     signal timeout()
     signal openBlank()
@@ -52,10 +57,8 @@ Window {
 
     visible: true
     color: "transparent"
-    modality: Qt.WindowModal
-    flags: Qt.FramelessWindowHint
-    x: (Screen.width - width) / 2
-    y: (Screen.height - height) / 2
+    flags: Qt.Window | Qt.FramelessWindowHint
+    title: "Kdenlive"
     minimumWidth: splashContent.implicitWidth
     minimumHeight: splashContent.implicitHeight
     width: splashContent.implicitWidth
@@ -85,6 +88,8 @@ Window {
     }
 
     Component.onCompleted: {
+        splash.x = Math.round((Screen.width - splash.width) / 2)
+        splash.y = Math.round((Screen.height - splash.height) / 2)
         if (splash.firstRun)
             buttonNext.forceActiveFocus();
         else if (urls.length === 0) {
@@ -102,8 +107,8 @@ Window {
     Rectangle {
         id: splashContent
         anchors.fill: parent
-        implicitHeight: splash.crashRecovery || splash.wasUpgraded  ? newProjectButton.height * 20 : newProjectButton.height * 18
-        implicitWidth: newProjectButton.height * 17
+        implicitHeight: splash.crashRecovery || splash.wasUpgraded ? splash.sizeUnit * 20 : splash.sizeUnit * 18
+        implicitWidth: splash.sizeUnit * 17
         radius: 5
         border.width: 2
         border.color: "#d7566e"
@@ -196,6 +201,12 @@ Window {
             anchors.left: parent.left
             anchors.right: parent.right
 
+            DragHandler {
+                target: null
+                grabPermissions: PointerHandler.CanTakeOverFromAnything
+                onActiveChanged: if (active) splash.startSystemMove()
+            }
+
             Image {
                 id: background
                 anchors.fill: parent
@@ -265,7 +276,6 @@ Window {
                 anchors.right: parent.right
                 anchors.leftMargin: 10
                 anchors.rightMargin: 10
-                height: childrenRect.height
                 spacing: 20
 
                 Item {
@@ -334,7 +344,7 @@ Window {
                             anchors.left: parent.left
                             anchors.right: parent.right
                             anchors.topMargin: 10
-                            height: newProjectButton.height * (splash.crashRecovery || splash.wasUpgraded ? 4 : 5)
+                            height: splash.sizeUnit * (splash.crashRecovery || splash.wasUpgraded ? 4 : 5)
                             ScrollBar.vertical.policy: ScrollBar.AsNeeded
                             clip: true
 
