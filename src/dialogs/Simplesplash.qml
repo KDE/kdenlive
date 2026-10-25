@@ -33,6 +33,11 @@ Window {
     signal resetConfig()
 
     property int border: 10
+    readonly property int sizeUnit: Math.ceil(splashFontMetrics.height * 1.2)
+
+    FontMetrics {
+        id: splashFontMetrics
+    }
 
     function fade()
     {
@@ -60,7 +65,7 @@ Window {
 
     Rectangle {
         id: splashContent
-        height: splash.crashRecovery || splash.wasUpgraded ? kdenliveid.height * 15 : kdenliveid.height * 13
+        height: splash.crashRecovery || splash.wasUpgraded ? splash.sizeUnit * 15 : splash.sizeUnit * 13
         width: height * 2
         radius: 8
         border.width: 2
