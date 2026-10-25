@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-24 00:48+0000\n"
+"POT-Creation-Date: 2026-10-25 00:50+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -21319,7 +21319,7 @@ msgstr "播放列表"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1781 src/project/projectmanager.cpp:1783
+#: src/project/projectmanager.cpp:1784 src/project/projectmanager.cpp:1786
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22505,7 +22505,7 @@ msgid "Disable GPU processing"
 msgstr "禁用 GPU 处理功能"
 
 #: src/core.cpp:276 src/core.cpp:319 src/core.cpp:493
-#: src/project/projectmanager.cpp:927
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Loading project…"
 msgstr "正在加载项目…"
@@ -23241,7 +23241,7 @@ msgstr "导出标记数据"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2094 src/project/projectmanager.cpp:2100
+#: src/project/projectmanager.cpp:2097 src/project/projectmanager.cpp:2103
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23334,7 +23334,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "如果不确定，请尝试：<br/><b>Unicode (UTF-8)</b>"
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1983
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1986
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -26777,8 +26777,8 @@ msgstr "下列滤镜/转场已被从项目中删除："
 msgid "Invalid file path"
 msgstr "无效文件路径 "
 
-#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:904
-#: src/project/projectmanager.cpp:956
+#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:907
+#: src/project/projectmanager.cpp:959
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "无法恢复损坏的文件。"
@@ -26861,8 +26861,8 @@ msgid ""
 msgstr ""
 "您的项目文件已被升级到最新的 Kdenlive 项目文件版本，但是无法创建备份副本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1645
-#: src/project/projectmanager.cpp:1689
+#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1648
+#: src/project/projectmanager.cpp:1692
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移动项目文件夹时出错：%1"
@@ -33431,7 +33431,7 @@ msgstr "打开备份文件…"
 msgid "Save changes to document?"
 msgstr "保存更改到文件吗？"
 
-#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1920
+#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1923
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -33466,37 +33466,37 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "保存副本"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "自动保存文件已经存在。您想要进行恢复吗？"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "File Recovery"
 msgstr "文件恢复"
 
-#: src/project/projectmanager.cpp:796 src/project/projectmanager.cpp:942
+#: src/project/projectmanager.cpp:799 src/project/projectmanager.cpp:945
 #, kde-format
 msgid "Recover"
 msgstr "恢复"
 
-#: src/project/projectmanager.cpp:796
+#: src/project/projectmanager.cpp:799
 #, kde-format
 msgid "Do not recover"
 msgstr "不恢复"
 
-#: src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:838
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "文件 %1 不存在"
 
-#: src/project/projectmanager.cpp:881
+#: src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在打开文件 %1"
 
-#: src/project/projectmanager.cpp:941
+#: src/project/projectmanager.cpp:944
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33507,43 +33507,43 @@ msgstr ""
 "%1\n"
 "您想要打开备份文件吗？"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1221
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1224
 #, kde-format
 msgid "Error opening file"
 msgstr "打开文件时出错"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1222
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1225
 #, kde-format
 msgid "Open Backup"
 msgstr "打开备份"
 
-#: src/project/projectmanager.cpp:960
+#: src/project/projectmanager.cpp:963
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "无法打开备份项目文件"
 
-#: src/project/projectmanager.cpp:975
+#: src/project/projectmanager.cpp:978
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "您的项目文件已经升级，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:977
+#: src/project/projectmanager.cpp:980
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的项目在打开时已被修改，下次保存时将创建备份"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1055
 #, kde-format
 msgid "Loading timeline…"
 msgstr "正在加载时间轴…"
 
-#: src/project/projectmanager.cpp:1075
+#: src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Building sequences…"
 msgstr "正在构建序列…"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1251
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33552,19 +33552,19 @@ msgstr ""
 "无法打开项目文件。错误：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1288
+#: src/project/projectmanager.cpp:1291
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "此操作将删除您最后一次保存项目之后的所有更改，您确定要继续吗？"
 
-#: src/project/projectmanager.cpp:1289
+#: src/project/projectmanager.cpp:1292
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "恢复到最后保存的版本"
 
-#: src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1403
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -33573,35 +33573,35 @@ msgstr ""
 "项目已经损坏，无法备份。请先关闭您的项目文件，然后重新打开它以恢复到最近一次"
 "备份。"
 
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1624
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移动项目文件夹时出错，无法访问缓存文件夹"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1662
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移动项目文件夹"
 
-#: src/project/projectmanager.cpp:1760 src/project/projectmanager.cpp:1816
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1763 src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1823
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1771
+#: src/project/projectmanager.cpp:1774
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "项目文件已经损坏 - 无法加载轨道。您想要尝试查找它的备份文件吗？"
 
-#: src/project/projectmanager.cpp:1912 src/project/projectmanager.cpp:1925
-#: src/project/projectmanager.cpp:1949 src/project/projectmanager.cpp:1958
+#: src/project/projectmanager.cpp:1915 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1961
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "项目编码方案更改已中止"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2091
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -33610,12 +33610,12 @@ msgstr ""
 "输出文件 %1 已经存在。\n"
 "您想要覆盖它吗？"
 
-#: src/project/projectmanager.cpp:2113
+#: src/project/projectmanager.cpp:2116
 #, kde-format
 msgid "Project profile changed"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:2177
+#: src/project/projectmanager.cpp:2180
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -33624,56 +33624,56 @@ msgstr ""
 "无法从此片段创建时间轴：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2266
+#: src/project/projectmanager.cpp:2269
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "导入一个序列片段，此功能目前仍在实验阶段。"
 
-#: src/project/projectmanager.cpp:2500 src/project/projectmanager.cpp:2555
+#: src/project/projectmanager.cpp:2503 src/project/projectmanager.cpp:2558
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "选择一个片段以创建序列"
 
-#: src/project/projectmanager.cpp:2506 src/project/projectmanager.cpp:2513
-#: src/project/projectmanager.cpp:2563
+#: src/project/projectmanager.cpp:2509 src/project/projectmanager.cpp:2516
+#: src/project/projectmanager.cpp:2566
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "序列创建失败"
 
-#: src/project/projectmanager.cpp:2540
+#: src/project/projectmanager.cpp:2543
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "无法在当前时间线中插入序列"
 
-#: src/project/projectmanager.cpp:2544
+#: src/project/projectmanager.cpp:2547
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "创建序列片段"
 
-#: src/project/projectmanager.cpp:2581
+#: src/project/projectmanager.cpp:2584
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "复制片段至新序列"
 
-#: src/project/projectmanager.cpp:2673
+#: src/project/projectmanager.cpp:2676
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2679
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, fuzzy, kde-format
 #| msgid "Project profile changed"
 msgid "Project Already Opened"
 msgstr "项目编码方案已更改"
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Render Anyway"

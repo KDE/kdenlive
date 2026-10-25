@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-24 00:48+0000\n"
+"POT-Creation-Date: 2026-10-25 00:50+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -21468,7 +21468,7 @@ msgstr "播放清單"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1781 src/project/projectmanager.cpp:1783
+#: src/project/projectmanager.cpp:1784 src/project/projectmanager.cpp:1786
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22668,7 +22668,7 @@ msgid "Disable GPU processing"
 msgstr "關閉 GPU 處理"
 
 #: src/core.cpp:276 src/core.cpp:319 src/core.cpp:493
-#: src/project/projectmanager.cpp:927
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Loading project…"
 msgstr "載入專案中…"
@@ -23409,7 +23409,7 @@ msgstr "匯出標記資料"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2094 src/project/projectmanager.cpp:2100
+#: src/project/projectmanager.cpp:2097 src/project/projectmanager.cpp:2103
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23502,7 +23502,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "若不確定，請試試看：<br/><b>Unicode (UTF-8)</b>。"
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1983
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1986
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -26986,8 +26986,8 @@ msgstr "以下過濾器/轉場特效已自專案中刪除："
 msgid "Invalid file path"
 msgstr "無效檔案路徑"
 
-#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:904
-#: src/project/projectmanager.cpp:956
+#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:907
+#: src/project/projectmanager.cpp:959
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "無法復原毀損檔案。"
@@ -27070,8 +27070,8 @@ msgid ""
 "it was not possible to create the backup copy %1."
 msgstr "您的專案檔案已更新至最新的 Kdenlive 文件版本，但無法建立備份複本 %1。"
 
-#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1645
-#: src/project/projectmanager.cpp:1689
+#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1648
+#: src/project/projectmanager.cpp:1692
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "移動專案資料夾時發生錯誤：%1"
@@ -33686,7 +33686,7 @@ msgstr "開啟備份檔…"
 msgid "Save changes to document?"
 msgstr "是否儲存對檔案的修改?"
 
-#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1920
+#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1923
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -33721,38 +33721,38 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "儲存複本"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "有已自動儲存的檔案。您是否要回復它?"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "File Recovery"
 msgstr "檔案回復"
 
-#: src/project/projectmanager.cpp:796 src/project/projectmanager.cpp:942
+#: src/project/projectmanager.cpp:799 src/project/projectmanager.cpp:945
 #, kde-format
 msgid "Recover"
 msgstr "回復"
 
-#: src/project/projectmanager.cpp:796
+#: src/project/projectmanager.cpp:799
 #, kde-format
 msgid "Do not recover"
 msgstr "不進行回復"
 
-#: src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:838
 #, fuzzy, kde-format
 #| msgid "Marker category does not exist"
 msgid "File %1 does not exist"
 msgstr "標記分類不存在"
 
-#: src/project/projectmanager.cpp:881
+#: src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Opening file %1"
 msgstr "正在開啟檔案 %1"
 
-#: src/project/projectmanager.cpp:941
+#: src/project/projectmanager.cpp:944
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33763,43 +33763,43 @@ msgstr ""
 "%1\n"
 "您要開啟備份檔案嗎？"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1221
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1224
 #, kde-format
 msgid "Error opening file"
 msgstr "開啟檔案時發生錯誤"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1222
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1225
 #, kde-format
 msgid "Open Backup"
 msgstr "開啟備份"
 
-#: src/project/projectmanager.cpp:960
+#: src/project/projectmanager.cpp:963
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "無法開啟備份專案檔案。"
 
-#: src/project/projectmanager.cpp:975
+#: src/project/projectmanager.cpp:978
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "您的專案已更新版本，下次儲存將會建立備份"
 
-#: src/project/projectmanager.cpp:977
+#: src/project/projectmanager.cpp:980
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "您的專案已在開啟時被修改，下次儲存將會建立備份"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1055
 #, kde-format
 msgid "Loading timeline…"
 msgstr "載入時間軸中…"
 
-#: src/project/projectmanager.cpp:1075
+#: src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Building sequences…"
 msgstr "建構序列中…"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1251
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -33808,54 +33808,54 @@ msgstr ""
 "無法開啟專案檔案。錯誤：\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1288
+#: src/project/projectmanager.cpp:1291
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "這會移除從您最後一次儲存專案以來的所有修改，您確定要繼續嗎？"
 
-#: src/project/projectmanager.cpp:1289
+#: src/project/projectmanager.cpp:1292
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "回復到最後儲存的版本"
 
-#: src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1403
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
 "file to recover last backup"
 msgstr "專案已毀損而無法備份。請關閉後重新開啟專案來復原上次的備份"
 
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1624
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "移動專案資料夾時發生錯誤，無法存取快取資料夾"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1662
 #, kde-format
 msgid "Moving project folder"
 msgstr "正在移動專案資料夾"
 
-#: src/project/projectmanager.cpp:1760 src/project/projectmanager.cpp:1816
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1763 src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1823
 #, kde-format
 msgid "Sequence 1"
 msgstr "序列 1"
 
-#: src/project/projectmanager.cpp:1771
+#: src/project/projectmanager.cpp:1774
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "專案檔案已毀損 — 載入軌道失敗。要試著尋找備份檔嗎？"
 
-#: src/project/projectmanager.cpp:1912 src/project/projectmanager.cpp:1925
-#: src/project/projectmanager.cpp:1949 src/project/projectmanager.cpp:1958
+#: src/project/projectmanager.cpp:1915 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1961
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "專案編碼方案變更已中止"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2091
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -33864,12 +33864,12 @@ msgstr ""
 "輸出檔案 %1 已經存在。\n"
 "您是否要覆寫它?"
 
-#: src/project/projectmanager.cpp:2113
+#: src/project/projectmanager.cpp:2116
 #, kde-format
 msgid "Project profile changed"
 msgstr "專案編碼方案已變更"
 
-#: src/project/projectmanager.cpp:2177
+#: src/project/projectmanager.cpp:2180
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -33878,59 +33878,59 @@ msgstr ""
 "無法從這個素材建立時間軸：\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2266
+#: src/project/projectmanager.cpp:2269
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "正在匯入序列素材，這目前處於實驗性階段"
 
-#: src/project/projectmanager.cpp:2500 src/project/projectmanager.cpp:2555
+#: src/project/projectmanager.cpp:2503 src/project/projectmanager.cpp:2558
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "選取素材來建立序列"
 
-#: src/project/projectmanager.cpp:2506 src/project/projectmanager.cpp:2513
-#: src/project/projectmanager.cpp:2563
+#: src/project/projectmanager.cpp:2509 src/project/projectmanager.cpp:2516
+#: src/project/projectmanager.cpp:2566
 #, fuzzy, kde-format
 #| msgid "Mask creation"
 msgid "Sequence creation failed"
 msgstr "遮罩建立"
 
-#: src/project/projectmanager.cpp:2540
+#: src/project/projectmanager.cpp:2543
 #, fuzzy, kde-format
 #| msgid "You cannot insert a sequence containing itself"
 msgid "Cannot insert sequence in current timeline"
 msgstr "無法插入包含自己的序列"
 
-#: src/project/projectmanager.cpp:2544
+#: src/project/projectmanager.cpp:2547
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "建立序列素材"
 
-#: src/project/projectmanager.cpp:2581
+#: src/project/projectmanager.cpp:2584
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
 msgstr "切換到下一個序列"
 
-#: src/project/projectmanager.cpp:2673
+#: src/project/projectmanager.cpp:2676
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2679
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, fuzzy, kde-format
 #| msgid "Project profile changed"
 msgid "Project Already Opened"
 msgstr "專案編碼方案已變更"
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Render Anyway"

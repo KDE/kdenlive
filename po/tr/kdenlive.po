@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-24 00:48+0000\n"
-"PO-Revision-Date: 2026-10-22 19:59+0300\n"
+"POT-Creation-Date: 2026-10-25 00:50+0000\n"
+"PO-Revision-Date: 2026-10-24 21:59+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Lokalize 26.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -7486,17 +7486,17 @@ msgstr "Süre"
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Alt Yazılar"
 
 #: data/effects/avfilter/subtitles.xml:5
 #, kde-format
 msgid "Render subtitles onto the video"
-msgstr "Altyazıları videonun üzerine yerleştir"
+msgstr "Alt yazıları videonun üzerine yerleştir"
 
 #: data/effects/avfilter/subtitles.xml:8
 #, kde-format
 msgid "Subtitle file to apply"
-msgstr "Uygulanacak altyazı dosyası"
+msgstr "Uygulanacak alt yazı dosyası"
 
 #: data/effects/box_blur.xml:5 data/effects/box_blur.xml:19
 #, kde-format
@@ -22022,7 +22022,7 @@ msgstr "Oynatma Listesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1781 src/project/projectmanager.cpp:1783
+#: src/project/projectmanager.cpp:1784 src/project/projectmanager.cpp:1786
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22852,7 +22852,7 @@ msgstr "Erim imleyicisi ekle"
 #: src/bin/model/subtitlemodel.cpp:112
 #, kde-format
 msgid "Edit global subtitle style"
-msgstr "Global altyazı biçemini düzenle"
+msgstr "Global alt yazı biçemini düzenle"
 
 #: src/bin/model/subtitlemodel.cpp:431 src/bin/model/subtitlemodel.cpp:653
 #: src/bin/model/subtitlemodel.cpp:1615 src/bin/model/subtitlemodel.cpp:2213
@@ -22861,7 +22861,7 @@ msgstr "Global altyazı biçemini düzenle"
 #: src/bin/model/subtitlemodel.cpp:2412
 #, kde-format
 msgid "Edit subtitle"
-msgstr "Altyazıyı düzenle"
+msgstr "Alt yazıyı düzenle"
 
 #: src/bin/model/subtitlemodel.cpp:688 src/bin/model/subtitlemodel.cpp:1714
 #: src/timeline2/model/timelinefunctions.cpp:288
@@ -22873,13 +22873,13 @@ msgstr "Klibi kes"
 #: src/timeline2/model/timelinemodel.cpp:4461
 #, kde-format
 msgid "Resize subtitle"
-msgstr "Altyazıyı yeniden boyutlandır"
+msgstr "Alt yazıyı yeniden boyutlandır"
 
 #: src/bin/model/subtitlemodel.cpp:1065
 #: src/timeline2/model/timelinemodel.cpp:1471
 #, kde-format
 msgid "Move subtitle"
-msgstr "Altyazıyı taşı"
+msgstr "Alt yazıyı taşı"
 
 #: src/bin/model/subtitlemodel.cpp:1232
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
@@ -22902,39 +22902,39 @@ msgstr "Metin Ekle"
 #: src/bin/model/subtitlemodel.cpp:1675 src/dialogs/subtitleedit.cpp:289
 #, kde-format
 msgid "Add subtitle"
-msgstr "Altyazı ekle"
+msgstr "Alt yazı ekle"
 
 #: src/bin/model/subtitlemodel.cpp:1738 src/dialogs/managesubtitles.cpp:730
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-format
 msgid "Delete subtitle"
-msgstr "Altyazı sil"
+msgstr "Alt yazıyı sil"
 
 #: src/bin/model/subtitlemodel.cpp:1810
 #, kde-format
 msgid "Delete subtitle layer"
-msgstr "Altyazı katmanını sil"
+msgstr "Alt yazı katmanını sil"
 
 #: src/bin/model/subtitlemodel.cpp:1837
 #, kde-format
 msgid "Create subtitle layer"
-msgstr "Altyazı katmanı oluştur"
+msgstr "Alt yazı katmanı oluştur"
 
 #: src/bin/model/subtitlemodel.cpp:1943 src/bin/model/subtitlemodel.cpp:1946
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
-msgstr "Altyazı %1"
+msgstr "Alt yazı %1"
 
 #: src/bin/model/subtitlemodel.cpp:2057
 #, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
-msgstr "Altyazı olarak %1 katmandan fazlası oluşturulamaz."
+msgstr "Alt yazı olarak %1 katmandan fazlası oluşturulamaz."
 
 #: src/bin/model/subtitlemodel.cpp:2249
 #, kde-format
 msgid "Assign a new style to a subtitle."
-msgstr "Bir altyazıya yeni bir biçem atayın."
+msgstr "Bir alt yazıya yeni bir biçem atayın."
 
 #: src/bin/playlistclip.cpp:131
 #, kde-format
@@ -23220,7 +23220,7 @@ msgid "Disable GPU processing"
 msgstr "GPU işlemeyi devre dışı bırak"
 
 #: src/core.cpp:276 src/core.cpp:319 src/core.cpp:493
-#: src/project/projectmanager.cpp:927
+#: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Loading project…"
 msgstr "Proje yükleniyor…"
@@ -23970,7 +23970,7 @@ msgstr "İmleyiciler Verisini Dışa Aktar"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2094 src/project/projectmanager.cpp:2100
+#: src/project/projectmanager.cpp:2097 src/project/projectmanager.cpp:2103
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -24054,7 +24054,7 @@ msgstr "İmleyicinin eriminin olup olmadığı (doğru/yanlış)"
 #: src/dialogs/importsubtitle.cpp:36
 #, kde-format
 msgid "Character encoding used to save the subtitle file."
-msgstr "Altyazı dosyasını kaydetmek için kullanılan karakter kodlaması."
+msgstr "Alt yazı dosyasını kaydetmek için kullanılan karakter kodlaması."
 
 #: src/dialogs/importsubtitle.cpp:37
 #, kde-kuit-format
@@ -24063,7 +24063,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "Emin değilseniz şunu deneyin: <br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1983
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1986
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -24082,13 +24082,13 @@ msgstr "Kodlama, %1 olarak tahmin edildi"
 #: src/dialogs/importsubtitle.cpp:114
 #, kde-format
 msgid "Import Subtitle"
-msgstr "Altyazı İçe Aktar"
+msgstr "Alt Yazı İçe Aktar"
 
 #: src/dialogs/managesubtitles.cpp:50
 #, kde-format
 msgctxt "@title:window"
 msgid "Manage Subtitles"
-msgstr "Altyazıları Yönet"
+msgstr "Alt Yazıları Yönet"
 
 #: src/dialogs/managesubtitles.cpp:71
 #, kde-format
@@ -24103,7 +24103,7 @@ msgstr "Katmanı Taşı"
 #: src/dialogs/managesubtitles.cpp:98
 #, kde-format
 msgid "Select the subtitle file to move the layer to:"
-msgstr "Katmanın taşınacağı altyazı dosyasını seç:"
+msgstr "Katmanın taşınacağı alt yazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
@@ -24113,7 +24113,7 @@ msgstr "Katmanı Kopyala"
 #: src/dialogs/managesubtitles.cpp:100
 #, kde-format
 msgid "Select the subtitle file to copy the layer to:"
-msgstr "Katmanın kopyalanacağı altyazı dosyasını seç:"
+msgstr "Katmanın kopyalanacağı alt yazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:130 src/dialogs/managesubtitles.cpp:211
 #, kde-format
@@ -24138,7 +24138,7 @@ msgstr "Biçemi Taşı"
 #: src/dialogs/managesubtitles.cpp:178
 #, kde-format
 msgid "Select the subtitle file to move the style to:"
-msgstr "Biçemin taşınacağı altyazı dosyasını seç:"
+msgstr "Biçemin taşınacağı alt yazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
@@ -24148,19 +24148,19 @@ msgstr "Biçemi Kopyala"
 #: src/dialogs/managesubtitles.cpp:180
 #, kde-format
 msgid "Select the subtitle file to copy the style to:"
-msgstr "Biçemin kopyalanacağı altyazı dosyasını seç:"
+msgstr "Biçemin kopyalanacağı alt yazı dosyasını seç:"
 
 #: src/dialogs/managesubtitles.cpp:385
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Import Subtitle"
-msgstr "Altyazı İçe Aktar"
+msgstr "Alt Yazı İçe Aktar"
 
 #: src/dialogs/managesubtitles.cpp:386
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Export Subtitle"
-msgstr "Altyazıyı Dışa Aktar"
+msgstr "Alt Yazıyı Dışa Aktar"
 
 #: src/dialogs/managesubtitles.cpp:440
 #, kde-format
@@ -24227,7 +24227,7 @@ msgid ""
 "This will delete all subtitle entries in <b>%1</b>,<br/>as well as the "
 "subtitle file: %2"
 msgstr ""
-"Bu, <b>%1</b> içindeki tüm altyazı girdilerini<br/>ve altyazı dosyasını "
+"Bu, <b>%1</b> içindeki tüm alt yazı girdilerini<br/>ve alt yazı dosyasını "
 "silecektir: %2"
 
 #: src/dialogs/managesubtitles.cpp:749
@@ -24252,7 +24252,7 @@ msgid ""
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 "Bu, <b>%1</b> biçemini ve onun tüm özelliklerini silecektir.\n"
-"Bu biçemi kullanan tüm altyazılar <b>Öntanımlı</b> biçemine sıfırlanır."
+"Bu biçemi kullanan tüm alt yazılar, <b>Öntanımlı</b> biçemine sıfırlanır."
 
 #: src/dialogs/profilesdialog.cpp:125
 #, kde-format
@@ -25544,7 +25544,7 @@ msgstr "Sürdür"
 #: src/dialogs/speechdialog.cpp:44
 #, kde-format
 msgid "Automatic Subtitling"
-msgstr "Kendiliğinden Altyazı Oluşturma"
+msgstr "Kendiliğinden Alt Yazı Oluşturma"
 
 #: src/dialogs/speechdialog.cpp:52
 #, kde-format
@@ -25620,12 +25620,12 @@ msgstr "Konuşma tanıma başarısız oldu"
 #: src/dialogs/speechdialog.cpp:454
 #, kde-format
 msgid "Subtitles imported"
-msgstr "Altyazılar içe aktarıldı"
+msgstr "Alt yazılar içe aktarıldı"
 
 #: src/dialogs/speechdialog.cpp:455
 #, kde-format
 msgid "Speech recognition finished, subtitles imported"
-msgstr "Konuşma tanıma bitti, altyazılar içe aktarıldı"
+msgstr "Konuşma tanıma bitti, alt yazılar içe aktarıldı"
 
 #: src/dialogs/speechdialog.cpp:487
 #, kde-format
@@ -26412,18 +26412,18 @@ msgstr "Düzenlemeye Başla"
 #: src/dialogs/subtitleedit.cpp:251
 #, kde-format
 msgid "Edit subtitle style"
-msgstr "Altyazı biçemini düzenle"
+msgstr "Alt yazı biçemini düzenle"
 
 #: src/dialogs/subtitleedit.cpp:252
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a dialog to edit the current subtitle."
-msgstr "Geçerli altyazıyı düzenlemek için bir iletişim kutusu açın."
+msgstr "Geçerli alt yazıyı düzenlemek için bir iletişim kutusu açın."
 
 #: src/dialogs/subtitleedit.cpp:285
 #, kde-format
 msgid "Go to next subtitle"
-msgstr "Sonraki altyazıya git"
+msgstr "Sonraki alt yazıya git"
 
 #: src/dialogs/subtitleedit.cpp:286
 #, kde-kuit-format
@@ -26432,12 +26432,12 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "right."
 msgstr ""
-"Zaman akışındaki oynatma kafasını sağdaki altyazının başlangıcına taşır."
+"Zaman akışındaki oynatma kafasını sağdaki alt yazının başlangıcına taşır."
 
 #: src/dialogs/subtitleedit.cpp:287
 #, kde-format
 msgid "Go to previous subtitle"
-msgstr "Önceki altyazıya git"
+msgstr "Önceki alt yazıya git"
 
 #: src/dialogs/subtitleedit.cpp:288
 #, kde-kuit-format
@@ -26446,7 +26446,7 @@ msgid ""
 "Moves the playhead in the timeline to the beginning of the subtitle to the "
 "left."
 msgstr ""
-"Zaman akışındaki oynatma kafasını soldaki altyazının başlangıcına taşır."
+"Zaman akışındaki oynatma kafasını soldaki alt yazının başlangıcına taşır."
 
 #: src/dialogs/subtitleedit.cpp:290
 #, kde-kuit-format
@@ -26458,12 +26458,12 @@ msgid ""
 msgstr ""
 "Geçerli oynatma kafası konumunda/karesinde öntanımlı uzunlukta "
 "(<interface>Ayarlar → Kdenlive Uygulamasını Yapılandır… → Çeşitli</"
-"interface> içinde ayarlanır) yeni bir altyazı oluşturur."
+"interface> içinde ayarlanır) yeni bir alt yazı oluşturur."
 
 #: src/dialogs/subtitleedit.cpp:292
 #, kde-format
 msgid "Split subtitle at cursor position"
-msgstr "İmleç konumunda altyazıyı böl"
+msgstr "İmleç konumunda alt yazıyı böl"
 
 #: src/dialogs/subtitleedit.cpp:294
 #, kde-kuit-format
@@ -26472,19 +26472,19 @@ msgid ""
 "Cuts the subtitle text at the cursor position and creates a new subtitle to "
 "the right (like cutting a clip)."
 msgstr ""
-"Altyazı metnini imleç konumunda keser ve sağa doğru yeni bir altyazı "
+"Alt yazı metnini imleç konumunda keser ve sağa doğru yeni bir alt yazı "
 "oluşturur (klip keser gibi)."
 
 #: src/dialogs/subtitleedit.cpp:295
 #, kde-format
 msgid "Update subtitle text"
-msgstr "Altyazı metnini güncelle"
+msgstr "Alt yazı metnini güncelle"
 
 #: src/dialogs/subtitleedit.cpp:296
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Updates the subtitle display in the timeline."
-msgstr "Zaman akışındaki altyazı görünümünü günceller."
+msgstr "Zaman akışındaki alt yazı görünümünü günceller."
 
 #: src/dialogs/subtitleedit.cpp:297
 #, kde-format
@@ -26495,14 +26495,14 @@ msgstr "Daha fazla seçenek göster"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles a list to adjust more subtitle settings."
-msgstr "Daha fazla altyazı ayarını düzenlemek için bir listeyi açar/kapatır."
+msgstr "Daha fazla alt yazı ayarını düzenlemek için bir listeyi açar/kapatır."
 
 #: src/dialogs/subtitleedit.cpp:300
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "Deletes the currently selected subtitle (doesn’t work on multiple subtitles)."
-msgstr "Şu anda seçili olan altyazıyı siler (birden çok altyazıda çalışmaz)."
+msgstr "Şu anda seçili olan alt yazıyı siler (birden çok alt yazıda çalışmaz)."
 
 #: src/dialogs/subtitleedit.cpp:303
 #, kde-format
@@ -27097,7 +27097,7 @@ msgid ""
 "<li>Missing filter: <b>avfilter.subtitles</b><br/>required for subtitle "
 "feature. Install recommended</li>"
 msgstr ""
-"<li>Eksik süzgeç: Altyazı özelliği için gerekli olan <b>avfilter.subtitles</"
+"<li>Eksik süzgeç: Alt yazı özelliği için gerekli olan <b>avfilter.subtitles</"
 "b><br/>. Kurulması önerilir.</li>"
 
 #: src/dialogs/wizard.cpp:353
@@ -27576,7 +27576,7 @@ msgstr "ek ses"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
-"Altyazı dosyası:<br/>%1<br/>hâlihazırda var. Üzerine yazmak istiyor musunuz?"
+"Alt yazı dosyası:<br/>%1<br/>hâlihazırda var. Üzerine yazmak istiyor musunuz?"
 
 #: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2432
 #, kde-format
@@ -27611,8 +27611,8 @@ msgstr "Aşağıdaki süzgeçler/geçişler projeden silindi:"
 msgid "Invalid file path"
 msgstr "Geçersiz dosya yolu"
 
-#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:904
-#: src/project/projectmanager.cpp:956
+#: src/doc/kdenlivedoc.cpp:212 src/project/projectmanager.cpp:907
+#: src/project/projectmanager.cpp:959
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "Hasarlı dosya kurtarılamadı."
@@ -27695,8 +27695,8 @@ msgstr ""
 "Proje dosyanız en son Kdenlive belge sürümüne yükseltildi, fakat bir yedek "
 "kopyası %1 oluşturmak mümkün olmadı."
 
-#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1645
-#: src/project/projectmanager.cpp:1689
+#: src/doc/kdenlivedoc.cpp:985 src/project/projectmanager.cpp:1648
+#: src/project/projectmanager.cpp:1692
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "Proje klasörü taşınırken hata: %1"
@@ -30433,13 +30433,13 @@ msgstr "Kareler"
 #: src/mainwindow_actions.cpp:290
 #, kde-format
 msgid "Edit Subtitle Tool"
-msgstr "Altyazı Düzenleme Aracı"
+msgstr "Alt Yazı Düzenleme Aracı"
 
 #: src/mainwindow_actions.cpp:291
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the subtitle track in the timeline."
-msgstr "Zaman akışındaki altyazı izini açar/kapatır."
+msgstr "Zaman akışındaki alt yazı izini açar/kapatır."
 
 #: src/mainwindow_actions.cpp:298 src/titler/titlewidget.cpp:438
 #, kde-format
@@ -31433,32 +31433,32 @@ msgstr ""
 #: src/mainwindow_actions.cpp:1118
 #, kde-format
 msgid "Add Subtitle"
-msgstr "Altyazı Ekle"
+msgstr "Alt Yazı Ekle"
 
 #: src/mainwindow_actions.cpp:1120
 #, kde-format
 msgid "Disable Subtitle"
-msgstr "Altyazıyı Devre Dışı Bırak"
+msgstr "Alt Yazıyı Devre Dışı Bırak"
 
 #: src/mainwindow_actions.cpp:1121
 #, kde-format
 msgid "Lock Subtitle"
-msgstr "Altyazıyı Kilitle"
+msgstr "Alt Yazıyı Kilitle"
 
 #: src/mainwindow_actions.cpp:1123
 #, kde-format
 msgid "Manage Subtitles"
-msgstr "Altyazıları Yönet"
+msgstr "Alt Yazıları Yönet"
 
 #: src/mainwindow_actions.cpp:1125
 #, kde-format
 msgid "Import Subtitle File…"
-msgstr "Altyazı Dosyası İçe Aktar…"
+msgstr "Alt Yazı Dosyası İçe Aktar…"
 
 #: src/mainwindow_actions.cpp:1127
 #, kde-format
 msgid "Export Subtitle File…"
-msgstr "Altyazı Dosyasını Dışa Aktar…"
+msgstr "Alt Yazı Dosyasını Dışa Aktar…"
 
 #: src/mainwindow_actions.cpp:1128
 #, kde-format
@@ -32008,7 +32008,7 @@ msgstr "Ses akışları:"
 #: src/mltcontroller/clippropertiescontroller.cpp:1560
 #, kde-format
 msgid "Subtitle streams:"
-msgstr "Altyazı akışları:"
+msgstr "Alt yazı akışları:"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:1749
 #, kde-format
@@ -34402,7 +34402,7 @@ msgstr "Yedek Dosyası Aç…"
 msgid "Save changes to document?"
 msgstr "Değişiklikler belgeye kaydedilsin mi?"
 
-#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1920
+#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1923
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34438,37 +34438,37 @@ msgctxt "@title:window"
 msgid "Save Copy"
 msgstr "Kopyayı Kaydet"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "Auto-saved file exists. Do you want to recover now?"
 msgstr "Kendiliğinden kayıt dosyası var. Şimdi kurtarmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:795
+#: src/project/projectmanager.cpp:798
 #, kde-format
 msgid "File Recovery"
 msgstr "Dosya Kurtarma"
 
-#: src/project/projectmanager.cpp:796 src/project/projectmanager.cpp:942
+#: src/project/projectmanager.cpp:799 src/project/projectmanager.cpp:945
 #, kde-format
 msgid "Recover"
 msgstr "Kurtar"
 
-#: src/project/projectmanager.cpp:796
+#: src/project/projectmanager.cpp:799
 #, kde-format
 msgid "Do not recover"
 msgstr "Kurtarma"
 
-#: src/project/projectmanager.cpp:835
+#: src/project/projectmanager.cpp:838
 #, kde-format
 msgid "File %1 does not exist"
 msgstr "%1 dosyası yok"
 
-#: src/project/projectmanager.cpp:881
+#: src/project/projectmanager.cpp:884
 #, kde-format
 msgid "Opening file %1"
 msgstr "%1 dosyası açılıyor…"
 
-#: src/project/projectmanager.cpp:941
+#: src/project/projectmanager.cpp:944
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34479,28 +34479,28 @@ msgstr ""
 "%1\n"
 "Önceden aldığınız bir yedeği açmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1221
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1224
 #, kde-format
 msgid "Error opening file"
 msgstr "Dosya açılamadı"
 
-#: src/project/projectmanager.cpp:942 src/project/projectmanager.cpp:1222
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1225
 #, kde-format
 msgid "Open Backup"
 msgstr "Yedeği Aç"
 
-#: src/project/projectmanager.cpp:960
+#: src/project/projectmanager.cpp:963
 #, kde-format
 msgid "Could not open the backup project file."
 msgstr "Yedek proje dosyası açılamadı."
 
-#: src/project/projectmanager.cpp:975
+#: src/project/projectmanager.cpp:978
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr ""
 "Projeniz yükseltildi, bir sonraki kaydetmede bir yedekleme oluşturulacak"
 
-#: src/project/projectmanager.cpp:977
+#: src/project/projectmanager.cpp:980
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
@@ -34508,17 +34508,17 @@ msgstr ""
 "Projeniz açıldığında değiştirildi ve bir sonraki kaydetmede bir yedekleme "
 "oluşturulacak"
 
-#: src/project/projectmanager.cpp:1052
+#: src/project/projectmanager.cpp:1055
 #, kde-format
 msgid "Loading timeline…"
 msgstr "Zaman akışı yükleniyor…"
 
-#: src/project/projectmanager.cpp:1075
+#: src/project/projectmanager.cpp:1078
 #, kde-format
 msgid "Building sequences…"
 msgstr "Sekanslar yapılıyor…"
 
-#: src/project/projectmanager.cpp:1248
+#: src/project/projectmanager.cpp:1251
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34527,7 +34527,7 @@ msgstr ""
 "Proje dosyası açılamıyor. Hata:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1288
+#: src/project/projectmanager.cpp:1291
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
@@ -34536,12 +34536,12 @@ msgstr ""
 "Bu, projenizi en son kaydettiğinizden bu yana olan değişiklikleri silecek. "
 "Hâlâ sürdürmek istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:1289
+#: src/project/projectmanager.cpp:1292
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "Son kaydedilen sürüme geri dön"
 
-#: src/project/projectmanager.cpp:1400
+#: src/project/projectmanager.cpp:1403
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34550,35 +34550,35 @@ msgstr ""
 "Proje bozulmuş, yedeklenemiyor. Lütfen projenizi kapatın ve yeniden açınson "
 "yedeği kurtarmak için dosya"
 
-#: src/project/projectmanager.cpp:1621
+#: src/project/projectmanager.cpp:1624
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "Proje klasörü taşınırken hata, önbellek klasörüne erişilemiyor"
 
-#: src/project/projectmanager.cpp:1659
+#: src/project/projectmanager.cpp:1662
 #, kde-format
 msgid "Moving project folder"
 msgstr "Proje klasörü taşınıyor"
 
-#: src/project/projectmanager.cpp:1760 src/project/projectmanager.cpp:1816
-#: src/project/projectmanager.cpp:1820
+#: src/project/projectmanager.cpp:1763 src/project/projectmanager.cpp:1819
+#: src/project/projectmanager.cpp:1823
 #, kde-format
 msgid "Sequence 1"
 msgstr "Sekans 1"
 
-#: src/project/projectmanager.cpp:1771
+#: src/project/projectmanager.cpp:1774
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "Proje dosyası bozuk — izler yüklenemedi. Bir yedek dosyası aransın mı?"
 
-#: src/project/projectmanager.cpp:1912 src/project/projectmanager.cpp:1925
-#: src/project/projectmanager.cpp:1949 src/project/projectmanager.cpp:1958
+#: src/project/projectmanager.cpp:1915 src/project/projectmanager.cpp:1928
+#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1961
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "Proje profil değişimi iptal edildi"
 
-#: src/project/projectmanager.cpp:2088
+#: src/project/projectmanager.cpp:2091
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34587,12 +34587,12 @@ msgstr ""
 "Çıktı dosyası %1 hâlihazırda var.\n"
 "Üzerine yazmak istiyor musunuz?"
 
-#: src/project/projectmanager.cpp:2113
+#: src/project/projectmanager.cpp:2116
 #, kde-format
 msgid "Project profile changed"
 msgstr "Proje profili değiştirildi"
 
-#: src/project/projectmanager.cpp:2177
+#: src/project/projectmanager.cpp:2180
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34601,44 +34601,44 @@ msgstr ""
 "Bu klipten bir zaman akışı oluşturulamıyor:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2266
+#: src/project/projectmanager.cpp:2269
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr ""
 "Bir sekans klibi içe aktarılıyor, bu özellik şu anda deneysel durumdadır"
 
-#: src/project/projectmanager.cpp:2500 src/project/projectmanager.cpp:2555
+#: src/project/projectmanager.cpp:2503 src/project/projectmanager.cpp:2558
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "Sekans oluşturmak için bir klip seç"
 
-#: src/project/projectmanager.cpp:2506 src/project/projectmanager.cpp:2513
-#: src/project/projectmanager.cpp:2563
+#: src/project/projectmanager.cpp:2509 src/project/projectmanager.cpp:2516
+#: src/project/projectmanager.cpp:2566
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "Sekans oluşturma başarısız"
 
-#: src/project/projectmanager.cpp:2540
+#: src/project/projectmanager.cpp:2543
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "Geçerli zaman akışına sekans eklenemiyor"
 
-#: src/project/projectmanager.cpp:2544
+#: src/project/projectmanager.cpp:2547
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "Sekans Klibi Oluştur"
 
-#: src/project/projectmanager.cpp:2581
+#: src/project/projectmanager.cpp:2584
 #, kde-format
 msgid "Copy clips to new Sequence"
 msgstr "Klipleri Yeni Sekansa Kopyala"
 
-#: src/project/projectmanager.cpp:2673
+#: src/project/projectmanager.cpp:2676
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
 msgstr "<br>Kilit sahibi: %2 üzerindeki %1 süreci."
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2679
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
@@ -34647,12 +34647,12 @@ msgstr ""
 "<b>“%1”</b> projesi, hâlihazırda başka bir Kdenlive oturumunda açık gibi "
 "görünüyor.%2<br><br>İki oturumda birden açmak veri kaybına neden olabilir."
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, kde-format
 msgid "Project Already Opened"
 msgstr "Proje Halihazırda Açık"
 
-#: src/project/projectmanager.cpp:2680
+#: src/project/projectmanager.cpp:2683
 #, kde-format
 msgid "Open Anyway"
 msgstr "Yine de Aç"
@@ -34967,7 +34967,7 @@ msgstr "konuşma özellikleri"
 #: src/pythoninterfaces/speechtotextvosk.cpp:31
 #, kde-format
 msgid "automated subtitling"
-msgstr "otomatikleştirilmiş altyazılama"
+msgstr "otomatikleştirilmiş alt yazı ekleme"
 
 #: src/pythoninterfaces/speechtotextwhisper.cpp:57
 #, kde-format
@@ -35201,7 +35201,7 @@ msgstr ""
 #: src/render/renderrequest.cpp:235
 #, kde-format
 msgid "Could not create temporary subtitle file"
-msgstr "Geçici altyazı dosyası oluşturulamadı"
+msgstr "Geçici alt yazı dosyası oluşturulamadı"
 
 #: src/render/renderrequest.cpp:262
 #, kde-format
@@ -35900,7 +35900,7 @@ msgstr "Klipler Yerleştir"
 #, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
-msgstr "Üst üste binen altyazılar kesilemiyor"
+msgstr "Üst üste binen alt yazılar kesilemiyor"
 
 #: src/timeline2/model/timelinefunctions.cpp:434
 #: src/timeline2/model/timelinefunctions.cpp:454
@@ -36314,7 +36314,7 @@ msgstr "Ses bölme başarısız: Ses klibi oluşturmak olanaksız"
 #: src/timeline2/model/timelinemodel.cpp:2627
 #, kde-format
 msgid "Delete Subtitle"
-msgstr "Altyazıyı Sil"
+msgstr "Alt Yazıyı Sil"
 
 #: src/timeline2/model/timelinemodel.cpp:2620
 #, kde-format
@@ -36391,7 +36391,7 @@ msgstr "Bileşikleştirmeyi dalgalayarak yeniden boyutlandır"
 #: src/timeline2/model/timelinemodel.cpp:4791
 #, kde-format
 msgid "Ripple resize subtitle"
-msgstr "Altyazıyı dalgalayarak yeniden boyutlandır"
+msgstr "Alt yazıyı dalgalandırarak yeniden boyutlandır"
 
 #: src/timeline2/model/timelinemodel.cpp:4934
 #, kde-format
@@ -36886,7 +36886,7 @@ msgstr "Sekans efektlerini göster"
 #: src/timeline2/view/qml/Timeline.qml:1972
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
-msgstr "Altyazı eklemek için <b>çift tıklayın</b>"
+msgstr "Alt yazı eklemek için <b>çift tıklayın</b>"
 
 #: src/timeline2/view/qml/Timeline.qml:2166
 #, kde-format
@@ -37301,18 +37301,18 @@ msgstr[1] "İzler Yerleştir"
 #: src/timeline2/view/timelinecontroller.cpp:5900
 #, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "Geçerli projede altyazı yok. Dışa aktarma olanaklı değil."
+msgstr "Geçerli projede alt yazı yok. Dışa aktarma olanaklı değil."
 
 #: src/timeline2/view/timelinecontroller.cpp:5911
 #, kde-format
 msgid "Export subtitle file"
-msgstr "Altyazı Dosyasını Dışa Aktar"
+msgstr "Alt Yazı Dosyasını Dışa Aktar"
 
 #: src/timeline2/view/timelinecontroller.cpp:5912
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
-"Sub Station Alpha v4.00+ dosyası (*.ass);;SubRip altyazı dosyası (*.srt)"
+"Sub Station Alpha v4.00+ dosyası (*.ass);;SubRip alt yazı dosyası (*.srt)"
 
 #: src/timeline2/view/timelinecontroller.cpp:5926
 #, kde-format
@@ -37322,10 +37322,10 @@ msgid ""
 "subtitle from the lowest layer will be retained. This may result in the loss "
 "of some subtitles in the exported file. Do you wish to continue?"
 msgstr ""
-"Geçerli altyazı parçası birden fazla katman içeriyor, bu demek oluyor ki "
-"farklı katmanlardaki altyazılar aynı başlangıç konumunu paylaşıyorsa "
-"yalnızca en alt katmandaki altyazı korunacaktır. Bu, dışa aktarılan "
-"dosyadaki bazı altyazıların kaybolmasına neden olabilir. Sürdürmek istiyor "
+"Geçerli alt yazı parçası birden fazla katman içeriyor, bu demek oluyor ki "
+"farklı katmanlardaki alt yazılar aynı başlangıç konumunu paylaşıyorsa "
+"yalnızca en alt katmandaki alt yazı korunacaktır. Bu, dışa aktarılan "
+"dosyadaki bazı alt yazıların kaybolmasına neden olabilir. Sürdürmek istiyor "
 "musunuz?"
 
 #: src/timeline2/view/timelinecontroller.cpp:5931
@@ -37339,41 +37339,41 @@ msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
 "feature will probably not work as expected."
 msgstr ""
-"avfilter.subtitles süzgeci gerekiyor; ancak bulunamadı. Altyazılar özelliği "
-"büyük olasılılkla istendiği gibi çalışmayacak."
+"avfilter.subtitles süzgeci gerekiyor; ancak bulunamadı. Alt yazılar özelliği "
+"büyük olasılıkla istendiği gibi çalışmayacak."
 
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Show subtitle track"
-msgstr "Altyazı izini göster"
+msgstr "Alt yazı izini göster"
 
 #: src/timeline2/view/timelinecontroller.cpp:5986
 #, kde-format
 msgid "Hide subtitle track"
-msgstr "Altyazı izini sil"
+msgstr "Alt yazı izini sil"
 
 #: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Unlock subtitle track"
-msgstr "Altyazı izi kilidini aç"
+msgstr "Alt yazı izi kilidini aç"
 
 #: src/timeline2/view/timelinecontroller.cpp:6009
 #, kde-format
 msgid "Lock subtitle track"
-msgstr "Altyazı izini kilitle"
+msgstr "Alt yazı izini kilitle"
 
 #: src/timeline2/view/timelinecontroller.cpp:6176
 #: src/timeline2/view/timelinecontroller.cpp:6185
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
-msgstr "Altyazılar"
+msgstr "Alt yazılar"
 
 #: src/timeline2/view/timelinecontroller.cpp:6187
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
-msgstr "Altyazıları Yönet"
+msgstr "Alt yazıları yönet"
 
 #: src/timeline2/view/timelinecontroller.cpp:6418
 #, kde-format
@@ -37391,7 +37391,7 @@ msgid ""
 "Add Timeline Sequence. This will create a new timeline for editing. Each "
 "timeline corresponds to a Sequence Clip in the Project Bin"
 msgstr ""
-"Zaman Akışı Sekansı Ekle. Bu, düzenleme için yeni bir zaman akışı "
+"Zaman akışı sekansı ekleyin. Bu, düzenleme için yeni bir zaman akışı "
 "oluşturacaktır. Her bir zaman akışı, Proje Kovası’nda bir Sekans Klibine "
 "denk gelir"
 
@@ -39745,7 +39745,7 @@ msgstr "Karışımlar:"
 #: src/ui/configmisc_ui.ui:311
 #, kde-format
 msgid "Subtitles:"
-msgstr "Altyazılar:"
+msgstr "Alt yazılar:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:225
@@ -40317,7 +40317,7 @@ msgstr "Karışımlar"
 #: src/ui/configtools_ui.ui:27
 #, kde-format
 msgid "When cutting subtitles:"
-msgstr "Altyazıları keserken:"
+msgstr "Alt yazıları keserken:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_subtitle_razor_mode)
 #: src/ui/configtools_ui.ui:41
@@ -40814,7 +40814,7 @@ msgstr "<html><head/><body><p>Ad</p></body></html>"
 #: src/ui/editsubstyle_ui.ui:18
 #, kde-format
 msgid "Subtitle Style Editor"
-msgstr "Altyazı Biçemi Düzenleyicisi"
+msgstr "Alt Yazı Biçemi Düzenleyicisi"
 
 #. i18n: ectx: property (text), widget (QLabel, labelName)
 #: src/ui/editsubstyle_ui.ui:26
@@ -40835,7 +40835,7 @@ msgid ""
 "The secondary color might be used in case of subtitle collision to help "
 "distinguish both subtitles"
 msgstr ""
-"İkincil renk, altyazı çakışması durumunda her iki altyazıyı ayırt etmeye "
+"İkincil renk, alt yazı çakışması durumunda her iki alt yazıyı ayırt etmeye "
 "yardımcı olmak için kullanılabilir."
 
 #. i18n: ectx: property (text), widget (QLabel, labelSpacing)
@@ -41001,7 +41001,7 @@ msgstr "Ayarlar"
 #: src/ui/import_subtitle_ui.ui:51
 #, kde-format
 msgid "Subtitle file:"
-msgstr "Altyazı dosyası:"
+msgstr "Alt yazı dosyası:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
@@ -41026,19 +41026,19 @@ msgstr "Kare hızını dönüştür"
 #: src/ui/import_subtitle_ui.ui:241
 #, kde-format
 msgid "Subtitle Preview"
-msgstr "Altyazı Önizleme"
+msgstr "Alt yazı önizleme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
 #, kde-format
 msgid "Create New Subtitle Track"
-msgstr "Yeni Altyazı İzi Oluştur"
+msgstr "Yeni alt yazı izi oluştur"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, track_name)
 #: src/ui/import_subtitle_ui.ui:284
 #, kde-format
 msgid "Subtitle Track Name"
-msgstr "Altyazı İzi Adı"
+msgstr "Alt yazı izi adı"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ManageCache_UI)
 #: src/ui/managecache_ui.ui:18
@@ -42144,7 +42144,7 @@ msgstr "<a href=\"#\">Üst veriyi düzenle</a>"
 #: src/ui/renderwidget_ui.ui:871
 #, kde-format
 msgid "Embed subtitles instead of burning them"
-msgstr "Altyazıları videoya yakmak yerine onları göm"
+msgstr "Alt yazıları videoya yakmak yerine onları göm"
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
 #: src/ui/renderwidget_ui.ui:878
