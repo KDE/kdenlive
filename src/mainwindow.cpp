@@ -518,6 +518,8 @@ void MainWindow::init()
     m_mixerDock->close();
     m_projectBinDock->setAsCurrentTab();
 
+    initializeOptions();
+
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
         KdenliveSettings::setLastCacheCheck(QDateTime::currentDateTime());
@@ -1010,7 +1012,7 @@ void MainWindow::saveOptions()
     pCore->projectManager()->saveRecentFiles();
 }
 
-bool MainWindow::readOptions()
+void MainWindow::initializeOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
     pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
@@ -1063,7 +1065,6 @@ bool MainWindow::readOptions()
     if (KdenliveSettings::guidesCategories().isEmpty()) {
         KdenliveSettings::setGuidesCategories(KdenliveDoc::getDefaultGuideCategories());
     }
-    return firstRun;
 }
 
 void MainWindow::slotRunWizard()
