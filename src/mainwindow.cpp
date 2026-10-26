@@ -1015,7 +1015,6 @@ void MainWindow::saveOptions()
 void MainWindow::initializeOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
