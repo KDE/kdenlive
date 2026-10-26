@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-25 00:50+0000\n"
-"PO-Revision-Date: 2026-10-22 06:32+0200\n"
+"PO-Revision-Date: 2026-10-25 05:18+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -9612,12 +9612,12 @@ msgstr "None,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20"
 #: data/effects/frei0r/frei0r_camerashake.xml:4
 #, kde-format
 msgid "Camera Shake Ultimate"
-msgstr ""
+msgstr "კამერის რყევა"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:5
 #, kde-format
 msgid "Camera movement effect with rotation, opacity, and blur"
-msgstr ""
+msgstr "კამერის გადაადგილების ეფექტი ბრუნვით, გაუმჭვირვალობით და დაბინდვით"
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
 #, kde-format
@@ -15412,6 +15412,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>\n"
+"   ამ დამატების დიზაინი აღებულია Allen & Heath Xone 32 DJ mixer-დან."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, kde-format
@@ -15582,6 +15584,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (მონო) (LADSPA 1907)<br>\n"
+"   ამ დამატების დიზაინი აღებულია Allen & Heath Xone 32 DJ mixer-დან."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, kde-format
@@ -37161,6 +37165,8 @@ msgid ""
 "Outline color. Applies to selected text, or to the whole object outside text "
 "editing."
 msgstr ""
+"კონტურის ფერი. ვრცელდება მონიშნულ ტექსტზე, ან მთელ ობიექტზე ტექსტის "
+"ჩასწორების გარეთ."
 
 #: src/titler/titlewidget.cpp:2267
 #, kde-format
