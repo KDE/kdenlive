@@ -104,7 +104,6 @@ find_package(KF${KF_MAJOR} ${KF_DEP_VERSION}
     Purpose
 
     OPTIONAL_COMPONENTS
-    DocTools
     Crash
 )
 
@@ -186,11 +185,6 @@ if(APPLE)
     set(DATA_INSTALL_PREFIX "")
 else()
     set(DATA_INSTALL_PREFIX "/kdenlive")
-endif()
-
-if(KF${KF_MAJOR}DocTools_FOUND)
-    add_subdirectory(doc)
-    kdoctools_install(po)
 endif()
 
 # Get current version.
