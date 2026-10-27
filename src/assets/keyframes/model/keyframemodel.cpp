@@ -764,12 +764,9 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
         if (auto ptr = m_model.lock()) {
             const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
             updateMltKeyframeValue(ptr, paramName, pos, value, type);
-            if (notify) {
-                Q_EMIT ptr->dataChanged(index(row), index(row));
-                if (!ptr->m_isAudio) {
-                    // Trigger monitor refresh
-                    pCore->refreshProjectItem(ptr->getOwnerId());
-                }
+            if (notify && !ptr->m_isAudio) {
+                // Trigger monitor refresh
+                pCore->refreshProjectItem(ptr->getOwnerId());
             }
             qDebug() << "==== UPDATING KEYFRAME WITH LOGUNDO: " << logUndo << "\n* * * * * *";
             if (logUndo) {
@@ -791,6 +788,12 @@ Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum
 void KeyframeModel::updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
                                            KeyframeType::KeyframeEnum type)
 {
+    if (m_paramType == ParamType::Roto_spline) {
+        // Rotoscoping keyframes cannot be edited with mlt functions, so rebuild all animation
+        const QString animData = getAnimProperty();
+        model->getAsset()->set(paramName.toLatin1().constData(), animData.toLatin1().constData());
+        return;
+    }
     if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
         const QStringList stringRect = value.toString().split(QLatin1Char(' '));
         mlt_rect rect = {std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min(),
