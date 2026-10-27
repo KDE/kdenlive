@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-25 00:50+0000\n"
+"POT-Creation-Date: 2026-10-27 00:59+0000\n"
 "PO-Revision-Date: 2026-10-24 21:59+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -7481,7 +7481,7 @@ msgstr "Süre"
 
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:90
-#: src/core.cpp:1198 src/kdenliveui.rc:196 src/mainwindow.cpp:277
+#: src/core.cpp:1200 src/kdenliveui.rc:196 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:101
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
@@ -19058,7 +19058,7 @@ msgid "Use cos instead of linear"
 msgstr "Doğrusal yerine kosinüs kullan"
 
 #: data/effects/vignette.xml:20
-#: src/assets/keyframes/model/keyframemodel.cpp:105
+#: src/assets/keyframes/model/keyframemodel.cpp:106
 #, kde-format
 msgid "Smooth"
 msgstr "Pürüzsüz"
@@ -20654,73 +20654,73 @@ msgid ""
 "You must define include points in the first video frame of the sequence."
 msgstr "Sekansın ilk video karesinde içerme noktalarını tanımlamalısınız."
 
-#: src/assets/keyframes/model/keyframemodel.cpp:103
+#: src/assets/keyframes/model/keyframemodel.cpp:104
 #: src/scopes/colorscopes/histogram.cpp:69
 #, kde-format
 msgid "Linear"
 msgstr "Doğrusal"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:104
+#: src/assets/keyframes/model/keyframemodel.cpp:105
 #, kde-format
 msgid "Discrete"
 msgstr "Soyut"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:106
+#: src/assets/keyframes/model/keyframemodel.cpp:107
 #, kde-format
 msgid "Bounce In"
 msgstr "Zıplayarak İçeri"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:107
+#: src/assets/keyframes/model/keyframemodel.cpp:108
 #, kde-format
 msgid "Bounce Out"
 msgstr "Zıplayarak Dışarı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:108
+#: src/assets/keyframes/model/keyframemodel.cpp:109
 #, kde-format
 msgid "Cubic In"
 msgstr "Kübik İçeri"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:109
+#: src/assets/keyframes/model/keyframemodel.cpp:110
 #, kde-format
 msgid "Cubic Out"
 msgstr "Kübik Dışarı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:110
+#: src/assets/keyframes/model/keyframemodel.cpp:111
 #, kde-format
 msgid "Exponential In"
 msgstr "Üstel İçeri"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:111
+#: src/assets/keyframes/model/keyframemodel.cpp:112
 #, kde-format
 msgid "Exponential Out"
 msgstr "Üstel Dışarı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:112
+#: src/assets/keyframes/model/keyframemodel.cpp:113
 #, kde-format
 msgid "Circular In"
 msgstr "Dairesel İçeri"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:113
+#: src/assets/keyframes/model/keyframemodel.cpp:114
 #, kde-format
 msgid "Circular Out"
 msgstr "Dairesel Dışarı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:114
+#: src/assets/keyframes/model/keyframemodel.cpp:115
 #, kde-format
 msgid "Elastic In"
 msgstr "Elastik İçeri"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:115
+#: src/assets/keyframes/model/keyframemodel.cpp:116
 #, kde-format
 msgid "Elastic Out"
 msgstr "Elastik Dışarı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:116
+#: src/assets/keyframes/model/keyframemodel.cpp:117
 #, kde-format
 msgid "Smooth (deprecated)"
 msgstr "Pürüzsüz (Kullanılmıyor)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:204
+#: src/assets/keyframes/model/keyframemodel.cpp:205
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:148
@@ -20729,14 +20729,14 @@ msgstr "Pürüzsüz (Kullanılmıyor)"
 msgid "Add keyframe"
 msgstr "Anahtar kare ekle"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:204
+#: src/assets/keyframes/model/keyframemodel.cpp:205
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Anahtar kare türünü değiştir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:295
+#: src/assets/keyframes/model/keyframemodel.cpp:296
 #: src/assets/keyframes/model/keyframemodellist.cpp:271
 #: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1757
@@ -20744,14 +20744,14 @@ msgstr "Anahtar kare türünü değiştir"
 msgid "Delete keyframe"
 msgstr "Anahtar kare sil"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:589
+#: src/assets/keyframes/model/keyframemodel.cpp:590
 #: src/assets/keyframes/model/keyframemodellist.cpp:452
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Anahtar Kareleri Taşı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:621
+#: src/assets/keyframes/model/keyframemodel.cpp:622
 #: src/assets/keyframes/model/keyframemodellist.cpp:401
 #: src/assets/keyframes/model/keyframemodellist.cpp:466
 #: src/assets/keyframes/model/keyframemodellist.cpp:562
@@ -20761,29 +20761,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Anahtar Kareyi Taşı"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:693
+#: src/assets/keyframes/model/keyframemodel.cpp:694
 #: src/assets/keyframes/view/keyframeview.cpp:163
 #, kde-format
 msgid "Update keyframe"
 msgstr "Anahtar kareyi güncelle"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1142
+#: src/assets/keyframes/model/keyframemodel.cpp:1154
 #: src/assets/keyframes/model/keyframemodellist.cpp:339
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Tüm anahtar kareleri sil"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1302
+#: src/assets/keyframes/model/keyframemodel.cpp:1316
 #, kde-format
 msgid "effect"
 msgstr "efekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1311
+#: src/assets/keyframes/model/keyframemodel.cpp:1325
 #, kde-format
 msgid "Reset %1"
 msgstr "%1 Sıfırla"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1566
+#: src/assets/keyframes/model/keyframemodel.cpp:1580
 #, kde-format
 msgid "Reset effect"
 msgstr "Efekti sıfırla"
@@ -22314,7 +22314,7 @@ msgstr "Video düzenleme uygulaması yolunu girin"
 msgid "Please set a default application to open video files"
 msgstr "Video dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
 
-#: src/bin/bin.cpp:5297 src/core.cpp:713 src/core.cpp:741
+#: src/bin/bin.cpp:5297 src/core.cpp:715 src/core.cpp:743
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22435,7 +22435,7 @@ msgstr ""
 "Projenizin tüm akışları işlemesi için daha fazla ses izine gereksinimi var. "
 "%1 ses izi eklensin mi?"
 
-#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1817
+#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1818
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "İmleyici eklenecek klip bulunamadı"
@@ -22533,7 +22533,7 @@ msgstr "%1 Efektini Sil"
 msgid "Project Bin"
 msgstr "Proje Kovası"
 
-#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3868
+#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3869
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Proje Kovası %1"
@@ -23205,7 +23205,7 @@ msgctxt "capture as a prefix to the filename of a recorded audio/video file"
 msgid "capture"
 msgstr "Yakalama"
 
-#: src/core.cpp:174
+#: src/core.cpp:175
 #, kde-format
 msgid ""
 "Kdenlive crashed on last startup.\n"
@@ -23214,18 +23214,18 @@ msgstr ""
 "Kdenlive son başlangıçta çöktü.\n"
 "Deneysel GPU işlemeyi (Movit) devre dışı bırakmak istiyor musunuz?"
 
-#: src/core.cpp:175
+#: src/core.cpp:176
 #, kde-format
 msgid "Disable GPU processing"
 msgstr "GPU işlemeyi devre dışı bırak"
 
-#: src/core.cpp:276 src/core.cpp:319 src/core.cpp:493
+#: src/core.cpp:277 src/core.cpp:320 src/core.cpp:495
 #: src/project/projectmanager.cpp:930
 #, kde-format
 msgid "Loading project…"
 msgstr "Proje yükleniyor…"
 
-#: src/core.cpp:453
+#: src/core.cpp:455
 #, kde-format
 msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
@@ -23234,19 +23234,19 @@ msgstr ""
 "Kdenlive öntanımlı profili ayarlanmamış veya geçersiz, Tamam’a basarak doğru "
 "değerlere ayarlayın."
 
-#: src/core.cpp:465
+#: src/core.cpp:467
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
 msgstr "Öntanımlı Profili Seç"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/core.cpp:465 src/ui/profiledialog_ui.ui:37
+#: src/core.cpp:467 src/ui/profiledialog_ui.ui:37
 #, kde-format
 msgid "Profile:"
 msgstr "Profil:"
 
-#: src/core.cpp:478
+#: src/core.cpp:480
 #, kde-format
 msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
@@ -23255,262 +23255,262 @@ msgstr ""
 "Verilen profil adı geçersiz. Öntanımlı olarak “dv_pal” yapıldı; ancak "
 "Kdenlive’in ayarlar panelinden değiştirebilirsiniz"
 
-#: src/core.cpp:793
+#: src/core.cpp:795
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2 Bars"
 msgstr "Kareden Çubuklara"
 
-#: src/core.cpp:794
+#: src/core.cpp:796
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Checkerboard Small"
 msgstr "Küçük Dama Tahtası"
 
-#: src/core.cpp:795
+#: src/core.cpp:797
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Horizontal Blinds"
 msgstr "Yatay Panjurlar"
 
-#: src/core.cpp:796
+#: src/core.cpp:798
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial"
 msgstr "Yarıçap"
 
-#: src/core.cpp:797
+#: src/core.cpp:799
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear X"
 msgstr "Doğrusal X"
 
-#: src/core.cpp:798
+#: src/core.cpp:800
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear X"
 msgstr "Çift Doğrusal X"
 
-#: src/core.cpp:799
+#: src/core.cpp:801
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Linear Y"
 msgstr "Doğrusal Y"
 
-#: src/core.cpp:800
+#: src/core.cpp:802
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bi-Linear Y"
 msgstr "Çift Doğrusal Y"
 
-#: src/core.cpp:801
+#: src/core.cpp:803
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square"
 msgstr "Kare"
 
-#: src/core.cpp:802
+#: src/core.cpp:804
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Square 2"
 msgstr "Kare 2"
 
-#: src/core.cpp:803
+#: src/core.cpp:805
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Cloud"
 msgstr "Bulut"
 
-#: src/core.cpp:804
+#: src/core.cpp:806
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Symmetric Clock"
 msgstr "Simetrik Saat"
 
-#: src/core.cpp:805
+#: src/core.cpp:807
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Radial Bars"
 msgstr "Yarıçap Çubukları"
 
-#: src/core.cpp:806
+#: src/core.cpp:808
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral"
 msgstr "Sarmal"
 
-#: src/core.cpp:807
+#: src/core.cpp:809
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Spiral 2"
 msgstr "Sarmal 2"
 
-#: src/core.cpp:808
+#: src/core.cpp:810
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Curtain"
 msgstr "Perde"
 
-#: src/core.cpp:809
+#: src/core.cpp:811
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Burst"
 msgstr "Patlama"
 
-#: src/core.cpp:810
+#: src/core.cpp:812
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock"
 msgstr "Saat"
 
-#: src/core.cpp:812
+#: src/core.cpp:814
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Horizontal"
 msgstr "Yatay Çubuk"
 
-#: src/core.cpp:813
+#: src/core.cpp:815
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Bar Vertical"
 msgstr "Dikey Çubuk"
 
-#: src/core.cpp:814
+#: src/core.cpp:816
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Horizontal"
 msgstr "Yatay Ahır Kapısı"
 
-#: src/core.cpp:815
+#: src/core.cpp:817
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Vertical"
 msgstr "Dikey Ahır Kapısı"
 
-#: src/core.cpp:816
+#: src/core.cpp:818
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal SW-NE"
 msgstr "Köşegenel Ahır Kapısı GB-KD"
 
-#: src/core.cpp:817
+#: src/core.cpp:819
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn Door Diagonal NW-SE"
 msgstr "Köşegenel Ahır Kapısı KB-GD"
 
-#: src/core.cpp:818
+#: src/core.cpp:820
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Left"
 msgstr "Köşegenel Sol Üst"
 
-#: src/core.cpp:819
+#: src/core.cpp:821
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Diagonal Top Right"
 msgstr "Köşegenel Sağ Üst"
 
-#: src/core.cpp:820
+#: src/core.cpp:822
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Horizontal"
 msgstr "Yatay Matris Şelalesi"
 
-#: src/core.cpp:821
+#: src/core.cpp:823
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Waterfall Vertical"
 msgstr "Dikey Matris Şelalesi"
 
-#: src/core.cpp:822
+#: src/core.cpp:824
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Horizontal"
 msgstr "Yatay Matris Yılanı"
 
-#: src/core.cpp:823
+#: src/core.cpp:825
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Horizontal"
 msgstr "Yatay Paralel Matris Yılanı"
 
-#: src/core.cpp:824
+#: src/core.cpp:826
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Vertical"
 msgstr "Dikey Matris Yılanı"
 
-#: src/core.cpp:825
+#: src/core.cpp:827
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Matrix Snake Parallel Vertical"
 msgstr "Dikey Paralel Matris Yılanı"
 
-#: src/core.cpp:826
+#: src/core.cpp:828
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Barn V Up"
 msgstr "Yukarı Dikey Ahır"
 
-#: src/core.cpp:827
+#: src/core.cpp:829
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Circle"
 msgstr "İris Çemberi"
 
-#: src/core.cpp:828
+#: src/core.cpp:830
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Double Iris"
 msgstr "Çift İris"
 
-#: src/core.cpp:829
+#: src/core.cpp:831
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Iris Box"
 msgstr "İris Kutusu"
 
-#: src/core.cpp:830
+#: src/core.cpp:832
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Right"
 msgstr "Sağ Alt Kutu"
 
-#: src/core.cpp:831
+#: src/core.cpp:833
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Bottom Left"
 msgstr "Sol Alt Kutu"
 
-#: src/core.cpp:832
+#: src/core.cpp:834
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Box Right Center"
 msgstr "Sağ Orta Kutu"
 
-#: src/core.cpp:833
+#: src/core.cpp:835
 #, kde-format
 msgctxt "Luma transition name"
 msgid "Clock Top"
 msgstr "Üstte Saat"
 
-#: src/core.cpp:1144
+#: src/core.cpp:1146
 #, kde-format
 msgid "Your project profile is invalid, rendering might fail."
 msgstr "Proje profiliniz geçersiz, görüntü alma başarısız olabilir."
 
-#: src/core.cpp:1509
+#: src/core.cpp:1511
 #, kde-format
 msgid "Loading clips"
 msgstr "Klipler yükleniyor"
 
-#: src/core.cpp:2019
+#: src/core.cpp:2021
 #, kde-format
 msgid "Marker %1"
 msgstr "İmleyici %1"
 
-#: src/core.cpp:2380
+#: src/core.cpp:2382
 #, kde-format
 msgid ""
 "This will open a browser to display Kdenlive's online documentation at the "
@@ -23521,12 +23521,12 @@ msgstr ""
 "bir tarayıcı penceresi açacaktır:\n"
 " %1"
 
-#: src/core.cpp:2381 src/core.cpp:2392
+#: src/core.cpp:2383 src/core.cpp:2394
 #, kde-format
 msgid "Open Browser"
 msgstr "Tarayıcıyı Aç"
 
-#: src/core.cpp:2391
+#: src/core.cpp:2393
 #, kde-format
 msgid ""
 "This will open a browser to display a link:\n"
@@ -27578,7 +27578,7 @@ msgid ""
 msgstr ""
 "Alt yazı dosyası:<br/>%1<br/>hâlihazırda var. Üzerine yazmak istiyor musunuz?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2432
+#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2433
 #, kde-format
 msgid "Overwrite"
 msgstr "Üzerine Yaz"
@@ -28769,7 +28769,7 @@ msgid "Generators"
 msgstr "Üreteçler"
 
 #. i18n: ectx: Menu (extract_audio)
-#: src/kdenliveui.rc:71 src/mainwindow.cpp:2772
+#: src/kdenliveui.rc:71 src/mainwindow.cpp:2773
 #, kde-format
 msgid "Extract Audio"
 msgstr "Sesi Ayır"
@@ -29674,7 +29674,7 @@ msgstr "Efekt/Bileşikleştirme Yığını"
 
 #. i18n: file: data/layouts/effects.json
 #. i18n: ectx: property (text), widget (QLabel, labelEffects)
-#: src/mainwindow.cpp:456 src/mainwindow.cpp:528 src/ui/editsub_ui.ui:550
+#: src/mainwindow.cpp:456 src/mainwindow.cpp:530 src/ui/editsub_ui.ui:550
 #, kde-format
 msgid "Effects"
 msgstr "Efektler"
@@ -29708,29 +29708,29 @@ msgctxt "@info:whatsthis"
 msgid "Toggles the audio mixer panel/widget."
 msgstr "Ses mikseri panelini/araç takımını açar/kapatır."
 
-#: src/mainwindow.cpp:527
+#: src/mainwindow.cpp:529
 #, kde-format
 msgid "Add Effect"
 msgstr "Efekt Ekle"
 
-#: src/mainwindow.cpp:531
+#: src/mainwindow.cpp:533
 #, kde-format
 msgid "Add Transition"
 msgstr "Geçiş Ekle"
 
-#: src/mainwindow.cpp:532 src/mainwindow_actions.cpp:1230
+#: src/mainwindow.cpp:534 src/mainwindow_actions.cpp:1230
 #: src/transitions/transitionlist/model/transitiontreemodel.cpp:37
 #, kde-format
 msgid "Transitions"
 msgstr "Geçişler"
 
 #. i18n("Favorite Effects"));
-#: src/mainwindow.cpp:546 src/mainwindow.cpp:558 src/mainwindow_actions.cpp:126
+#: src/mainwindow.cpp:548 src/mainwindow.cpp:560 src/mainwindow_actions.cpp:126
 #, kde-format
 msgid "Favorite Effects"
 msgstr "Sık Kullanılan Efektler"
 
-#: src/mainwindow.cpp:547 src/mainwindow.cpp:560
+#: src/mainwindow.cpp:549 src/mainwindow.cpp:562
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29740,23 +29740,23 @@ msgstr ""
 "Sık kullanılan efektlerin bir listesini göstermek için tıklayın. Seçili "
 "klibe eklemek için bir efekte çift tıklayın."
 
-#: src/mainwindow.cpp:570 src/mainwindow_actions.cpp:629
+#: src/mainwindow.cpp:572 src/mainwindow_actions.cpp:629
 #, kde-format
 msgid "Render…"
 msgstr "Görüntü Al…"
 
-#: src/mainwindow.cpp:578
+#: src/mainwindow.cpp:580
 #, kde-format
 msgid "Rendering preview"
 msgstr "Görüntü alma önizlemesi"
 
-#: src/mainwindow.cpp:730
+#: src/mainwindow.cpp:732
 #, kde-format
 msgctxt "@title:window"
 msgid "Loading Project"
 msgstr "Proje Yükleniyor"
 
-#: src/mainwindow.cpp:877
+#: src/mainwindow.cpp:879
 #, kde-format
 msgid ""
 "You have 1 rendering job running.\n"
@@ -29771,17 +29771,17 @@ msgstr[1] ""
 "Çalışmakta olan %1 görüntü alma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 
-#: src/mainwindow.cpp:879
+#: src/mainwindow.cpp:881
 #, kde-format
 msgid "Continue rendering in the background"
 msgstr "Görüntü Almayı Arka Planda Sürdür"
 
-#: src/mainwindow.cpp:879
+#: src/mainwindow.cpp:881
 #, kde-format
 msgid "Abort rendering"
 msgstr "Görüntü Almayı Durdur"
 
-#: src/mainwindow.cpp:896
+#: src/mainwindow.cpp:898
 #, kde-format
 msgid ""
 "You have 1 rendering job waiting in the queue.\n"
@@ -29796,22 +29796,22 @@ msgstr[1] ""
 "Kuyrukta bekleyen %1 görüntü alma işi var.\n"
 "Bu iş ile ne yapmak istiyorsunuz?"
 
-#: src/mainwindow.cpp:899
+#: src/mainwindow.cpp:901
 #, kde-format
 msgid "Start them now"
 msgstr "Onları şimdi başlat"
 
-#: src/mainwindow.cpp:899
+#: src/mainwindow.cpp:901
 #, kde-format
 msgid "Delete them"
 msgstr "Onları sil"
 
-#: src/mainwindow.cpp:998 src/timeline2/view/timelinecontroller.cpp:2547
+#: src/mainwindow.cpp:1000 src/timeline2/view/timelinecontroller.cpp:2547
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Efekti karşılaştırmak için bir klip seçin"
 
-#: src/mainwindow.cpp:1137
+#: src/mainwindow.cpp:1138
 #, kde-format
 msgid ""
 "You have changed the proxy parameters. Do you want to recreate all proxy "
@@ -29820,13 +29820,13 @@ msgstr ""
 "Vekil parametrelerini değiştirdiniz. Bu proje için tüm vekil kliplerini "
 "yeniden oluşturmak ister misiniz?"
 
-#: src/mainwindow.cpp:1138
+#: src/mainwindow.cpp:1139
 #, kde-format
 msgctxt "@action:button"
 msgid "Recreate"
 msgstr "Yeniden Oluştur"
 
-#: src/mainwindow.cpp:1139 src/onlineresources/resourcewidget.cpp:706
+#: src/mainwindow.cpp:1140 src/onlineresources/resourcewidget.cpp:706
 #: src/scopes/colorscopes/colorplaneexport.cpp:157
 #: src/titler/titlewidget.cpp:2607
 #, kde-format
@@ -29834,7 +29834,7 @@ msgctxt "@action:button"
 msgid "Continue without"
 msgstr "Şu Olmadan Sürdür"
 
-#: src/mainwindow.cpp:1196 src/mainwindow.cpp:1252
+#: src/mainwindow.cpp:1197 src/mainwindow.cpp:1253
 #, kde-format
 msgid ""
 "This will move all temporary files from<br/><b>%1</b> to <b>%2</b>,<br/>the "
@@ -29843,7 +29843,7 @@ msgstr ""
 "Bu işlem, ilk olarak projeyi kaydeder, geçici dosyaların tümünü<br/><b>%1</"
 "b> üzerinden <b>%2</b> konumuna taşır ve proje dosyasını yeniden yükler"
 
-#: src/mainwindow.cpp:1204
+#: src/mainwindow.cpp:1205
 #, kde-format
 msgid ""
 "Project has not been saved.<br/>This will first save the project, then move "
@@ -29854,7 +29854,7 @@ msgstr ""
 "dosyaların tümünü<br/><b>%1</b> üzerinden proje dosyası konumuna taşır ve "
 "yeniden yükler."
 
-#: src/mainwindow.cpp:1244
+#: src/mainwindow.cpp:1245
 #, kde-format
 msgid ""
 "The current project has not been saved.<br/>This will first save the "
@@ -29865,38 +29865,38 @@ msgstr ""
 "geçici dosyaların tümünü<br/><b>%1</b> üzerinden <b>%2</b> konumuna taşır ve "
 "proje dosyasını yeniden yükler."
 
-#: src/mainwindow.cpp:1262 src/project/projectmanager.cpp:634
+#: src/mainwindow.cpp:1263 src/project/projectmanager.cpp:634
 #, kde-format
 msgid "Cannot perform operation, invalid document id: %1"
 msgstr "Bu işlem gerçekleştirilemez, geçersiz belge kimliği: %1"
 
-#: src/mainwindow.cpp:1267 src/project/projectmanager.cpp:641
+#: src/mainwindow.cpp:1268 src/project/projectmanager.cpp:641
 #, kde-format
 msgid "Cannot perform operation, target directory already exists: %1"
 msgstr "Bu işlem gerçekleştirilemez, hedef dizin hâlihazırda var: %1"
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "This will remove all unused clips from your project."
 msgstr "Bu, kullanılmayan tüm klipleri projenizden kaldıracak."
 
-#: src/mainwindow.cpp:1417
+#: src/mainwindow.cpp:1418
 #, kde-format
 msgid "Clean up project"
 msgstr "Projeyi temizle"
 
-#: src/mainwindow.cpp:1545
+#: src/mainwindow.cpp:1546
 #, kde-format
 msgid "Download New Keyboard Schemes…"
 msgstr "Yeni Klavye Şemaları İndir…"
 
-#: src/mainwindow.cpp:1589
+#: src/mainwindow.cpp:1590
 #, kde-format
 msgctxt "general keyboard shortcuts"
 msgid "General"
 msgstr "Genel"
 
-#: src/mainwindow.cpp:1662
+#: src/mainwindow.cpp:1663
 #, kde-format
 msgid ""
 "This will delete Kdenlive's configuration file and restart the application. "
@@ -29905,28 +29905,28 @@ msgstr ""
 "Bu, kdenlive’ın yapılandırma dosyasını silecek ve uygulamayı yeniden "
 "başlatacaktır. Sürdürmek istiyor musunuz?"
 
-#: src/mainwindow.cpp:1663
+#: src/mainwindow.cpp:1664
 #, kde-format
 msgctxt "@title:window"
 msgid "Reset Configuration"
 msgstr "Yapılandırmayı Sıfırla"
 
-#: src/mainwindow.cpp:1835 src/mainwindow.cpp:1862
+#: src/mainwindow.cpp:1836 src/mainwindow.cpp:1863
 #, kde-format
 msgid "Cannot find clip to remove marker"
 msgstr "İmleyicinin kaldırılacağı klip bulunamadı"
 
-#: src/mainwindow.cpp:1845 src/mainwindow.cpp:1901
+#: src/mainwindow.cpp:1846 src/mainwindow.cpp:1902
 #, kde-format
 msgid "No marker found at cursor time"
 msgstr "İmleç konumunda hiçbir imleyici bulunamadı"
 
-#: src/mainwindow.cpp:1867 src/mainwindow.cpp:1877
+#: src/mainwindow.cpp:1868 src/mainwindow.cpp:1878
 #, kde-format
 msgid "An error occurred while deleting markers"
 msgstr "İmleyiciler silinirken bir hata oluştu"
 
-#: src/mainwindow.cpp:1894 src/timeline2/view/timelinecontroller.cpp:1460
+#: src/mainwindow.cpp:1895 src/timeline2/view/timelinecontroller.cpp:1460
 #: src/timeline2/view/timelinecontroller.cpp:1468
 #: src/timeline2/view/timelinecontroller.cpp:1489
 #: src/timeline2/view/timelinecontroller.cpp:1529
@@ -29936,46 +29936,46 @@ msgstr "İmleyiciler silinirken bir hata oluştu"
 msgid "Cannot find clip to edit marker"
 msgstr "İmleyici düzenlenecek klip bulunamadı"
 
-#: src/mainwindow.cpp:1946
+#: src/mainwindow.cpp:1947
 #, kde-format
 msgid "Marker category does not exist"
 msgstr "İmleyici kategorisi yok"
 
-#: src/mainwindow.cpp:2081 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2082 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Üzerine yazma bölgesi"
 
-#: src/mainwindow.cpp:2083 src/mainwindow.cpp:2102
+#: src/mainwindow.cpp:2084 src/mainwindow.cpp:2103
 #: src/timeline2/model/timelinefunctions.cpp:867
 #: src/timeline2/view/timelinecontroller.cpp:3696
 #, kde-format
 msgid "Could not insert zone"
 msgstr "Bölge yerleştirilemedi"
 
-#: src/mainwindow.cpp:2093
+#: src/mainwindow.cpp:2094
 #, kde-format
 msgid "No clip selected in project bin"
 msgstr "Proje kovasında seçili klip yok"
 
-#: src/mainwindow.cpp:2100 src/timeline2/model/timelinefunctions.cpp:865
+#: src/mainwindow.cpp:2101 src/timeline2/model/timelinefunctions.cpp:865
 #: src/timeline2/view/timelinecontroller.cpp:3694
 #, kde-format
 msgid "Insert zone"
 msgstr "Yerleştirme bölgesi"
 
-#: src/mainwindow.cpp:2167
+#: src/mainwindow.cpp:2168
 #, kde-format
 msgid "Cannot add effect to active item"
 msgstr "Etkin ögeye efekt eklenemiyor"
 
-#: src/mainwindow.cpp:2229
+#: src/mainwindow.cpp:2230
 #, kde-format
 msgid "Zoom Level: %1/%2"
 msgstr "Yakınlaştırma düzeyi: %1/%2"
 
-#: src/mainwindow.cpp:2383
+#: src/mainwindow.cpp:2384
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -29988,7 +29988,7 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:2387
+#: src/mainwindow.cpp:2388
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30002,24 +30002,24 @@ msgstr ""
 "ize taşımak için <shortcut>Meta+Alt+Sürükle</shortcut>, kaydırma için "
 "<shortcut>Kontrol+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:2390
+#: src/mainwindow.cpp:2391
 #, kde-format
 msgid "Select"
 msgstr "Seç"
 
-#: src/mainwindow.cpp:2392
+#: src/mainwindow.cpp:2393
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
 msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>’e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
-#: src/mainwindow.cpp:2393 src/ui/configtools_ui.ui:21
+#: src/mainwindow.cpp:2394 src/ui/configtools_ui.ui:21
 #, kde-format
 msgid "Razor"
 msgstr "Jilet"
 
-#: src/mainwindow.cpp:2397
+#: src/mainwindow.cpp:2398
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30030,12 +30030,12 @@ msgstr ""
 "Karakter</shortcut>, ayrıca kılavuzları da taşır. İki niteleyiciyi aynı anda "
 "kullanabilirsiniz."
 
-#: src/mainwindow.cpp:2398
+#: src/mainwindow.cpp:2399
 #, kde-format
 msgid "Spacer"
 msgstr "Boşluk"
 
-#: src/mainwindow.cpp:2400
+#: src/mainwindow.cpp:2401
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30045,13 +30045,13 @@ msgstr ""
 "Taşımak için bir ögenin üzerine <shortcut>Tıkla</shortcut>, çoklu seçim için "
 "<shortcut>Üst Karakter+Tıkla</shortcut>"
 
-#: src/mainwindow.cpp:2401
+#: src/mainwindow.cpp:2402
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Slip"
 msgstr "Taşı"
 
-#: src/mainwindow.cpp:2406
+#: src/mainwindow.cpp:2407
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30064,13 +30064,13 @@ msgstr ""
 "için <shortcut>Seçenek+Tıkla</shortcut>, kaydırma için <shortcut>Kontrol"
 "+Sürükle</shortcut>"
 
-#: src/mainwindow.cpp:2408
+#: src/mainwindow.cpp:2409
 #, kde-format
 msgctxt "Timeline Tool"
 msgid "Ripple"
 msgstr "Dalgala"
 
-#: src/mainwindow.cpp:2414
+#: src/mainwindow.cpp:2415
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -30080,109 +30080,109 @@ msgstr ""
 "Etkin iz dışındaki tüm izleri yukarı kaldırmayı gerçekleştirmek için bir "
 "proje izleyicisinde bir iz görünümüne <shortcut>tıklayın</shortcut>"
 
-#: src/mainwindow.cpp:2415 src/mainwindow_actions.cpp:545
+#: src/mainwindow.cpp:2416 src/mainwindow_actions.cpp:545
 #, kde-format
 msgid "Multicam"
 msgstr "Çoklu Kamera"
 
-#: src/mainwindow.cpp:2430
+#: src/mainwindow.cpp:2431
 #, kde-format
 msgid "Insert"
 msgstr "Yerleştir"
 
-#: src/mainwindow.cpp:2662 src/mainwindow.cpp:2664
+#: src/mainwindow.cpp:2663 src/mainwindow.cpp:2665
 #, kde-format
 msgid "Scopes"
 msgstr "Kapsamlar"
 
-#: src/mainwindow.cpp:2669
+#: src/mainwindow.cpp:2670
 #, kde-format
 msgid "Project Bins"
 msgstr "Proje Kovaları"
 
-#: src/mainwindow.cpp:2746
+#: src/mainwindow.cpp:2747
 #, kde-format
 msgid "Clip Jobs"
 msgstr "Klip İşleri"
 
-#: src/mainwindow.cpp:2765
+#: src/mainwindow.cpp:2766
 #, kde-format
 msgid "Configure Clip Jobs…"
 msgstr "Klip İşlerini Yapılandır…"
 
-#: src/mainwindow.cpp:2771
+#: src/mainwindow.cpp:2772
 #, kde-format
 msgid "Transcoders"
 msgstr "Arakodlayıcılar"
 
-#: src/mainwindow.cpp:2838
+#: src/mainwindow.cpp:2839
 #, kde-format
 msgid "-merged"
 msgstr "-birleştirildi"
 
-#: src/mainwindow.cpp:2841
+#: src/mainwindow.cpp:2842
 #, kde-format
 msgid "-stream-%1"
 msgstr "-akış-%1"
 
-#: src/mainwindow.cpp:2874 src/mainwindow.cpp:3212
+#: src/mainwindow.cpp:2875 src/mainwindow.cpp:3213
 #, kde-format
 msgid "Interface"
 msgstr "Arayüz"
 
-#: src/mainwindow.cpp:2945
+#: src/mainwindow.cpp:2946
 #, kde-format
 msgctxt "@title:window"
 msgid "Files to Transcode"
 msgstr "Arakodlanacak Dosyalar"
 
-#: src/mainwindow.cpp:3119
+#: src/mainwindow.cpp:3120
 #, kde-format
 msgid "Project file could not be saved for archiving."
 msgstr "Proje dosyası arşivleme için kaydedilemedi."
 
-#: src/mainwindow.cpp:3127
+#: src/mainwindow.cpp:3128
 #, kde-format
 msgid "Archiving project"
 msgstr "Proje arşivleniyor"
 
-#: src/mainwindow.cpp:3226
+#: src/mainwindow.cpp:3227
 #, kde-format
 msgid "Raise %1"
 msgstr "Yükselt: %1"
 
-#: src/mainwindow.cpp:3297
+#: src/mainwindow.cpp:3298
 #, kde-format
 msgid "Icon Size"
 msgstr "Simge Boyutu"
 
-#: src/mainwindow.cpp:3301
+#: src/mainwindow.cpp:3302
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
 msgstr "Öntanımlı"
 
-#: src/mainwindow.cpp:3322 src/mainwindow.cpp:3350
+#: src/mainwindow.cpp:3323 src/mainwindow.cpp:3351
 #, kde-format
 msgid "Small (%1x%2)"
 msgstr "Küçük (%1 × %2)"
 
-#: src/mainwindow.cpp:3324 src/mainwindow.cpp:3352
+#: src/mainwindow.cpp:3325 src/mainwindow.cpp:3353
 #, kde-format
 msgid "Medium (%1x%2)"
 msgstr "Orta (%1 × %2)"
 
-#: src/mainwindow.cpp:3326 src/mainwindow.cpp:3354
+#: src/mainwindow.cpp:3327 src/mainwindow.cpp:3355
 #, kde-format
 msgid "Large (%1x%2)"
 msgstr "Büyük (%1 × %2)"
 
-#: src/mainwindow.cpp:3328 src/mainwindow.cpp:3356
+#: src/mainwindow.cpp:3329 src/mainwindow.cpp:3357
 #, kde-format
 msgid "Huge (%1x%2)"
 msgstr "Çok Büyük (%1 × %2)"
 
-#: src/mainwindow.cpp:3412
+#: src/mainwindow.cpp:3413
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing Ctrl"
@@ -30191,22 +30191,22 @@ msgstr ""
 "Bu, menü çubuğunu tümüyle gizleyecektir. Kontrol+M ile yeniden "
 "gösterebilirsiniz."
 
-#: src/mainwindow.cpp:3412
+#: src/mainwindow.cpp:3413
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menü çubuğunu gizle"
 
-#: src/mainwindow.cpp:4036
+#: src/mainwindow.cpp:4037
 #, kde-format
 msgid "Go to download page"
 msgstr "İndirme sayfasına git"
 
-#: src/mainwindow.cpp:4042
+#: src/mainwindow.cpp:4043
 #, kde-format
 msgid "Never check again"
 msgstr "Bir daha denetleme"
 
-#: src/mainwindow.cpp:4045
+#: src/mainwindow.cpp:4046
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
@@ -30214,14 +30214,14 @@ msgid ""
 msgstr ""
 "Kdenlive sürümünüz bir yıldan daha eski; sürüm yükseltmesi yapmanız önerilir"
 
-#: src/mainwindow.cpp:4049
+#: src/mainwindow.cpp:4050
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 "Kdenlive sürümünüz altı aydan daha eski; sürüm yükseltmesi yapmanız önerilir"
 
-#: src/mainwindow.cpp:4091
+#: src/mainwindow.cpp:4092
 #, kde-format
 msgid "Checking cached data size"
 msgstr "Önbelleklenmiş veri boyutu denetleniyor"
