@@ -64,7 +64,7 @@ void AudioLevelLayoutState::calculateLayout()
         // Calculate if we have enough space for labels
         int fullSize = m_config.orientation == Qt::Horizontal ? m_config.widgetSize.height() : m_config.widgetSize.width();
         int drawableSize = fullSize - m_borderOffsetWithLabels;
-        int channelSize = (drawableSize - (m_config.audioChannels + 1) * CHANNEL_BORDER_WIDTH) / m_config.audioChannels;
+        int channelSize = m_config.audioChannels > 0 ? (drawableSize - (m_config.audioChannels + 1) * CHANNEL_BORDER_WIDTH) / m_config.audioChannels : 0;
 
         m_shouldDrawLabels = channelSize >= MINIMUM_SECONDARY_AXIS_LENGTH;
 

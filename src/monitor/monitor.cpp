@@ -842,14 +842,20 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    Mlt::Filter monitorFilter(pCore->getProjectProfile(), "audiolevel");
-    if (monitorFilter.is_valid()) {
-        monitorFilter.set("iec_scale", 0);
-        monitorFilter.set("prefix", "meta.audio.track.-1.audio_level.");
+    Mlt::Filter monitorFilter;
+    if (m_controller->hasAudio()) {
+        qDebug() << "::::: CLIP :" << m_controller->clipName() << " HAS AUDIO!!!!!!!!!!!!!!!";
+        monitorFilter = Mlt::Filter(pCore->getProjectProfile(), "audiolevel");
+        if (monitorFilter.is_valid()) {
+            monitorFilter.set("iec_scale", 0);
+            monitorFilter.set("prefix", "meta.audio.track.-1.audio_level.");
+        }
     }
     if (!m_controller->hasAlpha()) {
         // No compositing required
-        producer->attach(monitorFilter);
+        if (m_controller->hasAudio()) {
+            producer->attach(monitorFilter);
+        }
         m_glMonitor->setProducer(producer, isActive(), pos);
     } else {
         // Add background compositing
@@ -868,7 +874,9 @@ void Monitor::buildBackgroundedProducer(int pos)
         transition->set("always_active", 1);
         transition->set_tracks(0, 1);
         trac.plant_transition(*transition.get(), 0, 1);
-        trac.attach(monitorFilter);
+        if (m_controller->hasAudio()) {
+            trac.attach(monitorFilter);
+        }
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
     }
     m_openMutex.unlock();

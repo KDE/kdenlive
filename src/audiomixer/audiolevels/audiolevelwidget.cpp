@@ -476,6 +476,9 @@ void AudioLevelWidget::updatePrimaryAxisPositions()
         }
 
         // Hide peak position if below display threshold
+        if (m_peakDecibels.size() <= channels) {
+            continue;
+        }
         if (m_peakDecibels.at(i) <= MIN_DISPLAY_DB) {
             m_peakPrimaryAxisPositions[i] = NO_AUDIO_PRIMARY_AXIS_POSITION;
         } else {
