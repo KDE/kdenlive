@@ -822,6 +822,12 @@ void KeyframeModel::updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> 
             rect.y = stringRect.at(1).toDouble();
         }
         model->getAsset()->anim_set(paramName.toLatin1().constData(), rect, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+    } else if (m_paramType == ParamType::Color) {
+        bool ok;
+        unsigned int colorValue = value.toString().toUInt(&ok, 0);
+        mlt_color mltColor = {uint8_t((colorValue >> 24) & 0xFF), uint8_t((colorValue >> 16) & 0xFF), uint8_t((colorValue >> 8) & 0xFF),
+                              uint8_t((colorValue >> 0) & 0xFF)};
+        model->getAsset()->anim_set(paramName.toLatin1().constData(), mltColor, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
     } else {
         // double param value
         bool ok;
@@ -1472,7 +1478,7 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
             return QVariant(res);
         } else if (m_paramType == ParamType::Color) {
             mlt_color mltColor = ptr->getAsset()->anim_get_color(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
-            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            const QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
             return QVariant(QColorUtils::colorToString(color, true));
         }
     }
