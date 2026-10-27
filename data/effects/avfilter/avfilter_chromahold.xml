@@ -4,7 +4,7 @@
     <name>Chroma Hold</name>
     <description>Remove all color information for all colors except for certain one. </description>
     <author>libavfilter</author>
-    <parameter type="color" name="av.color" notintimeline="1">
+    <parameter type="fixedcolor" name="av.color" notintimeline="1" default="0x666666FF" alpha="0">
         <name>Color key</name>
         <comment>The color which will not be replaced with neutral chroma</comment>
     </parameter>
