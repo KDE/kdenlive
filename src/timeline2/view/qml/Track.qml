@@ -234,6 +234,7 @@ Item {
                     isGrabbed: itemOnTrack.model.isGrabbed
                     isMainItem: trackRoot.mainItemId == clipId
                     keyframeModel: itemOnTrack.model.keyframeModel
+                    keyframeModelList: itemOnTrack.model.keyframeModelList
                     clipDuration: itemOnTrack.model.duration
                     inPoint: itemOnTrack.model.in
                     outPoint: itemOnTrack.model.out
@@ -334,6 +335,7 @@ Item {
                     showKeyframes: itemOnTrack.model.showKeyframes
                     isGrabbed: itemOnTrack.model.isGrabbed
                     keyframeModel: itemOnTrack.model.keyframeModel
+                    keyframeModelList: itemOnTrack.model.keyframeModelList
                     aTrack: itemOnTrack.model.a_track
                     readonly property bool isInViewFrame: trackRoot.timelineScrollView.lastVisibleFrame > modelStart && trackRoot.timelineScrollView.firstVisibleFrame <= (modelStart + clipDuration)
                     visible: !itemOnTrack.model.hideItem && isInViewFrame

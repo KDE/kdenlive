@@ -4,11 +4,11 @@
     <name>Normalize RGB video</name>
     <description>Normalize RGB video (aka histogram stretching, contrast stretching)</description>
     <author>libavfilter</author>
-    <parameter type="color" name="av.blackpt" default="0x000000ff">
+    <parameter type="fixedcolor" name="av.blackpt" default="0x000000ff">
         <name>Output darkest input color</name>
         <comment>Output color to which darkest input color is mapped (default black)</comment>
     </parameter>
-    <parameter type="color" name="av.whitept" default="0xffffffff">
+    <parameter type="fixedcolor" name="av.whitept" default="0xffffffff">
         <name>Output brightest input color</name>
         <comment>Output color to which brightest input color is mapped (default white)</comment>
     </parameter>

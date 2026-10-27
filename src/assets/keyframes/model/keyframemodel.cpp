@@ -7,6 +7,7 @@
 #include "../../bpoint.h"
 #include "core.h"
 #include "doc/docundostack.hpp"
+#include "kdenlivesettings.h"
 #include "macros.hpp"
 #include "rotoscoping/rotohelper.hpp"
 #include "utils/qcolorutils.h"
@@ -16,6 +17,7 @@
 #include <QJsonDocument>
 #include <QLineF>
 #include <QSize>
+#include <limits>
 #include <mlt++/Mlt.h>
 #include <utility>
 
@@ -63,16 +65,21 @@ static QMap<mlt_keyframe_type, QString> typeMap = {
 // std::unordered_map and QHash could not be used here
 static QMap<KeyframeType::KeyframeEnum, QString> KeyframeTypeName;
 
+mlt_keyframe_type convertToMltType(KeyframeType::KeyframeEnum type)
+{
+    return static_cast<mlt_keyframe_type>(static_cast<int>(type));
+}
+
 KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in, int out,
                              QObject *parent)
     : QAbstractListModel(parent)
     , m_model(std::move(model))
     , m_undoStack(std::move(undo_stack))
     , m_index(index)
-    , m_lastData()
     , m_lock(QReadWriteLock::Recursive)
 {
     qDebug() << "Construct keyframemodel. Checking model:" << m_model.expired();
+    setup();
     if (auto ptr = m_model.lock()) {
         m_paramType = ptr->data(m_index, AssetParameterModel::TypeRole).value<ParamType>();
         if (m_paramType == ParamType::AnimatedFakePoint) {
@@ -87,7 +94,6 @@ KeyframeModel::KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QMo
             }
         }
     }
-    setup();
     refresh(in, out);
 }
 
@@ -136,12 +142,12 @@ void KeyframeModel::setup()
             return;
         }
         // First modify the param value
-        sendModification();
+        // sendModification();
         // Then trigger a refresh of the keyframe view
         Q_EMIT refreshModel();
 
     });
-    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    // connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
@@ -159,8 +165,8 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QV
         // In this case we simply change the type and value
         KeyframeType::KeyframeEnum oldType = m_keyframeList[pos].first;
         QVariant oldValue = m_keyframeList[pos].second;
-        local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify);
-        local_redo = updateKeyframe_lambda(pos, type, value, notify);
+        local_undo = updateKeyframe_lambda(pos, oldType, oldValue, notify, true);
+        local_redo = updateKeyframe_lambda(pos, type, value, notify, true);
         if (local_redo()) {
             UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
             return true;
@@ -181,8 +187,9 @@ bool KeyframeModel::addKeyframe(int frame, double normalizedValue)
 {
     QVariant result = getNormalizedValue(normalizedValue);
     if (result.isValid()) {
-        // TODO: Use default configurable kf type
-        return addKeyframe(GenTime(frame, pCore->getCurrentFps()), KeyframeType::Linear, result);
+        const GenTime pos = GenTime(frame, pCore->getCurrentFps());
+        KeyframeType::KeyframeEnum kfrType = getKeyframeTypeForPos(pos);
+        return addKeyframe(pos, kfrType, result);
     }
     return false;
 }
@@ -203,7 +210,6 @@ bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QV
 bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notify, bool updateSelection, bool allowedToFail)
 {
     qDebug() << "Going to remove keyframe at " << pos.frames(pCore->getCurrentFps()) << " NOTIFY: " << notify;
-    qDebug() << "before" << getAnimProperty();
     QWriteLocker locker(&m_lock);
     if (!allowedToFail) {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -247,7 +253,6 @@ bool KeyframeModel::removeKeyframe(GenTime pos, Fun &undo, Fun &redo, bool notif
     if (redo_first()) {
         Fun local_undo = addKeyframe_lambda(pos, oldType, oldValue, notify);
         select_redo();
-        qDebug() << "after" << getAnimProperty();
         UPDATE_UNDO_REDO(redo_first, local_undo, undo, redo);
         UPDATE_UNDO_REDO(select_redo, select_undo, undo, redo);
         return true;
@@ -303,9 +308,23 @@ GenTime KeyframeModel::getPosAtIndex(int ix) const
     return positions.at(ix);
 }
 
-bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+int KeyframeModel::getKeyframeTypeAtPos(GenTime pos) const
 {
-    qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
+    if (pos < GenTime() || m_keyframeList.count(pos) == 0) {
+        // Not on a keyframe
+        return KdenliveSettings::defaultkeyframeinterp();
+    }
+    return m_keyframeList.at(pos).first;
+}
+
+int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
+{
+    const GenTime pos(frame, pCore->getCurrentFps());
+    return getKeyframeTypeAtPos(pos);
+}
+
+bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+{
     QWriteLocker locker(&m_lock);
     // Check if we have several selected keyframes
     if (oldPos == pos) {
@@ -360,15 +379,15 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
             bool res = true;
             for (auto &p : positions) {
                 if (p == oldPos) {
-                    res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, undo, redo, updateView);
+                    res = res && moveOneKeyframe(oldPos, oldPos + delta, newVal, logUndo, undo, redo, updateView);
                 } else {
                     if (!qFuzzyIsNull(offset)) {
                         // Calculate new value
                         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(p)));
                         double newVal2 = qBound(0., data(index(row), NormalizedValueRole).toDouble() + offset, 1.);
-                        res = res && moveOneKeyframe(p, p + delta, newVal2, undo, redo, updateView);
+                        res = res && moveOneKeyframe(p, p + delta, newVal2, logUndo, undo, redo, updateView);
                     } else {
-                        res = res && moveOneKeyframe(p, p + delta, QVariant(), undo, redo, updateView);
+                        res = res && moveOneKeyframe(p, p + delta, QVariant(), logUndo, undo, redo, updateView);
                     }
                 }
             }
@@ -390,15 +409,28 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
                     pos = qMax(pos, next.first + GenTime(1, pCore->getCurrentFps()));
                 }
             }
-            return moveOneKeyframe(oldPos, pos, newVal, undo, redo, updateView, allowedToFail);
+            return moveOneKeyframe(oldPos, pos, newVal, logUndo, undo, redo, updateView, allowedToFail);
         }
     }
     return false;
 }
 
-bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+KeyframeType::KeyframeEnum KeyframeModel::getKeyframeTypeForPos(const GenTime pos)
 {
-    qDebug() << "starting to move keyframe" << oldPos.frames(pCore->getCurrentFps()) << pos.frames(pCore->getCurrentFps());
+    KeyframeType::KeyframeEnum kfrType = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
+    /*if (KdenliveSettings::usepreviouskeyframeinterp()) {
+        // Check if we have a previous keyframe
+        bool ok;
+        Keyframe previous = getPrevKeyframe(pos, &ok);
+        if (ok) {
+            kfrType = previous.second;
+        }
+    }*/
+    return kfrType;
+}
+
+bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
+{
     QWriteLocker locker(&m_lock);
     if (!allowedToFail) {
         Q_ASSERT(m_keyframeList.count(oldPos) > 0);
@@ -412,49 +444,115 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
         }
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
             m_paramType == ParamType::AnimatedPoint) {
-            return updateKeyframe(pos, newVal);
+            return updateKeyframe(pos, newVal, logUndo);
         }
         // Calculate real value from normalized
         QVariant result = getNormalizedValue(newVal.toDouble());
-        return updateKeyframe(pos, result);
+        return updateKeyframe(pos, result, logUndo);
     }
     if (oldPos != pos && hasKeyframe(pos)) {
         // Move rejected, another keyframe is here
         qDebug() << "==== MOVE REJECTED!!";
         return false;
     }
-    KeyframeType::KeyframeEnum oldType = m_keyframeList[oldPos].first;
-    QVariant oldValue = m_keyframeList[oldPos].second;
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
-    qDebug() << getAnimProperty();
-    // TODO: use the new Animation::key_set_frame to move a keyframe
-    bool res = removeKeyframe(oldPos, local_undo, local_redo, updateView, false);
-    qDebug() << "Move keyframe finished deletion:" << res;
-    qDebug() << getAnimProperty();
-    if (res) {
+    auto originalKf = m_keyframeList.at(oldPos);
+    auto finalKf = originalKf;
+    bool updatedValue = false;
+
+    if (newVal.isValid()) {
+        // Calculate updated keyframe value
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
             m_paramType == ParamType::AnimatedPoint) {
-            if (!newVal.isValid()) {
-                newVal = oldValue;
-            }
-            res = addKeyframe(pos, oldType, newVal, updateView, local_undo, local_redo);
-        } else if (newVal.isValid()) {
-            QVariant result = getNormalizedValue(newVal.toDouble());
-            if (result.isValid()) {
-                res = addKeyframe(pos, oldType, result, updateView, local_undo, local_redo);
-            }
+            finalKf.second = newVal;
         } else {
-            res = addKeyframe(pos, oldType, oldValue, updateView, local_undo, local_redo);
+            finalKf.second = getNormalizedValue(newVal.toDouble());
         }
-        qDebug() << "Move keyframe finished insertion:" << res;
-        qDebug() << getAnimProperty();
+        updatedValue = true;
     }
+
+    // Now, move the keyframe using MLT
+    int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
+    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView, updatedValue, logUndo]() {
+        bool res = true;
+        if (auto ptr = m_model.lock()) {
+            const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            // fake query to force animation parsing
+            (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
+            Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
+            Q_ASSERT(anim.key_get_frame(row) == pos.frames(pCore->getCurrentFps()));
+            res = anim.key_set_frame(row, oldPos.frames(pCore->getCurrentFps())) == 0;
+            if (res) {
+                if (updatedValue) {
+                    updateMltKeyframeValue(ptr, name, oldPos, originalKf.second, originalKf.first);
+                }
+                m_keyframeList.erase(pos);
+                m_keyframeList[oldPos] = originalKf;
+                if (updatedValue) {
+                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, NormalizedValueRole});
+                } else {
+                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                }
+                if (updateView && !ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                }
+                if (logUndo) {
+                    if (!ptr->m_isAudio) {
+                        pCore->invalidateItem(ptr->getOwnerId());
+                    } else {
+                        pCore->invalidateAudio(ptr->getOwnerId());
+                    }
+                }
+            } else {
+                qDebug() << "KF MOVE UNDO OP FAILED";
+            }
+        }
+        return res;
+    };
+    Fun local_redo = [this, row, pos, oldPos, finalKf, updateView, updatedValue, logUndo]() {
+        bool res = true;
+        // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
+        if (auto ptr = m_model.lock()) {
+            const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            // fake query to force animation parsing
+            (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
+            Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
+            qDebug() << "CURRENT FRAME AT ROW: " << anim.key_get_frame(row) << " / OLD: " << oldPos.frames(pCore->getCurrentFps());
+            Q_ASSERT(anim.key_get_frame(row) == oldPos.frames(pCore->getCurrentFps()));
+            res = anim.key_set_frame(row, pos.frames(pCore->getCurrentFps())) == 0;
+            if (res) {
+                if (updatedValue) {
+                    updateMltKeyframeValue(ptr, name, pos, finalKf.second, finalKf.first);
+                }
+                m_keyframeList.erase(oldPos);
+                m_keyframeList[pos] = finalKf;
+                if (updateView) {
+                    if (updatedValue) {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, ValueRole, NormalizedValueRole});
+                    } else {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                    }
+                    if (!ptr->m_isAudio) {
+                        // Trigger monitor refresh
+                        pCore->refreshProjectItem(ptr->getOwnerId());
+                    }
+                }
+                if (logUndo) {
+                    if (!ptr->m_isAudio) {
+                        pCore->invalidateItem(ptr->getOwnerId());
+                    } else {
+                        pCore->invalidateAudio(ptr->getOwnerId());
+                    }
+                }
+            } else {
+                qDebug() << "KF MOVE OP FAILED";
+            }
+        }
+        return res;
+    };
+    bool res = local_redo();
     if (res) {
         UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
-    } else {
-        bool undone = local_undo();
-        Q_ASSERT(undone);
     }
     return res;
 }
@@ -481,8 +579,12 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
         times << m.first;
     }
     bool res = true;
+    if (diff > GenTime()) {
+        // Move to the right, start with last one to avoid collisions
+        std::sort(times.rbegin(), times.rend());
+    }
     for (const auto &t : std::as_const(times)) {
-        res &= moveKeyframe(t, t + diff, QVariant(), undo, redo);
+        res &= moveKeyframe(t, t + diff, QVariant(), logUndo, undo, redo);
     }
     if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframes"));
@@ -490,23 +592,35 @@ bool KeyframeModel::offsetKeyframes(int oldPos, int pos, bool logUndo)
     return res;
 }
 
-bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal)
+bool KeyframeModel::moveKeyframe(int oldPos, int pos, QVariant newVal, bool logUndo)
 {
     GenTime oPos(oldPos, pCore->getCurrentFps());
     GenTime nPos(pos, pCore->getCurrentFps());
-    return moveKeyframe(oPos, nPos, std::move(newVal), true);
+    return moveKeyframe(oPos, nPos, std::move(newVal), logUndo);
 }
 
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(oldPos) > 0);
-    if (oldPos == pos) return true;
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    bool res = moveKeyframe(oldPos, pos, std::move(newVal), undo, redo);
-    if (res && logUndo) {
-        PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframe"));
+    if (oldPos == pos && !newVal.isValid()) return true;
+    bool res = true;
+    if (oldPos == pos) {
+        if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
+            m_paramType == ParamType::AnimatedPoint) {
+            res = updateKeyframe(pos, newVal, logUndo);
+        } else {
+            // Calculate real value from normalized
+            QVariant result = getNormalizedValue(newVal.toDouble());
+            res = updateKeyframe(pos, result, logUndo);
+        }
+    } else {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        res = moveKeyframe(oldPos, pos, std::move(newVal), logUndo, undo, redo);
+        if (res && logUndo) {
+            PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframe"));
+        }
     }
     return res;
 }
@@ -516,11 +630,11 @@ bool KeyframeModel::directUpdateKeyframe(GenTime pos, QVariant value, bool notif
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
     KeyframeType::KeyframeEnum type = m_keyframeList[pos].first;
-    auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify);
+    auto operation = updateKeyframe_lambda(pos, type, std::move(value), notify, true);
     return operation();
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update)
+bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, bool logUndo, Fun &undo, Fun &redo, bool update)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
@@ -530,8 +644,8 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (qFuzzyCompare(oldValue.toDouble(), value.toDouble())) return true;
     }
-    auto operation = updateKeyframe_lambda(pos, type, value, update);
-    auto reverse = updateKeyframe_lambda(pos, type, oldValue, update);
+    auto operation = updateKeyframe_lambda(pos, type, value, update, logUndo);
+    auto reverse = updateKeyframe_lambda(pos, type, oldValue, update, logUndo);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -539,7 +653,7 @@ bool KeyframeModel::updateKeyframe(GenTime pos, const QVariant &value, Fun &undo
     return res;
 }
 
-bool KeyframeModel::updateKeyframe(int pos, double newVal)
+bool KeyframeModel::updateKeyframe(int pos, double newVal, bool logUndo)
 {
     GenTime Pos(pos, pCore->getCurrentFps());
     if (auto ptr = m_model.lock()) {
@@ -563,20 +677,20 @@ bool KeyframeModel::updateKeyframe(int pos, double newVal)
         } else {
             realValue = (newVal * (max - min) + min) / factor;
         }
-        return updateKeyframe(Pos, realValue);
+        return updateKeyframe(Pos, realValue, logUndo);
     }
     return false;
 }
 
-bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value)
+bool KeyframeModel::updateKeyframe(GenTime pos, QVariant value, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_keyframeList.count(pos) > 0);
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
-    bool res = updateKeyframe(pos, value, undo, redo);
-    if (res) {
+    bool res = updateKeyframe(pos, value, logUndo, undo, redo);
+    if (res && logUndo) {
         PUSH_UNDO(undo, redo, i18n("Update keyframe"));
     }
     return res;
@@ -630,8 +744,8 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
         if (oldType == newType) return true;
     }
-    auto operation = updateKeyframe_lambda(pos, newType, value, true);
-    auto reverse = updateKeyframe_lambda(pos, oldType, value, true);
+    auto operation = updateKeyframe_lambda(pos, newType, value, true, true);
+    auto reverse = updateKeyframe_lambda(pos, oldType, value, true, true);
     bool res = operation();
     if (res) {
         UPDATE_UNDO_REDO(operation, reverse, undo, redo);
@@ -639,17 +753,92 @@ bool KeyframeModel::updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &re
     return res;
 }
 
-Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify)
+Fun KeyframeModel::updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    return [this, pos, type, value, notify]() {
+    return [this, pos, type, value, notify, logUndo]() {
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify) Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
+        if (auto ptr = m_model.lock()) {
+            const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            updateMltKeyframeValue(ptr, paramName, pos, value, type);
+            if (notify && !ptr->m_isAudio) {
+                // Trigger monitor refresh
+                pCore->refreshProjectItem(ptr->getOwnerId());
+            }
+            qDebug() << "==== UPDATING KEYFRAME WITH LOGUNDO: " << logUndo << "\n* * * * * *";
+            if (logUndo) {
+                if (!ptr->m_isAudio) {
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
+            }
+        }
+        if (notify) {
+            Q_EMIT dataChanged(index(row), index(row), {ValueRole, NormalizedValueRole, TypeRole});
+        }
+
         return true;
     };
+}
+
+void KeyframeModel::updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
+                                           KeyframeType::KeyframeEnum type)
+{
+    if (m_paramType == ParamType::Roto_spline) {
+        // Rotoscoping keyframes cannot be edited with mlt functions, so rebuild all animation
+        const QString animData = getAnimProperty();
+        model->getAsset()->set(paramName.toLatin1().constData(), animData.toLatin1().constData());
+        return;
+    }
+    if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
+        const QStringList stringRect = value.toString().split(QLatin1Char(' '));
+        mlt_rect rect = {std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min(),
+                         std::numeric_limits<double>::min(), std::numeric_limits<double>::min()};
+        if (!stringRect.isEmpty()) {
+            rect.x = stringRect.at(0).toDouble();
+        }
+        if (stringRect.size() > 1) {
+            rect.y = stringRect.at(1).toDouble();
+        }
+        if (stringRect.size() > 2) {
+            rect.w = stringRect.at(2).toDouble();
+        }
+        if (stringRect.size() > 3) {
+            rect.h = stringRect.at(3).toDouble();
+        }
+        if (stringRect.size() > 4 && model->data(m_index, AssetParameterModel::OpacityRole).toBool()) {
+            rect.o = stringRect.at(4).toDouble();
+        }
+        model->getAsset()->anim_set(paramName.toLatin1().constData(), rect, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+    } else if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+        const QStringList stringRect = value.toString().split(QLatin1Char(' '));
+        mlt_rect rect = {std::numeric_limits<double>::min(), std::numeric_limits<double>::min(), std::numeric_limits<double>::min(),
+                         std::numeric_limits<double>::min(), std::numeric_limits<double>::min()};
+        if (!stringRect.isEmpty()) {
+            rect.x = stringRect.at(0).toDouble();
+        }
+        if (stringRect.size() > 1) {
+            rect.y = stringRect.at(1).toDouble();
+        }
+        model->getAsset()->anim_set(paramName.toLatin1().constData(), rect, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+    } else if (m_paramType == ParamType::Color) {
+        bool ok;
+        unsigned int colorValue = value.toString().toUInt(&ok, 0);
+        mlt_color mltColor = {uint8_t((colorValue >> 24) & 0xFF), uint8_t((colorValue >> 16) & 0xFF), uint8_t((colorValue >> 8) & 0xFF),
+                              uint8_t((colorValue >> 0) & 0xFF)};
+        model->getAsset()->anim_set(paramName.toLatin1().constData(), mltColor, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+    } else {
+        // double param value
+        bool ok;
+        double dVal = value.toDouble(&ok);
+        if (ok) {
+            model->getAsset()->anim_set(paramName.toLatin1().constData(), dVal, pos.frames(pCore->getCurrentFps()), -1, convertToMltType(type));
+        }
+    }
 }
 
 Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify)
@@ -667,7 +856,23 @@ Fun KeyframeModel::addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum ty
         if (notify) beginInsertRows(QModelIndex(), insertionRow, insertionRow);
         m_keyframeList[pos].first = type;
         m_keyframeList[pos].second = value;
-        if (notify) endInsertRows();
+        if (auto ptr = m_model.lock()) {
+            const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            updateMltKeyframeValue(ptr, paramName, pos, value, type);
+            if (notify) {
+                if (!ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
+            }
+        }
+        if (notify) {
+            endInsertRows();
+        }
+
         return true;
     };
 }
@@ -677,14 +882,26 @@ Fun KeyframeModel::deleteKeyframe_lambda(GenTime pos, bool notify)
     QWriteLocker locker(&m_lock);
     return [this, pos, notify]() {
         qDebug() << "delete lambda" << pos.frames(pCore->getCurrentFps()) << notify;
-        qDebug() << "before" << getAnimProperty();
         Q_ASSERT(m_keyframeList.count(pos) > 0);
         // Q_ASSERT(pos != GenTime()); // cannot delete initial point
         int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(pos)));
         if (notify) beginRemoveRows(QModelIndex(), row, row);
         m_keyframeList.erase(pos);
+        if (auto ptr = m_model.lock()) {
+            const QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+            Mlt::Animation anim = ptr->getAsset()->get_animation(paramName.toLatin1().constData());
+            anim.remove(pos.frames(pCore->getCurrentFps()));
+            if (notify) {
+                if (!ptr->m_isAudio) {
+                    // Trigger monitor refresh
+                    pCore->refreshProjectItem(ptr->getOwnerId());
+                    pCore->invalidateItem(ptr->getOwnerId());
+                } else {
+                    pCore->invalidateAudio(ptr->getOwnerId());
+                }
+            }
+        }
         if (notify) endRemoveRows();
-        qDebug() << "after" << getAnimProperty();
         return true;
     };
 }
@@ -698,6 +915,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[ValueRole] = "value";
     roles[SelectedRole] = "selected";
     roles[ActiveRole] = "active";
+    roles[PercentPositionRole] = "percentPosition";
     roles[NormalizedValueRole] = "normalizedValue";
     roles[MoveOnlyRole] = "moveOnly";
     return roles;
@@ -726,6 +944,7 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return false;
     }
     case NormalizedValueRole: {
+        Q_ASSERT(m_index.isValid());
         if (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect) {
             const QString &data = it->second.second.toString();
             bool ok;
@@ -740,7 +959,6 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         }
         double val = it->second.second.toDouble();
         if (auto ptr = m_model.lock()) {
-            Q_ASSERT(m_index.isValid());
             double min = ptr->data(m_index, AssetParameterModel::VisualMinRole).toDouble();
             double max = ptr->data(m_index, AssetParameterModel::VisualMaxRole).toDouble();
             if (qFuzzyIsNull(min) && qFuzzyIsNull(max)) {
@@ -784,6 +1002,15 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         if (auto ptr = m_model.lock()) {
             return ptr->m_activeKeyframe == index.row();
         }
+        break;
+    case PercentPositionRole:
+        if (auto ptr = m_model.lock()) {
+            return double(it->first.frames(pCore->getCurrentFps()) - ptr->data(m_index, AssetParameterModel::ParentInRole).toInt()) /
+                   ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
+        }
+        return 0;
+    default:
+        qWarning() << "==== REQUESTING INCORRECT DATA TYPE FOR KEYFRAMEMODEL: " << role;
         break;
     }
     return QVariant();
@@ -876,8 +1103,6 @@ bool KeyframeModel::hasKeyframe(const GenTime &pos) const
 bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
 {
     QWriteLocker locker(&m_lock);
-    Fun local_undo = []() { return true; };
-    Fun local_redo = []() { return true; };
     int kfrCount = int(m_keyframeList.size()) - 1;
     // Clear selection
     if (auto ptr = m_model.lock()) {
@@ -885,7 +1110,6 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
     }
     if (kfrCount <= 0) {
         // Nothing to do
-        UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
         return true;
     }
     // we trigger only one global remove/insertrow event
@@ -905,8 +1129,8 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
         endInsertRows();
         return true;
     };
-    PUSH_LAMBDA(update_redo_start, local_redo);
-    PUSH_LAMBDA(update_undo_start, local_undo);
+    PUSH_LAMBDA(update_redo_start, redo);
+    PUSH_LAMBDA(update_undo_start, undo);
     QList<GenTime> all_pos = getKeyframePos();
     update_redo_start();
     bool res = true;
@@ -916,17 +1140,16 @@ bool KeyframeModel::removeAllKeyframes(Fun &undo, Fun &redo)
             first = false;
             continue;
         }
-        res = removeKeyframe(p, local_undo, local_redo, false);
+        res = removeKeyframe(p, undo, redo, false);
         if (!res) {
-            bool undone = local_undo();
+            bool undone = undo();
             Q_ASSERT(undone);
             return false;
         }
     }
     update_redo_end();
-    PUSH_LAMBDA(update_redo_end, local_redo);
-    PUSH_LAMBDA(update_undo_end, local_undo);
-    UPDATE_UNDO_REDO(local_redo, local_undo, undo, redo);
+    PUSH_LAMBDA(update_redo_end, redo);
+    PUSH_LAMBDA(update_undo_end, undo);
     return true;
 }
 
@@ -940,11 +1163,6 @@ bool KeyframeModel::removeAllKeyframes()
         PUSH_UNDO(undo, redo, i18n("Delete all keyframes"));
     }
     return res;
-}
-
-mlt_keyframe_type convertToMltType(KeyframeType::KeyframeEnum type)
-{
-    return static_cast<mlt_keyframe_type>(static_cast<int>(type));
 }
 
 QString KeyframeModel::getAnimProperty() const
@@ -1003,178 +1221,103 @@ QString KeyframeModel::getRotoProperty() const
     return doc.toJson();
 }
 
-void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out)
+void KeyframeModel::parseAnimProperty(const QString &prop, int in, int out, Fun &undo, Fun &redo)
 {
-    Fun undo = []() { return true; };
-    Fun redo = []() { return true; };
-    disconnect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
-    removeAllKeyframes(undo, redo);
-    bool useOpacity = true;
-    Mlt::Properties mlt_prop;
+    QSignalBlocker bk(this);
+    if (!prop.isEmpty()) {
+        removeAllKeyframes(undo, redo);
+    }
     if (auto ptr = m_model.lock()) {
+        Mlt::Properties *mlt_prop = ptr->getAsset();
+        const QByteArray paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString().toUtf8();
+        if (!prop.isEmpty()) {
+            mlt_prop->set(paramName.constData(), prop.toUtf8().constData());
+        }
+
         if (out <= in) {
             in = ptr->data(m_index, AssetParameterModel::RelativePosRole).toBool() ? 0 : ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
             out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
         }
-        ptr->passProperties(mlt_prop);
-        useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-    } else {
-        qDebug() << "###################\n\n/// ERROR LOCKING MODEL!!! ";
+        bool useOpacity = m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect
+                              ? ptr->data(m_index, AssetParameterModel::OpacityRole).toBool()
+                              : false;
+
+        // This is a fake query to force the animation to be parsed
+        (void)mlt_prop->anim_get_double(paramName.constData(), 0, in + out);
+        Mlt::Animation anim = mlt_prop->get_animation(paramName.constData());
+        QString animationString(mlt_prop->get(paramName.constData()));
+        bool useDefaultType = !animationString.contains(QLatin1Char('='));
+        bool hasPercentage = animationString.contains(QLatin1Char('%'));
+        animationString.clear();
+        mlt_profile profile = (mlt_profile)mlt_prop->get_data("_profile");
+        for (int i = 0; i < anim.key_count(); ++i) {
+            int frame;
+            mlt_keyframe_type type;
+            anim.key_get(i, frame, type);
+            if (useDefaultType) {
+                // TODO: use a default user defined type
+                type = mlt_keyframe_linear;
+            }
+            QVariant value;
+            switch (m_paramType) {
+            case ParamType::AnimatedRect:
+            case ParamType::AnimatedFakeRect: {
+                mlt_rect rect = mlt_prop->anim_get_rect(paramName.constData(), frame);
+                if (hasPercentage) {
+                    rect.x *= profile->width;
+                    rect.w *= profile->width;
+                    rect.y *= profile->height;
+                    rect.h *= profile->height;
+                }
+                if (useOpacity) {
+                    value = QVariant(
+                        QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
+                } else {
+                    value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
+                }
+                break;
+            }
+            case ParamType::AnimatedPoint:
+            case ParamType::AnimatedFakePoint: {
+                mlt_rect rect = mlt_prop->anim_get_rect(paramName.constData(), frame);
+                if (hasPercentage) {
+                    rect.x *= profile->width;
+                    rect.y *= profile->height;
+                }
+                value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
+                break;
+            }
+            case ParamType::Color: {
+                mlt_color mltColor = mlt_prop->anim_get_color(paramName.constData(), frame);
+                QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+                value = QVariant(QColorUtils::colorToString(color, true));
+                break;
+            }
+
+            default:
+                value = QVariant(mlt_prop->anim_get_double(paramName.constData(), frame));
+                break;
+            }
+            if (i == 0 && frame > in) {
+                // Always add a keyframe at start pos
+                addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
+            } else if (frame == in && hasKeyframe(GenTime(in))) {
+                // First keyframe already exists, adjust its value
+                updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, false, undo, redo, false);
+                continue;
+            }
+            addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
+        }
     }
-    mlt_prop.set("key", prop.toUtf8().constData());
-    // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_double("key", 0, in + out);
-
-    Mlt::Animation anim = mlt_prop.get_animation("key");
-
-    qDebug() << "Found" << anim.key_count() << ", OUT: " << out << ", animation properties: " << prop;
-    bool useDefaultType = !prop.contains(QLatin1Char('='));
-    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
-    for (int i = 0; i < anim.key_count(); ++i) {
-        int frame;
-        mlt_keyframe_type type;
-        anim.key_get(i, frame, type);
-        if (useDefaultType) {
-            // TODO: use a default user defined type
-            type = mlt_keyframe_linear;
-        }
-        QVariant value;
-        switch (m_paramType) {
-        case ParamType::AnimatedRect:
-        case ParamType::AnimatedFakeRect: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.w *= profile->width;
-                rect.y *= profile->height;
-                rect.h *= profile->height;
-            }
-            if (useOpacity) {
-                value = QVariant(
-                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
-            } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
-            }
-            break;
-        }
-        case ParamType::AnimatedPoint:
-        case ParamType::AnimatedFakePoint: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.y *= profile->height;
-            }
-            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
-            break;
-        }
-        case ParamType::Color: {
-            mlt_color mltColor = mlt_prop.anim_get_color("key", frame);
-            QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
-            value = QVariant(QColorUtils::colorToString(color, true));
-            break;
-        }
-
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
-        }
-        if (i == 0 && frame > in) {
-            // Always add a keyframe at start pos
-            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-        } else if (frame == in && hasKeyframe(GenTime(in))) {
-            // First keyframe already exists, adjust its value
-            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
-            continue;
-        }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-    }
-    connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
+    // connect(this, &KeyframeModel::modelChanged, this, &KeyframeModel::sendModification);
 }
 
 void KeyframeModel::resetAnimProperty(const QString &prop)
 {
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
+    parseAnimProperty(prop, -1, -1, undo, redo);
 
-    // Delete all existing keyframes
-    QSignalBlocker bk(this);
-    removeAllKeyframes(undo, redo);
-
-    Mlt::Properties mlt_prop;
-    int in = 0;
-    bool useOpacity = true;
-    if (auto ptr = m_model.lock()) {
-        in = ptr->data(m_index, AssetParameterModel::ParentInRole).toInt();
-        ptr->passProperties(mlt_prop);
-        if (m_paramType == ParamType::AnimatedRect) {
-            useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-        } else if (m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
-            useOpacity = false;
-        }
-    }
-    mlt_prop.set("key", prop.toUtf8().constData());
-    // This is a fake query to force the animation to be parsed
-    (void)mlt_prop.anim_get_int("key", 0, 0);
-
-    Mlt::Animation anim = mlt_prop.get_animation("key");
-    mlt_profile profile = (mlt_profile)mlt_prop.get_data("_profile");
-
-    qDebug() << "Found" << anim.key_count() << "animation properties";
-    for (int i = 0; i < anim.key_count(); ++i) {
-        int frame;
-        mlt_keyframe_type type;
-        anim.key_get(i, frame, type);
-        if (!prop.contains(QLatin1Char('='))) {
-            // TODO: use a default user defined type
-            type = mlt_keyframe_linear;
-        }
-        QVariant value;
-        switch (m_paramType) {
-        case ParamType::AnimatedRect:
-        case ParamType::AnimatedFakeRect: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.w *= profile->width;
-                rect.y *= profile->height;
-                rect.h *= profile->height;
-            }
-            if (useOpacity) {
-                value = QVariant(
-                    QStringLiteral("%1 %2 %3 %4 %5").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)).arg(rect.o, 0, 'f'));
-            } else {
-                value = QVariant(QStringLiteral("%1 %2 %3 %4").arg(qRound(rect.x)).arg(qRound(rect.y)).arg(qRound(rect.w)).arg(qRound(rect.h)));
-            }
-            break;
-        }
-        case ParamType::AnimatedPoint:
-        case ParamType::AnimatedFakePoint: {
-            const QString rect_str(mlt_prop.get("key"));
-            mlt_rect rect = mlt_prop.anim_get_rect("key", frame);
-            if (rect_str.contains(QLatin1Char('%'))) {
-                rect.x *= profile->width;
-                rect.y *= profile->height;
-            }
-            value = QVariant(QStringLiteral("%1 %2").arg(rect.x).arg(rect.y));
-            break;
-        }
-        default:
-            value = QVariant(mlt_prop.anim_get_double("key", frame));
-            break;
-        }
-        if (i == 0 && frame > in) {
-            // Always add a keyframe at start pos
-            addKeyframe(GenTime(in, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-        } else if (frame == in && hasKeyframe(GenTime(in))) {
-            // First keyframe already exists, adjust its value
-            updateKeyframe(GenTime(frame, pCore->getCurrentFps()), value, undo, redo, false);
-            continue;
-        }
-        addKeyframe(GenTime(frame, pCore->getCurrentFps()), convertFromMltType(type), value, false, undo, redo);
-    }
     QString effectName;
     if (auto ptr = m_model.lock()) {
         effectName = ptr->data(m_index, Qt::DisplayRole).toString();
@@ -1309,65 +1452,51 @@ QVariant KeyframeModel::getInterpolatedValue(const GenTime &pos) const
         }
         return vlist;
     }
-    Mlt::Properties mlt_prop;
-    QString animData;
-    int out = 0;
-    bool useOpacity = false;
-    if (auto ptr = m_model.lock()) {
-        ptr->passProperties(mlt_prop);
-        out = ptr->data(m_index, AssetParameterModel::ParentDurationRole).toInt();
-        useOpacity = ptr->data(m_index, AssetParameterModel::OpacityRole).toBool();
-        animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
-    }
 
-    if (!animData.isEmpty() && (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel)) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        return QVariant(mlt_prop.anim_get_double("key", pos.frames(pCore->getCurrentFps())));
-    }
-    if (!animData.isEmpty() && (m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect ||
-                                m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint)) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        mlt_rect rect = mlt_prop.anim_get_rect("key", pos.frames(pCore->getCurrentFps()));
-        if (animData.contains(QLatin1Char('%'))) {
-            const QSize profileSize = pCore->getCurrentFrameSize();
-            rect.x *= profileSize.width();
-            rect.y *= profileSize.height();
-            rect.w *= profileSize.width();
-            rect.h *= profileSize.height();
-        }
-        if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
-            const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+    if (auto ptr = m_model.lock()) {
+        QString paramName = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+        if (m_paramType == ParamType::KeyframeParam || m_paramType == ParamType::ColorWheel) {
+            // This is a fake query to force the animation to be parsed
+            return QVariant(ptr->getAsset()->anim_get_double(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps())));
+        } else if ((m_paramType == ParamType::AnimatedRect || m_paramType == ParamType::AnimatedFakeRect || m_paramType == ParamType::AnimatedFakePoint ||
+                    m_paramType == ParamType::AnimatedPoint)) {
+            mlt_rect rect = ptr->getAsset()->anim_get_rect(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
+            if (std::strchr(ptr->getAsset()->get(paramName.toUtf8().constData()), '%')) {
+                // Percentage format
+                const QSize profileSize = pCore->getCurrentFrameSize();
+                rect.x *= profileSize.width();
+                rect.y *= profileSize.height();
+                rect.w *= profileSize.width();
+                rect.h *= profileSize.height();
+            }
+            if (m_paramType == ParamType::AnimatedFakePoint || m_paramType == ParamType::AnimatedPoint) {
+                const QString res = QStringLiteral("%1 %2").arg(rect.x).arg(rect.y);
+                return QVariant(res);
+            }
+            // Rect or FakeRect
+            QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
+            if (ptr->data(m_index, AssetParameterModel::OpacityRole).toBool()) {
+                res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
+            }
             return QVariant(res);
+        } else if (m_paramType == ParamType::Color) {
+            mlt_color mltColor = ptr->getAsset()->anim_get_color(paramName.toUtf8().constData(), pos.frames(pCore->getCurrentFps()));
+            const QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
+            return QVariant(QColorUtils::colorToString(color, true));
         }
-        QString res = QStringLiteral("%1 %2 %3 %4").arg(int(rect.x)).arg(int(rect.y)).arg(int(rect.w)).arg(int(rect.h));
-        if (useOpacity) {
-            res.append(QStringLiteral(" %1").arg(QString::number(rect.o, 'f')));
-        }
-        return QVariant(res);
-    }
-    if (!animData.isEmpty() && m_paramType == ParamType::Color) {
-        mlt_prop.set("key", animData.toUtf8().constData());
-        // This is a fake query to force the animation to be parsed
-        (void)mlt_prop.anim_get_double("key", 0, out);
-        mlt_color mltColor = mlt_prop.anim_get_color("key", pos.frames(pCore->getCurrentFps()));
-        QColor color(mltColor.r, mltColor.g, mltColor.b, mltColor.a);
-        return QVariant(QColorUtils::colorToString(color, true));
     }
     return QVariant();
 }
 
 void KeyframeModel::sendModification()
 {
+    if (!m_index.isValid()) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
-        Q_ASSERT(m_index.isValid());
         const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
         if (AssetParameterModel::isAnimated(m_paramType)) {
-            m_lastData = getAnimProperty();
-            ptr->setParameter(name, m_lastData, false, m_index);
+            ptr->setParameter(name, getAnimProperty(), false, m_index);
         } else {
             Q_ASSERT(false); // Not implemented, TODO
         }
@@ -1408,34 +1537,30 @@ QString KeyframeModel::realValue(double normalizedValue) const
 void KeyframeModel::refresh(int in, int out)
 {
     Q_ASSERT(m_index.isValid());
-    QString animData;
     if (auto ptr = m_model.lock()) {
-        animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+        const QString animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
+        if (m_paramType == ParamType::Roto_spline) {
+            parseRotoProperty(animData);
+        } else if (AssetParameterModel::isAnimated(m_paramType)) {
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            parseAnimProperty(QString(), in, out, undo, redo);
+        } else {
+            // first, try to convert to double
+            bool ok = false;
+            double value = animData.toDouble(&ok);
+            if (ok) {
+                Fun undo = []() { return true; };
+                Fun redo = []() { return true; };
+                addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
+            } else {
+                Q_ASSERT(false); // Not implemented, TODO
+            }
+        }
     } else {
         qDebug() << "WARNING : unable to access keyframe's model";
         return;
     }
-    if (animData == m_lastData) {
-        // nothing to do
-        return;
-    }
-    if (m_paramType == ParamType::Roto_spline) {
-        parseRotoProperty(animData);
-    } else if (AssetParameterModel::isAnimated(m_paramType)) {
-        parseAnimProperty(animData, in, out);
-    } else {
-        // first, try to convert to double
-        bool ok = false;
-        double value = animData.toDouble(&ok);
-        if (ok) {
-            Fun undo = []() { return true; };
-            Fun redo = []() { return true; };
-            addKeyframe(GenTime(), KeyframeType::Linear, QVariant(value), false, undo, redo);
-        } else {
-            Q_ASSERT(false); // Not implemented, TODO
-        }
-    }
-    m_lastData = animData;
 }
 
 void KeyframeModel::reset()
@@ -1446,11 +1571,6 @@ void KeyframeModel::reset()
         animData = ptr->data(m_index, AssetParameterModel::ValueRole).toString();
     } else {
         qDebug() << "WARNING : unable to access keyframe's model";
-        return;
-    }
-    if (animData == m_lastData) {
-        // nothing to do
-        qDebug() << "// DATA WAS ALREADY PARSED, ABORTING\n_________________";
         return;
     }
     if (m_paramType == ParamType::Roto_spline) {
@@ -1472,7 +1592,6 @@ void KeyframeModel::reset()
             Q_ASSERT(false); // Not implemented, TODO
         }
     }
-    m_lastData = animData;
 }
 
 QList<QPoint> KeyframeModel::getRanges(const QString &animData, const std::shared_ptr<AssetParameterModel> &model)
@@ -1704,6 +1823,9 @@ bool KeyframeModel::removeNextKeyframes(GenTime pos, Fun &undo, Fun &redo)
 void KeyframeModel::setSelectedKeyframe(int ix, bool add)
 {
     QVector<int> previous;
+    if (ix < 0) {
+        return;
+    }
     if (auto ptr = m_model.lock()) {
         if (add) {
             if (ptr->m_selectedKeyframes.contains(ix)) {
@@ -1720,12 +1842,12 @@ void KeyframeModel::setSelectedKeyframe(int ix, bool add)
     if (!add) {
         for (auto &ix2 : previous) {
             if (ix2 > -1) {
-                Q_EMIT requestModelUpdate(index(ix2), index(ix2), {SelectedRole});
+                Q_EMIT dataChanged(index(ix2), index(ix2), {SelectedRole});
             }
         }
     }
     if (ix > -1) {
-        Q_EMIT requestModelUpdate(index(ix), index(ix), {SelectedRole});
+        Q_EMIT dataChanged(index(ix), index(ix), {SelectedRole});
     }
 }
 
@@ -1767,9 +1889,9 @@ void KeyframeModel::setActiveKeyframe(int ix)
         }
         ptr->m_activeKeyframe = ix;
     }
-    Q_EMIT requestModelUpdate(index(ix), index(ix), {ActiveRole});
+    Q_EMIT dataChanged(index(ix), index(ix), {ActiveRole});
     if (oldActive > -1) {
-        Q_EMIT requestModelUpdate(index(oldActive), index(oldActive), {ActiveRole});
+        Q_EMIT dataChanged(index(oldActive), index(oldActive), {ActiveRole});
     }
 }
 

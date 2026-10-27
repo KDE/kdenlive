@@ -57,6 +57,7 @@ Rectangle {
     required property bool grouped
     required property var markers
     required property var keyframeModel
+    required property var keyframeModelList
     required property int clipState
     required property int clipStatus
     required property int itemType
@@ -1609,6 +1610,13 @@ Rectangle {
                 }
                 Binding {
                     target: effectRow.item
+                    property: "kfrModelList"
+                    value: clipRoot.hideClipViews ? undefined : clipRoot.keyframeModelList
+                    when: effectRow.status == Loader.Ready && effectRow.item
+                    restoreMode: Binding.RestoreBindingOrValue
+                }
+                Binding {
+                    target: effectRow.item
                     property: "selected"
                     value: clipRoot.selected
                     when: effectRow.status == Loader.Ready && effectRow.item
@@ -1682,10 +1690,6 @@ Rectangle {
             Connections {
                 target: effectRow.item
                 function onSeek(position) { clipRoot.seek(position) }
-            }
-            Connections {
-                target: effectRow.item
-                function onUpdateEffectKeyframe(clipId, oldFrame, newFrame) { clipRoot.timeline.updateEffectKeyframe(clipId, oldFrame, newFrame) }
             }
             Connections {
                 target: effectRow.item

@@ -45,7 +45,7 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in = -1,
                            int out = -1, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole };
+    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole, PercentPositionRole };
     friend class KeyframeModelList;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -68,7 +68,7 @@ protected:
 
     /** @brief Removes the keyframe at the given position. */
     bool removeKeyframe(int frame);
-    bool moveKeyframe(int oldPos, int pos, QVariant newVal);
+    bool moveKeyframe(int oldPos, int pos, QVariant newVal, bool logUndo);
     /** @brief Duplicate a keyframe at the given position. */
     bool duplicateKeyframe(GenTime srcPos, GenTime dstPos, Fun &undo, Fun &redo);
     bool removeKeyframe(GenTime pos);
@@ -89,16 +89,17 @@ public:
     bool moveKeyframe(int oldPos, int pos, bool logUndo);
     bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
-    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView = true,
+                      bool allowedToFail = false);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
        @param value is the new value of the param
     */
-    Q_INVOKABLE bool updateKeyframe(int pos, double newVal);
-    bool updateKeyframe(GenTime pos, QVariant value);
+    Q_INVOKABLE bool updateKeyframe(int pos, double newVal, bool logUndo);
+    bool updateKeyframe(GenTime pos, QVariant value, bool logUndo);
     bool updateKeyframeType(GenTime pos, int type, Fun &undo, Fun &redo);
-    bool updateKeyframe(GenTime pos, const QVariant &value, Fun &undo, Fun &redo, bool update = true);
+    bool updateKeyframe(GenTime pos, const QVariant &value, bool logUndo, Fun &undo, Fun &redo, bool update = true);
     /** @brief updates the value of a keyframe, without any management of undo/redo
        @param pos is the position of the keyframe
        @param value is the new value of the param
@@ -158,6 +159,8 @@ public:
     Q_INVOKABLE void setActiveKeyframe(int ix);
     int getIndexForPos(const GenTime pos) const;
     GenTime getPosAtIndex(int ix) const;
+    int getKeyframeTypeAtPos(GenTime pos) const;
+    Q_INVOKABLE int getKeyframeTypeAtFrame(int frame) const;
 
     // Mandatory overloads
     Q_INVOKABLE QVariant data(const QModelIndex &index, int role) const override;
@@ -178,7 +181,7 @@ public:
 
 protected:
     /** @brief Helper function that generate a lambda to change type / value of given keyframe */
-    Fun updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
+    Fun updateKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify, bool logUndo);
 
     /** @brief Helper function that generate a lambda to add given keyframe */
     Fun addKeyframe_lambda(GenTime pos, KeyframeType::KeyframeEnum type, const QVariant &value, bool notify);
@@ -204,7 +207,7 @@ protected:
     /** @brief this function clears all existing keyframes, and reloads its data from the string passed */
     void resetAnimProperty(const QString &prop);
     /** @brief this function does the opposite of getAnimProperty: given a MLT representation of an animation, build the corresponding model */
-    void parseAnimProperty(const QString &prop, int in = -1, int out = -1);
+    void parseAnimProperty(const QString &prop, int in, int out, Fun &undo, Fun &redo);
     void parseRotoProperty(const QString &prop);
 
 protected:
@@ -213,13 +216,17 @@ protected:
     QPersistentModelIndex m_index;
 
 private:
-    QString m_lastData;
     ParamType m_paramType;
     /** @brief This is a lock that ensures safety in case of concurrent access */
     mutable QReadWriteLock m_lock;
 
     std::map<GenTime, std::pair<KeyframeType::KeyframeEnum, QVariant>> m_keyframeList;
-    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    bool moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView = true, bool allowedToFail = false);
+    /** @brief update MLT keyframe value to reflect our model change */
+    void updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
+                                KeyframeType::KeyframeEnum type);
+    /** @brief Get wanted keyframe type for a specific position */
+    KeyframeType::KeyframeEnum getKeyframeTypeForPos(const GenTime pos);
 
 Q_SIGNALS:
     void modelChanged();

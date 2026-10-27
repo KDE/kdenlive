@@ -27,6 +27,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "kdenlive_debug.h"
 #include "kdenlivesettings.h"
 #include "library/librarywidget.h"
+#include "localeHandling.h"
 #include "mainwindow.h"
 #include "mltconnection.h"
 #include "mltcontroller/clipcontroller.h"
@@ -374,6 +375,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
 void Core::initHeadless(const QUrl &url)
 {
     MltConnection::construct(QString());
+    LocaleHandling::resetAllLocale();
     m_projectManager = new ProjectManager(this);
     QMetaObject::invokeMethod(pCore->projectManager(), "slotLoadHeadless", Qt::DirectConnection, Q_ARG(QUrl, url));
     connect(this, &Core::displayBinMessage, this,

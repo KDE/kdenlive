@@ -365,8 +365,8 @@ private:
 
     KHamburgerMenu *m_hamburgerMenu;
 
-    /** @brief initialize startup values, return true if first run. */
-    bool readOptions();
+    /** @brief Initialize startup options and defaults. */
+    void initializeOptions();
     void saveOptions();
 
     QStringList m_pluginFileNames;

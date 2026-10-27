@@ -25,6 +25,7 @@ class DocUndoStack;
 class EffectItemModel;
 class TreeItem;
 class KeyframeModel;
+class KeyframeModelList;
 
 class EffectStackModel : public AbstractTreeModel
 {
@@ -93,6 +94,7 @@ public:
     Q_INVOKABLE double getFilterParam(const QString &effectId, const QString &paramName);
     /** @brief get the active effect's keyframe model */
     Q_INVOKABLE KeyframeModel *getEffectKeyframeModel();
+    Q_INVOKABLE KeyframeModelList *getEffectKeyframeModelList();
     /** Add a keyframe in all model parameters */
     bool addEffectKeyFrame(int frame, double normalisedVal);
     /** @brief Remove a keyframe in all model parameters */

@@ -1204,6 +1204,11 @@ KeyframeModel *ClipModel::getKeyframeModel()
     return m_effectStack->getEffectKeyframeModel();
 }
 
+KeyframeModelList *ClipModel::getKeyframeModelList()
+{
+    return m_effectStack->getEffectKeyframeModelList();
+}
+
 bool ClipModel::showKeyframes() const
 {
     READ_LOCK();

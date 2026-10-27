@@ -139,7 +139,9 @@ void ProjectManager::init(const QUrl &projectUrl, const QStringList &clipList)
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-save-as")));
     a = KStandardAction::openNew(this, SLOT(newFile()), pCore->window()->actionCollection());
     a->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-    m_recentFilesAction = KStandardAction::openRecent(this, SLOT(openFile(QUrl)), pCore->window()->actionCollection());
+    m_recentFilesAction = KStandardAction::openRecent(this, &ProjectManager::openFile, pCore->window()->actionCollection());
+    KSharedConfigPtr config = KSharedConfig::openConfig();
+    m_recentFilesAction->loadEntries(KConfigGroup(config, "Recent Files"));
 
     QAction *saveCopyAction = new QAction(QIcon::fromTheme(QStringLiteral("document-save-as")), i18n("Save Copy…"), this);
     pCore->window()->addAction(QStringLiteral("file_save_copy"), saveCopyAction);
@@ -715,7 +717,10 @@ bool ProjectManager::saveFile()
         return saveFileAs();
     }
     bool result = saveFileAs(m_project->url().toLocalFile());
-    m_project->m_autosave->resize(0);
+    if (result) {
+        // Only discard the autosave once the project was safely written, it might be the only copy otherwise
+        m_project->m_autosave->resize(0);
+    }
     return result;
 }
 

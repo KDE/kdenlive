@@ -368,6 +368,8 @@ void TimelineTabs::connectTimeline(TimelineWidget *timeline)
             &TimelineController::addEffectToCurrentClip);
     QQmlEngine::setObjectOwnership(pCore->monitorManager()->projectMonitor()->getControllerProxy(), QQmlEngine::CppOwnership);
     Q_EMIT timeline->controller()->selectionChanged();
+    // Ensure the ruler is visible on tab switch
+    Q_EMIT timeline->controller()->frameFormatChanged();
     timeline->setEnabled(true);
     timeline->setMouseTracking(true);
     timeline->focusTimeline();

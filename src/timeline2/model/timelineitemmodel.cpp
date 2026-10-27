@@ -265,6 +265,7 @@ QHash<int, QByteArray> TimelineItemModel::roleNames() const
     roles[MaxDurationRole] = "maxDuration";
     roles[MarkersRole] = "markers";
     roles[KeyframesRole] = "keyframeModel";
+    roles[KeyframesListRole] = "keyframeModelList";
     roles[ShowKeyframesRole] = "showKeyframes";
     roles[PlaylistStateRole] = "clipState";
     roles[StatusRole] = "clipStatus";
@@ -377,6 +378,9 @@ QVariant TimelineItemModel::data(const QModelIndex &index, int role) const
         }
         case KeyframesRole: {
             return QVariant::fromValue<KeyframeModel *>(clip->getKeyframeModel());
+        }
+        case KeyframesListRole: {
+            return QVariant::fromValue<KeyframeModelList *>(clip->getKeyframeModelList());
         }
         case PlaylistStateRole:
             return QVariant::fromValue(clip->clipState());

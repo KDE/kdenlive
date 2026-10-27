@@ -100,8 +100,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
             }
         }
         // Parse the basic attributes of the parameter
-        QString name = currentParameter.attribute(QStringLiteral("name"));
-        QString type = currentParameter.attribute(QStringLiteral("type"));
+        const QString name = currentParameter.attribute(QStringLiteral("name"));
+        const QString type = currentParameter.attribute(QStringLiteral("type"));
         QString value = currentParameter.attribute(QStringLiteral("value"));
         ParamRow currentRow;
         currentRow.type = paramTypeFromStr(type);

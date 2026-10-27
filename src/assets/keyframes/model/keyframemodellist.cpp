@@ -256,6 +256,11 @@ bool KeyframeModelList::addKeyframe(int frame, double val)
     }
 }
 
+bool KeyframeModelList::removeKeyframe(int frame)
+{
+    return removeKeyframe(GenTime(frame, pCore->getCurrentFps()));
+}
+
 bool KeyframeModelList::removeKeyframe(GenTime pos)
 {
     QWriteLocker locker(&m_lock);
@@ -380,12 +385,83 @@ bool KeyframeModelList::removeNextKeyframes(GenTime pos)
     }
 }
 
+bool KeyframeModelList::moveKeyframe(int oldPos, int newPos, QVariant newVal, bool logUndo)
+{
+    QWriteLocker locker(&m_lock);
+    Q_ASSERT(m_parameters.size() > 0);
+    auto op = [oldPos, newPos, newVal, logUndo, this](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
+        if (param == modelInTimeline()) {
+            return param->moveKeyframe(GenTime(oldPos, pCore->getCurrentFps()), GenTime(newPos, pCore->getCurrentFps()), newVal, logUndo, undo, redo, true,
+                                       allowedToFail);
+        } else {
+            return param->moveKeyframe(GenTime(oldPos, pCore->getCurrentFps()), GenTime(newPos, pCore->getCurrentFps()), QVariant(), logUndo, undo, redo, true,
+                                       allowedToFail);
+        }
+    };
+    const QString opText = logUndo ? i18nc("@action", "Move keyframe") : QString();
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    bool res = applyOperation(op, undo, redo);
+    if (!logUndo) {
+        return res;
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, opText);
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool KeyframeModelList::offsetKeyframes(int oldPos, int pos, bool logUndo)
+{
+    if (oldPos == pos || m_parameters.empty()) return true;
+    GenTime oldFrame(oldPos, pCore->getCurrentFps());
+    GenTime diff(pos - oldPos, pCore->getCurrentFps());
+    QWriteLocker locker(&m_lock);
+    bool nextOk = false;
+    auto kf = m_parameters.begin()->second->getNextKeyframe(GenTime(-1), &nextOk);
+    QList<GenTime> times;
+    GenTime current;
+    while (nextOk) {
+        current = kf.first;
+        kf = m_parameters.begin()->second->getNextKeyframe(current, &nextOk);
+        if (current < oldFrame) {
+            // Only touch keyframes after oldPos
+            continue;
+        }
+        times << current;
+    }
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    if (diff > GenTime()) {
+        // Move to the right, start with last one to avoid collisions
+        std::sort(times.rbegin(), times.rend());
+    }
+    bool res = true;
+    for (const auto &t : std::as_const(times)) {
+        auto op = [t, diff, logUndo](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
+            return param->moveKeyframe(t, t + diff, QVariant(), logUndo, undo, redo, true, allowedToFail);
+        };
+        res = res && applyOperation(op, undo, redo);
+    }
+    if (!logUndo) {
+        return res;
+    }
+    if (res) {
+        PUSH_UNDO(undo, redo, i18nc("@action", "Move keyframes"));
+        return true;
+    } else {
+        return false;
+    }
+}
+
 bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView)
 {
     QWriteLocker locker(&m_lock);
     Q_ASSERT(m_parameters.size() > 0);
-    auto op = [oldPos, pos, updateView](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
-        return param->moveKeyframe(oldPos, pos, QVariant(), undo, redo, updateView, allowedToFail);
+    auto op = [oldPos, pos, updateView, logUndo](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
+        return param->moveKeyframe(oldPos, pos, QVariant(), logUndo, undo, redo, updateView, allowedToFail);
     };
     const QString opText = logUndo ? i18nc("@action", "Move keyframe") : QString();
     Fun undo = []() { return true; };
@@ -405,8 +481,8 @@ bool KeyframeModelList::moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, 
                 // Keyframe is outside object, don't process
                 continue;
             }
-            auto op2 = [oldPosWithOffset, posWithOffset, updateView](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
-                return param->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), undo, redo, updateView, allowedToFail);
+            auto op2 = [oldPosWithOffset, posWithOffset, updateView, logUndo](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
+                return param->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), logUndo, undo, redo, updateView, allowedToFail);
             };
             res = res && km->applyOperation(op2, undo, redo);
         }
@@ -426,7 +502,7 @@ bool KeyframeModelList::moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &u
 {
     bool result = true;
     for (const auto &param : m_parameters) {
-        result = result && param.second->moveKeyframe(oldPos, pos, QVariant(), undo, redo);
+        result = result && param.second->moveKeyframe(oldPos, pos, QVariant(), true, undo, redo);
     }
     if (result && KdenliveSettings::applyEffectParamsToGroup()) {
         ObjectId id = getOwnerId();
@@ -443,7 +519,7 @@ bool KeyframeModelList::moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &u
                 continue;
             }
             for (const auto &param : km->getAllParameters()) {
-                result = result && param.second->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), undo, redo);
+                result = result && param.second->moveKeyframe(oldPosWithOffset, posWithOffset, QVariant(), true, undo, redo);
             }
         }
     }
@@ -463,7 +539,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
             }
         }
     }
-    auto op = [this, oldPos, pos, normalizedVal, isRectParam](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
+    auto op = [this, oldPos, pos, normalizedVal, isRectParam, logUndo](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo, Fun &redo) {
         QVariant value;
         std::shared_ptr<KeyframeModel> timelineModel = modelInTimeline();
         if (timelineModel) {
@@ -481,7 +557,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
         } else if (isFirstParameter(param)) {
             value = normalizedVal;
         }
-        return param->moveKeyframe(oldPos, pos, value, undo, redo, true, allowedToFail);
+        return param->moveKeyframe(oldPos, pos, value, logUndo, undo, redo, true, allowedToFail);
     };
     const QString opText = logUndo ? i18nc("@action", "Move keyframe") : QString();
     Fun undo = []() { return true; };
@@ -501,8 +577,8 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
                 // Keyframe is outside object, don't process
                 continue;
             }
-            auto op2 = [km, oldPosWithOffset, posWithOffset, normalizedVal, isRectParam](std::shared_ptr<KeyframeModel> param, bool allowedToFail, Fun &undo,
-                                                                                         Fun &redo) {
+            auto op2 = [km, oldPosWithOffset, posWithOffset, normalizedVal, isRectParam, logUndo](std::shared_ptr<KeyframeModel> param, bool allowedToFail,
+                                                                                                  Fun &undo, Fun &redo) {
                 QVariant value;
                 std::shared_ptr<KeyframeModel> timelineModel = km->modelInTimeline();
                 if (timelineModel) {
@@ -520,7 +596,7 @@ bool KeyframeModelList::updateKeyframe(GenTime oldPos, GenTime pos, const QVaria
                 } else if (km->isFirstParameter(param)) {
                     value = normalizedVal;
                 }
-                return param->moveKeyframe(oldPosWithOffset, posWithOffset, value, undo, redo, true, allowedToFail);
+                return param->moveKeyframe(oldPosWithOffset, posWithOffset, value, logUndo, undo, redo, true, allowedToFail);
             };
             res = res && km->applyOperation(op2, undo, redo);
         }
@@ -775,7 +851,7 @@ void KeyframeModelList::moveKeyframes(int oldIn, int in, Fun &undo, Fun &redo)
     }
     for (const auto &param : m_parameters) {
         for (auto frame : std::as_const(positions)) {
-            param.second->moveKeyframe(frame, frame + offset, QVariant(), undo, redo);
+            param.second->moveKeyframe(frame, frame + offset, QVariant(), true, undo, redo);
         }
     }
 }
@@ -795,16 +871,16 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
             for (const auto &param : m_parameters) {
                 if (offset > 0) {
                     QVariant value = param.second->getInterpolatedValue(new_in);
-                    param.second->updateKeyframe(old_in, value, undo, redo);
+                    param.second->updateKeyframe(old_in, value, true, undo, redo);
                 }
                 for (auto frame : std::as_const(positions)) {
                     if (new_in > GenTime()) {
                         if (frame > new_in) {
-                            param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
+                            param.second->moveKeyframe(frame, frame - new_in, QVariant(), true, undo, redo);
                             continue;
                         }
                     } else if (frame > GenTime()) {
-                        param.second->moveKeyframe(frame, frame - new_in, QVariant(), undo, redo);
+                        param.second->moveKeyframe(frame, frame - new_in, QVariant(), true, undo, redo);
                         continue;
                     }
                     if (frame != GenTime()) {
@@ -867,7 +943,7 @@ void KeyframeModelList::resizeKeyframes(int oldIn, int oldOut, int in, int out, 
                 if (kf.first == current_in) {
                     // We have a 2 keyframes situation, move last one to new out
                     for (const auto &param : m_parameters) {
-                        param.second->moveKeyframe(old_out, new_out, QVariant(), undo, redo);
+                        param.second->moveKeyframe(old_out, new_out, QVariant(), true, undo, redo);
                     }
                     return;
                 }

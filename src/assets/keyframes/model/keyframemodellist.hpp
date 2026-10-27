@@ -45,6 +45,7 @@ public:
     bool addKeyframe(int frame, double val);
 
     /** @brief Removes the keyframe at the given position. */
+    Q_INVOKABLE bool removeKeyframe(int frame);
     bool removeKeyframe(GenTime pos);
     bool removeKeyframeWithUndo(GenTime pos, Fun &undo, Fun &redo);
 
@@ -60,6 +61,8 @@ public:
        @param pos defines the new position of the keyframe, relative to the clip
        @param logUndo if true, then an undo object is created
     */
+    Q_INVOKABLE bool moveKeyframe(int oldPos, int newPos, QVariant newVal, bool logUndo);
+    Q_INVOKABLE bool offsetKeyframes(int oldPos, int pos, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, bool logUndo, bool updateView = true);
     bool moveKeyframeWithUndo(GenTime oldPos, GenTime pos, Fun &undo, Fun &redo);
 

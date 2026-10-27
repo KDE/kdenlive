@@ -490,7 +490,7 @@ void MainWindow::init()
     m_undoView->setContextMenuPolicy(Qt::ActionsContextMenu);
     m_undoViewDock = addDock(i18n("Undo History"), QStringLiteral("undo_history"), m_undoView, KDDockWidgets::Location_None, m_projectBinDock);
 
-    connect(m_commandStack, &QUndoGroup::cleanChanged, [this, cleanHistory](bool isClean) {
+    connect(m_commandStack, &QUndoGroup::cleanChanged, this, [this, cleanHistory](bool isClean) {
         m_saveAction->setDisabled(isClean);
         cleanHistory->setDisabled(isClean);
     });
@@ -517,6 +517,8 @@ void MainWindow::init()
     // only show important ones
     m_mixerDock->close();
     m_projectBinDock->setAsCurrentTab();
+
+    initializeOptions();
 
     if (KdenliveSettings::lastCacheCheck().isNull()) {
         // Define a date for first check
@@ -1010,10 +1012,9 @@ void MainWindow::saveOptions()
     pCore->projectManager()->saveRecentFiles();
 }
 
-bool MainWindow::readOptions()
+void MainWindow::initializeOptions()
 {
     KSharedConfigPtr config = KSharedConfig::openConfig();
-    pCore->projectManager()->recentFilesAction()->loadEntries(KConfigGroup(config, "Recent Files"));
 
     if (KdenliveSettings::defaultprojectfolder().isEmpty()) {
         QDir dir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
@@ -1063,7 +1064,6 @@ bool MainWindow::readOptions()
     if (KdenliveSettings::guidesCategories().isEmpty()) {
         KdenliveSettings::setGuidesCategories(KdenliveDoc::getDefaultGuideCategories());
     }
-    return firstRun;
 }
 
 void MainWindow::slotRunWizard()

@@ -748,7 +748,7 @@ void KeyframeContainer::addParameter(const QPersistentModelIndex &index)
         Q_EMIT addIndex(index);
         // qtblend uses an opacity value in the (0-1) range, while older geometry effects use (0-100)
         m_geom.reset(new GeometryWidget(pCore->getMonitor(m_model->monitorId), range, rect, true, opacity, m_sourceFrameSize, false,
-                                        m_model->data(m_index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
+                                        m_model->data(index, AssetParameterModel::OpacityRole).toBool(), m_parent, m_layout));
         if (m_neededScene == SceneType::MonitorSceneRotatedGeometry) {
             m_geom->setRotatable(true);
         }
@@ -1170,7 +1170,9 @@ void KeyframeContainer::slotImportKeyframes()
     connect(import, &KeyframeImport::updateQmlView, this, [this](QPersistentModelIndex ix, const QString animData) {
         auto kfModel = m_keyframes->getKeyModel(ix);
         if (kfModel) {
-            kfModel->parseAnimProperty(animData);
+            Fun undo = []() { return true; };
+            Fun redo = []() { return true; };
+            kfModel->parseAnimProperty(animData, -1, -1, undo, redo);
         }
     });
     import->updateView();
