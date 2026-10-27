@@ -33,7 +33,7 @@ Window {
     property bool wasUpgraded: false
     property bool palFps: true
     property int border: 10
-    readonly property int sizeUnit: Math.ceil(splashFontMetrics.height * 2.2)
+    readonly property int sizeUnit: Math.ceil(splashFontMetrics.height * 2)
 
     FontMetrics {
         id: splashFontMetrics
