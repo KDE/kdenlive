@@ -1136,7 +1136,6 @@ void MainWindow::setupActions()
                                                               "and having a <interface>Hamburger Menu</interface> button in the main Toolbar."));
 
     m_hamburgerMenu = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
-    KStandardAction::helpContents(this, &MainWindow::appHelpActivated, actionCollection());
     KStandardAction::quit(this, &MainWindow::close, actionCollection());
     KStandardAction::keyBindings(this, &MainWindow::slotEditKeys, actionCollection());
     KStandardAction::preferences(this, &MainWindow::slotPreferences, actionCollection());
