@@ -719,7 +719,7 @@ void RenderWidget::slotUpdateRescaleHeight(int val)
     }
     QSignalBlocker bk(m_view.rescale_width);
     m_view.rescale_width->setValue(proposedWidth);
-    KdenliveSettings::setDefaultrescaleheight(m_view.rescale_width->value());
+    KdenliveSettings::setDefaultrescalewidth(m_view.rescale_width->value());
     refreshParams();
 }
 
