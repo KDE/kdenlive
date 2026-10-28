@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-10-25 02:50+0000\n"
-"PO-Revision-Date: 2026-09-27 07:50+0200\n"
+"PO-Revision-Date: 2026-10-28 04:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.9\n"
+"X-Generator: Poedit 3.10\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -15171,6 +15171,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (LADSPA 1901)<br>\n"
+"   ამ დამატების დიზაინი აღებულია Allen & Heath Xone 32 DJ mixer-დან."
 
 #: data/effects/ladspa/ladspa_1901.xml:9 data/effects/ladspa/ladspa_1907.xml:9
 #, kde-format
@@ -15341,6 +15343,8 @@ msgid ""
 "   The design for this plugin is taken from the Allen & Heath Xone 32 DJ "
 "mixer."
 msgstr ""
+"DJ EQ (მონო) (LADSPA 1907)<br>\n"
+"   ამ დამატების დიზაინი აღებულია Allen & Heath Xone 32 DJ mixer-დან."
 
 #: data/effects/ladspa/ladspa_1913.xml:4
 #, kde-format
