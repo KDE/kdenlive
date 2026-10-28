@@ -535,6 +535,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                <layout class="QHBoxLayout" name="rescale_box">
                 <item>
                  <widget class="QSpinBox" name="rescale_width">
+                  <property name="keyboardTracking">
+                   <bool>false</bool>
+                  </property>
                   <property name="minimum">
                    <number>2</number>
                   </property>
@@ -561,6 +564,9 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                 </item>
                 <item>
                  <widget class="QSpinBox" name="rescale_height">
+                  <property name="keyboardTracking">
+                   <bool>false</bool>
+                  </property>
                   <property name="minimum">
                    <number>2</number>
                   </property>
