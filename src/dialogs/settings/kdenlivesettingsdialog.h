@@ -115,6 +115,7 @@ private:
     Ui::ConfigProxy_UI m_configProxy;
     PluginsSettings *m_pluginsPage;
     GuideCategories *m_guidesCategories;
+    GuideCategories *m_projectBinTagsCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;

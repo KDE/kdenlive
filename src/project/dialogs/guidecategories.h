@@ -17,7 +17,7 @@ class GuideCategories : public QWidget, public Ui::GuideCategories_UI
 {
     Q_OBJECT
 public:
-    explicit GuideCategories(KdenliveDoc *doc, QWidget *parent = nullptr);
+    explicit GuideCategories(KdenliveDoc *doc, QWidget *parent = nullptr, bool binTags = false);
     ~GuideCategories() override;
     const QStringList updatedGuides() const;
     const QMap<int, int> remapedGuides() const;
@@ -31,6 +31,8 @@ private:
     /** @brief The incremental index for newly created categories. */
     int m_categoryIndex;
     QMap<int, int> m_remapCategories;
+    // Allows this widget to edit either marker categories or Project Bin tag defaults.
+    bool m_isBinTags{false};
 
 Q_SIGNALS:
 };

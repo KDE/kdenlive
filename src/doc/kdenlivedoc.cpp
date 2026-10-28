@@ -396,6 +396,24 @@ void KdenliveDoc::initializeProperties(bool newDocument, std::pair<int, int> tra
         m_sequenceProperties.insert(m_uuid, sequenceProperties);
         // For existing documents, don't define guidesCategories, so that we can use the getDefaultGuideCategories() for backwards compatibility
         m_documentProperties[QStringLiteral("guidesCategories")] = MarkerListModel::categoriesListToJSon(KdenliveSettings::guidesCategories());
+
+        // Initialize tag definitions only for new documents, leaving existing projects' saved tags untouched.
+        QStringList projectBinTags = KdenliveSettings::projectBinTags();
+        if (projectBinTags.isEmpty()) {
+            // Keep the historical built-in tags when no custom defaults are configured.
+            projectBinTags = {QStringLiteral("%1:1:#ff0000").arg(i18n("Red")), QStringLiteral("%1:2:#00ff00").arg(i18n("Green")),
+                              QStringLiteral("%1:3:#0000ff").arg(i18n("Blue")), QStringLiteral("%1:4:#ffff00").arg(i18n("Yellow")),
+                              QStringLiteral("%1:5:#00ffff").arg(i18n("Cyan"))};
+        }
+
+        // Settings store categories as "name:index:color"; project tags use "color:name"
+        // under sequential tagN properties, so convert the format when initializing the project.
+        int tagIndex = 1;
+        for (const QString &tag : projectBinTags) {
+            const QString name = tag.section(QLatin1Char(':'), 0, -3);
+            const QString color = tag.section(QLatin1Char(':'), -1);
+            m_documentProperties[QStringLiteral("tag%1").arg(tagIndex++)] = QStringLiteral("%1:%2").arg(color, name);
+        }
     }
     connect(pCore.get(), &Core::saveGuideCategories, this, &KdenliveDoc::saveGuideCategories);
 }

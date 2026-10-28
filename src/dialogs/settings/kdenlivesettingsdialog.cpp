@@ -41,6 +41,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QButtonGroup>
 #include <QDir>
 #include <QGuiApplication>
+#include <QHBoxLayout>
 #include <QInputDialog>
 #include <QMediaDevices>
 #include <QRegularExpression>
@@ -103,9 +104,15 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
     }
 
     m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
+    // Reuse the category editor while keeping Project Bin tag defaults separate from marker categories.
     m_guidesCategories = new GuideCategories(nullptr, this);
-    QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
-    guidesLayout->addWidget(m_guidesCategories);
+    m_projectBinTagsCategories = new GuideCategories(nullptr, this, true);
+
+    auto *categoriesLayout = new QHBoxLayout(m_configColors.guides_box);
+    categoriesLayout->setContentsMargins(0, 0, 0, 0);
+    categoriesLayout->setSpacing(12);
+    categoriesLayout->addWidget(m_guidesCategories, 1);
+    categoriesLayout->addWidget(m_projectBinTagsCategories, 1);
 
     m_pluginsPage = new PluginsSettings(this);
     connect(m_pluginsPage, &PluginsSettings::openBrowserUrl, this, &KdenliveSettingsDialog::openBrowserUrl);
@@ -1221,7 +1228,11 @@ void KdenliveSettingsDialog::updateSettings()
     if (KdenliveSettings::guidesCategories() != updatedGuides) {
         KdenliveSettings::setGuidesCategories(updatedGuides);
     }
-
+    // Persist Project Bin tag defaults independently of marker categories.
+    const QStringList updatedProjectBinTags = m_projectBinTagsCategories->updatedGuides();
+    if (KdenliveSettings::projectBinTags() != updatedProjectBinTags) {
+        KdenliveSettings::setProjectBinTags(updatedProjectBinTags);
+    }
     /*if (m_configShuttle.shuttledevicelist->count() > 0) {
     QString device = m_configShuttle.shuttledevicelist->itemData(m_configShuttle.shuttledevicelist->currentIndex()).toString();
     if (device != KdenliveSettings::shuttledevice()) KdenliveSettings::setShuttledevice(device);
