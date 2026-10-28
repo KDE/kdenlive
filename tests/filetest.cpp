@@ -264,19 +264,20 @@ TEST_CASE("Check File Corruption", "[CFC]")
 
         QUndoGroup *undoGroup = new QUndoGroup();
         undoGroup->addStack(undoStack.get());
+        const auto invalidDataPolicy = QDomImplementation::invalidDataPolicy();
         DocOpenResult openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, false, nullptr);
         REQUIRE(openResults.isSuccessful() == false);
+        REQUIRE(QDomImplementation::invalidDataPolicy() == invalidDataPolicy);
 
         openResults = KdenliveDoc::Open(openURL, QDir::temp().path(), undoGroup, true, nullptr);
         CAPTURE(openResults.getError());
         REQUIRE(openResults.isSuccessful() == true);
         REQUIRE(openResults.wasModified() == true);
+        // The recovery must restore the policy that was active before opening the file
+        REQUIRE(QDomImplementation::invalidDataPolicy() == invalidDataPolicy);
         std::unique_ptr<KdenliveDoc> openedDoc = openResults.getDocument();
         pCore->projectManager()->testSetDocument(openedDoc.get());
         pCore->projectManager()->closeCurrentDocument(false, false);
-
-        // The recovery must not change how other documents are parsed
-        REQUIRE(QDomImplementation::invalidDataPolicy() == QDomImplementation::AcceptInvalidChars);
     }
 }
 
