@@ -2886,7 +2886,10 @@ void MainWindow::slotEditKeys()
     // Update the shortcut conflicts list bewtween mainwindow and media browser
     connect(dialog, &KShortcutsDialog::saved, this, [this] {
         pCore->mediaBrowser()->detectShortcutConflicts();
-        factory()->refreshActionProperties();
+        guiFactory()->refreshActionProperties();
+        // Drop cached data
+        guiFactory()->removeClient(this);
+        guiFactory()->addClient(this);
     });
     dialog->configure(true);
 }
