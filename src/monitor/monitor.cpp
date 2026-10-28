@@ -820,6 +820,19 @@ void Monitor::slotForceSize(QAction *a)
     updateGeometry();
 }
 
+Mlt::Filter *Monitor::getFilter(const QString &name, std::shared_ptr<Mlt::Producer> producer)
+{
+    for (int i = 0; i < producer->filter_count(); i++) {
+        Mlt::Filter *filter = producer->filter(i);
+        if (filter) {
+            const auto filterName = QString::fromUtf8(filter->get("mlt_service"));
+            if (name == filterName) return filter;
+            delete filter;
+        }
+    }
+    return nullptr;
+}
+
 void Monitor::buildBackgroundedProducer(int pos)
 {
     if (m_controller == nullptr) {
@@ -842,19 +855,24 @@ void Monitor::buildBackgroundedProducer(int pos)
     if (!m_openMutex.tryLock()) {
         return;
     }
-    Mlt::Filter monitorFilter;
+    std::unique_ptr<Mlt::Filter> monitorFilter{nullptr};
     if (m_controller->hasAudio()) {
-        qDebug() << "::::: CLIP :" << m_controller->clipName() << " HAS AUDIO!!!!!!!!!!!!!!!";
-        monitorFilter = Mlt::Filter(pCore->getProjectProfile(), "audiolevel");
-        if (monitorFilter.is_valid()) {
-            monitorFilter.set("iec_scale", 0);
-            monitorFilter.set("prefix", "meta.audio.track.-1.audio_level.");
+        auto levelsFilter = getFilter(QStringLiteral("audiolevel"), producer);
+        if (levelsFilter) {
+            delete levelsFilter;
+        } else {
+            monitorFilter.reset(new Mlt::Filter(pCore->getProjectProfile(), "audiolevel"));
+            if (monitorFilter->is_valid()) {
+                monitorFilter->set("iec_scale", 0);
+                monitorFilter->set("prefix", "meta.audio.track.-1.audio_level.");
+                monitorFilter->set("internal_added", 237);
+            }
         }
     }
     if (!m_controller->hasAlpha()) {
         // No compositing required
-        if (m_controller->hasAudio()) {
-            producer->attach(monitorFilter);
+        if (monitorFilter) {
+            producer->attach(*monitorFilter.get());
         }
         m_glMonitor->setProducer(producer, isActive(), pos);
     } else {
@@ -874,8 +892,8 @@ void Monitor::buildBackgroundedProducer(int pos)
         transition->set("always_active", 1);
         transition->set_tracks(0, 1);
         trac.plant_transition(*transition.get(), 0, 1);
-        if (m_controller->hasAudio()) {
-            trac.attach(monitorFilter);
+        if (monitorFilter) {
+            trac.attach(*monitorFilter.get());
         }
         m_glMonitor->setProducer(std::make_shared<Mlt::Producer>(trac), isActive(), pos);
     }
@@ -2176,6 +2194,15 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         if (m_controller->hasLimitedDuration()) {
             disconnect(m_controller.get(), &ProjectClip::boundsChanged, m_glMonitor->getControllerProxy(), &MonitorProxy::updateClipBounds);
             disconnect(m_controller.get(), &ProjectClip::registeredClipChanged, m_controller.get(), &ProjectClip::checkClipBounds);
+        }
+        if (m_controller->hasAudio()) {
+            // Remove monitor's level filter
+            auto producer = m_controller->sequenceProducer(m_activeSequence);
+            Mlt::Filter *levelsFilter = getFilter(QStringLiteral("audiolevel"), producer);
+            if (levelsFilter) {
+                producer->detach(*levelsFilter);
+                delete levelsFilter;
+            }
         }
     } else if (controller == nullptr) {
         // Nothing to do

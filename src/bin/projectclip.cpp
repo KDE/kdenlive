@@ -1502,10 +1502,23 @@ std::shared_ptr<Mlt::Producer> ProjectClip::cloneProducer(bool removeEffects, bo
         int ct = 0;
         Mlt::Filter *filter = prod->filter(ct);
         while (filter) {
-            qDebug() << "// EFFECT " << ct << " : " << filter->get("mlt_service");
-            QString ix = QString::fromLatin1(filter->get("kdenlive_id"));
-            if (!ix.isEmpty()) {
-                qDebug() << "/ + + DELETING";
+            if (filter->property_exists("kdenlive_id") || filter->property_exists("internal_added")) {
+                if (prod->detach(*filter) == 0) {
+                } else {
+                    ct++;
+                }
+            } else {
+                ct++;
+            }
+            delete filter;
+            filter = prod->filter(ct);
+        }
+    } else {
+        // Remove internal effects only
+        int ct = 0;
+        Mlt::Filter *filter = prod->filter(ct);
+        while (filter) {
+            if (filter->property_exists("internal_added")) {
                 if (prod->detach(*filter) == 0) {
                 } else {
                     ct++;
