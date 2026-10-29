@@ -4,7 +4,7 @@
     <name>GPS Text</name>
     <description>Overlay GPS-related text onto the video.</description>
     <author>Daniel F</author>
-    <parameter type="keywords" name="argument" default="#gps_lat# #gps_lon#" paramlist="#gps_lat#;#gps_lon#;#gps_elev#;#gps_speed#;#gps_dist#;#gps_datetime_now#;#file_datetime_now#;#hr#;#gps_bearing#;#gps_compass#;#gps_vdist_up#;#gps_vdist_down#;#gps_dist_uphill#;#gps_dist_downhill#;#gps_dist_flat#;#gps_cadence#;#gps_temperature#;#gps_power#;#gps_grade_percentage#;#gps_grade_degrees#">
+    <parameter type="keywords" name="argument" default="#gps_lat# #gps_lon#" paramlist="#gps_lat#;#gps_lon#;#gps_elev#;#gps_speed#;#gps_dist#;#gps_datetime_now#;#file_datetime_now#;#gps_hr#;#gps_bearing#;#gps_compass#;#gps_vdist_up#;#gps_vdist_down#;#gps_dist_uphill#;#gps_dist_downhill#;#gps_dist_flat#;#gps_cadence#;#gps_temperature#;#gps_power#;#gps_grade_percentage#;#gps_grade_degrees#">
         <name>Text</name>
         <comment><![CDATA[See the online documentation about additional qualifiers]]></comment>
         <paramlistdisplay>GPS latitude,GPS longitude,GPS altitude,GPS speed,Total distance so far,Date and time of current GPS point,Date and time of current frame in video file,Heart rate,Current GPS bearing,Current GPS direction,Total GPS altitude gain so far,Total GPS altitude loss so far,Total distance travelled uphill so far,Total distance travelled downhill so far,Total distance travelled on flat area so far,(Bike) cadence (in revs per minute),Ambient temperature,Power in watts,Gradient of GPS track,Gradient of GPS track in degrees</paramlistdisplay>
