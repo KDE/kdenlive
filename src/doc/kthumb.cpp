@@ -109,12 +109,11 @@ QImage KThumb::getFrame(Mlt::Frame *frame, int width, int height, int scaledWidt
     mlt_image_format format = mlt_image_rgba;
     const uchar *imagedata = frame->get_image(format, ow, oh);
     if (imagedata) {
-        QImage temp(ow, oh, QImage::Format_ARGB32);
-        memcpy(temp.scanLine(0), imagedata, unsigned(ow * oh * 4));
+        const QImage temp(imagedata, ow, oh, QImage::Format_RGBA8888);
         if (scaledWidth == 0 || scaledWidth == width) {
-            return temp.rgbSwapped();
+            return temp.convertToFormat(QImage::Format_ARGB32);
         }
-        return temp.rgbSwapped().scaled(scaledWidth, height == 0 ? oh : height);
+        return temp.convertToFormat(QImage::Format_ARGB32).scaled(scaledWidth, height == 0 ? oh : height);
     }
     return QImage();
 }
