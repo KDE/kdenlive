@@ -340,16 +340,12 @@ public:
         }
         QStyleOptionViewItem opt = option;
         initStyleOption(&opt, index);
-        QRect r1 = option.rect;
+        QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
+        QRect r1 = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         int decoWidth = 0;
         int mid = 0;
-        if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
-            mid = int((r1.height() / 2));
-            if (opt.decorationSize.height() > 0) {
-                decoWidth = int(r1.height() * pCore->getCurrentDar());
-            }
-        } else if (type == AbstractProjectItem::FolderItem) {
+        if (type == AbstractProjectItem::FolderItem) {
             if (opt.decorationSize.height() > 0) {
                 decoWidth = r1.height();
             }
@@ -376,7 +372,7 @@ public:
         hint.setWidth(width);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if (type == AbstractProjectItem::FolderItem) {
-            return QSize(hint.width(), qMin(option.fontMetrics.lineSpacing() + 4, hint.height()));
+            return hint;
         }
         if (type == AbstractProjectItem::ClipItem) {
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height())));
@@ -384,13 +380,7 @@ public:
         if (type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
             return QSize(hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMin(hint.height(), int(option.decorationSize.height() / 1.5))));
         }
-        QIcon icon = qvariant_cast<QIcon>(index.data(Qt::DecorationRole));
-        QString line1 = index.data(Qt::DisplayRole).toString();
-        QString line2 = index.data(Qt::UserRole).toString();
-
-        int textW = qMax(option.fontMetrics.horizontalAdvance(line1), option.fontMetrics.horizontalAdvance(line2));
-        QSize iconSize = icon.actualSize(option.decorationSize);
-        return {qMax(textW, iconSize.width()) + 4, option.fontMetrics.lineSpacing() * 2 + 4};
+        return hint;
     }
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
@@ -405,7 +395,6 @@ public:
             int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            // QRect r = QStyle::alignedRect(opt.direction, Qt::AlignVCenter | Qt::AlignLeft, opt.decorationSize, r1);
             // Draw alternate background
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             if ((option.state & static_cast<int>(QStyle::State_Selected)) != 0) {
@@ -413,22 +402,24 @@ public:
             } else {
                 painter->setPen(option.palette.text().color());
             }
-            QRect r = r1;
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
-                int decoWidth = 0;
+                QRect r = style->subElementRect(QStyle::SE_ItemViewItemDecoration, &opt, opt.widget);
                 FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
                 if (opt.decorationSize.height() > 0) {
-                    r.setWidth(int(r.height() * pCore->getCurrentDar()));
                     QPixmap pix = opt.icon.pixmap(opt.icon.actualSize(r.size()));
                     if (!pix.isNull()) {
                         // Draw icon
-                        decoWidth += r.width() + textMargin;
-                        r.setWidth(r.height() * pix.width() / pix.height());
-                        painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                        int decoHeight = opt.decorationSize.height();
+                        if (decoHeight < r.height()) {
+                            int offset = qCeil((r.height() - decoHeight) / 2.);
+                            painter->drawPixmap(r.adjusted(0, offset, 0, -offset), pix, QRect(0, 0, pix.width(), pix.height()));
+                        } else {
+                            painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                        }
                     }
                     m_thumbRect = r;
 
@@ -467,10 +458,11 @@ public:
                         }
                     }
                 }
+                r1 = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
                 int mid = int((r1.height() / 2));
-                r1.adjust(decoWidth, 0, 0, -mid);
-                QRect r2 = option.rect;
-                r2.adjust(decoWidth, mid, 0, 0);
+                QRect r2 = r1;
+                r1.adjust(0, 0, 0, -mid);
+                r2.adjust(0, mid, 0, 0);
                 QRectF bounding;
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
                 font.setBold(false);
@@ -589,17 +581,20 @@ public:
             } else {
                 // Folder
                 int decoWidth = 0;
+                r1 = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
                 if (opt.decorationSize.height() > 0) {
                     QIcon icon = index.data(AbstractProjectItem::SequenceFolder).toBool() ? m_sequenceFolderIcon : m_folderIcon;
+                    QRect r = r1;
                     r.setWidth(r.height());
                     QPixmap pix = icon.pixmap(icon.actualSize(r.size()));
                     // Draw icon
                     decoWidth = r.width() + textMargin;
                     painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
                 }
+
                 r1.adjust(decoWidth, 0, 0, 0);
                 QRectF bounding;
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter, index.data(AbstractProjectItem::DataName).toString(), &bounding);
             }
             painter->restore();
         } else if (index.column() == 7) {
@@ -712,26 +707,29 @@ public:
             painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-            // QStyledItemDelegate::paint(painter, opt, index);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
-            // style->drawControl(QStyle::CE_ItemViewItem, &opt, painter, opt.widget);
-            QRect r = opt.rect;
-            r.setHeight(r.width() / pCore->getCurrentDar());
+            QRect r = style->subElementRect(QStyle::SE_ItemViewItemDecoration, &opt, opt.widget);
             int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
             bool isFolder = type == AbstractProjectItem::FolderItem;
             bool isSequenceFolder = index.data(AbstractProjectItem::SequenceFolder).toBool();
+            if (isFolder) {
+                r = opt.rect;
+                r.setHeight(r.width() / pCore->getCurrentDar());
+            }
             QPixmap pix = isFolder ? (isSequenceFolder ? m_sequenceFolderIcon.pixmap(m_sequenceFolderIcon.actualSize(r.size()))
                                                        : m_folderIcon.pixmap(m_folderIcon.actualSize(r.size())))
                                    : opt.icon.pixmap(opt.icon.actualSize(r.size()));
             if (!pix.isNull()) {
                 // Draw icon
-                painter->drawPixmap(r, pix, QRect(0, 0, pix.width(), pix.height()));
+                painter->drawPixmap(r.adjusted(2, 1, -2, 1), pix, QRect(0, 0, pix.width(), pix.height()));
             }
             m_thumbRect = r;
-            QRect textRect = opt.rect;
-            const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-            textRect.adjust(textMargin, 0, -textMargin, -textMargin);
+            QRect textRect = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
+            if (isFolder) {
+                const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+                textRect.adjust(0, m_thumbRect.height() + textMargin, 0, 0);
+            }
             QRectF bounding;
             QString itemText = index.data(AbstractProjectItem::DataName).toString();
             // Draw usage counter
@@ -748,7 +746,7 @@ public:
                     itemText = option.fontMetrics.elidedText(itemText, Qt::ElideRight, textRect.width());
                 }
             }
-            painter->drawText(textRect, Qt::AlignCenter | Qt::AlignBottom, itemText, &bounding);
+            painter->drawText(textRect, Qt::AlignCenter, itemText, &bounding);
 
             if (isFolder) {
                 return;
@@ -3412,8 +3410,7 @@ void Bin::slotInitView(QAction *action)
     }
     m_itemView->setMouseTracking(true);
     m_itemView->viewport()->installEventFilter(this);
-    m_iconSize = m_baseIconSize * ((m_listType == BinIconView ? qMax(1, m_slider->value()) : m_slider->value()) / 4.0);
-    m_itemView->setIconSize(m_iconSize);
+    slotSetIconSize(m_slider->value());
     QPixmap pix(m_iconSize);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
@@ -3556,7 +3553,12 @@ void Bin::slotSetIconSize(int size)
         return;
     }
     KdenliveSettings::setBin_zoom(size);
-    m_iconSize = m_baseIconSize * ((m_listType == BinIconView ? qMax(1, size) : size) / 4.0);
+    if (size == 0) {
+        int iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
+        m_iconSize = QSize(iconSize, iconSize);
+    } else {
+        m_iconSize = m_baseIconSize * ((m_listType == BinIconView ? qMax(1, size) : size) / 4.0);
+    }
     m_itemView->setIconSize(m_iconSize);
     if (m_listType == BinIconView) {
         auto *view = static_cast<MyListView *>(m_itemView);

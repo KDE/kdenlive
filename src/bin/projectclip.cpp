@@ -273,8 +273,8 @@ void ProjectClip::updateAudioThumbnail(bool cachedThumb)
     if (m_clipType == ClipType::Audio) {
         QImage thumb = ThumbnailCache::get()->getThumbnail(m_binId, 0);
         if (thumb.isNull() && !pCore->taskManager.hasPendingJob(ObjectId(KdenliveObjectType::BinClip, m_binId.toInt(), QUuid()), AbstractTask::AUDIOTHUMBJOB)) {
-            const auto height = int(QFontInfo(qApp->font()).pixelSize() * 8);
-            const auto width = int(height * pCore->getCurrentDar());
+            const int height(pCore->thumbProfile().height());
+            const int width(pCore->thumbProfile().width());
             QImage img(width, height, QImage::Format_ARGB32);
             int i = 0;
             const QMap<int, QString> streams = audioInfo()->streams();
