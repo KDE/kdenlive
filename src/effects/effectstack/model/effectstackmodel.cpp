@@ -1346,20 +1346,29 @@ void EffectStackModel::registerItem(const std::shared_ptr<TreeItem> &item)
             effectItem->plant(m_masterService);
             // Check if we have an internal effect that needs to stay on top
             if (m_ownerId.type == KdenliveObjectType::Master || m_ownerId.type == KdenliveObjectType::TimelineTrack) {
-                // check for subtitle effect
+                // check for subtitle and other internal effects like volume, pan, audiolevel
                 auto ms = m_masterService.lock();
                 QVector<int> ixToMove;
+                int audioLevelIx = -1;
                 int ct = ms->filter_count();
                 for (int i = 0; i < ms->filter_count(); i++) {
                     std::shared_ptr<Mlt::Filter> ft(ms->filter(i));
                     if (ft->get_int("internal_added") > 0) {
+                        // Audio levels should always be last
+                        if (ft->get("mlt_service") && strcmp(ft->get("mlt_service"), "audiolevel") == 0) {
+                            audioLevelIx = i;
+                        }
                         ixToMove << i;
                     }
                 }
                 std::sort(ixToMove.rbegin(), ixToMove.rend());
+                int offset = 1;
                 for (auto &ix : ixToMove) {
                     if (ix < ct - 1) {
-                        ms->move_filter(ix, ct - 1);
+                        ms->move_filter(ix, ct - offset);
+                    }
+                    if (ix == audioLevelIx) {
+                        offset = 2;
                     }
                 }
             }
