@@ -1124,6 +1124,10 @@ void KeyframeContainer::slotPasteKeyframeFromClipBoard()
 void KeyframeContainer::slotCopySelectedKeyframes()
 {
     const QVector<int> results = m_keyframeview->selectedKeyframesIndexes();
+    if (results.isEmpty()) {
+        slotCopyValueAtCursorPos();
+        return;
+    }
     QJsonDocument effectDoc = m_model->toJson(results, false);
     if (effectDoc.isEmpty()) {
         pCore->displayMessage(i18n("Cannot copy current parameter values"), InformationMessage);

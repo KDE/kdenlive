@@ -1485,7 +1485,7 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
                         currentParam.insert(QLatin1String("value"), QJsonValue(dataObject));
                     }
                 } else {
-                    QStringList values = resultValue.split(QLatin1Char(';'));
+                    const QStringList values = resultValue.split(QLatin1Char(';'));
                     QStringList remainingValues;
                     int ix = 0;
                     for (auto &val : values) {
