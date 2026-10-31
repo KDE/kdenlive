@@ -25,7 +25,6 @@ Rectangle
     signal seek(int position)
 
     onKfrCountChanged: {
-        parent.hasKeyframes = kfrCount > 1
         keyframecanvas.requestPaint()
     }
 

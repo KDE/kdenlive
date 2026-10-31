@@ -105,6 +105,15 @@ Rectangle {
     signal trimmingOut(var clip, real newDuration, bool shiftTrim, bool controlTrim)
     signal trimmedOut(var clip, bool shiftTrim, bool controlTrim)
 
+    component ClipMarker: Rectangle {
+        property string markerText
+        property color markerColor
+        property int position
+        property bool hasRange: false
+        property real duration: 0
+        property int id
+    }
+
     onVisibleChanged: {
         if (clipRoot.visible) {
             updateLabelOffset()
@@ -668,14 +677,8 @@ Rectangle {
             }
             Component {
                 id: markerComponent
-                Rectangle {
+                ClipMarker {
                     id: markerBase
-                    property string markerText
-                    property color markerColor
-                    property int position
-                    property bool hasRange: false
-                    property real duration: 0
-                    property int id
                     width: hasRange ? Math.max(1, Math.round(duration / clipRoot.speed * clipRoot.timeScale)) : 1
                     height: hasRange ? textMetrics.height + 2 : container.height
                     x: clipRoot.speed < 0
@@ -1532,9 +1535,8 @@ Rectangle {
                 clip: true
                 anchors.fill: parent
                 asynchronous: true
-                property bool hasKeyframes: false
                 active: clipRoot.visible
-                visible: status == Loader.Ready && clipRoot.showKeyframes && clipRoot.keyframeModel && hasKeyframes && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
+                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && (effectRow.item as KeyframeView).kfrCount > 1 && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item
