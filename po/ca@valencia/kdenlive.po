@@ -4769,7 +4769,7 @@ msgid ""
 "Set weight for RED component.<br>\n"
 "        Is used in saturation and lightness processing."
 msgstr ""
-"Establix el pes del component VERMELL.<br>\n"
+"Establix el pes del component ROIG.<br>\n"
 "        S'utilitza en el processament de la saturació i la claredat."
 
 #: data/effects/avfilter/avfilter_huesaturation.xml:39
@@ -42301,7 +42301,7 @@ msgstr "Clip de títol"
 #: src/ui/titlewidget_ui.ui:26 src/ui/titlewidget_ui.ui:39
 #, kde-format
 msgid "V"
-msgstr "V"
+msgstr "R"
 
 #. i18n: ectx: property (text), widget (QCheckBox, displayBg)
 #: src/ui/titlewidget_ui.ui:117
