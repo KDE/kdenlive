@@ -50,7 +50,6 @@ Row {
                        // No thumbs
                        return 0 // 0: will disable thumbnails
                }
-        }
         property int startFrame: thumbRow.parentClip.inPoint
         property int endFrame: thumbRow.parentClip.outPoint
         property real imageWidth: Math.max(thumbRow.thumbWidth, parent.width / thumbRepeater.count)
