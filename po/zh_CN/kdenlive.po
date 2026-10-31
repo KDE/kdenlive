@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-30 00:53+0000\n"
+"POT-Creation-Date: 2026-10-31 00:50+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20673,7 +20673,7 @@ msgid "No audio"
 msgstr "无音频"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:590
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:608
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -27153,7 +27153,7 @@ msgstr "复制效果"
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:620
 #: src/effects/effectstack/model/effectstackmodel.cpp:747
-#: src/effects/effectstack/model/effectstackmodel.cpp:1538
+#: src/effects/effectstack/model/effectstackmodel.cpp:1547
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "效果 %1 不能被添加两次。"
@@ -35069,7 +35069,7 @@ msgstr "粘贴片段"
 #: src/timeline2/model/timelinefunctions.cpp:2184
 #: src/timeline2/model/timelinefunctions.cpp:2207
 #: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2664
+#: src/timeline2/model/timelinefunctions.cpp:2665
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "没有足够的轨道来粘贴剪贴板内容"
@@ -35090,15 +35090,15 @@ msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "没有足够的轨道以粘贴剪贴板内容 (需要 %1 条音频轨道，%2 条视频轨道)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2272
-#: src/timeline2/model/timelinefunctions.cpp:2293
-#: src/timeline2/model/timelinefunctions.cpp:2324
-#: src/timeline2/model/timelinefunctions.cpp:2329
+#: src/timeline2/model/timelinefunctions.cpp:2273
+#: src/timeline2/model/timelinefunctions.cpp:2294
+#: src/timeline2/model/timelinefunctions.cpp:2325
+#: src/timeline2/model/timelinefunctions.cpp:2330
 #, kde-format
 msgid "Pasted clips"
 msgstr "已粘贴片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:2313
+#: src/timeline2/model/timelinefunctions.cpp:2314
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -35107,67 +35107,67 @@ msgstr ""
 "源项目帧率 (%1fps) 与您的当前项目不同。<br/>片段或者关键帧的位置可能会因此发"
 "生混乱。"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #, kde-format
 msgid "Pasting Warning"
 msgstr "粘贴警告"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "粘贴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2448
-#: src/timeline2/model/timelinefunctions.cpp:2572
-#: src/timeline2/model/timelinefunctions.cpp:2600
+#: src/timeline2/model/timelinefunctions.cpp:2449
+#: src/timeline2/model/timelinefunctions.cpp:2573
+#: src/timeline2/model/timelinefunctions.cpp:2601
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "无法添加项目素材箱片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:2656
+#: src/timeline2/model/timelinefunctions.cpp:2657
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "存在复制失败的片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:2712
-#: src/timeline2/model/timelinefunctions.cpp:2895
+#: src/timeline2/model/timelinefunctions.cpp:2713
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "无法粘贴项目到时间轴"
 
-#: src/timeline2/model/timelinefunctions.cpp:2919
+#: src/timeline2/model/timelinefunctions.cpp:2920
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "粘贴时间轴片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:3139
+#: src/timeline2/model/timelinefunctions.cpp:3140
 #, kde-format
 msgid "Remove space on track"
 msgstr "移除轨道中的空白"
 
-#: src/timeline2/model/timelinefunctions.cpp:3170
+#: src/timeline2/model/timelinefunctions.cpp:3171
 #, kde-format
 msgid "Delete clips on track"
 msgstr "删除轨道中的片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:3191
+#: src/timeline2/model/timelinefunctions.cpp:3192
 #, kde-format
 msgid "No clips found in timeline"
 msgstr "时间轴中未找到片段"
 
-#: src/timeline2/model/timelinefunctions.cpp:3220
+#: src/timeline2/model/timelinefunctions.cpp:3221
 #, kde-format
 msgid "No gaps found in timeline"
 msgstr "时间轴中未发现间隙"
 
-#: src/timeline2/model/timelinefunctions.cpp:3229
-#: src/timeline2/model/timelinefunctions.cpp:3261
+#: src/timeline2/model/timelinefunctions.cpp:3230
+#: src/timeline2/model/timelinefunctions.cpp:3262
 #, kde-format
 msgid "Gap"
 msgstr "间隙"
 
-#: src/timeline2/model/timelinefunctions.cpp:3254
+#: src/timeline2/model/timelinefunctions.cpp:3255
 #, kde-format
 msgid "No gaps found on selected track"
 msgstr "所选轨道中未发现间隙"

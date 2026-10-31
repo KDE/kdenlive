@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: l 10n\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-30 00:53+0000\n"
+"POT-Creation-Date: 2026-10-31 00:50+0000\n"
 "PO-Revision-Date: 2019-07-12 21:09+0300\n"
 "Last-Translator: Moo\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -21374,7 +21374,7 @@ msgid "No audio"
 msgstr "Išskleisti į"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:590
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:608
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, fuzzy, kde-format
 #| msgid "B"
@@ -28198,7 +28198,7 @@ msgstr "efektas"
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:620
 #: src/effects/effectstack/model/effectstackmodel.cpp:747
-#: src/effects/effectstack/model/effectstackmodel.cpp:1538
+#: src/effects/effectstack/model/effectstackmodel.cpp:1547
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr ""
@@ -36501,7 +36501,7 @@ msgstr "Nutildyti video iškarpą"
 #: src/timeline2/model/timelinefunctions.cpp:2184
 #: src/timeline2/model/timelinefunctions.cpp:2207
 #: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2664
+#: src/timeline2/model/timelinefunctions.cpp:2665
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr ""
@@ -36522,90 +36522,90 @@ msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2272
-#: src/timeline2/model/timelinefunctions.cpp:2293
-#: src/timeline2/model/timelinefunctions.cpp:2324
-#: src/timeline2/model/timelinefunctions.cpp:2329
+#: src/timeline2/model/timelinefunctions.cpp:2273
+#: src/timeline2/model/timelinefunctions.cpp:2294
+#: src/timeline2/model/timelinefunctions.cpp:2325
+#: src/timeline2/model/timelinefunctions.cpp:2330
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Pasted clips"
 msgstr "Nutildyti video iškarpą"
 
-#: src/timeline2/model/timelinefunctions.cpp:2313
+#: src/timeline2/model/timelinefunctions.cpp:2314
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #: src/titler/titlewidget.cpp:4153
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Paste"
 msgstr "Nutildyti video iškarpą"
 
-#: src/timeline2/model/timelinefunctions.cpp:2448
-#: src/timeline2/model/timelinefunctions.cpp:2572
-#: src/timeline2/model/timelinefunctions.cpp:2600
+#: src/timeline2/model/timelinefunctions.cpp:2449
+#: src/timeline2/model/timelinefunctions.cpp:2573
+#: src/timeline2/model/timelinefunctions.cpp:2601
 #, fuzzy, kde-format
 #| msgid "Audio clip"
 msgid "Could not add bin clip"
 msgstr "Garso iškarpa"
 
-#: src/timeline2/model/timelinefunctions.cpp:2656
+#: src/timeline2/model/timelinefunctions.cpp:2657
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2712
-#: src/timeline2/model/timelinefunctions.cpp:2895
+#: src/timeline2/model/timelinefunctions.cpp:2713
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2919
+#: src/timeline2/model/timelinefunctions.cpp:2920
 #, fuzzy, kde-format
 #| msgid "Mute video clip"
 msgid "Paste timeline clips"
 msgstr "Nutildyti video iškarpą"
 
-#: src/timeline2/model/timelinefunctions.cpp:3139
+#: src/timeline2/model/timelinefunctions.cpp:3140
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove space on track"
 msgstr "Pašalinti failą"
 
-#: src/timeline2/model/timelinefunctions.cpp:3170
+#: src/timeline2/model/timelinefunctions.cpp:3171
 #, fuzzy, kde-format
 #| msgid "Delete files"
 msgid "Delete clips on track"
 msgstr "Trinti failus"
 
-#: src/timeline2/model/timelinefunctions.cpp:3191
+#: src/timeline2/model/timelinefunctions.cpp:3192
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No clips found in timeline"
 msgstr "Laiko juosta"
 
-#: src/timeline2/model/timelinefunctions.cpp:3220
+#: src/timeline2/model/timelinefunctions.cpp:3221
 #, fuzzy, kde-format
 #| msgid "Timeline"
 msgid "No gaps found in timeline"
 msgstr "Laiko juosta"
 
-#: src/timeline2/model/timelinefunctions.cpp:3229
-#: src/timeline2/model/timelinefunctions.cpp:3261
+#: src/timeline2/model/timelinefunctions.cpp:3230
+#: src/timeline2/model/timelinefunctions.cpp:3262
 #, kde-format
 msgid "Gap"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:3254
+#: src/timeline2/model/timelinefunctions.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "No gaps found on selected track"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-30 00:53+0000\n"
+"POT-Creation-Date: 2026-10-31 00:50+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -21552,7 +21552,7 @@ msgid "No audio"
 msgstr "Gan aon fhuaim"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:590
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:608
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -28326,7 +28326,7 @@ msgstr "Éifeacht chóipeála"
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:620
 #: src/effects/effectstack/model/effectstackmodel.cpp:747
-#: src/effects/effectstack/model/effectstackmodel.cpp:1538
+#: src/effects/effectstack/model/effectstackmodel.cpp:1547
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "Ní féidir éifeacht %1 a chur leis faoi dhó."
@@ -36553,7 +36553,7 @@ msgstr "Greamaigh gearrthóga"
 #: src/timeline2/model/timelinefunctions.cpp:2184
 #: src/timeline2/model/timelinefunctions.cpp:2207
 #: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2664
+#: src/timeline2/model/timelinefunctions.cpp:2665
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Níl dóthain rianta ann chun an gearrthaisce a ghreamú"
@@ -36576,15 +36576,15 @@ msgstr ""
 "Níl dóthain rianta ann le greamú ón ngearrthaisce (éilíonn %1 rian fuaime, "
 "%2 rian físe)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2272
-#: src/timeline2/model/timelinefunctions.cpp:2293
-#: src/timeline2/model/timelinefunctions.cpp:2324
-#: src/timeline2/model/timelinefunctions.cpp:2329
+#: src/timeline2/model/timelinefunctions.cpp:2273
+#: src/timeline2/model/timelinefunctions.cpp:2294
+#: src/timeline2/model/timelinefunctions.cpp:2325
+#: src/timeline2/model/timelinefunctions.cpp:2330
 #, kde-format
 msgid "Pasted clips"
 msgstr "Gearrthóga greamaithe"
 
-#: src/timeline2/model/timelinefunctions.cpp:2313
+#: src/timeline2/model/timelinefunctions.cpp:2314
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -36594,69 +36594,69 @@ msgstr ""
 "thionscadal reatha.<br/>D’fhéadfadh praiseach a bheith sna gearrthóga nó sna "
 "frámaí eochair."
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Rabhadh á Ghreamú"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Greamaigh"
 
-#: src/timeline2/model/timelinefunctions.cpp:2448
-#: src/timeline2/model/timelinefunctions.cpp:2572
-#: src/timeline2/model/timelinefunctions.cpp:2600
+#: src/timeline2/model/timelinefunctions.cpp:2449
+#: src/timeline2/model/timelinefunctions.cpp:2573
+#: src/timeline2/model/timelinefunctions.cpp:2601
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Níorbh fhéidir gearrthóg bruscair a chur leis"
 
-#: src/timeline2/model/timelinefunctions.cpp:2656
+#: src/timeline2/model/timelinefunctions.cpp:2657
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2712
-#: src/timeline2/model/timelinefunctions.cpp:2895
+#: src/timeline2/model/timelinefunctions.cpp:2713
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Níorbh fhéidir míreanna a ghreamú sa líne ama"
 
-#: src/timeline2/model/timelinefunctions.cpp:2919
+#: src/timeline2/model/timelinefunctions.cpp:2920
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Greamaigh gearrthóga ama"
 
-#: src/timeline2/model/timelinefunctions.cpp:3139
+#: src/timeline2/model/timelinefunctions.cpp:3140
 #, kde-format
 msgid "Remove space on track"
 msgstr "Bain spás ar an mbóthar"
 
-#: src/timeline2/model/timelinefunctions.cpp:3170
+#: src/timeline2/model/timelinefunctions.cpp:3171
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Scrios gearrthóga ar an rian"
 
-#: src/timeline2/model/timelinefunctions.cpp:3191
+#: src/timeline2/model/timelinefunctions.cpp:3192
 #, fuzzy, kde-format
 #| msgid "No clip selected in timeline"
 msgid "No clips found in timeline"
 msgstr "Níl aon ghearrthóg roghnaithe sa líne ama"
 
-#: src/timeline2/model/timelinefunctions.cpp:3220
+#: src/timeline2/model/timelinefunctions.cpp:3221
 #, fuzzy, kde-format
 #| msgid "No clip selected in timeline"
 msgid "No gaps found in timeline"
 msgstr "Níl aon ghearrthóg roghnaithe sa líne ama"
 
-#: src/timeline2/model/timelinefunctions.cpp:3229
-#: src/timeline2/model/timelinefunctions.cpp:3261
+#: src/timeline2/model/timelinefunctions.cpp:3230
+#: src/timeline2/model/timelinefunctions.cpp:3262
 #, kde-format
 msgid "Gap"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:3254
+#: src/timeline2/model/timelinefunctions.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Cannot paste effect to selected track"
 msgid "No gaps found on selected track"

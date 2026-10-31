@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-30 00:53+0000\n"
+"POT-Creation-Date: 2026-10-31 00:50+0000\n"
 "PO-Revision-Date: 2023-10-11 17:09+0400\n"
 "Last-Translator: Kheyyam <xxmn77@gmail.com>\n"
 "Language-Team: Azerbaijani <kde-i18n-doc@kde.org>\n"
@@ -21676,7 +21676,7 @@ msgid "No audio"
 msgstr "Səsin yazılışı"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
-#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:590
+#: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:608
 #: src/mltcontroller/clippropertiescontroller.cpp:1045
 #, kde-format
 msgid "dB"
@@ -28485,7 +28485,7 @@ msgstr "Effekti kopyalayın"
 #: src/effects/effectstack/model/effectstackmodel.cpp:432
 #: src/effects/effectstack/model/effectstackmodel.cpp:620
 #: src/effects/effectstack/model/effectstackmodel.cpp:747
-#: src/effects/effectstack/model/effectstackmodel.cpp:1538
+#: src/effects/effectstack/model/effectstackmodel.cpp:1547
 #, kde-format
 msgid "Effect %1 cannot be added twice."
 msgstr "%1 effekti iki dəfə əlavə edilə bilməz."
@@ -36833,7 +36833,7 @@ msgstr "Klipləri yerləşdirin"
 #: src/timeline2/model/timelinefunctions.cpp:2184
 #: src/timeline2/model/timelinefunctions.cpp:2207
 #: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2664
+#: src/timeline2/model/timelinefunctions.cpp:2665
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "mübadilə yaddaşına qoymaq üçün kifayət qədər cığırlar yoxdur"
@@ -36856,15 +36856,15 @@ msgstr ""
 "Mübadilə yaddaşına əlavə üçün kifayət qədər cığırlar yoxdur (tələb olunur %1 "
 "səs, %2 video çığır)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2272
-#: src/timeline2/model/timelinefunctions.cpp:2293
-#: src/timeline2/model/timelinefunctions.cpp:2324
-#: src/timeline2/model/timelinefunctions.cpp:2329
+#: src/timeline2/model/timelinefunctions.cpp:2273
+#: src/timeline2/model/timelinefunctions.cpp:2294
+#: src/timeline2/model/timelinefunctions.cpp:2325
+#: src/timeline2/model/timelinefunctions.cpp:2330
 #, kde-format
 msgid "Pasted clips"
 msgstr "Kliplər yerləşdirildi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2313
+#: src/timeline2/model/timelinefunctions.cpp:2314
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -36873,70 +36873,70 @@ msgstr ""
 "Mənbə layihəsində cari lahiyənizdə olandan fərqli kadr tezliyi (%1) var. <br/"
 ">Kliplər və əsas kadrlar qarışıq ola bilər."
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Yerləşdirmə xəbərdarlığı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2315
+#: src/timeline2/model/timelinefunctions.cpp:2316
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Yerləşdirin"
 
-#: src/timeline2/model/timelinefunctions.cpp:2448
-#: src/timeline2/model/timelinefunctions.cpp:2572
-#: src/timeline2/model/timelinefunctions.cpp:2600
+#: src/timeline2/model/timelinefunctions.cpp:2449
+#: src/timeline2/model/timelinefunctions.cpp:2573
+#: src/timeline2/model/timelinefunctions.cpp:2601
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Qutu klipi əlavə edilə bilmədi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2656
+#: src/timeline2/model/timelinefunctions.cpp:2657
 #, fuzzy, kde-format
 #| msgid "All clips were not successfully copied"
 msgid "Not all clips were copied successfully"
 msgstr "Kliplərin hamısı uğurla kopyalanmadı"
 
-#: src/timeline2/model/timelinefunctions.cpp:2712
-#: src/timeline2/model/timelinefunctions.cpp:2895
+#: src/timeline2/model/timelinefunctions.cpp:2713
+#: src/timeline2/model/timelinefunctions.cpp:2896
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Elemntlər zaman qrafikinə əlavə edilə bilmədi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2919
+#: src/timeline2/model/timelinefunctions.cpp:2920
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Klipləri zaman qrafikinə qoyun"
 
-#: src/timeline2/model/timelinefunctions.cpp:3139
+#: src/timeline2/model/timelinefunctions.cpp:3140
 #, kde-format
 msgid "Remove space on track"
 msgstr "Cığırdakı boşluğu silmək"
 
-#: src/timeline2/model/timelinefunctions.cpp:3170
+#: src/timeline2/model/timelinefunctions.cpp:3171
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Çığırdakı klipləri silmək"
 
-#: src/timeline2/model/timelinefunctions.cpp:3191
+#: src/timeline2/model/timelinefunctions.cpp:3192
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No clips found in timeline"
 msgstr "Zaman xəttində heç bir elemt seçilməyib"
 
-#: src/timeline2/model/timelinefunctions.cpp:3220
+#: src/timeline2/model/timelinefunctions.cpp:3221
 #, fuzzy, kde-format
 #| msgid "No item selected in timeline"
 msgid "No gaps found in timeline"
 msgstr "Zaman xəttində heç bir elemt seçilməyib"
 
-#: src/timeline2/model/timelinefunctions.cpp:3229
-#: src/timeline2/model/timelinefunctions.cpp:3261
+#: src/timeline2/model/timelinefunctions.cpp:3230
+#: src/timeline2/model/timelinefunctions.cpp:3262
 #, kde-format
 msgid "Gap"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:3254
+#: src/timeline2/model/timelinefunctions.cpp:3255
 #, fuzzy, kde-format
 #| msgid "Cannot paste effect to selected track"
 msgid "No gaps found on selected track"
