@@ -28,7 +28,10 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialOut), QVariant(QLatin1Char('q')));
 
     const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
+    QChar mod;
+    if (value.indexOf(QLatin1Char('=')) > 0) {
+        mod = value.section(QLatin1Char('='), 0, -2).back();
+    }
     if (mod.isDigit()) {
         mod = QChar();
     }
