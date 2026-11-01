@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-25 02:50+0000\n"
+"POT-Creation-Date: 2026-11-01 03:02+0000\n"
 "PO-Revision-Date: 2026-01-28 22:58+0000\n"
 "Last-Translator: Charlotte <altronic25@protonmail.com>\n"
 "Language-Team: Irish\n"
@@ -21395,7 +21395,7 @@ msgstr "Tarraing chun fuaim amháin a chur leis an amlíne"
 msgid "Drag to add only video to timeline"
 msgstr "Tarraing chun físeán amháin a chur leis an amlíne"
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1489
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1492
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -28618,7 +28618,7 @@ msgid "Clip in Timeline"
 msgstr "Gearrthóg san Amlíne"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1196
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1191
 #, kde-format
 msgid "Sequence"
 msgstr "Seicheamh"
@@ -36645,49 +36645,49 @@ msgid "Stop"
 msgstr "Stad"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2312
 #, kde-format
 msgid "Paused"
 msgstr "Sosaithe"
 
-#: src/timeline2/view/qml/Clip.qml:243 src/timeline2/view/qml/Clip.qml:1270
+#: src/timeline2/view/qml/Clip.qml:252 src/timeline2/view/qml/Clip.qml:1273
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Suíomh: %4, Fad: %5"
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:355
+#: src/timeline2/view/qml/Clip.qml:349 src/timeline2/view/qml/Clip.qml:364
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, kde-format
 msgid "Position: %1"
 msgstr "Suíomh: %1"
 
-#: src/timeline2/view/qml/Clip.qml:569
+#: src/timeline2/view/qml/Clip.qml:578
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Fad meascáin: %1, Gearradh ag: %2"
 
-#: src/timeline2/view/qml/Clip.qml:623
+#: src/timeline2/view/qml/Clip.qml:632
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Fad meascáin: %2"
 
-#: src/timeline2/view/qml/Clip.qml:625
+#: src/timeline2/view/qml/Clip.qml:634
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Fad meascáin: %2"
 
-#: src/timeline2/view/qml/Clip.qml:628 src/timeline2/view/qml/Clip.qml:643
+#: src/timeline2/view/qml/Clip.qml:637 src/timeline2/view/qml/Clip.qml:652
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Fad meascáin: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1152
+#: src/timeline2/view/qml/Clip.qml:1155
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "I:%1, Suíomh:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1155 src/timeline2/view/qml/Clip.qml:1260
+#: src/timeline2/view/qml/Clip.qml:1158 src/timeline2/view/qml/Clip.qml:1263
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -36696,54 +36696,54 @@ msgstr ""
 "<b>Tarraing le Ctrl</b> chun an luas a athrú, <b>Cliceáil faoi dhó</b> chun "
 "meascadh leis an ngearrthóg in aice láimhe"
 
-#: src/timeline2/view/qml/Clip.qml:1157
+#: src/timeline2/view/qml/Clip.qml:1160
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Tarraing</b> chun fad an mheascáin a athrú"
 
-#: src/timeline2/view/qml/Clip.qml:1257
+#: src/timeline2/view/qml/Clip.qml:1260
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Amach:%1, Suíomh:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1396
+#: src/timeline2/view/qml/Clip.qml:1399
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Fritháireamh: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1397
+#: src/timeline2/view/qml/Clip.qml:1400
 #, kde-format
 msgid "Offset: %1"
 msgstr "Fritháireamh: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1398
+#: src/timeline2/view/qml/Clip.qml:1401
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Cliceáil</b> chun gearrthóga a ailíniú"
 
-#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1684
+#: src/timeline2/view/qml/Clip.qml:1645 src/timeline2/view/qml/Clip.qml:1686
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Cliceáil</b> chun comhdhéanamh a chur leis"
 
-#: src/timeline2/view/qml/Clip.qml:1763 src/timeline2/view/qml/Clip.qml:1770
+#: src/timeline2/view/qml/Clip.qml:1765 src/timeline2/view/qml/Clip.qml:1772
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Céimniú amach: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1774 src/timeline2/view/qml/Clip.qml:1883
+#: src/timeline2/view/qml/Clip.qml:1776 src/timeline2/view/qml/Clip.qml:1885
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Tarraing</b> chun an céimniú a choigeartú, <b>Cliceáil</b> chun an fad "
 "céimnithe réamhshocraithe a chur leis"
 
-#: src/timeline2/view/qml/Clip.qml:1872 src/timeline2/view/qml/Clip.qml:1879
+#: src/timeline2/view/qml/Clip.qml:1874 src/timeline2/view/qml/Clip.qml:1881
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Céimniú isteach: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1967
+#: src/timeline2/view/qml/Clip.qml:1969
 #, kde-format
 msgid "Slip Clip"
 msgstr "Gearrthóg Sleamhnáin"
@@ -36808,8 +36808,8 @@ msgstr "Taispeáin"
 msgid "Hide"
 msgstr "Folaigh"
 
-#: src/timeline2/view/qml/Timeline.qml:903
-#: src/timeline2/view/qml/Timeline.qml:913
+#: src/timeline2/view/qml/Timeline.qml:901
+#: src/timeline2/view/qml/Timeline.qml:911
 #, fuzzy, kde-format
 #| msgid "Not enough audio tracks for all streams (%1)"
 msgid "Audio: %1 track for %2 streams"
@@ -36820,28 +36820,28 @@ msgstr[2] "Gan dóthain rianta fuaime do na sruthanna uile (%1)"
 msgstr[3] "Gan dóthain rianta fuaime do na sruthanna uile (%1)"
 msgstr[4] "Gan dóthain rianta fuaime do na sruthanna uile (%1)"
 
-#: src/timeline2/view/qml/Timeline.qml:1190
+#: src/timeline2/view/qml/Timeline.qml:1185
 #, kde-format
 msgid "Show sequence effects"
 msgstr "Taispeáin éifeachtaí seicheamh"
 
-#: src/timeline2/view/qml/Timeline.qml:1942
+#: src/timeline2/view/qml/Timeline.qml:1937
 #, kde-format
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "<b>Cliceáil faoi dhó</b> chun fotheideal a chur leis"
 
-#: src/timeline2/view/qml/Timeline.qml:2136
+#: src/timeline2/view/qml/Timeline.qml:2131
 #, kde-format
 msgid "Offset: %1, Position: %2"
 msgstr "Fritháireamh: %1, Suíomh: %2"
 
-#: src/timeline2/view/qml/Timeline.qml:2306
-#: src/timeline2/view/qml/Timeline.qml:2315
+#: src/timeline2/view/qml/Timeline.qml:2301
+#: src/timeline2/view/qml/Timeline.qml:2310
 #, kde-format
 msgid "Recording"
 msgstr "Taifeadadh"
 
-#: src/timeline2/view/qml/Timeline.qml:2409
+#: src/timeline2/view/qml/Timeline.qml:2404
 #, kde-format
 msgid "Multicam In"
 msgstr "Ilcheamara Isteach"

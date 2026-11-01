@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-25 02:50+0000\n"
+"POT-Creation-Date: 2026-11-01 03:02+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -20724,7 +20724,7 @@ msgstr "Nije moguće dodavanje zvuka na snimak"
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1489
+#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1492
 #, fuzzy, kde-format
 #| msgid "P"
 msgctxt "@label The first letter of Proxy, used as abbreviation"
@@ -28199,7 +28199,7 @@ msgid "Clip in Timeline"
 msgstr "Vremenska osa"
 
 #. i18n: ectx: Menu (sequence)
-#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1196
+#: src/kdenliveui.rc:105 src/timeline2/view/qml/Timeline.qml:1191
 #, fuzzy, kde-format
 #| msgid "Sequence name"
 msgid "Sequence"
@@ -36460,18 +36460,18 @@ msgid "Stop"
 msgstr "Zaustavi"
 
 #: src/timeline2/view/qml/AudioRecordButton.qml:264
-#: src/timeline2/view/qml/Timeline.qml:2317
+#: src/timeline2/view/qml/Timeline.qml:2312
 #, fuzzy, kde-format
 #| msgid "Pause"
 msgid "Paused"
 msgstr "Pauza"
 
-#: src/timeline2/view/qml/Clip.qml:243 src/timeline2/view/qml/Clip.qml:1270
+#: src/timeline2/view/qml/Clip.qml:252 src/timeline2/view/qml/Clip.qml:1273
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:340 src/timeline2/view/qml/Clip.qml:355
+#: src/timeline2/view/qml/Clip.qml:349 src/timeline2/view/qml/Clip.qml:364
 #: src/timeline2/view/qml/SubTitle.qml:219
 #: src/timeline2/view/qml/SubTitle.qml:225
 #, fuzzy, kde-format
@@ -36479,93 +36479,93 @@ msgstr ""
 msgid "Position: %1"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/Clip.qml:569
+#: src/timeline2/view/qml/Clip.qml:578
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:623
+#: src/timeline2/view/qml/Clip.qml:632
 #, fuzzy, kde-format
 #| msgid "Fade in duration: "
 msgid "+%1, Mix duration: %2"
 msgstr "Nestati u trajanju "
 
-#: src/timeline2/view/qml/Clip.qml:625
+#: src/timeline2/view/qml/Clip.qml:634
 #, fuzzy, kde-format
 #| msgid "Fade in duration: "
 msgid "-%1, Mix duration: %2"
 msgstr "Nestati u trajanju "
 
-#: src/timeline2/view/qml/Clip.qml:628 src/timeline2/view/qml/Clip.qml:643
+#: src/timeline2/view/qml/Clip.qml:637 src/timeline2/view/qml/Clip.qml:652
 #, fuzzy, kde-format
 #| msgid "Zone duration: %1"
 msgid "Mix duration: %1"
 msgstr "Trajanje zone: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1152
+#: src/timeline2/view/qml/Clip.qml:1155
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "In:%1, Position:%2"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/Clip.qml:1155 src/timeline2/view/qml/Clip.qml:1260
+#: src/timeline2/view/qml/Clip.qml:1158 src/timeline2/view/qml/Clip.qml:1263
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
 "clip"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1157
+#: src/timeline2/view/qml/Clip.qml:1160
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1257
+#: src/timeline2/view/qml/Clip.qml:1260
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Out:%1, Position:%2"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/Clip.qml:1396
+#: src/timeline2/view/qml/Clip.qml:1399
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: -%1"
 msgstr "Ogranak:"
 
-#: src/timeline2/view/qml/Clip.qml:1397
+#: src/timeline2/view/qml/Clip.qml:1400
 #, fuzzy, kde-format
 #| msgid "Offset:"
 msgid "Offset: %1"
 msgstr "Ogranak:"
 
-#: src/timeline2/view/qml/Clip.qml:1398
+#: src/timeline2/view/qml/Clip.qml:1401
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid " <b>Click</b> to align clips"
 msgstr "Klikni za dodavanje prelaza."
 
-#: src/timeline2/view/qml/Clip.qml:1643 src/timeline2/view/qml/Clip.qml:1684
+#: src/timeline2/view/qml/Clip.qml:1645 src/timeline2/view/qml/Clip.qml:1686
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Click</b> to add composition"
 msgstr "Klikni za dodavanje prelaza."
 
-#: src/timeline2/view/qml/Clip.qml:1763 src/timeline2/view/qml/Clip.qml:1770
+#: src/timeline2/view/qml/Clip.qml:1765 src/timeline2/view/qml/Clip.qml:1772
 #, fuzzy, kde-format
 msgid "Fade out: %1"
 msgstr "Izblijediti"
 
-#: src/timeline2/view/qml/Clip.qml:1774 src/timeline2/view/qml/Clip.qml:1883
+#: src/timeline2/view/qml/Clip.qml:1776 src/timeline2/view/qml/Clip.qml:1885
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 
-#: src/timeline2/view/qml/Clip.qml:1872 src/timeline2/view/qml/Clip.qml:1879
+#: src/timeline2/view/qml/Clip.qml:1874 src/timeline2/view/qml/Clip.qml:1881
 #, fuzzy, kde-format
 msgid "Fade in: %1"
 msgstr "Izblijediti"
 
-#: src/timeline2/view/qml/Clip.qml:1967
+#: src/timeline2/view/qml/Clip.qml:1969
 #, fuzzy, kde-format
 #| msgid "Select Clip"
 msgid "Slip Clip"
@@ -36630,8 +36630,8 @@ msgstr "Prikaži dnevnik"
 msgid "Hide"
 msgstr ""
 
-#: src/timeline2/view/qml/Timeline.qml:903
-#: src/timeline2/view/qml/Timeline.qml:913
+#: src/timeline2/view/qml/Timeline.qml:901
+#: src/timeline2/view/qml/Timeline.qml:911
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "Audio: %1 track for %2 streams"
@@ -36640,32 +36640,32 @@ msgstr[0] "Unesi glavne okvire iz isječka"
 msgstr[1] "Unesi glavne okvire iz isječka"
 msgstr[2] "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/view/qml/Timeline.qml:1190
+#: src/timeline2/view/qml/Timeline.qml:1185
 #, fuzzy, kde-format
 #| msgid "Show all profiles"
 msgid "Show sequence effects"
 msgstr "Prikaži sve profile"
 
-#: src/timeline2/view/qml/Timeline.qml:1942
+#: src/timeline2/view/qml/Timeline.qml:1937
 #, fuzzy, kde-format
 #| msgid "Click to add a transition."
 msgid "<b>Double click</b> to add a subtitle"
 msgstr "Klikni za dodavanje prelaza."
 
-#: src/timeline2/view/qml/Timeline.qml:2136
+#: src/timeline2/view/qml/Timeline.qml:2131
 #, fuzzy, kde-format
 #| msgid "Position: %1"
 msgid "Offset: %1, Position: %2"
 msgstr "Pozicija %1"
 
-#: src/timeline2/view/qml/Timeline.qml:2306
-#: src/timeline2/view/qml/Timeline.qml:2315
+#: src/timeline2/view/qml/Timeline.qml:2301
+#: src/timeline2/view/qml/Timeline.qml:2310
 #, fuzzy, kde-format
 #| msgid "Record"
 msgid "Recording"
 msgstr "Snimaj"
 
-#: src/timeline2/view/qml/Timeline.qml:2409
+#: src/timeline2/view/qml/Timeline.qml:2404
 #, kde-format
 msgid "Multicam In"
 msgstr ""
