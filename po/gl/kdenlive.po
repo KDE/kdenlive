@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-10-31 00:50+0000\n"
+"POT-Creation-Date: 2026-11-01 00:54+0000\n"
 "PO-Revision-Date: 2025-06-21 12:22+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.gal>\n"
 "Language-Team: Proxecto Trasno (proxecto@trasno.gal)\n"
@@ -33,14 +33,12 @@ msgstr "xosecalvo@gmail.com, adrian@chaves.gal"
 
 #. i18n: file: data/layouts/editing.json
 #. i18n: file: data/layouts/editing_vertical.json
-#, fuzzy, kde-format
-#| msgid "Editing"
+#, kde-format
 msgid "Editing"
 msgstr "Edición"
 
 #. i18n: file: data/layouts/logging.json
-#, fuzzy, kde-format
-#| msgid "Logging"
+#, kde-format
 msgid "Logging"
 msgstr "Rexistro"
 
@@ -2676,7 +2674,8 @@ msgid "Adjust RGB color curves per channel."
 msgstr "Número de valores por canle."
 
 #: data/effects/avfilter/avfilter_curves.xml:8
-#, kde-format
+#, fuzzy, kde-format
+#| msgid "All"
 msgid "All"
 msgstr "Todo"
 
@@ -3455,7 +3454,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:11
-#: data/effects/frei0r/frei0r_camerashake.xml:37 src/bin/bin.cpp:2919
+#: data/effects/frei0r/frei0r_camerashake.xml:37 src/bin/bin.cpp:2917
 #: src/mltcontroller/clippropertiescontroller.cpp:657
 #, kde-format
 msgid "Color"
@@ -4454,7 +4453,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
-#: src/bin/bin.cpp:1564 src/bin/projectitemmodel.cpp:341
+#: src/bin/bin.cpp:1562 src/bin/projectitemmodel.cpp:341
 #: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
@@ -7343,8 +7342,8 @@ msgstr "<![CDATA[Define a opacidade da imaxe de fondo.]]>"
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8
-#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1675
-#: src/bin/bin.cpp:1680 src/bin/bin.cpp:2775
+#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1673
+#: src/bin/bin.cpp:1678 src/bin/bin.cpp:2773
 #, kde-format
 msgid "Filter"
 msgstr "Filtro"
@@ -7561,7 +7560,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1568 src/bin/projectitemmodel.cpp:347
+#: src/bin/bin.cpp:1566 src/bin/projectitemmodel.cpp:347
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
 #: src/timeline2/view/qml/Track.qml:98 src/timeline2/view/qml/Track.qml:124
 #: src/timeline2/view/qml/Track.qml:132 src/ui/clipdurationdialog_ui.ui:18
@@ -10633,8 +10632,7 @@ msgid "HQ 3D Denoiser (frei0r)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_denoise_hqdn3d.xml:5
-#, fuzzy, kde-format
-#| msgid "High quality 3D denoiser"
+#, kde-format
 msgid "High quality 3D denoiser"
 msgstr "Redutor de ruído 3D de alta calidade"
 
@@ -13702,7 +13700,7 @@ msgstr ""
 msgid "Displacement amount"
 msgstr "Cantidade de matiz"
 
-#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1580
+#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1578
 #: src/bin/projectitemmodel.cpp:359
 #, kde-format
 msgid "FPS"
@@ -21087,7 +21085,7 @@ msgstr "Amosar ou agochar as descricións dos efectos"
 msgid "Show/hide description of the compositions"
 msgstr "Amosar ou agochar as descricións das composicións"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1456
+#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1454
 #: src/dialogs/renderwidget.cpp:576 src/project/dialogs/profilewidget.cpp:155
 #: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2691
 #, kde-format
@@ -21248,7 +21246,7 @@ msgstr "Facer un seguimento dos efectos de %1"
 msgid "Bin %1 effects"
 msgstr "Tirar os efectos de %1"
 
-#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4360
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4362
 #: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
@@ -21256,7 +21254,7 @@ msgstr "Tirar os efectos de %1"
 msgid "Show log"
 msgstr "Amosar o rexistro"
 
-#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4363
+#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4365
 #: src/dialogs/textbasededit.cpp:766
 #: src/effects/effectstack/view/maskmanager.cpp:117
 #, kde-format
@@ -21684,7 +21682,7 @@ msgid "Limit automatic keyframes"
 msgstr "Limitar os fotogramas clave automáticos."
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:280 src/bin/bin.cpp:1622
+#: src/assets/view/widgets/keyframecontainer.cpp:280 src/bin/bin.cpp:1620
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -21717,28 +21715,28 @@ msgstr "Os fotogramas clave copiáronse"
 msgid "No valid keyframe data in clipboard"
 msgstr "Non hai datos de fotogramas clave válidos no portapapeis"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1129
+#: src/assets/view/widgets/keyframecontainer.cpp:1133
 #, kde-format
 msgid "Cannot copy current parameter values"
 msgstr "Non é posíbel copar os valores actuais dos parámetros"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1134
-#: src/assets/view/widgets/keyframecontainer.cpp:1145
+#: src/assets/view/widgets/keyframecontainer.cpp:1138
+#: src/assets/view/widgets/keyframecontainer.cpp:1149
 #, kde-format
 msgid "Current values copied"
 msgstr "Copiáronse os valores actuais"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1157
+#: src/assets/view/widgets/keyframecontainer.cpp:1161
 #, kde-format
 msgid "No keyframe data in clipboard"
 msgstr "Non hai datos de fotogramas clave no portapapeis."
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1240
+#: src/assets/view/widgets/keyframecontainer.cpp:1244
 #, kde-format
 msgid "Cannot remove the last keyframe"
 msgstr "Non é posíbel retirar o último fotograma clave"
 
-#: src/assets/view/widgets/keyframecontainer.cpp:1252
+#: src/assets/view/widgets/keyframecontainer.cpp:1256
 #, kde-format
 msgid "Remove keyframe"
 msgid_plural "Remove keyframes"
@@ -22160,29 +22158,29 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:697 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:323 src/bin/bin.cpp:692 src/monitor/view/ClipMonitor.qml:525
 #, fuzzy, kde-format
 #| msgid "Cannot add an audio effect to this clip"
 msgid "Drag to add only audio to timeline"
 msgstr "Non se pode engadir un efecto de son a este fragmento"
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:701 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:327 src/bin/bin.cpp:696 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:465 src/bin/bin.cpp:855 src/timeline2/view/qml/Clip.qml:1555
+#: src/bin/bin.cpp:456 src/bin/bin.cpp:853 src/timeline2/view/qml/Clip.qml:1555
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "M"
 
-#: src/bin/bin.cpp:965 src/bin/bin.cpp:1147
+#: src/bin/bin.cpp:963 src/bin/bin.cpp:1145
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr "<b>Clic duplo</b> para engadir un ficheiro ao proxecto"
 
-#: src/bin/bin.cpp:1053 src/bin/bin.cpp:1198
+#: src/bin/bin.cpp:1051 src/bin/bin.cpp:1196
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
@@ -22191,101 +22189,101 @@ msgstr ""
 "<b>Maiús+mover</b> sobre a miniatura para definir a miniatura "
 "predeterminada, <b>F2</b> para renomear o elemento seleccionado"
 
-#: src/bin/bin.cpp:1055 src/bin/bin.cpp:1200
+#: src/bin/bin.cpp:1053 src/bin/bin.cpp:1198
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
 msgstr "<b>F2</b> para renomear o elemento seleccionado"
 
-#: src/bin/bin.cpp:1327
+#: src/bin/bin.cpp:1325
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] "%1 tarefa"
 msgstr[1] "%1 tarefas"
 
-#: src/bin/bin.cpp:1328
+#: src/bin/bin.cpp:1326
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] "%1 tarefa pendente"
 msgstr[1] "%1 tarefas pendentes"
 
-#: src/bin/bin.cpp:1458
+#: src/bin/bin.cpp:1456
 #, kde-format
 msgid "Bin Search"
 msgstr "Busca na caixa"
 
-#: src/bin/bin.cpp:1511
+#: src/bin/bin.cpp:1509
 #, kde-format
 msgid "View Mode"
 msgstr "Modo de visualización"
 
-#: src/bin/bin.cpp:1514
+#: src/bin/bin.cpp:1512
 #, kde-format
 msgid "Tree View"
 msgstr "Vista en árbore"
 
-#: src/bin/bin.cpp:1521
+#: src/bin/bin.cpp:1519
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Axustar o perfil ao fragmento actual"
 
-#: src/bin/bin.cpp:1525
+#: src/bin/bin.cpp:1523
 #, kde-format
 msgid "Icon View"
 msgstr "Vista con iconas"
 
-#: src/bin/bin.cpp:1533 src/project/dialogs/guideslist.cpp:222
+#: src/bin/bin.cpp:1531 src/project/dialogs/guideslist.cpp:222
 #, kde-format
 msgid "Descending"
 msgstr "Descendente"
 
-#: src/bin/bin.cpp:1549
+#: src/bin/bin.cpp:1547
 #, kde-format
 msgid "Sort By"
 msgstr "Ordenar por"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1552 src/bin/projectitemmodel.cpp:332
+#: src/bin/bin.cpp:1550 src/bin/projectitemmodel.cpp:332
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Nome"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1556 src/bin/projectitemmodel.cpp:335
+#: src/bin/bin.cpp:1554 src/bin/projectitemmodel.cpp:335
 #: src/project/dialogs/projectsettings.cpp:245 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Data"
 
-#: src/bin/bin.cpp:1560 src/bin/projectitemmodel.cpp:338
+#: src/bin/bin.cpp:1558 src/bin/projectitemmodel.cpp:338
 #, kde-format
 msgid "Description"
 msgstr "Descrición"
 
-#: src/bin/bin.cpp:1572
+#: src/bin/bin.cpp:1570
 #, kde-format
 msgid "Insert Order"
 msgstr "Orde de inserción"
 
-#: src/bin/bin.cpp:1576 src/bin/projectitemmodel.cpp:353
+#: src/bin/bin.cpp:1574 src/bin/projectitemmodel.cpp:353
 #, kde-format
 msgid "Rating"
 msgstr "Cualificación"
 
-#: src/bin/bin.cpp:1605
+#: src/bin/bin.cpp:1603
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Desactivar os efectos da caixa"
 
-#: src/bin/bin.cpp:1613
+#: src/bin/bin.cpp:1611
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Amosar unha vista previa do vídeo nas miniaturas"
 
-#: src/bin/bin.cpp:1623
+#: src/bin/bin.cpp:1621
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22295,38 +22293,38 @@ msgstr ""
 "Abre un menú para configurar a caixa do proxecto (p. ex. modo de vista, "
 "ordenación, amosar a cualificación)."
 
-#: src/bin/bin.cpp:1630
+#: src/bin/bin.cpp:1628
 #, kde-format
 msgid "Show Date"
 msgstr "Amosar a data"
 
-#: src/bin/bin.cpp:1634
+#: src/bin/bin.cpp:1632
 #, kde-format
 msgid "Show Description"
 msgstr "Amosar a descrición"
 
-#: src/bin/bin.cpp:1638
+#: src/bin/bin.cpp:1636
 #, kde-format
 msgid "Show Rating"
 msgstr "Amosar a cualificación"
 
-#: src/bin/bin.cpp:1642
+#: src/bin/bin.cpp:1640
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show FPS"
 msgstr "Amosar"
 
-#: src/bin/bin.cpp:1654
+#: src/bin/bin.cpp:1652
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Abrir o cartafol actual nunha nova caixa"
 
-#: src/bin/bin.cpp:1659
+#: src/bin/bin.cpp:1657
 #, kde-format
 msgid "Tags Panel"
 msgstr "Panel de etiquetas"
 
-#: src/bin/bin.cpp:1681
+#: src/bin/bin.cpp:1679
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22338,52 +22336,52 @@ msgstr ""
 "conmutar a visualización do filtro. Prema a icona de frecha para abrir unha "
 "lista de opcións de filtro posíbeis."
 
-#: src/bin/bin.cpp:1716
+#: src/bin/bin.cpp:1714
 #, kde-format
 msgid "Close Current Bin"
 msgstr "Pechar a caixa actual"
 
-#: src/bin/bin.cpp:1728
+#: src/bin/bin.cpp:1726
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Cancelar todas as tarefas"
 
-#: src/bin/bin.cpp:1730
+#: src/bin/bin.cpp:1728
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Cancelar as tarefas do fragmento actual"
 
-#: src/bin/bin.cpp:1732
+#: src/bin/bin.cpp:1730
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Cancelar as tarefas pendentes"
 
-#: src/bin/bin.cpp:1773
+#: src/bin/bin.cpp:1771
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Propiedades do fragmento da caixa"
 
-#: src/bin/bin.cpp:2117
+#: src/bin/bin.cpp:2115
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "Non pode eliminar todas as secuencias dun proxecto"
 
-#: src/bin/bin.cpp:2120
+#: src/bin/bin.cpp:2118
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "A eliminación de secuencias non se pode desfacer"
 
-#: src/bin/bin.cpp:2127
+#: src/bin/bin.cpp:2125
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "Isto eliminará os fragmentos seleccionados da liña de tempo"
 
-#: src/bin/bin.cpp:2130
+#: src/bin/bin.cpp:2128
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Isto eliminará o contido completo do cartafol."
 
-#: src/bin/bin.cpp:2153
+#: src/bin/bin.cpp:2151
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
@@ -22391,17 +22389,17 @@ msgstr ""
 "Non se puideron eliminar algúns dos elementos. Pode ser que haxa instancias "
 "en pistas bloqueadas?"
 
-#: src/bin/bin.cpp:2155
+#: src/bin/bin.cpp:2153
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Eliminar os fragmentos da caixa"
 
-#: src/bin/bin.cpp:2180 src/effects/effectstack/view/maskmanager.cpp:266
+#: src/bin/bin.cpp:2178 src/effects/effectstack/view/maskmanager.cpp:266
 #, kde-format
 msgid "Missing source clip"
 msgstr "Fragmento orixinal ausente"
 
-#: src/bin/bin.cpp:2200 src/bin/bin.cpp:2984
+#: src/bin/bin.cpp:2198 src/bin/bin.cpp:2982
 #: src/effects/effectlist/view/effectlistwidget.cpp:186
 #: src/renderpresets/renderpresetrepository.cpp:170
 #: src/renderpresets/renderpresetrepository.cpp:478
@@ -22409,7 +22407,7 @@ msgstr "Fragmento orixinal ausente"
 msgid "Unable to write to file %1"
 msgstr "Non é posíbel escribir no ficheiro %1"
 
-#: src/bin/bin.cpp:2207 src/bin/bin.cpp:2990 src/doc/kdenlivedoc.cpp:765
+#: src/bin/bin.cpp:2205 src/bin/bin.cpp:2988 src/doc/kdenlivedoc.cpp:765
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -22418,17 +22416,17 @@ msgstr ""
 "Kdenlive modificou o ficheiro de proxecto.\n"
 "Para estar seguro de que non perde datos, creouse unha salvagarda chamada %1."
 
-#: src/bin/bin.cpp:2213
+#: src/bin/bin.cpp:2211
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "Non é posíbel analizar o ficheiro %1"
 
-#: src/bin/bin.cpp:2224
+#: src/bin/bin.cpp:2222
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Non é posíbel substituír o fragmento co ficheiro non válido %1"
 
-#: src/bin/bin.cpp:2250 src/bin/bin.cpp:2481
+#: src/bin/bin.cpp:2248 src/bin/bin.cpp:2479
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -22439,18 +22437,18 @@ msgstr ""
 "problemas na cronoloxía.\n"
 "O substituto ten %1 fotogramas menos."
 
-#: src/bin/bin.cpp:2259 src/bin/bin.cpp:2489
+#: src/bin/bin.cpp:2257 src/bin/bin.cpp:2487
 #: src/bin/model/subtitlemodel.cpp:421
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "O ficheiro seleccionado %1 non é válido."
 
-#: src/bin/bin.cpp:2265
+#: src/bin/bin.cpp:2263
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Non é posíbel atopar o fragmento orixinal para substituír"
 
-#: src/bin/bin.cpp:2296
+#: src/bin/bin.cpp:2294
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -22460,17 +22458,17 @@ msgstr ""
 "substitución na cronoloxía."
 
 # skip-rule: trasno-insert
-#: src/bin/bin.cpp:2302
+#: src/bin/bin.cpp:2300
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr "O fragmento actual <b>%1</b> non está na cronoloxía activa."
 
-#: src/bin/bin.cpp:2307
+#: src/bin/bin.cpp:2305
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "Non pode inserir a secuencia <b>%1</b> sobre si mesma."
 
-#: src/bin/bin.cpp:2326
+#: src/bin/bin.cpp:2324
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
@@ -22478,7 +22476,7 @@ msgstr ""
 "Os fragmentos seleccionados %1 e %2 non coinciden, non se pode substituír "
 "nin son nin vídeo"
 
-#: src/bin/bin.cpp:2337
+#: src/bin/bin.cpp:2335
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -22488,7 +22486,7 @@ msgstr ""
 "activa\n"
 "co fragmento <b>%3</b> (%4)"
 
-#: src/bin/bin.cpp:2342
+#: src/bin/bin.cpp:2340
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -22497,17 +22495,17 @@ msgstr ""
 "Substituír as instancias do fragmento <b>%1</b><br/>na cronoloxía activa\n"
 "co fragmento <b>%2</b>"
 
-#: src/bin/bin.cpp:2344 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2342 src/timeline2/model/timelineitemmodel.cpp:997
 #, kde-format
 msgid "Replace audio"
 msgstr "Substituír o son"
 
-#: src/bin/bin.cpp:2347 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2345 src/timeline2/model/timelineitemmodel.cpp:997
 #, kde-format
 msgid "Replace video"
 msgstr "Substituír o vídeo"
 
-#: src/bin/bin.cpp:2357
+#: src/bin/bin.cpp:2355
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -22516,19 +22514,19 @@ msgstr ""
 "O fragmento de substitución é máis curto que o fragmento orixinal."
 "<br><b>Pode que algúns dos fragmentos da cronoloxía non se substitúan.</b>"
 
-#: src/bin/bin.cpp:2360
+#: src/bin/bin.cpp:2358
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
 "A duración do fragmento de substitución é superior á do fragmento orixinal"
 
-#: src/bin/bin.cpp:2396
+#: src/bin/bin.cpp:2394
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Abrir o substituto de %1"
 
-#: src/bin/bin.cpp:2438
+#: src/bin/bin.cpp:2436
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -22537,7 +22535,7 @@ msgstr ""
 "O fragmento de substitución non contén un fluxo de vídeo. Quere substituír "
 "só o son do fragmento na cronoloxía activa?"
 
-#: src/bin/bin.cpp:2443
+#: src/bin/bin.cpp:2441
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -22546,7 +22544,7 @@ msgstr ""
 "O fragmento de substitución non contén un fluxo de son. Quere substituír só "
 "o vídeo do fragmento na cronoloxía activa?"
 
-#: src/bin/bin.cpp:2447 src/bin/bin.cpp:2473
+#: src/bin/bin.cpp:2445 src/bin/bin.cpp:2471
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -22555,87 +22553,87 @@ msgstr ""
 "Non pode substituír un fragmento con outro de distinto tipo (o son e o vídeo "
 "non coinciden)."
 
-#: src/bin/bin.cpp:2450
+#: src/bin/bin.cpp:2448
 #, kde-format
 msgid "Replace in timeline"
 msgstr "Substituír na cronoloxía"
 
-#: src/bin/bin.cpp:2471 src/bin/bin.cpp:6415 src/bin/clipcreator.cpp:357
+#: src/bin/bin.cpp:2469 src/bin/bin.cpp:6417 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Engadir un fragmento"
 
-#: src/bin/bin.cpp:2521
+#: src/bin/bin.cpp:2519
 #, kde-format
 msgid "Could not locate %1"
 msgstr "Non foi posíbel atopar %1"
 
-#: src/bin/bin.cpp:2654
+#: src/bin/bin.cpp:2652
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "Non é posíbel crear o ficheiro temporal en %1"
 
-#: src/bin/bin.cpp:2661
+#: src/bin/bin.cpp:2659
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Non foi posíbel duplicar a secuencia"
 
-#: src/bin/bin.cpp:2686 src/bin/bin.cpp:2701
+#: src/bin/bin.cpp:2684 src/bin/bin.cpp:2699
 #: src/timeline2/view/timelinecontroller.cpp:963
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Duplicar o fragmento"
 
-#: src/bin/bin.cpp:2829
+#: src/bin/bin.cpp:2827
 #, kde-format
 msgid "Clear Filters"
 msgstr "Retirar os filtros"
 
-#: src/bin/bin.cpp:2835
+#: src/bin/bin.cpp:2833
 #, kde-format
 msgid "No Tags"
 msgstr "Sen etiquetas"
 
-#: src/bin/bin.cpp:2854
+#: src/bin/bin.cpp:2852
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "%1 estrela"
 msgstr[1] "%1 estrelas"
 
-#: src/bin/bin.cpp:2861
+#: src/bin/bin.cpp:2859
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Filtrar por uso"
 
-#: src/bin/bin.cpp:2864
+#: src/bin/bin.cpp:2862
 #, kde-format
 msgid "All Clips"
 msgstr "Todos os fragmentos"
 
-#: src/bin/bin.cpp:2869
+#: src/bin/bin.cpp:2867
 #, kde-format
 msgid "Unused Clips"
 msgstr "Fragmentos sen usar"
 
-#: src/bin/bin.cpp:2873
+#: src/bin/bin.cpp:2871
 #, kde-format
 msgid "Used Clips"
 msgstr "Fragmentos en uso"
 
-#: src/bin/bin.cpp:2880
+#: src/bin/bin.cpp:2878
 #, kde-format
 msgid "Filter by Type"
 msgstr "Filtrar por tipo"
 
-#: src/bin/bin.cpp:2883
+#: src/bin/bin.cpp:2881
 #, kde-format
 msgid "AV Clip"
 msgstr "Fragmento de son e vídeo"
 
-#: src/bin/bin.cpp:2887
+#: src/bin/bin.cpp:2885
 #, kde-format
 msgid "Mute Video"
 msgstr "Silenciar o vídeo"
@@ -22646,7 +22644,7 @@ msgstr "Silenciar o vídeo"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2891 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:2889 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/lib/audio/audioStreamInfo.cpp:25 src/lib/audio/audioStreamInfo.cpp:31
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:685
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
@@ -22656,63 +22654,63 @@ msgstr "Silenciar o vídeo"
 msgid "Audio"
 msgstr "Son"
 
-#: src/bin/bin.cpp:2895 src/mltcontroller/clippropertiescontroller.cpp:390
+#: src/bin/bin.cpp:2893 src/mltcontroller/clippropertiescontroller.cpp:390
 #, kde-format
 msgid "Image"
 msgstr "Imaxe"
 
-#: src/bin/bin.cpp:2899
+#: src/bin/bin.cpp:2897
 #, kde-format
 msgid "Slideshow"
 msgstr "Presentación"
 
-#: src/bin/bin.cpp:2903
+#: src/bin/bin.cpp:2901
 #, kde-format
 msgid "Playlist"
 msgstr "Lista de reprodución"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2907 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
+#: src/bin/bin.cpp:2905 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
 #: src/project/projectmanager.cpp:1784 src/project/projectmanager.cpp:1786
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Secuencias"
 
-#: src/bin/bin.cpp:2911 src/project/dialogs/projectsettings.cpp:213
+#: src/bin/bin.cpp:2909 src/project/dialogs/projectsettings.cpp:213
 #, kde-format
 msgid "Title"
 msgstr "Título"
 
-#: src/bin/bin.cpp:2915
+#: src/bin/bin.cpp:2913
 #, kde-format
 msgid "Title Template"
 msgstr "Modelo de título"
 
-#: src/bin/bin.cpp:2956
+#: src/bin/bin.cpp:2954
 #, fuzzy, kde-format
 #| msgid "Select an object in the image first"
 msgid "Select an option in the menu to enable filtering"
 msgstr "Seleccione primeiro un obxecto na imaxe."
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:3011 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:3009 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Cartafol"
 
-#: src/bin/bin.cpp:3012
+#: src/bin/bin.cpp:3010
 #, kde-format
 msgid "Create bin folder"
 msgstr "Crear un cartafol caixa"
 
-#: src/bin/bin.cpp:3153 src/bin/bin.cpp:3166 src/bin/bin.cpp:4247
+#: src/bin/bin.cpp:3151 src/bin/bin.cpp:3164 src/bin/bin.cpp:4249
 #: src/timeline2/model/timelinemodel.cpp:2623
 #, kde-format
 msgid "Delete Clip"
 msgstr "Eliminar o fragmento"
 
-#: src/bin/bin.cpp:3155 src/bin/bin.cpp:3168
+#: src/bin/bin.cpp:3153 src/bin/bin.cpp:3166
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22721,43 +22719,43 @@ msgid ""
 msgstr ""
 "Elimina os fragmentos seleccionados da caixa do proxecto e da cronoloxía."
 
-#: src/bin/bin.cpp:3156 src/bin/bin.cpp:3169 src/bin/bin.cpp:4223
+#: src/bin/bin.cpp:3154 src/bin/bin.cpp:3167 src/bin/bin.cpp:4225
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Fragmento proxy"
 
-#: src/bin/bin.cpp:3160
+#: src/bin/bin.cpp:3158
 #, kde-format
 msgid "Delete Folder"
 msgstr "Eliminar o cartafol"
 
-#: src/bin/bin.cpp:3161
+#: src/bin/bin.cpp:3159
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Cartafol proxy"
 
-#: src/bin/bin.cpp:3442
+#: src/bin/bin.cpp:3439
 #, kde-format
 msgid "Edit rating"
 msgstr "Editar a cualificación"
 
-#: src/bin/bin.cpp:3444
+#: src/bin/bin.cpp:3441
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Non se pode definir a cualificación deste elemento"
 
-#: src/bin/bin.cpp:4141 src/bin/bin.cpp:4277 src/mainwindow.cpp:147
+#: src/bin/bin.cpp:4143 src/bin/bin.cpp:4279 src/mainwindow.cpp:147
 #: src/timeline2/view/timelinewidget.cpp:241
 #, kde-format
 msgid "Add Clip"
 msgstr "Engadir un fragmento"
 
-#: src/bin/bin.cpp:4161
+#: src/bin/bin.cpp:4163
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Engadir un fragmento ou cartafol…"
 
-#: src/bin/bin.cpp:4162
+#: src/bin/bin.cpp:4164
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22772,103 +22770,103 @@ msgstr ""
 "seleccionar.<nl/> Prema na icona multimedia para abrir unha xanela para "
 "seleccionar ficheiros de orixe."
 
-#: src/bin/bin.cpp:4168
+#: src/bin/bin.cpp:4170
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Engadir un fragmento de cor…"
 
-#: src/bin/bin.cpp:4170
+#: src/bin/bin.cpp:4172
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Engadir unha secuencia de imaxes…"
 
-#: src/bin/bin.cpp:4172
+#: src/bin/bin.cpp:4174
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Engadir un fragmento de título…"
 
-#: src/bin/bin.cpp:4174
+#: src/bin/bin.cpp:4176
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Engadir un título de modelo…"
 
-#: src/bin/bin.cpp:4176
+#: src/bin/bin.cpp:4178
 #, kde-format
 msgid "Create Animation…"
 msgstr "Crear unha animación…"
 
-#: src/bin/bin.cpp:4178
+#: src/bin/bin.cpp:4180
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Engadir unha secuencia…"
 
-#: src/bin/bin.cpp:4182 src/mainwindow.cpp:351
+#: src/bin/bin.cpp:4184 src/mainwindow.cpp:351
 #, kde-format
 msgid "Online Resources"
 msgstr "Recursos en Internet"
 
-#: src/bin/bin.cpp:4186
+#: src/bin/bin.cpp:4188
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Atopar o fragmento…"
 
-#: src/bin/bin.cpp:4191
+#: src/bin/bin.cpp:4193
 #, kde-format
 msgid "Reload Clip"
 msgstr "Recargar o fragmento"
 
-#: src/bin/bin.cpp:4197
+#: src/bin/bin.cpp:4199
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodificar a un formato mellor para edición…"
 
-#: src/bin/bin.cpp:4202
+#: src/bin/bin.cpp:4204
 #, fuzzy, kde-format
 #| msgid "Insert current timecode"
 msgid "Insert at Timecode"
 msgstr "Inserir o código temporal actual"
 
-#: src/bin/bin.cpp:4207
+#: src/bin/bin.cpp:4209
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Substituír o fragmento…"
 
-#: src/bin/bin.cpp:4213
+#: src/bin/bin.cpp:4215
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Substituír o fragmento na cronoloxía…"
 
-#: src/bin/bin.cpp:4218 src/mainwindow_actions.cpp:958
+#: src/bin/bin.cpp:4220 src/mainwindow_actions.cpp:958
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplicar o fragmento"
 
-#: src/bin/bin.cpp:4230 src/bin/bin.cpp:4307
+#: src/bin/bin.cpp:4232 src/bin/bin.cpp:4309
 #, kde-format
 msgid "Clip Properties"
 msgstr "Propiedades do fragmento"
 
-#: src/bin/bin.cpp:4235 src/mltcontroller/clippropertiescontroller.cpp:620
+#: src/bin/bin.cpp:4237 src/mltcontroller/clippropertiescontroller.cpp:620
 #, kde-format
 msgid "Edit Clip"
 msgstr "Editar o fragmento"
 
-#: src/bin/bin.cpp:4253
+#: src/bin/bin.cpp:4255
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Cartafoles de destino predeterminado para as secuencias"
 
-#: src/bin/bin.cpp:4258
+#: src/bin/bin.cpp:4260
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Cartafoles de destino predeterminado para as capturas de son"
 
-#: src/bin/bin.cpp:4262
+#: src/bin/bin.cpp:4264
 #, kde-format
 msgid "Create Folder"
 msgstr "Crear un cartafol"
 
-#: src/bin/bin.cpp:4265
+#: src/bin/bin.cpp:4267
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22878,58 +22876,58 @@ msgstr ""
 "Crea un cartafol na posición actual da caixa do proxecto. Permite organizar "
 "mellor os ficheiros orixinais. Os cartafoles poden aniñarse."
 
-#: src/bin/bin.cpp:4425 src/bin/bin.cpp:4458
+#: src/bin/bin.cpp:4427 src/bin/bin.cpp:4460
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Crear unha nova secuencia"
 
-#: src/bin/bin.cpp:4428 src/bin/bin.cpp:4431 src/bin/bin.cpp:4461
+#: src/bin/bin.cpp:4430 src/bin/bin.cpp:4433 src/bin/bin.cpp:4463
 #, kde-format
 msgid "Sequence %1"
 msgstr "Secuencia %1"
 
-#: src/bin/bin.cpp:4492
+#: src/bin/bin.cpp:4494
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Mover o fragmento"
 msgstr[1] "Mover os fragmentos"
 
-#: src/bin/bin.cpp:4534
+#: src/bin/bin.cpp:4536
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Non hai ningún fragmento válido para inserir"
 
-#: src/bin/bin.cpp:4547 src/timeline2/view/timelinecontroller.cpp:1886
+#: src/bin/bin.cpp:4549 src/timeline2/view/timelinecontroller.cpp:1886
 #: src/timeline2/view/timelinecontroller.cpp:4017
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Seleccione un fragmento para aplicar un efecto"
 
-#: src/bin/bin.cpp:4581 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4583 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Non é posíbel engadir o efecto ao fragmento"
 
-#: src/bin/bin.cpp:4655 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:4657 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "Pegar o efecto"
 
-#: src/bin/bin.cpp:4692 src/bin/bin.cpp:4699
+#: src/bin/bin.cpp:4694 src/bin/bin.cpp:4701
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Seleccione un fragmento para engadir unha etiqueta"
 
-#: src/bin/bin.cpp:4838
+#: src/bin/bin.cpp:4840
 #, kde-format
 msgid "Edit Tags"
 msgstr "Editar as etiquetas"
 
-#: src/bin/bin.cpp:5175 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:5177 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:2053 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
@@ -22937,39 +22935,39 @@ msgstr "Editar as etiquetas"
 msgid "Unnamed"
 msgstr "Sen nome"
 
-#: src/bin/bin.cpp:5239
+#: src/bin/bin.cpp:5241
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Introduza a ruta da súa aplicación de edición de imaxes"
 
-#: src/bin/bin.cpp:5251
+#: src/bin/bin.cpp:5253
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr "Defina a aplicación predeterminada para abrir ficheiros de imaxe"
 
-#: src/bin/bin.cpp:5256
+#: src/bin/bin.cpp:5258
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Introduza a ruta da súa aplicación de edición de son"
 
-#: src/bin/bin.cpp:5268
+#: src/bin/bin.cpp:5270
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr "Defina a aplicación predeterminada para abrir ficheiros de son"
 
-#: src/bin/bin.cpp:5275
+#: src/bin/bin.cpp:5277
 #, fuzzy, kde-format
 #| msgid "Enter path for your audio editing application"
 msgid "Enter path for your video editing application"
 msgstr "Introduza a ruta da súa aplicación de edición de son"
 
-#: src/bin/bin.cpp:5287
+#: src/bin/bin.cpp:5289
 #, fuzzy, kde-format
 #| msgid "Please set a default application to open audio files"
 msgid "Please set a default application to open video files"
 msgstr "Defina a aplicación predeterminada para abrir ficheiros de son"
 
-#: src/bin/bin.cpp:5297 src/core.cpp:713 src/core.cpp:741
+#: src/bin/bin.cpp:5299 src/core.cpp:713 src/core.cpp:741
 #: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22979,12 +22977,12 @@ msgstr "Defina a aplicación predeterminada para abrir ficheiros de son"
 msgid "Cannot open file %1"
 msgstr "Non é posíbel abrir o ficheiro %1"
 
-#: src/bin/bin.cpp:5334 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5336 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(copia)"
 
-#: src/bin/bin.cpp:5344
+#: src/bin/bin.cpp:5346
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -22993,100 +22991,100 @@ msgstr ""
 "Está a editar un fragmento de título externo (%1). Quere gardar os cambios "
 "no ficheiro do título ou gardar os cambios só para este proxecto?"
 
-#: src/bin/bin.cpp:5347 src/titler/titlewidget.cpp:2631
+#: src/bin/bin.cpp:5349 src/titler/titlewidget.cpp:2631
 #, kde-format
 msgid "Save Title"
 msgstr "Gardar o título"
 
-#: src/bin/bin.cpp:5347
+#: src/bin/bin.cpp:5349
 #, kde-format
 msgid "Save to title file"
 msgstr "Gardar nun ficheiro de títulos"
 
-#: src/bin/bin.cpp:5348
+#: src/bin/bin.cpp:5350
 #, kde-format
 msgid "Save in project only"
 msgstr "Gardar só no proxecto"
 
-#: src/bin/bin.cpp:5375 src/dialogs/clipcreationdialog.cpp:354
+#: src/bin/bin.cpp:5377 src/dialogs/clipcreationdialog.cpp:354
 #, kde-format
 msgid "Title clip"
 msgstr "Fragmento de título"
 
-#: src/bin/bin.cpp:5381
+#: src/bin/bin.cpp:5383
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "Updates the subtitle display in the timeline."
 msgid "Replace the title clip in the timeline with the new one?"
 msgstr "Actualiza a visualización do subtítulo na cronoloxía."
 
-#: src/bin/bin.cpp:5382
+#: src/bin/bin.cpp:5384
 #, fuzzy, kde-format
 #| msgid "Replace in timeline"
 msgid "Replace Title Clip"
 msgstr "Substituír na cronoloxía"
 
-#: src/bin/bin.cpp:5382
+#: src/bin/bin.cpp:5384
 #, fuzzy, kde-format
 #| msgid "Replace clip"
 msgid "Replace"
 msgstr "Substituír o fragmento"
 
-#: src/bin/bin.cpp:5382
+#: src/bin/bin.cpp:5384
 #, fuzzy, kde-format
 #| msgid "Testing"
 msgid "Keep Existing"
 msgstr "Probas."
 
-#: src/bin/bin.cpp:5442
+#: src/bin/bin.cpp:5444
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "O fragmento é incorrecto; retirarase do proxecto."
 
-#: src/bin/bin.cpp:5446
+#: src/bin/bin.cpp:5448
 #, kde-format
 msgid "Invalid clip"
 msgstr "O fragmento é incorrecto"
 
-#: src/bin/bin.cpp:5560
+#: src/bin/bin.cpp:5562
 #, kde-format
 msgid "Enable proxies"
 msgstr "Activar os proxies."
 
-#: src/bin/bin.cpp:5560
+#: src/bin/bin.cpp:5562
 #, kde-format
 msgid "Disable proxies"
 msgstr "Desactivar os mandatarios"
 
-#: src/bin/bin.cpp:5747
+#: src/bin/bin.cpp:5749
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruír os mandatarios"
 
-#: src/bin/bin.cpp:6013
+#: src/bin/bin.cpp:6015
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Caixa do proxecto"
 
-#: src/bin/bin.cpp:6029
+#: src/bin/bin.cpp:6031
 #, kde-format
 msgid "Add Tracks"
 msgstr "Engadir as pistas"
 
-#: src/bin/bin.cpp:6031
+#: src/bin/bin.cpp:6033
 #, kde-format
 msgid "Edit Streams"
 msgstr "Editar os fluxos"
 
-#: src/bin/bin.cpp:6050
+#: src/bin/bin.cpp:6052
 #, kde-format
 msgid "Don't ask again"
 msgstr "Non preguntar de novo."
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:6054
+#: src/bin/bin.cpp:6056
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -23095,7 +23093,7 @@ msgstr ""
 "O proxecto necesita máis pistas de son para xestionar todos os fluxos. Quere "
 "engadir %1 pistas de son?"
 
-#: src/bin/bin.cpp:6066 src/mainwindow.cpp:1836
+#: src/bin/bin.cpp:6068 src/mainwindow.cpp:1836
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Non é posíbel atopar o fragmento ao que engadir o marcador"
@@ -23103,7 +23101,7 @@ msgstr "Non é posíbel atopar o fragmento ao que engadir o marcador"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:6080 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:6082 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1534
 #: src/timeline2/view/timelinecontroller.cpp:1850
@@ -23113,34 +23111,34 @@ msgstr "Non é posíbel atopar o fragmento ao que engadir o marcador"
 msgid "Marker"
 msgstr "Marcador"
 
-#: src/bin/bin.cpp:6170
+#: src/bin/bin.cpp:6172
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Non foi posíbel atopar o fragmento mestre"
 
-#: src/bin/bin.cpp:6437
+#: src/bin/bin.cpp:6439
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> fragmentos | "
 
-#: src/bin/bin.cpp:6439
+#: src/bin/bin.cpp:6441
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> fragmentos (%2 seleccionados) | "
 
-#: src/bin/bin.cpp:6508 src/bin/bin.cpp:6586
+#: src/bin/bin.cpp:6510 src/bin/bin.cpp:6588
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Engadir un fluxo adicional para o fragmento"
 msgstr[1] "Engadir fluxos adicionais para o fragmento"
 
-#: src/bin/bin.cpp:6529
+#: src/bin/bin.cpp:6531
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar os fragmentos escollidos"
 
-#: src/bin/bin.cpp:6531
+#: src/bin/bin.cpp:6533
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -23149,51 +23147,51 @@ msgstr ""
 "Fluxos adicionais para o fragmento\n"
 " %1"
 
-#: src/bin/bin.cpp:6545 src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/bin/bin.cpp:6547 src/mltcontroller/clippropertiescontroller.cpp:734
 #, kde-format
 msgid "Video stream %1"
 msgstr "Fluxo de vídeo %1"
 
-#: src/bin/bin.cpp:6560
+#: src/bin/bin.cpp:6562
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Fluxo de son %1"
 
-#: src/bin/bin.cpp:6613
+#: src/bin/bin.cpp:6615
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Retirar os marcadores de fragmentos"
 
-#: src/bin/bin.cpp:6810
+#: src/bin/bin.cpp:6812
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Recoméndase gardar o proxecto antes da operación de transcodificación"
 
-#: src/bin/bin.cpp:6811
+#: src/bin/bin.cpp:6813
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Gardar o proxecto"
 
-#: src/bin/bin.cpp:6812
+#: src/bin/bin.cpp:6814
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificar sen gardar"
 
-#: src/bin/bin.cpp:6970 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:6972 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1132
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Eliminar o efecto %1"
 
-#: src/bin/bin.cpp:7036 src/mainwindow.cpp:272
+#: src/bin/bin.cpp:7038 src/mainwindow.cpp:272
 #, kde-format
 msgid "Project Bin"
 msgstr "Caixa do proxecto"
 
-#: src/bin/bin.cpp:7039 src/bin/bin.cpp:7042 src/mainwindow.cpp:3887
+#: src/bin/bin.cpp:7041 src/bin/bin.cpp:7044 src/mainwindow.cpp:3887
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Caixa de proxecto %1"
@@ -24607,8 +24605,7 @@ msgstr ""
 "revertendo a automático."
 
 #: src/dialogs/exportguidesdialog.cpp:37
-#, fuzzy, kde-format
-#| msgid "Export markers"
+#, kde-format
 msgid "Export markers"
 msgstr "Exportar os marcadores"
 
