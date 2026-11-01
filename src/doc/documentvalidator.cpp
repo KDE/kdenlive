@@ -41,6 +41,10 @@ QPair<bool, QString> DocumentValidator::validate(const double currentVersion, co
 {
     Q_EMIT pCore->loadingMessageNewStage(i18n("Validating project…"), 0);
     QDomElement mlt = m_doc.firstChildElement(QStringLiteral("mlt"));
+    if (mlt.isNull()) {
+        mlt = m_doc.firstChildElement(QStringLiteral("westley"));
+    }
+
     // At least the root element must be there
     if (mlt.isNull()) {
         return QPair<bool, QString>(false, QString());
@@ -573,8 +577,25 @@ bool DocumentValidator::upgrade(double version, int patchVersion, const double c
                     if (!wproducer.attribute(QStringLiteral("description")).isEmpty()) {
                         kproducer.setAttribute(QStringLiteral("description"), wproducer.attribute(QStringLiteral("description")));
                     }
-                    kproducer.setAttribute(QStringLiteral("resource"), wproducer.attribute(QStringLiteral("resource")));
+                    const QString resource = wproducer.attribute(QStringLiteral("resource"));
+                    kproducer.setAttribute(QStringLiteral("resource"), resource);
+                    if (!resource.isEmpty()) {
+                        Xml::setXmlProperty(wproducer, QStringLiteral("resource"), resource);
+                    }
+                    const QString length = wproducer.attribute(QStringLiteral("duration"));
+                    if (!length.isEmpty()) {
+                        Xml::setXmlProperty(wproducer, QStringLiteral("length"), length);
+                    }
                     kproducer.setAttribute(QStringLiteral("type"), wproducer.attribute(QStringLiteral("type")));
+                    bool ok;
+                    int type = wproducer.attribute(QStringLiteral("type")).toInt(&ok);
+                    if (ok) {
+                        if (type == ClipType::AV || type == ClipType::Audio || type == ClipType::Video) {
+                            Xml::setXmlProperty(wproducer, QStringLiteral("mlt_service"), QStringLiteral("avformat"));
+                        } else if (type == ClipType::Image) {
+                            Xml::setXmlProperty(wproducer, QStringLiteral("mlt_service"), QStringLiteral("qimage"));
+                        }
+                    }
                     // Testing fix for 358
                     if (!wproducer.attribute(QStringLiteral("aspect_ratio")).isEmpty()) {
                         kproducer.setAttribute(QStringLiteral("aspect_ratio"), wproducer.attribute(QStringLiteral("aspect_ratio")));
@@ -655,7 +676,7 @@ bool DocumentValidator::upgrade(double version, int patchVersion, const double c
             if (avfile.isNull()) {
                 qCWarning(KDENLIVE_LOG) << "found an <avfile /> that is not a QDomElement";
             } else {
-                QString id = avfile.attribute(QStringLiteral("id"));
+                const QString id = avfile.attribute(QStringLiteral("id"));
                 // this is horrible, must be rewritten, it's just for test
                 for (int j = 0; j < kproducers.count(); ++j) {
                     if (kproducers.at(j).toElement().attribute(QStringLiteral("id")) == id) {
@@ -2529,7 +2550,7 @@ QString DocumentValidator::colorToString(const QColor &c)
 
 bool DocumentValidator::isProject() const
 {
-    return m_doc.documentElement().tagName() == QLatin1String("mlt");
+    return m_doc.documentElement().tagName() == QLatin1String("mlt") || m_doc.documentElement().tagName() == QLatin1String("westley");
 }
 
 bool DocumentValidator::isModified() const
