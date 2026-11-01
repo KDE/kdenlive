@@ -1179,9 +1179,9 @@ int EffectStackModel::getFadeMethod(bool fromStart)
             if (*(m_fadeIns.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 QString fadeData = effect->filter().get("alpha");
-                if (!fadeData.contains(QLatin1Char('='))) {
+                if (fadeData.indexOf(QLatin1Char('=')) < 1) {
                     fadeData = effect->filter().get("level");
-                    if (!fadeData.contains(QLatin1Char('='))) {
+                    if (fadeData.indexOf(QLatin1Char('=')) < 1) {
                         return 0;
                     }
                 }
@@ -1201,9 +1201,9 @@ int EffectStackModel::getFadeMethod(bool fromStart)
             if (*(m_fadeOuts.begin()) == std::static_pointer_cast<TreeItem>(rootItem->child(i))->getId()) {
                 std::shared_ptr<EffectItemModel> effect = std::static_pointer_cast<EffectItemModel>(rootItem->child(i));
                 QString fadeData = effect->filter().get("alpha");
-                if (!fadeData.contains(QLatin1Char('='))) {
+                if (fadeData.indexOf(QLatin1Char('=')) < 1) {
                     fadeData = effect->filter().get("level");
-                    if (!fadeData.contains(QLatin1Char('='))) {
+                    if (fadeData.indexOf(QLatin1Char('=')) < 1) {
                         return 0;
                     }
                 }
