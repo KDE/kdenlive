@@ -27,20 +27,6 @@ MultiSwitchParamWidget::MultiSwitchParamWidget(std::shared_ptr<AssetParameterMod
     // Exponential Out
     methodCombo->addItem(keyframeTypes.value(KeyframeType::ExponentialOut), QVariant(QLatin1Char('q')));
 
-    const QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QChar mod;
-    if (value.indexOf(QLatin1Char('=')) > 0) {
-        mod = value.section(QLatin1Char('='), 0, -2).back();
-    }
-    if (mod.isDigit()) {
-        mod = QChar();
-    }
-    if (!mod.isNull()) {
-        int ix = methodCombo->findData(QVariant(mod));
-        if (ix > -1) {
-            methodCombo->setCurrentIndex(ix);
-        }
-    }
     // set check state
     slotRefresh();
     connect(methodCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [this]() { paramChanged(m_checkBox->checkState()); });
@@ -92,7 +78,10 @@ void MultiSwitchParamWidget::slotRefresh()
     const QSignalBlocker bk(m_checkBox);
     QString max = m_model->data(m_index, AssetParameterModel::MaxRole).toString();
     QString value = m_model->data(m_index, AssetParameterModel::ValueRole).toString();
-    QChar mod = value.section(QLatin1Char('='), 0, -2).back();
+    QChar mod;
+    if (value.indexOf(QLatin1Char('=')) > 0) {
+        mod = value.section(QLatin1Char('='), 0, -2).back();
+    }
     if (mod.isDigit()) {
         mod = QChar();
     }

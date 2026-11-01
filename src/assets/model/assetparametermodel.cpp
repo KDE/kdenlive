@@ -229,7 +229,17 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
         }
         m_rows.push_back(name);
         if (!name.isEmpty()) {
-            internalSetParameter(name, value, index(m_rows.size() - 1, 0));
+            if (currentRow.type == ParamType::MultiSwitch && name.contains(QLatin1Char('\n'))) {
+                const QStringList multiNames = name.split(QLatin1Char('\n'));
+                const QStringList values = value.split(QLatin1Char('\n'));
+                if (multiNames.size() == values.size()) {
+                    for (int i = 0; i < values.size(); i++) {
+                        internalSetParameter(multiNames.at(i), values.at(i), QModelIndex());
+                    }
+                }
+            } else {
+                internalSetParameter(name, value, index(m_rows.size() - 1, 0));
+            }
             // Keep track of param order
             m_paramOrder.push_back(name);
         }
@@ -412,17 +422,20 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
             m_params[name].value = storedValue;
             return;
         } else if (type == ParamType::MultiSwitch) {
-            QStringList names = name.split(QLatin1Char('\n'));
+            const QStringList names = name.split(QLatin1Char('\n'));
             QStringList values = paramValue.split(QLatin1Char('\n'));
             if (names.count() == values.count()) {
                 for (int i = 0; i < names.count(); i++) {
                     const QString currentVal(m_asset->get(names.at(i).toLatin1().constData()));
                     QString updatedValue = values.at(i);
+                    qDebug() << "==== Vurrent VAL: " << currentVal << ", UPDATED: " << updatedValue;
                     if (currentVal.contains(QLatin1Char('='))) {
-                        const QChar mod = getKeyframeType(currentVal);
-                        if (!mod.isNull()) {
-                            const QString replacement = mod + QLatin1Char('=');
-                            updatedValue.replace(QLatin1Char('='), replacement);
+                        const QChar currentMod = getKeyframeType(currentVal);
+                        const QChar updatedMod = getKeyframeType(updatedValue);
+                        if (currentMod != updatedMod) {
+                            const QString replacement = updatedMod + QLatin1Char('=');
+                            const QString source = currentMod + QLatin1Char('=');
+                            updatedValue.replace(source, replacement);
                         }
                     }
                     m_asset->set(names.at(i).toLatin1().constData(), updatedValue.toLatin1().constData());
@@ -474,7 +487,7 @@ void AssetParameterModel::internalSetParameter(const QString name, const QString
         m_params[name].value = paramValue;
 
         KeyframeModel *km = nullptr;
-        if (m_keyframes) {
+        if (m_keyframes && paramIndex.isValid()) {
             // check if this parameter is keyframable
             km = m_keyframes->getKeyModel(paramIndex);
         }
@@ -643,7 +656,7 @@ void AssetParameterModel::processFakePoint(const QString &name, const QModelInde
 const QChar AssetParameterModel::getKeyframeType(const QString keyframeString)
 {
     QChar mod;
-    if (keyframeString.contains(QLatin1Char('='))) {
+    if (keyframeString.indexOf(QLatin1Char('=')) > 0) {
         mod = keyframeString.section(QLatin1Char('='), 0, -2).back();
         if (mod.isDigit()) {
             mod = QChar();
@@ -847,7 +860,7 @@ QVariant AssetParameterModel::data(const QModelIndex &index, int role) const
     case ValueRole: {
         if (m_params.at(paramName).type == ParamType::MultiSwitch) {
             // Multi params concatenate param names with a '\n' and param values with a space
-            QStringList paramNames = paramName.split(QLatin1Char('\n'));
+            const QStringList paramNames = paramName.split(QLatin1Char('\n'));
             QStringList values;
             bool valueFound = false;
             for (auto &p : paramNames) {
