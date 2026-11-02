@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-01 00:54+0000\n"
+"POT-Creation-Date: 2026-11-02 00:53+0000\n"
 "PO-Revision-Date: 2026-10-30 09:33+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -19558,7 +19558,7 @@ msgstr "Estilitza"
 msgid "Motion"
 msgstr "Moviment"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2550
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2571
 #, kde-format
 msgid "GPU Effects"
 msgstr "Efectes de la GPU"
@@ -21112,7 +21112,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:776
-#: src/assets/model/assetparametermodel.cpp:1854
+#: src/assets/model/assetparametermodel.cpp:1867
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -21173,29 +21173,29 @@ msgid "Keyframe value copied"
 msgstr "S'ha copiat el valor dels fotogrames clau"
 
 #: src/assets/model/assetcommand.cpp:23 src/assets/model/assetcommand.cpp:25
-#: src/assets/model/assetcommand.cpp:106 src/assets/model/assetcommand.cpp:108
+#: src/assets/model/assetcommand.cpp:77 src/assets/model/assetcommand.cpp:79
 #, kde-format
 msgid "Edit %1"
 msgstr "Edita %1"
 
-#: src/assets/model/assetcommand.cpp:164 src/assets/model/assetcommand.cpp:167
-#: src/assets/model/assetcommand.cpp:231 src/assets/model/assetcommand.cpp:233
+#: src/assets/model/assetcommand.cpp:135 src/assets/model/assetcommand.cpp:138
+#: src/assets/model/assetcommand.cpp:202 src/assets/model/assetcommand.cpp:204
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "Edita el fotograma clau %1"
 
-#: src/assets/model/assetcommand.cpp:289 src/assets/model/assetcommand.cpp:291
+#: src/assets/model/assetcommand.cpp:260 src/assets/model/assetcommand.cpp:262
 #, kde-format
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1691
-#: src/assets/model/assetparametermodel.cpp:1738
+#: src/assets/model/assetparametermodel.cpp:1704
+#: src/assets/model/assetparametermodel.cpp:1751
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 
-#: src/assets/model/assetparametermodel.cpp:1828
+#: src/assets/model/assetparametermodel.cpp:1841
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -23460,7 +23460,7 @@ msgstr "S'estan llegint els clips del projecte…"
 msgid "Loading project clips…"
 msgstr "S'estan carregant els clips del projecte…"
 
-#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2447
+#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2468
 #, kde-format
 msgid "Zone %1"
 msgstr "Zona %1"
@@ -25362,7 +25362,7 @@ msgstr "Miscel·lània"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:234
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:944
-#: src/doc/documentvalidator.cpp:2559
+#: src/doc/documentvalidator.cpp:2580
 #: src/transitions/transitionsrepository.cpp:224
 #, kde-format
 msgid "auto"
@@ -27844,7 +27844,7 @@ msgstr "Els intermediaris que manquen es poden tornar a crear en obrir."
 msgid "Validating project…"
 msgstr "S'està validant el projecte…"
 
-#: src/doc/documentvalidator.cpp:82
+#: src/doc/documentvalidator.cpp:86
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -27856,7 +27856,7 @@ msgstr ""
 "d'idiomes. Fins llavors, el Kdenlive podria no ser capaç d'obrir "
 "correctament el document."
 
-#: src/doc/documentvalidator.cpp:122
+#: src/doc/documentvalidator.cpp:126
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
@@ -27865,17 +27865,17 @@ msgstr ""
 "No s'ha pogut llegir la versió del fitxer del projecte.\n"
 "Tanmateix s'intenta obrir."
 
-#: src/doc/documentvalidator.cpp:123
+#: src/doc/documentvalidator.cpp:127
 #, kde-format
 msgid "Incorrect project file"
 msgstr "Fitxer incorrecte del projecte"
 
-#: src/doc/documentvalidator.cpp:212
+#: src/doc/documentvalidator.cpp:216
 #, kde-format
 msgid "Upgrading project version…"
 msgstr "S'està actualitzant la versió del projecte…"
 
-#: src/doc/documentvalidator.cpp:218
+#: src/doc/documentvalidator.cpp:222
 #, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
@@ -27887,18 +27887,18 @@ msgstr ""
 "anteriors).\n"
 "Considereu actualitzar la vostra versió del Kdenlive."
 
-#: src/doc/documentvalidator.cpp:221 src/doc/documentvalidator.cpp:230
+#: src/doc/documentvalidator.cpp:225 src/doc/documentvalidator.cpp:234
 #, kde-format
 msgid "Unable to open project"
 msgstr "No s'ha pogut obrir el projecte"
 
-#: src/doc/documentvalidator.cpp:229
+#: src/doc/documentvalidator.cpp:233
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr ""
 "Aquest tipus de projecte no és compatible (versió %1) i no pot ser carregat."
 
-#: src/doc/documentvalidator.cpp:744
+#: src/doc/documentvalidator.cpp:765
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -27912,39 +27912,39 @@ msgstr ""
 "l'ordinador on van ser creats inicialment o, possiblement, haureu d'ajustar "
 "la seva mida."
 
-#: src/doc/documentvalidator.cpp:747
+#: src/doc/documentvalidator.cpp:768
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Actualitza clips de text"
 
-#: src/doc/documentvalidator.cpp:747 src/doc/documentvalidator.cpp:2550
+#: src/doc/documentvalidator.cpp:768 src/doc/documentvalidator.cpp:2571
 #, kde-format
 msgid "Convert"
 msgstr "Converteix"
 
-#: src/doc/documentvalidator.cpp:1317
+#: src/doc/documentvalidator.cpp:1338
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "No s'ha pogut recuperar aquest fitxer de projecte"
 
-#: src/doc/documentvalidator.cpp:1635
+#: src/doc/documentvalidator.cpp:1656
 #, kde-format
 msgid "extra audio"
 msgstr "àudio extra"
 
-#: src/doc/documentvalidator.cpp:2245
+#: src/doc/documentvalidator.cpp:2266
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr ""
 "El fitxer de subtítols:<br/>%1<br/>ja existeix. El voleu sobreescriure?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2451
+#: src/doc/documentvalidator.cpp:2267 src/mainwindow.cpp:2451
 #, kde-format
 msgid "Overwrite"
 msgstr "Sobreescriu"
 
-#: src/doc/documentvalidator.cpp:2548
+#: src/doc/documentvalidator.cpp:2569
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -27957,12 +27957,12 @@ msgstr ""
 "Voleu convertir el projecte a una versió sense GPU?\n"
 "Això podria resultar en la pèrdua de les dades."
 
-#: src/doc/documentvalidator.cpp:2643
+#: src/doc/documentvalidator.cpp:2664
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "Els filtres/transicions següents s'han convertit a versions sense GPU:"
 
-#: src/doc/documentvalidator.cpp:2646
+#: src/doc/documentvalidator.cpp:2667
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "Els filtres/transicions següents s'han suprimit del projecte:"

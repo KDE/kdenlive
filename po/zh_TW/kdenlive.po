@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-01 00:54+0000\n"
+"POT-Creation-Date: 2026-11-02 00:53+0000\n"
 "PO-Revision-Date: 2025-12-16 22:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -18730,7 +18730,7 @@ msgstr "風格"
 msgid "Motion"
 msgstr "動態"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2550
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2571
 #, kde-format
 msgid "GPU Effects"
 msgstr "GPU 效果"
@@ -20270,7 +20270,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:776
-#: src/assets/model/assetparametermodel.cpp:1854
+#: src/assets/model/assetparametermodel.cpp:1867
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -20328,29 +20328,29 @@ msgid "Keyframe value copied"
 msgstr "已複製關鍵幀的值"
 
 #: src/assets/model/assetcommand.cpp:23 src/assets/model/assetcommand.cpp:25
-#: src/assets/model/assetcommand.cpp:106 src/assets/model/assetcommand.cpp:108
+#: src/assets/model/assetcommand.cpp:77 src/assets/model/assetcommand.cpp:79
 #, kde-format
 msgid "Edit %1"
 msgstr "編輯 %1"
 
-#: src/assets/model/assetcommand.cpp:164 src/assets/model/assetcommand.cpp:167
-#: src/assets/model/assetcommand.cpp:231 src/assets/model/assetcommand.cpp:233
+#: src/assets/model/assetcommand.cpp:135 src/assets/model/assetcommand.cpp:138
+#: src/assets/model/assetcommand.cpp:202 src/assets/model/assetcommand.cpp:204
 #, kde-format
 msgid "Edit %1 keyframe"
 msgstr "編輯 %1 關鍵幀"
 
-#: src/assets/model/assetcommand.cpp:289 src/assets/model/assetcommand.cpp:291
+#: src/assets/model/assetcommand.cpp:260 src/assets/model/assetcommand.cpp:262
 #, kde-format
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1691
-#: src/assets/model/assetparametermodel.cpp:1738
+#: src/assets/model/assetparametermodel.cpp:1704
+#: src/assets/model/assetparametermodel.cpp:1751
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1828
+#: src/assets/model/assetparametermodel.cpp:1841
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -22575,7 +22575,7 @@ msgstr "讀取專案素材中…"
 msgid "Loading project clips…"
 msgstr "載入專案素材中…"
 
-#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2447
+#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2468
 #, kde-format
 msgid "Zone %1"
 msgstr "區段 %1"
@@ -24438,7 +24438,7 @@ msgstr "其它"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:234
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:944
-#: src/doc/documentvalidator.cpp:2559
+#: src/doc/documentvalidator.cpp:2580
 #: src/transitions/transitionsrepository.cpp:224
 #, kde-format
 msgid "auto"
@@ -26871,7 +26871,7 @@ msgstr "遺失的代理可以在開啟時重新產生。"
 msgid "Validating project…"
 msgstr "驗證專案中…"
 
-#: src/doc/documentvalidator.cpp:82
+#: src/doc/documentvalidator.cpp:86
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -26881,7 +26881,7 @@ msgstr ""
 "這個文件是在未安裝的「%1」地域（語言包）下建立的。請安裝該語言包，否則 "
 "Kdenlive 可能無法正確開啟此文件。"
 
-#: src/doc/documentvalidator.cpp:122
+#: src/doc/documentvalidator.cpp:126
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
@@ -26890,17 +26890,17 @@ msgstr ""
 "專案檔的版本無法讀取。\n"
 "仍然將嘗試開啟。"
 
-#: src/doc/documentvalidator.cpp:123
+#: src/doc/documentvalidator.cpp:127
 #, kde-format
 msgid "Incorrect project file"
 msgstr "錯誤的專案檔案"
 
-#: src/doc/documentvalidator.cpp:212
+#: src/doc/documentvalidator.cpp:216
 #, kde-format
 msgid "Upgrading project version…"
 msgstr "更新專案版本中…"
 
-#: src/doc/documentvalidator.cpp:218
+#: src/doc/documentvalidator.cpp:222
 #, kde-format
 msgid ""
 "This project is unsupported because its document version (%1) is new than "
@@ -26911,17 +26911,17 @@ msgstr ""
 "下）還要新。\n"
 "請考慮升級您的 Kdenlive 版本。"
 
-#: src/doc/documentvalidator.cpp:221 src/doc/documentvalidator.cpp:230
+#: src/doc/documentvalidator.cpp:225 src/doc/documentvalidator.cpp:234
 #, kde-format
 msgid "Unable to open project"
 msgstr "無法開啟專案"
 
-#: src/doc/documentvalidator.cpp:229
+#: src/doc/documentvalidator.cpp:233
 #, kde-format
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr "不支援此專案類型（版本 %1）而無法載入。"
 
-#: src/doc/documentvalidator.cpp:744
+#: src/doc/documentvalidator.cpp:765
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -26933,38 +26933,38 @@ msgstr ""
 "否要將它們轉換為像素大小，以確保不同顯示器上大小相同？建議在原先建立這些素材"
 "的電腦上進行此作業，否則可能還會需要再調整它們的大小。"
 
-#: src/doc/documentvalidator.cpp:747
+#: src/doc/documentvalidator.cpp:768
 #, kde-format
 msgid "Update Text Clips"
 msgstr "更新文字素材"
 
-#: src/doc/documentvalidator.cpp:747 src/doc/documentvalidator.cpp:2550
+#: src/doc/documentvalidator.cpp:768 src/doc/documentvalidator.cpp:2571
 #, kde-format
 msgid "Convert"
 msgstr "轉換"
 
-#: src/doc/documentvalidator.cpp:1317
+#: src/doc/documentvalidator.cpp:1338
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "無法復原這個專案檔案"
 
-#: src/doc/documentvalidator.cpp:1635
+#: src/doc/documentvalidator.cpp:1656
 #, kde-format
 msgid "extra audio"
 msgstr "額外音訊"
 
-#: src/doc/documentvalidator.cpp:2245
+#: src/doc/documentvalidator.cpp:2266
 #, kde-format
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "字幕檔案：<br/>%1<br/>已經存在。您是否要覆寫它?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2451
+#: src/doc/documentvalidator.cpp:2267 src/mainwindow.cpp:2451
 #, kde-format
 msgid "Overwrite"
 msgstr "覆寫"
 
-#: src/doc/documentvalidator.cpp:2548
+#: src/doc/documentvalidator.cpp:2569
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -26976,12 +26976,12 @@ msgstr ""
 "您要將它轉換為不需要 GPU 的版本嗎？\n"
 "這可能會造成資料遺失。"
 
-#: src/doc/documentvalidator.cpp:2643
+#: src/doc/documentvalidator.cpp:2664
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr "以下過濾器/轉場特效已轉換為不使用 GPU 的版本："
 
-#: src/doc/documentvalidator.cpp:2646
+#: src/doc/documentvalidator.cpp:2667
 #, kde-format
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "以下過濾器/轉場特效已自專案中刪除："

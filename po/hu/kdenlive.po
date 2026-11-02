@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: hu\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-01 00:54+0000\n"
+"POT-Creation-Date: 2026-11-02 00:53+0000\n"
 "PO-Revision-Date: 2026-06-16 22:40+0200\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -19417,7 +19417,7 @@ msgstr "Stabilizálás"
 msgid "Motion"
 msgstr "Mozgás"
 
-#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2550
+#: data/kdenliveeffectscategory.rc:54 src/doc/documentvalidator.cpp:2571
 #, fuzzy, kde-format
 #| msgid "effect"
 msgid "GPU Effects"
@@ -21052,7 +21052,7 @@ msgid "Delete keyframes"
 msgstr "Kulcskép törlése"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:776
-#: src/assets/model/assetparametermodel.cpp:1854
+#: src/assets/model/assetparametermodel.cpp:1867
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -21121,33 +21121,33 @@ msgid "Keyframe value copied"
 msgstr "Interpolálás"
 
 #: src/assets/model/assetcommand.cpp:23 src/assets/model/assetcommand.cpp:25
-#: src/assets/model/assetcommand.cpp:106 src/assets/model/assetcommand.cpp:108
+#: src/assets/model/assetcommand.cpp:77 src/assets/model/assetcommand.cpp:79
 #, fuzzy, kde-format
 #| msgid "Edit"
 msgid "Edit %1"
 msgstr "Szerkesztés"
 
-#: src/assets/model/assetcommand.cpp:164 src/assets/model/assetcommand.cpp:167
-#: src/assets/model/assetcommand.cpp:231 src/assets/model/assetcommand.cpp:233
+#: src/assets/model/assetcommand.cpp:135 src/assets/model/assetcommand.cpp:138
+#: src/assets/model/assetcommand.cpp:202 src/assets/model/assetcommand.cpp:204
 #, fuzzy, kde-format
 #| msgid "Edit keyframe"
 msgid "Edit %1 keyframe"
 msgstr "Kulcskép szerkesztés"
 
-#: src/assets/model/assetcommand.cpp:289 src/assets/model/assetcommand.cpp:291
+#: src/assets/model/assetcommand.cpp:260 src/assets/model/assetcommand.cpp:262
 #, fuzzy, kde-format
 #| msgid "Update Profile"
 msgid "Update %1"
 msgstr "Profil frissítése"
 
-#: src/assets/model/assetparametermodel.cpp:1691
-#: src/assets/model/assetparametermodel.cpp:1738
+#: src/assets/model/assetparametermodel.cpp:1704
+#: src/assets/model/assetparametermodel.cpp:1751
 #, fuzzy, kde-format
 #| msgid "Cannot open project file %1"
 msgid "Cannot open preset file %1"
 msgstr "Nem lehet megnyitni a(z) %1 projektfájlt"
 
-#: src/assets/model/assetparametermodel.cpp:1828
+#: src/assets/model/assetparametermodel.cpp:1841
 #, fuzzy, kde-format
 #| msgid "Failed to create file."
 msgctxt "@info:status"
@@ -23639,7 +23639,7 @@ msgstr "Projekt betöltése"
 msgid "Loading project clips…"
 msgstr "Projekt betöltése"
 
-#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2447
+#: src/bin/projectsubclip.cpp:42 src/doc/documentvalidator.cpp:2468
 #, fuzzy, kde-format
 #| msgid "Zone end: %1"
 msgid "Zone %1"
@@ -25619,7 +25619,7 @@ msgstr "Egyéb"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:234
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:944
-#: src/doc/documentvalidator.cpp:2559
+#: src/doc/documentvalidator.cpp:2580
 #: src/transitions/transitionsrepository.cpp:224
 #, kde-format
 msgid "auto"
@@ -28163,7 +28163,7 @@ msgstr "A hiányzó proxyk újra létre lesznek hozva megnyitás után."
 msgid "Validating project…"
 msgstr "Projekt betöltése"
 
-#: src/doc/documentvalidator.cpp:82
+#: src/doc/documentvalidator.cpp:86
 #, kde-format
 msgid ""
 "The document was created in \"%1\" locale, which is not installed on your "
@@ -28174,26 +28174,26 @@ msgstr ""
 "rendszerén telepítve. Kérjük telepítse azt a nyelvi csomagot. Amíg ez nem "
 "történik meg, a Kdenlive nem képes helyesen megnyitni a dokumentumot."
 
-#: src/doc/documentvalidator.cpp:122
+#: src/doc/documentvalidator.cpp:126
 #, kde-format
 msgid ""
 "Version of the project file cannot be read.\n"
 "Attempting to open nonetheless."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:123
+#: src/doc/documentvalidator.cpp:127
 #, fuzzy, kde-format
 #| msgid "Cannot recover this project file"
 msgid "Incorrect project file"
 msgstr "Nem lehet visszaállítani ezt projektfájlt"
 
-#: src/doc/documentvalidator.cpp:212
+#: src/doc/documentvalidator.cpp:216
 #, fuzzy, kde-format
 #| msgid "Loading project"
 msgid "Upgrading project version…"
 msgstr "Projekt betöltése"
 
-#: src/doc/documentvalidator.cpp:218
+#: src/doc/documentvalidator.cpp:222
 #, fuzzy, kde-format
 #| msgid ""
 #| "This project type is unsupported (version %1) and can't be loaded.\n"
@@ -28206,18 +28206,18 @@ msgstr ""
 "A projekt típusa nem támogatott (verzió: %1) és ezért nem tölthető be.\n"
 "Szerezzen be újabb verziót a Kdenlive programból."
 
-#: src/doc/documentvalidator.cpp:221 src/doc/documentvalidator.cpp:230
+#: src/doc/documentvalidator.cpp:225 src/doc/documentvalidator.cpp:234
 #, kde-format
 msgid "Unable to open project"
 msgstr "A projekt nem nyitható meg"
 
-#: src/doc/documentvalidator.cpp:229
+#: src/doc/documentvalidator.cpp:233
 #, fuzzy, kde-format
 #| msgid "This project type is unsupported (version %1) and can't be loaded."
 msgid "This project type is unsupported (version %1) and cannot be loaded."
 msgstr "A projekt típusa nem támogatott (verzió: %1) és ezért nem tölthető be."
 
-#: src/doc/documentvalidator.cpp:744
+#: src/doc/documentvalidator.cpp:765
 #, kde-format
 msgid ""
 "Some of your text clips were saved with size in points, which means "
@@ -28231,42 +28231,42 @@ msgstr ""
 "elvégezni azon a számítógépen amelyen ezek a klipek lettek létrehozva, vagy "
 "az átalakítás után esetleg át kell majd méretezni a klipeket."
 
-#: src/doc/documentvalidator.cpp:747
+#: src/doc/documentvalidator.cpp:768
 #, kde-format
 msgid "Update Text Clips"
 msgstr "Szövegklip frissítése"
 
-#: src/doc/documentvalidator.cpp:747 src/doc/documentvalidator.cpp:2550
+#: src/doc/documentvalidator.cpp:768 src/doc/documentvalidator.cpp:2571
 #, fuzzy, kde-format
 #| msgid "Invert"
 msgid "Convert"
 msgstr "Invertálás"
 
-#: src/doc/documentvalidator.cpp:1317
+#: src/doc/documentvalidator.cpp:1338
 #, kde-format
 msgid "Cannot recover this project file"
 msgstr "Nem lehet visszaállítani ezt projektfájlt"
 
-#: src/doc/documentvalidator.cpp:1635
+#: src/doc/documentvalidator.cpp:1656
 #, fuzzy, kde-format
 #| msgid "Extract Audio"
 msgid "extra audio"
 msgstr "Hang kibontása"
 
-#: src/doc/documentvalidator.cpp:2245
+#: src/doc/documentvalidator.cpp:2266
 #, fuzzy, kde-format
 #| msgid "Output file already exists. Do you want to overwrite it?"
 msgid ""
 "The subtitle file:<br/>%1<br/>already exists. Do you want to overwrite it?"
 msgstr "A fájl már létezik. Felül kívánja írni a fájlt?"
 
-#: src/doc/documentvalidator.cpp:2246 src/mainwindow.cpp:2451
+#: src/doc/documentvalidator.cpp:2267 src/mainwindow.cpp:2451
 #, fuzzy, kde-format
 #| msgid "Overwrite mode"
 msgid "Overwrite"
 msgstr "Felülírás mód"
 
-#: src/doc/documentvalidator.cpp:2548
+#: src/doc/documentvalidator.cpp:2569
 #, kde-format
 msgid ""
 "The project file uses some GPU effects. GPU acceleration is not currently "
@@ -28275,12 +28275,12 @@ msgid ""
 "This might result in data loss."
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2643
+#: src/doc/documentvalidator.cpp:2664
 #, kde-format
 msgid "The following filters/transitions were converted to non GPU versions:"
 msgstr ""
 
-#: src/doc/documentvalidator.cpp:2646
+#: src/doc/documentvalidator.cpp:2667
 #, fuzzy, kde-format
 #| msgid "The following effects were imported from the project:"
 msgid "The following filters/transitions were deleted from the project:"
