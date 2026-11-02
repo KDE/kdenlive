@@ -127,6 +127,7 @@ private:
     QModelIndex m_lastHoveredItem;
     QModelIndexList m_clickedIndexes;
     bool m_editing;
+    int m_resizeColumn{-1};
     bool isEditing() const;
 
 Q_SIGNALS:

@@ -1083,12 +1083,23 @@ void MyListView::paintEvent(QPaintEvent *event)
 MyTreeView::MyTreeView(QWidget *parent)
     : QTreeView(parent)
 {
+    viewport()->setMouseTracking(true);
     setEditing(false);
     setAcceptDrops(true);
 }
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
+    if (event->button() == Qt::LeftButton) {
+        for (int i = 0; i < header()->count(); ++i) {
+            int x = header()->sectionViewportPosition(i) + header()->sectionSize(i);
+            if (qAbs(event->pos().x() - x) <= 3) {
+                m_resizeColumn = i;
+                m_startPos = event->pos();
+                return;
+            }
+        }
+    }
     QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
         QModelIndex clickedIndex = indexAt(event->pos());
@@ -1127,6 +1138,11 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
 
 void MyTreeView::mouseReleaseEvent(QMouseEvent *event)
 {
+    if (m_resizeColumn >= 0) {
+        m_resizeColumn = -1;
+        m_startPos = QPoint();
+        return;
+    }
     m_startPos = QPoint();
     QTreeView::mouseReleaseEvent(event);
 }
@@ -1166,6 +1182,36 @@ void MyTreeView::dropEvent(QDropEvent *event)
 
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
+    if (event->buttons() == Qt::NoButton) {
+        bool onSeparator = false;
+
+        for (int i = 0; i < header()->count(); ++i) {
+            if (header()->isSectionHidden(i)) {
+                continue;
+            }
+
+            int x = header()->sectionViewportPosition(i) + header()->sectionSize(i) - 1;
+
+            if (qAbs(event->pos().x() - x) <= 3) {
+                onSeparator = true;
+                break;
+            }
+        }
+
+        if (onSeparator) {
+            viewport()->setCursor(Qt::SplitHCursor);
+        } else {
+            viewport()->unsetCursor();
+        }
+    }
+
+    if (m_resizeColumn >= 0 && (event->buttons() & Qt::LeftButton)) {
+        int delta = event->pos().x() - m_startPos.x();
+        header()->resizeSection(m_resizeColumn, header()->sectionSize(m_resizeColumn) + delta);
+        m_startPos = event->pos();
+        return;
+    }
+
     if ((event->buttons() & Qt::LeftButton) != 0u) {
         if (!m_startPos.isNull() && (event->pos() - m_startPos).manhattanLength() > QApplication::startDragDistance()) {
             Q_EMIT updateDragMode(m_dragType);
@@ -1240,9 +1286,29 @@ void MyTreeView::paintEvent(QPaintEvent *event)
 {
     QTreeView::paintEvent(event);
 
+    QPainter painter(viewport());
+
+    const QHeaderView *headerView = header();
+    QPen separatorPen(QColor(90, 90, 90));
+    separatorPen.setCosmetic(true);
+    painter.setPen(separatorPen);
+
+    for (int visualIndex = 0; visualIndex < headerView->count(); ++visualIndex) {
+        const int logicalIndex = headerView->logicalIndex(visualIndex);
+
+        if (headerView->isSectionHidden(logicalIndex)) {
+            continue;
+        }
+
+        const int x = headerView->sectionViewportPosition(logicalIndex) + headerView->sectionSize(logicalIndex) - 1;
+
+        if (x >= 0 && x < viewport()->width()) {
+            painter.drawLine(x, 0, x, viewport()->height() - 1);
+        }
+    }
+
     // Check if there are no user media clips (excluding sequences) and show placeholder text
     if (model() && !pCore->bin()->hasUserClip()) {
-        QPainter painter(viewport());
         painter.setRenderHint(QPainter::Antialiasing);
 
         // Get the viewport rect
