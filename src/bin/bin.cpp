@@ -1086,7 +1086,7 @@ MyTreeView::MyTreeView(QWidget *parent)
 
 void MyTreeView::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::LeftButton) {
+    if (event->button() == Qt::LeftButton && (header()->count() - header()->hiddenSectionCount() > 1)) {
         for (int i = 0; i < header()->count(); ++i) {
             int x = header()->sectionViewportPosition(i) + header()->sectionSize(i);
             if (qAbs(event->pos().x() - x) <= 3) {
@@ -1178,9 +1178,8 @@ void MyTreeView::dropEvent(QDropEvent *event)
 
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() == Qt::NoButton) {
+    if (event->buttons() == Qt::NoButton && (header()->count() - header()->hiddenSectionCount() > 1)) {
         bool onSeparator = false;
-
         for (int i = 0; i < header()->count(); ++i) {
             if (header()->isSectionHidden(i)) {
                 continue;
