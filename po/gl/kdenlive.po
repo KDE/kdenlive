@@ -14741,8 +14741,7 @@ msgstr "Ciano"
 
 #: data/effects/hsl_primaries.xml:27 data/effects/hsl_primaries.xml:45
 #: data/effects/hsl_primaries.xml:63
-#, fuzzy, kde-format
-#| msgid "Magenta"
+#, kde-format
 msgid "Magenta"
 msgstr "Maxenta"
 
@@ -21633,8 +21632,7 @@ msgid "L: "
 msgstr "E:"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:418
-#, fuzzy, kde-format
-#| msgid "R: "
+#, kde-format
 msgctxt "R as in Right"
 msgid "R: "
 msgstr "Vermello: "
@@ -27706,8 +27704,7 @@ msgid "Fixed"
 msgstr "Fixada"
 
 #: src/doc/documentchecker.cpp:1968
-#, fuzzy, kde-format
-#| msgid "Reload"
+#, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "Recargar"
@@ -27720,15 +27717,13 @@ msgid "Remote"
 msgstr "Retirar"
 
 #: src/doc/documentchecker.cpp:1972
-#, fuzzy, kde-format
-#| msgid "Missing"
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "Falta"
 
 #: src/doc/documentchecker.cpp:1974
-#, fuzzy, kde-format
-#| msgid "Missing, but proxy available"
+#, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "Falta, pero hai un mandatario dispoñíbel"
@@ -35769,8 +35764,7 @@ msgid "10 Bit"
 msgstr ""
 
 #: src/renderpresets/renderpresetrepository.cpp:100
-#, fuzzy, kde-format
-#| msgid "Lossless/HQ"
+#, kde-format
 msgctxt "Lossless rendering category"
 msgid "Lossless/HQ"
 msgstr "Sen perda ou alta calidade"
