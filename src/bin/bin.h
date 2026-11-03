@@ -637,6 +637,7 @@ private:
     SmallJobLabel *m_infoLabel{nullptr};
     TagWidget *m_tagsWidget;
     QMenu *m_filterMenu{nullptr};
+    int m_minimumHeaderWidth{100};
     QActionGroup m_filterTagGroup;
     QActionGroup m_filterRateGroup;
     QActionGroup m_filterUsageGroup;
@@ -686,6 +687,8 @@ private:
     bool doPasteEffect(std::vector<QString> ids, const QStringList &effectData);
 
     QString generateDuplicateName(const QString &originalName, const QList<std::shared_ptr<AbstractProjectItem>> &existingItems);
+    /** @brief Ensure tree view first column is large enough. */
+    void adjustHeaderSize();
 
 Q_SIGNALS:
     void itemUpdated(std::shared_ptr<AbstractProjectItem>);

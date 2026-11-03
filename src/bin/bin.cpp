@@ -361,15 +361,11 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
-        QString text = index.data(AbstractProjectItem::DataName).toString();
+        const QString text = index.data(AbstractProjectItem::DataName).toString();
         QRectF r = option.rect;
         QFont ft = option.font;
         ft.setBold(true);
         QFontMetricsF fm(ft);
-        QStyle *style = option.widget ? option.widget->style() : QApplication::style();
-        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int width = int(fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width()) + 2 * textMargin;
-        hint.setWidth(width);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if (type == AbstractProjectItem::FolderItem) {
             return hint;
@@ -461,16 +457,18 @@ public:
                 r1 = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
                 int mid = int((r1.height() / 2));
                 QRect r2 = r1;
-                r1.adjust(0, 0, 0, -mid);
-                r2.adjust(0, mid, 0, 0);
+                r1.adjust(0, 0, -textMargin, -mid);
+                r2.adjust(0, mid, -textMargin, 0);
                 QRectF bounding;
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
+                QFontMetrics fm(font);
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop,
+                                  fm.elidedText(index.data(AbstractProjectItem::DataName).toString(), Qt::ElideRight, r1.width()), &bounding);
                 font.setBold(false);
                 painter->setFont(font);
                 QString subText = index.data(AbstractProjectItem::DataDuration).toString();
-                QString tags = index.data(AbstractProjectItem::DataTag).toString();
+                const QString tags = index.data(AbstractProjectItem::DataTag).toString();
                 if (!tags.isEmpty()) {
-                    QStringList t = tags.split(QLatin1Char(';'));
+                    const QStringList t = tags.split(QLatin1Char(';'));
                     QRectF tagRect = m_thumbRect.adjusted(2, 2, 0, 2);
                     tagRect.setWidth(r1.height() / 3.5);
                     tagRect.setHeight(tagRect.width());
@@ -482,7 +480,9 @@ public:
                     painter->setBrush(Qt::NoBrush);
                 }
                 if (!subText.isEmpty()) {
-                    r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
+                    bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
+                    int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
+                    r2.adjust(0, int(bounding.bottom() - r2.top()), -logicalIconSize * (hasAudioAndVideo ? 2 : 1) - (6 * textMargin), 0);
                     QColor subTextColor = painter->pen().color();
                     bool selected = opt.state & QStyle::State_Selected;
                     if (!selected) {
@@ -496,14 +496,11 @@ public:
                     }
                     painter->drawText(r2, Qt::AlignLeft | Qt::AlignTop, subText, &bounding);
                     // Add audio/video icons for selective drag
-                    bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
-                    int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
                     if (hasAudioAndVideo && (cType == ClipType::AV || cType == ClipType::Playlist || cType == ClipType::Timeline)) {
                         QRect audioRect(0, 0, logicalIconSize, logicalIconSize);
-                        audioRect.moveTop(bounding.top() + 1);
+                        audioRect.moveTop(bounding.bottom() - logicalIconSize);
                         QRect videoIconRect = audioRect;
-                        videoIconRect.moveRight(
-                            qMax(int(bounding.right() + (2 * textMargin) + 2 * (1 + logicalIconSize)), option.rect.right() - (2 * textMargin)));
+                        videoIconRect.moveRight(r1.right() - (2 * textMargin));
                         audioRect.moveRight(videoIconRect.left() - (2 * textMargin) - 1);
                         if (opt.state & QStyle::State_MouseOver) {
                             m_audioDragRect = audioRect.adjusted(-1, -1, 1, 1);
@@ -526,9 +523,8 @@ public:
                         }
                     } else if (!usage.isEmpty()) {
                         QRect iconRect(0, 0, logicalIconSize, logicalIconSize);
-                        iconRect.moveTop(bounding.top() + 1);
-                        int minPos = bounding.right() + (2 * textMargin) + logicalIconSize;
-                        iconRect.moveRight(qMax(minPos, option.rect.right() - (2 * textMargin)));
+                        iconRect.moveTop(bounding.bottom() - logicalIconSize);
+                        iconRect.moveRight(r1.right() - (2 * textMargin));
                         if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                             painter->drawImage(iconRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);
                         } else {
@@ -3527,6 +3523,9 @@ void Bin::slotInitView(QAction *action)
         connect(view, &MyTreeView::displayBinFrame, this, &Bin::showBinFrame);
         if (!m_headerInfo.isEmpty()) {
             view->header()->restoreState(m_headerInfo);
+            if (view->header()->hiddenSectionCount() == view->header()->count() - 1) {
+                adjustHeaderSize();
+            }
         } else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
             view->resizeColumnToContents(0);
@@ -3561,6 +3560,7 @@ void Bin::slotInitView(QAction *action)
             view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(),
                                              m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
         }
+
         connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this](int ix, Qt::SortOrder order) {
@@ -3613,6 +3613,24 @@ void Bin::slotInitView(QAction *action)
     m_itemView->setFocus();
 }
 
+void Bin::adjustHeaderSize()
+{
+    auto *view = static_cast<MyTreeView *>(m_itemView);
+    if (!view) {
+        return;
+    }
+    if (view->header()->hiddenSectionCount() != view->header()->count() - 1) {
+        return;
+    }
+    QFontMetricsF fm(view->font());
+    QStyle *style = view->style();
+    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+    const int decorationMargins = 2 * style->pixelMetric(QStyle::PM_TreeViewIndentation) + (style->pixelMetric(QStyle::PM_SmallIconSize) * 2);
+    m_minimumHeaderWidth = fm.boundingRect(QStringLiteral("00:00:00:00 [0][0]")).width() + m_iconSize.width() + 4 * textMargin + decorationMargins;
+    view->resizeColumnToContents(0);
+    view->header()->resizeSection(0, m_minimumHeaderWidth);
+}
+
 void Bin::slotSetIconSize(int size)
 {
     if (!m_itemView) {
@@ -3634,6 +3652,9 @@ void Bin::slotSetIconSize(int size)
     QPixmap pix(m_iconSize);
     pix.fill(Qt::lightGray);
     m_blankThumb.addPixmap(pix);
+    if (m_listType == BinTreeView) {
+        adjustHeaderSize();
+    }
 }
 
 void Bin::contextMenuEvent(QContextMenuEvent *event)
