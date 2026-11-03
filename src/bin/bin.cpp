@@ -361,11 +361,6 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
-        const QString text = index.data(AbstractProjectItem::DataName).toString();
-        QRectF r = option.rect;
-        QFont ft = option.font;
-        ft.setBold(true);
-        QFontMetricsF fm(ft);
         int type = index.data(AbstractProjectItem::ItemTypeRole).toInt();
         if (type == AbstractProjectItem::FolderItem) {
             return hint;
@@ -401,8 +396,10 @@ public:
             QFont font = painter->font();
             font.setBold(true);
             painter->setFont(font);
+            int decorationRight = -1;
             if (type == AbstractProjectItem::ClipItem || type == AbstractProjectItem::SubClipItem || type == AbstractProjectItem::SubSequenceItem) {
                 QRect r = style->subElementRect(QStyle::SE_ItemViewItemDecoration, &opt, opt.widget);
+                decorationRight = r.right() + 2 * textMargin;
                 FileStatus::ClipStatus clipStatus = FileStatus::ClipStatus(index.data(AbstractProjectItem::ClipStatus).toInt());
                 int cType = index.data(AbstractProjectItem::ClipType).toInt();
                 if (opt.decorationSize.height() > 0) {
@@ -455,10 +452,13 @@ public:
                     }
                 }
                 r1 = style->subElementRect(QStyle::SE_ItemViewItemText, &opt, opt.widget);
+                if (decorationRight > 0) {
+                    r1.setLeft(decorationRight);
+                }
                 int mid = int((r1.height() / 2));
                 QRect r2 = r1;
-                r1.adjust(0, 0, -textMargin, -mid);
-                r2.adjust(0, mid, -textMargin, 0);
+                r1.adjust(0, textMargin, -textMargin, -mid);
+                r2.adjust(0, mid + textMargin, -textMargin, 0);
                 QRectF bounding;
                 QFontMetrics fm(font);
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop,
