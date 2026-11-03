@@ -12,9 +12,6 @@
 
 bool ProfileInfo::operator==(const ProfileInfo &other) const
 {
-    if (!description().isEmpty() && other.description() == description()) {
-        return true;
-    }
     int fps = frame_rate_num() * 100 / frame_rate_den();
     int sar = sample_aspect_num() * 100 / sample_aspect_den();
     int dar = display_aspect_num() * 100 / display_aspect_den();
