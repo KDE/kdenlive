@@ -84,6 +84,18 @@ void KeyframeView::slotModelChanged()
     update();
 }
 
+void KeyframeView::enterEvent(QEnterEvent *event)
+{
+    QWidget::enterEvent(event);
+    pCore->setWidgetKeyBinding(i18n("<b>Shift Drag</b> for rubberband selection, <b>Alt Drag</b> to scale multiple keyframes"));
+}
+
+void KeyframeView::leaveEvent(QEvent *event)
+{
+    QWidget::leaveEvent(event);
+    pCore->setWidgetKeyBinding();
+}
+
 void KeyframeView::slotModelDisplayChanged()
 {
     int offset = m_relative ? 0 : pCore->getItemIn(m_model->getOwnerId());
@@ -263,6 +275,11 @@ void KeyframeView::mousePressEvent(QMouseEvent *event)
                 } else {
                     m_model->setActiveKeyframe(currentIx);
                 }
+                if (event->modifiers() & Qt::AltModifier && m_currentKeyframeOriginal > -1) {
+                    // Prepare scaled mode
+                    m_scaledMove = true;
+                    m_model->setScaledInfo(m_currentKeyframeOriginal);
+                }
                 return;
             }
             // no keyframe next to mouse
@@ -363,6 +380,10 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
                         return;
                     }
                 }
+                if (m_scaledMove) {
+                    m_model->moveScaledKeyframe(pos + offset, false, true);
+                    return;
+                }
                 for (int &kf : m_model->selectedKeyframes()) {
                     if (kf == 0) {
                         // Don't allow moving first keyframe
@@ -385,7 +406,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             m_clickEnd = pos;
             int min = qMin(m_clickPoint, m_clickEnd);
             int max = qMax(m_clickPoint, m_clickEnd);
-            min = qMax(1, min);
+            min = qMax(0, min);
             m_model->setSelectedKeyframes({});
             m_model->setActiveKeyframe(-1);
             m_currentKeyframeOriginal = -1;
@@ -393,7 +414,7 @@ void KeyframeView::mouseMoveEvent(QMouseEvent *event)
             int kfrIx = 0;
             for (const auto &keyframe : *m_model.get()) {
                 int kfPos = keyframe.first.frames(fps) - offset;
-                if (kfPos > min && kfPos <= max) {
+                if (kfPos >= min && kfPos <= max) {
                     m_model->appendSelectedKeyframe(kfrIx);
                 }
                 kfrIx++;
@@ -477,7 +498,15 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
     }
     if (m_moveKeyframeMode && m_model->activeKeyframe() >= 0 &&
         m_currentKeyframeOriginal != m_model->getPosAtIndex(m_model->activeKeyframe()).frames(pCore->getCurrentFps())) {
-        int delta = m_model->getPosAtIndex(m_model->activeKeyframe()).frames(pCore->getCurrentFps()) - m_currentKeyframeOriginal;
+        int updatedCurrentPos = m_model->getPosAtIndex(m_model->activeKeyframe()).frames(pCore->getCurrentFps());
+        if (m_scaledMove) {
+            m_model->moveScaledKeyframe(m_currentKeyframeOriginal, false, false);
+            m_model->moveScaledKeyframe(updatedCurrentPos, true, true);
+            m_model->resetScaledInfo();
+            m_scaledMove = false;
+            return;
+        }
+        int delta = updatedCurrentPos - m_currentKeyframeOriginal;
         // Move back all keyframes to their initial positions
         for (int &kf : m_model->selectedKeyframes()) {
             if (kf == 0) {
@@ -510,6 +539,7 @@ void KeyframeView::mouseReleaseEvent(QMouseEvent *event)
     }
     m_moveKeyframeMode = false;
     m_keyframeZonePress = false;
+    m_scaledMove = false;
 }
 
 void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
@@ -536,7 +566,8 @@ void KeyframeView::mouseDoubleClickEvent(QMouseEvent *event)
         }
 
         // add new keyframe
-        m_model->addKeyframe(position, KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp()));
+        KeyframeType::KeyframeEnum kfrType = m_model->getKeyframeTypeForPos(position);
+        m_model->addKeyframe(position, kfrType);
     } else {
         QWidget::mouseDoubleClickEvent(event);
     }

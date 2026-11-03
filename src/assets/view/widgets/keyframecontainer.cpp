@@ -177,6 +177,11 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
 
     m_applyAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), i18n("Apply current position value to selected keyframes"), parent);
 
+    QAction *setAsPreviousType = new QAction(i18n("Use Same Type As Previous Keyframe"), this);
+    setAsPreviousType->setCheckable(true);
+    setAsPreviousType->setChecked(KdenliveSettings::usepreviouskeyframeinterp());
+    connect(setAsPreviousType, &QAction::triggered, this, [](bool enable) { KdenliveSettings::setUsepreviouskeyframeinterp(enable); });
+
     // Keyframe type widget
     m_selectType = new KSelectAction(QIcon::fromTheme(QStringLiteral("linear")), i18n("Keyframe interpolation"), parent);
     QMap<KeyframeType::KeyframeEnum, QAction *> kfTypeHandles;
@@ -286,6 +291,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     menuAction->addAction(paste);
     menuAction->addAction(m_applyAction);
     menuAction->addSeparator();
+    menuAction->addAction(setAsPreviousType);
     menuAction->addAction(kfType);
     menuAction->addAction(removeNext);
     menuAction->addAction(autoLimit);

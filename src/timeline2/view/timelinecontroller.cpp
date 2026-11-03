@@ -2445,7 +2445,7 @@ void TimelineController::refreshItem(int id)
         return;
     }
     if (positionIsInItem(id)) {
-        pCore->refreshProjectMonitorOnce();
+        pCore->refreshProjectMonitorOnce(true);
     }
 }
 

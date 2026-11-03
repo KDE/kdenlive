@@ -52,6 +52,8 @@ protected:
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseDoubleClickEvent(QMouseEvent *event) override;
     void wheelEvent(QWheelEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     std::shared_ptr<KeyframeModelList> m_model;
@@ -66,7 +68,8 @@ private:
     double m_scale;
     double m_zoomFactor;
     double m_zoomStart;
-    bool m_moveKeyframeMode;
+    bool m_moveKeyframeMode{false};
+    bool m_scaledMove{false};
     bool m_keyframeZonePress;
     int m_clickPoint;
     int m_clickEnd;

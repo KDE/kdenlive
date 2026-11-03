@@ -45,7 +45,18 @@ public:
     explicit KeyframeModel(std::weak_ptr<AssetParameterModel> model, const QModelIndex &index, std::weak_ptr<DocUndoStack> undo_stack, int in = -1,
                            int out = -1, QObject *parent = nullptr);
 
-    enum { TypeRole = Qt::UserRole + 1, PosRole, FrameRole, ValueRole, NormalizedValueRole, SelectedRole, ActiveRole, MoveOnlyRole, PercentPositionRole };
+    enum {
+        TypeRole = Qt::UserRole + 1,
+        PosRole,
+        FrameRole,
+        ValueRole,
+        NormalizedValueRole,
+        SelectedRole,
+        ActiveRole,
+        MoveOnlyRole,
+        PercentPositionRole,
+        DescriptionRole
+    };
     friend class KeyframeModelList;
     friend class KeyframeContainer;
     friend class KeyframeImport;
@@ -91,6 +102,7 @@ public:
     bool moveKeyframe(GenTime oldPos, GenTime pos, QVariant newVal, bool logUndo);
     bool moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView = true,
                       bool allowedToFail = false);
+    bool moveKeyframeByIndex(int ix, int pos, Fun &undo, Fun &redo, bool logUndo, bool updateView);
 
     /** @brief updates the value of a keyframe
        @param old is the position of the keyframe
@@ -225,6 +237,8 @@ private:
     /** @brief update MLT keyframe value to reflect our model change */
     void updateMltKeyframeValue(std::shared_ptr<AssetParameterModel> model, const QString &paramName, GenTime pos, QVariant value,
                                 KeyframeType::KeyframeEnum type);
+    /** @brief Returns a user formatted value */
+    QString visibleValue(QVariant sourceValue) const;
     /** @brief Get wanted keyframe type for a specific position */
     KeyframeType::KeyframeEnum getKeyframeTypeForPos(const GenTime pos);
 

@@ -158,6 +158,8 @@ public:
     int activeKeyframe() const;
     /** @brief Set the currently active keyframe */
     void setActiveKeyframe(int pos);
+    /** @brief Get best keyframe type for a position */
+    KeyframeType::KeyframeEnum getKeyframeTypeForPos(const GenTime pos);
 
     /** @brief Parent item size change, update keyframes*/
     void resizeKeyframes(int oldIn, int oldOut, int in, int out, int offset, bool adjustFromEnd, Fun &undo, Fun &redo);
@@ -181,6 +183,10 @@ public:
     /** @brief Returns true if this is the first keyframable model in the list */
     bool isFirstParameter(std::shared_ptr<KeyframeModel> param) const;
 
+    Q_INVOKABLE void resetScaledInfo();
+    Q_INVOKABLE void setScaledInfo(int sourcePos);
+    Q_INVOKABLE void moveScaledKeyframe(int updatedPos, bool logUndo, bool updateView);
+
 protected:
     /** @brief Helper function to apply a given operation on all parameters */
     bool applyOperation(const std::function<bool(std::shared_ptr<KeyframeModel>, bool, Fun &, Fun &)> &op, Fun &undo, Fun &redo);
@@ -196,6 +202,12 @@ private:
     /** @brief Index of the parameter that is displayed in timeline */
     QModelIndex m_inTimelineIndex;
     mutable QReadWriteLock m_lock; // This is a lock that ensures safety in case of concurrent access
+    QMap<QModelIndex, QList<std::pair<int, int>>> m_scaledKFInfo;
+    std::pair<int, int> m_scaledRange;
+    std::pair<int, int> m_scaledLimits;
+    bool m_resizeFromStart{false};
+    double m_lastResizePercentage{1.};
+    bool moveKeyframeByIndex(int index, int newPos, Fun &undo, Fun &redo, bool logUndo, bool updateView);
 
 private Q_SLOTS:
     void slotUpdateModels(const QModelIndex &ix1, const QModelIndex &ix2, const QVector<int> &roles);

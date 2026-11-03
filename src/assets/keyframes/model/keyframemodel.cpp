@@ -323,6 +323,13 @@ int KeyframeModel::getKeyframeTypeAtFrame(int frame) const
     return getKeyframeTypeAtPos(pos);
 }
 
+bool KeyframeModel::moveKeyframeByIndex(int ix, int pos, Fun &undo, Fun &redo, bool logUndo, bool updateView)
+{
+    GenTime oPos = getPosAtIndex(ix);
+    GenTime nPos(pos, pCore->getCurrentFps());
+    return moveOneKeyframe(oPos, nPos, QVariant(), logUndo, undo, redo, updateView);
+}
+
 bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &newVal, bool logUndo, Fun &undo, Fun &redo, bool updateView, bool allowedToFail)
 {
     QWriteLocker locker(&m_lock);
@@ -418,14 +425,14 @@ bool KeyframeModel::moveKeyframe(GenTime oldPos, GenTime pos, const QVariant &ne
 KeyframeType::KeyframeEnum KeyframeModel::getKeyframeTypeForPos(const GenTime pos)
 {
     KeyframeType::KeyframeEnum kfrType = KeyframeType::KeyframeEnum(KdenliveSettings::defaultkeyframeinterp());
-    /*if (KdenliveSettings::usepreviouskeyframeinterp()) {
+    if (KdenliveSettings::usepreviouskeyframeinterp()) {
         // Check if we have a previous keyframe
         bool ok;
         Keyframe previous = getPrevKeyframe(pos, &ok);
         if (ok) {
             kfrType = previous.second;
         }
-    }*/
+    }
     return kfrType;
 }
 
@@ -472,43 +479,46 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
 
     // Now, move the keyframe using MLT
     int row = static_cast<int>(std::distance(m_keyframeList.begin(), m_keyframeList.find(oldPos)));
-    Fun local_undo = [this, row, pos, oldPos, originalKf, updateView, updatedValue, logUndo]() {
-        bool res = true;
-        if (auto ptr = m_model.lock()) {
-            const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
-            // fake query to force animation parsing
-            (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
-            Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
-            Q_ASSERT(anim.key_get_frame(row) == pos.frames(pCore->getCurrentFps()));
-            res = anim.key_set_frame(row, oldPos.frames(pCore->getCurrentFps())) == 0;
-            if (res) {
-                if (updatedValue) {
-                    updateMltKeyframeValue(ptr, name, oldPos, originalKf.second, originalKf.first);
-                }
-                m_keyframeList.erase(pos);
-                m_keyframeList[oldPos] = originalKf;
-                if (updatedValue) {
-                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, NormalizedValueRole});
-                } else {
-                    Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
-                }
-                if (updateView && !ptr->m_isAudio) {
-                    // Trigger monitor refresh
-                    pCore->refreshProjectItem(ptr->getOwnerId());
-                }
-                if (logUndo) {
-                    if (!ptr->m_isAudio) {
-                        pCore->invalidateItem(ptr->getOwnerId());
-                    } else {
-                        pCore->invalidateAudio(ptr->getOwnerId());
+    Fun local_undo = []() { return true; };
+    if (logUndo) {
+        local_undo = [this, row, pos, oldPos, originalKf, updatedValue, logUndo]() {
+            bool res = true;
+            if (auto ptr = m_model.lock()) {
+                const QString name = ptr->data(m_index, AssetParameterModel::NameRole).toString();
+                // fake query to force animation parsing
+                (void)ptr->getAsset()->anim_get_double(name.toUtf8().constData(), 0, -1);
+                Mlt::Animation anim = ptr->getAsset()->get_animation(name.toUtf8().constData());
+                Q_ASSERT(anim.key_get_frame(row) == pos.frames(pCore->getCurrentFps()));
+                res = anim.key_set_frame(row, oldPos.frames(pCore->getCurrentFps())) == 0;
+                if (res) {
+                    if (updatedValue) {
+                        updateMltKeyframeValue(ptr, name, oldPos, originalKf.second, originalKf.first);
                     }
+                    m_keyframeList.erase(pos);
+                    m_keyframeList[oldPos] = originalKf;
+                    if (updatedValue) {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, NormalizedValueRole});
+                    } else {
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
+                    }
+                    if (!ptr->m_isAudio) {
+                        // Trigger monitor refresh
+                        pCore->refreshProjectItem(ptr->getOwnerId());
+                    }
+                    if (logUndo) {
+                        if (!ptr->m_isAudio) {
+                            pCore->invalidateItem(ptr->getOwnerId());
+                        } else {
+                            pCore->invalidateAudio(ptr->getOwnerId());
+                        }
+                    }
+                } else {
+                    qDebug() << "KF MOVE UNDO OP FAILED";
                 }
-            } else {
-                qDebug() << "KF MOVE UNDO OP FAILED";
             }
-        }
-        return res;
-    };
+            return res;
+        };
+    }
     Fun local_redo = [this, row, pos, oldPos, finalKf, updateView, updatedValue, logUndo]() {
         bool res = true;
         // qDebug() << "PROCESSING MLT MOVE FROM: " << oldPos.frames(25) << " TO " << pos.frames(25) << " AT ROW: " << row;
@@ -528,7 +538,7 @@ bool KeyframeModel::moveOneKeyframe(GenTime oldPos, GenTime pos, QVariant newVal
                 m_keyframeList[pos] = finalKf;
                 if (updateView) {
                     if (updatedValue) {
-                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, ValueRole, NormalizedValueRole});
+                        Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole, ValueRole, NormalizedValueRole, DescriptionRole});
                     } else {
                         Q_EMIT dataChanged(index(row), index(row), {PosRole, FrameRole, PercentPositionRole});
                     }
@@ -918,6 +928,7 @@ QHash<int, QByteArray> KeyframeModel::roleNames() const
     roles[PercentPositionRole] = "percentPosition";
     roles[NormalizedValueRole] = "normalizedValue";
     roles[MoveOnlyRole] = "moveOnly";
+    roles[DescriptionRole] = "description";
     return roles;
 }
 
@@ -993,6 +1004,13 @@ QVariant KeyframeModel::data(const QModelIndex &index, int role) const
         return it->first.frames(pCore->getCurrentFps());
     case TypeRole:
         return QVariant::fromValue<KeyframeType::KeyframeEnum>(it->second.first);
+    case DescriptionRole:
+        if (m_paramType == ParamType::Roto_spline || it->second.second.isNull()) {
+            return KeyframeTypeName.value(it->second.first);
+        } else {
+            return QStringLiteral("%1\n%2").arg(KeyframeTypeName.value(it->second.first), visibleValue(it->second.second));
+        }
+        break;
     case SelectedRole:
         if (auto ptr = m_model.lock()) {
             return ptr->m_selectedKeyframes.contains(index.row());
@@ -1920,4 +1938,30 @@ QList<QVariant> KeyframeModel::testSerializeKeyframes() const
 const QString KeyframeModel::getSeparatorForKeyframeType(mlt_keyframe_type type)
 {
     return typeMap.value(type);
+}
+
+QString KeyframeModel::visibleValue(QVariant sourceValue) const
+{
+    bool ok;
+    double value = sourceValue.toDouble(&ok);
+    if (!ok) {
+        return sourceValue.toString();
+    }
+    if (auto ptr = m_model.lock()) {
+        QString result;
+        int decimals = ptr->data(m_index, AssetParameterModel::DecimalsRole).toInt();
+        if (decimals == 0) {
+            if (value > 0.) {
+                value += 0.001;
+            } else {
+                value -= 0.001;
+            }
+            result = QString::number(int(value));
+        } else {
+            result = QString::number(value, 'f', decimals);
+        }
+        result.append(ptr->data(m_index, AssetParameterModel::SuffixRole).toString());
+        return result;
+    }
+    return sourceValue.toString();
 }

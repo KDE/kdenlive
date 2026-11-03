@@ -471,6 +471,7 @@ protected:
     std::unique_ptr<Mlt::Properties> m_asset;
 
     std::shared_ptr<KeyframeModelList> m_keyframes;
+    /** @brief List of selected keyframes indexes for this effect */
     QVector<int> m_selectedKeyframes;
     int m_activeKeyframe;
     /** @brief if true, keyframe tools will be hidden by default */
