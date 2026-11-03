@@ -457,8 +457,8 @@ public:
                 }
                 int mid = int((r1.height() / 2));
                 QRect r2 = r1;
-                r1.adjust(0, textMargin, -textMargin, -mid);
-                r2.adjust(0, mid + textMargin, -textMargin, 0);
+                r1.adjust(0, textMargin, -2 * textMargin, -mid);
+                r2.adjust(0, mid + textMargin, -2 * textMargin, 0);
                 QRectF bounding;
                 QFontMetrics fm(font);
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop,
@@ -509,10 +509,13 @@ public:
                             painter->drawImage(videoIconRect.topLeft(), m_videoIcon);
                             // Use text color when selected (for better contrast) as selected background color is pretty close to highlight color
                             // Use main window palette as highlight color of "option" was too dark
-                            QColor rectColor = selected ? qApp->palette().text().color() : qApp->palette().highlight().color();
-                            painter->setPen(rectColor);
-                            painter->drawRect(m_audioDragRect);
-                            painter->drawRect(m_videoDragRect);
+                            const QColor rectColor = selected ? qApp->palette().text().color() : qApp->palette().highlight().color();
+                            QPen pen = painter->pen();
+                            pen.setColor(rectColor);
+                            pen.setWidth(0);
+                            painter->setPen(pen);
+                            painter->drawRoundedRect(m_audioDragRect, 4, 4);
+                            painter->drawRoundedRect(m_videoDragRect, 4, 4);
                         } else if (!usage.isEmpty()) {
                             if (index.data(AbstractProjectItem::AudioUsed).toBool()) {
                                 painter->drawImage(audioRect.topLeft(), selected ? m_audioIcon : m_audioUsedIcon);

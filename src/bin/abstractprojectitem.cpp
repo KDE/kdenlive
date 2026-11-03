@@ -106,11 +106,12 @@ const QString &AbstractProjectItem::clipId(bool) const
 QPixmap AbstractProjectItem::roundedPixmap(const QPixmap &source)
 {
     QPixmap pix(source.size());
-    pix.fill(QColor(0, 0, 0, 100));
+    pix.fill(Qt::transparent);
     QPainter p(&pix);
     p.setRenderHint(QPainter::Antialiasing, true);
     QPainterPath path;
-    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, 4, 4);
+    int radius = qMax(4, qMin(source.height(), source.width()) / 15);
+    path.addRoundedRect(0.5, 0.5, pix.width() - 1, pix.height() - 1, radius, radius);
     p.setClipPath(path);
     p.drawPixmap(0, 0, source);
     p.end();
