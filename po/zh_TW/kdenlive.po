@@ -1,11 +1,11 @@
 # pan93412 <pan93412@gmail.com>, 2018, 2019, 2020.
-# SPDX-FileCopyrightText: 2024, 2025 Kisaragi Hiu <mail@kisaragi-hiu.com>
+# SPDX-FileCopyrightText: 2024-2026 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-02 03:01+0000\n"
-"PO-Revision-Date: 2025-12-16 22:24+0900\n"
+"PO-Revision-Date: 2026-11-03 20:24+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-Basepath: /usr/share/locale/zh_TW/LC_MESSAGES\n"
-"X-Generator: Lokalize 26.03.70\n"
+"X-Generator: Lokalize 26.11.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -24666,7 +24666,7 @@ msgstr "庫德語（索拉尼語）"
 #: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Croatian"
-msgstr "克羅地亞語"
+msgstr "克羅埃西亞語"
 
 #: src/dialogs/speechdialog.cpp:515
 #: src/pythoninterfaces/speechtotextwhisper.cpp:77
