@@ -41,6 +41,7 @@ public: // STATIC
     static const QStringList getProxyForbiddenParams();
     static const QStringList getRenderForbiddenParams();
     static const QStringList getProxySafeParams();
+    static bool isTrustedProxyProfile(QString proxyData, const QString &extension);
     static QStringList checkUnknownProxyParams(QString proxyData);
     static void addSafeParameters(QStringList unknownParams);
 };
