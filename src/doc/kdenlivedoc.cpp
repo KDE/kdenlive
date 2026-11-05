@@ -1942,7 +1942,7 @@ bool KdenliveDoc::loadDocumentProperties()
     if (!proxyparams.isEmpty()) {
         bool discard = false;
         const QString proxyExtension = m_documentProperties.value(QStringLiteral("proxyextension"));
-        if (proxyExtension.length() > 8) {
+        if (proxyExtension.length() > 8 || !UiUtils::isTrustedProxyProfile(proxyparams, proxyExtension)) {
             discard = true;
         } else {
             // Sanitize parameters. First check for forbidden params

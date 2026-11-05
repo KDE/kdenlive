@@ -291,6 +291,10 @@ void ProxyTask::run()
                 } else {
                     // Sanitize parameters
                     const QString sanitized = proxyParams.remove(QLatin1Char('\\'));
+                    const QString proxyExtension = pCore->currentDoc()->getDocumentProperty(QStringLiteral("proxyextension"));
+                    if (!UiUtils::isTrustedProxyProfile(sanitized, proxyExtension)) {
+                        proxyParams = pCore->currentDoc()->getAutoProxyProfile();
+                    }
                     const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
                     for (auto &f : forbiddenArgs) {
                         if (sanitized.contains(f)) {
