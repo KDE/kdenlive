@@ -561,12 +561,11 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
         return addCompositionToClip(transitionId, topCid, 0);
     } else {
         int previousTrack = m_model->getPreviousTrackId(tid);
-        int lowerVideoTrackId = 0;
-        if (previousTrack != tid) {
-            lowerVideoTrackId = m_model->getTrackMltIndex(previousTrack);
+        if (previousTrack == tid) {
+            previousTrack = -1;
         }
-        if (lowerVideoTrackId > 0) {
-            int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByStartPosition(position);
+        if (previousTrack > 0) {
+            int lowerCid = m_model->getTrackById_const(previousTrack)->getClipByStartPosition(position);
             if (lowerCid > 0) {
                 // There is a clip on track below
                 topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
@@ -578,7 +577,7 @@ int TimelineController::insertNewCompositionAtPos(int tid, int position, const Q
                 // Check if we have clips above / below
                 topCid = m_model->getTrackById_const(tid)->getClipByPosition(position);
                 if (topCid > -1) {
-                    int lowerCid = m_model->getTrackById_const(lowerVideoTrackId)->getClipByPosition(position);
+                    int lowerCid = m_model->getTrackById_const(previousTrack)->getClipByPosition(position);
                     if (lowerCid > -1) {
                         // Find the clip starting last
                         if (m_model->getClipPosition(topCid) > m_model->getClipPosition(lowerCid)) {
