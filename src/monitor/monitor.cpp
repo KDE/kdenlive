@@ -1435,7 +1435,9 @@ void Monitor::wheelEvent(QWheelEvent *event)
 void Monitor::mouseDoubleClickEvent(QMouseEvent *event)
 {
     event->accept();
-    slotSwitchFullScreen();
+    if (!m_toolbar->underMouse()) {
+        slotSwitchFullScreen();
+    }
 }
 
 void Monitor::keyPressEvent(QKeyEvent *event)
