@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-04 01:01+0000\n"
-"PO-Revision-Date: 2026-10-28 04:04+0100\n"
+"PO-Revision-Date: 2026-11-04 04:09+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -4778,7 +4778,7 @@ msgstr ""
 #: data/effects/avfilter/avfilter_lagfun.xml:10
 #, kde-format
 msgid "Results depend on pixel format"
-msgstr ""
+msgstr "შედეგები პიქსელის ფორმატზეა დამოკიდებული"
 
 #: data/effects/avfilter/avfilter_lagfun.xml:11
 #, kde-format
@@ -4786,6 +4786,8 @@ msgid ""
 "All,None,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,Yα,"
 "Uα,YUα,Vα,YVα,UVα"
 msgstr ""
+"ყველა,არცერთი,Luma/Y/Red,Chroma/U/Green,Chroma/V/Blue,Alpha (α),YU,YV,UV,YUV,"
+"Yα,Uα,YUα,Vα,YVα,UVα"
 
 #: data/effects/avfilter/avfilter_lenscorrection.xml:4
 #, kde-format
@@ -20136,29 +20138,23 @@ msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "აღმოჩენილია ნაკლული საკვანძო კადრი მისამართზე %1. ავტომატურად დაემატა"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:1178
-#, fuzzy, kde-format
-#| msgid "Paste keyframes"
+#, kde-format
 msgid "Scale keyframes"
-msgstr "ძირითადი კადრების ჩასმა"
+msgstr "საკვანძო კადრების დამასშტაბება"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Remove keyframe"
-#| msgid_plural "Remove keyframes"
+#, kde-format
 msgid "Failed to move keyframe"
-msgstr "ძირითადი კადრის წაშლა"
+msgstr "საკვანძო კადრების გადატანა ჩავარდა"
 
 #: src/assets/keyframes/view/keyframeview.cpp:90
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</"
-#| "b> for multiple keyframe selection."
+#, kde-format
 msgid ""
 "<b>Shift Drag</b> for rubberband selection, <b>Alt Drag</b> to scale "
 "multiple keyframes"
 msgstr ""
 "<b>Shift+გადათრევა</b> მონიშნული საკვანძო კადრების მნიშვნელობის შესაცვლელად. "
-"<b>Ctrl+წკაპი</b> ერთზე მეტი საკვანძო კადრის მოსანიშნად."
+"<b>Alt+გადათრევა</b> ერთზე მეტი საკვანძო კადრის გასადიდებლად"
 
 #: src/assets/keyframes/view/keyframeview.cpp:153
 #, kde-format
@@ -20365,10 +20361,9 @@ msgid "Apply current position value to selected keyframes"
 msgstr "მიმდინარე მდებარეობის გადატარება მონიშნულ საკვანძო კადრებზე"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:180
-#, fuzzy, kde-format
-#| msgid "Go to Previous Keyframe"
+#, kde-format
 msgid "Use Same Type As Previous Keyframe"
-msgstr "გადასვლა წინა საკვანძო კადრზე"
+msgstr "წინა საკვანძო კადრის ტიპის გამოყენება"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:186
 #: src/assets/view/widgets/keyframecontainer.cpp:199
@@ -24242,7 +24237,7 @@ msgstr ""
 #: src/dialogs/renderwidget.cpp:2415
 #, kde-format
 msgid "Cannot start the waiting render jobs"
-msgstr ""
+msgstr "რენდერის დავალებების მოლოდინის დაწყება შეუძლებელია"
 
 #: src/dialogs/renderwidget.cpp:2570
 #, kde-format
@@ -37209,6 +37204,7 @@ msgstr ""
 #, kde-format
 msgid "Selection-only shadows require an updated MLT title renderer."
 msgstr ""
+"მხოლოდ-მონიშნულის ჩრდილებს განახლებული MLT-ის სათაურის რენდერი სჭირდება."
 
 #: src/titler/titlewidget.cpp:2183
 #, kde-format
