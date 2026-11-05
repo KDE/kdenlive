@@ -20,6 +20,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include "doc/kdenlivedoc.h"
 #include "kdenlive_debug.h"
 #include "project/projectmanager.h"
+#include <KArchiveDirectory>
 #include <KGuiItem>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -27,11 +28,58 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KTar>
 #include <KZip>
 
+#include <QList>
 #include <QMimeDatabase>
 #include <QStorageInfo>
 #include <QTreeWidget>
 #include <QtConcurrent/QtConcurrentRun>
 #include <utility>
+
+namespace {
+bool archiveContainsUnsafeEntry(const KArchiveDirectory *rootDirectory)
+{
+    QList<const KArchiveDirectory *> pendingDirectories{rootDirectory};
+    while (!pendingDirectories.isEmpty()) {
+        const KArchiveDirectory *directory = pendingDirectories.takeLast();
+        for (const QString &entryName : directory->entries()) {
+            // KArchiveDirectory::entries() should only return direct children.
+            // Do not rely on that when deciding where archive data lands.
+            if (entryName.isEmpty() || entryName == QLatin1String(".") || entryName == QLatin1String("..") || entryName.contains(QLatin1Char('/')) ||
+                entryName.contains(QLatin1Char('\\')) || entryName.contains(QChar::Null)) {
+                return true;
+            }
+
+            const KArchiveEntry *entry = directory->entry(entryName);
+            if (!entry || !entry->symLinkTarget().isEmpty()) {
+                return true;
+            }
+            if (entry->isDirectory()) {
+                pendingDirectories.append(static_cast<const KArchiveDirectory *>(entry));
+            }
+        }
+    }
+    return false;
+}
+
+QString defaultExtractionDirectory(const QUrl &archiveUrl)
+{
+    QString directoryName = QFileInfo(archiveUrl.toLocalFile()).completeBaseName();
+    if (directoryName.endsWith(QLatin1String(".tar"), Qt::CaseInsensitive)) {
+        directoryName.chop(4);
+    }
+    if (directoryName.isEmpty()) {
+        directoryName = QStringLiteral("kdenlive-project");
+    }
+
+    const QDir homeDirectory(QDir::homePath());
+    QString destination = homeDirectory.filePath(directoryName);
+    for (int suffix = 1; QFileInfo(destination).exists() || QFileInfo(destination).isSymLink(); ++suffix) {
+        destination = homeDirectory.filePath(directoryName + QStringLiteral("-%1").arg(suffix));
+    }
+    return destination;
+}
+} // namespace
+
 ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData, const QStringList &luma_list, const QStringList &other_list, QWidget *parent)
     : QDialog(parent)
     , m_requestedSize(0)
@@ -312,7 +360,7 @@ ArchiveWidget::ArchiveWidget(QUrl url, QWidget *parent)
     compression_type->setHidden(true);
     label->setText(i18n("Extract to"));
     setWindowTitle(i18nc("@title:window", "Open Archived Project"));
-    archive_url->setUrl(QUrl::fromLocalFile(QDir::homePath()));
+    archive_url->setUrl(QUrl::fromLocalFile(defaultExtractionDirectory(m_extractUrl)));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Extract"));
     connect(buttonBox->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &ArchiveWidget::slotStartExtracting);
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
@@ -360,6 +408,13 @@ void ArchiveWidget::openArchiveForExtraction()
     if (!m_archive->isOpen() && !m_archive->open(QIODevice::ReadOnly)) {
         Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("Cannot open archive file:\n %1", m_extractUrl.toLocalFile()));
         groupBox->setEnabled(false);
+        return;
+    }
+
+    if (archiveContainsUnsafeEntry(m_archive->directory())) {
+        Q_EMIT showMessage(QStringLiteral("dialog-close"), i18n("Archive contains an unsafe path or symbolic link"));
+        groupBox->setEnabled(false);
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
         return;
     }
 
@@ -1297,12 +1352,25 @@ void ArchiveWidget::slotStartExtracting()
         // TODO: abort extracting
         return;
     }
+    const QString destination = archive_url->url().toLocalFile();
+    const QFileInfo destinationInfo(destination);
+    if (destinationInfo.isSymLink() || (destinationInfo.exists() && !destinationInfo.isDir())) {
+        KMessageBox::error(this, i18n("Extraction destination must be a directory and must not be a symbolic link"));
+        return;
+    }
+
+    QDir dir(destination);
+    if (destinationInfo.exists() && !dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        KMessageBox::error(this, i18n("Extraction destination must be empty"));
+        return;
+    }
+    if (!destinationInfo.exists() && !dir.mkpath(QStringLiteral("."))) {
+        KMessageBox::error(this, i18n("Cannot create directory %1", destination));
+        return;
+    }
+
     QFileInfo f(m_extractUrl.toLocalFile());
     m_requestedSize = static_cast<KIO::filesize_t>(f.size());
-    QDir dir(archive_url->url().toLocalFile());
-    if (!dir.mkpath(QStringLiteral("."))) {
-        KMessageBox::error(this, i18n("Cannot create directory %1", archive_url->url().toLocalFile()));
-    }
     slotDisplayMessage(QStringLiteral("system-run"), i18n("Extracting…"));
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
     buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
