@@ -37,11 +37,11 @@ int CompositionModel::construct(const std::weak_ptr<TimelineModel> &parent, cons
         QDomNodeList params = xml.elementsByTagName(QStringLiteral("parameter"));
         for (int i = 0; i < params.count(); ++i) {
             QDomElement currentParameter = params.item(i).toElement();
-            QString paramName = currentParameter.attribute(QStringLiteral("name"));
+            const QString paramName = currentParameter.attribute(QStringLiteral("name"));
             if (!sourceProps.contains(paramName)) {
                 continue;
             }
-            QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
+            const QString paramValue = sourceProperties->get(paramName.toUtf8().constData());
             currentParameter.setAttribute(QStringLiteral("value"), paramValue);
         }
         if (sourceProps.contains(QStringLiteral("force_track"))) {
