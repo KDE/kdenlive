@@ -971,6 +971,9 @@ void ProjectManager::doOpenFile(const QUrl &url, KAutoSaveFile *stale, bool isBa
         Q_EMIT pCore->loadingMessageHide();
         // Open default blank document
         newFile(false);
+        if (!url.isEmpty()) {
+            Q_EMIT pCore->displayBinMessage(i18n("Failed to open project file <b>%1</b>.", url.fileName()), KMessageWidget::Error);
+        }
         return;
     }
 

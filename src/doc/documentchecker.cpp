@@ -316,7 +316,10 @@ bool DocumentChecker::hasErrorInProject()
             }
         }
     }
-    Q_ASSERT(!mainBinPlaylist.isNull());
+    if (mainBinPlaylist.isNull()) {
+        // Cannot recover the project, abort
+        return true;
+    }
 
     QDomNodeList documentTractors = m_doc.elementsByTagName(QStringLiteral("tractor"));
     QDomNodeList documentProducers = m_doc.elementsByTagName(QStringLiteral("producer"));
