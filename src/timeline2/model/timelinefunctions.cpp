@@ -1976,14 +1976,8 @@ QString TimelineFunctions::copyClips(const std::shared_ptr<TimelineItemModel> &t
         }
     });
 
-    qDebug() << "==============\n GROUP ROOTS: ";
-    for (int gp : groupRoots) {
-        qDebug() << "GROUP: " << gp;
-    }
-    qDebug() << "\n=======";
     grp.appendChild(copiedItems.createTextNode(timeline->m_groups->toJson(groupRoots)));
 
-    qDebug() << " / // / PASTED DOC: \n\n" << copiedItems.toString() << "\n\n------------";
     return copiedItems.toString();
 }
 
@@ -3577,7 +3571,6 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
             }
         }
     }
-    qDebug() << "=== GOT CONVERTED DOCUMENT\n\n" << destDoc.toString();
     return destDoc;
 }
 
