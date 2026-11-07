@@ -104,7 +104,7 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
         return mltImage;
     }
     producer->seek(framepos);
-    std::shared_ptr<Mlt::Frame> frame(producer->get_frame());
+    std::unique_ptr<Mlt::Frame> frame(producer->get_frame());
     if (frame == nullptr || !frame->is_valid()) {
         return mltImage;
     }
@@ -112,8 +112,8 @@ QImage MltPreview::getFrame(std::shared_ptr<Mlt::Producer> producer, int framepo
     mlt_image_format format = mlt_image_rgba;
     const uchar *imagedata = frame->get_image(format, width, height);
     if (imagedata != nullptr) {
-        memcpy(mltImage.bits(), imagedata, size_t(width * height * 4));
-        mltImage = mltImage.rgbSwapped();
+        const QImage temp(imagedata, width, height, QImage::Format_RGBA8888);
+        mltImage = temp.convertToFormat(QImage::Format_ARGB32);
     }
     return mltImage;
 }
