@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-06 00:50+0000\n"
+"POT-Creation-Date: 2026-11-07 00:56+0000\n"
 "PO-Revision-Date: 2025-12-06 21:49+0700\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <kde-i18n-doc@kde.org>\n"
@@ -18134,7 +18134,7 @@ msgstr "SoX"
 msgid "Process audio using a SoX effect"
 msgstr "ປະມວນຜົນສຽງໂດຍໃຊ້ເອັບເຟັກ SoX"
 
-#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:2035
+#: data/effects/sox/sox.xml:8 src/doc/documentchecker.cpp:2038
 #: src/monitor/view/MonitorSplit.qml:77
 #, kde-format
 msgid "Effect"
@@ -21763,7 +21763,7 @@ msgstr "ເພລິດ (Playlist)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/bin/bin.cpp:2969 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
-#: src/project/projectmanager.cpp:1784 src/project/projectmanager.cpp:1786
+#: src/project/projectmanager.cpp:1787 src/project/projectmanager.cpp:1789
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
@@ -22815,8 +22815,8 @@ msgstr "Id"
 msgid "Usage"
 msgstr "ການໃຊ້ງານ"
 
-#: src/bin/projectitemmodel.cpp:362 src/doc/documentchecker.cpp:2013
-#: src/doc/documentchecker.cpp:2043 src/doc/documentchecker.cpp:2065
+#: src/bin/projectitemmodel.cpp:362 src/doc/documentchecker.cpp:2016
+#: src/doc/documentchecker.cpp:2046 src/doc/documentchecker.cpp:2068
 #: src/mltcontroller/clipcontroller.cpp:541
 #: src/profiles/profilerepository.cpp:149
 #, kde-format
@@ -23696,7 +23696,7 @@ msgstr "ສົ່ງອອກຂໍ້ມູນຕົວໝາຍ"
 #: src/project/dialogs/archivewidget.cpp:932
 #: src/project/dialogs/archivewidget.cpp:944
 #: src/project/dialogs/archivewidget.cpp:950
-#: src/project/projectmanager.cpp:2097 src/project/projectmanager.cpp:2103
+#: src/project/projectmanager.cpp:2100 src/project/projectmanager.cpp:2106
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
@@ -23789,7 +23789,7 @@ msgid "If unsure,try :<br/><b>Unicode (UTF-8)</b>."
 msgstr "ຖ້າບໍ່ແນ່ໃຈ, ລອງ :<br/><b>Unicode (UTF-8)</b>."
 
 #: src/dialogs/importsubtitle.cpp:45 src/dialogs/importsubtitle.cpp:78
-#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1986
+#: src/project/dialogs/guideslist.cpp:404 src/project/projectmanager.cpp:1989
 #: src/renderpresets/renderpresetrepository.cpp:361
 #, kde-format
 msgid "Cannot read file %1"
@@ -26985,7 +26985,7 @@ msgstr "ໂຟນເດີຄລິບ"
 msgid "Applying fixes…"
 msgstr "ກຳລັງແກ້ໄຂ…"
 
-#: src/doc/documentchecker.cpp:199 src/doc/documentchecker.cpp:337
+#: src/doc/documentchecker.cpp:199 src/doc/documentchecker.cpp:340
 #, kde-format
 msgid "Checking for missing items…"
 msgstr "ກຳລັງກວດສອບລາຍການທີ່ຫາຍໄປ…"
@@ -27023,121 +27023,121 @@ msgid ""
 "%2"
 msgstr ""
 
-#: src/doc/documentchecker.cpp:2003
+#: src/doc/documentchecker.cpp:2006
 #, kde-format
 msgid "Video clip"
 msgstr "ຄລິບວິດີໂອ"
 
-#: src/doc/documentchecker.cpp:2005
+#: src/doc/documentchecker.cpp:2008
 #, kde-format
 msgid "Slideshow clip"
 msgstr "ຄລິບສະໄລໂຊ"
 
-#: src/doc/documentchecker.cpp:2007
+#: src/doc/documentchecker.cpp:2010
 #, kde-format
 msgid "Image clip"
 msgstr "ຄລິບຮູບພາບ"
 
-#: src/doc/documentchecker.cpp:2009
+#: src/doc/documentchecker.cpp:2012
 #, kde-format
 msgid "Playlist clip"
 msgstr "ຄລິບລາຍການຫຼິ້ນ"
 
-#: src/doc/documentchecker.cpp:2011 src/doc/documentchecker.cpp:2027
+#: src/doc/documentchecker.cpp:2014 src/doc/documentchecker.cpp:2030
 #, kde-format
 msgid "Title Image"
 msgstr "ຮູບພາບຫົວຂໍ້"
 
-#: src/doc/documentchecker.cpp:2023
+#: src/doc/documentchecker.cpp:2026
 #, kde-format
 msgid "Clip"
 msgstr "ຄລິບ"
 
-#: src/doc/documentchecker.cpp:2025
+#: src/doc/documentchecker.cpp:2028
 #, kde-format
 msgid "Title Font"
 msgstr "ຟອນຫົວຂໍ້"
 
-#: src/doc/documentchecker.cpp:2029
+#: src/doc/documentchecker.cpp:2032
 #, kde-format
 msgid "Luma file"
 msgstr "ໄຟລ໌ Luma"
 
-#: src/doc/documentchecker.cpp:2031
+#: src/doc/documentchecker.cpp:2034
 #, kde-format
 msgid "Asset file"
 msgstr "ໄຟລ໌ຊັບພະຍາກອນ"
 
-#: src/doc/documentchecker.cpp:2033
+#: src/doc/documentchecker.cpp:2036
 #: src/mltcontroller/clippropertiescontroller.cpp:679
 #, kde-format
 msgid "Proxy clip"
 msgstr "ຄລິບພຣັອກຊີ"
 
-#: src/doc/documentchecker.cpp:2037
+#: src/doc/documentchecker.cpp:2040
 #, kde-format
 msgid "Transition"
 msgstr "ການປ່ຽນ Scene"
 
-#: src/doc/documentchecker.cpp:2039
+#: src/doc/documentchecker.cpp:2042
 #, kde-format
 msgid "Unreferenced clip"
 msgstr "ຄລິບທີ່ບໍ່ໄດ້ອ້າງອີງ"
 
-#: src/doc/documentchecker.cpp:2041
+#: src/doc/documentchecker.cpp:2044
 #, kde-format
 msgid "Corrupted sequence"
 msgstr "ລຳດັບເສຍຫາຍ"
 
-#: src/doc/documentchecker.cpp:2051
+#: src/doc/documentchecker.cpp:2054
 #, kde-format
 msgctxt "status of a missing clip; fixed as in repaired"
 msgid "Fixed"
 msgstr "ແກ້ໄຂແລ້ວ"
 
-#: src/doc/documentchecker.cpp:2053
+#: src/doc/documentchecker.cpp:2056
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Reload"
 msgstr "ໂຫຼດໃໝ່"
 
-#: src/doc/documentchecker.cpp:2055
+#: src/doc/documentchecker.cpp:2058
 #, fuzzy, kde-format
 #| msgid "Remove"
 msgctxt "status of a remote clip"
 msgid "Remote"
 msgstr "ເອົາອອກ"
 
-#: src/doc/documentchecker.cpp:2057
+#: src/doc/documentchecker.cpp:2060
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing"
 msgstr "ຫາຍໄປ"
 
-#: src/doc/documentchecker.cpp:2059
+#: src/doc/documentchecker.cpp:2062
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Missing, but proxy available"
 msgstr "ຫາຍໄປ, ແຕ່ມີພຣັອກຊີ"
 
-#: src/doc/documentchecker.cpp:2061
+#: src/doc/documentchecker.cpp:2064
 #, kde-format
 msgctxt "status of a missing clip"
 msgid "Placeholder"
 msgstr "ຕົວແທນບ່ອນວ່າງ"
 
-#: src/doc/documentchecker.cpp:2063
+#: src/doc/documentchecker.cpp:2066
 #, kde-format
 msgctxt "action that will be performed on a missing clip"
 msgid "Remove"
 msgstr "ລຶບອອກ"
 
-#: src/doc/documentchecker.cpp:2074
+#: src/doc/documentchecker.cpp:2077
 #, kde-format
 msgid "The project file contains missing clips or files."
 msgstr "ໄຟລ໌ໂຄງການມີຄລິບ ຫຼື ໄຟລ໌ທີ່ຫາຍໄປ."
 
-#: src/doc/documentchecker.cpp:2077
+#: src/doc/documentchecker.cpp:2080
 #, kde-format
 msgid "Missing proxies can be recreated on opening."
 msgstr "ພຣັອກຊີທີ່ຫາຍໄປສາມາດຖືກສ້າງໃໝ່ເມື່ອເປີດ."
@@ -27352,8 +27352,8 @@ msgstr ""
 "ໄຟລ໌ໂຄງການຂອງທ່ານຖືກອັບເກຣດເປັນເວີຊັນເອກະສານ Kdenlive ລ່າສຸດ, ແຕ່ບໍ່ສາມາດສ້າງສຳເນົາສຳຮອງ "
 "%1 ໄດ້."
 
-#: src/doc/kdenlivedoc.cpp:991 src/project/projectmanager.cpp:1648
-#: src/project/projectmanager.cpp:1692
+#: src/doc/kdenlivedoc.cpp:991 src/project/projectmanager.cpp:1651
+#: src/project/projectmanager.cpp:1695
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "ເກີດຂໍ້ຜິດພາດໃນການຍ້າຍໂຟນເດີໂຄງການ: %1"
@@ -33947,7 +33947,7 @@ msgstr "ເປີດຟາຍສຳຮອງ..."
 msgid "Save changes to document?"
 msgstr "ບັນທຶກການປ່ຽນແປງໃສ່ເອກະສານບໍ່?"
 
-#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1923
+#: src/project/projectmanager.cpp:439 src/project/projectmanager.cpp:1926
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> has been changed.\n"
@@ -34023,12 +34023,12 @@ msgstr ""
 "%1\n"
 "ເຈົ້າຕ້ອງການເປີດຟາຍສຳຮອງບໍ່?"
 
-#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1224
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1227
 #, kde-format
 msgid "Error opening file"
 msgstr "ເກີດຂໍ້ຜິດພາດໃນການເປີດຟາຍ"
 
-#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1225
+#: src/project/projectmanager.cpp:945 src/project/projectmanager.cpp:1228
 #, kde-format
 msgid "Open Backup"
 msgstr "ເປີດຟາຍສຳຮອງ"
@@ -34038,28 +34038,34 @@ msgstr "ເປີດຟາຍສຳຮອງ"
 msgid "Could not open the backup project file."
 msgstr "ບໍ່ສາມາດເປີດຟາຍໂຄງການສຳຮອງໄດ້."
 
-#: src/project/projectmanager.cpp:978
+#: src/project/projectmanager.cpp:975
+#, fuzzy, kde-format
+#| msgid "Cannot open project file %1"
+msgid "Failed to open project file <b>%1</b>."
+msgstr "ບໍ່ສາມາດເປີດຟາຍໂຄງການ %1 ໄດ້"
+
+#: src/project/projectmanager.cpp:981
 #, kde-format
 msgid "Your project was upgraded, a backup will be created on next save"
 msgstr "ໂຄງການຂອງເຈົ້າຖືກອັບເກຣດແລ້ວ, ຈະມີການສ້າງຟາຍສຳຮອງໃນການບັນທຶກຄັ້ງຕໍ່ໄປ"
 
-#: src/project/projectmanager.cpp:980
+#: src/project/projectmanager.cpp:983
 #, kde-format
 msgid ""
 "Your project was modified on opening, a backup will be created on next save"
 msgstr "ໂຄງການຂອງເຈົ້າຖືກແກ້ໄຂເມື່ອເປີດ, ຈະມີການສ້າງຟາຍສຳຮອງໃນການບັນທຶກຄັ້ງຕໍ່ໄປ"
 
-#: src/project/projectmanager.cpp:1055
+#: src/project/projectmanager.cpp:1058
 #, kde-format
 msgid "Loading timeline…"
 msgstr "ກຳລັງໂຫຼດເສັ້ນເວລາ…"
 
-#: src/project/projectmanager.cpp:1078
+#: src/project/projectmanager.cpp:1081
 #, kde-format
 msgid "Building sequences…"
 msgstr "ກຳລັງສ້າງລຳດັບພາບ…"
 
-#: src/project/projectmanager.cpp:1251
+#: src/project/projectmanager.cpp:1254
 #, kde-format
 msgid ""
 "Cannot open the project file. Error:\n"
@@ -34068,19 +34074,19 @@ msgstr ""
 "ບໍ່ສາມາດເປີດຟາຍໂຄງການໄດ້. ຂໍ້ຜິດພາດ:\n"
 "%1\n"
 
-#: src/project/projectmanager.cpp:1291
+#: src/project/projectmanager.cpp:1294
 #, kde-format
 msgid ""
 "This will delete all changes made since you last saved your project. Are you "
 "sure you want to continue?"
 msgstr "ອັນນີ້ຈະລຶບການປ່ຽນແປງທັງໝົດທີ່ເຮັດຕັ້ງແຕ່ຄັ້ງລ່າສຸດທີ່ເຈົ້າບັນທຶກໂຄງການ. ເຈົ້າແນ່ໃຈບໍ່ວ່າຕ້ອງການສືບຕໍ່?"
 
-#: src/project/projectmanager.cpp:1292
+#: src/project/projectmanager.cpp:1295
 #, kde-format
 msgid "Revert to last saved version"
 msgstr "ກັບຄືນສູ່ເວີຊັນທີ່ບັນທຶກລ່າສຸດ"
 
-#: src/project/projectmanager.cpp:1403
+#: src/project/projectmanager.cpp:1406
 #, kde-format
 msgid ""
 "Project was corrupted, cannot backup. Please close and reopen your project "
@@ -34089,35 +34095,35 @@ msgstr ""
 "ໂຄງການເສຍຫາຍ, ບໍ່ສາມາດສຳຮອງໄດ້. ກະລຸນາປິດ ແລະ "
 "ເປີດຟາຍໂຄງການຂອງເຈົ້າໃໝ່ເພື່ອກູ້ຄືນຟາຍສຳຮອງລ່າສຸດ"
 
-#: src/project/projectmanager.cpp:1624
+#: src/project/projectmanager.cpp:1627
 #, kde-format
 msgid "Error moving project folder, cannot access cache folder"
 msgstr "ເກີດຂໍ້ຜິດພາດໃນການຍ້າຍໂຟນເດີໂຄງການ, ບໍ່ສາມາດເຂົ້າເຖິງໂຟນເດີແຄຊ໌ໄດ້"
 
-#: src/project/projectmanager.cpp:1662
+#: src/project/projectmanager.cpp:1665
 #, kde-format
 msgid "Moving project folder"
 msgstr "ກຳລັງຍ້າຍໂຟນເດີໂຄງການ"
 
-#: src/project/projectmanager.cpp:1763 src/project/projectmanager.cpp:1819
-#: src/project/projectmanager.cpp:1823
+#: src/project/projectmanager.cpp:1766 src/project/projectmanager.cpp:1822
+#: src/project/projectmanager.cpp:1826
 #, kde-format
 msgid "Sequence 1"
 msgstr "ລຳດັບພາບ 1"
 
-#: src/project/projectmanager.cpp:1774
+#: src/project/projectmanager.cpp:1777
 #, kde-format
 msgid ""
 "Project file is corrupted - failed to load tracks. Try to find a backup file?"
 msgstr "ຟາຍໂຄງການເສຍຫາຍ - ໂຫຼດແທຣັກບໍ່ສຳເລັດ. ລອງຊອກຫາຟາຍສຳຮອງບໍ່?"
 
-#: src/project/projectmanager.cpp:1915 src/project/projectmanager.cpp:1928
-#: src/project/projectmanager.cpp:1952 src/project/projectmanager.cpp:1961
+#: src/project/projectmanager.cpp:1918 src/project/projectmanager.cpp:1931
+#: src/project/projectmanager.cpp:1955 src/project/projectmanager.cpp:1964
 #, kde-format
 msgid "Project profile change aborted"
 msgstr "ການປ່ຽນໂປຣໄຟລ໌ໂຄງການຖືກຍົກເລີກ"
 
-#: src/project/projectmanager.cpp:2091
+#: src/project/projectmanager.cpp:2094
 #, kde-format
 msgid ""
 "Output file %1 already exists.\n"
@@ -34126,12 +34132,12 @@ msgstr ""
 "ມີຟາຍຜົນລັັບ %1 ຢູ່ແລ້ວ.\n"
 "ເຈົ້າຕ້ອງການຂຽນທັບມັນບໍ່?"
 
-#: src/project/projectmanager.cpp:2116
+#: src/project/projectmanager.cpp:2119
 #, kde-format
 msgid "Project profile changed"
 msgstr "ໂປຣໄຟລ໌ໂຄງການຖືກປ່ຽນແລ້ວ"
 
-#: src/project/projectmanager.cpp:2180
+#: src/project/projectmanager.cpp:2183
 #, kde-format
 msgid ""
 "Cannot create a timeline from this clip:\n"
@@ -34140,57 +34146,57 @@ msgstr ""
 "ບໍ່ສາມາດສ້າງເສັ້ນເວລາຈາກຄລິບນີ້ໄດ້:\n"
 "%1"
 
-#: src/project/projectmanager.cpp:2269
+#: src/project/projectmanager.cpp:2272
 #, kde-format
 msgid "Importing a sequence clip, this is currently in experimental state"
 msgstr "ກຳລັງນຳເຂົ້າຄລິບລຳດັບພາບ, ນີ້ຍັງຢູ່ໃນຂັ້ນຕອນທົດລອງ"
 
-#: src/project/projectmanager.cpp:2503 src/project/projectmanager.cpp:2558
+#: src/project/projectmanager.cpp:2506 src/project/projectmanager.cpp:2561
 #, kde-format
 msgid "Select a clip to create sequence"
 msgstr "ເລືອກຄລິບເພື່ອສ້າງລຳດັບພາບ"
 
-#: src/project/projectmanager.cpp:2509 src/project/projectmanager.cpp:2516
-#: src/project/projectmanager.cpp:2566
+#: src/project/projectmanager.cpp:2512 src/project/projectmanager.cpp:2519
+#: src/project/projectmanager.cpp:2569
 #, kde-format
 msgid "Sequence creation failed"
 msgstr "ການສ້າງລຳດັບພາບລົ້ມເຫຼວ"
 
-#: src/project/projectmanager.cpp:2543
+#: src/project/projectmanager.cpp:2546
 #, kde-format
 msgid "Cannot insert sequence in current timeline"
 msgstr "ບໍ່ສາມາດແຊກລຳດັບພາບໃສ່ເສັ້ນເວລາປັດຈຸບັນໄດ້"
 
-#: src/project/projectmanager.cpp:2547
+#: src/project/projectmanager.cpp:2550
 #, kde-format
 msgid "Create Sequence Clip"
 msgstr "ສ້າງຄລິບລຳດັບພາບ"
 
-#: src/project/projectmanager.cpp:2584
+#: src/project/projectmanager.cpp:2587
 #, fuzzy, kde-format
 #| msgid "Switch to next Sequence"
 msgid "Copy clips to new Sequence"
 msgstr "ສະຫຼັບໄປລຳດັບຖັດໄປ"
 
-#: src/project/projectmanager.cpp:2676
+#: src/project/projectmanager.cpp:2679
 #, kde-format
 msgid "<br>Lock owner: process %1 on %2."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2679
+#: src/project/projectmanager.cpp:2682
 #, kde-format
 msgid ""
 "The project <b>\"%1\"</b> seems to be already opened in another Kdenlive "
 "session.%2<br><br>Opening it in two sessions can cause data loss."
 msgstr ""
 
-#: src/project/projectmanager.cpp:2683
+#: src/project/projectmanager.cpp:2686
 #, fuzzy, kde-format
 #| msgid "Project profile changed"
 msgid "Project Already Opened"
 msgstr "ໂປຣໄຟລ໌ໂຄງການຖືກປ່ຽນແລ້ວ"
 
-#: src/project/projectmanager.cpp:2683
+#: src/project/projectmanager.cpp:2686
 #, fuzzy, kde-format
 #| msgctxt "@action:button"
 #| msgid "Render Anyway"
