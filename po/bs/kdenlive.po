@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bosnianuniversetranslation\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-07 00:56+0000\n"
+"POT-Creation-Date: 2026-11-08 02:56+0000\n"
 "PO-Revision-Date: 2015-01-09 12:00+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bs@li.org>\n"
@@ -36307,126 +36307,126 @@ msgstr "Dodaj snimak u projekat"
 msgid "Enter a name for the clip in Library"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste clips"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:2010
-#: src/timeline2/model/timelinefunctions.cpp:2184
-#: src/timeline2/model/timelinefunctions.cpp:2207
-#: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2665
+#: src/timeline2/model/timelinefunctions.cpp:2004
+#: src/timeline2/model/timelinefunctions.cpp:2178
+#: src/timeline2/model/timelinefunctions.cpp:2201
+#: src/timeline2/model/timelinefunctions.cpp:2238
+#: src/timeline2/model/timelinefunctions.cpp:2659
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "Not enough tracks to paste clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2079
+#: src/timeline2/model/timelinefunctions.cpp:2073
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2086
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid "No valid data in clipboard"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2130
+#: src/timeline2/model/timelinefunctions.cpp:2124
 #, fuzzy, kde-format
 #| msgid "Import keyframes from clip"
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr "Unesi glavne okvire iz isječka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2294
-#: src/timeline2/model/timelinefunctions.cpp:2325
-#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2267
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2319
+#: src/timeline2/model/timelinefunctions.cpp:2324
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Pasted clips"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:2314
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
 "project.<br/>Clips or keyframes might be messed up."
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #, kde-format
 msgid "Pasting Warning"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #: src/titler/titlewidget.cpp:4153
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Paste"
 msgstr "Snimci liste zvukova"
 
-#: src/timeline2/model/timelinefunctions.cpp:2449
-#: src/timeline2/model/timelinefunctions.cpp:2573
-#: src/timeline2/model/timelinefunctions.cpp:2601
+#: src/timeline2/model/timelinefunctions.cpp:2443
+#: src/timeline2/model/timelinefunctions.cpp:2567
+#: src/timeline2/model/timelinefunctions.cpp:2595
 #, fuzzy, kde-format
 #| msgid "Adding clips"
 msgid "Could not add bin clip"
 msgstr "Dodavanje isječaka"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2651
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:2713
-#: src/timeline2/model/timelinefunctions.cpp:2896
+#: src/timeline2/model/timelinefunctions.cpp:2707
+#: src/timeline2/model/timelinefunctions.cpp:2890
 #, fuzzy, kde-format
 #| msgid "update values in timeline"
 msgid "Could not paste items in timeline"
 msgstr "ažuriraj vrijednosti na vremenskoj osi"
 
-#: src/timeline2/model/timelinefunctions.cpp:2920
+#: src/timeline2/model/timelinefunctions.cpp:2914
 #, fuzzy, kde-format
 #| msgid "Delete timeline clip"
 #| msgid_plural "Delete timeline clips"
 msgid "Paste timeline clips"
 msgstr "Obriši snimak vremenske skale"
 
-#: src/timeline2/model/timelinefunctions.cpp:3140
+#: src/timeline2/model/timelinefunctions.cpp:3134
 #, fuzzy, kde-format
 #| msgid "Remove Space"
 msgid "Remove space on track"
 msgstr "Izbaci prostor"
 
-#: src/timeline2/model/timelinefunctions.cpp:3171
+#: src/timeline2/model/timelinefunctions.cpp:3165
 #, fuzzy, kde-format
 #| msgid "Delete track"
 msgid "Delete clips on track"
 msgstr "Izbriši traku"
 
-#: src/timeline2/model/timelinefunctions.cpp:3192
+#: src/timeline2/model/timelinefunctions.cpp:3186
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "No clips found in timeline"
 msgstr "Nije moguće ubacivanje snimka na vremensku skalu"
 
-#: src/timeline2/model/timelinefunctions.cpp:3221
+#: src/timeline2/model/timelinefunctions.cpp:3215
 #, fuzzy, kde-format
 #| msgid "Cannot insert clip in timeline"
 msgid "No gaps found in timeline"
 msgstr "Nije moguće ubacivanje snimka na vremensku skalu"
 
-#: src/timeline2/model/timelinefunctions.cpp:3230
-#: src/timeline2/model/timelinefunctions.cpp:3262
+#: src/timeline2/model/timelinefunctions.cpp:3224
+#: src/timeline2/model/timelinefunctions.cpp:3256
 #, kde-format
 msgid "Gap"
 msgstr ""
 
-#: src/timeline2/model/timelinefunctions.cpp:3255
+#: src/timeline2/model/timelinefunctions.cpp:3249
 #, fuzzy, kde-format
 #| msgid "Cannot paste clip to selected place"
 msgid "No gaps found on selected track"

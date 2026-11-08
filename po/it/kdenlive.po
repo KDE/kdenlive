@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-07 00:56+0000\n"
+"POT-Creation-Date: 2026-11-08 02:56+0000\n"
 "PO-Revision-Date: 2026-10-23 16:50+0200\n"
 "Last-Translator: Paolo Zamponi <feus73@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
@@ -36630,31 +36630,31 @@ msgstr "Aggiungi clip alla libreria"
 msgid "Enter a name for the clip in Library"
 msgstr "Inserisci un nome per la clip nella libreria"
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Paste clips"
 msgstr "Incolla clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2010
-#: src/timeline2/model/timelinefunctions.cpp:2184
-#: src/timeline2/model/timelinefunctions.cpp:2207
-#: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2665
+#: src/timeline2/model/timelinefunctions.cpp:2004
+#: src/timeline2/model/timelinefunctions.cpp:2178
+#: src/timeline2/model/timelinefunctions.cpp:2201
+#: src/timeline2/model/timelinefunctions.cpp:2238
+#: src/timeline2/model/timelinefunctions.cpp:2659
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Non ci sono abbastanza tracce per incollare gli appunti"
 
-#: src/timeline2/model/timelinefunctions.cpp:2079
+#: src/timeline2/model/timelinefunctions.cpp:2073
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "È già in corso un'altra operazione di incollaggio"
 
-#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2086
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Nessuna dato valido negli appunti"
 
-#: src/timeline2/model/timelinefunctions.cpp:2130
+#: src/timeline2/model/timelinefunctions.cpp:2124
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -36662,15 +36662,15 @@ msgstr ""
 "Non ci sono abbastanza tracce per incollare gli appunti (ne sono richieste "
 "%1 audio e %2 video)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2294
-#: src/timeline2/model/timelinefunctions.cpp:2325
-#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2267
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2319
+#: src/timeline2/model/timelinefunctions.cpp:2324
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clip incollate"
 
-#: src/timeline2/model/timelinefunctions.cpp:2314
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -36680,67 +36680,67 @@ msgstr ""
 "rispetto all'attuale.<br/>Potresti avere dei problemi con le clip o con i "
 "fotogrammi chiave."
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Avviso di incollaggio"
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Incolla"
 
-#: src/timeline2/model/timelinefunctions.cpp:2449
-#: src/timeline2/model/timelinefunctions.cpp:2573
-#: src/timeline2/model/timelinefunctions.cpp:2601
+#: src/timeline2/model/timelinefunctions.cpp:2443
+#: src/timeline2/model/timelinefunctions.cpp:2567
+#: src/timeline2/model/timelinefunctions.cpp:2595
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Impossibile aggiungere contenitore di clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2651
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "Non tutte le clip sono state copiate con successo"
 
-#: src/timeline2/model/timelinefunctions.cpp:2713
-#: src/timeline2/model/timelinefunctions.cpp:2896
+#: src/timeline2/model/timelinefunctions.cpp:2707
+#: src/timeline2/model/timelinefunctions.cpp:2890
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Impossibile incollare gli elementi nella linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:2920
+#: src/timeline2/model/timelinefunctions.cpp:2914
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Incolla clip della linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:3140
+#: src/timeline2/model/timelinefunctions.cpp:3134
 #, kde-format
 msgid "Remove space on track"
 msgstr "Rimuovi lo spazio sulla traccia"
 
-#: src/timeline2/model/timelinefunctions.cpp:3171
+#: src/timeline2/model/timelinefunctions.cpp:3165
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Elimina le clip sulla traccia"
 
-#: src/timeline2/model/timelinefunctions.cpp:3192
+#: src/timeline2/model/timelinefunctions.cpp:3186
 #, kde-format
 msgid "No clips found in timeline"
 msgstr "Nessuna clip trovata nella linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:3221
+#: src/timeline2/model/timelinefunctions.cpp:3215
 #, kde-format
 msgid "No gaps found in timeline"
 msgstr "Nessuno spazio vuoto trovato nella linea temporale"
 
-#: src/timeline2/model/timelinefunctions.cpp:3230
-#: src/timeline2/model/timelinefunctions.cpp:3262
+#: src/timeline2/model/timelinefunctions.cpp:3224
+#: src/timeline2/model/timelinefunctions.cpp:3256
 #, kde-format
 msgid "Gap"
 msgstr "Spazio vuoto"
 
-#: src/timeline2/model/timelinefunctions.cpp:3255
+#: src/timeline2/model/timelinefunctions.cpp:3249
 #, kde-format
 msgid "No gaps found on selected track"
 msgstr "Nessun spazio vuoto trovato nella traccia selezionata"

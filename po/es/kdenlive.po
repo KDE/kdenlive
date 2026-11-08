@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-07 00:56+0000\n"
-"PO-Revision-Date: 2026-11-05 22:52+0100\n"
+"POT-Creation-Date: 2026-11-08 02:56+0000\n"
+"PO-Revision-Date: 2026-11-07 23:01+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
@@ -21128,13 +21128,13 @@ msgstr "Registro detallado"
 #: src/assets/assetpanel.cpp:580
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
-msgstr "Existe una tarea de enmascaramiento ejecutándose. ¿Abortarla?"
+msgstr "Existe una tarea de enmascaramiento ejecutándose. ¿Interrumpirla?"
 
 #: src/assets/assetpanel.cpp:581
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
-msgstr "Abortar tarea de máscara"
+msgstr "Interrumpir tarea de máscara"
 
 #: src/assets/keyframes/model/automask/automaskhelper.cpp:414
 #, kde-format
@@ -21444,7 +21444,7 @@ msgstr "Nombre del nuevo preajuste:"
 #: src/project/dialogs/archivewidget.cpp:419
 #, kde-format
 msgid "Abort processing"
-msgstr "Cancelar procesamiento"
+msgstr "Interrumpir procesamiento"
 
 #: src/assets/view/widgets/curves/keyframe/keyframecurveeditor.cpp:443
 #, kde-format
@@ -24998,7 +24998,7 @@ msgstr "Falló el procesamiento"
 #: src/dialogs/renderwidget.cpp:290
 #, kde-format
 msgid "Rendering aborted"
-msgstr "Procesamiento cancelado"
+msgstr "Procesamiento interrumpido"
 
 #: src/dialogs/renderwidget.cpp:388
 #, kde-format
@@ -25245,8 +25245,8 @@ msgid ""
 "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
 "you want to overwrite it…"
 msgstr ""
-"Ya existe una tarea escribiendo en el archivo:<br /><b>%1</b><br />Cancelar "
-"esa tarea si se desea su sobrescritura…"
+"Ya existe una tarea escribiendo en el archivo:<br /><b>%1</b><br /"
+">Interrumpir esa tarea si se desea sobrescribirlo…"
 
 #: src/dialogs/renderwidget.cpp:1131 src/dialogs/renderwidget.cpp:2136
 #, kde-format
@@ -25347,14 +25347,14 @@ msgstr "<strong>Falló el procesamiento de %1</strong><br />"
 #: src/dialogs/renderwidget.cpp:1957
 #, kde-format
 msgid "Are you sure you want to abort the current job?"
-msgstr "¿Seguro cancelar la tarea actual?"
+msgstr "¿Seguro interrumpir la tarea actual?"
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1957 src/dialogs/renderwidget.cpp:1992
 #: src/ui/renderwidget_ui.ui:946
 #, kde-format
 msgid "Abort Job"
-msgstr "Cancelar tarea"
+msgstr "Interrumpir tarea"
 
 #: src/dialogs/renderwidget.cpp:1958 src/dialogs/wizard.cpp:80
 #: src/doc/kdenlivedoc.cpp:1978 src/onlineresources/resourcewidget.cpp:50
@@ -25364,7 +25364,7 @@ msgstr "Cancelar tarea"
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:285
 #, kde-format
 msgid "Abort"
-msgstr "Cancelar"
+msgstr "Interrumpir"
 
 #: src/dialogs/renderwidget.cpp:1965
 #, kde-format
@@ -26145,7 +26145,7 @@ msgstr "Comenzando reconocimiento de voz"
 #: src/dialogs/speechdialog.cpp:440 src/dialogs/textbasededit.cpp:1302
 #, kde-format
 msgid "Speech recognition aborted."
-msgstr "Reconocimiento de voz cancelado."
+msgstr "Reconocimiento de voz interrumpido."
 
 #: src/dialogs/speechdialog.cpp:446
 #, kde-format
@@ -27376,7 +27376,7 @@ msgid ""
 "the new job. Do you want to proceed?"
 msgstr ""
 "Ya se encuentra en ejecución otra tarea de reconocimiento de voz. Será "
-"cancelada en favor de la nueva tarea. ¿Proceder?"
+"interrumpida en favor de la nueva tarea. ¿Proceder?"
 
 #: src/dialogs/textbasededit.cpp:1102
 #, kde-format
@@ -27796,8 +27796,8 @@ msgid ""
 "intentional and you fully trust the remote sources."
 msgstr ""
 "Este proyecto pretende cargar recursos desde Internet.<br> <b><i>Esto podría "
-"representar un riesgo de seguridad</i></b>!<br> Cancelar la carga, a menos "
-"que se confíe completamente en las fuentes remotas."
+"representar un riesgo de seguridad</i></b>!<br> Interrumpir la carga, a "
+"menos que se confíe completamente en las fuentes remotas."
 
 #: src/doc/dcresolvedialog.cpp:197
 #, kde-format
@@ -28853,7 +28853,7 @@ msgstr ""
 #: src/effects/effectstack/view/effectstackview.cpp:987
 #, kde-format
 msgid "Abort Mask Creation"
-msgstr "Abortar creación de máscara"
+msgstr "Interrumpir creación de máscara"
 
 #: src/effects/effectstack/view/effectstackview.cpp:1034
 #, kde-format
@@ -30365,7 +30365,7 @@ msgstr "Continuar procesando en segundo plano"
 #: src/mainwindow.cpp:897
 #, kde-format
 msgid "Abort rendering"
-msgstr "Cancelar procesamiento"
+msgstr "Interrumpir procesamiento"
 
 #: src/mainwindow.cpp:914
 #, kde-format
@@ -35093,10 +35093,9 @@ msgid "Could not open the backup project file."
 msgstr "No fue posible abrir el archivo de respaldo del proyecto."
 
 #: src/project/projectmanager.cpp:975
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Failed to open project file <b>%1</b>."
-msgstr "No es posible abrir el archivo de proyecto %1"
+msgstr "Error al abrir el archivo de proyecto <b>%1</b>."
 
 #: src/project/projectmanager.cpp:981
 #, kde-format
@@ -35185,7 +35184,7 @@ msgstr ""
 #: src/project/projectmanager.cpp:1955 src/project/projectmanager.cpp:1964
 #, kde-format
 msgid "Project profile change aborted"
-msgstr "Cambio del perfil del proyecto cancelado"
+msgstr "Cambio del perfil del proyecto interrumpido"
 
 #: src/project/projectmanager.cpp:2094
 #, kde-format
@@ -35293,7 +35292,7 @@ msgstr "Instalar"
 #: src/pythoninterfaces/abstractpythoninterface.cpp:35
 #, kde-format
 msgid "Abort installation"
-msgstr "Cancelar la instalación"
+msgstr "Interrumpir la instalación"
 
 #: src/pythoninterfaces/abstractpythoninterface.cpp:52
 #, kde-format
@@ -35534,7 +35533,7 @@ msgstr "Descargar modelo"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:123
 #, kde-format
 msgid "Abort downloads"
-msgstr "Cancelar descargas"
+msgstr "Interrumpir descargas"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:128
 #, kde-format
@@ -35559,12 +35558,12 @@ msgstr "Comprobando integridad de los modelos…"
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:364
 #, kde-format
 msgid "A download is in progress, do you want to abort it ?"
-msgstr "Una descarga está en proceso, ¿detenerla?"
+msgstr "Una descarga está en proceso, ¿interrumpirla?"
 
 #: src/pythoninterfaces/dialogs/whisperdownload.cpp:364
 #, kde-format
 msgid "Abort download"
-msgstr "Cancelar descarga"
+msgstr "Interrumpir descarga"
 
 #: src/pythoninterfaces/saminterface.cpp:68
 #, kde-format
@@ -36688,31 +36687,31 @@ msgstr "Agregar clip a la biblioteca"
 msgid "Enter a name for the clip in Library"
 msgstr "Introducir un nombre para el clip en la biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Paste clips"
 msgstr "Pegar clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:2010
-#: src/timeline2/model/timelinefunctions.cpp:2184
-#: src/timeline2/model/timelinefunctions.cpp:2207
-#: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2665
+#: src/timeline2/model/timelinefunctions.cpp:2004
+#: src/timeline2/model/timelinefunctions.cpp:2178
+#: src/timeline2/model/timelinefunctions.cpp:2201
+#: src/timeline2/model/timelinefunctions.cpp:2238
+#: src/timeline2/model/timelinefunctions.cpp:2659
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "No hay suficientes pistas para pegar el portapapeles"
 
-#: src/timeline2/model/timelinefunctions.cpp:2079
+#: src/timeline2/model/timelinefunctions.cpp:2073
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Otra operación de pegado ya está en curso"
 
-#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2086
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "No hay información válida en el portapapeles"
 
-#: src/timeline2/model/timelinefunctions.cpp:2130
+#: src/timeline2/model/timelinefunctions.cpp:2124
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -36720,15 +36719,15 @@ msgstr ""
 "No hay suficientes pistas para pegar el contenido del portapapeles (se "
 "necesitan %1 de audio, %2 de video)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2294
-#: src/timeline2/model/timelinefunctions.cpp:2325
-#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2267
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2319
+#: src/timeline2/model/timelinefunctions.cpp:2324
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clips pegados"
 
-#: src/timeline2/model/timelinefunctions.cpp:2314
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -36738,67 +36737,67 @@ msgstr ""
 "del proyecto actual.<br/>Es posible que tanto clips como fotogramas clave "
 "aparezcan alterados."
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Advertencia de pegado"
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/timeline2/model/timelinefunctions.cpp:2449
-#: src/timeline2/model/timelinefunctions.cpp:2573
-#: src/timeline2/model/timelinefunctions.cpp:2601
+#: src/timeline2/model/timelinefunctions.cpp:2443
+#: src/timeline2/model/timelinefunctions.cpp:2567
+#: src/timeline2/model/timelinefunctions.cpp:2595
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "No fue posible agregar medio en el panel Medios"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2651
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "No todos los clips fueron copiados exitosamente"
 
-#: src/timeline2/model/timelinefunctions.cpp:2713
-#: src/timeline2/model/timelinefunctions.cpp:2896
+#: src/timeline2/model/timelinefunctions.cpp:2707
+#: src/timeline2/model/timelinefunctions.cpp:2890
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "No fue posible pegar los elementos en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:2920
+#: src/timeline2/model/timelinefunctions.cpp:2914
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Pegar clips de la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3140
+#: src/timeline2/model/timelinefunctions.cpp:3134
 #, kde-format
 msgid "Remove space on track"
 msgstr "Eliminar espacio en la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:3171
+#: src/timeline2/model/timelinefunctions.cpp:3165
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Borrar clips en la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:3192
+#: src/timeline2/model/timelinefunctions.cpp:3186
 #, kde-format
 msgid "No clips found in timeline"
 msgstr "Ningún clip encontrado en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3221
+#: src/timeline2/model/timelinefunctions.cpp:3215
 #, kde-format
 msgid "No gaps found in timeline"
 msgstr "Ningún hueco encontrado en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3230
-#: src/timeline2/model/timelinefunctions.cpp:3262
+#: src/timeline2/model/timelinefunctions.cpp:3224
+#: src/timeline2/model/timelinefunctions.cpp:3256
 #, kde-format
 msgid "Gap"
 msgstr "Hueco"
 
-#: src/timeline2/model/timelinefunctions.cpp:3255
+#: src/timeline2/model/timelinefunctions.cpp:3249
 #, kde-format
 msgid "No gaps found on selected track"
 msgstr "Ningún hueco encontrado en la pista seleccionada"
@@ -37238,7 +37237,8 @@ msgstr ""
 "\n"
 "Es posible redimensionar todos los clips a la misma duración de %1 "
 "fotogramas,\n"
-"redimensionar cada uno usando el espacio disponible o cancelar la operación\n"
+"redimensionar cada uno usando el espacio disponible o interrumpir la "
+"operación\n"
 "\n"
 "Usar el modo Encadenado para desplazar los otros clips hacia adelante\n"
 
@@ -42186,7 +42186,7 @@ msgstr "Contorno"
 #: src/ui/maskmanage_ui.ui:172
 #, kde-format
 msgid "Abort Mask"
-msgstr "Abortar máscara"
+msgstr "Interrumpir máscara"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/maskmanage_ui.ui:199
