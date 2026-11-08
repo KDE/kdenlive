@@ -2539,10 +2539,18 @@ void Bin::slotReplaceClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     QModelIndex activeSelection = m_proxyModel->selectionModel()->currentIndex();
+
+    int selectionCount = 0;
+    for (const QModelIndex &idx : indexes) {
+        if (idx.isValid() && idx.column() == BinColumns::Name) selectionCount++;
+    }
+    int remainingSelection = selectionCount;
+
     for (const QModelIndex &ix : indexes) {
         if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
+        remainingSelection--;
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
         std::shared_ptr<ProjectClip> currentItem = nullptr;
         if (item->itemType() == AbstractProjectItem::ClipItem) {
@@ -2560,7 +2568,22 @@ void Bin::slotReplaceClip()
             auto filter = FileFilter::Builder().setCategories({FileFilter::AllSupported}).toQFilter();
             QString fileName = QFileDialog::getOpenFileName(this, i18nc("@title:window", "Open Replacement for %1", currentItem->clipName()),
                                                             QFileInfo(currentItem->url()).absolutePath(), filter);
-            if (!fileName.isEmpty()) {
+
+            if (fileName.isEmpty()) {
+                // Don't bother the user if this is the last cancel action
+                if (selectionCount > 1 && remainingSelection > 0) {
+                    KMessageBox::ButtonCode answer = KMessageBox::questionTwoActions(
+                        QApplication::activeWindow(),
+                        i18n("You have multiple selected clips to be replaced.\n\nDo you want to cancel all pending replace actions?\n"), {},
+                        KGuiItem(i18n("Yes, cancel all actions")), KGuiItem(i18n("No")));
+
+                    if (answer == KMessageBox::PrimaryAction) {
+                        return;
+                    } else if (answer == KMessageBox::SecondaryAction) {
+                        continue;
+                    }
+                }
+            } else {
                 QMap<QString, QString> sourceProps;
                 QMap<QString, QString> newProps;
                 fileName = QDir::cleanPath(fileName);
