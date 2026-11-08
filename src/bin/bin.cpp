@@ -265,7 +265,7 @@ public:
     {
         if (event->type() == QEvent::MouseButtonPress) {
             auto *me = static_cast<QMouseEvent *>(event);
-            if (index.column() == 0) {
+            if (index.column() == BinColumns::Name) {
                 QPoint pos = me->pos();
                 if (m_audioDragRect.contains(pos)) {
                     dragType = PlaylistState::AudioOnly;
@@ -276,7 +276,7 @@ public:
                 }
             } else {
                 dragType = PlaylistState::Disabled;
-                if (index.column() == 7) {
+                if (index.column() == BinColumns::Rating) {
                     // Rating
                     QRect rect = option.rect;
                     rect.adjust(option.rect.width() / 12, 0, 0, 0);
@@ -304,7 +304,7 @@ public:
 
         // Preserve default behavior...
         // ... for non-name column
-        if (index.column() != 0 || !index.isValid()) {
+        if (index.column() != BinColumns::Name || !index.isValid()) {
             return QStyledItemDelegate::helpEvent(event, view, option, index);
         }
         // ... for non-tooltip events
@@ -334,7 +334,7 @@ public:
 
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
-        if (index.column() != 0) {
+        if (index.column() != BinColumns::Name) {
             QStyledItemDelegate::updateEditorGeometry(editor, option, index);
             return;
         }
@@ -376,7 +376,7 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
-        if (index.column() == 0 && !index.data().isNull()) {
+        if (index.column() == BinColumns::Name && !index.data().isNull()) {
             QRect r1 = option.rect;
             painter->save();
             painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
@@ -596,7 +596,7 @@ public:
                 painter->drawText(r1, Qt::AlignLeft | Qt::AlignVCenter, index.data(AbstractProjectItem::DataName).toString(), &bounding);
             }
             painter->restore();
-        } else if (index.column() == 7) {
+        } else if (index.column() == BinColumns::Rating) {
             // Rating
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
@@ -983,11 +983,11 @@ void MyListView::mousePressEvent(QMouseEvent *event)
             }
             m_clickedIndexes.clear();
             // Ensure the clicked item is first in the list
-            if (clickedIndex.column() == 0) {
+            if (clickedIndex.column() == BinColumns::Name) {
                 m_clickedIndexes << clickedIndex;
             }
             for (auto &s : selection) {
-                if (s.column() == 0 && s != clickedIndex) {
+                if (s.column() == BinColumns::Name && s != clickedIndex) {
                     m_clickedIndexes << s;
                 }
             }
@@ -1112,11 +1112,11 @@ void MyTreeView::mousePressEvent(QMouseEvent *event)
             }
             m_clickedIndexes.clear();
             // Ensure the clicked item is first in the list
-            if (clickedIndex.column() == 0) {
+            if (clickedIndex.column() == BinColumns::Name) {
                 m_clickedIndexes << clickedIndex;
             }
             for (auto &s : selection) {
-                if (s.column() == 0 && s != clickedIndex) {
+                if (s.column() == BinColumns::Name && s != clickedIndex) {
                     m_clickedIndexes << s;
                 }
             }
@@ -1613,16 +1613,16 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     m_sortGroup = new QActionGroup(sortAction);
     QAction *sortByName = new QAction(i18n("Name"), m_sortGroup);
     sortByName->setCheckable(true);
-    sortByName->setData(0);
-    sortByName->setChecked(binSort == 0);
+    sortByName->setData(BinColumns::Name);
+    sortByName->setChecked(binSort == BinColumns::Name);
     QAction *sortByDate = new QAction(i18n("Date"), m_sortGroup);
     sortByDate->setCheckable(true);
-    sortByDate->setData(1);
-    sortByDate->setChecked(binSort == 1);
+    sortByDate->setData(BinColumns::Date);
+    sortByDate->setChecked(binSort == BinColumns::Date);
     QAction *sortByDesc = new QAction(i18n("Description"), m_sortGroup);
     sortByDesc->setCheckable(true);
-    sortByDesc->setData(2);
-    sortByDesc->setChecked(binSort == 2);
+    sortByDesc->setData(BinColumns::Description);
+    sortByDesc->setChecked(binSort == BinColumns::Description);
     QAction *sortByType = new QAction(i18n("Type"), m_sortGroup);
     sortByType->setCheckable(true);
     sortByType->setData(3);
@@ -1637,12 +1637,12 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     sortByInsert->setChecked(binSort == 6);
     QAction *sortByRating = new QAction(i18n("Rating"), m_sortGroup);
     sortByRating->setCheckable(true);
-    sortByRating->setData(7);
-    sortByRating->setChecked(binSort == 7);
+    sortByRating->setData(BinColumns::Rating);
+    sortByRating->setChecked(binSort == BinColumns::Rating);
     QAction *sortByFPS = new QAction(i18n("FPS"), m_sortGroup);
     sortByFPS->setCheckable(true);
-    sortByFPS->setData(9);
-    sortByFPS->setChecked(binSort == 9);
+    sortByFPS->setData(BinColumns::FPS);
+    sortByFPS->setChecked(binSort == BinColumns::FPS);
     sortAction->addAction(sortByName);
     sortAction->addAction(sortByDate);
     sortAction->addAction(sortByDuration);
@@ -1691,19 +1691,19 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     // Column show / hide actions
     m_showDate = new QAction(i18n("Show Date"), this);
     m_showDate->setCheckable(true);
-    m_showDate->setData(1);
+    m_showDate->setData(BinColumns::Date);
     connect(m_showDate, &QAction::triggered, this, &Bin::slotShowColumn);
     m_showDesc = new QAction(i18n("Show Description"), this);
     m_showDesc->setCheckable(true);
-    m_showDesc->setData(2);
+    m_showDesc->setData(BinColumns::Description);
     connect(m_showDesc, &QAction::triggered, this, &Bin::slotShowColumn);
     m_showRating = new QAction(i18n("Show Rating"), this);
     m_showRating->setCheckable(true);
-    m_showRating->setData(7);
+    m_showRating->setData(BinColumns::Rating);
     connect(m_showRating, &QAction::triggered, this, &Bin::slotShowColumn);
     m_showFPS = new QAction(i18n("Show FPS"), this);
     m_showFPS->setCheckable(true);
-    m_showFPS->setData(9);
+    m_showFPS->setData(BinColumns::FPS);
     connect(m_showFPS, &QAction::triggered, this, &Bin::slotShowColumn);
 
     settingsAction->addAction(m_showDate);
@@ -1959,7 +1959,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
             auto *mouseEvent = static_cast<QMouseEvent *>(event);
             if (mouseEvent->button() == Qt::LeftButton && mouseEvent->modifiers() & Qt::ShiftModifier) {
                 QModelIndex idx = m_itemView->indexAt(mouseEvent->pos());
-                if (idx.isValid() && idx.column() == 0 && m_proxyModel) {
+                if (idx.isValid() && idx.column() == BinColumns::Name && m_proxyModel) {
                     std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(idx));
                     if (item->itemType() == AbstractProjectItem::FolderItem) {
                         auto *tView = static_cast<QTreeView *>(m_itemView);
@@ -2144,7 +2144,7 @@ void Bin::slotDeleteClip()
         return accum || std::static_pointer_cast<AbstractProjectItem>(item)->isIncludedInTimeline();
     };
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -2222,7 +2222,7 @@ void Bin::slotReloadClip()
     qDebug() << "---------\nRELOADING CLIP\n----------------";
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -2343,7 +2343,7 @@ void Bin::slotReplaceClipInTimeline()
     std::shared_ptr<AbstractProjectItem> selectedItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(activeIndex));
     std::shared_ptr<AbstractProjectItem> secondaryItem = nullptr;
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0 || ix == activeIndex) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name || ix == activeIndex) {
             continue;
         }
         if (secondaryItem != nullptr) {
@@ -2437,7 +2437,7 @@ void Bin::slotReplaceClip()
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     QModelIndex activeSelection = m_proxyModel->selectionModel()->currentIndex();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -2562,7 +2562,7 @@ void Bin::slotLocateClip()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -3092,7 +3092,7 @@ void Bin::slotAddFolder()
         qDebug() << "ix valid";
         m_proxyModel->selectionModel()->clearSelection();
         int row = ix.row();
-        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id = m_itemModel->index(row, BinColumns::Name, ix.parent());
         const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
@@ -3106,7 +3106,7 @@ void Bin::ensureCurrent()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         m_itemView->setCurrentIndex(ix);
@@ -3115,7 +3115,8 @@ void Bin::ensureCurrent()
 
 QModelIndex Bin::getIndexForId(const QString &id, bool folderWanted) const
 {
-    QModelIndexList items = m_itemModel->match(m_itemModel->index(0, 0), AbstractProjectItem::DataId, QVariant::fromValue(id), 1, Qt::MatchRecursive);
+    QModelIndexList items =
+        m_itemModel->match(m_itemModel->index(0, BinColumns::Name), AbstractProjectItem::DataId, QVariant::fromValue(id), 1, Qt::MatchRecursive);
     for (int i = 0; i < items.count(); i++) {
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(items.at(i));
         AbstractProjectItem::PROJECTITEMTYPE type = currentItem->itemType();
@@ -3168,7 +3169,7 @@ void Bin::selectClipById(const QString &clipId, int frame, const QPoint &zone, b
     if (clip) {
         QModelIndex ix = m_itemModel->getIndexFromItem(clip);
         int row = ix.row();
-        const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+        const QModelIndex id = m_itemModel->index(row, BinColumns::Name, ix.parent());
         const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
         if (id.isValid() && id2.isValid()) {
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
@@ -3353,7 +3354,7 @@ std::vector<QString> Bin::selectedClipsIds(bool allowSubClips, bool allowFolders
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     std::vector<QString> ids;
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -3378,7 +3379,7 @@ QList<std::shared_ptr<ProjectClip>> Bin::selectedSourceClips()
     QList<std::shared_ptr<AbstractProjectItem>> items;
     const auto indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const auto &index : indexes) {
-        if (index.isValid() && index.column() == 0) {
+        if (index.isValid() && index.column() == BinColumns::Name) {
             items.push_back(m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(index)));
         }
     }
@@ -3530,15 +3531,15 @@ void Bin::slotInitView(QAction *action)
             }
         } else {
             view->header()->resizeSections(QHeaderView::ResizeToContents);
-            view->resizeColumnToContents(0);
+            view->resizeColumnToContents(BinColumns::Name);
             // Date Column
-            view->setColumnHidden(1, true);
+            view->setColumnHidden(BinColumns::Date, true);
             // Description Column
-            view->setColumnHidden(2, true);
+            view->setColumnHidden(BinColumns::Description, true);
             // Rating column
-            view->setColumnHidden(7, true);
+            view->setColumnHidden(BinColumns::Rating, true);
             // FPS column
-            view->setColumnHidden(9, true);
+            view->setColumnHidden(BinColumns::FPS, true);
         }
         // Type column
         view->setColumnHidden(3, true);
@@ -3551,13 +3552,13 @@ void Bin::slotInitView(QAction *action)
         // Rating column
         view->header()->resizeSection(7, QFontInfo(font()).pixelSize() * 4);
         // FPS column
-        view->setColumnHidden(9, true);
+        view->setColumnHidden(BinColumns::FPS, true);
         // Usage column
         view->setColumnHidden(8, true);
-        m_showDate->setChecked(!view->isColumnHidden(1));
-        m_showDesc->setChecked(!view->isColumnHidden(2));
-        m_showRating->setChecked(!view->isColumnHidden(7));
-        m_showFPS->setChecked(!view->isColumnHidden(9));
+        m_showDate->setChecked(!view->isColumnHidden(BinColumns::Date));
+        m_showDesc->setChecked(!view->isColumnHidden(BinColumns::Description));
+        m_showRating->setChecked(!view->isColumnHidden(BinColumns::Rating));
+        m_showFPS->setChecked(!view->isColumnHidden(BinColumns::FPS));
         if (m_sortGroup->checkedAction()) {
             view->header()->setSortIndicator(m_sortGroup->checkedAction()->data().toInt(),
                                              m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
@@ -3600,7 +3601,7 @@ void Bin::slotInitView(QAction *action)
             std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(item);
             QModelIndex ix = m_itemModel->getIndexFromItem(clip);
             int row = ix.row();
-            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+            const QModelIndex id = m_itemModel->index(row, BinColumns::Name, ix.parent());
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
             if (id.isValid() && id2.isValid()) {
                 m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
@@ -3629,7 +3630,7 @@ void Bin::adjustHeaderSize()
     const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
     const int decorationMargins = 2 * style->pixelMetric(QStyle::PM_TreeViewIndentation) + (style->pixelMetric(QStyle::PM_SmallIconSize) * 2);
     m_minimumHeaderWidth = fm.boundingRect(QStringLiteral("00:00:00:00 [0][0]")).width() + m_iconSize.width() + 4 * textMargin + decorationMargins;
-    view->resizeColumnToContents(0);
+    view->resizeColumnToContents(BinColumns::Name);
     view->header()->resizeSection(0, m_minimumHeaderWidth);
 }
 
@@ -3736,7 +3737,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
                 m_upAction->setEnabled(true);
                 return;
             }
-            if (ix.column() == 0 && item->childCount() > 0) {
+            if (ix.column() == BinColumns::Name && item->childCount() > 0) {
                 QRect IconRect = m_itemView->visualRect(ix);
                 IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
                 if (!pos.isNull() && (IconRect.contains(pos) || pos.y() > (IconRect.y() + IconRect.height() / 2))) {
@@ -3760,7 +3761,7 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
 
     QRect IconRect = m_itemView->visualRect(ix);
     IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
-    if (!pos.isNull() && ((ix.column() == 2 && item->itemType() == AbstractProjectItem::ClipItem) ||
+    if (!pos.isNull() && ((ix.column() == BinColumns::Description && item->itemType() == AbstractProjectItem::ClipItem) ||
                           (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
         // User clicked outside icon, trigger rename
         m_itemView->edit(ix);
@@ -4053,7 +4054,7 @@ void Bin::selectClip(const std::shared_ptr<ProjectClip> &clip)
 {
     QModelIndex ix = m_itemModel->getIndexFromItem(clip);
     int row = ix.row();
-    const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+    const QModelIndex id = m_itemModel->index(row, BinColumns::Name, ix.parent());
     if (!m_proxyModel->filterAcceptsRow(row, ix.parent())) {
         // Wanted clip is currently hidden by a filter, disable all
         if (m_filterButton->isChecked()) {
@@ -4680,7 +4681,7 @@ void Bin::slotEffectDropped(const QStringList &effectData, const QModelIndex &pa
             }
             setCurrent(parentItem);
             m_proxyModel->selectionModel()->clearSelection();
-            const QModelIndex id = m_itemModel->index(row, 0, parentIndex);
+            const QModelIndex id = m_itemModel->index(row, BinColumns::Name, parentIndex);
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, parentIndex);
             if (id.isValid() && id2.isValid()) {
                 m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
@@ -4792,7 +4793,7 @@ void Bin::switchTag(const QString &tag, bool add)
     // Check for folders
     QList<QString> allClips;
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> parentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -5500,7 +5501,7 @@ void Bin::slotResetInfoMessage()
 void Bin::slotSetSorting()
 {
     if (m_listType == BinIconView) {
-        m_proxyModel->setFilterKeyColumn(0);
+        m_proxyModel->setFilterKeyColumn(BinColumns::Name);
         return;
     }
     auto *view = qobject_cast<QTreeView *>(m_itemView);
@@ -5635,7 +5636,7 @@ void Bin::slotRenameItem()
 {
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         m_itemView->setCurrentIndex(ix);
@@ -5659,7 +5660,7 @@ void Bin::refreshProxySettings()
     bool isFolder = false;
     const QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
     for (const QModelIndex &ix : indexes) {
-        if (!ix.isValid() || ix.column() != 0) {
+        if (!ix.isValid() || ix.column() != BinColumns::Name) {
             continue;
         }
         std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
@@ -6517,7 +6518,7 @@ void Bin::updateClipsCount()
         int selected = 0;
         const QModelIndexList indexes = m_proxyModel->selectionModel()->selection().indexes();
         for (const QModelIndex &ix : indexes) {
-            if (ix.isValid() && ix.column() == 0) {
+            if (ix.isValid() && ix.column() == BinColumns::Name) {
                 std::shared_ptr<AbstractProjectItem> item = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(ix));
                 if (item->itemType() == AbstractProjectItem::ClipItem) {
                     selected++;
@@ -6914,7 +6915,7 @@ void Bin::transcodeUsedClips()
         if ((type == ClipType::AV || type == ClipType::Video || type == ClipType::Audio) && c->hasVariableFps()) {
             QModelIndex ix = m_itemModel->getIndexFromItem(c);
             int row = ix.row();
-            const QModelIndex id = m_itemModel->index(row, 0, ix.parent());
+            const QModelIndex id = m_itemModel->index(row, BinColumns::Name, ix.parent());
             const QModelIndex id2 = m_itemModel->index(row, m_itemModel->columnCount() - 1, ix.parent());
             m_proxyModel->selectionModel()->select(QItemSelection(m_proxyModel->mapFromSource(id), m_proxyModel->mapFromSource(id2)),
                                                    QItemSelectionModel::Select);
