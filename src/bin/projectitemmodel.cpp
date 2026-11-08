@@ -1184,6 +1184,7 @@ Fun ProjectItemModel::requestRenameFolder_lambda(const std::shared_ptr<AbstractP
         }
         currentFolder->setName(newName);
         m_binPlaylist->manageBinFolderRename(currentFolder);
+        Q_EMIT folderNameChanged(currentFolder->clipId(), newName);
         auto index = getIndexFromItem(currentFolder);
         Q_EMIT dataChanged(index, index, {AbstractProjectItem::DataName});
         return true;
