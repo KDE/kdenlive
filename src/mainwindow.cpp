@@ -3866,6 +3866,7 @@ void MainWindow::addBin(Bin *bin, const QString &binName, bool updateCount, cons
             }
         }
     });
+    connect(pCore->projectItemModel().get(), &ProjectItemModel::folderNameChanged, this, &MainWindow::folderRenamed, Qt::UniqueConnection);
     m_binWidgets << bin;
     if (m_binWidgets.size() > 1) {
         // This is a secondary bin widget
@@ -3944,23 +3945,31 @@ void MainWindow::loadExtraBins(const QStringList binInfo)
     pCore->lastActiveBin.clear();
 
     for (auto &bin : m_binWidgets) {
-        KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
+        auto *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(bin->parentWidget());
         if (!dock) {
             continue;
         }
+
         bool binFound = false;
         const QString dockName = dock->objectName() + QLatin1Char(':');
+
         for (const QString &info : binInfo) {
             if (info.startsWith(dockName)) {
-                existingNames << bin->loadInfo(info.split(QLatin1Char(':')), existingNames);
+                folderName = bin->loadInfo(info.split(QLatin1Char(':')), existingNames);
                 binFound = true;
                 break;
             }
         }
+
         if (!binFound) {
-            // Init bin with default settings
-            existingNames << bin->loadInfo({}, existingNames);
+            folderName = bin->loadInfo({}, existingNames);
         }
+
+        if (!folderName.isEmpty()) {
+            dock->setTitle(folderName);
+        }
+
+        existingNames << folderName;
     }
 }
 
@@ -3981,6 +3990,7 @@ void MainWindow::folderRenamed(const QString &binId, const QString &folderName)
             KDDockWidgets::QtWidgets::DockWidget *dock = qobject_cast<KDDockWidgets::QtWidgets::DockWidget *>(b->parentWidget());
             if (dock) {
                 dock->setWindowTitle(folderName);
+                dock->setTitle(folderName);
             }
             break;
         }
