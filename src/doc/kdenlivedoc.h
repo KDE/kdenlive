@@ -385,8 +385,6 @@ private:
     void initProxyAlphaSettings();
 
 public Q_SLOTS:
-    void slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path);
-
     /** @brief Sets the document as modified or up to date.
      *
      * If crash recovery is turned on, a timer calls KdenliveDoc::slotAutoSave() \n
