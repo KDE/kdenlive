@@ -12,16 +12,16 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-08 02:56+0000\n"
-"PO-Revision-Date: 2026-09-13 22:07+0300\n"
+"PO-Revision-Date: 2026-11-08 09:28+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: צוות התרגום של KDE ישראל\n"
+"Language-Team: Hebrew <kde-l10n-he@kde.org>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Lokalize 26.08.0\n"
+"X-Generator: Lokalize 26.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -32194,10 +32194,9 @@ msgid "Data Imported"
 msgstr "הנתונים יובאו"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "כדי לנסות לייבא שוב כדי למשוך חיבור חדש"
+msgstr "נא לנסות לייבא שוב כדי להקים חיבור חדש"
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -33695,17 +33694,14 @@ msgid ""
 msgstr ""
 
 #: src/project/projectmanager.cpp:2686
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "פרופיל המיזם השתנה"
+msgstr "המיזם כבר פתוח"
 
 #: src/project/projectmanager.cpp:2686
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "לצלום בכל זאת"
+msgstr "לפתוח בכל זאת"
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
@@ -35025,16 +35021,14 @@ msgid "Cannot move selected group"
 msgstr "לא ניתן להעביר את הקבוצה הנבחרת"
 
 #: src/timeline2/model/timelinefunctions.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "הפעלת סרטון"
+msgstr "הפעלת סרטונים"
 
 #: src/timeline2/model/timelinefunctions.cpp:1213
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "השבתת סרטון"
+msgstr "השבתת סרטונים"
 
 #: src/timeline2/model/timelinefunctions.cpp:1229
 #, kde-format
@@ -36798,10 +36792,9 @@ msgid "Download New Title Templates…"
 msgstr "הורדת תבניות כותר חדשות…"
 
 #: src/titler/titlewidget.cpp:577
-#, fuzzy, kde-format
-#| msgid "Free Resize"
+#, kde-format
 msgid "Move / Resize"
-msgstr "שינוי גודל חופשי"
+msgstr "הזזה / ‫שינוי גודל"
 
 #: src/titler/titlewidget.cpp:622
 #, kde-format
@@ -36814,8 +36807,7 @@ msgid "Create Title"
 msgstr "יצירת כותרת"
 
 #: src/titler/titlewidget.cpp:740
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid "Keep Aspect Ratio"
 msgstr "שימור יחס ממדים"
 
@@ -36844,16 +36836,14 @@ msgstr "הוספת תמונה"
 #: src/titler/titlewidget.cpp:1391 src/titler/titlewidget.cpp:3288
 #: src/titler/titlewidget.cpp:3306 src/titler/titlewidget.cpp:3319
 #: src/titler/titlewidget.cpp:3337
-#, fuzzy, kde-format
-#| msgid "Z-Index:"
+#, kde-format
 msgid "Z-Index"
-msgstr "‫אינדקס בציר Z:"
+msgstr "‫אינדקס בציר Z"
 
 #: src/titler/titlewidget.cpp:1630
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Change Value"
-msgstr "החלפת מהירות"
+msgstr "שינוי ערך"
 
 #: src/titler/titlewidget.cpp:1895
 #, kde-format
@@ -36878,9 +36868,9 @@ msgid "+Y"
 msgstr "+Y"
 
 #: src/titler/titlewidget.cpp:1967
-#, fuzzy, kde-format
+#, kde-format
 msgid "Change Background"
-msgstr "הראה רקע"
+msgstr "שינוי הרקע"
 
 #: src/titler/titlewidget.cpp:2142
 #, kde-format
@@ -36937,16 +36927,14 @@ msgid ""
 msgstr ""
 
 #: src/titler/titlewidget.cpp:2287
-#, fuzzy, kde-format
-#| msgid "Update Text Clips"
+#, kde-format
 msgid "Update Text"
-msgstr "עדכון סרטוני טקסט"
+msgstr "עדכון טקסט"
 
 #: src/titler/titlewidget.cpp:2340
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update Shape"
-msgstr "עדכון תמונית מפתח"
+msgstr "עדכון צורה"
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
 #: src/titler/titlewidget.cpp:2408 src/ui/titlewidget_ui.ui:526
@@ -36989,10 +36977,9 @@ msgstr[2] "חסרים %1 רכיבים בכותר הזה"
 msgstr[3] "חסרים %1 רכיבים בכותר הזה"
 
 #: src/titler/titlewidget.cpp:2694
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Remove missing elements"
-msgstr "מחיקת רכיבים חסרים"
+msgstr "הסרת רכיבים חסרים"
 
 #: src/titler/titlewidget.cpp:2754
 #, kde-format
@@ -37005,10 +36992,9 @@ msgid "Add as new Title"
 msgstr "הוספת ככותרת חדשה"
 
 #: src/titler/titlewidget.cpp:2802
-#, fuzzy, kde-format
-#| msgid "All Missing Items:"
+#, kde-format
 msgid "Delete Missing Items"
-msgstr "כל הפריטים החסרים:"
+msgstr "מחיקת פריטים חסרים"
 
 #: src/titler/titlewidget.cpp:2820
 #, kde-format
@@ -37027,10 +37013,9 @@ msgid "Search"
 msgstr "חיפוש"
 
 #: src/titler/titlewidget.cpp:2851
-#, fuzzy, kde-format
-#| msgid "Enter a folder name"
+#, kde-format
 msgid "Enter folder for search"
-msgstr "נא למלא שם לתיקייה"
+msgstr "נא למלא תיקייה לחיפוש"
 
 #: src/titler/titlewidget.cpp:3115
 #, kde-format
@@ -37045,22 +37030,19 @@ msgid "End Viewport"
 msgstr "סוף אשנב"
 
 #: src/titler/titlewidget.cpp:3881
-#, fuzzy, kde-format
-#| msgid "Red Shadow"
+#, kde-format
 msgid "Update Shadow"
-msgstr "צל אדום"
+msgstr "עדכון צל"
 
 #: src/titler/titlewidget.cpp:3906
-#, fuzzy, kde-format
-#| msgid "&Typewriter effect"
+#, kde-format
 msgid "Typewriter Effect"
-msgstr "אפקט מכונת &כתיבה"
+msgstr "אפקט מכונת כתיבה"
 
 #: src/titler/titlewidget.cpp:4032
-#, fuzzy, kde-format
-#| msgid "Insert Order"
+#, kde-format
 msgid "Insert Pattern"
-msgstr "סדר הוספה"
+msgstr "הוספת תבנית"
 
 #: src/titler/unicodedialog.cpp:28
 #, kde-format
@@ -41217,10 +41199,9 @@ msgstr "יומן שגיאות"
 
 #. i18n: ectx: property (text), widget (QLabel, postRenderLabel)
 #: src/ui/renderwidget_ui.ui:1068
-#, fuzzy, kde-format
-#| msgid "Abort rendering"
+#, kde-format
 msgid "After rendering:"
-msgstr "ביטול העיבוד"
+msgstr "לאחר התיצוג:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1101
