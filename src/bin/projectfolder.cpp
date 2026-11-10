@@ -69,6 +69,27 @@ QList<std::shared_ptr<ProjectClip>> ProjectFolder::childClips()
     return allChildren;
 }
 
+bool ProjectFolder::hasUserClips() const
+{
+    QList<std::shared_ptr<ProjectClip>> allChildren;
+    for (int i = 0; i < childCount(); ++i) {
+        std::shared_ptr<AbstractProjectItem> childItem = std::static_pointer_cast<AbstractProjectItem>(child(i));
+        if (childItem->itemType() == ClipItem) {
+            if (childItem->clipType() != ClipType::Timeline) {
+                return true;
+            }
+        } else if (childItem->itemType() == FolderItem) {
+            allChildren << std::static_pointer_cast<ProjectFolder>(childItem)->childClips();
+        }
+    }
+    for (auto &c : allChildren) {
+        if (c->clipType() != ClipType::Timeline) {
+            return true;
+        }
+    }
+    return false;
+}
+
 QString ProjectFolder::childByHash(const QString &hash, const QString &uuid)
 {
     QList<std::shared_ptr<ProjectClip>> allChildren;
