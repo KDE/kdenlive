@@ -3,6 +3,7 @@
     SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 */
 
+#include "bin/model/subtitlemodel.hpp"
 #include "bin/projectclip.h"
 #include "bin/projectfolder.h"
 #include "bin/projectitemmodel.h"
@@ -38,6 +39,8 @@
 class KdenliveTests
 {
 public:
+    static int getNextId() { return TimelineModel::getNextId(); }
+
     static std::shared_ptr<TrackModel> getTrackById(TimelineItemModel &timeline, int trackId) { return timeline.getTrackById(trackId); }
 
     static bool isAvailableWithExceptions(TrackModel &track, int position, int duration, const QVector<int> &exceptions)
@@ -540,6 +543,43 @@ void mixesAndSpacers(int sample)
     require(pCore->projectManager()->closeCurrentDocument(false, false), "Cannot close document");
 }
 
+void subtitleRanges(int sample)
+{
+    for (int count : {1000, 3000, 10000}) {
+        std::cerr << "\nSubtitle ranges: " << count << " subtitles, two layers\n";
+        auto undoStack = std::make_shared<DocUndoStack>(nullptr);
+        KdenliveDoc document(undoStack, {2, 0});
+        pCore->projectManager()->testSetDocument(&document);
+        auto timeline = TimelineItemModel::construct(document.uuid(), undoStack);
+        pCore->projectManager()->testSetActiveTimeline(timeline);
+        auto subtitles = timeline->createSubtitleModel();
+        subtitles->setMaxLayer(1);
+        const double fps = pCore->getCurrentFps();
+        std::unordered_set<int> all, layer, tail, point;
+        for (int i = 0; i < count; ++i) {
+            const int id = KdenliveTests::getNextId();
+            require(subtitles->addSubtitle(id, {i % 2, GenTime(10 * i, fps)},
+                                           SubtitleEvent(true, GenTime(10 * i + 5, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Subtitle")), true, false),
+                    "Cannot add subtitle");
+            all.insert(id);
+            if (i % 2 == 1) layer.insert(id);
+            if (i >= count / 2) tail.insert(id);
+            if (i == count / 2) point.insert(id);
+        }
+        require(subtitles->rowCount() == count, "Wrong subtitle count");
+        auto query = [&](const char *name, int subLayer, int start, int end, const std::unordered_set<int> &expected) {
+            std::unordered_set<int> result;
+            measure(name, count, sample, 1, [&]() { result = subtitles->getItemsInRange(subLayer, start, end); });
+            require(result == expected, "Subtitle range returned wrong IDs");
+        };
+        query("subtitle range all", -1, 0, -1, all);
+        query("subtitle range layer", 1, 0, -1, layer);
+        query("subtitle range tail", -1, 5 * count, -1, tail);
+        query("subtitle range point", -1, 5 * count + 2, 5 * count + 2, point);
+        require(pCore->projectManager()->closeCurrentDocument(false, false), "Cannot close document");
+    }
+}
+
 void keyframes(int sample)
 {
     std::cerr << "\nKeyframes insert, update and remove\n";
@@ -610,6 +650,7 @@ int main(int argc, char **argv)
         mixesAndSpacers(sample);
         groupMoves(sample);
         longUndoChains(sample);
+        subtitleRanges(sample);
         keyframes(sample);
     }
 
