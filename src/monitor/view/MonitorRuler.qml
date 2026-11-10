@@ -208,7 +208,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 ruler.seeking = true
                 ruler.mouseRulerPos = mouseX
-                ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
+                ruler.monitorController.position = Math.max(0, Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration));
                 mouse.accepted = true
             }
         }
@@ -220,7 +220,7 @@ Rectangle {
                 var pos = Math.max(mouseX, 0)
                 ruler.mouseRulerPos = pos
                 if (pressed) {
-                    ruler.monitorController.position = Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration);
+                    ruler.monitorController.position = Math.max(0, Math.min((pos + ruler.rulerZoomOffset) / ruler.timeScale, ruler.duration));
                 }
             }
         }
