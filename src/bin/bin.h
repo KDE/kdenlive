@@ -320,6 +320,8 @@ public:
     void emitRefreshPanel(const QString &id);
     /** @brief Returns true if there is a clip in bin. Timeline clips are ignored. */
     bool hasUserClip() const;
+    /** @brief Returns true if there is any another item in bin than main sequence. */
+    bool isEmpty() const;
     /** @brief Trigger reload of all clips. */
     void reloadAllProducers(bool reloadThumbs = true);
     /** @brief Ensure all audio thumbs have been created */

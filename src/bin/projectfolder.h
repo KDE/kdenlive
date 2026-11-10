@@ -68,6 +68,8 @@ public:
     QList<std::shared_ptr<ProjectClip>> childClips();
     /** @brief Returns true if folder contains a clip. */
     bool hasChildClips() const;
+    /** @brief Returns true if we have at least one clip in the project (excluding timelines). */
+    bool hasUserClips() const;
     ClipType::ProducerType clipType() const override;
     /** @brief Returns true if item has both audio and video enabled. */
     bool hasAudioAndVideo() const override;

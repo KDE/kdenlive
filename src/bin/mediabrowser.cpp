@@ -51,6 +51,12 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     QSize iconSize(size, size);
     tb->setIconSize(iconSize);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    if (!QFile::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        if (!QFile::exists(clipFolder)) {
+            clipFolder = QDir::homePath();
+        }
+    }
     KFilePlacesModel *places = new KFilePlacesModel(this);
     QAction *zoomIn = new QAction(QIcon::fromTheme("zoom-in"), i18n("Zoom In"));
     QAction *zoomOut = new QAction(QIcon::fromTheme("zoom-out"), i18n("Zoom Out"));

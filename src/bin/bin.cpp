@@ -1069,7 +1069,7 @@ void MyListView::paintEvent(QPaintEvent *event)
     QListView::paintEvent(event);
 
     // Check if there are no user media clips (excluding sequences) and show placeholder text
-    if (model() && !pCore->bin()->hasUserClip()) {
+    if (model() && pCore->bin()->isEmpty()) {
         QPainter painter(viewport());
         painter.setRenderHint(QPainter::Antialiasing);
 
@@ -1307,7 +1307,7 @@ void MyTreeView::paintEvent(QPaintEvent *event)
     }
 
     // Check if there are no user media clips (excluding sequences) and show placeholder text
-    if (model() && !pCore->bin()->hasUserClip()) {
+    if (model() && pCore->bin()->isEmpty()) {
         painter.setRenderHint(QPainter::Antialiasing);
 
         // Get the viewport rect
@@ -5820,13 +5820,12 @@ QStringList Bin::getProxyHashList()
 
 bool Bin::hasUserClip() const
 {
-    QList<std::shared_ptr<ProjectClip>> allClips = m_itemModel->getRootFolder()->childClips();
-    for (auto &c : allClips) {
-        if (c->clipType() != ClipType::Timeline) {
-            return true;
-        }
-    }
-    return false;
+    return m_itemModel->getRootFolder()->hasUserClips();
+}
+
+bool Bin::isEmpty() const
+{
+    return m_itemModel->getRootFolder()->childCount() <= 1;
 }
 
 void Bin::reloadAllProducers(bool reloadThumbs)

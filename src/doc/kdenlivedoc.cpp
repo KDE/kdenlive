@@ -1254,35 +1254,6 @@ const QString KdenliveDoc::folderForProjectFiles() const
     }
 }
 
-void KdenliveDoc::slotCreateTextTemplateClip(const QString &group, const QString &groupId, QUrl path)
-{
-    Q_UNUSED(group)
-    // TODO refac: this seem to be a duplicate of ClipCreationDialog::createTitleTemplateClip. See if we can merge
-    QString defaultFolder = folderForProjectFiles();
-    if (defaultFolder.isEmpty()) {
-        // Use video folder
-        defaultFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-    }
-    QString titlesFolder = QDir::cleanPath(QDir(defaultFolder).absoluteFilePath(QStringLiteral("/titles/")));
-    if (path.isEmpty()) {
-        QPointer<QFileDialog> d = new QFileDialog(QApplication::activeWindow(), i18nc("@title:window", "Enter Template Path"), titlesFolder);
-        d->setMimeTypeFilters(QStringList() << QStringLiteral("application/x-kdenlivetitle"));
-        d->setFileMode(QFileDialog::ExistingFile);
-        if (d->exec() == QDialog::Accepted && !d->selectedUrls().isEmpty()) {
-            path = d->selectedUrls().constFirst();
-        }
-        delete d;
-    }
-
-    if (path.isEmpty()) {
-        return;
-    }
-
-    // TODO: rewrite with new title system (just set resource)
-    QString id = ClipCreator::createTitleTemplate(path.toString(), QString(), i18n("Template title clip"), groupId, pCore->projectItemModel());
-    Q_EMIT selectLastAddedClip(id);
-}
-
 void KdenliveDoc::setDocumentProperty(const QString &name, const QString &value)
 {
     if (value.isEmpty()) {
