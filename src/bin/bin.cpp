@@ -3630,11 +3630,22 @@ QList<std::shared_ptr<ProjectClip>> Bin::selectedSourceClips()
 void Bin::slotInitView(QAction *action)
 {
     QString rootFolder;
+    QString currentRootFolder;
     QString selectedItem;
     QStringList selectedItems;
     if (action) {
         QModelIndex currentSelection;
         if (m_itemView && m_proxyModel) {
+            // Preserve the current root when recreating the view.
+            const QModelIndex currentRootIndex = m_itemView->rootIndex();
+            if (currentRootIndex.isValid()) {
+                const QModelIndex sourceRootIndex = m_proxyModel->mapToSource(currentRootIndex);
+                std::shared_ptr<AbstractProjectItem> rootItem = m_itemModel->getBinItemByIndex(sourceRootIndex);
+                if (rootItem) {
+                    currentRootFolder = rootItem->clipId();
+                }
+            }
+
             // Check currently selected item
             QModelIndexList indexes = m_proxyModel->selectionModel()->selectedIndexes();
             for (auto &ix : indexes) {
@@ -3845,14 +3856,29 @@ void Bin::slotInitView(QAction *action)
         view->setGridSize(QSize(m_iconSize.width() + 2, m_iconSize.height() + textHeight));
         connect(view, &MyListView::focusView, this, &Bin::slotGotFocus);
         connect(view, &MyListView::displayBinFrame, this, &Bin::showBinFrame);
-        if (!rootFolder.isEmpty()) {
-            // Open view in a specific folder
+        if (currentRootFolder.isEmpty() && !rootFolder.isEmpty()) {
+            // When switching from the main tree view, show the selected item's folder.
             std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(rootFolder);
-            auto parentIx = m_itemModel->getIndexFromItem(folder);
-            m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
-            m_upAction->setEnabled(rootFolder != QLatin1String("-1"));
+            if (folder) {
+                auto parentIx = m_itemModel->getIndexFromItem(folder);
+                m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
+                m_upAction->setEnabled(rootFolder != QLatin1String("-1"));
+            }
         }
     }
+
+    // Restore a non-default root in either view mode.
+    if (!currentRootFolder.isEmpty()) {
+        std::shared_ptr<AbstractProjectItem> folder = m_itemModel->getItemByBinId(currentRootFolder);
+        if (folder) {
+            const QModelIndex sourceRootIndex = m_itemModel->getIndexFromItem(folder);
+            m_itemView->setRootIndex(m_proxyModel->mapFromSource(sourceRootIndex));
+            if (m_listType == BinIconView) {
+                m_upAction->setEnabled(currentRootFolder != QLatin1String("-1"));
+            }
+        }
+    }
+
     if (!selectedItems.isEmpty()) {
         for (auto &item : selectedItems) {
             std::shared_ptr<AbstractProjectItem> clip = m_itemModel->getItemByBinId(item);
