@@ -11,48 +11,43 @@
    create file filters for file pickers.
 */
 namespace FileFilter {
-    enum Category {
-        Video, // mp4, webm ...
-        Audio, // mp3, aac, ...
-        Image, // png, jpeg, ...
-        Other, // kdenlivetitle, mlt-playlist, ...
-        AllSupported, // all of the above in one
-        User, // from 'KdenliveSettings::addedExtensions'
-        All // all files (*.*)
-    };
+enum Category {
+    Video,        // mp4, webm ...
+    Audio,        // mp3, aac, ...
+    Image,        // png, jpeg, ...
+    Kdenlive,     // kdenlive
+    Other,        // kdenlivetitle, mlt-playlist, ...
+    AllSupported, // all of the above in one
+    User,         // from 'KdenliveSettings::addedExtensions'
+    All           // all files (*.*)
+};
 
-    QStringList getExtensions();
+QStringList getExtensions();
 
-    /* @class FileFilter::Builder
-       @brief A class that creates file filter for file pickers.
-    */
-    class Builder {
-    public:
-        Builder();
+/* @class FileFilter::Builder
+   @brief A class that creates file filter for file pickers.
+*/
+class Builder
+{
+public:
+    Builder();
 
-        Builder& setCategories(std::initializer_list<Category> cats);
+    Builder &setCategories(std::initializer_list<Category> cats);
 
-        Builder& defaultCategories() {
-            auto def = {
-                AllSupported, 
-                All,
-                Video, 
-                Audio, 
-                Image, 
-                Other, 
-                User
-            };
+    Builder &defaultCategories()
+    {
+        auto def = {AllSupported, All, Video, Audio, Image, Kdenlive, Other, User};
 
-            return setCategories(def);
-        }
+        return setCategories(def);
+    }
 
-        QString toQFilter() const;
+    QString toQFilter() const;
 
-        QList<KFileFilter> toKFilter() const;
-        QStringList toExtensionsList() const;
+    QList<KFileFilter> toKFilter() const;
+    QStringList toExtensionsList() const;
 
-    private:
-        std::vector<Category> m_types;
-    };
+private:
+    std::vector<Category> m_types;
+};
 
 } // namespace FileFilter
