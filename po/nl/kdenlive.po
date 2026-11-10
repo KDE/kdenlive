@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-08 00:12+0000\n"
+"POT-Creation-Date: 2026-11-10 03:03+0000\n"
 "PO-Revision-Date: 2026-11-07 16:06+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -10141,7 +10141,7 @@ msgstr "RGB aanpassing"
 msgid "Simple color adjustment"
 msgstr "Eenvoudige kleuren instellen"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2726
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2697
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -10150,7 +10150,7 @@ msgstr "Rood"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2727
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2698
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -10161,7 +10161,7 @@ msgstr "Groen"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2728
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2699
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -14578,14 +14578,14 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "<![CDATA[<b><u>Kleurtoonverschuiving</u></b> rood]]>"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2729
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2700
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "Geel"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2730
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2701
 #, kde-format
 msgid "Cyan"
 msgstr "Cyaan"
@@ -23860,7 +23860,7 @@ msgstr "Tekstclip"
 msgid "Create Text clip"
 msgstr "Tekstclip aanmaken"
 
-#: src/dialogs/clipcreationdialog.cpp:376 src/doc/kdenlivedoc.cpp:1282
+#: src/dialogs/clipcreationdialog.cpp:376
 #, kde-format
 msgid "Template title clip"
 msgstr "Voorbeeld titel clip"
@@ -24236,7 +24236,7 @@ msgstr "Markeringsgegevens exporteren"
 
 #: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2375
 #: src/dialogs/renderwidget.cpp:2405 src/doc/kdenlivedoc.cpp:782
-#: src/doc/kdenlivedoc.cpp:788 src/doc/kdenlivedoc.cpp:1422
+#: src/doc/kdenlivedoc.cpp:788 src/doc/kdenlivedoc.cpp:1393
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
 #: src/effects/effectsrepository.cpp:433
@@ -25093,7 +25093,7 @@ msgid "Abort Job"
 msgstr "Taak afbreken"
 
 #: src/dialogs/renderwidget.cpp:1958 src/dialogs/wizard.cpp:80
-#: src/doc/kdenlivedoc.cpp:1978 src/onlineresources/resourcewidget.cpp:50
+#: src/doc/kdenlivedoc.cpp:1949 src/onlineresources/resourcewidget.cpp:50
 #: src/project/cliptranscode.cpp:193 src/project/cliptranscode.cpp:227
 #: src/project/dialogs/archivewidget.cpp:795
 #: src/project/dialogs/archivewidget.cpp:1307
@@ -27992,29 +27992,23 @@ msgstr ""
 msgid "Error moving project folder: %1"
 msgstr "Fout bij projectmap verplaatsen: %1"
 
-#: src/doc/kdenlivedoc.cpp:1187 src/doc/kdenlivedoc.cpp:2687
+#: src/doc/kdenlivedoc.cpp:1187 src/doc/kdenlivedoc.cpp:2658
 #: src/project/dialogs/archivewidget.cpp:256
 #, kde-format
 msgid "Untitled"
 msgstr "Zonder titel"
 
-#: src/doc/kdenlivedoc.cpp:1268
-#, kde-format
-msgctxt "@title:window"
-msgid "Enter Template Path"
-msgstr "Voer sjabloon pad in"
-
-#: src/doc/kdenlivedoc.cpp:1429
+#: src/doc/kdenlivedoc.cpp:1400
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "De volgende effecten zijn uit het project geïmporteerd"
 
-#: src/doc/kdenlivedoc.cpp:1462 src/doc/kdenlivedoc.cpp:1476
+#: src/doc/kdenlivedoc.cpp:1433 src/doc/kdenlivedoc.cpp:1447
 #, kde-format
 msgid "Project Folder"
 msgstr "Projectmap"
 
-#: src/doc/kdenlivedoc.cpp:1520 src/doc/kdenlivedoc.cpp:1537
+#: src/doc/kdenlivedoc.cpp:1491 src/doc/kdenlivedoc.cpp:1508
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -28023,55 +28017,55 @@ msgstr ""
 "Kan geen backup-bestand maken.\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1695
+#: src/doc/kdenlivedoc.cpp:1666
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "Proxy-clips zijn niet bedoeld voor samenstellen of kleuring geven."
 
-#: src/doc/kdenlivedoc.cpp:1697
+#: src/doc/kdenlivedoc.cpp:1668
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "De clip heeft een alfa-kanaal. "
 msgstr[1] "De clips hebben een alfa-kanaal. "
 
-#: src/doc/kdenlivedoc.cpp:1703
+#: src/doc/kdenlivedoc.cpp:1674
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "U hebt een clip heeft een alfa-kanaal. "
 msgstr[1] "U hebt %1 clips met een alfa-kanaal. "
 
-#: src/doc/kdenlivedoc.cpp:1705
+#: src/doc/kdenlivedoc.cpp:1676
 #, kde-format
 msgid "Proxy all clips"
 msgstr "Bij alle clips proxy gebruiken"
 
-#: src/doc/kdenlivedoc.cpp:1706
+#: src/doc/kdenlivedoc.cpp:1677
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "Alleen proxy gebruiken bij clips zonder alfa"
 
-#: src/doc/kdenlivedoc.cpp:1722
+#: src/doc/kdenlivedoc.cpp:1693
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "Proxy clip toevoegen"
 msgstr[1] "Proxy clips toevoegen"
 
-#: src/doc/kdenlivedoc.cpp:1724
+#: src/doc/kdenlivedoc.cpp:1695
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "Verwijder proxy clip"
 msgstr[1] "Verwijder proxy clips"
 
-#: src/doc/kdenlivedoc.cpp:1770 src/doc/kdenlivedoc.cpp:1830
+#: src/doc/kdenlivedoc.cpp:1741 src/doc/kdenlivedoc.cpp:1801
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "Clip-type ondersteunt geen proxies"
 
-#: src/doc/kdenlivedoc.cpp:1974
+#: src/doc/kdenlivedoc.cpp:1945
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains suspicious proxy parameters. This command "
@@ -28084,13 +28078,13 @@ msgstr ""
 "\"><b>%2 -i input.mp4 %3 out.%4</b></code><br><br>Deze parameters worden "
 "genegeerd."
 
-#: src/doc/kdenlivedoc.cpp:2005
+#: src/doc/kdenlivedoc.cpp:1976
 #, kde-format
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "Waarschuwing"
 
-#: src/doc/kdenlivedoc.cpp:2007
+#: src/doc/kdenlivedoc.cpp:1978
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
@@ -28102,7 +28096,7 @@ msgstr ""
 "mp4 %3 out.%4</b></code><br><br>Deze parameters worden genegeerd, tenzij u "
 "ze toestaat."
 
-#: src/doc/kdenlivedoc.cpp:2084
+#: src/doc/kdenlivedoc.cpp:2055
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -28112,14 +28106,14 @@ msgstr ""
 "Het project gebruikt een niet-standaard framesnelheid (%1), dit zal "
 "resulteren in misplaatste clips en frame-verschuiving."
 
-#: src/doc/kdenlivedoc.cpp:2203
+#: src/doc/kdenlivedoc.cpp:2174
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 "Waarschuwing: niet standaard fps, wordt aangepast naar dichts bij zijnd "
 "geheel getal. "
 
-#: src/doc/kdenlivedoc.cpp:2221
+#: src/doc/kdenlivedoc.cpp:2192
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -28128,43 +28122,43 @@ msgstr ""
 "Uw standaard projectprofiel is %1, maar het profiel (%2) van uw clip is %3.\n"
 "Wilt u het standaard profiel voor komende projecten wijzigingen?"
 
-#: src/doc/kdenlivedoc.cpp:2223
+#: src/doc/kdenlivedoc.cpp:2194
 #, kde-format
 msgid "Change default project profile"
 msgstr "Standaard projectprofiel wijzigen"
 
-#: src/doc/kdenlivedoc.cpp:2223
+#: src/doc/kdenlivedoc.cpp:2194
 #, kde-format
 msgid "Change default to %1"
 msgstr "Standaard wijzigen naar %1"
 
-#: src/doc/kdenlivedoc.cpp:2224
+#: src/doc/kdenlivedoc.cpp:2195
 #, kde-format
 msgid "Keep current default %1"
 msgstr "Huidige standaard %1 behouden"
 
-#: src/doc/kdenlivedoc.cpp:2224
+#: src/doc/kdenlivedoc.cpp:2195
 #, kde-format
 msgid "Ask me later"
 msgstr "Later opnieuw vragen"
 
-#: src/doc/kdenlivedoc.cpp:2244
+#: src/doc/kdenlivedoc.cpp:2215
 #, kde-format
 msgid "Switch"
 msgstr "Omschakelen"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2246 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2217 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: src/doc/kdenlivedoc.cpp:2248
+#: src/doc/kdenlivedoc.cpp:2219
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "Omschakelen naar clip (%1) profiel %2?"
 
-#: src/doc/kdenlivedoc.cpp:2253
+#: src/doc/kdenlivedoc.cpp:2224
 #, kde-format
 msgid ""
 "\n"
@@ -28173,7 +28167,7 @@ msgstr ""
 "\n"
 "Profiel fps aangepast van originele %1"
 
-#: src/doc/kdenlivedoc.cpp:2257
+#: src/doc/kdenlivedoc.cpp:2228
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -28183,7 +28177,7 @@ msgstr ""
 "Maak en schakel om naar nieuw profiel (%2x%3, %4fps)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:3085 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:3056 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -36370,46 +36364,46 @@ msgstr "Clip aan bibliotheek toevoegen"
 msgid "Enter a name for the clip in Library"
 msgstr "Een naam voor de clip in de bibliotheek invoeren"
 
-#: src/timeline2/model/timelinefunctions.cpp:1996
+#: src/timeline2/model/timelinefunctions.cpp:1990
 #, kde-format
 msgid "Paste clips"
 msgstr "Clips plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2010
-#: src/timeline2/model/timelinefunctions.cpp:2184
-#: src/timeline2/model/timelinefunctions.cpp:2207
-#: src/timeline2/model/timelinefunctions.cpp:2244
-#: src/timeline2/model/timelinefunctions.cpp:2665
+#: src/timeline2/model/timelinefunctions.cpp:2004
+#: src/timeline2/model/timelinefunctions.cpp:2178
+#: src/timeline2/model/timelinefunctions.cpp:2201
+#: src/timeline2/model/timelinefunctions.cpp:2238
+#: src/timeline2/model/timelinefunctions.cpp:2659
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "Niet genoeg tracks om klembord te plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2079
+#: src/timeline2/model/timelinefunctions.cpp:2073
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Een andere plakbewerking is al gaande"
 
-#: src/timeline2/model/timelinefunctions.cpp:2092
+#: src/timeline2/model/timelinefunctions.cpp:2086
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "Geen geldige gegevens in klembord"
 
-#: src/timeline2/model/timelinefunctions.cpp:2130
+#: src/timeline2/model/timelinefunctions.cpp:2124
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
 msgstr ""
 "Niet genoeg tracks om klembord te plakken (vereist %1 audio-, %2 videotracks"
 
-#: src/timeline2/model/timelinefunctions.cpp:2273
-#: src/timeline2/model/timelinefunctions.cpp:2294
-#: src/timeline2/model/timelinefunctions.cpp:2325
-#: src/timeline2/model/timelinefunctions.cpp:2330
+#: src/timeline2/model/timelinefunctions.cpp:2267
+#: src/timeline2/model/timelinefunctions.cpp:2288
+#: src/timeline2/model/timelinefunctions.cpp:2319
+#: src/timeline2/model/timelinefunctions.cpp:2324
 #, kde-format
 msgid "Pasted clips"
 msgstr "Geplakte clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:2314
+#: src/timeline2/model/timelinefunctions.cpp:2308
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -36418,67 +36412,67 @@ msgstr ""
 "Het bronproject heeft een andere framesnelheid (%1fps) dan uw huidige "
 "project.<br/>Clips of keyframes kunnen verstoord raken."
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Waarschuwing voor plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2316
+#: src/timeline2/model/timelinefunctions.cpp:2310
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2449
-#: src/timeline2/model/timelinefunctions.cpp:2573
-#: src/timeline2/model/timelinefunctions.cpp:2601
+#: src/timeline2/model/timelinefunctions.cpp:2443
+#: src/timeline2/model/timelinefunctions.cpp:2567
+#: src/timeline2/model/timelinefunctions.cpp:2595
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "Kon bin-clip niet toevoegen"
 
-#: src/timeline2/model/timelinefunctions.cpp:2657
+#: src/timeline2/model/timelinefunctions.cpp:2651
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "Niet alle clips zijn met succes gekopieerd"
 
-#: src/timeline2/model/timelinefunctions.cpp:2713
-#: src/timeline2/model/timelinefunctions.cpp:2896
+#: src/timeline2/model/timelinefunctions.cpp:2707
+#: src/timeline2/model/timelinefunctions.cpp:2890
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "Kon items niet in de tijdlijn plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:2920
+#: src/timeline2/model/timelinefunctions.cpp:2914
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Tijdlijnclips plakken"
 
-#: src/timeline2/model/timelinefunctions.cpp:3140
+#: src/timeline2/model/timelinefunctions.cpp:3134
 #, kde-format
 msgid "Remove space on track"
 msgstr "Ruimte op de track verwijderen"
 
-#: src/timeline2/model/timelinefunctions.cpp:3171
+#: src/timeline2/model/timelinefunctions.cpp:3165
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Clips op de track verwijderen"
 
-#: src/timeline2/model/timelinefunctions.cpp:3192
+#: src/timeline2/model/timelinefunctions.cpp:3186
 #, kde-format
 msgid "No clips found in timeline"
 msgstr "Geen clips gevonden in de tijdlijn"
 
-#: src/timeline2/model/timelinefunctions.cpp:3221
+#: src/timeline2/model/timelinefunctions.cpp:3215
 #, kde-format
 msgid "No gaps found in timeline"
 msgstr "Geen gaten gevonden in de tijdlijn"
 
-#: src/timeline2/model/timelinefunctions.cpp:3230
-#: src/timeline2/model/timelinefunctions.cpp:3262
+#: src/timeline2/model/timelinefunctions.cpp:3224
+#: src/timeline2/model/timelinefunctions.cpp:3256
 #, kde-format
 msgid "Gap"
 msgstr "Gap"
 
-#: src/timeline2/model/timelinefunctions.cpp:3255
+#: src/timeline2/model/timelinefunctions.cpp:3249
 #, kde-format
 msgid "No gaps found on selected track"
 msgstr "Geen gaten gevonden op de geselecteerde track"
@@ -43473,6 +43467,10 @@ msgstr "%1m"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1u"
+
+#~ msgctxt "@title:window"
+#~ msgid "Enter Template Path"
+#~ msgstr "Voer sjabloon pad in"
 
 #~ msgid "Your disk is almost full, rendering might fail"
 #~ msgstr "Uw schijf is bijna vol, renderen kan mislukken"
