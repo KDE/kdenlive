@@ -20,7 +20,9 @@ static void initFilterDb() {
         {Other, {
             qsl("application/x-kdenlivetitle"), 
             qsl("video/mlt-playlist"), 
-            qsl("text/plain"), 
+            qsl("text/plain")
+        }},
+        {Kdenlive, {
             qsl("application/x-kdenlive")
         }},
         {Video, {
@@ -129,6 +131,8 @@ static QString i18n_label(Category type) {
         return i18n("Video Files");
     case User:
         return i18n("User Files");
+    case Kdenlive:
+        return i18n("Kdenlive Files");
     case Other:
         return i18n("Other Files");
     case All:
@@ -147,6 +151,7 @@ static QStringList query(Category cat)
     {
     case Audio:
     case Image:
+    case Kdenlive:
     case Other:
     case Video:
         return supported_file_exts.at(cat);
@@ -176,7 +181,7 @@ static QStringList query(Category cat)
 
     case AllSupported: {
         QStringList supported;
-        for (auto cat : {Video, Audio, Image, Other}) {
+        for (auto cat : {Video, Audio, Image, Kdenlive, Other}) {
             supported.append(supported_file_exts.at(cat));
         }
 
@@ -194,15 +199,7 @@ static QStringList query(Category cat)
 
 QStringList FileFilter::getExtensions()
 {
-    auto categories = {
-        AllSupported, 
-        All,
-        Video, 
-        Audio, 
-        Image, 
-        Other, 
-        User
-    };
+    auto categories = {AllSupported, All, Video, Audio, Image, Kdenlive, Other, User};
 
     auto list = Builder().setCategories(categories).toExtensionsList();
     list.removeDuplicates();
