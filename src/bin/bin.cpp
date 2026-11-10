@@ -82,6 +82,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QHelpEvent>
 #include <QMenu>
 #include <QMimeData>
+#include <QPersistentModelIndex>
 #include <QSlider>
 #include <QStyledItemDelegate>
 #include <QThreadPool>
@@ -2201,6 +2202,93 @@ void Bin::slotDeleteClip()
     // Ensure we don't delete a parent before a child
     // std::sort(items.begin(), items.end(), [](std::shared_ptr<AbstractProjectItem> a, std::shared_ptr<AbstractProjectItem>b) { return a->depth() > b->depth();
     // });
+    // Remember candidate item to select after deletion (Bug 464106)
+    QPersistentModelIndex nextItem;
+    QPersistentModelIndex prevItem;
+    QPersistentModelIndex parentItem;
+
+    QList<QModelIndex> col0Indexes;
+    for (const QModelIndex &ix : indexes) {
+        if (ix.isValid() && ix.column() == 0) {
+            col0Indexes.append(ix);
+        }
+    }
+
+    if (!col0Indexes.isEmpty()) {
+        // Filter out items whose ancestors are also being deleted
+        QList<QModelIndex> topDeleted;
+        for (const QModelIndex &ix : col0Indexes) {
+            bool ancestorDeleted = false;
+            QModelIndex p = ix.parent();
+            while (p.isValid()) {
+                if (col0Indexes.contains(p)) {
+                    ancestorDeleted = true;
+                    break;
+                }
+                p = p.parent();
+            }
+            if (!ancestorDeleted) {
+                topDeleted.append(ix);
+            }
+        }
+
+        if (!topDeleted.isEmpty()) {
+            // Find a reference item among topDeleted to base adjacent selection on
+            QModelIndex refItem;
+            const QModelIndex current = m_itemView->currentIndex();
+            if (current.isValid()) {
+                QModelIndex p = current.siblingAtColumn(0);
+                while (p.isValid()) {
+                    if (topDeleted.contains(p)) {
+                        refItem = p;
+                        break;
+                    }
+                    p = p.parent();
+                }
+            }
+            if (!refItem.isValid()) {
+                refItem = topDeleted.last();
+            }
+
+            const QModelIndex parent = refItem.parent();
+            parentItem = parent;
+
+            // Collect all deleted rows under this same parent
+            QList<int> deletedRows;
+            for (const QModelIndex &ix : topDeleted) {
+                if (ix.parent() == parent) {
+                    deletedRows.append(ix.row());
+                }
+            }
+            std::sort(deletedRows.begin(), deletedRows.end());
+
+            int nextRow = deletedRows.last() + 1;
+            const int rowCount = m_proxyModel->rowCount(parent);
+            while (nextRow < rowCount) {
+                if (!deletedRows.contains(nextRow)) {
+                    QModelIndex candidate = m_proxyModel->index(nextRow, 0, parent);
+                    if (!col0Indexes.contains(candidate)) {
+                        nextItem = candidate;
+                        break;
+                    }
+                }
+                nextRow++;
+            }
+
+            int prevRow = deletedRows.first() - 1;
+            while (prevRow >= 0) {
+                if (!deletedRows.contains(prevRow)) {
+                    QModelIndex candidate = m_proxyModel->index(prevRow, 0, parent);
+                    if (!col0Indexes.contains(candidate)) {
+                        prevItem = candidate;
+                        break;
+                    }
+                }
+                prevRow--;
+            }
+        }
+    }
+
     QStringList notDeleted;
     if (items.size() > 1) {
         // If we delete more than 1 item, ensure we won't select an item to be deleted'
@@ -2215,6 +2303,21 @@ void Bin::slotDeleteClip()
         KMessageBox::errorList(this, i18n("Some items could not be deleted. Maybe there are instances on locked tracks?"), notDeleted);
     }
     pCore->pushUndo(undo, redo, i18n("Delete bin Clips"));
+
+    QModelIndex targetIndex;
+    if (nextItem.isValid()) {
+        targetIndex = nextItem;
+    } else if (prevItem.isValid()) {
+        targetIndex = prevItem;
+    } else if (parentItem.isValid()) {
+        targetIndex = parentItem;
+    }
+
+    if (targetIndex.isValid()) {
+        m_itemView->setCurrentIndex(targetIndex);
+        m_proxyModel->selectionModel()->select(targetIndex, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows | QItemSelectionModel::Current);
+        m_itemView->scrollTo(targetIndex, QAbstractItemView::EnsureVisible);
+    }
 }
 
 void Bin::slotReloadClip()
