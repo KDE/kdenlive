@@ -3110,8 +3110,10 @@ const QString Bin::setDocument(KdenliveDoc *project, const QString &id)
             auto parentIx = m_itemModel->getIndexFromItem(item);
             m_itemView->setRootIndex(m_proxyModel->mapFromSource(parentIx));
             folderName = item->name();
-            m_upAction->setEnabled(true);
-            m_upAction->setVisible(true);
+
+            const bool showUpAction = m_listType == BinIconView;
+            m_upAction->setEnabled(showUpAction);
+            m_upAction->setVisible(showUpAction);
         }
     }
 
