@@ -60,6 +60,8 @@ private:
     KFileItem m_item;
     QLabel *m_fileLabel;
     bool m_isVideo{false};
+    bool m_initialized{false};
+    QUrl m_startUrl;
     void openExternalFile(const QUrl &url);
     void enableAppShortcuts();
     void disableAppShortcuts();
