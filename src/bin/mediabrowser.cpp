@@ -50,13 +50,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
     tb->setIconSize(iconSize);
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    if (!QFile::exists(clipFolder)) {
-        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        if (!QFile::exists(clipFolder)) {
-            clipFolder = QDir::homePath();
-        }
-    }
     KFilePlacesModel *places = new KFilePlacesModel(this);
     QAction *zoomIn = new QAction(QIcon::fromTheme("zoom-in"), i18n("Zoom In"));
     QAction *zoomOut = new QAction(QIcon::fromTheme("zoom-out"), i18n("Zoom Out"));
@@ -72,9 +65,20 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     autoPlay->setChecked(KdenliveSettings::mediaBrowserAutoPlay());
     connect(autoPlay, &QAction::triggered, this, [](bool enable) { KdenliveSettings::setMediaBrowserAutoPlay(enable); });
 
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    if (clipFolder.isEmpty() || !QFile::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        if (!QFile::exists(clipFolder)) {
+            clipFolder = QDir::homePath();
+        }
+    }
+    m_startUrl = QUrl::fromLocalFile(clipFolder);
+
     // Create View
     m_op = new KDirOperator(QUrl(), parent);
+    m_op->setSupportedSchemes({QStringLiteral("file")});
     m_op->dirLister()->setAutoUpdate(false);
+    m_op->dirLister()->stop();
     // Ensure shortcuts are only active on this widget to avoid conflicts with app shortcuts
     QAction *trash = m_op->action(KDirOperator::Trash);
     QAction *up = m_op->action(KDirOperator::Up);
@@ -83,7 +87,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     m_inlinePreview = m_op->action(KDirOperator::ShowPreview);
     m_inlinePreview->setShortcut({});
     m_inlinePreview->setChecked(KdenliveSettings::mediaBrowserInlinePreview());
-    connect(m_inlinePreview, &QAction::triggered, this, [this](bool enable) { KdenliveSettings::setMediaBrowserInlinePreview(enable); });
+    connect(m_inlinePreview, &QAction::triggered, this, [](bool enable) { KdenliveSettings::setMediaBrowserInlinePreview(enable); });
     QAction *previewPanel = m_op->action(KDirOperator::ShowPreviewPanel);
     previewPanel->setEnabled(false);
     previewPanel->setShortcut({});
@@ -156,9 +160,7 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         } else {
             const QString fileName = item.url().fileName();
             if (!fileName.isEmpty()) {
-                QUrl url = QUrl::fromLocalFile(fileName);
                 m_filenameEdit->setUrl(QUrl(fileName));
-                // m_fileLabel->setText(fileName);
             }
         }
         m_previewPanel->fileSelected(files);
@@ -185,9 +187,6 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     m_filterDelayTimer.setInterval(300);
     connect(m_filterCombo, &QComboBox::editTextChanged, &m_filterDelayTimer, qOverload<>(&QTimer::start));
     connect(&m_filterDelayTimer, &QTimer::timeout, this, [this]() { slotFilterChanged(); });
-
-    // Load initial folder
-    m_op->setUrl(QUrl::fromLocalFile(clipFolder), true);
 
     // Setup file name field
     m_filenameEdit->setSizeAdjustPolicy(QComboBox::AdjustToContentsOnFirstShow);
@@ -405,6 +404,9 @@ void MediaBrowser::importSelection()
 
 const QUrl MediaBrowser::url() const
 {
+    if (!m_initialized) {
+        return m_startUrl;
+    }
     return m_op->url();
 }
 
@@ -419,10 +421,21 @@ bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
         if (KdenliveSettings::mediaBrowserInlinePreview()) {
             m_inlinePreview->setChecked(false);
         }
-        if (m_op->dirLister()->autoUpdate()) {
-            m_op->dirLister()->setAutoUpdate(false);
+        if (m_initialized) {
+            if (m_op->dirLister()->autoUpdate()) {
+                m_op->dirLister()->setAutoUpdate(false);
+            }
+            m_op->dirLister()->stop();
         }
     } else if (event->type() == QEvent::Show) {
+        if (!m_initialized) {
+            m_initialized = true;
+            // Load initial folder
+            m_op->setUrl(m_startUrl, true);
+        } else {
+            // Refresh since jobs are aborted on hide
+            m_op->dirLister()->updateDirectory(m_op->url());
+        }
         if (KdenliveSettings::mediaBrowserInlinePreview()) {
             m_inlinePreview->setChecked(true);
         }
@@ -489,6 +502,14 @@ void MediaBrowser::slotUrlEntered(const QUrl &url)
 
 void MediaBrowser::setUrl(const QUrl url)
 {
+    if (!url.isValid() || !QFile::exists(url.toLocalFile())) {
+        // Don't allow setting an invalid start folder
+        return;
+    }
+    if (!m_initialized) {
+        m_startUrl = url;
+        return;
+    }
     m_op->setUrl(url, true);
     m_op->setIconSize(KdenliveSettings::mediaIconSize());
 }
