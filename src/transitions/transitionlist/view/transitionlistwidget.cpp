@@ -87,7 +87,7 @@ TransitionListWidget::TransitionListWidget(QAction *includeList, QAction *tenBit
     } else {
         const QByteArray restoreData = KdenliveSettings::transitionsInfoHeight().toLatin1();
         if (restoreData.isEmpty()) {
-            m_viewSplitter->setSizes({50, 20});
+            m_viewSplitter->setSizes({m_viewSplitter->height() * 7 / 10, m_viewSplitter->height() * 3 / 10});
             const QByteArray splitterData = m_viewSplitter->saveState();
             KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(splitterData));
         } else {
@@ -122,7 +122,7 @@ void TransitionListWidget::switchSplitter(bool enable)
     if (enable) {
         const QByteArray restoreData = KdenliveSettings::transitionsInfoHeight().toLatin1();
         if (restoreData.isEmpty()) {
-            m_viewSplitter->setSizes({50, 20});
+            m_viewSplitter->setSizes({m_viewSplitter->height() * 7 / 10, m_viewSplitter->height() * 3 / 10});
             const QByteArray saveData = m_viewSplitter->saveState();
             KdenliveSettings::setTransitionsInfoHeight(QString::fromLatin1(saveData));
         } else {
