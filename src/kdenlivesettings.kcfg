@@ -1100,6 +1100,10 @@
       <label>The default guide categories.</label>
       <default></default>
     </entry>
+    <entry name="projectBinTags" type="StringList">
+      <label>The default Project Bin tag categories.</label>
+      <default></default>
+    </entry>
 
     <entry name="tagsintimeline" type="Bool">
       <label>Show color tags in timeline.</label>

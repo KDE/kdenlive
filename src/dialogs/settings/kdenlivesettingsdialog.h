@@ -119,6 +119,7 @@ private:
     Ui::ConfigMarkers_UI m_configMarkers;
     PluginsSettings *m_pluginsPage;
     GuideCategories *m_guidesCategories;
+    GuideCategories *m_projectBinTagsCategories;
     ProfileWidget *m_pw;
     KProcess m_readProcess;
     bool m_modified;

@@ -22,10 +22,21 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QPainter>
 #include <QRadioButton>
 
-GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
+GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent, bool binTags)
     : QWidget(parent)
+    , m_isBinTags(binTags)
 {
     setupUi(this);
+    if (m_isBinTags) {
+        label->setText(i18n("Project Bin Tags"));
+        guide_add->setText(i18n("Add Tag"));
+        guide_edit->setText(i18n("Edit Tag"));
+        guide_delete->setText(i18n("Delete Tag"));
+
+        guide_add->setToolTip(i18n("Add a Project Bin tag"));
+        guide_edit->setToolTip(i18n("Edit the selected Project Bin tag"));
+        guide_delete->setToolTip(i18n("Delete the selected Project Bin tag"));
+    }
     Fun editItem = [this]() {
         QListWidgetItem *item = guides_list->currentItem();
         if (!item) {
@@ -38,7 +49,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         }
         // Edit an existing tag
         QDialog d2(this);
-        d2.setWindowTitle(i18n("Edit Marker Category"));
+        d2.setWindowTitle(m_isBinTags ? i18n("Edit Project Bin Tag") : i18n("Edit Marker Category"));
         QDialogButtonBox buttonBox2(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d2);
         auto *l2 = new QVBoxLayout;
         d2.setLayout(l2);
@@ -53,7 +64,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         l3->addWidget(&le);
         l2->addLayout(l3);
         KMessageWidget mw(&d2);
-        mw.setText(i18n("This color is already used in another category"));
+        mw.setText(m_isBinTags ? i18n("This color is already used in another tag") : i18n("This color is already used in another category"));
         mw.setMessageType(KMessageWidget::Warning);
         mw.setCloseButtonVisible(false);
         mw.hide();
@@ -94,7 +105,20 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         }
         return false;
     };
-    QStringList guidesCategories = doc ? doc->guidesCategories() : KdenliveSettings::guidesCategories();
+    QStringList guidesCategories;
+    if (doc) {
+        guidesCategories = doc->guidesCategories();
+    } else if (m_isBinTags) {
+        guidesCategories = KdenliveSettings::projectBinTags();
+        if (guidesCategories.isEmpty()) {
+            // Preserve the built-in Project Bin tags until custom defaults are configured.
+            guidesCategories = {QStringLiteral("%1:1:#ff0000").arg(i18n("Red")), QStringLiteral("%1:2:#00ff00").arg(i18n("Green")),
+                                QStringLiteral("%1:3:#0000ff").arg(i18n("Blue")), QStringLiteral("%1:4:#ffff00").arg(i18n("Yellow")),
+                                QStringLiteral("%1:5:#00ffff").arg(i18n("Cyan"))};
+        }
+    } else {
+        guidesCategories = KdenliveSettings::guidesCategories();
+    }
     QList<int> existingCategories;
     std::shared_ptr<MarkerListModel> markerModel = doc ? doc->getGuideModel(doc->activeUuid) : nullptr;
     for (auto &g : guidesCategories) {
@@ -120,7 +144,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
         guides_list->addItem(item);
     }
     std::sort(existingCategories.begin(), existingCategories.end());
-    m_categoryIndex = existingCategories.last() + 1;
+    m_categoryIndex = existingCategories.isEmpty() ? 1 : existingCategories.last() + 1;
     QAction *a = KStandardAction::renameFile(this, editItem, this);
     a->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     ;
@@ -129,7 +153,26 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
     connect(guide_edit, &QPushButton::clicked, this, [editItem]() { editItem(); });
     connect(guide_add, &QPushButton::clicked, this, [this, editItem]() {
         QIcon ic = buildIcon(Qt::white);
-        auto *item = new QListWidgetItem(ic, i18n("Category %1", guides_list->count() + 1));
+        QString itemName;
+        if (m_isBinTags) {
+            const QString baseName = i18n("Custom Tag");
+            itemName = baseName;
+            int suffix = 1;
+            auto nameExists = [this](const QString &name) {
+                for (int i = 0; i < guides_list->count(); ++i) {
+                    if (guides_list->item(i)->text() == name) {
+                        return true;
+                    }
+                }
+                return false;
+            };
+            while (nameExists(itemName)) {
+                itemName = i18n("Custom Tag (%1)", suffix++);
+            }
+        } else {
+            itemName = i18n("Category %1", guides_list->count() + 1);
+        }
+        auto *item = new QListWidgetItem(ic, itemName);
         item->setData(Qt::UserRole + 1, m_categoryIndex++);
         guides_list->addItem(item);
         guides_list->setCurrentItem(item);
@@ -148,7 +191,7 @@ GuideCategories::GuideCategories(KdenliveDoc *doc, QWidget *parent)
             // There are existing guides in this category, warn
             int category = item->data(Qt::UserRole + 1).toInt();
             QDialog d(this);
-            d.setWindowTitle(i18n("Delete Marker Category"));
+            d.setWindowTitle(m_isBinTags ? i18n("Delete Project Bin Tag") : i18n("Delete Marker Category"));
             QDialogButtonBox buttonBox(QDialogButtonBox::Cancel | QDialogButtonBox::Ok, &d);
             auto *l2 = new QVBoxLayout;
             d.setLayout(l2);
