@@ -121,6 +121,68 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
     </widget>
    </item>
    <item row="5" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_lowMemory">
+     <item>
+      <widget class="QLabel" name="label_lowMemoryThreshold">
+       <property name="text">
+        <string>Warn when free memory during rendering is below:</string>
+       </property>
+       <property name="buddy">
+        <cstring>kcfg_lowMemoryThreshold</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="kcfg_lowMemoryThreshold">
+       <property name="specialValueText">
+        <string>Automatic</string>
+       </property>
+       <property name="suffix">
+        <string> MB</string>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>1000000</number>
+       </property>
+       <property name="singleStep">
+        <number>100</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_lowMemory">
+       <property name="orientation">
+        <enum>Qt::Orientation::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="6" column="0">
+    <widget class="KMessageWidget" name="lowMemoryWarning">
+     <property name="text">
+      <string>Setting the value too low can lead to renders being aborted without warning.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="closeButtonVisible">
+      <bool>false</bool>
+     </property>
+     <property name="messageType">
+      <enum>KMessageWidget::MessageType::Warning</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
      <item>
       <widget class="QCheckBox" name="dragFromTitlebarOnly">
@@ -151,7 +213,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
      </item>
     </layout>
    </item>
-   <item row="6" column="0">
+   <item row="8" column="0">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
       <number>0</number>
@@ -537,6 +599,12 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
    <extends>QToolButton</extends>
    <header>kcontextualhelpbutton.h</header>
   </customwidget>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>kcfg_proxythreads</tabstop>
@@ -546,6 +614,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
   <tabstop>kcfg_showWelcome</tabstop>
   <tabstop>kcfg_checkForUpdate</tabstop>
   <tabstop>kcfg_usePowerManagement</tabstop>
+  <tabstop>kcfg_lowMemoryThreshold</tabstop>
   <tabstop>dragFromTitlebarOnly</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>ffmpegurl</tabstop>

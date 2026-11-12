@@ -318,17 +318,6 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.setupUi(this);
     int size = style()->pixelMetric(QStyle::PM_SmallIconSize);
     QSize iconSize(size, size);
-    KMemoryInfo memInfo;
-    if (!memInfo.isNull()) {
-        // Low memory is considered when less than 10% of the physical memory is available
-        int totalMemory = memInfo.totalPhysical() / 1024 / 1024;
-        m_lowMemThreshold = qMax(1000, totalMemory / 10);
-        // Very Low memory is considered when less than 5% of the physical memory is available
-        m_veryLowMemThreshold = qMax(500, totalMemory / 20);
-    } else {
-        m_lowMemThreshold = 1000;
-        m_veryLowMemThreshold = 1000;
-    }
 
     // ===== "Render Project" tab =====
     m_view.buttonDelete->setIconSize(iconSize);
@@ -998,6 +987,10 @@ void RenderWidget::slotPrepareExport(bool delayedRendering)
 
 void RenderWidget::slotPrepareExport2(bool delayedRendering)
 {
+    // Estimate the memory needed by this render from its final parameters
+    const double renderScale = m_params.contains(QStringLiteral("scale")) ? m_params.value(QStringLiteral("scale")).toDouble() : 1.;
+    updateMemoryThresholds(pCore->getCurrentFrameSize() * renderScale, qAbs(m_params.value(QStringLiteral("real_time")).toInt()));
+
     if (m_view.audio_box->isChecked() && pCore->mixer() && pCore->mixer()->isMasterMute()) {
         if (KMessageBox::warningTwoActions(
                 this, i18n("Master audio is muted, so there will be no audio stream in the rendered file. Do you want to continue rendering?"), QString(),
@@ -1763,12 +1756,32 @@ void RenderWidget::setRenderProgress(const QString &dest, int progress, int fram
     }
 }
 
+void RenderWidget::updateMemoryThresholds(const QSize &frameSize, int threads)
+{
+    const int userThreshold = KdenliveSettings::lowMemoryThreshold();
+    if (userThreshold > 0) {
+        // Manual value set by the user, use it as is
+        m_lowMemThreshold = userThreshold;
+        m_veryLowMemThreshold = userThreshold / 2;
+        return;
+    }
+    // Automatic: rough estimate of the memory needed by the render. MLT keeps its
+    // consumer buffer (25 frames by default) plus about one frame per rendering
+    // thread in memory, each frame being an uncompressed RGBA image.
+    const qint64 frameBytes = qint64(frameSize.width()) * frameSize.height() * 4;
+    const int neededMemory = int(frameBytes * (25 + qMax(1, threads)) / 1024 / 1024);
+    m_lowMemThreshold = qMax(1000, neededMemory);
+    m_veryLowMemThreshold = qMax(500, neededMemory / 2);
+}
+
 void RenderWidget::slotCheckFreeMemory()
 {
     KMemoryInfo memInfo;
     // if system doesn't have much available memory, warn user
     if (!memInfo.isNull()) {
-        int availableMemory = memInfo.availablePhysical() / 1024 / 1024;
+        // Free swap is also usable by the render. KMemoryInfo never overestimates
+        // it (on Windows and macOS swap can grow on demand), so it is safe to add.
+        int availableMemory = (memInfo.availablePhysical() + memInfo.freeSwapFile()) / 1024 / 1024;
         if (availableMemory < m_lowMemThreshold) {
             int totalMemory = memInfo.totalPhysical() / 1024 / 1024;
             qDebug() << "Low memory:" << availableMemory << "MB free, " << totalMemory << "MB total";
