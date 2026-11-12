@@ -41,8 +41,9 @@ const QStringList UiUtils::getProxySafeParams()
 
 const QStringList UiUtils::getProxyForbiddenParams()
 {
-    static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("metadata"), QStringLiteral("null"),   QStringLiteral("dump"),
-                                          QStringLiteral("concat"), QStringLiteral("safe"),     QStringLiteral("ladspa"), QStringLiteral("protocol_whitelist"),
+    static QStringList forbiddenParams = {QStringLiteral("attach"), QStringLiteral("signature"), QStringLiteral("metadata"),
+                                          QStringLiteral("null"),   QStringLiteral("dump"),      QStringLiteral("concat"),
+                                          QStringLiteral("safe"),   QStringLiteral("ladspa"),    QStringLiteral("protocol_whitelist"),
                                           QStringLiteral("-ante "), QStringLiteral("-post ")};
     return forbiddenParams;
 }
