@@ -22,7 +22,7 @@
 <text>Utilities</text>
 </group>
 
-<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dropshadow,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.flarfx,frei0r.tehroxx0r,gpstext,gpsgraphic,timer">
+<group list="avfilter.drawbox,avfilter.drawgrid,avfilter.dynamictext,dropshadow,dynamictext,vignette,frei0r.vignette,frei0r.scanline0r,frei0r.cairogradient,frei0r.cairoimagegrid,frei0r.flarefx,frei0r.tehroxx0r,gpstext,gpsgraphic,timer">
 <text>Generate</text>
 </group>
 
