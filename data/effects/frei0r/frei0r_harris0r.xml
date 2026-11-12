@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.harris0r" id="frei0r.harris0r">
+    <name>Harris Shutter Effect</name>
+    <description><![CDATA[Creates the Harris shutter effect: dynamic RGB split with a delay.]]></description>
+    <author>Marko Deinterlace</author>
+    <parameter type="animated" name="0" default="0" min="1" max="16" decimals="0">
+        <name>Delay</name>
+        <comment><![CDATA[Harris shutter color filtering delay]]></comment>
+    </parameter>
+    <parameter type="bool" name="1" default="0" min="0" max="1">
+        <name>Simple</name>
+        <comment><![CDATA[Use simple effect instead of smooth.<br>
+        Reduces RAM usage, less eye-pleasing]]></comment>
+    </parameter>
+</effect>

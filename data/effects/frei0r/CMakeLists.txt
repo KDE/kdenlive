@@ -3,6 +3,7 @@
 
 INSTALL (FILES 
 
+frei0r_3dperspective.xml
 frei0r_aech0r.xml
 frei0r_alpha0ps.xml
 frei0r_alphagrad.xml
@@ -56,10 +57,12 @@ frei0r_equaliz0r.xml
 frei0r_facebl0r.xml
 frei0r_facedetect.xml
 frei0r_filmgrain.xml
+frei0r_flarefx.xml
 frei0r_flippo.xml
 frei0r_G.xml
 frei0r_glitch0r.xml
 frei0r_glow.xml
+frei0r_harris0r.xml
 frei0r_heatmap0r.xml
 frei0r_hqdn3d.xml
 frei0r_hueshift0r.xml
@@ -77,6 +80,7 @@ frei0r_measure_pr0file.xml
 frei0r_mask0mate.xml
 frei0r_medians.xml
 frei0r_mirr0r.xml
+frei0r_motiondiff0r.xml
 frei0r_ndvi.xml
 frei0r_nervous.xml
 frei0r_ntsc.xml
@@ -98,9 +102,11 @@ frei0r_saturat0r.xml
 frei0r_scale0tilt.xml
 frei0r_scanline0r.xml
 frei0r_select0r.xml
+frei0r_shadert0y.xml
 frei0r_shake0scillate.xml
 frei0r_sharpness.xml
 frei0r_sigmoidaltransfer.xml
+frei0r_slitscan0r.xml
 frei0r_sobel.xml
 frei0r_softglow.xml
 frei0r_sopsat.xml
@@ -118,5 +124,6 @@ frei0r_twolay0r.xml
 frei0r_vectorscope.xml
 frei0r_vertigo.xml
 frei0r_vignette.xml
+frei0r_whirlpinch0r.xml
 mask_start_frei0r_alphaspot.xml
 DESTINATION ${KDE_INSTALL_DATADIR}${DATA_INSTALL_PREFIX}/effects)

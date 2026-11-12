@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.flarefx" id="frei0r.flarefx">
+    <name>FlareFX</name>
+    <description>Simulates sunlight hitting a camera lens: a bright core, colored rings, and a scattering of small reflectors that travel through the frame center as the light source moves, based on the classic GIMP FlareFX algorithm</description>
+    <author>frei0r</author>
+    <parameter type="animated" name="0" min="0" max="%width" default="0.25" decimals="0" factor="%width" notintimeline="1">
+        <name>X</name>
+	    <comment><![CDATA[Horizontal position of the light source]]></comment>
+    </parameter>
+    <parameter type="animated" name="1"  min="0" max="%height" default="0.25" decimals="0" factor="%height" notintimeline="1">
+        <name>Y</name>
+    	<comment><![CDATA[Vertical position of the light source]]></comment>
+    </parameter>
+    <parameter type="animated" name="2"  min="0" max="1" default="0.603" decimals="3" notintimeline="1">
+        <name>Brightness</name>
+        <comment><![CDATA[Overall opacity/intensity of the flare overlay]]></comment>
+    </parameter>
+    <parameter type="animated" name="3"  min="0.3" max="300" default="0.31" decimals="1" factor="300" suffix="%" notintimeline="1">
+        <name>Size</name>
+	    <comment><![CDATA[Size of the flare]]></comment>
+    </parameter>
+     <parameter type="animated" name="4"  min="0" max="100" default="0.788" decimals="1" factor="100" suffix="%" notintimeline="1">
+        <name>Spread</name>
+	    <comment><![CDATA[How far the small reflectors travel through the frame center as the light moves off-center]]></comment>
+    </parameter>
+    <parameter type="color" name="5" default="0xffffffff" notintimeline="1">
+        <name>Color</name>
+	    <comment><![CDATA[Tint color of the flare]]></comment>
+    </parameter>
+</effect>

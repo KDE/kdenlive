@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.3dperspective" id="frei0r.3dperspective">
+    <name>3D Perspective</name>
+    <description>Simulated 3D plane rotation with adjustable perspective strength, like a fake-3D camera transform.</description>
+    <author>Harveyes</author>
+    <parameter type="animated" name="0" min="0" max="1" decimals="3" factor="1" default="0.5">
+        <name>Yaw</name>
+        <comment>Amount of rotation around Z axis (pointing up)</comment>
+    </parameter>
+    <parameter type="animated" name="1" min="0" max="1" decimals="3" factor="1" default="0.5">
+        <name>Pitch</name>
+        <comment>Amount of rotation around y axis (pointing right)</comment>
+    </parameter>
+    <parameter type="animated" name="2" min="0" max="1" decimals="3" factor="1" default="0.5">
+        <name>Roll</name>
+        <comment>Amount of rotation around X axis (pointing into the screen)</comment>
+    </parameter>
+    <parameter type="animated" name="3" min="0.0" max="100.0" factor="100" decimals="1" default="0.7" suffix="%">
+        <name>Perspective</name>
+        <comment>Amount of perspective distortion</comment>
+    </parameter>
+    <parameter type="animated" name="4" min="0.0" max="400.0" factor="400" decimals="1" default="0.250" suffix="%">
+        <name>Zoom</name>
+        <comment>Amount of zoom (max 400%)</comment>
+    </parameter>
+    <parameter type="animated" name="5" min="0" max="1" default="0.5" decimals="3">
+        <name>Pan horizontal</name>
+        <comment>Horizontal displacement</comment>
+    </parameter>
+    <parameter type="animated" name="6" min="0" max="1" default="0.5" decimals="3">
+        <name>Pan vertical</name>
+        <comment>Vertical displacement</comment>
+    </parameter>
+</effect>

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.motiondiff0r" id="frei0r.motiondiff0r" type="video" unique="1">
+    <name>Motion Extraction</name>
+    <description><![CDATA[reveals motion by comparing the current frame with a delayed copy of the stream]]></description>
+    <author>phoebus-84</author>
+    <parameter type="list" name="1" paramlist="0;0.5;1">
+        <name>Mode</name>
+        <comment><![CDATA[Select mode]]></comment>
+        <paramlistdisplay>Negative overlay,Absolute difference,Motion mask</paramlistdisplay>
+    </parameter>
+    <parameter type="animated" name="0" max="2.0" min="0.0" default="0.1" decimals="1" factor="2" suffix="s">
+        <name>Time Offset</name>
+        <comment><![CDATA[Time offset in seconds (0-2).<br>
+        Limited to 128 frames / 1 GiB of history; 0 = previous frame]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" max="100.0" min="0.0" default="0.5" factor="100" decimals="1" suffix="%">
+        <name>Blend</name>
+        <comment><![CDATA[Opacity of the inverted delayed<br>
+        frame in negative overlay mode]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" max="16.0" min="0.0" default="0" factor="16" decimals="1" suffix="x">
+        <name>Contrast</name>
+        <comment><![CDATA[Amplification of the differences]]></comment>
+    </parameter>
+    <parameter type="bool" name="4" max="1" min="0" default="0">
+        <name>Monochrome</name>
+        <comment><![CDATA[Compare luminance only and<br>
+        produce a grayscale result]]></comment>
+    </parameter>
+    <parameter type="animated" name="5" max="1.000" min="0.000" default="0" decimals="3">
+        <name>Threshold</name>
+        <comment><![CDATA[Ignore differences smaller than<br>
+        this to suppress noise]]></comment>
+    </parameter>
+</effect>

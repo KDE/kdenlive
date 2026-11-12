@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" id="frei0r.shadert0y" tag="frei0r.shadert0y">
+    <name>Shadert0y</name>
+    <description>Runs a Shadertoy-style GLSL script offscreen via OpenGL, with file slots, custom iParams, and alpha control.</description>
+    <author>HyperDev</author>
+    <parameter type="url" name="0" default="" filter="*.glsl *.frag *.txt|Shader files">
+        <name>Script File</name>
+        <comment>Select the main .glsl or .frag file. If empty, a default color shader is used.</comment>
+    </parameter>
+    <parameter type="animated" name="1" default="1" min="-10" max="10" decimals="2">
+        <name>Speed</name>
+        <comment>Time multiplier. Negative values reverse time.</comment>
+    </parameter>
+    <parameter type="bool" name="2" default="0">
+        <name>Flip Video Y</name>
+        <comment>Flip input video vertically.</comment>
+    </parameter>
+    <parameter type="bool" name="3" default="0">
+        <name>Use Shader Alpha</name>
+        <comment>Off = force alpha to 1.0 (opaque). On = keep the alpha written by the shader.</comment>
+    </parameter>
+    <parameter type="list" name="4" default="1" paramlist="0;1;2;3;4;5;6">
+        <name>iChannel0</name>
+        <paramlistdisplay>None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="5" default="0" paramlist="0;1;2;3;4;5;6">
+        <name>iChannel1</name>
+        <paramlistdisplay>None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="6" default="0" paramlist="0;1;2;3;4;5;6">
+        <name>iChannel2</name>
+        <paramlistdisplay>None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha</paramlistdisplay>
+    </parameter>
+    <parameter type="list" name="7" default="0" paramlist="0;1;2;3;4;5;6">
+        <name>iChannel3</name>
+        <paramlistdisplay>None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha</paramlistdisplay>
+    </parameter>
+    <parameter type="url" name="8" default=""
+               filter="*.png *.jpg *.jpeg *.bmp *.tga *.glsl *.frag *.txt *.mp4 *.mov *.mkv *.webm *.avi *.wmv *.mpg *.mpeg *.ts *.m4v *.3gp *.ogv *.flv|Images, videos and shader buffers">
+        <name>File 0</name>
+        <comment>Image, video, or basic .glsl buffer used when an iChannel is set to File 0.</comment>
+    </parameter>
+    <parameter type="url" name="9" default=""
+               filter="*.png *.jpg *.jpeg *.bmp *.tga *.glsl *.frag *.txt *.mp4 *.mov *.mkv *.webm *.avi *.wmv *.mpg *.mpeg *.ts *.m4v *.3gp *.ogv *.flv|Images, videos and shader buffers">
+        <name>File 1</name>
+        <comment>Image, video, or basic .glsl buffer used when an iChannel is set to File 1.</comment>
+    </parameter>
+    <parameter type="url" name="10" default=""
+               filter="*.png *.jpg *.jpeg *.bmp *.tga *.glsl *.frag *.txt *.mp4 *.mov *.mkv *.webm *.avi *.wmv *.mpg *.mpeg *.ts *.m4v *.3gp *.ogv *.flv|Images, videos and shader buffers">
+        <name>File 2</name>
+        <comment>Image, video, or basic .glsl buffer used when an iChannel is set to File 2.</comment>
+    </parameter>
+    <parameter type="url" name="11" default=""
+               filter="*.png *.jpg *.jpeg *.bmp *.tga *.glsl *.frag *.txt *.mp4 *.mov *.mkv *.webm *.avi *.wmv *.mpg *.mpeg *.ts *.m4v *.3gp *.ogv *.flv|Images, videos and shader buffers">
+        <name>File 3</name>
+        <comment>Image, video, or basic .glsl buffer used when an iChannel is set to File 3.</comment>
+    </parameter>
+    <parameter type="animated" name="12" default="0" min="0" max="1" decimals="3">
+        <name>Mouse X</name>
+        <comment>Normalized mouse X. 0 = left.</comment>
+    </parameter>
+    <parameter type="animated" name="13" default="0" min="0" max="1" decimals="3">
+        <name>Mouse Y</name>
+        <comment>Normalized mouse Y. 0 = bottom.</comment>
+    </parameter>
+    <parameter type="animated" name="14" default="0" min="0" max="8192" decimals="0">
+        <name>Render Width</name>
+        <comment>Internal shader render width (horizontal). 0 = use incoming frame width.</comment>
+    </parameter>
+    <parameter type="animated" name="15" default="0" min="0" max="8192" decimals="0">
+        <name>Render Height</name>
+        <comment>Internal shader render height (vertical). 0 = use incoming frame height.</comment>
+    </parameter>
+    <parameter type="animated" name="16" default="0" min="-100" max="100" decimals="3">
+        <name>iParam0</name>
+        <comment>Shader uniform iParam0. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="17" default="0" min="-100" max="100" decimals="3">
+        <name>iParam1</name>
+        <comment>Shader uniform iParam1. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="18" default="0" min="-100" max="100" decimals="3">
+        <name>iParam2</name>
+        <comment>Shader uniform iParam2. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="19" default="0" min="-100" max="100" decimals="3">
+        <name>iParam3</name>
+        <comment>Shader uniform iParam3. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="20" default="0" min="-100" max="100" decimals="3">
+        <name>iParam4</name>
+        <comment>Shader uniform iParam4. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="21" default="0" min="-100" max="100" decimals="3">
+        <name>iParam5</name>
+        <comment>Shader uniform iParam5. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="22" default="0" min="-100" max="100" decimals="3">
+        <name>iParam6</name>
+        <comment>Shader uniform iParam6. Can be keyframed.</comment>
+    </parameter>
+    <parameter type="animated" name="23" default="0" min="-100" max="100" decimals="3">
+        <name>iParam7</name>
+        <comment>Shader uniform iParam7. Can be keyframed.</comment>
+    </parameter>
+</effect>
