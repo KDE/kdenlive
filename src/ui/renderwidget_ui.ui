@@ -146,9 +146,6 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
                     <property name="flat">
                      <bool>true</bool>
                     </property>
-                    <property name="configFile" stdset="0">
-                     <string>:data/kdenlive_renderprofiles.knsrc</string>
-                    </property>
                    </widget>
                   </item>
                   <item>

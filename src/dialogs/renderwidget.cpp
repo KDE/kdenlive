@@ -336,6 +336,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     m_view.buttonNew->setIconSize(iconSize);
     m_view.buttonSaveAs->setIconSize(iconSize);
     m_view.m_knsbutton->setIconSize(iconSize);
+    m_view.m_knsbutton->setConfigFile(QStringLiteral(":data/kdenlive_renderprofiles.knsrc"));
 
     m_view.buttonRender->setEnabled(false);
     m_view.buttonGenerateScript->setEnabled(false);
