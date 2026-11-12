@@ -404,6 +404,9 @@ void KdenliveSettingsDialog::initEnviromentPage()
     connect(m_configEnv.kcfg_librarytodefaultfolder, &QAbstractButton::clicked, this, &KdenliveSettingsDialog::slotEnableLibraryFolder);
 
     m_configEnv.kcfg_proxythreads->setMaximum(qMax(1, QThread::idealThreadCount() - 1));
+    // Warn about too low values when the low memory threshold is not automatic
+    m_configEnv.lowMemoryWarning->setVisible(KdenliveSettings::lowMemoryThreshold() > 0);
+    connect(m_configEnv.kcfg_lowMemoryThreshold, &QSpinBox::valueChanged, this, [this](int value) { m_configEnv.lowMemoryWarning->setVisible(value > 0); });
 
     // Script rendering files folder
     m_configEnv.videofolderurl->setMode(KFile::Directory);

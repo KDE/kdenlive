@@ -741,6 +741,12 @@
       <default>true</default>
     </entry>
 
+    <entry name="lowMemoryThreshold" type="Int">
+      <label>Show a warning when the free memory during rendering is below this value (in MB), 0 calculates it automatically from the render</label>
+      <default>0</default>
+      <min>0</min>
+    </entry>
+
     <entry name="lastCacheCheck" type="DateTime">
       <label>Kdenlive will check every 2 weeks on startup if the cached data exceeds the defined maxcachesize. This is the last checked date</label>
       <default></default>

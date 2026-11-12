@@ -185,6 +185,9 @@ private Q_SLOTS:
     /** @brief Prepare the render request. */
     void slotPrepareExport2(bool scriptExport = false);
     void slotCheckFreeMemory();
+    /** @brief Update the low memory thresholds, either from the user defined value or, in automatic mode, from an estimate of the memory needed to
+     * render frames of @p frameSize with @p threads. */
+    void updateMemoryThresholds(const QSize &frameSize, int threads);
     void updatePowerManagement();
     void checkDriveSpace();
     /** @brief Warn when the One Field deinterlacer is selected and the current sequence contains interlaced clips. */
