@@ -70,6 +70,13 @@ int ProfileModel::frame_rate_den() const
     return m_profile->frame_rate_den();
 }
 
+namespace {
+double safeRatio(int numerator, int denominator)
+{
+    return denominator > 0 ? double(numerator) / denominator : 0.;
+}
+} // namespace
+
 double ProfileModel::fps() const
 {
     return m_profile->fps();
@@ -164,8 +171,8 @@ ProfileParam::ProfileParam(int width, int height, int fpsNum, int fpsDen, int da
     , m_colorspace(colorSpace)
 
 {
-    m_fps = m_frame_rate_num / m_frame_rate_den;
-    m_dar = m_display_aspect_num / m_display_aspect_den;
+    m_fps = safeRatio(m_frame_rate_num, m_frame_rate_den);
+    m_dar = safeRatio(m_display_aspect_num, m_display_aspect_den);
 }
 
 ProfileParam::ProfileParam(QDomElement element)
@@ -194,9 +201,9 @@ ProfileParam::ProfileParam(QDomElement element)
     }
     m_width = width;
     m_height = height;
-    m_fps = m_frame_rate_num / m_frame_rate_den;
-    m_sar = m_sample_aspect_num / m_sample_aspect_den;
-    m_dar = m_display_aspect_num / m_display_aspect_den;
+    m_fps = safeRatio(m_frame_rate_num, m_frame_rate_den);
+    m_sar = safeRatio(m_sample_aspect_num, m_sample_aspect_den);
+    m_dar = safeRatio(m_display_aspect_num, m_display_aspect_den);
 }
 
 ProfileParam::ProfileParam(ProfileInfo *p)

@@ -2073,15 +2073,30 @@ bool KdenliveDoc::loadDocumentProperties()
     }
 
     QString profile = m_documentProperties.value(QStringLiteral("profile"));
-    bool profileFound = pCore->setCurrentProfile(profile);
+    // Ensure that the profile path matches the profile's xml description
+    list = m_document.elementsByTagName(QStringLiteral("profile"));
+    std::unique_ptr<ProfileInfo> xmlProfile = nullptr;
+    if (!list.isEmpty() && !profile.isEmpty()) {
+        std::unique_ptr<ProfileModel> propertiesProfile(new ProfileModel(profile));
+        xmlProfile.reset(new ProfileParam(list.at(0).toElement()));
+        if (propertiesProfile->is_valid() && xmlProfile->is_valid()) {
+            // Ensure that both profiles match
+            if (propertiesProfile == xmlProfile) {
+                // Match, everything is ok.
+            } else {
+                // Profiles not matching, keep only xml info
+                profile.clear();
+            }
+        } else {
+            profile.clear();
+        }
+    }
+    bool profileFound = profile.isEmpty() ? false : pCore->setCurrentProfile(profile);
     if (!profileFound) {
         // try to find matching profile from MLT profile properties
-        list = m_document.elementsByTagName(QStringLiteral("profile"));
-        if (!list.isEmpty()) {
-            std::unique_ptr<ProfileInfo> xmlProfile(new ProfileParam(list.at(0).toElement()));
+        if (xmlProfile && xmlProfile->is_valid()) {
             // Check for valid fps
             if (!xmlProfile->hasValidFps()) {
-                qWarning() << "######################################\n#  ERROR, non standard fps detected  #\n######################################";
                 KMessageBox::error(
                     pCore->window(),
                     ki18nc("@label:textbox", "The project uses a non standard framerate (%1), this will result in misplaced clips and frame offset.")
@@ -2094,6 +2109,9 @@ bool KdenliveDoc::loadDocumentProperties()
                 profilePath = ProfileRepository::get()->saveProfile(xmlProfile.get());
             }
             profileFound = pCore->setCurrentProfile(profilePath);
+        } else {
+            KMessageBox::error(pCore->window(), ki18nc("@label:textbox", "Project's video profile is corrupted, using default one").toString());
+            profileFound = pCore->setCurrentProfile(KdenliveSettings::default_profile());
         }
     }
     if (!profileFound) {
