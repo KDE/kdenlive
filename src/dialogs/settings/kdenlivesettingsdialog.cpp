@@ -71,7 +71,6 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     initMiscPage();
     initProjectPage();
-    initProxyPage();
 
     QWidget *p3 = new QWidget;
     m_configTimeline.setupUi(p3);
@@ -83,29 +82,7 @@ KdenliveSettingsDialog::KdenliveSettingsDialog(QMap<QString, QString> mappable_a
 
     initEnviromentPage();
 
-    QWidget *p11 = new QWidget;
-    m_configColors.setupUi(p11);
-
-    // Initialize clip color buttons with live computed colors
-    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
-        m_configColors.videoColor->setColor(tc->getTimelineClipColor(ClipType::Video));
-        m_configColors.audioColor->setColor(tc->getTimelineClipColor(ClipType::Audio));
-        m_configColors.titleColor->setColor(tc->getTimelineClipColor(ClipType::Text));
-        m_configColors.imageColor->setColor(tc->getTimelineClipColor(ClipType::Image));
-        m_configColors.slideshowColor->setColor(tc->getTimelineClipColor(ClipType::SlideShow));
-        connect(m_configColors.resetClipColors, &QPushButton::clicked, this, [this, tc]() {
-            m_configColors.videoColor->setColor(tc->getDefaultClipColor(ClipType::Video));
-            m_configColors.audioColor->setColor(tc->getDefaultClipColor(ClipType::Audio));
-            m_configColors.titleColor->setColor(tc->getDefaultClipColor(ClipType::Text));
-            m_configColors.imageColor->setColor(tc->getDefaultClipColor(ClipType::Image));
-            m_configColors.slideshowColor->setColor(tc->getDefaultClipColor(ClipType::SlideShow));
-        });
-    }
-
-    m_pageColors = addPage(p11, i18n("Colors and Markers"), QStringLiteral("color-management"));
-    m_guidesCategories = new GuideCategories(nullptr, this);
-    QVBoxLayout *guidesLayout = new QVBoxLayout(m_configColors.guides_box);
-    guidesLayout->addWidget(m_guidesCategories);
+    initColorsPage();
 
     m_pluginsPage = new PluginsSettings(this);
     connect(m_pluginsPage, &PluginsSettings::openBrowserUrl, this, &KdenliveSettingsDialog::openBrowserUrl);
@@ -255,8 +232,13 @@ void KdenliveSettingsDialog::initMiscPage()
 
 void KdenliveSettingsDialog::initProjectPage()
 {
-    QWidget *p9 = new QWidget;
-    m_configProject.setupUi(p9);
+    QWidget *pMain = new QWidget;
+    m_configProjectDefaults.setupUi(pMain);
+
+    // Settings tab
+    QWidget *pSettings = new QWidget;
+    m_configProject.setupUi(pSettings);
+
     // Project folder
     ProjectStorageType storageType = ProjectStorageType(KdenliveSettings::defaultprojectstoragetype());
     switch (storageType) {
@@ -275,7 +257,7 @@ void KdenliveSettingsDialog::initProjectPage()
     QString currentPreviewData = KdenliveSettings::previewparams().isEmpty()
                                      ? QString()
                                      : QStringLiteral("%1;%2").arg(KdenliveSettings::previewparams(), KdenliveSettings::previewextension());
-    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(p9, true, currentPreviewData, false);
+    m_tlPreviewProfiles = new EncodingTimelinePreviewProfilesChooser(pSettings, true, currentPreviewData, false);
     m_configProject.preview_profile_box->addWidget(m_tlPreviewProfiles);
     auto *vbox = new QVBoxLayout;
     m_pw = new ProfileWidget(this);
@@ -303,18 +285,18 @@ void KdenliveSettingsDialog::initProjectPage()
         }
     });
 
-    m_pageProject = addPage(p9, i18n("Project Defaults"), QStringLiteral("project-defaults"));
-}
+    m_configProjectDefaults.layout_settings->addWidget(pSettings);
 
-void KdenliveSettingsDialog::initProxyPage()
-{
-    QWidget *p10 = new QWidget;
-    m_configProxy.setupUi(p10);
-    m_proxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
+    // Proxy tab
+    QWidget *pProxy = new QWidget;
+    m_configProxy.setupUi(pProxy);
+
+    m_proxyProfiles = new EncodingProfilesChooser(pProxy, EncodingProfilesManager::ProxyClips, true, QStringLiteral("proxy_profile"));
     m_configProxy.proxy_profile_box->addWidget(m_proxyProfiles);
-    m_alphaProxyProfiles = new EncodingProfilesChooser(p10, EncodingProfilesManager::ProxyAlphaClips, true, QStringLiteral("alpha_profile"));
+
+    m_alphaProxyProfiles = new EncodingProfilesChooser(pProxy, EncodingProfilesManager::ProxyAlphaClips, true, QStringLiteral("alpha_profile"));
     m_configProxy.alpha_profile_box->addWidget(m_alphaProxyProfiles);
-    addPage(p10, i18n("Proxy Clips"), QStringLiteral("transform-scale"));
+
     connect(m_configProxy.kcfg_generateproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyminsize, &QWidget::setEnabled);
     m_configProxy.kcfg_proxyminsize->setEnabled(KdenliveSettings::generateproxy());
     connect(m_configProxy.kcfg_generateimageproxy, &QAbstractButton::toggled, m_configProxy.kcfg_proxyimageminsize, &QWidget::setEnabled);
@@ -328,6 +310,44 @@ void KdenliveSettingsDialog::initProxyPage()
         // Default to empty
         m_configProxy.allowedProxyParams->clear();
     });
+
+    m_configProjectDefaults.layout_proxy->addWidget(pProxy);
+
+    // Markers tab
+    QWidget *pMarkers = new QWidget;
+    m_configMarkers.setupUi(pMarkers);
+
+    m_guidesCategories = new GuideCategories(nullptr, this);
+    QVBoxLayout *guidesLayout = new QVBoxLayout(m_configMarkers.guides_box);
+    guidesLayout->addWidget(m_guidesCategories);
+
+    m_configProjectDefaults.layout_markers->addWidget(pMarkers);
+
+    m_pageProject = addPage(pMain, i18n("Project Defaults"), QStringLiteral("project-defaults"));
+}
+
+void KdenliveSettingsDialog::initColorsPage()
+{
+    QWidget *p11 = new QWidget;
+    m_configColors.setupUi(p11);
+
+    // Initialize clip color buttons with live computed colors
+    if (auto *tc = pCore->window()->getCurrentTimeline()->controller()) {
+        m_configColors.videoColor->setColor(tc->getTimelineClipColor(ClipType::Video));
+        m_configColors.audioColor->setColor(tc->getTimelineClipColor(ClipType::Audio));
+        m_configColors.titleColor->setColor(tc->getTimelineClipColor(ClipType::Text));
+        m_configColors.imageColor->setColor(tc->getTimelineClipColor(ClipType::Image));
+        m_configColors.slideshowColor->setColor(tc->getTimelineClipColor(ClipType::SlideShow));
+        connect(m_configColors.resetClipColors, &QPushButton::clicked, this, [this, tc]() {
+            m_configColors.videoColor->setColor(tc->getDefaultClipColor(ClipType::Video));
+            m_configColors.audioColor->setColor(tc->getDefaultClipColor(ClipType::Audio));
+            m_configColors.titleColor->setColor(tc->getDefaultClipColor(ClipType::Text));
+            m_configColors.imageColor->setColor(tc->getDefaultClipColor(ClipType::Image));
+            m_configColors.slideshowColor->setColor(tc->getDefaultClipColor(ClipType::SlideShow));
+        });
+    }
+
+    m_pageColors = addPage(p11, i18n("Colors and Grid"), QStringLiteral("color-management"));
 }
 
 void KdenliveSettingsDialog::configureExternalProxies()
@@ -1010,6 +1030,7 @@ void KdenliveSettingsDialog::showPage(Kdenlive::ConfigPage page, int option)
         break;
     case Kdenlive::PageProjectDefaults:
         setCurrentPage(m_pageProject);
+        m_configProjectDefaults.tabWidget->setCurrentIndex(option);
         break;
     case Kdenlive::PageColorsGuides:
         setCurrentPage(m_pageColors);
