@@ -1941,30 +1941,44 @@ bool KdenliveDoc::loadDocumentProperties()
     QString proxyparams = m_documentProperties.value(QStringLiteral("proxyparams")).remove(QLatin1Char('\\'));
     if (!proxyparams.isEmpty()) {
         bool discard = false;
+        bool localProfile = true;
         const QString proxyExtension = m_documentProperties.value(QStringLiteral("proxyextension"));
-        if (proxyExtension.length() > 8 || !UiUtils::isTrustedProxyProfile(proxyparams, proxyExtension)) {
+        if (proxyExtension.length() > 8) {
             discard = true;
         } else {
-            // Sanitize parameters. First check for forbidden params
-            const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
-            for (auto &f : forbiddenArgs) {
-                if (proxyparams.contains(f)) {
-                    // Suspicious proxy parameters
-                    discard = true;
-                    break;
+            localProfile = UiUtils::isTrustedProxyProfile(proxyparams, proxyExtension);
+            if (localProfile) {
+                // Sanitize parameters. First check for forbidden params
+                const QStringList forbiddenArgs = UiUtils::getProxyForbiddenParams();
+                for (auto &f : forbiddenArgs) {
+                    if (proxyparams.contains(f)) {
+                        // Suspicious proxy parameters
+                        discard = true;
+                        break;
+                    }
                 }
             }
         }
-        if (discard) {
+        if (discard || !localProfile) {
             // Discard proxy settings
             m_documentProperties.remove(QStringLiteral("proxyparams"));
             m_documentProperties.remove(QStringLiteral("proxyextension"));
-            if (KMessageBox::warningContinueCancel(pCore->window(),
-                                                   i18n("Project file <b>%1</b> contains suspicious proxy parameters. This command might be "
-                                                        "executed:<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i "
-                                                        "input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded.",
-                                                        m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyparams, proxyExtension),
-                                                   QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Abort"))) != KMessageBox::Continue) {
+            QString warningMessage;
+            if (discard) {
+                warningMessage = i18n("Project file <b>%1</b> contains suspicious proxy parameters. This command might be "
+                                      "executed:<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i "
+                                      "input.mp4 %3 out.%4</b></code><br><br>These parameters will be discarded.",
+                                      m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyparams, proxyExtension);
+            } else {
+                // Non local profile
+                warningMessage = i18n("Project file <b>%1</b> contains an unknown proxy profile, it will be discarded. "
+                                      "This will only affect newly created proxy clips. If you really need to keep this profile and understand the ffmpeg "
+                                      "syntax and possible security risks, create a new proxy profile in the project settings with these "
+                                      "parameters:<br><code>%2<br>Extension: %3</code>",
+                                      m_url.fileName(), proxyparams, proxyExtension);
+            }
+            if (KMessageBox::warningContinueCancel(pCore->window(), warningMessage, QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Abort Loading"))) !=
+                KMessageBox::Continue) {
                 return false;
             }
         } else {
