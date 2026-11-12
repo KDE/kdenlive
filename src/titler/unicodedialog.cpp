@@ -19,8 +19,22 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 /// CONSTANTS
 
-const int MAX_LENGTH_HEX = 4;
-const uint MAX_UNICODE_V1 = 65535;
+const int MAX_LENGTH_HEX = 6;
+const uint MAX_UNICODE = 0x10FFFF;
+
+/**
+ * @brief Returns the character for the code point @p value, or an empty string if it is not a valid
+ * character (surrogate halves or values above U+10FFFF). QChar only holds 16 bits, so characters
+ * above U+FFFF (emoji, historic scripts, music symbols…) need a QString built from UCS-4.
+ */
+static QString unicodeString(uint value)
+{
+    if (value > MAX_UNICODE || (value >= 0xD800 && value <= 0xDFFF)) {
+        return QString();
+    }
+    const char32_t codePoint = value;
+    return QString::fromUcs4(&codePoint, 1);
+}
 
 UnicodeDialog::UnicodeDialog(InputMethod inputMeth, QWidget *parent)
     : QDialog(parent)
@@ -204,7 +218,7 @@ QString UnicodeWidget::unicodeInfo(const QString &unicode)
     } else if (u == QLatin1String("266c")) {
         infoText = i18n("Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U+266a). See <a "
                         "href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">Wikipedia:Sixteenth_note</a>");
-    } else if (u == QLatin1String("1D162")) {
+    } else if (u == QLatin1String("1d162")) {
         infoText = i18n("Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a sixteenth note (U+266b). See <a "
                         "href=\"https://en.wikipedia.org/wiki/Thirty-second_note\">Wikipedia:Thirty-second_note</a>");
     } else {
@@ -221,15 +235,17 @@ void UnicodeWidget::updateOverviewChars(uint unicode)
     uint i;
 
     for (i = 1; i <= 4; ++i) {
-        if (unicode > i && !controlCharacter(unicode - i)) {
+        const QString character = unicode > i ? unicodeString(unicode - i) : QString();
+        if (!character.isEmpty() && !controlCharacter(unicode - i)) {
             left = QLatin1Char(' ') + left;
-            left = QChar(unicode - i) + left;
+            left = character + left;
         }
     }
 
     for (i = 1; i <= 8; ++i) {
-        if (unicode + i <= MAX_UNICODE_V1 && !controlCharacter(unicode + i)) {
-            right += QChar(unicode + i);
+        const QString character = unicodeString(unicode + i);
+        if (!character.isEmpty() && !controlCharacter(unicode + i)) {
+            right += character;
             right += ' ';
         }
     }
@@ -263,9 +279,9 @@ QString UnicodeWidget::nextUnicode(const QString &text, Direction direction)
         }
         // Wrapping
         if (value == uint(-1)) {
-            value = MAX_UNICODE_V1;
+            value = MAX_UNICODE;
         }
-        if (value > MAX_UNICODE_V1) {
+        if (value > MAX_UNICODE) {
             value = 0;
         }
 
@@ -338,7 +354,7 @@ void UnicodeWidget::slotTextChanged(const QString &text)
         m_lastUnicodeNumber = text;
 
         labelInfoText->setText(unicodeInfo(text));
-        unicodeChar->setText(QChar(value));
+        unicodeChar->setText(unicodeString(value));
     }
 
     unicodeNumber->blockSignals(false);
@@ -352,7 +368,8 @@ void UnicodeWidget::slotReturnPressed()
 {
     unicodeNumber->setFocus();
     const QString text = trimmedUnicodeNumber(unicodeNumber->text());
-    if (!controlCharacter(text)) {
+    // Nothing to insert for control characters or invalid code points
+    if (!controlCharacter(text) && !unicodeChar->text().isEmpty()) {
         Q_EMIT charSelected(unicodeChar->text());
         writeChoices();
     }
