@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.slitscan0r" id="frei0r.slitscan0r" type="video" unique="1">
+    <name>Slit Scan</name>
+    <description><![CDATA[Slit Scan filter with Scan and Stargate modes.<br>
+    Every frame contributes only the pixels under a thin slit, and the slits of consecutive frames are laid side by side, so one axis of the image becomes time.]]></description>
+    <author>phoebus-84</author>
+    <parameter type="list" name="0" paramlist="0;1">
+        <name>Mode</name>
+        <comment><![CDATA[Scan or Stargate]]></comment>
+        <paramlistdisplay>Scan,Stargate</paramlistdisplay>
+    </parameter>
+    <parameter type="animated" name="1" max="1.000" min="0.000" default="0.5" decimals="3">
+        <name>Position</name>
+        <comment><![CDATA[Position of the slit across<br>
+        the input. 0=left/top, 1=right/bottom]]></comment>
+    </parameter>
+    <parameter type="bool" name="2" max="1" min="0" default="0">
+        <name>Vertical</name>
+        <comment><![CDATA[Sample a column instead of a row]]></comment>
+    </parameter>
+    <parameter type="animated" name="3" max="64" min="1" default="1" factor="64" suffix="px">
+        <name>Width</name>
+        <comment><![CDATA[Slit width, 1-64 px: how far<br>
+        the image advances per frame]]></comment>
+    </parameter>
+    <parameter type="bool" name="4" max="1" min="0" default="0">
+        <name>Reverse</name>
+        <comment><![CDATA[Scan: new slits enter at the<br>
+        left/top edge; Stargate: slits flow inwards]]></comment>
+    </parameter>
+    <parameter type="animated" name="5" max="1.000" min="0.000" default="0.25" decimals="3">
+        <name>Depth</name>
+        <comment><![CDATA[Stargate: how far the tunnel<br>
+        reaches (size of the dark hole in the middle)]]></comment>
+    </parameter>
+    <parameter type="animated" name="6" max="1.000" min="0.000" default="1" decimals="3">
+        <name>Fade</name>
+        <comment><![CDATA[Stargate: darken the walls with<br>
+        distance, as in a long exposure.]]></comment>
+    </parameter>
+</effect>

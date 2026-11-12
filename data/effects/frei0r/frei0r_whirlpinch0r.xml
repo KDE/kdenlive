@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE kpartgui>
+<effect xmlns="https://www.kdenlive.org" tag="frei0r.whirlpinch0r" id="frei0r.whirlpinch0r">
+    <name>Whirl and Pinch</name>
+    <description><![CDATA[Creates a whirl and pinch effect.]]></description>
+    <author>frei0r</author>
+    <parameter type="animated" name="0" default="0.5" min="0.000" max="1.000" decimals="3">
+        <name>Whirl</name>
+        <comment><![CDATA[Amount of whirl. 0 means -720 degrees, 0.5 is neutral (no whirl), 1 means +720 degrees.]]></comment>
+    </parameter>
+    <parameter type="animated" name="1" default="0.5" min="0.000" max="1.000" decimals="3">
+        <name>Pinch</name>
+        <comment><![CDATA[Amount of pinching. 0 means pinch out, 0.5 is neutral (no pinch), 1 means pinch in.]]></comment>
+    </parameter>
+    <parameter type="animated" name="2" default="0.5" min="0.000" max="2.000" factor="2" decimals="3">
+        <name>Radius</name>
+        <comment><![CDATA[Radius. 1 means the entire frame is affected.]]>'</comment>
+    </parameter>
+    <parameter type="animated" name="3" default="0.5" min="0" max="%width" factor="%width">
+        <name>Center X</name>
+        <comment><![CDATA[Horizontal position]]></comment>
+    </parameter>
+    <parameter type="animated" name="4" default="0.5" min="0" max="%height" factor="%height">
+        <name>Center Y</name>
+        <comment><![CDATA[Vertical position]]>'</comment>
+    </parameter>
+</effect>
