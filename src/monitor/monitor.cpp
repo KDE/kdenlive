@@ -676,7 +676,7 @@ void Monitor::slotLockMonitor(bool lock)
 void Monitor::setupMenu(QMenu *goMenu, QMenu *overlayMenu, QAction *playZone, QAction *playZoneFromCursor, QAction *loopZone, QAction *loopClip)
 {
     delete m_contextMenu;
-    m_contextMenu = new QMenu(this);
+    m_contextMenu = new QMenu(m_glWidget);
     m_contextMenu->addMenu(m_playMenu);
     if (goMenu) {
         m_contextMenu->addMenu(goMenu);
@@ -1052,8 +1052,7 @@ void Monitor::mousePressEvent(QMouseEvent *event)
             event->accept();
         }
     } else if (m_contextMenu) {
-        slotActivateMonitor();
-        m_contextMenu->popup(event->globalPosition().toPoint());
+        slotShowMenu(event->globalPosition().toPoint());
         event->accept();
     }
     QWidget::mousePressEvent(event);
@@ -1062,7 +1061,7 @@ void Monitor::mousePressEvent(QMouseEvent *event)
 void Monitor::slotShowMenu(const QPoint pos)
 {
     slotActivateMonitor();
-    if (m_contextMenu) {
+    if (m_contextMenu && m_glWidget->underMouse()) {
         updateMarkers();
         m_contextMenu->popup(pos);
     }
@@ -1435,7 +1434,7 @@ void Monitor::wheelEvent(QWheelEvent *event)
 void Monitor::mouseDoubleClickEvent(QMouseEvent *event)
 {
     event->accept();
-    if (!m_toolbar->underMouse()) {
+    if (event->button() == Qt::LeftButton && !m_toolbar->underMouse()) {
         slotSwitchFullScreen();
     }
 }

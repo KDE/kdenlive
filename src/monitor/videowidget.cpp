@@ -1007,7 +1007,7 @@ void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
     if (event->isAccepted()) {
         return;
     }
-    if ((rootObject() == nullptr) || rootObject()->property("viewType") != SceneType::MonitorSceneGeometry) {
+    if (event->button() == Qt::LeftButton && ((rootObject() == nullptr) || rootObject()->property("viewType") != SceneType::MonitorSceneGeometry)) {
         Q_EMIT switchFullScreen();
     }
     event->accept();
