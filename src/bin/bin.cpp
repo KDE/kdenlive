@@ -83,6 +83,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QMenu>
 #include <QMimeData>
 #include <QPersistentModelIndex>
+#include <QScrollBar>
 #include <QSlider>
 #include <QStyledItemDelegate>
 #include <QThreadPool>
@@ -105,6 +106,99 @@ static QImage m_subClipIcon;
 static QSize m_iconSize;
 static QIcon m_folderIcon;
 static QIcon m_sequenceFolderIcon;
+
+// Rating stars keep a font-relative size, independent of the column width
+static int ratingStarsWidth(const QFont &font)
+{
+    return QFontInfo(font).pixelSize() * 5;
+}
+
+static int ratingSectionWidth(const QFont &font)
+{
+    return ratingStarsWidth(font) + 8;
+}
+
+static QRect ratingPaintRect(const QStyleOptionViewItem &option)
+{
+    // Center the fixed-width rating area in the column
+    const int width = qMin(ratingStarsWidth(option.font), option.rect.width());
+    return QRect(option.rect.left() + (option.rect.width() - width) / 2, option.rect.top(), width, option.rect.height());
+}
+
+static bool g_headerBusy = false; // true while our own code resizes sections
+
+// Smallest usable Name width: a timecode, the icon and the tree decorations
+static int nameMinimumWidth(const QTreeView *view, int iconWidth)
+{
+    QFontMetricsF fm(view->font());
+    QStyle *style = view->style();
+    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
+    const int decorationMargins = style->pixelMetric(QStyle::PM_TreeViewIndentation) + (style->pixelMetric(QStyle::PM_SmallIconSize) * 2);
+    return iconWidth + textMargin + decorationMargins;
+}
+
+// Name takes whatever width the other visible columns leave free (never below minWidth)
+static void fitNameColumn(QTreeView *view, int minWidth)
+{
+    if (!view || g_headerBusy) {
+        return;
+    }
+    QHeaderView *h = view->header();
+    int others = 0;
+    int visibleOthers = 0;
+    for (int i = 0; i < h->count(); ++i) {
+        if (i != BinColumns::Name && !h->isSectionHidden(i)) {
+            others += h->sectionSize(i);
+            ++visibleOthers;
+        }
+    }
+    // Name alone: let Qt fill the viewport exactly. Otherwise Name is sized manually.
+    h->setStretchLastSection(visibleOthers == 0);
+
+    const int w = qMax(minWidth, view->viewport()->width() - others);
+    if (w != h->sectionSize(BinColumns::Name)) {
+        g_headerBusy = true;
+        h->resizeSection(BinColumns::Name, w);
+        g_headerBusy = false;
+    }
+}
+
+// whatever space the resize leaves free at the right is given to that last column.
+// If the columns are wider than the viewport we do nothing, so overflow + horizontal scrolling stay as they are.
+static void pinLastColumnEdge(QTreeView *view, int resizedColumn)
+{
+    if (!view || g_headerBusy) {
+        return;
+    }
+    QHeaderView *h = view->header();
+    // Last visible column in visual order (columns can be reordered / hidden)
+    int last = -1;
+    for (int visual = h->count() - 1; visual >= 0; --visual) {
+        const int logical = h->logicalIndex(visual);
+        if (!h->isSectionHidden(logical)) {
+            last = logical;
+            break;
+        }
+    }
+    // Dragging the last column's own right separator is an explicit resize: let it move the edge (and overflow)
+    if (last < 0 || last == resizedColumn) {
+        return;
+    }
+    int total = 0;
+    for (int i = 0; i < h->count(); ++i) {
+        if (!h->isSectionHidden(i)) {
+            total += h->sectionSize(i);
+        }
+    }
+    const int freeSpace = view->viewport()->width() - total;
+    if (freeSpace <= 0) {
+        // Already overflowing: keep the scrolled content untouched, don't pull the last edge back into view
+        return;
+    }
+    g_headerBusy = true;
+    h->resizeSection(last, h->sectionSize(last) + freeSpace);
+    g_headerBusy = false;
+}
 
 /**
  * @brief Draws the "Double click, drop files or click <icon> to import media" placeholder text when user has not yet imported any media
@@ -279,10 +373,9 @@ public:
                 dragType = PlaylistState::Disabled;
                 if (index.column() == BinColumns::Rating) {
                     // Rating
-                    QRect rect = option.rect;
-                    rect.adjust(option.rect.width() / 12, 0, 0, 0);
-                    int rate = 0;
-                    if (me->pos().x() > rect.x()) {
+                    const QRect rect = ratingPaintRect(option);
+                    int rate = -1;
+                    if (rect.contains(me->pos())) {
                         rate = KRatingPainter::getRatingFromPosition(rect, Qt::AlignLeft | Qt::AlignVCenter, qApp->layoutDirection(), me->pos());
                     }
                     if (rate > -1) {
@@ -458,12 +551,11 @@ public:
                 }
                 int mid = int((r1.height() / 2));
                 QRect r2 = r1;
-                r1.adjust(0, textMargin, -2 * textMargin, -mid);
-                r2.adjust(0, mid + textMargin, -2 * textMargin, 0);
+                r1.adjust(0, textMargin, 0, -mid);
+                r2.adjust(0, mid + textMargin, 0, 0);
                 QRectF bounding;
                 QFontMetrics fm(font);
-                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop,
-                                  fm.elidedText(index.data(AbstractProjectItem::DataName).toString(), Qt::ElideRight, r1.width()), &bounding);
+                painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(AbstractProjectItem::DataName).toString(), &bounding);
                 font.setBold(false);
                 painter->setFont(font);
                 QString subText = index.data(AbstractProjectItem::DataDuration).toString();
@@ -483,7 +575,10 @@ public:
                 if (!subText.isEmpty()) {
                     bool hasAudioAndVideo = index.data(AbstractProjectItem::ClipHasAudioAndVideo).toBool();
                     int logicalIconSize = style->pixelMetric(QStyle::PM_SmallIconSize);
-                    r2.adjust(0, int(bounding.bottom() - r2.top()), -logicalIconSize * (hasAudioAndVideo ? 2 : 1) - (6 * textMargin), 0);
+                    const QString usage = index.data(AbstractProjectItem::UsageCount).toString();
+                    // Only reserve space on the right while the icons are actually drawn
+                    const bool iconsShown = (opt.state & QStyle::State_MouseOver) || !usage.isEmpty();
+                    r2.adjust(0, int(bounding.bottom() - r2.top()), iconsShown ? (-logicalIconSize * (hasAudioAndVideo ? 2 : 1) - (6 * textMargin)) : 0, 0);
                     QColor subTextColor = painter->pen().color();
                     bool selected = opt.state & QStyle::State_Selected;
                     if (!selected) {
@@ -491,7 +586,6 @@ public:
                     }
                     painter->setPen(subTextColor);
                     // Draw usage counter
-                    const QString usage = index.data(AbstractProjectItem::UsageCount).toString();
                     if (!usage.isEmpty()) {
                         subText.append(QStringLiteral(" [%1]").arg(usage));
                     }
@@ -601,14 +695,13 @@ public:
             // Rating
             QStyleOptionViewItem opt(option);
             initStyleOption(&opt, index);
-            QRect r1 = opt.rect;
+            QRect r1 = ratingPaintRect(opt);
             // Tweak bg opacity since breeze dark star has same color as highlighted background
             painter->setOpacity(0.5);
             QStyle *style = opt.widget ? opt.widget->style() : QApplication::style();
             style->drawPrimitive(QStyle::PE_PanelItemViewItem, &opt, painter, opt.widget);
             painter->setOpacity(1);
             if (index.data(AbstractProjectItem::ItemTypeRole).toInt() != AbstractProjectItem::FolderItem) {
-                r1.adjust(r1.width() / 12, 0, 0, 0);
                 KRatingPainter::paintRating(painter, r1, Qt::AlignLeft | Qt::AlignVCenter, index.data().toInt());
             }
         } else {
@@ -1292,6 +1385,18 @@ void MyTreeView::paintEvent(QPaintEvent *event)
     separatorPen.setCosmetic(true);
     painter.setPen(separatorPen);
 
+    // Separators stop at the last visible row (none when only the placeholder is shown)
+    int contentBottom = -1;
+    if (model() && pCore->bin()->hasUserClip()) {
+        if (verticalScrollBar()->maximum() > 0) {
+            contentBottom = viewport()->height();
+        } else {
+            for (QModelIndex row = indexAt(QPoint(0, 0)); row.isValid() && visualRect(row).top() < viewport()->height(); row = indexBelow(row)) {
+                contentBottom = qMin(visualRect(row).bottom(), viewport()->height() - 1);
+            }
+        }
+    }
+
     for (int visualIndex = 0; visualIndex < headerView->count(); ++visualIndex) {
         const int logicalIndex = headerView->logicalIndex(visualIndex);
 
@@ -1301,8 +1406,8 @@ void MyTreeView::paintEvent(QPaintEvent *event)
 
         const int x = headerView->sectionViewportPosition(logicalIndex) + headerView->sectionSize(logicalIndex) - 1;
 
-        if (x >= 0 && x < viewport()->width()) {
-            painter.drawLine(x, 0, x, viewport()->height() - 1);
+        if (contentBottom >= 0 && x >= 0 && x < viewport()->width()) {
+            painter.drawLine(x, 0, x, contentBottom - 1);
         }
     }
 
@@ -1954,6 +2059,14 @@ void Bin::abortOperations()
 
 bool Bin::eventFilter(QObject *obj, QEvent *event)
 {
+    if (event->type() == QEvent::Resize && m_itemView && obj == m_itemView->viewport() && m_listType == BinTreeView) {
+        // Width changes only: a height-only change (scrollbar appearing while dragging a separator) must not touch Name
+        auto *re = static_cast<QResizeEvent *>(event);
+        if (re->size().width() != re->oldSize().width()) {
+            fitNameColumn(static_cast<QTreeView *>(m_itemView), m_minimumHeaderWidth);
+        }
+    }
+
     if (event->type() == QEvent::MouseButtonPress) {
         if (m_itemView && m_listType == BinTreeView) {
             // Folder state is only valid in tree view mode
@@ -3645,6 +3758,7 @@ void Bin::slotInitView(QAction *action)
     if (m_listType == BinTreeView) {
         m_itemView->setItemDelegate(m_binTreeViewDelegate);
         auto *view = static_cast<MyTreeView *>(m_itemView);
+        m_minimumHeaderWidth = nameMinimumWidth(view, m_iconSize.width());
         view->setSortingEnabled(true);
         view->setWordWrap(true);
         connect(view, &MyTreeView::updateDragMode, m_itemModel.get(), &ProjectItemModel::setDragType, Qt::DirectConnection);
@@ -3676,7 +3790,7 @@ void Bin::slotInitView(QAction *action)
         // ID column
         view->setColumnHidden(6, true);
         // Rating column
-        view->header()->resizeSection(7, QFontInfo(font()).pixelSize() * 4);
+        view->header()->resizeSection(7, qMax(view->header()->sectionSize(7), ratingSectionWidth(view->font())));
         // FPS column
         view->setColumnHidden(BinColumns::FPS, true);
         // Usage column
@@ -3690,7 +3804,22 @@ void Bin::slotInitView(QAction *action)
                                              m_sortDescend->isChecked() ? Qt::DescendingOrder : Qt::AscendingOrder);
         }
 
-        connect(view->header(), &QHeaderView::sectionResized, this, &Bin::slotSaveHeaders);
+        fitNameColumn(view, m_minimumHeaderWidth);
+        connect(view->header(), &QHeaderView::sectionMoved, this, &Bin::slotSaveHeaders);
+        connect(view->header(), &QHeaderView::sectionResized, this, [this, view](int logical, int oldSize, int newSize) {
+            if (g_headerBusy || view->header()->isSectionHidden(logical) || oldSize == 0 || newSize == 0) {
+                return;
+            }
+            // Name and Rating (so that the stars don't shrink) have a minimum width
+            const int minimumWidth = logical == BinColumns::Name ? m_minimumHeaderWidth : logical == BinColumns::Rating ? ratingSectionWidth(view->font()) : 0;
+            if (newSize < minimumWidth) {
+                g_headerBusy = true;
+                view->header()->resizeSection(logical, minimumWidth);
+                g_headerBusy = false;
+            }
+            pinLastColumnEdge(view, logical);
+            slotSaveHeaders();
+        });
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
         connect(view->header(), &QHeaderView::sortIndicatorChanged, this, [this](int ix, Qt::SortOrder order) {
             QSignalBlocker bk(m_sortDescend);
@@ -3748,16 +3877,12 @@ void Bin::adjustHeaderSize()
     if (!view) {
         return;
     }
+    m_minimumHeaderWidth = nameMinimumWidth(view, m_iconSize.width());
     if (view->header()->hiddenSectionCount() != view->header()->count() - 1) {
         return;
     }
-    QFontMetricsF fm(view->font());
-    QStyle *style = view->style();
-    const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-    const int decorationMargins = 2 * style->pixelMetric(QStyle::PM_TreeViewIndentation) + (style->pixelMetric(QStyle::PM_SmallIconSize) * 2);
-    m_minimumHeaderWidth = fm.boundingRect(QStringLiteral("00:00:00:00 [0][0]")).width() + m_iconSize.width() + 4 * textMargin + decorationMargins;
-    view->resizeColumnToContents(BinColumns::Name);
-    view->header()->resizeSection(0, m_minimumHeaderWidth);
+    view->resizeColumnToContents(0);
+    fitNameColumn(view, m_minimumHeaderWidth);
 }
 
 void Bin::slotSetIconSize(int size)
@@ -5646,6 +5771,38 @@ void Bin::slotShowColumn(bool show)
     auto *view = qobject_cast<QTreeView *>(m_itemView);
     if (view) {
         view->setColumnHidden(act->data().toInt(), !show);
+        if (show) {
+            // Newly shown column goes last (hidden sections take no space) with a default width
+            const int column = act->data().toInt();
+            view->header()->moveSection(view->header()->visualIndex(column), view->header()->count() - 1);
+            const QFontMetrics fm(view->font());
+            const int horizontalPadding = 2 * (view->style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1);
+
+            const auto textWidth = [&fm, horizontalPadding](const QString &text) { return fm.horizontalAdvance(text) + horizontalPadding; };
+
+            const QString headerText = view->model()->headerData(column, Qt::Horizontal).toString();
+            int newColumnWidth = textWidth(headerText);
+
+            switch (column) {
+            case BinColumns::Date:
+                newColumnWidth = qMax(newColumnWidth, textWidth(QStringLiteral("0000-00-00 00:00:00")));
+                break;
+            case BinColumns::Description:
+                newColumnWidth = qMax(newColumnWidth, fm.averageCharWidth() * 24 + horizontalPadding);
+                break;
+            case BinColumns::Rating:
+                newColumnWidth = ratingSectionWidth(view->font());
+                break;
+            case BinColumns::FPS:
+                newColumnWidth = qMax(newColumnWidth, textWidth(QStringLiteral("000.000")));
+                break;
+            }
+
+            view->header()->resizeSection(column, newColumnWidth);
+        }
+        // Name gives up (or gets back) exactly the space of the added (or removed) column
+        fitNameColumn(view, m_minimumHeaderWidth);
+        slotSaveHeaders();
     }
 }
 
