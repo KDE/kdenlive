@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-11 03:11+0000\n"
+"POT-Creation-Date: 2026-11-13 03:38+0000\n"
 "PO-Revision-Date: 2024-02-10 00:08+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -204,6 +204,7 @@ msgid "Mirror the spectrum about the center of the rectangle."
 msgstr "사각형의 중심을 기준으로 스펙트럼을 대칭 이동합니다."
 
 #: data/effects/audiolevelgraph.xml:45 data/effects/audiospectrum.xml:42
+#: data/effects/frei0r/frei0r_slitscan0r.xml:28
 #: data/transitions/dissolve.xml:13 data/transitions/luma.xml:23
 #: data/transitions/mix.xml:8
 #, kde-format
@@ -544,6 +545,7 @@ msgstr "입력 게인(dB)"
 #: data/effects/frei0r/frei0r_alpha0ps.xml:21
 #: data/effects/frei0r/frei0r_alpha0ps.xml:47
 #: data/effects/frei0r/frei0r_alpha0ps_alpha0ps.xml:19
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:32
 #: data/effects/frei0r/frei0r_pixels0rt.xml:8
 #: data/effects/frei0r/frei0r_threshold0r.xml:4
 #: data/effects/frei0r/frei0r_threshold0r.xml:8
@@ -657,6 +659,7 @@ msgstr "출력 파일"
 #: data/effects/avfilter/avfilter_flanger.xml:8
 #: data/effects/avfilter/avfilter_stereotools.xml:68
 #: data/effects/avfilter/avfilter_stereowiden.xml:8
+#: data/effects/frei0r/frei0r_harris0r.xml:8
 #: data/effects/ladspa/ladspa_1192.xml:9 data/effects/ladspa/ladspa_2159.xml:24
 #: data/effects/sox/sox_echo.xml:14 data/effects/sox/sox_flanger.xml:8
 #: data/effects/sox/sox_phaser.xml:14
@@ -706,7 +709,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_acontrast.xml:8
 #: data/effects/avfilter/avfilter_ciescope.xml:32
 #: data/effects/avfilter/avfilter_eq.xml:8
-#: data/effects/frei0r/frei0r_contrast0r.xml:8 data/effects/grain.xml:11
+#: data/effects/frei0r/frei0r_contrast0r.xml:8
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:23 data/effects/grain.xml:11
 #, kde-format
 msgid "Contrast"
 msgstr "대비"
@@ -770,6 +774,8 @@ msgstr "방향"
 #: data/effects/avfilter/avfilter_vectorscope.xml:8
 #: data/effects/avfilter/avfilter_waveform.xml:8
 #: data/effects/avfilter/avfilter_yadif.xml:8
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:8
+#: data/effects/frei0r/frei0r_slitscan0r.xml:9
 #: data/effects/ladspa/ladspa_1185.xml:9
 #: data/effects/mask_start_rotoscoping.xml:12 data/effects/rotoscoping.xml:9
 #, kde-format
@@ -1228,7 +1234,8 @@ msgstr "배경 불투명도"
 #: data/effects/avfilter/avfilter_chromahold.xml:17
 #: data/effects/avfilter/avfilter_colorhold.xml:14
 #: data/effects/avfilter/avfilter_hsvhold.xml:27
-#: data/effects/avfilter/avfilter_hsvkey.xml:27 data/effects/hsl_range.xml:16
+#: data/effects/avfilter/avfilter_hsvkey.xml:27
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:18 data/effects/hsl_range.xml:16
 #, fuzzy, kde-format
 #| msgid "Blend mode"
 msgid "Blend"
@@ -1788,6 +1795,7 @@ msgstr "X축 회전"
 #: data/effects/avfilter/avfilter_graphmonitor.xml:8
 #: data/effects/avfilter/avfilter_oscilloscope.xml:16
 #: data/effects/dynamictext.xml:20 data/effects/dynamictext.xml:112
+#: data/effects/frei0r/frei0r_flarefx.xml:20
 #: data/effects/frei0r/frei0r_medians.xml:12
 #: data/effects/frei0r/frei0r_sharpness.xml:11 data/effects/gpstext.xml:66
 #: data/effects/timer.xml:14 src/ui/configcapture_ui.ui:167
@@ -2814,7 +2822,8 @@ msgstr "두 번째로 감지된 얼굴의 도형 색상을 지정합니다."
 #: data/effects/avfilter/avfilter_dblur.xml:12
 #: data/effects/avfilter/avfilter_exposure.xml:11
 #: data/effects/avfilter/avfilter_gradfun.xml:16
-#: data/effects/avfilter/avfilter_sofalizer.xml:20 data/effects/qtcrop.xml:11
+#: data/effects/avfilter/avfilter_sofalizer.xml:20
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:16 data/effects/qtcrop.xml:11
 #: data/effects/vignette.xml:17
 #, kde-format
 msgid "Radius"
@@ -3337,6 +3346,7 @@ msgstr "속도 스케일러"
 #: data/effects/avfilter/avfilter_despill.xml:27
 #: data/effects/avfilter/avfilter_eq.xml:11
 #: data/effects/frei0r/frei0r_brightness.xml:8
+#: data/effects/frei0r/frei0r_flarefx.xml:16
 #: data/effects/frei0r/frei0r_lenscorrection.xml:20
 #: data/effects/frei0r/frei0r_sigmoidaltransfer.xml:9
 #: data/effects/frei0r/frei0r_softglow.xml:18 data/effects/grain.xml:14
@@ -3458,7 +3468,8 @@ msgstr ""
 #: data/effects/avfilter/avfilter_fillborders.xml:12
 #: data/effects/dropshadow.xml:20
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:11
-#: data/effects/frei0r/frei0r_camerashake.xml:37 src/bin/bin.cpp:2981
+#: data/effects/frei0r/frei0r_camerashake.xml:37
+#: data/effects/frei0r/frei0r_flarefx.xml:28 src/bin/bin.cpp:3107
 #: src/mltcontroller/clippropertiescontroller.cpp:657
 #, kde-format
 msgid "Color"
@@ -3541,6 +3552,7 @@ msgstr "알파 또는 광도 값의 역수를 사용하십시오."
 #: data/effects/avfilter/avfilter_drawgrid.xml:16
 #: data/effects/avfilter/avfilter_flanger.xml:20
 #: data/effects/frei0r/frei0r_bigsh0t_rect_to_eq.xml:8
+#: data/effects/frei0r/frei0r_slitscan0r.xml:23
 #: data/effects/sox/sox_band.xml:11 data/effects/sox/sox_flanger.xml:17
 #: src/assets/view/widgets/keyframecontainer.cpp:331
 #: src/assets/view/widgets/keyframecontainer.cpp:340
@@ -4037,6 +4049,7 @@ msgstr ""
 
 #: data/effects/avfilter/avfilter_flanger.xml:12
 #: data/effects/avfilter/avfilter_vibrato.xml:11
+#: data/effects/frei0r/frei0r_slitscan0r.xml:33
 #: data/effects/ladspa/ladspa_2144.xml:12
 #: data/effects/ladspa/ladspa_2146.xml:12
 #: data/effects/ladspa/ladspa_2148.xml:13
@@ -4072,6 +4085,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QLabel, label)
 #. i18n: ectx: property (text), widget (QLabel, labelScrollSpeed)
 #: data/effects/avfilter/avfilter_flanger.xml:24
+#: data/effects/frei0r/frei0r_shadert0y.xml:12
 #: data/effects/sox/sox_flanger.xml:20 data/effects/sox/sox_phaser.xml:20
 #: data/effects/speed.xml:4 data/effects/speed.xml:8 data/effects/timer.xml:97
 #: data/effects/wave.xml:22 src/timeline2/view/qml/Track.qml:96
@@ -4131,7 +4145,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:23
 #: data/effects/frei0r/frei0r_c0rners.xml:44
 #: data/effects/sox/sox_flanger.xml:29 src/monitor/monitormanager.cpp:655
-#: src/ui/renderwidget_ui.ui:616
+#: src/ui/renderwidget_ui.ui:613
 #, kde-format
 msgid "Interpolation"
 msgstr "보간"
@@ -4461,7 +4475,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
-#: src/bin/bin.cpp:1626 src/bin/projectitemmodel.cpp:341
+#: src/bin/bin.cpp:1627 src/bin/projectitemmodel.cpp:341
 #: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
@@ -5321,6 +5335,7 @@ msgid "Select which planes to process"
 msgstr "다시 할당할 타임코드 선택"
 
 #: data/effects/avfilter/avfilter_monochrome.xml:4
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:27
 #, fuzzy, kde-format
 #| msgid "Make monochrome clip"
 msgid "Monochrome"
@@ -7345,8 +7360,8 @@ msgstr "선택한 음성 모델 삭제"
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8
-#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1737
-#: src/bin/bin.cpp:1742 src/bin/bin.cpp:2837
+#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1738
+#: src/bin/bin.cpp:1743 src/bin/bin.cpp:2963
 #, kde-format
 msgid "Filter"
 msgstr "필터"
@@ -7536,6 +7551,7 @@ msgid "Apply Zoom and Pan effect"
 msgstr "Sox 밴드 오디오 효과"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:8 data/effects/dance.xml:23
+#: data/effects/frei0r/frei0r_3dperspective.xml:24
 #: data/effects/frei0r/frei0r_camerashake.xml:20
 #: data/effects/frei0r/frei0r_mirr0r.xml:14 data/effects/vidstab.xml:40
 #: src/monitor/view/MonitorZoomButton.qml:17
@@ -7545,12 +7561,14 @@ msgid "Zoom"
 msgstr "확대/축소"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:11
+#: data/effects/frei0r/frei0r_flarefx.xml:8
 #: src/assets/view/widgets/keyframeimport.cpp:422
 #, kde-format
 msgid "X"
 msgstr "X"
 
 #: data/effects/avfilter/avfilter_zoompan.xml:14
+#: data/effects/frei0r/frei0r_flarefx.xml:12
 #: src/assets/view/widgets/keyframeimport.cpp:423
 #, kde-format
 msgid "Y"
@@ -7562,7 +7580,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1630 src/bin/projectitemmodel.cpp:347
+#: src/bin/bin.cpp:1631 src/bin/projectitemmodel.cpp:347
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
 #: src/timeline2/view/qml/Track.qml:98 src/timeline2/view/qml/Track.qml:124
 #: src/timeline2/view/qml/Track.qml:132 src/ui/clipdurationdialog_ui.ui:18
@@ -7574,7 +7592,7 @@ msgstr "지속 시간"
 #. i18n: ectx: Menu (subtitles)
 #: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:90
 #: src/core.cpp:1198 src/kdenliveui.rc:196 src/mainwindow.cpp:277
-#: src/project/dialogs/archivewidget.cpp:101
+#: src/project/dialogs/archivewidget.cpp:149
 #: src/project/dialogs/projectsettings.cpp:431
 #, kde-format
 msgid "Subtitles"
@@ -7679,7 +7697,7 @@ msgstr "한 채널을 다른 채널로 복사"
 #. i18n: ectx: property (text), widget (QLabel, fromLabel)
 #. i18n: ectx: property (text), widget (QLabel, caption_convert_framerate_label2)
 #: data/effects/channelcopy.xml:8 src/ui/import_subtitle_ui.ui:192
-#: src/ui/renderwidget_ui.ui:396
+#: src/ui/renderwidget_ui.ui:393
 #, kde-format
 msgid "From"
 msgstr "원본"
@@ -8301,6 +8319,102 @@ msgstr "마스크를 비우지 않기"
 msgid "Fill with image or black"
 msgstr "이미지나 검은색으로 채우기"
 
+#: data/effects/frei0r/frei0r_3dperspective.xml:4
+#, kde-format
+msgid "3D Perspective"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:5
+#, kde-format
+msgid ""
+"Simulated 3D plane rotation with adjustable perspective strength, like a "
+"fake-3D camera transform."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
+#, fuzzy, kde-format
+#| msgid "yaw"
+msgid "Yaw"
+msgstr "yaw"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:9
+#, fuzzy, kde-format
+#| msgid "Rotation around the Z axis"
+msgid "Amount of rotation around Z axis (pointing up)"
+msgstr "Z축 회전"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:12
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:13
+#, fuzzy, kde-format
+#| msgid "pitch"
+msgid "Pitch"
+msgstr "pitch"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:13
+#, kde-format
+msgid "Amount of rotation around y axis (pointing right)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:16
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
+#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
+#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:18
+#, kde-format
+msgid "Roll"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:17
+#, kde-format
+msgid "Amount of rotation around X axis (pointing into the screen)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:20
+#, kde-format
+msgid "Perspective"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:21
+#, fuzzy, kde-format
+#| msgid "Amount of spatial filtering"
+msgid "Amount of perspective distortion"
+msgstr "공간적 필터링의 양"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:25
+#, no-c-format, kde-format
+msgid "Amount of zoom (max 400%)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:28
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Bar Horizontal"
+msgid "Pan horizontal"
+msgstr "수평 막대"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:29
+#, fuzzy, kde-format
+#| msgid "Horizontal Alignment"
+msgid "Horizontal displacement"
+msgstr "수평 정렬"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:32
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Bar Vertical"
+msgid "Pan vertical"
+msgstr "수직 막대"
+
+#: data/effects/frei0r/frei0r_3dperspective.xml:33
+#, fuzzy, kde-format
+#| msgid "Vertical Alignment"
+msgid "Vertical displacement"
+msgstr "수직 정렬"
+
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, fuzzy, kde-format
 #| msgid "Create a video Grid"
@@ -8490,6 +8604,7 @@ msgstr "알파 채널을 지정된 그라디언트로 채우기"
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: data/effects/frei0r/frei0r_alpha0ps_alphagrad.xml:8
 #: data/effects/frei0r/frei0r_alphagrad.xml:9
+#: data/effects/frei0r/frei0r_slitscan0r.xml:14
 #: src/assets/view/widgets/keyframeimport.cpp:419
 #: src/transitions/view/mixstackview.cpp:27 src/ui/markerdialog_ui.ui:138
 #, kde-format
@@ -8847,7 +8962,7 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:22
 #: data/effects/frei0r/frei0r_bigsh0t_eq_cap.xml:63
-#: src/dialogs/renderwidget.cpp:819 src/ui/managesubtitles_ui.ui:206
+#: src/dialogs/renderwidget.cpp:809 src/ui/managesubtitles_ui.ui:206
 #: src/ui/wipeval_ui.ui:172
 #, kde-format
 msgid "End"
@@ -9062,14 +9177,6 @@ msgstr ""
 "다. 360 동영상 뷰어에 표시할 내용을 미리 보는 데 사용할 수 있습니다. 시간 비"
 "트맵에 매핑된 지연된 프레임 블리팅입니다"
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:8
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:8
-#, fuzzy, kde-format
-#| msgid "yaw"
-msgid "Yaw"
-msgstr "yaw"
-
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:10
 #, kde-format
@@ -9078,27 +9185,12 @@ msgid ""
 "    \t(nose moves from side to side)."
 msgstr ""
 
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:11
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:13
-#, fuzzy, kde-format
-#| msgid "pitch"
-msgid "Pitch"
-msgstr "pitch"
-
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:15
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:15
 #, kde-format
 msgid ""
 "The amount to rotate the image<br>\n"
 "    \t(nose up or down)."
-msgstr ""
-
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
-#: data/effects/frei0r/frei0r_bigsh0t_eq_to_stereo.xml:14
-#: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:18
-#, kde-format
-msgid "Roll"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:20
@@ -10195,7 +10287,8 @@ msgstr "RGB 조정"
 msgid "Simple color adjustment"
 msgstr "간단한 색상 조정"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:2697
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:404
+#: src/doc/kdenlivedoc.cpp:2751 src/project/dialogs/guidecategories.cpp:115
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -10204,7 +10297,8 @@ msgstr "빨간색"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:2698
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:404
+#: src/doc/kdenlivedoc.cpp:2752 src/project/dialogs/guidecategories.cpp:115
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -10215,7 +10309,8 @@ msgstr "녹색"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:2699
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:405
+#: src/doc/kdenlivedoc.cpp:2753 src/project/dialogs/guidecategories.cpp:116
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -11160,6 +11255,62 @@ msgstr "혼합 정도"
 msgid "The amount of variation in brightness between frames"
 msgstr ""
 
+#: data/effects/frei0r/frei0r_flarefx.xml:4
+#, kde-format
+msgid "FlareFX"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_flarefx.xml:5
+#, kde-format
+msgid ""
+"Simulates sunlight hitting a camera lens: a bright core, colored rings, and "
+"a scattering of small reflectors that travel through the frame center as the "
+"light source moves, based on the classic GIMP FlareFX algorithm"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_flarefx.xml:9
+#, fuzzy, kde-format
+#| msgctxt "Luma transition name"
+#| msgid "Horizontal Blinds"
+msgid "Horizontal position of the light source"
+msgstr "수평 블라인드"
+
+#: data/effects/frei0r/frei0r_flarefx.xml:13
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "Vertical position of the light source"
+msgstr "X축 회전"
+
+#: data/effects/frei0r/frei0r_flarefx.xml:17
+#, kde-format
+msgid "Overall opacity/intensity of the flare overlay"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_flarefx.xml:21
+#, fuzzy, kde-format
+#| msgid "Rotation around the X axis"
+msgid "Size of the flare"
+msgstr "X축 회전"
+
+#: data/effects/frei0r/frei0r_flarefx.xml:24
+#: data/effects/ladspa/ladspa_phaser.xml:17
+#, kde-format
+msgid "Spread"
+msgstr "퍼짐"
+
+#: data/effects/frei0r/frei0r_flarefx.xml:25
+#, kde-format
+msgid ""
+"How far the small reflectors travel through the frame center as the light "
+"moves off-center"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_flarefx.xml:29
+#, fuzzy, kde-format
+#| msgid "The color of the waveform."
+msgid "Tint color of the flare"
+msgstr "파형의 색상입니다."
+
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, fuzzy, kde-format
 #| msgid "Flippo"
@@ -11278,6 +11429,35 @@ msgstr "글로"
 #, kde-format
 msgid "Creates a Glamorous Glow"
 msgstr "매력적인 글로 만들기"
+
+#: data/effects/frei0r/frei0r_harris0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Favorite Effects"
+msgid "Harris Shutter Effect"
+msgstr "즐겨찾는 효과"
+
+#: data/effects/frei0r/frei0r_harris0r.xml:5
+#, kde-format
+msgid "Creates the Harris shutter effect: dynamic RGB split with a delay."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_harris0r.xml:9
+#, kde-format
+msgid "Harris shutter color filtering delay"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_harris0r.xml:12
+#, fuzzy, kde-format
+#| msgid "Speed options"
+msgid "Simple"
+msgstr "속도 옵션"
+
+#: data/effects/frei0r/frei0r_harris0r.xml:14
+#, kde-format
+msgid ""
+"Use simple effect instead of smooth.<br>\n"
+"        Reduces RAM usage, less eye-pleasing"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:4
 #, kde-format
@@ -12144,7 +12324,7 @@ msgstr "정상적인 조광 상태가 자연스럽지 않으면 사용해 보십
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:72
 #: data/effects/frei0r/frei0r_lightgraffiti.xml:144 src/dialogs/Splash.qml:674
 #: src/dialogs/Splash.qml:1061 src/layouts/layoutmanagerdialog.cpp:99
-#: src/ui/configproxy_ui.ui:205 src/ui/exportguidesdialog_ui.ui:95
+#: src/ui/configproxy_ui.ui:215 src/ui/exportguidesdialog_ui.ui:95
 #, kde-format
 msgid "Reset"
 msgstr "초기화"
@@ -12597,6 +12777,70 @@ msgstr "대칭 복사"
 msgid ""
 "Repeats and flips the input image when it goes out of bounds, allowing for "
 "adjustable offset, zoom and rotation."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Extract"
+msgid "Motion Extraction"
+msgstr "압축 풀기"
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:5
+#, kde-format
+msgid ""
+"reveals motion by comparing the current frame with a delayed copy of the "
+"stream"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:9
+#, fuzzy, kde-format
+#| msgid "Selection"
+msgid "Select mode"
+msgstr "선택"
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:10
+#, kde-format
+msgid "Negative overlay,Absolute difference,Motion mask"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:13
+#, fuzzy, kde-format
+#| msgid "Time offset"
+msgid "Time Offset"
+msgstr "시간 오프셋"
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:15
+#, kde-format
+msgid ""
+"Time offset in seconds (0-2).<br>\n"
+"        Limited to 128 frames / 1 GiB of history; 0 = previous frame"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:20
+#, kde-format
+msgid ""
+"Opacity of the inverted delayed<br>\n"
+"        frame in negative overlay mode"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:24
+#, fuzzy, kde-format
+#| msgid "Align Audio to Reference"
+msgid "Amplification of the differences"
+msgstr "오디오를 참조에 정렬"
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:29
+#, kde-format
+msgid ""
+"Compare luminance only and<br>\n"
+"        produce a grayscale result"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_motiondiff0r.xml:34
+#, kde-format
+msgid ""
+"Ignore differences smaller than<br>\n"
+"        this to suppress noise"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_ndvi.xml:4
@@ -13306,6 +13550,274 @@ msgstr "단단함,두꺼움,보통,얇음,경사도"
 msgid "Soften"
 msgstr "부드럽게 하기"
 
+#: data/effects/frei0r/frei0r_shadert0y.xml:4
+#, kde-format
+msgid "Shadert0y"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:5
+#, kde-format
+msgid ""
+"Runs a Shadertoy-style GLSL script offscreen via OpenGL, with file slots, "
+"custom iParams, and alpha control."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:8
+#, fuzzy, kde-format
+#| msgid "Scripts"
+msgid "Script File"
+msgstr "스크립트"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:9
+#, kde-format
+msgid ""
+"Select the main .glsl or .frag file. If empty, a default color shader is "
+"used."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:13
+#, kde-format
+msgid "Time multiplier. Negative values reverse time."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:16
+#, fuzzy, kde-format
+#| msgid "Split Video"
+msgid "Flip Video Y"
+msgstr "동영상 분할"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:17
+#, fuzzy, kde-format
+#| msgid "Align item vertically"
+msgid "Flip input video vertically."
+msgstr "수직으로 항목 정렬"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:20
+#, fuzzy, kde-format
+#| msgid "Shape Alpha"
+msgid "Use Shader Alpha"
+msgstr "알파 도형"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:21
+#, kde-format
+msgid ""
+"Off = force alpha to 1.0 (opaque). On = keep the alpha written by the shader."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:24
+#, fuzzy, kde-format
+#| msgid "Channel"
+msgid "iChannel0"
+msgstr "채널"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:25
+#: data/effects/frei0r/frei0r_shadert0y.xml:29
+#: data/effects/frei0r/frei0r_shadert0y.xml:33
+#: data/effects/frei0r/frei0r_shadert0y.xml:37
+#, kde-format
+msgid "None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:28
+#, fuzzy, kde-format
+#| msgid "Channel"
+msgid "iChannel1"
+msgstr "채널"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:32
+#, fuzzy, kde-format
+#| msgid "Channel"
+msgid "iChannel2"
+msgstr "채널"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:36
+#, fuzzy, kde-format
+#| msgid "Channel"
+msgid "iChannel3"
+msgstr "채널"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:41
+#, fuzzy, kde-format
+#| msgid "File"
+msgid "File 0"
+msgstr "파일"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:42
+#, kde-format
+msgid ""
+"Image, video, or basic .glsl buffer used when an iChannel is set to File 0."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:46
+#, fuzzy, kde-format
+#| msgid "File"
+msgid "File 1"
+msgstr "파일"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:47
+#, kde-format
+msgid ""
+"Image, video, or basic .glsl buffer used when an iChannel is set to File 1."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:51
+#, fuzzy, kde-format
+#| msgid "File"
+msgid "File 2"
+msgstr "파일"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:52
+#, kde-format
+msgid ""
+"Image, video, or basic .glsl buffer used when an iChannel is set to File 2."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:56
+#, fuzzy, kde-format
+#| msgid "File"
+msgid "File 3"
+msgstr "파일"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:57
+#, kde-format
+msgid ""
+"Image, video, or basic .glsl buffer used when an iChannel is set to File 3."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:60
+#, fuzzy, kde-format
+#| msgid "Hide cursor"
+msgid "Mouse X"
+msgstr "커서 숨기기"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:61
+#, kde-format
+msgid "Normalized mouse X. 0 = left."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:64
+#, fuzzy, kde-format
+#| msgid "Hide cursor"
+msgid "Mouse Y"
+msgstr "커서 숨기기"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:65
+#, kde-format
+msgid "Normalized mouse Y. 0 = bottom."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:68
+#, fuzzy, kde-format
+#| msgid "Border Width"
+msgid "Render Width"
+msgstr "경계선 폭"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:69
+#, kde-format
+msgid ""
+"Internal shader render width (horizontal). 0 = use incoming frame width."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:72
+#, fuzzy, kde-format
+#| msgid "Rendering"
+msgid "Render Height"
+msgstr "렌더링"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:73
+#, kde-format
+msgid ""
+"Internal shader render height (vertical). 0 = use incoming frame height."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:76
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam0"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:77
+#, kde-format
+msgid "Shader uniform iParam0. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:80
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam1"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:81
+#, kde-format
+msgid "Shader uniform iParam1. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:84
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam2"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:85
+#, kde-format
+msgid "Shader uniform iParam2. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:88
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam3"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:89
+#, kde-format
+msgid "Shader uniform iParam3. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:92
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam4"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:93
+#, kde-format
+msgid "Shader uniform iParam4. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:96
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam5"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:97
+#, kde-format
+msgid "Shader uniform iParam5. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:100
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam6"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:101
+#, kde-format
+msgid "Shader uniform iParam6. Can be keyframed."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:104
+#, fuzzy, kde-format
+#| msgid "Param"
+msgid "iParam7"
+msgstr "인자"
+
+#: data/effects/frei0r/frei0r_shadert0y.xml:105
+#, kde-format
+msgid "Shader uniform iParam7. Can be keyframed."
+msgstr ""
+
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
@@ -13395,6 +13907,84 @@ msgstr "선명도"
 #, kde-format
 msgid "Sharpness of transfer."
 msgstr "전송의 선명도입니다."
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:4
+#, fuzzy, kde-format
+#| msgid "Split compare"
+msgid "Slit Scan"
+msgstr "분할 비교"
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:6
+#, kde-format
+msgid ""
+"Slit Scan filter with Scan and Stargate modes.<br>\n"
+"    Every frame contributes only the pixels under a thin slit, and the slits "
+"of consecutive frames are laid side by side, so one axis of the image "
+"becomes time."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:10
+#, kde-format
+msgid "Scan or Stargate"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:11
+#, kde-format
+msgid "Scan,Stargate"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:16
+#, kde-format
+msgid ""
+"Position of the slit across<br>\n"
+"        the input. 0=left/top, 1=right/bottom"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:19 data/effects/wave.xml:28
+#: src/dialogs/Splash.qml:933
+#, kde-format
+msgid "Vertical"
+msgstr "세로"
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:20
+#, fuzzy, kde-format
+#| msgid "use cos instead of linear"
+msgid "Sample a column instead of a row"
+msgstr "선형 대신에 코사인 사용"
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:25
+#, kde-format
+msgid ""
+"Slit width, 1-64 px: how far<br>\n"
+"        the image advances per frame"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:30
+#, kde-format
+msgid ""
+"Scan: new slits enter at the<br>\n"
+"        left/top edge; Stargate: slits flow inwards"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:35
+#, kde-format
+msgid ""
+"Stargate: how far the tunnel<br>\n"
+"        reaches (size of the dark hole in the middle)"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:38
+#, fuzzy, kde-format
+#| msgid "Fades"
+msgid "Fade"
+msgstr "페이드"
+
+#: data/effects/frei0r/frei0r_slitscan0r.xml:40
+#, kde-format
+msgid ""
+"Stargate: darken the walls with<br>\n"
+"        distance, as in a long exposure."
+msgstr ""
 
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
@@ -13657,7 +14247,7 @@ msgstr ""
 msgid "Displacement amount"
 msgstr "색조 정도"
 
-#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1642
+#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1643
 #: src/bin/projectitemmodel.cpp:359
 #, kde-format
 msgid "FPS"
@@ -13868,6 +14458,69 @@ msgstr "중앙 크기 지우기"
 #, kde-format
 msgid "Softness"
 msgstr "부드러움"
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:4
+#, kde-format
+msgid "Whirl and Pinch"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:5
+#, kde-format
+msgid "Creates a whirl and pinch effect."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:8
+#, kde-format
+msgid "Whirl"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:9
+#, kde-format
+msgid ""
+"Amount of whirl. 0 means -720 degrees, 0.5 is neutral (no whirl), 1 means "
+"+720 degrees."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:12
+#, kde-format
+msgid "Pinch"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:13
+#, kde-format
+msgid ""
+"Amount of pinching. 0 means pinch out, 0.5 is neutral (no pinch), 1 means "
+"pinch in."
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:17
+#, kde-format
+msgid "Radius. 1 means the entire frame is affected.'"
+msgstr ""
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:20
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Center X"
+msgstr "가운데"
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:21
+#, fuzzy, kde-format
+#| msgid "Histogram position"
+msgid "Horizontal position"
+msgstr "히스토그램 위치"
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:24
+#, fuzzy, kde-format
+#| msgid "Center"
+msgid "Center Y"
+msgstr "가운데"
+
+#: data/effects/frei0r/frei0r_whirlpinch0r.xml:25
+#, fuzzy, kde-format
+#| msgid "Inverted Position"
+msgid "Vertical position'"
+msgstr "위치 반전됨"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, fuzzy, kde-format
@@ -14656,14 +15309,16 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "색상 변화"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:2700
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:405
+#: src/doc/kdenlivedoc.cpp:2754 src/project/dialogs/guidecategories.cpp:116
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "노란색"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:2701
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:406
+#: src/doc/kdenlivedoc.cpp:2755 src/project/dialogs/guidecategories.cpp:117
 #, kde-format
 msgid "Cyan"
 msgstr "청록색"
@@ -17314,11 +17969,6 @@ msgstr "LADSPA 페이저 오디오 효과"
 msgid "Rate (Hz)"
 msgstr "속도(Hz)"
 
-#: data/effects/ladspa/ladspa_phaser.xml:17
-#, kde-format
-msgid "Spread"
-msgstr "퍼짐"
-
 #: data/effects/ladspa/ladspa_pitch.xml:5
 #, kde-format
 msgid "LADSPA change pitch audio effect"
@@ -19235,11 +19885,6 @@ msgstr "웨이브 진폭"
 msgid "Horizontal"
 msgstr "가로"
 
-#: data/effects/wave.xml:28 src/dialogs/Splash.qml:933
-#, kde-format
-msgid "Vertical"
-msgstr "세로"
-
 #: data/generators/count.xml:3
 #, kde-format
 msgid "Counter"
@@ -20641,8 +21286,8 @@ msgstr "효과 설명 표시/숨기기"
 msgid "Show/hide description of the compositions"
 msgstr "합성 설명 표시/숨기기"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1518
-#: src/dialogs/renderwidget.cpp:576 src/project/dialogs/profilewidget.cpp:155
+#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1519
+#: src/dialogs/renderwidget.cpp:566 src/project/dialogs/profilewidget.cpp:155
 #: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2691
 #, fuzzy, kde-format
 #| msgid "Search"
@@ -20796,7 +21441,7 @@ msgstr "트랙 %1 효과"
 msgid "Bin %1 effects"
 msgstr "보관함 %1 효과"
 
-#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4451
+#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4578
 #: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
@@ -20804,7 +21449,7 @@ msgstr "보관함 %1 효과"
 msgid "Show log"
 msgstr "로그 표시"
 
-#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4454
+#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4581
 #: src/dialogs/textbasededit.cpp:766
 #: src/effects/effectstack/view/maskmanager.cpp:117
 #, kde-format
@@ -21104,7 +21749,7 @@ msgid "Update current preset"
 msgstr "현재 사전 설정 업데이트"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonDelete)
-#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:205
+#: src/assets/view/assetparameterview.cpp:57 src/ui/renderwidget_ui.ui:202
 #, kde-format
 msgid "Delete preset"
 msgstr "사전 설정 삭제"
@@ -21124,7 +21769,7 @@ msgstr "효과 저장"
 
 #: src/assets/view/assetparameterview.cpp:414
 #: src/dialogs/customcamcorderdialog.cpp:129
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1657
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1689
 #, fuzzy, kde-format
 #| msgid "Enter preset name"
 msgctxt "@title:window"
@@ -21133,14 +21778,14 @@ msgstr "사전 설정 이름 입력"
 
 #: src/assets/view/assetparameterview.cpp:414
 #: src/dialogs/customcamcorderdialog.cpp:131
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1657
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1689
 #, fuzzy, kde-format
 #| msgid "Enter the name of this preset"
 msgid "Enter the name of this preset:"
 msgstr "이 사전 설정의 이름을 입력하십시오"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:419
+#: src/project/dialogs/archivewidget.cpp:474
 #, kde-format
 msgid "Abort processing"
 msgstr "처리 중단"
@@ -21278,7 +21923,7 @@ msgid "Limit automatic keyframes"
 msgstr "자동 키프레임"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:285 src/bin/bin.cpp:1684
+#: src/assets/view/widgets/keyframecontainer.cpp:285 src/bin/bin.cpp:1685
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -21737,13 +22382,13 @@ msgid ""
 "Toggles the display of the audio track controls in the audio mixer view."
 msgstr ""
 
-#: src/bin/bin.cpp:140
+#: src/bin/bin.cpp:141
 #, kde-format
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:142
+#: src/bin/bin.cpp:143
 #, kde-format
 msgctxt ""
 "Multiline version: Text shown when no media is imported yet. %1 is replaced "
@@ -21753,17 +22398,17 @@ msgid ""
 "or click %1 to import media"
 msgstr ""
 
-#: src/bin/bin.cpp:323 src/bin/bin.cpp:691 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:324 src/bin/bin.cpp:692 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:327 src/bin/bin.cpp:695 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:328 src/bin/bin.cpp:696 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr ""
 
-#: src/bin/bin.cpp:449 src/bin/bin.cpp:852 src/timeline2/view/qml/Clip.qml:1555
+#: src/bin/bin.cpp:450 src/bin/bin.cpp:853 src/timeline2/view/qml/Clip.qml:1555
 #, fuzzy, kde-format
 #| msgctxt "The first letter of Proxy, used as abbreviation"
 #| msgid "P"
@@ -21771,12 +22416,12 @@ msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "P"
 
-#: src/bin/bin.cpp:962 src/bin/bin.cpp:1160
+#: src/bin/bin.cpp:963 src/bin/bin.cpp:1161
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr "<b>두 번 클릭</b>으로 프로젝트에 파일 추가"
 
-#: src/bin/bin.cpp:1050 src/bin/bin.cpp:1240
+#: src/bin/bin.cpp:1051 src/bin/bin.cpp:1241
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
@@ -21785,101 +22430,101 @@ msgstr ""
 "기본 섬네일을 설정하려면 섬네일 목록에서 <b>Shift+탐색</b>, 선택한 항목의 이"
 "름을 바꾸려면 <b>F2</b>"
 
-#: src/bin/bin.cpp:1052 src/bin/bin.cpp:1242
+#: src/bin/bin.cpp:1053 src/bin/bin.cpp:1243
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
 msgstr "<b>F2</b> 키를 눌러 선택한 항목의 이름 변경"
 
-#: src/bin/bin.cpp:1389
+#: src/bin/bin.cpp:1390
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
 msgstr[0] "작업 %1개"
 
-#: src/bin/bin.cpp:1390
+#: src/bin/bin.cpp:1391
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
 msgstr[0] "대기 중인 작업 %1개"
 
-#: src/bin/bin.cpp:1520
+#: src/bin/bin.cpp:1521
 #, fuzzy, kde-format
 #| msgid "Search"
 msgid "Bin Search"
 msgstr "검색"
 
-#: src/bin/bin.cpp:1573
+#: src/bin/bin.cpp:1574
 #, kde-format
 msgid "View Mode"
 msgstr "보기 모드"
 
-#: src/bin/bin.cpp:1576
+#: src/bin/bin.cpp:1577
 #, kde-format
 msgid "Tree View"
 msgstr "트리 보기"
 
-#: src/bin/bin.cpp:1583
+#: src/bin/bin.cpp:1584
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "프로필을 현재 클립으로 조정"
 
-#: src/bin/bin.cpp:1587
+#: src/bin/bin.cpp:1588
 #, kde-format
 msgid "Icon View"
 msgstr "아이콘 보기"
 
-#: src/bin/bin.cpp:1595 src/project/dialogs/guideslist.cpp:222
+#: src/bin/bin.cpp:1596 src/project/dialogs/guideslist.cpp:222
 #, kde-format
 msgid "Descending"
 msgstr "내림차순"
 
-#: src/bin/bin.cpp:1611
+#: src/bin/bin.cpp:1612
 #, kde-format
 msgid "Sort By"
 msgstr "정렬 기준"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1614 src/bin/projectitemmodel.cpp:332
+#: src/bin/bin.cpp:1615 src/bin/projectitemmodel.cpp:332
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "이름"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1618 src/bin/projectitemmodel.cpp:335
+#: src/bin/bin.cpp:1619 src/bin/projectitemmodel.cpp:335
 #: src/project/dialogs/projectsettings.cpp:245 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "날짜"
 
-#: src/bin/bin.cpp:1622 src/bin/projectitemmodel.cpp:338
+#: src/bin/bin.cpp:1623 src/bin/projectitemmodel.cpp:338
 #, kde-format
 msgid "Description"
 msgstr "설명"
 
-#: src/bin/bin.cpp:1634
+#: src/bin/bin.cpp:1635
 #, kde-format
 msgid "Insert Order"
 msgstr "순서 삽입"
 
-#: src/bin/bin.cpp:1638 src/bin/projectitemmodel.cpp:353
+#: src/bin/bin.cpp:1639 src/bin/projectitemmodel.cpp:353
 #, kde-format
 msgid "Rating"
 msgstr "등급"
 
-#: src/bin/bin.cpp:1667
+#: src/bin/bin.cpp:1668
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "보관함 효과 사용 중지"
 
-#: src/bin/bin.cpp:1675
+#: src/bin/bin.cpp:1676
 #, fuzzy, kde-format
 #| msgid "Show video preview in thumbnails"
 msgid "Show Video Preview in Thumbnails"
 msgstr "축소판에 동영상 미리 보기 표시"
 
-#: src/bin/bin.cpp:1685
+#: src/bin/bin.cpp:1686
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21887,41 +22532,41 @@ msgid ""
 "rating)."
 msgstr ""
 
-#: src/bin/bin.cpp:1692
+#: src/bin/bin.cpp:1693
 #, fuzzy, kde-format
 #| msgid "Show date"
 msgid "Show Date"
 msgstr "날짜 표시"
 
-#: src/bin/bin.cpp:1696
+#: src/bin/bin.cpp:1697
 #, fuzzy, kde-format
 #| msgid "Show description"
 msgid "Show Description"
 msgstr "설명 표시"
 
-#: src/bin/bin.cpp:1700
+#: src/bin/bin.cpp:1701
 #, fuzzy, kde-format
 #| msgid "Show rating"
 msgid "Show Rating"
 msgstr "등급 표시"
 
-#: src/bin/bin.cpp:1704
+#: src/bin/bin.cpp:1705
 #, fuzzy, kde-format
 #| msgid "Show"
 msgid "Show FPS"
 msgstr "표시"
 
-#: src/bin/bin.cpp:1716
+#: src/bin/bin.cpp:1717
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr ""
 
-#: src/bin/bin.cpp:1721
+#: src/bin/bin.cpp:1722
 #, kde-format
 msgid "Tags Panel"
 msgstr "태그 패널"
 
-#: src/bin/bin.cpp:1743
+#: src/bin/bin.cpp:1744
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21930,71 +22575,71 @@ msgid ""
 "settings."
 msgstr ""
 
-#: src/bin/bin.cpp:1778
+#: src/bin/bin.cpp:1779
 #, fuzzy, kde-format
 #| msgid "Delete current point"
 msgid "Close Current Bin"
 msgstr "현재 지점 삭제"
 
-#: src/bin/bin.cpp:1790
+#: src/bin/bin.cpp:1791
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "모든 작업 취소"
 
-#: src/bin/bin.cpp:1792
+#: src/bin/bin.cpp:1793
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "현재 클립 작업 취소"
 
-#: src/bin/bin.cpp:1794
+#: src/bin/bin.cpp:1795
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "대기 중인 작업 취소"
 
-#: src/bin/bin.cpp:1835
+#: src/bin/bin.cpp:1836
 #, fuzzy, kde-format
 #| msgid "Clip Properties"
 msgid "Bin Clip Properties"
 msgstr "클립 속성"
 
-#: src/bin/bin.cpp:2179
+#: src/bin/bin.cpp:2180
 #, fuzzy, kde-format
 #| msgid "You cannot add a project inside itself."
 msgid "You cannot delete all sequences of a project"
 msgstr "프로젝트 안에 자기 자신을 추가할 수 없습니다."
 
-#: src/bin/bin.cpp:2182
+#: src/bin/bin.cpp:2183
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr ""
 
-#: src/bin/bin.cpp:2189
+#: src/bin/bin.cpp:2190
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "타임라인에서 모든 선택한 클립을 삭제합니다"
 
-#: src/bin/bin.cpp:2192
+#: src/bin/bin.cpp:2193
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "모든 폴더 내용을 삭제합니다"
 
-#: src/bin/bin.cpp:2215
+#: src/bin/bin.cpp:2303
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
 msgstr ""
 
-#: src/bin/bin.cpp:2217
+#: src/bin/bin.cpp:2305
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "보관함 클립 삭제"
 
-#: src/bin/bin.cpp:2242 src/effects/effectstack/view/maskmanager.cpp:266
+#: src/bin/bin.cpp:2345 src/effects/effectstack/view/maskmanager.cpp:266
 #, kde-format
 msgid "Missing source clip"
 msgstr "누락된 원본 클립"
 
-#: src/bin/bin.cpp:2262 src/bin/bin.cpp:3046
+#: src/bin/bin.cpp:2365 src/bin/bin.cpp:3172
 #: src/effects/effectlist/view/effectlistwidget.cpp:186
 #: src/renderpresets/renderpresetrepository.cpp:170
 #: src/renderpresets/renderpresetrepository.cpp:478
@@ -22002,7 +22647,7 @@ msgstr "누락된 원본 클립"
 msgid "Unable to write to file %1"
 msgstr "%1 파일에 쓸 수 없음"
 
-#: src/bin/bin.cpp:2269 src/bin/bin.cpp:3052 src/doc/kdenlivedoc.cpp:765
+#: src/bin/bin.cpp:2372 src/bin/bin.cpp:3178 src/doc/kdenlivedoc.cpp:783
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -22011,13 +22656,13 @@ msgstr ""
 "Kdenlive에서 프로젝트 파일을 수정했습니다.\n"
 "데이터가 손실되지 않도록 백업 복사본 %1을(를) 만들었습니다."
 
-#: src/bin/bin.cpp:2275
+#: src/bin/bin.cpp:2378
 #, fuzzy, kde-format
 #| msgid "Unable to write to file %1"
 msgid "Unable to parse file %1"
 msgstr "%1 파일에 쓸 수 없음"
 
-#: src/bin/bin.cpp:2286
+#: src/bin/bin.cpp:2389
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open archive file:\n"
@@ -22027,7 +22672,7 @@ msgstr ""
 "압축 파일을 열 수 없음:\n"
 "%1"
 
-#: src/bin/bin.cpp:2312 src/bin/bin.cpp:2543
+#: src/bin/bin.cpp:2415 src/bin/bin.cpp:2669
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -22038,199 +22683,217 @@ msgstr ""
 "도 있습니다.\n"
 "대체 클립은 %1 프레임만큼 짧습니다."
 
-#: src/bin/bin.cpp:2321 src/bin/bin.cpp:2551
+#: src/bin/bin.cpp:2424 src/bin/bin.cpp:2677
 #: src/bin/model/subtitlemodel.cpp:421
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "선택한 파일 %1이(가) 올바르지 않습니다."
 
-#: src/bin/bin.cpp:2327
+#: src/bin/bin.cpp:2430
 #, fuzzy, kde-format
 #| msgid "Cannot find clip to edit marker"
 msgid "Cannot find original clip to be replaced"
 msgstr "마커를 편집할 클립을 찾을 수 없음"
 
-#: src/bin/bin.cpp:2358
+#: src/bin/bin.cpp:2461
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
 "timeline replacement."
 msgstr ""
 
-#: src/bin/bin.cpp:2364
+#: src/bin/bin.cpp:2467
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:2369
+#: src/bin/bin.cpp:2472
 #, fuzzy, kde-format
 #| msgid "You cannot add a project inside itself."
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "프로젝트 안에 자기 자신을 추가할 수 없습니다."
 
-#: src/bin/bin.cpp:2388
+#: src/bin/bin.cpp:2491
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 
-#: src/bin/bin.cpp:2399
+#: src/bin/bin.cpp:2502
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
 "with clip <b>%3</b> (%4)"
 msgstr ""
 
-#: src/bin/bin.cpp:2404
+#: src/bin/bin.cpp:2507
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
 "with clip <b>%2</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2406 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2509 src/timeline2/model/timelineitemmodel.cpp:997
 #, fuzzy, kde-format
 #| msgid "Record audio"
 msgid "Replace audio"
 msgstr "오디오 녹음"
 
-#: src/bin/bin.cpp:2409 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2512 src/timeline2/model/timelineitemmodel.cpp:997
 #, fuzzy, kde-format
 #| msgid "Restore video"
 msgid "Replace video"
 msgstr "동영상 복원"
 
-#: src/bin/bin.cpp:2419
+#: src/bin/bin.cpp:2522
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
 "might not be replaced</b>"
 msgstr ""
 
-#: src/bin/bin.cpp:2422
+#: src/bin/bin.cpp:2525
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr ""
 
-#: src/bin/bin.cpp:2458
+#: src/bin/bin.cpp:2569
 #, fuzzy, kde-format
 #| msgid "Open replacement file"
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "대체 파일 열기"
 
-#: src/bin/bin.cpp:2500
+#: src/bin/bin.cpp:2577
+#, kde-format
+msgid ""
+"You have multiple selected clips to be replaced.\n"
+"\n"
+"Do you want to cancel all pending replace actions?\n"
+msgstr ""
+
+#: src/bin/bin.cpp:2578 src/mltcontroller/clippropertiescontroller.cpp:1406
+#, kde-format
+msgid "No"
+msgstr "아니요"
+
+#: src/bin/bin.cpp:2578
+#, kde-format
+msgid "Yes, cancel all actions"
+msgstr ""
+
+#: src/bin/bin.cpp:2626
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
 "only the audio component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2505
+#: src/bin/bin.cpp:2631
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
 "only the video component of this clip in the active timeline ?"
 msgstr ""
 
-#: src/bin/bin.cpp:2509 src/bin/bin.cpp:2535
+#: src/bin/bin.cpp:2635 src/bin/bin.cpp:2661
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
 "matching)."
 msgstr ""
 
-#: src/bin/bin.cpp:2512
+#: src/bin/bin.cpp:2638
 #, fuzzy, kde-format
 #| msgid "Main timeline"
 msgid "Replace in timeline"
 msgstr "기본 타임라인"
 
-#: src/bin/bin.cpp:2533 src/bin/bin.cpp:6505 src/bin/clipcreator.cpp:357
+#: src/bin/bin.cpp:2659 src/bin/bin.cpp:6632 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "클립 추가"
 
-#: src/bin/bin.cpp:2583
+#: src/bin/bin.cpp:2709
 #, kde-format
 msgid "Could not locate %1"
 msgstr "%1을(를) 찾을 수 없음"
 
-#: src/bin/bin.cpp:2716
+#: src/bin/bin.cpp:2842
 #, fuzzy, kde-format
 #| msgid "Cannot create temporary file"
 msgid "Could not create temporary file in %1"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/bin/bin.cpp:2723
+#: src/bin/bin.cpp:2849
 #, fuzzy, kde-format
 #| msgid "Duplicate selected keyframe"
 msgid "Duplicating sequence failed"
 msgstr "선택한 키프레임 복제"
 
-#: src/bin/bin.cpp:2748 src/bin/bin.cpp:2763
+#: src/bin/bin.cpp:2874 src/bin/bin.cpp:2889
 #: src/timeline2/view/timelinecontroller.cpp:962
 #, kde-format
 msgid "Duplicate clip"
 msgstr "클립 복제"
 
-#: src/bin/bin.cpp:2891
+#: src/bin/bin.cpp:3017
 #, fuzzy, kde-format
 #| msgid "Clear filters"
 msgid "Clear Filters"
 msgstr "필터 지우기"
 
-#: src/bin/bin.cpp:2897
+#: src/bin/bin.cpp:3023
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "No Tags"
 msgstr "등급 편집"
 
-#: src/bin/bin.cpp:2916
+#: src/bin/bin.cpp:3042
 #, fuzzy, kde-format
 #| msgid "Start"
 msgid "%1 Star"
 msgid_plural "%1 Stars"
 msgstr[0] "시작"
 
-#: src/bin/bin.cpp:2923
+#: src/bin/bin.cpp:3049
 #, fuzzy, kde-format
 #| msgid "Filter by type"
 msgid "Filter by Usage"
 msgstr "종류별 필터"
 
-#: src/bin/bin.cpp:2926
+#: src/bin/bin.cpp:3052
 #, fuzzy, kde-format
 #| msgid "Cut All Clips"
 msgid "All Clips"
 msgstr "모든 클립 잘라내기"
 
-#: src/bin/bin.cpp:2931
+#: src/bin/bin.cpp:3057
 #, fuzzy, kde-format
 #| msgid "Unused clips"
 msgid "Unused Clips"
 msgstr "사용하지 않은 클립"
 
-#: src/bin/bin.cpp:2935
+#: src/bin/bin.cpp:3061
 #, fuzzy, kde-format
 #| msgid "Unused clips"
 msgid "Used Clips"
 msgstr "사용하지 않은 클립"
 
-#: src/bin/bin.cpp:2942
+#: src/bin/bin.cpp:3068
 #, fuzzy, kde-format
 #| msgid "Filter by type"
 msgid "Filter by Type"
 msgstr "종류별 필터"
 
-#: src/bin/bin.cpp:2945
+#: src/bin/bin.cpp:3071
 #, kde-format
 msgid "AV Clip"
 msgstr "AV 클립"
 
-#: src/bin/bin.cpp:2949
+#: src/bin/bin.cpp:3075
 #, kde-format
 msgid "Mute Video"
 msgstr "동영상 음소거"
@@ -22241,33 +22904,33 @@ msgstr "동영상 음소거"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:2953 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:3079 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/lib/audio/audioStreamInfo.cpp:25 src/lib/audio/audioStreamInfo.cpp:31
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:685
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
 #: src/ui/cutjobdialog_ui.ui:61 src/ui/editrenderpreset_ui.ui:833
-#: src/ui/projectsettings_ui.ui:205 src/ui/renderwidget_ui.ui:646
+#: src/ui/projectsettings_ui.ui:205 src/ui/renderwidget_ui.ui:643
 #, kde-format
 msgid "Audio"
 msgstr "오디오"
 
-#: src/bin/bin.cpp:2957 src/mltcontroller/clippropertiescontroller.cpp:390
+#: src/bin/bin.cpp:3083 src/mltcontroller/clippropertiescontroller.cpp:390
 #, kde-format
 msgid "Image"
 msgstr "이미지"
 
-#: src/bin/bin.cpp:2961
+#: src/bin/bin.cpp:3087
 #, kde-format
 msgid "Slideshow"
 msgstr "슬라이드 쇼"
 
-#: src/bin/bin.cpp:2965
+#: src/bin/bin.cpp:3091
 #, kde-format
 msgid "Playlist"
 msgstr "재생 목록"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:2969 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
+#: src/bin/bin.cpp:3095 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
 #: src/project/projectmanager.cpp:1787 src/project/projectmanager.cpp:1789
 #: src/ui/managecache_ui.ui:192
 #, fuzzy, kde-format
@@ -22275,40 +22938,40 @@ msgstr "재생 목록"
 msgid "Sequences"
 msgstr "이미지 시퀀스"
 
-#: src/bin/bin.cpp:2973 src/project/dialogs/projectsettings.cpp:213
+#: src/bin/bin.cpp:3099 src/project/dialogs/projectsettings.cpp:213
 #, kde-format
 msgid "Title"
 msgstr "타이틀"
 
-#: src/bin/bin.cpp:2977
+#: src/bin/bin.cpp:3103
 #, kde-format
 msgid "Title Template"
 msgstr "타이틀 템플릿"
 
-#: src/bin/bin.cpp:3018
+#: src/bin/bin.cpp:3144
 #, fuzzy, kde-format
 #| msgid "Select a clip in project bin to compare effect"
 msgid "Select an option in the menu to enable filtering"
 msgstr "효과를 비교하려면 프로젝트 보관함에서 클립을 선택하십시오"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:3073 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:3199 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "폴더"
 
-#: src/bin/bin.cpp:3074
+#: src/bin/bin.cpp:3200
 #, kde-format
 msgid "Create bin folder"
 msgstr "보관함 폴더 만들기"
 
-#: src/bin/bin.cpp:3215 src/bin/bin.cpp:3228 src/bin/bin.cpp:4338
+#: src/bin/bin.cpp:3342 src/bin/bin.cpp:3355 src/bin/bin.cpp:4465
 #: src/timeline2/model/timelinemodel.cpp:2623
 #, kde-format
 msgid "Delete Clip"
 msgstr "클립 삭제"
 
-#: src/bin/bin.cpp:3217 src/bin/bin.cpp:3230
+#: src/bin/bin.cpp:3344 src/bin/bin.cpp:3357
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22316,32 +22979,32 @@ msgid ""
 "timeline."
 msgstr ""
 
-#: src/bin/bin.cpp:3218 src/bin/bin.cpp:3231 src/bin/bin.cpp:4314
+#: src/bin/bin.cpp:3345 src/bin/bin.cpp:3358 src/bin/bin.cpp:4441
 #, kde-format
 msgid "Proxy Clip"
 msgstr "프록시 클립"
 
-#: src/bin/bin.cpp:3222
+#: src/bin/bin.cpp:3349
 #, kde-format
 msgid "Delete Folder"
 msgstr "폴더 삭제"
 
-#: src/bin/bin.cpp:3223
+#: src/bin/bin.cpp:3350
 #, kde-format
 msgid "Proxy Folder"
 msgstr "프록시 폴더"
 
-#: src/bin/bin.cpp:3503
+#: src/bin/bin.cpp:3630
 #, kde-format
 msgid "Edit rating"
 msgstr "등급 편집"
 
-#: src/bin/bin.cpp:3505
+#: src/bin/bin.cpp:3632
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "이 항목의 등급을 설정할 수 없음"
 
-#: src/bin/bin.cpp:4232 src/bin/bin.cpp:4368 src/mainwindow.cpp:147
+#: src/bin/bin.cpp:4359 src/bin/bin.cpp:4495 src/mainwindow.cpp:147
 #: src/timeline2/view/timelinewidget.cpp:241
 #, fuzzy, kde-format
 #| msgid "Add clip"
@@ -22349,13 +23012,13 @@ msgstr "이 항목의 등급을 설정할 수 없음"
 msgid "Add Clip"
 msgstr "클립 추가"
 
-#: src/bin/bin.cpp:4252
+#: src/bin/bin.cpp:4379
 #, fuzzy, kde-format
 #| msgid "Add Clip or Folder"
 msgid "Add Clip or Folder…"
 msgstr "클립이나 폴더 추가"
 
-#: src/bin/bin.cpp:4253
+#: src/bin/bin.cpp:4380
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22365,114 +23028,114 @@ msgid ""
 "to select source files."
 msgstr ""
 
-#: src/bin/bin.cpp:4259
+#: src/bin/bin.cpp:4386
 #, fuzzy, kde-format
 #| msgid "Add Color Clip"
 msgid "Add Color Clip…"
 msgstr "색상 클립 추가"
 
-#: src/bin/bin.cpp:4261
+#: src/bin/bin.cpp:4388
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Image Sequence…"
 msgstr "이미지 시퀀스 추가"
 
-#: src/bin/bin.cpp:4263
+#: src/bin/bin.cpp:4390
 #, fuzzy, kde-format
 #| msgid "Add Title Clip"
 msgid "Add Title Clip…"
 msgstr "타이틀 클립 추가"
 
-#: src/bin/bin.cpp:4265
+#: src/bin/bin.cpp:4392
 #, fuzzy, kde-format
 #| msgid "Add Template Title"
 msgid "Add Template Title…"
 msgstr "템플릿 타이틀 추가"
 
-#: src/bin/bin.cpp:4267
+#: src/bin/bin.cpp:4394
 #, fuzzy, kde-format
 #| msgid "Create mix"
 msgid "Create Animation…"
 msgstr "믹스 만들기"
 
-#: src/bin/bin.cpp:4269
+#: src/bin/bin.cpp:4396
 #, fuzzy, kde-format
 #| msgid "Add Image Sequence"
 msgid "Add Sequence…"
 msgstr "이미지 시퀀스 추가"
 
-#: src/bin/bin.cpp:4273 src/mainwindow.cpp:351
+#: src/bin/bin.cpp:4400 src/mainwindow.cpp:351
 #, kde-format
 msgid "Online Resources"
 msgstr "온라인 리소스"
 
-#: src/bin/bin.cpp:4277
+#: src/bin/bin.cpp:4404
 #, fuzzy, kde-format
 #| msgid "Locate Clip..."
 msgid "Locate Clip…"
 msgstr "클립 찾기..."
 
-#: src/bin/bin.cpp:4282
+#: src/bin/bin.cpp:4409
 #, kde-format
 msgid "Reload Clip"
 msgstr "클립 다시 불러오기"
 
-#: src/bin/bin.cpp:4288
+#: src/bin/bin.cpp:4415
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr ""
 
-#: src/bin/bin.cpp:4293
+#: src/bin/bin.cpp:4420
 #, fuzzy, kde-format
 #| msgid "Insert current timecode"
 msgid "Insert at Timecode"
 msgstr "현재 시간 코드 삽입"
 
-#: src/bin/bin.cpp:4298
+#: src/bin/bin.cpp:4425
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip…"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:4304
+#: src/bin/bin.cpp:4431
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace Clip In Timeline…"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:4309 src/mainwindow_actions.cpp:958
+#: src/bin/bin.cpp:4436 src/mainwindow_actions.cpp:958
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "클립 복제"
 
-#: src/bin/bin.cpp:4321 src/bin/bin.cpp:4398
+#: src/bin/bin.cpp:4448 src/bin/bin.cpp:4525
 #, kde-format
 msgid "Clip Properties"
 msgstr "클립 속성"
 
-#: src/bin/bin.cpp:4326 src/mltcontroller/clippropertiescontroller.cpp:620
+#: src/bin/bin.cpp:4453 src/mltcontroller/clippropertiescontroller.cpp:620
 #, kde-format
 msgid "Edit Clip"
 msgstr "클립 편집"
 
-#: src/bin/bin.cpp:4344
+#: src/bin/bin.cpp:4471
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Sequences"
 msgstr "기본 프로젝트 파일 폴더"
 
-#: src/bin/bin.cpp:4349
+#: src/bin/bin.cpp:4476
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Default Target Folder for Audio Captures"
 msgstr "기본 프로젝트 파일 폴더"
 
-#: src/bin/bin.cpp:4353
+#: src/bin/bin.cpp:4480
 #, kde-format
 msgid "Create Folder"
 msgstr "폴더 만들기"
 
-#: src/bin/bin.cpp:4356
+#: src/bin/bin.cpp:4483
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22480,60 +23143,60 @@ msgid ""
 "better organization of source files. Folders can be nested."
 msgstr ""
 
-#: src/bin/bin.cpp:4516 src/bin/bin.cpp:4549
+#: src/bin/bin.cpp:4643 src/bin/bin.cpp:4676
 #, fuzzy, kde-format
 #| msgid "Image Sequence"
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "이미지 시퀀스"
 
-#: src/bin/bin.cpp:4519 src/bin/bin.cpp:4522 src/bin/bin.cpp:4552
+#: src/bin/bin.cpp:4646 src/bin/bin.cpp:4649 src/bin/bin.cpp:4679
 #, fuzzy, kde-format
 #| msgid "Scene %1"
 msgid "Sequence %1"
 msgstr "장면 %1"
 
-#: src/bin/bin.cpp:4583
+#: src/bin/bin.cpp:4710
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "클립 이동"
 
-#: src/bin/bin.cpp:4625
+#: src/bin/bin.cpp:4752
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "삽입할 유효한 클립이 없음"
 
-#: src/bin/bin.cpp:4638 src/timeline2/view/timelinecontroller.cpp:1885
+#: src/bin/bin.cpp:4765 src/timeline2/view/timelinecontroller.cpp:1885
 #: src/timeline2/view/timelinecontroller.cpp:4016
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "효과를 적용할 클립 선택"
 
-#: src/bin/bin.cpp:4672 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4799 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "클립에 효과를 추가할 수 없음"
 
-#: src/bin/bin.cpp:4746 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:4873 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "효과 붙여넣기"
 
-#: src/bin/bin.cpp:4783 src/bin/bin.cpp:4790
+#: src/bin/bin.cpp:4910 src/bin/bin.cpp:4917
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "태그를 추가할 클립 선택"
 
-#: src/bin/bin.cpp:4929
+#: src/bin/bin.cpp:5056
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tags"
 msgstr "등급 편집"
 
-#: src/bin/bin.cpp:5266 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:5393 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:2053 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
@@ -22541,24 +23204,24 @@ msgstr "등급 편집"
 msgid "Unnamed"
 msgstr "이름 없음"
 
-#: src/bin/bin.cpp:5330
+#: src/bin/bin.cpp:5457
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:5342
+#: src/bin/bin.cpp:5469
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open images in the Settings dialog"
 msgid "Please set a default application to open image files"
 msgstr "설정 대화 상자에서 이미지 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5347
+#: src/bin/bin.cpp:5474
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr ""
 
-#: src/bin/bin.cpp:5359
+#: src/bin/bin.cpp:5486
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -22566,13 +23229,13 @@ msgstr ""
 msgid "Please set a default application to open audio files"
 msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5366
+#: src/bin/bin.cpp:5493
 #, fuzzy, kde-format
 #| msgid "Enter url for the new dictionary"
 msgid "Enter path for your video editing application"
 msgstr "새 사전의 URL 입력"
 
-#: src/bin/bin.cpp:5378
+#: src/bin/bin.cpp:5505
 #, fuzzy, kde-format
 #| msgid ""
 #| "Please set a default application to open audio files in the Settings "
@@ -22580,7 +23243,7 @@ msgstr "새 사전의 URL 입력"
 msgid "Please set a default application to open video files"
 msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램을 설정하십시오"
 
-#: src/bin/bin.cpp:5388 src/core.cpp:713 src/core.cpp:741
+#: src/bin/bin.cpp:5515 src/core.cpp:713 src/core.cpp:741
 #: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -22590,12 +23253,12 @@ msgstr "설정 대화 상자에서 오디오 파일을 열 기본 프로그램�
 msgid "Cannot open file %1"
 msgstr "%1 파일을 열 수 없음"
 
-#: src/bin/bin.cpp:5425 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5552 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(사본)"
 
-#: src/bin/bin.cpp:5435
+#: src/bin/bin.cpp:5562
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -22604,99 +23267,99 @@ msgstr ""
 "외부 타이틀 클립(%1)을 편집하고 있습니다. 변경 사항을 타이틀 파일에 저장하거"
 "나 이 프로젝트의 변경 사항만 저장하시겠습니까?"
 
-#: src/bin/bin.cpp:5438 src/titler/titlewidget.cpp:2631
+#: src/bin/bin.cpp:5565 src/titler/titlewidget.cpp:2631
 #, kde-format
 msgid "Save Title"
 msgstr "타이틀 저장"
 
-#: src/bin/bin.cpp:5438
+#: src/bin/bin.cpp:5565
 #, kde-format
 msgid "Save to title file"
 msgstr "타이틀 파일에 저장"
 
-#: src/bin/bin.cpp:5439
+#: src/bin/bin.cpp:5566
 #, kde-format
 msgid "Save in project only"
 msgstr "프로젝트에만 저장"
 
-#: src/bin/bin.cpp:5466 src/dialogs/clipcreationdialog.cpp:354
+#: src/bin/bin.cpp:5593 src/dialogs/clipcreationdialog.cpp:354
 #, kde-format
 msgid "Title clip"
 msgstr "타이틀 클립"
 
-#: src/bin/bin.cpp:5472
+#: src/bin/bin.cpp:5599
 #, fuzzy, kde-format
 #| msgid "Cannot delete last track in timeline"
 msgid "Replace the title clip in the timeline with the new one?"
 msgstr "타임라인의 마지막 트랙을 삭제할 수 없음"
 
-#: src/bin/bin.cpp:5473
+#: src/bin/bin.cpp:5600
 #, fuzzy, kde-format
 #| msgid "Main timeline"
 msgid "Replace Title Clip"
 msgstr "기본 타임라인"
 
-#: src/bin/bin.cpp:5473
+#: src/bin/bin.cpp:5600
 #, fuzzy, kde-format
 #| msgid "Replace Clip"
 msgid "Replace"
 msgstr "클립 대체"
 
-#: src/bin/bin.cpp:5473
+#: src/bin/bin.cpp:5600
 #, fuzzy, kde-format
 #| msgid "Testing"
 msgid "Keep Existing"
 msgstr "테스트"
 
-#: src/bin/bin.cpp:5533
+#: src/bin/bin.cpp:5660
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "클립이 잘못되었습니다. 프로젝트에서 삭제됩니다."
 
-#: src/bin/bin.cpp:5537
+#: src/bin/bin.cpp:5664
 #, kde-format
 msgid "Invalid clip"
 msgstr "잘못된 클립"
 
-#: src/bin/bin.cpp:5651
+#: src/bin/bin.cpp:5778
 #, kde-format
 msgid "Enable proxies"
 msgstr "프록시 사용"
 
-#: src/bin/bin.cpp:5651
+#: src/bin/bin.cpp:5778
 #, kde-format
 msgid "Disable proxies"
 msgstr "프록시 사용 안 함"
 
-#: src/bin/bin.cpp:5837
+#: src/bin/bin.cpp:5964
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "프록시 재구축"
 
-#: src/bin/bin.cpp:6103
+#: src/bin/bin.cpp:6230
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:6119
+#: src/bin/bin.cpp:6246
 #, kde-format
 msgid "Add Tracks"
 msgstr "트랙 추가"
 
-#: src/bin/bin.cpp:6121
+#: src/bin/bin.cpp:6248
 #, kde-format
 msgid "Edit Streams"
 msgstr "스트림 편집"
 
-#: src/bin/bin.cpp:6140
+#: src/bin/bin.cpp:6267
 #, kde-format
 msgid "Don't ask again"
 msgstr "다시 묻지 않기"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:6144
+#: src/bin/bin.cpp:6271
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -22705,7 +23368,7 @@ msgstr ""
 "프로젝트의 모든 스트림을 처리하려면 더 많은 오디오 트랙이 필요합니다. 오디오 "
 "트랙 %1개를 추가하시겠습니까?"
 
-#: src/bin/bin.cpp:6156 src/mainwindow.cpp:1836
+#: src/bin/bin.cpp:6283 src/mainwindow.cpp:1836
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "마커를 추가할 클립을 찾을 수 없음"
@@ -22713,7 +23376,7 @@ msgstr "마커를 추가할 클립을 찾을 수 없음"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:6170 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:6297 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1533
 #: src/timeline2/view/timelinecontroller.cpp:1849
@@ -22723,34 +23386,34 @@ msgstr "마커를 추가할 클립을 찾을 수 없음"
 msgid "Marker"
 msgstr "마커"
 
-#: src/bin/bin.cpp:6260
+#: src/bin/bin.cpp:6387
 #, kde-format
 msgid "Could not find master clip"
 msgstr "마스터 클립을 찾을 수 없음"
 
-#: src/bin/bin.cpp:6527
+#: src/bin/bin.cpp:6654
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr ""
 
-#: src/bin/bin.cpp:6529
+#: src/bin/bin.cpp:6656
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr ""
 
-#: src/bin/bin.cpp:6598 src/bin/bin.cpp:6676
+#: src/bin/bin.cpp:6725 src/bin/bin.cpp:6803
 #, fuzzy, kde-format
 #| msgid "Add additional streams for clip"
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "클립에 추가 스트림 추가"
 
-#: src/bin/bin.cpp:6619
+#: src/bin/bin.cpp:6746
 #, kde-format
 msgid "Import selected clips"
 msgstr "선택한 클립 가져오기"
 
-#: src/bin/bin.cpp:6621
+#: src/bin/bin.cpp:6748
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -22759,54 +23422,54 @@ msgstr ""
 "%1\n"
 "클립의 추가 스트림"
 
-#: src/bin/bin.cpp:6635 src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/bin/bin.cpp:6762 src/mltcontroller/clippropertiescontroller.cpp:734
 #, kde-format
 msgid "Video stream %1"
 msgstr "동영상 스트림 %1"
 
-#: src/bin/bin.cpp:6650
+#: src/bin/bin.cpp:6777
 #, kde-format
 msgid "Audio stream %1"
 msgstr "오디오 스트림 %1"
 
-#: src/bin/bin.cpp:6703
+#: src/bin/bin.cpp:6830
 #, fuzzy, kde-format
 #| msgid "Remove clips"
 msgid "Remove clip markers"
 msgstr "클립 삭제"
 
-#: src/bin/bin.cpp:6900
+#: src/bin/bin.cpp:7027
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr ""
 
-#: src/bin/bin.cpp:6901
+#: src/bin/bin.cpp:7028
 #, fuzzy, kde-format
 #| msgid "Save DVD Project"
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "DVD 프로젝트 저장"
 
-#: src/bin/bin.cpp:6902
+#: src/bin/bin.cpp:7029
 #, fuzzy, kde-format
 #| msgid "Transcoding: %1"
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "트랜스코딩: %1"
 
-#: src/bin/bin.cpp:7060 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:7187 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1132
 #, kde-format
 msgid "Delete effect %1"
 msgstr "%1 효과 삭제"
 
-#: src/bin/bin.cpp:7126 src/mainwindow.cpp:272
+#: src/bin/bin.cpp:7253 src/mainwindow.cpp:272
 #, kde-format
 msgid "Project Bin"
 msgstr "프로젝트 보관함"
 
-#: src/bin/bin.cpp:7129 src/bin/bin.cpp:7132 src/mainwindow.cpp:3887
+#: src/bin/bin.cpp:7256 src/bin/bin.cpp:7259 src/mainwindow.cpp:3888
 #, kde-format
 msgid "Project Bin %1"
 msgstr "프로젝트 보관함 %1"
@@ -22932,37 +23595,37 @@ msgstr "지속 시간:"
 msgid "MLT Playlist (*.mlt)"
 msgstr "MLT 재생 목록 (*.mlt)"
 
-#: src/bin/mediabrowser.cpp:61 src/monitor/view/MonitorZoomButton.qml:45
+#: src/bin/mediabrowser.cpp:54 src/monitor/view/MonitorZoomButton.qml:45
 #, fuzzy, kde-format
 #| msgid "Zoom in"
 msgid "Zoom In"
 msgstr "확대"
 
-#: src/bin/mediabrowser.cpp:62 src/monitor/view/MonitorZoomButton.qml:53
+#: src/bin/mediabrowser.cpp:55 src/monitor/view/MonitorZoomButton.qml:53
 #, fuzzy, kde-format
 #| msgid "Zoom out"
 msgid "Zoom Out"
 msgstr "축소"
 
-#: src/bin/mediabrowser.cpp:63
+#: src/bin/mediabrowser.cpp:56
 #, fuzzy, kde-format
 #| msgid "Invert selection"
 msgid "Import Selection"
 msgstr "반전 선택"
 
-#: src/bin/mediabrowser.cpp:65
+#: src/bin/mediabrowser.cpp:58
 #, kde-format
 msgid "Import File on Double Click"
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:70
+#: src/bin/mediabrowser.cpp:63
 #, fuzzy, kde-format
 #| msgid "Auto"
 msgctxt "@action:checkbox enable automatic playback"
 msgid "Autoplay"
 msgstr "자동"
 
-#: src/bin/mediabrowser.cpp:90
+#: src/bin/mediabrowser.cpp:94
 #, fuzzy, kde-format
 #| msgid "Subtitle file"
 msgid "Show Preview Panel"
@@ -22970,7 +23633,7 @@ msgstr "자막 파일"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/bin/mediabrowser.cpp:211
+#: src/bin/mediabrowser.cpp:210
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:688
 #: src/ui/colorclip_ui.ui:24 src/ui/qtextclip_ui.ui:29
 #: src/ui/slideshowclip_ui.ui:47
@@ -22978,24 +23641,24 @@ msgstr "자막 파일"
 msgid "Name:"
 msgstr "이름:"
 
-#: src/bin/mediabrowser.cpp:215
+#: src/bin/mediabrowser.cpp:214
 #, fuzzy, kde-format
 #| msgid "Filter"
 msgid "Filter:"
 msgstr "필터"
 
-#: src/bin/mediabrowser.cpp:219 src/dialogs/clipcreationdialog.cpp:460
+#: src/bin/mediabrowser.cpp:218 src/dialogs/clipcreationdialog.cpp:460
 #, kde-format
 msgid "Ignore subfolder structure"
 msgstr "하위 폴더 구조 무시"
 
-#: src/bin/mediabrowser.cpp:221 src/dialogs/clipcreationdialog.cpp:462
+#: src/bin/mediabrowser.cpp:220 src/dialogs/clipcreationdialog.cpp:462
 #, fuzzy, kde-format
 #| msgid "Insert Zone in Project Bin"
 msgid "Do not create subfolders in Project Bin"
 msgstr "프로젝트 보관함에 영역 삽입"
 
-#: src/bin/mediabrowser.cpp:224 src/dialogs/clipcreationdialog.cpp:465
+#: src/bin/mediabrowser.cpp:223 src/dialogs/clipcreationdialog.cpp:465
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23003,18 +23666,18 @@ msgid ""
 "subfolders without creating the subfolders in Project Bin."
 msgstr ""
 
-#: src/bin/mediabrowser.cpp:227 src/dialogs/clipcreationdialog.cpp:455
+#: src/bin/mediabrowser.cpp:226 src/dialogs/clipcreationdialog.cpp:455
 #, kde-format
 msgid "Import image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:230 src/dialogs/clipcreationdialog.cpp:456
+#: src/bin/mediabrowser.cpp:229 src/dialogs/clipcreationdialog.cpp:456
 #, fuzzy, kde-format
 #| msgid "Import image sequence"
 msgid "Try to import an image sequence"
 msgstr "이미지 시퀀스 가져오기"
 
-#: src/bin/mediabrowser.cpp:232 src/dialogs/clipcreationdialog.cpp:458
+#: src/bin/mediabrowser.cpp:231 src/dialogs/clipcreationdialog.cpp:458
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23148,10 +23811,10 @@ msgid "Edit global subtitle style"
 msgstr "자막 편집"
 
 #: src/bin/model/subtitlemodel.cpp:431 src/bin/model/subtitlemodel.cpp:653
-#: src/bin/model/subtitlemodel.cpp:1615 src/bin/model/subtitlemodel.cpp:2213
-#: src/bin/model/subtitlemodel.cpp:2280 src/bin/model/subtitlemodel.cpp:2313
-#: src/bin/model/subtitlemodel.cpp:2346 src/bin/model/subtitlemodel.cpp:2379
-#: src/bin/model/subtitlemodel.cpp:2412
+#: src/bin/model/subtitlemodel.cpp:1615 src/bin/model/subtitlemodel.cpp:2219
+#: src/bin/model/subtitlemodel.cpp:2286 src/bin/model/subtitlemodel.cpp:2319
+#: src/bin/model/subtitlemodel.cpp:2352 src/bin/model/subtitlemodel.cpp:2385
+#: src/bin/model/subtitlemodel.cpp:2418
 #, kde-format
 msgid "Edit subtitle"
 msgstr "자막 편집"
@@ -23177,8 +23840,8 @@ msgstr "자막 이동"
 #: src/bin/model/subtitlemodel.cpp:1232
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:914
-#: src/project/dialogs/archivewidget.cpp:924 src/render/renderrequest.cpp:383
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:969
+#: src/project/dialogs/archivewidget.cpp:979 src/render/renderrequest.cpp:383
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -23215,20 +23878,20 @@ msgstr "자막 삭제"
 msgid "Create subtitle layer"
 msgstr "타이틀 템플릿 만들기"
 
-#: src/bin/model/subtitlemodel.cpp:1943 src/bin/model/subtitlemodel.cpp:1946
+#: src/bin/model/subtitlemodel.cpp:1949 src/bin/model/subtitlemodel.cpp:1952
 #, fuzzy, kde-format
 #| msgid "Subtitles"
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "자막"
 
-#: src/bin/model/subtitlemodel.cpp:2057
+#: src/bin/model/subtitlemodel.cpp:2063
 #, fuzzy, kde-format
 #| msgid "Cannot set rating on this item"
 msgid "Cannot create more than %1 layers in subtitles."
 msgstr "이 항목의 등급을 설정할 수 없음"
 
-#: src/bin/model/subtitlemodel.cpp:2249
+#: src/bin/model/subtitlemodel.cpp:2255
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr ""
@@ -23419,24 +24082,24 @@ msgstr "보관함 클립 추가"
 msgid "Add a sub clip"
 msgstr "하위 클립 추가"
 
-#: src/bin/projectitemmodel.cpp:1213
+#: src/bin/projectitemmodel.cpp:1214
 #, kde-format
 msgid "Rename Folder"
 msgstr "폴더 이름 바꾸기"
 
-#: src/bin/projectitemmodel.cpp:1257 src/mainwindow_actions.cpp:635
+#: src/bin/projectitemmodel.cpp:1258 src/mainwindow_actions.cpp:635
 #, fuzzy, kde-format
 #| msgid "Remove Guide"
 msgid "Remove Unused Media"
 msgstr "안내선 삭제"
 
-#: src/bin/projectitemmodel.cpp:1485
+#: src/bin/projectitemmodel.cpp:1486
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Reading project clips…"
 msgstr "프로젝트 클립 불러오는 중..."
 
-#: src/bin/projectitemmodel.cpp:1583
+#: src/bin/projectitemmodel.cpp:1584
 #, fuzzy, kde-format
 #| msgid "Loading project clips..."
 msgid "Loading project clips…"
@@ -23464,18 +24127,19 @@ msgstr "설정"
 msgid "Configure Project Tags"
 msgstr "프로젝트 태그 설정"
 
-#: src/bin/tagwidget.cpp:197
+#: src/bin/tagwidget.cpp:197 src/project/dialogs/guidecategories.cpp:33
 #, fuzzy, kde-format
 #| msgid "Edit rating"
 msgid "Edit Tag"
 msgstr "등급 편집"
 
 #: src/bin/tagwidget.cpp:212 src/bin/tagwidget.cpp:285
+#: src/project/dialogs/guidecategories.cpp:67
 #, kde-format
 msgid "This color is already used in another tag"
 msgstr ""
 
-#: src/bin/tagwidget.cpp:273
+#: src/bin/tagwidget.cpp:273 src/project/dialogs/guidecategories.cpp:32
 #, fuzzy, kde-format
 #| msgid "Add Track"
 msgid "Add Tag"
@@ -24088,8 +24752,7 @@ msgid "Manage Encoding Profiles"
 msgstr "인코딩 프로필 관리"
 
 #: src/dialogs/encodingprofilesdialog.cpp:56
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:317
-#: src/project/dialogs/archivewidget.cpp:96
+#: src/project/dialogs/archivewidget.cpp:144
 #, kde-format
 msgid "Proxy Clips"
 msgstr "프록시 클립"
@@ -24203,11 +24866,12 @@ msgstr "효과가 비활성화되었을 때 인자 비활성화"
 msgid "Automatic (%1)"
 msgstr "자동"
 
+#. i18n: ectx: property (specialValueText), widget (QSpinBox, kcfg_lowMemoryThreshold)
 #: src/dialogs/encodingprofilesdialog.cpp:340
 #: src/dialogs/encodingprofilesdialog.cpp:429
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:852
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:879
 #: src/project/dialogs/projectsettings.cpp:908
-#: src/transitions/view/transitionstackview.cpp:40
+#: src/transitions/view/transitionstackview.cpp:40 src/ui/configenv_ui.ui:138
 #, kde-format
 msgid "Automatic"
 msgstr "자동"
@@ -24272,9 +24936,9 @@ msgctxt "@title:window"
 msgid "Export Markers Data"
 msgstr "안내선 가져오기"
 
-#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2375
-#: src/dialogs/renderwidget.cpp:2405 src/doc/kdenlivedoc.cpp:782
-#: src/doc/kdenlivedoc.cpp:788 src/doc/kdenlivedoc.cpp:1393
+#: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2389
+#: src/dialogs/renderwidget.cpp:2419 src/doc/kdenlivedoc.cpp:800
+#: src/doc/kdenlivedoc.cpp:806 src/doc/kdenlivedoc.cpp:1411
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
 #: src/effects/effectsrepository.cpp:433
@@ -24282,11 +24946,11 @@ msgstr "안내선 가져오기"
 #: src/effects/effectstack/view/effectstackview.cpp:817
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:818
-#: src/project/dialogs/archivewidget.cpp:822
-#: src/project/dialogs/archivewidget.cpp:932
-#: src/project/dialogs/archivewidget.cpp:944
-#: src/project/dialogs/archivewidget.cpp:950
+#: src/project/dialogs/archivewidget.cpp:873
+#: src/project/dialogs/archivewidget.cpp:877
+#: src/project/dialogs/archivewidget.cpp:987
+#: src/project/dialogs/archivewidget.cpp:999
+#: src/project/dialogs/archivewidget.cpp:1005
 #: src/project/projectmanager.cpp:2100 src/project/projectmanager.cpp:2106
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -24542,9 +25206,9 @@ msgid "Top Right"
 msgstr "오른쪽 위"
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
-#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:400
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:877
-#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:47
+#: src/dialogs/managesubtitles.cpp:531 src/dialogs/renderwidget.cpp:390
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:904
+#: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:31
 #, kde-format
 msgid "Default"
 msgstr "기본값"
@@ -24770,7 +25434,7 @@ msgstr "로그 표시"
 msgid "Show Xml"
 msgstr "로그 표시"
 
-#: src/dialogs/renderwidget.cpp:273 src/dialogs/renderwidget.cpp:2149
+#: src/dialogs/renderwidget.cpp:273 src/dialogs/renderwidget.cpp:2163
 #, kde-format
 msgid "Waiting…"
 msgstr "대기 중…"
@@ -24797,100 +25461,100 @@ msgstr "렌더링 충돌함"
 msgid "Rendering aborted"
 msgstr "렌더링 중단됨"
 
-#: src/dialogs/renderwidget.cpp:388
+#: src/dialogs/renderwidget.cpp:378
 #, fuzzy, kde-format
 #| msgid "Nearest Neighbor (fast)"
 msgid "Nearest (fast)"
 msgstr "가장 가까운 이웃(빠름)"
 
-#: src/dialogs/renderwidget.cpp:389 src/monitor/monitormanager.cpp:657
+#: src/dialogs/renderwidget.cpp:379 src/monitor/monitormanager.cpp:657
 #, kde-format
 msgid "Bilinear (good)"
 msgstr "이중 선형(양호)"
 
-#: src/dialogs/renderwidget.cpp:390 src/monitor/monitormanager.cpp:658
+#: src/dialogs/renderwidget.cpp:380 src/monitor/monitormanager.cpp:658
 #, kde-format
 msgid "Bicubic (better)"
 msgstr "바이큐빅(더 나음)"
 
-#: src/dialogs/renderwidget.cpp:391
+#: src/dialogs/renderwidget.cpp:381
 #, fuzzy, kde-format
 #| msgid "Hyper/Lanczos (best)"
 msgid "Lanczos (best)"
 msgstr "Hyper/Lanczos(최고)"
 
-#: src/dialogs/renderwidget.cpp:401
+#: src/dialogs/renderwidget.cpp:391
 #, fuzzy, kde-format
 #| msgid "Horizontal"
 msgid "Horizontal (16:9)"
 msgstr "가로"
 
-#: src/dialogs/renderwidget.cpp:402
+#: src/dialogs/renderwidget.cpp:392
 #, fuzzy, kde-format
 #| msgid "Vertical"
 msgid "Vertical (9:16)"
 msgstr "세로"
 
-#: src/dialogs/renderwidget.cpp:403
+#: src/dialogs/renderwidget.cpp:393
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Square 2"
 msgid "Square (1:1)"
 msgstr "사각형 2"
 
-#: src/dialogs/renderwidget.cpp:407
+#: src/dialogs/renderwidget.cpp:397
 #, kde-format
 msgid "One Field (fast, half vertical resolution)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:408 src/monitor/monitormanager.cpp:639
+#: src/dialogs/renderwidget.cpp:398 src/monitor/monitormanager.cpp:639
 #, kde-format
 msgid "Linear Blend (fast)"
 msgstr "선형 혼합(빠름)"
 
-#: src/dialogs/renderwidget.cpp:409 src/monitor/monitormanager.cpp:640
+#: src/dialogs/renderwidget.cpp:399 src/monitor/monitormanager.cpp:640
 #, kde-format
 msgid "YADIF - temporal only (good)"
 msgstr "YADIF - 일시적(좋음)"
 
-#: src/dialogs/renderwidget.cpp:410
+#: src/dialogs/renderwidget.cpp:400
 #, fuzzy, kde-format
 #| msgid "Bicubic (better)"
 msgid "YADIF (better)"
 msgstr "바이큐빅(더 나음)"
 
-#: src/dialogs/renderwidget.cpp:411
+#: src/dialogs/renderwidget.cpp:401
 #, kde-format
 msgid "BWDIF (best)"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:421 src/dialogs/subtitleedit.cpp:1561
+#: src/dialogs/renderwidget.cpp:411 src/dialogs/subtitleedit.cpp:1561
 #: src/dialogs/subtitleedit.cpp:1578 src/dialogs/subtitleedit.cpp:1592
 #: src/dialogs/subtitleedit.cpp:1632 src/project/dialogs/slideshowclip.cpp:59
 #, kde-format
 msgid "None"
 msgstr "없음"
 
-#: src/dialogs/renderwidget.cpp:422
+#: src/dialogs/renderwidget.cpp:412
 #: src/mltcontroller/clippropertiescontroller.cpp:1414
 #: src/mltcontroller/clippropertiescontroller.cpp:1456
 #, kde-format
 msgid "Timecode"
 msgstr "타임코드"
 
-#: src/dialogs/renderwidget.cpp:423
+#: src/dialogs/renderwidget.cpp:413
 #, fuzzy, kde-format
 #| msgid "Timecode non drop frame"
 msgid "Timecode Non Drop Frame"
 msgstr "타임코드 비 드롭 프레임"
 
-#: src/dialogs/renderwidget.cpp:424
+#: src/dialogs/renderwidget.cpp:414
 #, fuzzy, kde-format
 #| msgid "Frame number"
 msgid "Frame Number"
 msgstr "프레임 수"
 
-#: src/dialogs/renderwidget.cpp:427
+#: src/dialogs/renderwidget.cpp:417
 #, kde-format
 msgctxt "Explanation for the 2 pass rendering feature"
 msgid ""
@@ -24900,89 +25564,89 @@ msgid ""
 "codecs."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:431
+#: src/dialogs/renderwidget.cpp:421
 #, kde-format
 msgid "Rendering using low quality proxy"
 msgstr "낮은 품질의 프록시를 사용하여 렌더링"
 
-#: src/dialogs/renderwidget.cpp:518
+#: src/dialogs/renderwidget.cpp:508
 #, kde-format
 msgid "File"
 msgstr "파일"
 
-#: src/dialogs/renderwidget.cpp:535
+#: src/dialogs/renderwidget.cpp:525
 #, kde-format
 msgid "Stored Playlists"
 msgstr "저장된 재생 목록"
 
-#: src/dialogs/renderwidget.cpp:556 src/timeline2/view/previewmanager.cpp:46
+#: src/dialogs/renderwidget.cpp:546 src/timeline2/view/previewmanager.cpp:46
 #, kde-format
 msgid ""
 "Could not find the kdenlive_render application, something is wrong with your "
 "installation. Rendering will not work"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:559
+#: src/dialogs/renderwidget.cpp:549
 #, fuzzy, kde-format
 #| msgid "Smoothing"
 msgid "Do nothing"
 msgstr "평활화"
 
-#: src/dialogs/renderwidget.cpp:560
+#: src/dialogs/renderwidget.cpp:550
 #, fuzzy, kde-format
 #| msgid "Kdenlive"
 msgid "Close Kdenlive"
 msgstr "Kdenlive"
 
-#: src/dialogs/renderwidget.cpp:565
+#: src/dialogs/renderwidget.cpp:555
 #, fuzzy, kde-format
 #| msgid "Shutdown computer after renderings"
 msgid "Shut down computer"
 msgstr "렌더링이 끝난 후 컴퓨터 끄기"
 
-#: src/dialogs/renderwidget.cpp:603
+#: src/dialogs/renderwidget.cpp:593
 #, kde-format
 msgid "Only works for the matroska (mkv) format"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:618
+#: src/dialogs/renderwidget.cpp:608
 #, kde-format
 msgid "There was a problem sharing the document: %1"
 msgstr "문서 공유 중 문제 발생: %1"
 
 #. i18n: ectx: property (text), widget (QToolButton, shareButton)
-#: src/dialogs/renderwidget.cpp:618 src/dialogs/renderwidget.cpp:626
-#: src/ui/renderwidget_ui.ui:976
+#: src/dialogs/renderwidget.cpp:608 src/dialogs/renderwidget.cpp:616
+#: src/ui/renderwidget_ui.ui:973
 #, kde-format
 msgid "Share"
 msgstr "공유"
 
-#: src/dialogs/renderwidget.cpp:623
+#: src/dialogs/renderwidget.cpp:613
 #, kde-format
 msgid "Document shared successfully"
 msgstr "문서를 성공적으로 공유함"
 
-#: src/dialogs/renderwidget.cpp:626
+#: src/dialogs/renderwidget.cpp:616
 #, kde-format
 msgid "You can find the shared document at: <a href=\"%1\">%1</a>"
 msgstr "다음에서 공유된 문서를 확인할 수 있습니다:<a href=\"%1\">%1</a>"
 
-#: src/dialogs/renderwidget.cpp:801
+#: src/dialogs/renderwidget.cpp:791
 #, kde-format
 msgid "Beginning"
 msgstr "처음"
 
-#: src/dialogs/renderwidget.cpp:942
+#: src/dialogs/renderwidget.cpp:932
 #, kde-format
 msgid "Add a clip to timeline before rendering"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:948
+#: src/dialogs/renderwidget.cpp:938
 #, kde-format
 msgid "Cannot find the melt program required for rendering (part of Mlt)"
 msgstr "렌더링에 필요한 melt 프로그램을 찾을 수 없습니다(MLT의 일부)."
 
-#: src/dialogs/renderwidget.cpp:957
+#: src/dialogs/renderwidget.cpp:947
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -24991,40 +25655,40 @@ msgid ""
 "We recommend to transcode to an edit friendly format."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:966
+#: src/dialogs/renderwidget.cpp:956
 #, fuzzy, kde-format
 #| msgid "Render time"
 msgctxt "@action:button"
 msgid "Render Anyway"
 msgstr "렌더 시간"
 
-#: src/dialogs/renderwidget.cpp:979
+#: src/dialogs/renderwidget.cpp:969
 #, fuzzy, kde-format
 #| msgid "Transcode"
 msgctxt "@action:button"
 msgid "Transcode"
 msgstr "트랜스코드"
 
-#: src/dialogs/renderwidget.cpp:1002
+#: src/dialogs/renderwidget.cpp:996
 #, kde-format
 msgid ""
 "Master audio is muted, so there will be no audio stream in the rendered "
 "file. Do you want to continue rendering?"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1003
+#: src/dialogs/renderwidget.cpp:997
 #, fuzzy, kde-format
 #| msgid "Render"
 msgctxt "@action:button"
 msgid "Render"
 msgstr "렌더"
 
-#: src/dialogs/renderwidget.cpp:1013 src/project/dialogs/archivewidget.cpp:938
+#: src/dialogs/renderwidget.cpp:1007 src/project/dialogs/archivewidget.cpp:993
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "출력 파일이 이미 있습니다. 덮어쓰시겠습니까?"
 
-#: src/dialogs/renderwidget.cpp:1020 src/monitor/recmanager.cpp:181
+#: src/dialogs/renderwidget.cpp:1014 src/monitor/recmanager.cpp:181
 #, kde-format
 msgid ""
 "The directory %1, could not be created.\n"
@@ -25033,13 +25697,13 @@ msgstr ""
 "%1 디렉터리를 만들 수 없습니다.\n"
 "필요한 권한이 있는지 확인하십시오."
 
-#: src/dialogs/renderwidget.cpp:1092
+#: src/dialogs/renderwidget.cpp:1086
 #, fuzzy, kde-format
 #| msgid "An error occurred while deleting markers"
 msgid "The following errors occurred while trying to render"
 msgstr "마커 삭제 중 오류"
 
-#: src/dialogs/renderwidget.cpp:1130 src/dialogs/renderwidget.cpp:2135
+#: src/dialogs/renderwidget.cpp:1124 src/dialogs/renderwidget.cpp:2149
 #, fuzzy, kde-format
 #| msgid ""
 #| "There is already a job writing file:<br /><b>%1</b><br />Abort the job if "
@@ -25051,178 +25715,177 @@ msgstr ""
 "파일을 기록하고 있는 작업이 있습니다:<br /><b>%1</b><br />파일에 덮어쓰려면 "
 "작업을 중단하십시오..."
 
-#: src/dialogs/renderwidget.cpp:1131 src/dialogs/renderwidget.cpp:2136
+#: src/dialogs/renderwidget.cpp:1125 src/dialogs/renderwidget.cpp:2150
 #, kde-format
 msgid "Already running"
 msgstr "이미 실행 중"
 
-#: src/dialogs/renderwidget.cpp:1160
+#: src/dialogs/renderwidget.cpp:1154
 #, kde-format
 msgid "Video without audio track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:1162
+#: src/dialogs/renderwidget.cpp:1156
 #, fuzzy, kde-format
 #| msgid "Video without audio track"
 msgid "Audio without video track"
 msgstr "오디오 트랙이 없는 동영상"
 
-#: src/dialogs/renderwidget.cpp:1249 src/main.cpp:546
+#: src/dialogs/renderwidget.cpp:1243 src/main.cpp:546
 #, fuzzy, kde-format
 #| msgid "Rendering <i>%1</i> started"
 msgid "Rendering %1 started"
 msgstr "렌더링<i>%1</i>이(가) 시작됨"
 
-#: src/dialogs/renderwidget.cpp:1306 src/monitor/monitor.cpp:1579
+#: src/dialogs/renderwidget.cpp:1300 src/monitor/monitor.cpp:1579
 #, kde-format
 msgid "untitled"
 msgstr "제목 없음"
 
-#: src/dialogs/renderwidget.cpp:1354
+#: src/dialogs/renderwidget.cpp:1348
 #, fuzzy, kde-format
 #| msgid "No profile selected"
 msgid "No preset selected"
 msgstr "선택한 프로필 없음"
 
-#: src/dialogs/renderwidget.cpp:1356
+#: src/dialogs/renderwidget.cpp:1350
 #, fuzzy, kde-format
 #| msgid "No matching profile"
 msgid "No matching preset"
 msgstr "일치하는 프로필 없음"
 
-#: src/dialogs/renderwidget.cpp:1368
+#: src/dialogs/renderwidget.cpp:1362
 #, fuzzy, kde-format
 #| msgid "Invalid profile"
 msgid "Invalid preset"
 msgstr "프로필 잘못됨"
 
-#: src/dialogs/renderwidget.cpp:1509
+#: src/dialogs/renderwidget.cpp:1503
 #, kde-format
 msgid ""
 "Rendering without audio and video does not work. Please enable at least one "
 "of both."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1741
+#: src/dialogs/renderwidget.cpp:1735
 #, kde-format
 msgid "Remaining time "
 msgstr "남은 시간 "
 
-#: src/dialogs/renderwidget.cpp:1743 src/dialogs/renderwidget.cpp:1843
+#: src/dialogs/renderwidget.cpp:1737 src/dialogs/renderwidget.cpp:1857
 #, kde-format
 msgid "%1 day "
 msgid_plural "%1 days "
 msgstr[0] "%1일 "
 
-#: src/dialogs/renderwidget.cpp:1755
+#: src/dialogs/renderwidget.cpp:1749
 #, kde-format
 msgid " (frame %1 @ %2 fps)"
 msgstr " (프레임 %1 @ %2 fps)"
 
-#: src/dialogs/renderwidget.cpp:1777
+#: src/dialogs/renderwidget.cpp:1791
 #, kde-format
 msgid "Less than %1MB of available memory remaining."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1845
+#: src/dialogs/renderwidget.cpp:1859
 #, kde-format
 msgid "Rendering finished in %1"
 msgstr "렌더링 완료: %1"
 
-#: src/dialogs/renderwidget.cpp:1857
+#: src/dialogs/renderwidget.cpp:1871
 #, kde-format
 msgid "Rendering of %1 finished in %2"
 msgstr "%1 렌더링이 %2에 완료됨"
 
-#: src/dialogs/renderwidget.cpp:1860
+#: src/dialogs/renderwidget.cpp:1874
 #, fuzzy, kde-format
 #| msgid "Rendering of %1 finished in %2"
 msgid "First pass rendering of %1 finished"
 msgstr "%1 렌더링이 %2에 완료됨"
 
-#: src/dialogs/renderwidget.cpp:1883
+#: src/dialogs/renderwidget.cpp:1897
 #, fuzzy, kde-format
 #| msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgid "<strong>Rendering crashed</strong><br />"
 msgstr "<strong>%1의 렌더링이 충돌했습니다</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1885
+#: src/dialogs/renderwidget.cpp:1899
 #, kde-format
 msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>%1의 렌더링이 충돌했습니다</strong><br />"
 
-#: src/dialogs/renderwidget.cpp:1957
+#: src/dialogs/renderwidget.cpp:1971
 #, kde-format
 msgid "Are you sure you want to abort the current job?"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
-#: src/dialogs/renderwidget.cpp:1957 src/dialogs/renderwidget.cpp:1992
-#: src/ui/renderwidget_ui.ui:946
+#: src/dialogs/renderwidget.cpp:1971 src/dialogs/renderwidget.cpp:2006
+#: src/ui/renderwidget_ui.ui:943
 #, kde-format
 msgid "Abort Job"
 msgstr "작업 중단"
 
-#: src/dialogs/renderwidget.cpp:1958 src/dialogs/wizard.cpp:80
-#: src/doc/kdenlivedoc.cpp:1949 src/onlineresources/resourcewidget.cpp:50
-#: src/project/cliptranscode.cpp:193 src/project/cliptranscode.cpp:227
-#: src/project/dialogs/archivewidget.cpp:795
-#: src/project/dialogs/archivewidget.cpp:1307
+#: src/dialogs/renderwidget.cpp:1972 src/dialogs/wizard.cpp:80
+#: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:850
+#: src/project/dialogs/archivewidget.cpp:1375
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:285
 #, kde-format
 msgid "Abort"
 msgstr "중단"
 
-#: src/dialogs/renderwidget.cpp:1965
+#: src/dialogs/renderwidget.cpp:1979
 #, fuzzy, kde-format
 #| msgid "Do you want to overwrite the existing file?"
 msgid "Are you sure you want to remove the waiting job from queue?"
 msgstr "존재하는 파일에 덮어쓰시겠습니까?"
 
-#: src/dialogs/renderwidget.cpp:1965 src/dialogs/renderwidget.cpp:1995
+#: src/dialogs/renderwidget.cpp:1979 src/dialogs/renderwidget.cpp:2009
 #, kde-format
 msgid "Remove Job"
 msgstr "작업 삭제"
 
-#: src/dialogs/renderwidget.cpp:2100
+#: src/dialogs/renderwidget.cpp:2114
 #, fuzzy, kde-format
 #| msgid "Start Script"
 msgid "Start Selected Scripts"
 msgstr "스크립트 시작"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
-#: src/dialogs/renderwidget.cpp:2100 src/ui/renderwidget_ui.ui:1159
+#: src/dialogs/renderwidget.cpp:2114 src/ui/renderwidget_ui.ui:1156
 #, kde-format
 msgid "Start Script"
 msgstr "스크립트 시작"
 
-#: src/dialogs/renderwidget.cpp:2101
+#: src/dialogs/renderwidget.cpp:2115
 #, fuzzy, kde-format
 #| msgid "Delete Selected Item"
 msgid "Delete Selected Scripts"
 msgstr "선택한 항목 삭제"
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
-#: src/dialogs/renderwidget.cpp:2101 src/dialogs/renderwidget.cpp:2173
-#: src/ui/renderwidget_ui.ui:1152
+#: src/dialogs/renderwidget.cpp:2115 src/dialogs/renderwidget.cpp:2187
+#: src/ui/renderwidget_ui.ui:1149
 #, kde-format
 msgid "Delete Script"
 msgstr "스크립트 삭제"
 
-#: src/dialogs/renderwidget.cpp:2102
+#: src/dialogs/renderwidget.cpp:2116
 #, fuzzy, kde-format
 #| msgid "Loop Selected Clip"
 msgid "Copy Selected Commands"
 msgstr "선택한 클립 반복"
 
 #. i18n: ectx: property (text), widget (QPushButton, copy_script_command)
-#: src/dialogs/renderwidget.cpp:2102 src/ui/renderwidget_ui.ui:1107
+#: src/dialogs/renderwidget.cpp:2116 src/ui/renderwidget_ui.ui:1104
 #, fuzzy, kde-format
 #| msgid "Copy keyframes to clipboard"
 msgid "Copy Command"
 msgstr "키프레임을 클립보드에 복사"
 
-#: src/dialogs/renderwidget.cpp:2124
+#: src/dialogs/renderwidget.cpp:2138
 #, fuzzy, kde-format
 #| msgid ""
 #| "Output file %1 already exists.\n"
@@ -25232,62 +25895,62 @@ msgstr ""
 "출력 파일 %1이(가) 이미 있습니다.\n"
 "덮어쓰시겠습니까?"
 
-#: src/dialogs/renderwidget.cpp:2172
+#: src/dialogs/renderwidget.cpp:2186
 #, kde-format
 msgid "Are you sure you want to delete the selected script?"
 msgid_plural "Are you sure you want to delete %1 selected scripts?"
 msgstr[0] ""
 
-#: src/dialogs/renderwidget.cpp:2213
+#: src/dialogs/renderwidget.cpp:2227
 #, kde-format
 msgid ""
 "Render command copied to clipboard:\n"
 "%1"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2415
+#: src/dialogs/renderwidget.cpp:2429
 #, kde-format
 msgid "Cannot start the waiting render jobs"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2570
+#: src/dialogs/renderwidget.cpp:2584
 #, fuzzy, kde-format
 #| msgid "Render Button"
 msgid "Rendered File Length: %1"
 msgstr "렌더 단추"
 
-#: src/dialogs/renderwidget.cpp:2573
+#: src/dialogs/renderwidget.cpp:2587
 #, fuzzy, kde-format
 #| msgid "Time offset"
 msgid "Timecode Offset: %1"
 msgstr "시간 오프셋"
 
-#: src/dialogs/renderwidget.cpp:2578
+#: src/dialogs/renderwidget.cpp:2592
 #, fuzzy, kde-format
 #| msgid "Select a clip to play"
 msgid "Add clips in timeline before rendering"
 msgstr "재생할 클립 선택"
 
-#: src/dialogs/renderwidget.cpp:2588
+#: src/dialogs/renderwidget.cpp:2602
 #, kde-format
 msgid "Output location is not writable, please select another one"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2593
+#: src/dialogs/renderwidget.cpp:2607
 #, kde-format
 msgid ""
 "The render result will roughly have a file size of %1, but there is only %2 "
 "free disk space. Rendering might fail."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2599
+#: src/dialogs/renderwidget.cpp:2613
 #, kde-format
 msgid ""
 "Your disk space is limited.\n"
 "There is %1 free disk space and the render result will roughly take %2."
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:2614
+#: src/dialogs/renderwidget.cpp:2628
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
@@ -25295,21 +25958,21 @@ msgid "<b>One missing clip used in the project.</b>"
 msgid_plural "<b>%1 missing clips used in the project.</b>"
 msgstr[0] "프로젝트에 누락된 클립이 %1개 있습니다."
 
-#: src/dialogs/renderwidget.cpp:2616
+#: src/dialogs/renderwidget.cpp:2630
 #, fuzzy, kde-format
 #| msgid "Check missing clips"
 msgid "One missing clip (unused)."
 msgid_plural "%1 missing clips (unused)."
 msgstr[0] "누락된 클립 확인"
 
-#: src/dialogs/renderwidget.cpp:2618
+#: src/dialogs/renderwidget.cpp:2632
 #, fuzzy, kde-format
 #| msgid "You have %1 missing clip in your project."
 #| msgid_plural "You have %1 missing clips in your project."
 msgid "%1 missing clips (<b>%2 used in the project</b>)."
 msgstr "프로젝트에 누락된 클립이 %1개 있습니다."
 
-#: src/dialogs/renderwidget.cpp:2762
+#: src/dialogs/renderwidget.cpp:2776
 #, kde-format
 msgid ""
 "One Field deinterlacing may halve the vertical resolution of interlaced clip "
@@ -25319,7 +25982,7 @@ msgid_plural ""
 "clips: %2"
 msgstr[0] ""
 
-#: src/dialogs/renderwidget.cpp:2802
+#: src/dialogs/renderwidget.cpp:2816
 #, kde-format
 msgid ""
 "Codec speed parameters:\n"
@@ -25328,13 +25991,13 @@ msgstr ""
 "코덱 속도 인자:\n"
 "%1"
 
-#: src/dialogs/renderwidget.cpp:2822
+#: src/dialogs/renderwidget.cpp:2836
 #, fuzzy, kde-format
 #| msgid "Add to current project"
 msgid "Add to Current Project"
 msgstr "현재 프로젝트에 추가"
 
-#: src/dialogs/renderwidget.cpp:2831
+#: src/dialogs/renderwidget.cpp:2845
 #: src/effects/effectstack/view/maskmanager.cpp:678
 #: src/library/librarywidget.cpp:247 src/project/dialogs/backupwidget.cpp:42
 #, fuzzy, kde-format
@@ -25347,43 +26010,37 @@ msgstr "대상 폴더"
 msgid "Timeline"
 msgstr "타임라인"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:105
-#, fuzzy, kde-format
-#| msgid "Color range"
-msgid "Colors and Markers"
-msgstr "색상 범위"
-
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:112
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:90
 #, fuzzy, kde-format
 #| msgid "TAP Plugins"
 msgid "Plugins"
 msgstr "TAP 플러그인"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:116
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:94
 #, kde-format
 msgid "Playback"
 msgstr "재생"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:124
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:102
 #, kde-format
 msgid "Capture"
 msgstr "캡처"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:201
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:179
 #: src/effects/effectlist/model/effecttreemodel.cpp:62
 #, kde-format
 msgid "Misc"
 msgstr "기타"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:234
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:944
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:212
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:971
 #: src/doc/documentvalidator.cpp:2597
 #: src/transitions/transitionsrepository.cpp:224
 #, kde-format
 msgid "auto"
 msgstr "자동"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:244
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:222
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -25392,120 +26049,126 @@ msgid ""
 "if you change a parameter."
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:285
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:268
 #, fuzzy, kde-format
 #| msgid "Select the default profile (preset)"
 msgid "Select the Default Profile (preset)"
 msgstr "기본 프로필(사전 설정) 선택"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:306
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:330
 #, kde-format
 msgid "Project Defaults"
 msgstr "프로젝트 기본값"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:359
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:402
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:354
+#, fuzzy, kde-format
+#| msgid "Color range"
+msgid "Colors and Grid"
+msgstr "색상 범위"
+
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:383
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:429
 #, fuzzy, kde-format
 #| msgid "Use default folder"
 msgid "Use default folder: %1"
 msgstr "기본 폴더 사용"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:362
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:363
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:391
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:392
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1249
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1250
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:386
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:387
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:418
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:419
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1281
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1282
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use active project folder"
 msgstr "프로젝트 폴더 사용"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:366
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:367
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:395
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:396
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1253
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1254
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:390
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:391
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:422
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:423
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1285
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1286
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder: %1"
 msgstr "프로젝트 폴더 사용"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:434
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:461
 #, kde-format
 msgid "Environment"
 msgstr "환경"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:466
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:493
 #, kde-format
 msgid "Capture is not yet available on Mac OS X."
 msgstr "Mac OS X에서는 캡처를 사용할 수 없습니다."
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:554
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:581
 #, kde-format
 msgid "Mono (1 channel)"
 msgstr "모노(1채널)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:557
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:584
 #, kde-format
 msgid "Stereo (2 channels)"
 msgstr "스테레오(2채널)"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:560
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:587
 #, fuzzy, kde-format
 #| msgid "%1 channels "
 msgid "%1 channels"
 msgstr "%1 채널 "
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:571
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:598
 #, fuzzy, kde-format
 #| msgid "311 Hz"
 msgid "%1 Hz"
 msgstr "311 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:574
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:601
 #, kde-format
 msgid "44100 Hz"
 msgstr "44100 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:577
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:604
 #, kde-format
 msgid "48000 Hz"
 msgstr "48000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:580
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:607
 #, fuzzy, kde-format
 #| msgid "5000 Hz"
 msgid "96000 Hz"
 msgstr "5000 Hz"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:593
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:620
 #, kde-format
 msgid "Unsigned 8 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:596
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:623
 #, kde-format
 msgid "Signed 16 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:599
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:626
 #, kde-format
 msgid "Signed 32 bit"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:602
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:629
 #, kde-format
 msgid "Float"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:649
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:676
 #, kde-format
 msgid "JogShuttle"
 msgstr "조그셔틀"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:651
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:678
 #, kde-format
 msgid ""
 "For device configuration see <a href=\"https://docs.kdenlive.org/"
@@ -25515,7 +26178,7 @@ msgid ""
 msgstr ""
 
 #. i18n: ectx: Menu (transcoders)
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:673
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
 #: src/dialogs/timeremap.cpp:1692 src/kdenliveui.rc:81
 #: src/mltcontroller/clippropertiescontroller.cpp:795
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
@@ -25523,96 +26186,96 @@ msgstr ""
 msgid "Transcode"
 msgstr "트랜스코드"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:703
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:730
 #, kde-format
 msgid "GPU processing needs MLT compiled with Movit and Rtaudio modules"
 msgstr ""
 "GPU 처리에는 Movit 및 Rtaudio 모듈을 포함하여 컴파일된 MLT가 필요합니다"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:859
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:886
 #, kde-format
 msgid "ALSA"
 msgstr "ALSA"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:860
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:887
 #, kde-format
 msgid "PulseAudio"
 msgstr "PulseAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:861
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:888
 #, kde-format
 msgid "PipeWire"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:862
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:889
 #, kde-format
 msgid "OSS"
 msgstr "OSS"
 
 #. i18n("OSS with DMA access"), "dma");
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:864
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:891
 #, fuzzy, kde-format
 #| msgid "Esound daemon"
 msgid "Esound Daemon"
 msgstr "Esound 데몬"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:865
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:892
 #, fuzzy, kde-format
 #| msgid "ARTS daemon"
 msgid "ARTS Daemon"
 msgstr "ARTS 데몬"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:912
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:939
 #, kde-format
 msgid "SDL"
 msgstr "SDL"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:924
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:951
 #, kde-format
 msgid "RtAudio"
 msgstr "RtAudio"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:948 src/mainwindow.cpp:309
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:975 src/mainwindow.cpp:309
 #, kde-format
 msgid "Monitor %1"
 msgstr "모니터 %1"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1032
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1060
 #, kde-format
 msgid "Enter path to the audio editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1040
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1068
 #, kde-format
 msgid "Enter path to the image editing application"
 msgstr ""
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1048
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1076
 #: src/glaxnimatelauncher.cpp:30
 #, fuzzy, kde-format
 #| msgid "Enter url for the new dictionary"
 msgid "Enter path to the Glaxnimate application"
 msgstr "새 사전의 URL 입력"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1056
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1084
 #, fuzzy, kde-format
 #| msgid "Enter url for the new dictionary"
 msgid "Enter path to the video editing application"
 msgstr "새 사전의 URL 입력"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1138
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1185
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1166
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1213
 #: src/project/dialogs/projectsettings.cpp:539
 #, kde-format
 msgid "Please select a video profile"
 msgstr "동영상 프로필을 선택하십시오"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1532
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1564
 #, kde-format
 msgid "Kdenlive must be restarted to change this setting"
 msgstr "이 설정을 변경하려면 Kdenlive를 다시 시작해야 합니다"
 
-#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1660
+#: src/dialogs/settings/kdenlivesettingsdialog.cpp:1692
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:695
 #, kde-format
 msgid "A profile with that name already exists"
@@ -25938,22 +26601,22 @@ msgstr "음성 인식 모델을 설치하십시오"
 msgid "Starting audio export"
 msgstr "오디오 내보내기 시작 중"
 
-#: src/dialogs/speechdialog.cpp:354
+#: src/dialogs/speechdialog.cpp:356
 #, kde-format
 msgid "Audio export failed"
 msgstr "오디오 내보내기 실패"
 
-#: src/dialogs/speechdialog.cpp:377 src/dialogs/textbasededit.cpp:1115
+#: src/dialogs/speechdialog.cpp:379 src/dialogs/textbasededit.cpp:1115
 #, kde-format
 msgid "Starting speech recognition"
 msgstr "음성 인식 시작 중"
 
-#: src/dialogs/speechdialog.cpp:440 src/dialogs/textbasededit.cpp:1302
+#: src/dialogs/speechdialog.cpp:442 src/dialogs/textbasededit.cpp:1302
 #, kde-format
 msgid "Speech recognition aborted."
 msgstr "음성 인식이 중단되었습니다."
 
-#: src/dialogs/speechdialog.cpp:446
+#: src/dialogs/speechdialog.cpp:448
 #, fuzzy, kde-format
 #| msgid "Speech recognition failed"
 msgid ""
@@ -25961,591 +26624,591 @@ msgid ""
 "%1"
 msgstr "음성 인식 실패"
 
-#: src/dialogs/speechdialog.cpp:448
+#: src/dialogs/speechdialog.cpp:450
 #, fuzzy, kde-format
 #| msgid "Speech recognition failed"
 msgid "Speech recognition failed"
 msgstr "음성 인식 실패"
 
-#: src/dialogs/speechdialog.cpp:454
+#: src/dialogs/speechdialog.cpp:456
 #, kde-format
 msgid "Subtitles imported"
 msgstr "자막 가져옴"
 
-#: src/dialogs/speechdialog.cpp:455
+#: src/dialogs/speechdialog.cpp:457
 #, fuzzy, kde-format
 #| msgid "Speech recognition finished."
 msgid "Speech recognition finished, subtitles imported"
 msgstr "음성 인식이 완료되었습니다."
 
-#: src/dialogs/speechdialog.cpp:487
+#: src/dialogs/speechdialog.cpp:489
 #, kde-format
 msgid "Translating text to %1"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:489
+#: src/dialogs/speechdialog.cpp:491
 #, kde-format
 msgid "Initializing translation model"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:500
+#: src/dialogs/speechdialog.cpp:502
 #: src/pythoninterfaces/speechtotextwhisper.cpp:58
 #, kde-format
 msgid "Afrikaans"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:501
+#: src/dialogs/speechdialog.cpp:503
 #: src/pythoninterfaces/speechtotextwhisper.cpp:60
 #, kde-format
 msgid "Amharic"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:502
+#: src/dialogs/speechdialog.cpp:504
 #: src/pythoninterfaces/speechtotextwhisper.cpp:62
 #, kde-format
 msgid "Armenian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:503
+#: src/dialogs/speechdialog.cpp:505
 #: src/pythoninterfaces/speechtotextwhisper.cpp:63
 #, kde-format
 msgid "Assamese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:504
+#: src/dialogs/speechdialog.cpp:506
 #: src/pythoninterfaces/speechtotextwhisper.cpp:66
 #, kde-format
 msgid "Basque"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:505
+#: src/dialogs/speechdialog.cpp:507
 #: src/pythoninterfaces/speechtotextwhisper.cpp:67
 #, kde-format
 msgid "Belarusian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:506
+#: src/dialogs/speechdialog.cpp:508
 #: src/pythoninterfaces/speechtotextwhisper.cpp:68
 #, kde-format
 msgid "Bengali"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:507
+#: src/dialogs/speechdialog.cpp:509
 #: src/pythoninterfaces/speechtotextwhisper.cpp:69
 #, kde-format
 msgid "Bosnian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:508
+#: src/dialogs/speechdialog.cpp:510
 #: src/pythoninterfaces/speechtotextwhisper.cpp:71
 #, fuzzy, kde-format
 #| msgid "Variant"
 msgid "Bulgarian"
 msgstr "파생형"
 
-#: src/dialogs/speechdialog.cpp:509
+#: src/dialogs/speechdialog.cpp:511
 #: src/pythoninterfaces/speechtotextwhisper.cpp:72
 #, kde-format
 msgid "Burmese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:510
+#: src/dialogs/speechdialog.cpp:512
 #, fuzzy, kde-format
 #| msgid "Shakiness"
 msgid "Cantonese"
 msgstr "흔들림"
 
-#: src/dialogs/speechdialog.cpp:511
+#: src/dialogs/speechdialog.cpp:513
 #: src/pythoninterfaces/speechtotextwhisper.cpp:74
 #, kde-format
 msgid "Catalan"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:512
+#: src/dialogs/speechdialog.cpp:514
 #, kde-format
 msgid "Cebuano"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:513
+#: src/dialogs/speechdialog.cpp:515
 #, kde-format
 msgid "Central Kurdish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:514
+#: src/dialogs/speechdialog.cpp:516
 #: src/pythoninterfaces/speechtotextwhisper.cpp:76
 #, kde-format
 msgid "Croatian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:515
+#: src/dialogs/speechdialog.cpp:517
 #: src/pythoninterfaces/speechtotextwhisper.cpp:77
 #, kde-format
 msgid "Czech"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:516
+#: src/dialogs/speechdialog.cpp:518
 #: src/pythoninterfaces/speechtotextwhisper.cpp:78
 #, kde-format
 msgid "Danish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:517
+#: src/dialogs/speechdialog.cpp:519
 #: src/pythoninterfaces/speechtotextwhisper.cpp:79
 #, kde-format
 msgid "Dutch"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:518
+#: src/dialogs/speechdialog.cpp:520
 #, kde-format
 msgid "Egyptian Arabic"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:519
+#: src/dialogs/speechdialog.cpp:521
 #: src/pythoninterfaces/speechtotextwhisper.cpp:80
 #, kde-format
 msgid "English"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:520
+#: src/dialogs/speechdialog.cpp:522
 #: src/pythoninterfaces/speechtotextwhisper.cpp:81
 #, kde-format
 msgid "Estonian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:521
+#: src/dialogs/speechdialog.cpp:523
 #: src/pythoninterfaces/speechtotextwhisper.cpp:83
 #, kde-format
 msgid "Finnish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:522
+#: src/dialogs/speechdialog.cpp:524
 #: src/pythoninterfaces/speechtotextwhisper.cpp:85
 #, kde-format
 msgid "French"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:523
+#: src/dialogs/speechdialog.cpp:525
 #: src/pythoninterfaces/speechtotextwhisper.cpp:86
 #, kde-format
 msgid "Galician"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:524
+#: src/dialogs/speechdialog.cpp:526
 #, kde-format
 msgid "Ganda"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:525
+#: src/dialogs/speechdialog.cpp:527
 #: src/pythoninterfaces/speechtotextwhisper.cpp:87
 #, kde-format
 msgid "Georgian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:526
+#: src/dialogs/speechdialog.cpp:528
 #: src/pythoninterfaces/speechtotextwhisper.cpp:88
 #, kde-format
 msgid "German"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:527
+#: src/dialogs/speechdialog.cpp:529
 #: src/pythoninterfaces/speechtotextwhisper.cpp:89
 #, fuzzy, kde-format
 #| msgid "Green"
 msgid "Greek"
 msgstr "녹색"
 
-#: src/dialogs/speechdialog.cpp:528
+#: src/dialogs/speechdialog.cpp:530
 #: src/pythoninterfaces/speechtotextwhisper.cpp:90
 #, fuzzy, kde-format
 #| msgid "Duration"
 msgid "Gujarati"
 msgstr "지속 시간"
 
-#: src/dialogs/speechdialog.cpp:529
+#: src/dialogs/speechdialog.cpp:531
 #, kde-format
 msgid "Halh Mongolian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:530
+#: src/dialogs/speechdialog.cpp:532
 #: src/pythoninterfaces/speechtotextwhisper.cpp:95
 #, kde-format
 msgid "Hebrew"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:531
+#: src/dialogs/speechdialog.cpp:533
 #: src/pythoninterfaces/speechtotextwhisper.cpp:96
 #, kde-format
 msgid "Hindi"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:532
+#: src/dialogs/speechdialog.cpp:534
 #: src/pythoninterfaces/speechtotextwhisper.cpp:97
 #, fuzzy, kde-format
 #| msgid "Variant"
 msgid "Hungarian"
 msgstr "파생형"
 
-#: src/dialogs/speechdialog.cpp:533
+#: src/dialogs/speechdialog.cpp:535
 #: src/pythoninterfaces/speechtotextwhisper.cpp:98
 #, kde-format
 msgid "Icelandic"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:534
+#: src/dialogs/speechdialog.cpp:536
 #, kde-format
 msgid "Igbo"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:535
+#: src/dialogs/speechdialog.cpp:537
 #: src/pythoninterfaces/speechtotextwhisper.cpp:99
 #, kde-format
 msgid "Indonesian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:536
+#: src/dialogs/speechdialog.cpp:538
 #, fuzzy, kde-format
 #| msgctxt "Luma transition name"
 #| msgid "Iris Box"
 msgid "Irish"
 msgstr "조리개 상자"
 
-#: src/dialogs/speechdialog.cpp:537
+#: src/dialogs/speechdialog.cpp:539
 #: src/pythoninterfaces/speechtotextwhisper.cpp:100
 #, fuzzy, kde-format
 #| msgid "Antialias"
 msgid "Italian"
 msgstr "앤티에일리어싱"
 
-#: src/dialogs/speechdialog.cpp:538
+#: src/dialogs/speechdialog.cpp:540
 #: src/pythoninterfaces/speechtotextwhisper.cpp:101
 #, kde-format
 msgid "Japanese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:539
+#: src/dialogs/speechdialog.cpp:541
 #: src/pythoninterfaces/speechtotextwhisper.cpp:102
 #, kde-format
 msgid "Javanese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:540
+#: src/dialogs/speechdialog.cpp:542
 #: src/pythoninterfaces/speechtotextwhisper.cpp:103
 #, kde-format
 msgid "Kannada"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:541
+#: src/dialogs/speechdialog.cpp:543
 #: src/pythoninterfaces/speechtotextwhisper.cpp:104
 #, kde-format
 msgid "Kazakh"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:542
+#: src/dialogs/speechdialog.cpp:544
 #: src/pythoninterfaces/speechtotextwhisper.cpp:105
 #, kde-format
 msgid "Khmer"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:543
+#: src/dialogs/speechdialog.cpp:545
 #: src/pythoninterfaces/speechtotextwhisper.cpp:106
 #, kde-format
 msgid "Korean"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:544
+#: src/dialogs/speechdialog.cpp:546
 #, kde-format
 msgid "Kyrgyz"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:545
+#: src/dialogs/speechdialog.cpp:547
 #: src/pythoninterfaces/speechtotextwhisper.cpp:107
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Lao"
 msgstr "로그"
 
-#: src/dialogs/speechdialog.cpp:546
+#: src/dialogs/speechdialog.cpp:548
 #: src/pythoninterfaces/speechtotextwhisper.cpp:112
 #, kde-format
 msgid "Lithuanian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:547
+#: src/dialogs/speechdialog.cpp:549
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Luo"
 msgstr "로그"
 
-#: src/dialogs/speechdialog.cpp:548
+#: src/dialogs/speechdialog.cpp:550
 #: src/pythoninterfaces/speechtotextwhisper.cpp:114
 #, kde-format
 msgid "Macedonian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:549
+#: src/dialogs/speechdialog.cpp:551
 #, kde-format
 msgid "Maithili"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:550
+#: src/dialogs/speechdialog.cpp:552
 #: src/pythoninterfaces/speechtotextwhisper.cpp:117
 #, kde-format
 msgid "Malayalam"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:551
+#: src/dialogs/speechdialog.cpp:553
 #: src/pythoninterfaces/speechtotextwhisper.cpp:118
 #, kde-format
 msgid "Maltese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:552 src/dialogs/speechdialog.cpp:553
+#: src/dialogs/speechdialog.cpp:554 src/dialogs/speechdialog.cpp:555
 #, fuzzy, kde-format
 #| msgid "Shakiness"
 msgid "Mandarin Chinese"
 msgstr "흔들림"
 
-#: src/dialogs/speechdialog.cpp:554
+#: src/dialogs/speechdialog.cpp:556
 #: src/pythoninterfaces/speechtotextwhisper.cpp:120
 #, kde-format
 msgid "Marathi"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:555
+#: src/dialogs/speechdialog.cpp:557
 #, kde-format
 msgid "Meitei"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:556
+#: src/dialogs/speechdialog.cpp:558
 #, kde-format
 msgid "Modern Standard Arabic"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:557
+#: src/dialogs/speechdialog.cpp:559
 #, kde-format
 msgid "Moroccan Arabic"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:558
+#: src/dialogs/speechdialog.cpp:560
 #: src/pythoninterfaces/speechtotextwhisper.cpp:125
 #, kde-format
 msgid "Nepali"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:559
+#: src/dialogs/speechdialog.cpp:561
 #, kde-format
 msgid "Nigerian Fulfulde"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:560
+#: src/dialogs/speechdialog.cpp:562
 #, kde-format
 msgid "North Azerbaijani"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:561
+#: src/dialogs/speechdialog.cpp:563
 #, kde-format
 msgid "Northern Uzbek"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:562
+#: src/dialogs/speechdialog.cpp:564
 #, kde-format
 msgid "Norwegian Bokmål"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:563
+#: src/dialogs/speechdialog.cpp:565
 #, kde-format
 msgid "Norwegian Nynorsk"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:564
+#: src/dialogs/speechdialog.cpp:566
 #, kde-format
 msgid "Nyanja"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:565
+#: src/dialogs/speechdialog.cpp:567
 #, kde-format
 msgid "Odia"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:566
+#: src/dialogs/speechdialog.cpp:568
 #: src/pythoninterfaces/speechtotextwhisper.cpp:132
 #, kde-format
 msgid "Polish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:567
+#: src/dialogs/speechdialog.cpp:569
 #: src/pythoninterfaces/speechtotextwhisper.cpp:133
 #, kde-format
 msgid "Portuguese"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:568
+#: src/dialogs/speechdialog.cpp:570
 #: src/pythoninterfaces/speechtotextwhisper.cpp:134
 #, kde-format
 msgid "Punjabi"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:569
+#: src/dialogs/speechdialog.cpp:571
 #: src/pythoninterfaces/speechtotextwhisper.cpp:136
 #, kde-format
 msgid "Romanian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:570
+#: src/dialogs/speechdialog.cpp:572
 #: src/pythoninterfaces/speechtotextwhisper.cpp:137
 #, kde-format
 msgid "Russian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:571
+#: src/dialogs/speechdialog.cpp:573
 #: src/pythoninterfaces/speechtotextwhisper.cpp:139
 #, kde-format
 msgid "Serbian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:572
+#: src/dialogs/speechdialog.cpp:574
 #: src/pythoninterfaces/speechtotextwhisper.cpp:140
 #, kde-format
 msgid "Shona"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:573
+#: src/dialogs/speechdialog.cpp:575
 #: src/pythoninterfaces/speechtotextwhisper.cpp:141
 #, kde-format
 msgid "Sindhi"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:574
+#: src/dialogs/speechdialog.cpp:576
 #: src/pythoninterfaces/speechtotextwhisper.cpp:144
 #, kde-format
 msgid "Slovak"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:575
+#: src/dialogs/speechdialog.cpp:577
 #: src/pythoninterfaces/speechtotextwhisper.cpp:145
 #, kde-format
 msgid "Slovenian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:576
+#: src/dialogs/speechdialog.cpp:578
 #: src/pythoninterfaces/speechtotextwhisper.cpp:146
 #, fuzzy, kde-format
 #| msgid "Normalise"
 msgid "Somali"
 msgstr "정규화"
 
-#: src/dialogs/speechdialog.cpp:577
+#: src/dialogs/speechdialog.cpp:579
 #, kde-format
 msgid "Southern Pashto"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:578
+#: src/dialogs/speechdialog.cpp:580
 #: src/pythoninterfaces/speechtotextwhisper.cpp:147
 #, kde-format
 msgid "Spanish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:579
+#: src/dialogs/speechdialog.cpp:581
 #, kde-format
 msgid "Standard Latvian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:580
+#: src/dialogs/speechdialog.cpp:582
 #, kde-format
 msgid "Standard Malay"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:581
+#: src/dialogs/speechdialog.cpp:583
 #: src/pythoninterfaces/speechtotextwhisper.cpp:149
 #, kde-format
 msgid "Swahili"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:582
+#: src/dialogs/speechdialog.cpp:584
 #: src/pythoninterfaces/speechtotextwhisper.cpp:150
 #, kde-format
 msgid "Swedish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:583
+#: src/dialogs/speechdialog.cpp:585
 #: src/pythoninterfaces/speechtotextwhisper.cpp:151
 #, fuzzy, kde-format
 #| msgid "Dialog"
 msgid "Tagalog"
 msgstr "대화 상자"
 
-#: src/dialogs/speechdialog.cpp:584
+#: src/dialogs/speechdialog.cpp:586
 #: src/pythoninterfaces/speechtotextwhisper.cpp:152
 #, kde-format
 msgid "Tajik"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:585
+#: src/dialogs/speechdialog.cpp:587
 #: src/pythoninterfaces/speechtotextwhisper.cpp:153
 #, kde-format
 msgid "Tamil"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:586
+#: src/dialogs/speechdialog.cpp:588
 #: src/pythoninterfaces/speechtotextwhisper.cpp:155
 #, kde-format
 msgid "Telugu"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:587
+#: src/dialogs/speechdialog.cpp:589
 #: src/pythoninterfaces/speechtotextwhisper.cpp:156
 #, kde-format
 msgid "Thai"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:588
+#: src/dialogs/speechdialog.cpp:590
 #: src/pythoninterfaces/speechtotextwhisper.cpp:158
 #, kde-format
 msgid "Turkish"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:589
+#: src/dialogs/speechdialog.cpp:591
 #: src/pythoninterfaces/speechtotextwhisper.cpp:160
 #, kde-format
 msgid "Ukrainian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:590
+#: src/dialogs/speechdialog.cpp:592
 #: src/pythoninterfaces/speechtotextwhisper.cpp:161
 #, kde-format
 msgid "Urdu"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:591
+#: src/dialogs/speechdialog.cpp:593
 #: src/pythoninterfaces/speechtotextwhisper.cpp:164
 #, fuzzy, kde-format
 #| msgid "Filename"
 msgid "Vietnamese"
 msgstr "파일 이름"
 
-#: src/dialogs/speechdialog.cpp:592
+#: src/dialogs/speechdialog.cpp:594
 #: src/pythoninterfaces/speechtotextwhisper.cpp:165
 #, kde-format
 msgid "Welsh"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:593
+#: src/dialogs/speechdialog.cpp:595
 #, kde-format
 msgid "West Central Oromo"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:594
+#: src/dialogs/speechdialog.cpp:596
 #, kde-format
 msgid "Western Persian"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:595
+#: src/dialogs/speechdialog.cpp:597
 #: src/pythoninterfaces/speechtotextwhisper.cpp:167
 #, kde-format
 msgid "Yoruba"
 msgstr ""
 
-#: src/dialogs/speechdialog.cpp:596
+#: src/dialogs/speechdialog.cpp:598
 #, kde-format
 msgid "Zulu"
 msgstr ""
@@ -27421,8 +28084,8 @@ msgstr "시작 오류 또는 경고, <a href='#'>온라인 설명서</a>를 확�
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose2)
 #. i18n: ectx: property (text), widget (QPushButton, buttonClose3)
 #: src/dialogs/wizard.cpp:130 src/project/cliptranscode.cpp:271
-#: src/ui/renderwidget_ui.ui:445 src/ui/renderwidget_ui.ui:992
-#: src/ui/renderwidget_ui.ui:1166
+#: src/ui/renderwidget_ui.ui:442 src/ui/renderwidget_ui.ui:989
+#: src/ui/renderwidget_ui.ui:1163
 #, kde-format
 msgid "Close"
 msgstr "닫기"
@@ -28101,17 +28764,17 @@ msgid ""
 "is invalid, using system default folders"
 msgstr "문서 프로젝트 폴더가 유효하지 않아서 시스템 기본 폴더를 사용합니다"
 
-#: src/doc/kdenlivedoc.cpp:599 src/doc/kdenlivedoc.cpp:609
+#: src/doc/kdenlivedoc.cpp:617 src/doc/kdenlivedoc.cpp:627
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "자동 저장 파일 %1을(를) 생성할 수 없음"
 
-#: src/doc/kdenlivedoc.cpp:604 src/doc/kdenlivedoc.cpp:741
+#: src/doc/kdenlivedoc.cpp:622 src/doc/kdenlivedoc.cpp:759
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "파일 %1에 쓸 수 없습니다. 장면 목록이 손상되었습니다."
 
-#: src/doc/kdenlivedoc.cpp:761
+#: src/doc/kdenlivedoc.cpp:779
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -28120,7 +28783,7 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었습니다.\n"
 "데이터가 손실되지 않도록 백업 복사본 %1을(를) 만들었습니다."
 
-#: src/doc/kdenlivedoc.cpp:775
+#: src/doc/kdenlivedoc.cpp:793
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -28129,29 +28792,29 @@ msgstr ""
 "프로젝트 파일이 최신 Kdenlive 문서 버전으로 업그레이드되었지만 백업 복사본 %1"
 "을(를) 만들 수 없습니다."
 
-#: src/doc/kdenlivedoc.cpp:991 src/project/projectmanager.cpp:1651
+#: src/doc/kdenlivedoc.cpp:1009 src/project/projectmanager.cpp:1651
 #: src/project/projectmanager.cpp:1695
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "프로젝트 폴더 이동 중 오류: %1"
 
-#: src/doc/kdenlivedoc.cpp:1187 src/doc/kdenlivedoc.cpp:2658
-#: src/project/dialogs/archivewidget.cpp:256
+#: src/doc/kdenlivedoc.cpp:1205 src/doc/kdenlivedoc.cpp:2712
+#: src/project/dialogs/archivewidget.cpp:304
 #, kde-format
 msgid "Untitled"
 msgstr "제목 없음"
 
-#: src/doc/kdenlivedoc.cpp:1400
+#: src/doc/kdenlivedoc.cpp:1418
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "다음 효과를 프로젝트에서 가져왔습니다:"
 
-#: src/doc/kdenlivedoc.cpp:1433 src/doc/kdenlivedoc.cpp:1447
+#: src/doc/kdenlivedoc.cpp:1451 src/doc/kdenlivedoc.cpp:1465
 #, kde-format
 msgid "Project Folder"
 msgstr "프로젝트 폴더"
 
-#: src/doc/kdenlivedoc.cpp:1491 src/doc/kdenlivedoc.cpp:1508
+#: src/doc/kdenlivedoc.cpp:1509 src/doc/kdenlivedoc.cpp:1526
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -28160,54 +28823,54 @@ msgstr ""
 "백업 복사본을 만들 수 없음:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1666
+#: src/doc/kdenlivedoc.cpp:1684
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1668
+#: src/doc/kdenlivedoc.cpp:1686
 #, fuzzy, kde-format
 #| msgid "copied to the alpha channel."
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "알파 채널에 복사되었습니다."
 
-#: src/doc/kdenlivedoc.cpp:1674
+#: src/doc/kdenlivedoc.cpp:1692
 #, fuzzy, kde-format
 #| msgid "copied to the alpha channel."
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "알파 채널에 복사되었습니다."
 
-#: src/doc/kdenlivedoc.cpp:1676
+#: src/doc/kdenlivedoc.cpp:1694
 #, fuzzy, kde-format
 #| msgid "Proxy clips"
 msgid "Proxy all clips"
 msgstr "프록시 클립"
 
-#: src/doc/kdenlivedoc.cpp:1677
+#: src/doc/kdenlivedoc.cpp:1695
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1693
+#: src/doc/kdenlivedoc.cpp:1711
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "프록시 클립 추가"
 
-#: src/doc/kdenlivedoc.cpp:1695
+#: src/doc/kdenlivedoc.cpp:1713
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "프록시 클립 삭제"
 
-#: src/doc/kdenlivedoc.cpp:1741 src/doc/kdenlivedoc.cpp:1801
+#: src/doc/kdenlivedoc.cpp:1759 src/doc/kdenlivedoc.cpp:1819
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "클립 종류는 프록시를 지원하지 않습니다"
 
-#: src/doc/kdenlivedoc.cpp:1945
+#: src/doc/kdenlivedoc.cpp:1969
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains suspicious proxy parameters. This command "
@@ -28216,14 +28879,30 @@ msgid ""
 "discarded."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1976
+#: src/doc/kdenlivedoc.cpp:1978
+#, kde-format
+msgid ""
+"Project file <b>%1</b> contains an unknown proxy profile, it will be "
+"discarded. This will only affect newly created proxy clips. If you really "
+"need to keep this profile and understand the ffmpeg syntax and possible "
+"security risks, create a new proxy profile in the project settings with "
+"these parameters:<br><code>%2<br>Extension: %3</code>"
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:1985
+#, fuzzy, kde-format
+#| msgid "Abort processing"
+msgid "Abort Loading"
+msgstr "처리 중단"
+
+#: src/doc/kdenlivedoc.cpp:2012
 #, fuzzy, kde-format
 #| msgid "Scanning"
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "스캔라인"
 
-#: src/doc/kdenlivedoc.cpp:1978
+#: src/doc/kdenlivedoc.cpp:2014
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
@@ -28231,7 +28910,7 @@ msgid ""
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2055
+#: src/doc/kdenlivedoc.cpp:2106
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -28239,12 +28918,18 @@ msgid ""
 "misplaced clips and frame offset."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2174
+#: src/doc/kdenlivedoc.cpp:2117
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Project's video profile is corrupted, using default one"
+msgstr ""
+
+#: src/doc/kdenlivedoc.cpp:2228
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2192
+#: src/doc/kdenlivedoc.cpp:2246
 #, fuzzy, kde-format
 #| msgid ""
 #| "Your default project profile is %1, but your clip's profile is %2.\n"
@@ -28256,44 +28941,44 @@ msgstr ""
 "기본 프로젝트 프로필은 %1(이)지만 클립 프로필은 %2입니다.\n"
 "차후에 사용할 프로젝트의 기본 프로필을 변경하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:2194
+#: src/doc/kdenlivedoc.cpp:2248
 #, kde-format
 msgid "Change default project profile"
 msgstr "기본 프로젝트 프로필 변경"
 
-#: src/doc/kdenlivedoc.cpp:2194
+#: src/doc/kdenlivedoc.cpp:2248
 #, kde-format
 msgid "Change default to %1"
 msgstr "기본값을 %1(으)로 변경"
 
-#: src/doc/kdenlivedoc.cpp:2195
+#: src/doc/kdenlivedoc.cpp:2249
 #, kde-format
 msgid "Keep current default %1"
 msgstr "현재 기본값 %1 유지"
 
-#: src/doc/kdenlivedoc.cpp:2195
+#: src/doc/kdenlivedoc.cpp:2249
 #, kde-format
 msgid "Ask me later"
 msgstr "나중에 묻기"
 
-#: src/doc/kdenlivedoc.cpp:2215
+#: src/doc/kdenlivedoc.cpp:2269
 #, kde-format
 msgid "Switch"
 msgstr "전환"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2217 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2271 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "취소"
 
-#: src/doc/kdenlivedoc.cpp:2219
+#: src/doc/kdenlivedoc.cpp:2273
 #, fuzzy, kde-format
 #| msgid "Switch to clip profile %1?"
 msgid "Switch to clip (%1) profile %2?"
 msgstr "클립 프로필을 %1(으)로 전환하시겠습니까?"
 
-#: src/doc/kdenlivedoc.cpp:2224
+#: src/doc/kdenlivedoc.cpp:2278
 #, kde-format
 msgid ""
 "\n"
@@ -28302,7 +28987,7 @@ msgstr ""
 "\n"
 "프로필 fps가 원본 %1에서 조정됨"
 
-#: src/doc/kdenlivedoc.cpp:2228
+#: src/doc/kdenlivedoc.cpp:2282
 #, fuzzy, kde-format
 #| msgid ""
 #| "No profile found for your clip.\n"
@@ -28315,7 +29000,7 @@ msgstr ""
 "새 프로필(%1x %2, %3fps)을 만들고 전환하시겠습니까?%4"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:3056 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:3110 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
@@ -28368,7 +29053,7 @@ msgstr "이름: "
 msgid "Comments : "
 msgstr "주석: "
 
-#: src/effects/effectlist/view/effectlistwidget.cpp:174 src/filefilter.cpp:135
+#: src/effects/effectlist/view/effectlistwidget.cpp:174 src/filefilter.cpp:139
 #: src/onlineresources/resourcewidget.cpp:691
 #, kde-format
 msgid "All Files"
@@ -28825,37 +29510,43 @@ msgid ""
 "undone."
 msgstr ""
 
-#: src/filefilter.cpp:125
+#: src/filefilter.cpp:127
 #, fuzzy, kde-format
 #| msgid "Audio levels"
 msgid "Audio Files"
 msgstr "오디오 레벨"
 
-#: src/filefilter.cpp:127
+#: src/filefilter.cpp:129
 #, fuzzy, kde-format
 #| msgid "Luma files"
 msgid "Image Files"
 msgstr "광도 파일"
 
-#: src/filefilter.cpp:129
+#: src/filefilter.cpp:131
 #, fuzzy, kde-format
 #| msgid "Video values"
 msgid "Video Files"
 msgstr "동영상 값"
 
-#: src/filefilter.cpp:131
+#: src/filefilter.cpp:133
 #, fuzzy, kde-format
 #| msgid "Clear filters"
 msgid "User Files"
 msgstr "필터 지우기"
 
-#: src/filefilter.cpp:133
+#: src/filefilter.cpp:135
+#, fuzzy, kde-format
+#| msgid "Kdenlive"
+msgid "Kdenlive Files"
+msgstr "Kdenlive"
+
+#: src/filefilter.cpp:137
 #, fuzzy, kde-format
 #| msgid "Other clips"
 msgid "Other Files"
 msgstr "다른 클립"
 
-#: src/filefilter.cpp:137
+#: src/filefilter.cpp:141
 #, kde-format
 msgid "All Supported Files"
 msgstr "모든 지원하는 파일"
@@ -29088,7 +29779,7 @@ msgstr ""
 msgid "FFmpeg not found, please set path in Kdenlive's settings Environment"
 msgstr "FFmpeg를 찾을 수 없습니다. Kdenlive 설정에서 경로를 설정하십시오"
 
-#: src/jobs/proxytask.cpp:433 src/jobs/proxytask.cpp:447
+#: src/jobs/proxytask.cpp:437 src/jobs/proxytask.cpp:451
 #, kde-format
 msgid "Failed to create proxy clip."
 msgstr "프록시 클립을 만들지 못했습니다."
@@ -30725,31 +31416,31 @@ msgstr "메뉴 표시줄을 완전히 숨깁니다. Ctrl+M 키를 눌러서 다�
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
 
-#: src/mainwindow.cpp:4055
+#: src/mainwindow.cpp:4065
 #, kde-format
 msgid "Go to download page"
 msgstr ""
 
-#: src/mainwindow.cpp:4061
+#: src/mainwindow.cpp:4071
 #, fuzzy, kde-format
 #| msgid "Check again"
 msgid "Never check again"
 msgstr "다시 확인"
 
-#: src/mainwindow.cpp:4064
+#: src/mainwindow.cpp:4074
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 1 year, we strongly encourage you to "
 "upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4068
+#: src/mainwindow.cpp:4078
 #, kde-format
 msgid ""
 "Your Kdenlive version is older than 6 months, we encourage you to upgrade"
 msgstr ""
 
-#: src/mainwindow.cpp:4110
+#: src/mainwindow.cpp:4120
 #, fuzzy, kde-format
 #| msgid "Selected Cached Data"
 msgid "Checking cached data size"
@@ -31205,7 +31896,7 @@ msgstr ""
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, gopSpinner)
 #. i18n: ectx: property (specialValueText), widget (QSpinBox, bFramesSpinner)
 #: src/mainwindow_actions.cpp:600 src/ui/editrenderpreset_ui.ui:550
-#: src/ui/editrenderpreset_ui.ui:693 src/ui/renderwidget_ui.ui:787
+#: src/ui/editrenderpreset_ui.ui:693 src/ui/renderwidget_ui.ui:784
 #, kde-format
 msgid "Auto"
 msgstr "자동"
@@ -32533,14 +33224,9 @@ msgstr "B 프레임"
 msgid "Yes"
 msgstr "예"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1406
-#, kde-format
-msgid "No"
-msgstr "아니요"
-
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
 #: src/mltcontroller/clippropertiescontroller.cpp:1429
-#: src/ui/configproject_ui.ui:116 src/ui/projectsettings_ui.ui:159
+#: src/ui/configproject_ui.ui:107 src/ui/projectsettings_ui.ui:159
 #, fuzzy, kde-format
 #| msgid "Audio channels"
 msgid "Audio channels:"
@@ -33035,7 +33721,7 @@ msgid "Toggles edit mode (and the display of the object handles)."
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/monitor/monitormanager.cpp:637 src/ui/renderwidget_ui.ui:626
+#: src/monitor/monitormanager.cpp:637 src/ui/renderwidget_ui.ui:623
 #, kde-format
 msgid "Deinterlacer"
 msgstr "디인터레이서"
@@ -33115,7 +33801,7 @@ msgstr "미리 보기"
 #: src/monitor/recmanager.cpp:44 src/onlineresources/resourcewidget.cpp:687
 #: src/ui/clipjobmanager_ui.ui:381 src/ui/cutjobdialog_ui.ui:107
 #: src/ui/editrenderpreset_ui.ui:122 src/ui/projectsettings_ui.ui:198
-#: src/ui/renderwidget_ui.ui:493
+#: src/ui/renderwidget_ui.ui:490
 #, kde-format
 msgid "Video"
 msgstr "동영상"
@@ -33885,7 +34571,7 @@ msgstr "fps"
 msgid " interlaced"
 msgstr " 인터레이스됨"
 
-#: src/profiles/profilemodel.cpp:188
+#: src/profiles/profilemodel.cpp:195
 #, kde-format
 msgid "The project profile is invalid (%1x%2), it was adjusted to %3x%4."
 msgstr "프로젝트 프로필이 잘못되었습니다(%1x%2). %3x%4(으)로 조정되었습니다."
@@ -33985,123 +34671,123 @@ msgstr "트랜스코딩이 완료되었습니다."
 msgid "Transcoding failed"
 msgstr "트랜스코딩 실패"
 
-#: src/project/dialogs/archivewidget.cpp:51
+#: src/project/dialogs/archivewidget.cpp:99
 #, fuzzy, kde-format
 #| msgid "Archive Project"
 msgctxt "@title:window"
 msgid "Archive Project"
 msgstr "프로젝트 압축"
 
-#: src/project/dialogs/archivewidget.cpp:63
+#: src/project/dialogs/archivewidget.cpp:111
 #, fuzzy, kde-format
 #| msgid "Video clips"
 msgid "Video Clips"
 msgstr "동영상 클립"
 
-#: src/project/dialogs/archivewidget.cpp:67
+#: src/project/dialogs/archivewidget.cpp:115
 #, fuzzy, kde-format
 #| msgid "Audio clips"
 msgid "Audio Clips"
 msgstr "오디오 클립"
 
-#: src/project/dialogs/archivewidget.cpp:71
+#: src/project/dialogs/archivewidget.cpp:119
 #, fuzzy, kde-format
 #| msgid "Image clips"
 msgid "Image Clips"
 msgstr "이미지 클립"
 
-#: src/project/dialogs/archivewidget.cpp:75
+#: src/project/dialogs/archivewidget.cpp:123
 #, fuzzy, kde-format
 #| msgid "Slideshow Clip"
 msgid "Slideshow Clips"
 msgstr "슬라이드 쇼 클립"
 
-#: src/project/dialogs/archivewidget.cpp:79
+#: src/project/dialogs/archivewidget.cpp:127
 #, fuzzy, kde-format
 #| msgid "Text Clip"
 msgid "Text Clips"
 msgstr "텍스트 클립"
 
-#: src/project/dialogs/archivewidget.cpp:83
+#: src/project/dialogs/archivewidget.cpp:131
 #, fuzzy, kde-format
 #| msgid "Playlist clips"
 msgid "Playlist Clips"
 msgstr "재생 목록 클립"
 
-#: src/project/dialogs/archivewidget.cpp:87
+#: src/project/dialogs/archivewidget.cpp:135
 #, fuzzy, kde-format
 #| msgid "Other clips"
 msgid "Other Clips"
 msgstr "다른 클립"
 
-#: src/project/dialogs/archivewidget.cpp:91
+#: src/project/dialogs/archivewidget.cpp:139
 #, fuzzy, kde-format
 #| msgid "Luma files"
 msgid "Luma Files"
 msgstr "광도 파일"
 
-#: src/project/dialogs/archivewidget.cpp:228
+#: src/project/dialogs/archivewidget.cpp:276
 #, kde-format
 msgid "You have %1 missing clip in your project."
 msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "프로젝트에 누락된 클립이 %1개 있습니다."
 
-#: src/project/dialogs/archivewidget.cpp:252
-#: src/project/dialogs/archivewidget.cpp:1463
-#: src/project/dialogs/archivewidget.cpp:1528
+#: src/project/dialogs/archivewidget.cpp:300
+#: src/project/dialogs/archivewidget.cpp:1531
+#: src/project/dialogs/archivewidget.cpp:1596
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(항목 %1개)"
 
-#: src/project/dialogs/archivewidget.cpp:258
-#: src/project/dialogs/archivewidget.cpp:1466
-#: src/project/dialogs/archivewidget.cpp:1531
+#: src/project/dialogs/archivewidget.cpp:306
+#: src/project/dialogs/archivewidget.cpp:1534
+#: src/project/dialogs/archivewidget.cpp:1599
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "압축할 파일 %1개, %2 필요함"
 
-#: src/project/dialogs/archivewidget.cpp:259
-#: src/project/dialogs/archivewidget.cpp:346
+#: src/project/dialogs/archivewidget.cpp:307
+#: src/project/dialogs/archivewidget.cpp:394
 #, kde-format
 msgid "Archive"
 msgstr "압축"
 
-#: src/project/dialogs/archivewidget.cpp:270
-#: src/project/dialogs/archivewidget.cpp:844
+#: src/project/dialogs/archivewidget.cpp:318
+#: src/project/dialogs/archivewidget.cpp:899
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "프로젝트 파일을 처리하는 중 오류가 발생했습니다"
 
-#: src/project/dialogs/archivewidget.cpp:277
+#: src/project/dialogs/archivewidget.cpp:325
 #, kde-format
 msgid "Please save your project before archiving"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:313
+#: src/project/dialogs/archivewidget.cpp:361
 #, kde-format
 msgid "Extract to"
 msgstr "압축 풀 위치"
 
-#: src/project/dialogs/archivewidget.cpp:314
+#: src/project/dialogs/archivewidget.cpp:362
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Archived Project"
 msgstr "보관된 프로젝트 열기"
 
-#: src/project/dialogs/archivewidget.cpp:316
+#: src/project/dialogs/archivewidget.cpp:364
 #, kde-format
 msgid "Extract"
 msgstr "압축 풀기"
 
-#: src/project/dialogs/archivewidget.cpp:351
+#: src/project/dialogs/archivewidget.cpp:399
 #, fuzzy, kde-format
 #| msgid "Opening archive..."
 msgid "Opening archive…"
 msgstr "압축 파일 여는 중..."
 
-#: src/project/dialogs/archivewidget.cpp:361
+#: src/project/dialogs/archivewidget.cpp:409
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -34110,7 +34796,12 @@ msgstr ""
 "압축 파일을 열 수 없음:\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:384
+#: src/project/dialogs/archivewidget.cpp:415
+#, kde-format
+msgid "Archive contains an unsafe path or symbolic link"
+msgstr ""
+
+#: src/project/dialogs/archivewidget.cpp:439
 #, kde-format
 msgid ""
 "File %1\n"
@@ -34119,75 +34810,75 @@ msgstr ""
 "%1 파일은\n"
 "압축된 Kdenlive 프로젝트가 아닙니다"
 
-#: src/project/dialogs/archivewidget.cpp:390
+#: src/project/dialogs/archivewidget.cpp:445
 #, kde-format
 msgid "Ready"
 msgstr "준비"
 
-#: src/project/dialogs/archivewidget.cpp:414
+#: src/project/dialogs/archivewidget.cpp:469
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "진행 중인 압축 처리를 중단하시겠습니까?"
 
-#: src/project/dialogs/archivewidget.cpp:414
-#: src/project/dialogs/archivewidget.cpp:415
+#: src/project/dialogs/archivewidget.cpp:469
+#: src/project/dialogs/archivewidget.cpp:470
 #, kde-format
 msgid "Stop Archiving"
 msgstr "압축 중단"
 
-#: src/project/dialogs/archivewidget.cpp:607
+#: src/project/dialogs/archivewidget.cpp:662
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "드라이브의 사용 가능한 공간: %1"
 
-#: src/project/dialogs/archivewidget.cpp:610
+#: src/project/dialogs/archivewidget.cpp:665
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "드라이브 공간 부족, 여유 공간: %1"
 
-#: src/project/dialogs/archivewidget.cpp:625
+#: src/project/dialogs/archivewidget.cpp:680
 #, kde-format
 msgid "Starting archive job"
 msgstr "압축 작업 시작 중"
 
-#: src/project/dialogs/archivewidget.cpp:646
+#: src/project/dialogs/archivewidget.cpp:701
 #, fuzzy, kde-format
 #| msgid "Archiving..."
 msgid "Archiving…"
 msgstr "압축 중..."
 
-#: src/project/dialogs/archivewidget.cpp:676
-#: src/project/dialogs/archivewidget.cpp:787
-#: src/project/dialogs/archivewidget.cpp:813
-#: src/project/dialogs/archivewidget.cpp:1304
+#: src/project/dialogs/archivewidget.cpp:731
+#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:868
+#: src/project/dialogs/archivewidget.cpp:1368
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "%1 디렉터리를 생성할 수 없음"
 
-#: src/project/dialogs/archivewidget.cpp:702
-#: src/project/dialogs/archivewidget.cpp:710
-#: src/project/dialogs/archivewidget.cpp:767
+#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:765
+#: src/project/dialogs/archivewidget.cpp:822
 #, kde-format
 msgid "Copying %1"
 msgstr "%1 복사 중"
 
-#: src/project/dialogs/archivewidget.cpp:806
-#: src/project/dialogs/archivewidget.cpp:903
+#: src/project/dialogs/archivewidget.cpp:861
+#: src/project/dialogs/archivewidget.cpp:958
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "임시 파일을 만들 수 없음"
 
-#: src/project/dialogs/archivewidget.cpp:842
+#: src/project/dialogs/archivewidget.cpp:897
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "프로젝트가 성공적으로 압축되었습니다."
 
-#: src/project/dialogs/archivewidget.cpp:852
+#: src/project/dialogs/archivewidget.cpp:907
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "파일을 복사하는 중 오류가 발생했습니다: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1221
+#: src/project/dialogs/archivewidget.cpp:1276
 #, fuzzy, kde-format
 #| msgid ""
 #| "Cannot open archive file:\n"
@@ -34197,18 +34888,18 @@ msgstr ""
 "압축 파일을 열 수 없음:\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1238
+#: src/project/dialogs/archivewidget.cpp:1293
 #, kde-format
 msgid "Archiving %1"
 msgstr "%1 압축 중"
 
-#: src/project/dialogs/archivewidget.cpp:1244
+#: src/project/dialogs/archivewidget.cpp:1299
 #, fuzzy, kde-format
 #| msgid "Cannot open file %1"
 msgid "Cannot copy file %1 to %2."
 msgstr "%1 파일을 열 수 없음"
 
-#: src/project/dialogs/archivewidget.cpp:1274
+#: src/project/dialogs/archivewidget.cpp:1329
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -34217,32 +34908,43 @@ msgstr ""
 "프로젝트가 성공적으로 압축되었습니다.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1277
+#: src/project/dialogs/archivewidget.cpp:1332
 #, fuzzy, kde-format
 #| msgid "Unknown"
 msgid "Unknown Error"
 msgstr "알 수 없음"
 
-#: src/project/dialogs/archivewidget.cpp:1277
+#: src/project/dialogs/archivewidget.cpp:1332
 #, fuzzy, kde-format
 #| msgid "There was an error while copying the files: %1"
 msgid "There was an error while archiving the project: %1"
 msgstr "파일을 복사하는 중 오류가 발생했습니다: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1306
+#: src/project/dialogs/archivewidget.cpp:1358
+#, kde-format
+msgid ""
+"Extraction destination must be a directory and must not be a symbolic link"
+msgstr ""
+
+#: src/project/dialogs/archivewidget.cpp:1364
+#, kde-format
+msgid "Extraction destination must be empty"
+msgstr ""
+
+#: src/project/dialogs/archivewidget.cpp:1374
 #, fuzzy, kde-format
 #| msgid "Extracting..."
 msgid "Extracting…"
 msgstr "압축 푸는 중..."
 
-#: src/project/dialogs/archivewidget.cpp:1333
-#: src/project/dialogs/archivewidget.cpp:1383
+#: src/project/dialogs/archivewidget.cpp:1401
+#: src/project/dialogs/archivewidget.cpp:1451
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "%1 프로젝트 파일을 열 수 없음"
 
-#: src/project/dialogs/archivewidget.cpp:1333
-#: src/project/dialogs/archivewidget.cpp:1383
+#: src/project/dialogs/archivewidget.cpp:1401
+#: src/project/dialogs/archivewidget.cpp:1451
 #, kde-format
 msgid "Cannot open file"
 msgstr "파일을 열 수 없음"
@@ -34263,34 +34965,88 @@ msgstr "폴더에 모든 백업 파일 표시"
 msgid "Showing backup files for %1"
 msgstr "%1의 백업 파일 표시"
 
-#: src/project/dialogs/guidecategories.cpp:41
+#: src/project/dialogs/guidecategories.cpp:31
+#, fuzzy, kde-format
+#| msgid "Project Bin"
+msgid "Project Bin Tags"
+msgstr "프로젝트 보관함"
+
+#: src/project/dialogs/guidecategories.cpp:34
+#, fuzzy, kde-format
+#| msgid "&Delete"
+msgid "Delete Tag"
+msgstr "삭제(&D)"
+
+#: src/project/dialogs/guidecategories.cpp:36
+#, fuzzy, kde-format
+#| msgid "Project Bin"
+msgid "Add a Project Bin tag"
+msgstr "프로젝트 보관함"
+
+#: src/project/dialogs/guidecategories.cpp:37
+#, fuzzy, kde-format
+#| msgid "No clip selected in project bin"
+msgid "Edit the selected Project Bin tag"
+msgstr "프로젝트 보관함에서 선택한 클립이 없음"
+
+#: src/project/dialogs/guidecategories.cpp:38
+#, fuzzy, kde-format
+#| msgid "Delete selected text"
+msgid "Delete the selected Project Bin tag"
+msgstr "선택한 텍스트 삭제"
+
+#: src/project/dialogs/guidecategories.cpp:52
+#, fuzzy, kde-format
+#| msgid "Project Bin"
+msgid "Edit Project Bin Tag"
+msgstr "프로젝트 보관함"
+
+#: src/project/dialogs/guidecategories.cpp:52
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Edit Marker Category"
 msgstr "마커 편집"
 
-#: src/project/dialogs/guidecategories.cpp:56
+#: src/project/dialogs/guidecategories.cpp:67
 #, kde-format
 msgid "This color is already used in another category"
 msgstr ""
 
-#: src/project/dialogs/guidecategories.cpp:132
+#: src/project/dialogs/guidecategories.cpp:158
+#, fuzzy, kde-format
+#| msgid "Custom"
+msgid "Custom Tag"
+msgstr "사용자 정의"
+
+#: src/project/dialogs/guidecategories.cpp:170
+#, fuzzy, kde-format
+#| msgid "Automatic"
+msgid "Custom Tag (%1)"
+msgstr "자동"
+
+#: src/project/dialogs/guidecategories.cpp:173
 #, kde-format
 msgid "Category %1"
 msgstr "분류 %1"
 
-#: src/project/dialogs/guidecategories.cpp:151
+#: src/project/dialogs/guidecategories.cpp:194
+#, fuzzy, kde-format
+#| msgid "Project Bin %1"
+msgid "Delete Project Bin Tag"
+msgstr "프로젝트 보관함 %1"
+
+#: src/project/dialogs/guidecategories.cpp:194
 #, fuzzy, kde-format
 #| msgid "Edit Marker"
 msgid "Delete Marker Category"
 msgstr "마커 편집"
 
-#: src/project/dialogs/guidecategories.cpp:156
+#: src/project/dialogs/guidecategories.cpp:199
 #, kde-format
 msgid "Delete the %1 markers using this category"
 msgstr ""
 
-#: src/project/dialogs/guidecategories.cpp:157
+#: src/project/dialogs/guidecategories.cpp:200
 #, kde-format
 msgid "Reassign the markers to :"
 msgstr ""
@@ -38345,9 +39101,9 @@ msgstr "%"
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyscale)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimageminsize)
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_proxyimagesize)
-#: src/titler/titlewidget.cpp:231 src/ui/configproxy_ui.ui:43
-#: src/ui/configproxy_ui.ui:63 src/ui/configproxy_ui.ui:110
-#: src/ui/configproxy_ui.ui:133
+#: src/titler/titlewidget.cpp:231 src/ui/configproxy_ui.ui:50
+#: src/ui/configproxy_ui.ui:70 src/ui/configproxy_ui.ui:127
+#: src/ui/configproxy_ui.ui:150
 #, fuzzy, kde-format
 #| msgid "pixels"
 msgid " pixels"
@@ -39441,7 +40197,7 @@ msgstr "현재 지점 삭제"
 #: src/ui/collapsiblewidget_ui.ui:176 src/ui/collapsiblewidget_ui.ui:189
 #: src/ui/collapsiblewidget_ui.ui:202 src/ui/collapsiblewidget_ui.ui:215
 #: src/ui/collapsiblewidget_ui.ui:225 src/ui/collapsiblewidget_ui.ui:235
-#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:161
+#: src/ui/configjogshuttle_ui.ui:82 src/ui/configproxy_ui.ui:185
 #: src/ui/configsdl_ui.ui:171 src/ui/configspeech_ui.ui:980
 #: src/ui/customcamcorderproxy_ui.ui:97 src/ui/customcamcorderproxy_ui.ui:111
 #: src/ui/customcamcorderproxy_ui.ui:138 src/ui/cutjobdialog_ui.ui:84
@@ -39470,7 +40226,7 @@ msgstr "현재 지점 삭제"
 #: src/ui/projectsettings_ui.ui:531 src/ui/projectsettings_ui.ui:541
 #: src/ui/projectsettings_ui.ui:558 src/ui/projectsettings_ui.ui:640
 #: src/ui/projectsettings_ui.ui:647 src/ui/qtextclip_ui.ui:94
-#: src/ui/renderwidget_ui.ui:1052 src/ui/resourcewidget_ui.ui:214
+#: src/ui/renderwidget_ui.ui:1049 src/ui/resourcewidget_ui.ui:214
 #: src/ui/resourcewidget_ui.ui:281 src/ui/speechdialog_ui.ui:216
 #: src/ui/textbasededit_ui.ui:42 src/ui/textbasededit_ui.ui:70
 #: src/ui/textbasededit_ui.ui:139 src/ui/textbasededit_ui.ui:162
@@ -39880,7 +40636,7 @@ msgstr "커서 숨기기"
 #. i18n: ectx: property (text), widget (QLabel, label_screengrab)
 #. i18n: ectx: property (text), widget (QLabel, label_16)
 #: src/ui/configcapture_ui.ui:240 src/ui/configcapture_ui.ui:293
-#: src/ui/configproxy_ui.ui:82 src/ui/projectsettings_ui.ui:331
+#: src/ui/configproxy_ui.ui:89 src/ui/projectsettings_ui.ui:331
 #, fuzzy, kde-format
 #| msgid "Encoding profile"
 msgid "Encoding profile:"
@@ -39989,49 +40745,49 @@ msgid "Monitor grid"
 msgstr "모니터"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_color)
-#: src/ui/configcolors_ui.ui:112
+#: src/ui/configcolors_ui.ui:96
 #, fuzzy, kde-format
 #| msgid "Video clip"
 msgid "Video clip color:"
 msgstr "동영상 클립"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_color)
-#: src/ui/configcolors_ui.ui:126
+#: src/ui/configcolors_ui.ui:110
 #, fuzzy, kde-format
 #| msgid "Audio clips"
 msgid "Audio clip color:"
 msgstr "오디오 클립"
 
 #. i18n: ectx: property (text), widget (QLabel, label_title_color)
-#: src/ui/configcolors_ui.ui:140
+#: src/ui/configcolors_ui.ui:124
 #, fuzzy, kde-format
 #| msgid "Title clips"
 msgid "Title clip color:"
 msgstr "타이틀 클립"
 
 #. i18n: ectx: property (text), widget (QLabel, label_image_color)
-#: src/ui/configcolors_ui.ui:154
+#: src/ui/configcolors_ui.ui:138
 #, fuzzy, kde-format
 #| msgid "Image clips"
 msgid "Image clip color:"
 msgstr "이미지 클립"
 
 #. i18n: ectx: property (text), widget (QLabel, label_slideshow_color)
-#: src/ui/configcolors_ui.ui:168
+#: src/ui/configcolors_ui.ui:152
 #, fuzzy, kde-format
 #| msgid "Slideshow clip"
 msgid "Slideshow clip color:"
 msgstr "슬라이드 쇼 클립"
 
 #. i18n: ectx: property (text), widget (QPushButton, resetClipColors)
-#: src/ui/configcolors_ui.ui:182
+#: src/ui/configcolors_ui.ui:166
 #, fuzzy, kde-format
 #| msgid "Turn clip colors to sepia"
 msgid "Reset clip colors to default"
 msgstr "클립 색상을 세피아로 바꿈"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configcolors_ui.ui:202
+#: src/ui/configcolors_ui.ui:186
 #, fuzzy, kde-format
 #| msgid "Monitor config"
 msgid "Monitor safe zone:"
@@ -40104,76 +40860,96 @@ msgstr "업데이트 확인"
 msgid "Prevent sleep when playing and rendering"
 msgstr ""
 
-#. i18n: ectx: property (text), widget (QCheckBox, dragFromTitlebarOnly)
+#. i18n: ectx: property (text), widget (QLabel, label_lowMemoryThreshold)
 #: src/ui/configenv_ui.ui:128
+#, kde-format
+msgid "Warn when free memory during rendering is below:"
+msgstr ""
+
+#. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_lowMemoryThreshold)
+#: src/ui/configenv_ui.ui:141
+#, fuzzy, kde-format
+#| msgid "0 B"
+msgid " MB"
+msgstr "0 B"
+
+#. i18n: ectx: property (text), widget (KMessageWidget, lowMemoryWarning)
+#: src/ui/configenv_ui.ui:172
+#, kde-format
+msgid ""
+"Setting the value too low can lead to renders being aborted without warning."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, dragFromTitlebarOnly)
+#: src/ui/configenv_ui.ui:190
 #, kde-format
 msgid "Drag window from titlebar only"
 msgstr ""
 
 #. i18n: ectx: property (contextualHelpText), widget (KContextualHelpButton, kcontextualhelpbutton)
-#: src/ui/configenv_ui.ui:135
+#: src/ui/configenv_ui.ui:197
 #, kde-format
 msgid "This will apply to all KDE applications using the Breeze style."
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/configenv_ui.ui:161
+#: src/ui/configenv_ui.ui:223
 #, fuzzy, kde-format
 #| msgid "MLT environment"
 msgid "MLT Environment"
 msgstr "MLT 환경"
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: src/ui/configenv_ui.ui:167
+#: src/ui/configenv_ui.ui:229
 #, fuzzy, kde-format
 #| msgid "FFmpeg"
 msgid "FFmpeg:"
 msgstr "FFmpeg"
 
 #. i18n: ectx: property (text), widget (QLabel, label_13)
-#: src/ui/configenv_ui.ui:177
+#: src/ui/configenv_ui.ui:239
 #, fuzzy, kde-format
 #| msgid "FFplay"
 msgid "FFplay:"
 msgstr "FFplay"
 
 #. i18n: ectx: property (text), widget (QLabel, label_14)
-#: src/ui/configenv_ui.ui:187
+#: src/ui/configenv_ui.ui:249
 #, fuzzy, kde-format
 #| msgid "FFprobe"
 msgid "FFprobe:"
 msgstr "FFprobe"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configenv_ui.ui:197
+#: src/ui/configenv_ui.ui:259
 #, fuzzy, kde-format
 #| msgid "MLT profiles folder"
 msgid "MLT profiles folder:"
 msgstr "MLT 프로필 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/configenv_ui.ui:207
+#: src/ui/configenv_ui.ui:269
 #, fuzzy, kde-format
 #| msgid "Melt path"
 msgid "Melt path:"
 msgstr "Melt 경로"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
-#: src/ui/configenv_ui.ui:231
+#: src/ui/configenv_ui.ui:293
 #, fuzzy, kde-format
 #| msgid "Default folders"
 msgid "Default Folders"
 msgstr "기본 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configenv_ui.ui:237
+#: src/ui/configenv_ui.ui:299
 #, fuzzy, kde-format
 #| msgid "Temporary files"
 msgid "Temporary files:"
 msgstr "임시 파일"
 
 #. i18n: ectx: property (text), widget (QLabel, label_10)
-#: src/ui/configenv_ui.ui:247
+#: src/ui/configenv_ui.ui:309
 #, fuzzy, kde-format
 #| msgid "Capture folder"
 msgid "Capture folder:"
@@ -40182,15 +40958,15 @@ msgstr "캡처 폴더"
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_librarytodefaultfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:255 src/ui/configenv_ui.ui:299
-#: src/ui/configenv_ui.ui:323
+#: src/ui/configenv_ui.ui:317 src/ui/configenv_ui.ui:361
+#: src/ui/configenv_ui.ui:385
 #, kde-format
 msgid "Use default folder"
 msgstr "기본 폴더 사용"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:260 src/ui/configenv_ui.ui:328
+#: src/ui/configenv_ui.ui:322 src/ui/configenv_ui.ui:390
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use project folder"
@@ -40198,55 +40974,55 @@ msgstr "프로젝트 폴더 사용"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
-#: src/ui/configenv_ui.ui:265 src/ui/configenv_ui.ui:333
+#: src/ui/configenv_ui.ui:327 src/ui/configenv_ui.ui:395
 #, kde-format
 msgid "Always use custom folder"
 msgstr ""
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
-#: src/ui/configenv_ui.ui:270
+#: src/ui/configenv_ui.ui:332
 #, fuzzy, kde-format
 #| msgid "Use project folder"
 msgid "Always use a custom subfolder of project folder"
 msgstr "프로젝트 폴더 사용"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_captureprojectsubfolder)
-#: src/ui/configenv_ui.ui:280
+#: src/ui/configenv_ui.ui:342
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Subfolder of project folder"
 msgstr "기본 프로젝트 파일 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: src/ui/configenv_ui.ui:292
+#: src/ui/configenv_ui.ui:354
 #, fuzzy, kde-format
 #| msgid "Library folder"
 msgid "Library folder:"
 msgstr "라이브러리 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: src/ui/configenv_ui.ui:309
+#: src/ui/configenv_ui.ui:371
 #, fuzzy, kde-format
 #| msgid "Folder for titles, scripts"
 msgid "Folder for rendering, titles, scripts:"
 msgstr "타이틀, 스크립트용 폴더"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_3)
-#: src/ui/configenv_ui.ui:365
+#: src/ui/configenv_ui.ui:427
 #, fuzzy, kde-format
 #| msgid "Default apps"
 msgid "Default Apps"
 msgstr "기본 앱"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/configenv_ui.ui:371
+#: src/ui/configenv_ui.ui:433
 #, fuzzy, kde-format
 #| msgid "Image editing"
 msgid "Image editing:"
 msgstr "이미지 편집"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultimageapp)
-#: src/ui/configenv_ui.ui:380
+#: src/ui/configenv_ui.ui:442
 #, kde-format
 msgid "Path to image editing application"
 msgstr ""
@@ -40255,66 +41031,66 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QPushButton, kp_audio)
 #. i18n: ectx: property (text), widget (QPushButton, kp_anim)
 #. i18n: ectx: property (text), widget (QPushButton, kp_video)
-#: src/ui/configenv_ui.ui:390 src/ui/configenv_ui.ui:411
-#: src/ui/configenv_ui.ui:436 src/ui/configenv_ui.ui:461
+#: src/ui/configenv_ui.ui:452 src/ui/configenv_ui.ui:473
+#: src/ui/configenv_ui.ui:498 src/ui/configenv_ui.ui:523
 #, fuzzy, kde-format
 #| msgid "Change"
 msgid "Change…"
 msgstr "변경"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultaudioapp)
-#: src/ui/configenv_ui.ui:401
+#: src/ui/configenv_ui.ui:463
 #, kde-format
 msgid "Path to audio editing application"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_11)
-#: src/ui/configenv_ui.ui:420
+#: src/ui/configenv_ui.ui:482
 #, fuzzy, kde-format
 #| msgid "Audio editing"
 msgid "Audio editing:"
 msgstr "오디오 편집"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_glaxnimatePath)
-#: src/ui/configenv_ui.ui:429
+#: src/ui/configenv_ui.ui:491
 #, kde-format
 msgid "Path to Glaxnimate executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_7)
-#: src/ui/configenv_ui.ui:445
+#: src/ui/configenv_ui.ui:507
 #, fuzzy, kde-format
 #| msgid "Frame duration"
 msgid "Animation editing:"
 msgstr "프레임 지속 시간"
 
 #. i18n: ectx: property (placeholderText), widget (QLineEdit, kcfg_defaultvideoapp)
-#: src/ui/configenv_ui.ui:454
+#: src/ui/configenv_ui.ui:516
 #, kde-format
 msgid "Path to video editor executable"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: src/ui/configenv_ui.ui:470
+#: src/ui/configenv_ui.ui:532
 #, fuzzy, kde-format
 #| msgid "Audio editing"
 msgid "Video editing:"
 msgstr "오디오 편집"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/configenv_ui.ui:491
+#: src/ui/configenv_ui.ui:553
 #, kde-format
 msgid "Mime types"
 msgstr "MIME 형식"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/configenv_ui.ui:497
+#: src/ui/configenv_ui.ui:559
 #, kde-format
 msgid "Additional clip MIME types"
 msgstr "추가 클립 MIME 형식"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/ui/configenv_ui.ui:511
+#: src/ui/configenv_ui.ui:573
 #, kde-format
 msgid "Supported clip MIME types"
 msgstr "지원하는 클립 MIME 형식"
@@ -40630,38 +41406,30 @@ msgstr "믹스"
 msgid "Subtitles:"
 msgstr "자막"
 
-#. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
-#: src/ui/configproject_ui.ui:24 src/ui/configproxy_ui.ui:225
-#, kde-format
-msgid ""
-"These are the default settings for new projects. To edit the parameters of "
-"the current project, use the project settings."
-msgstr ""
-
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #. i18n: ectx: property (text), widget (QLabel, label_project_folder)
-#: src/ui/configproject_ui.ui:40 src/ui/projectsettings_ui.ui:78
+#: src/ui/configproject_ui.ui:24 src/ui/projectsettings_ui.ui:78
 #, fuzzy, kde-format
 #| msgid "Project folder: %1"
 msgid "Project folder:"
 msgstr "프로젝트 폴더: %1"
 
 #. i18n: ectx: property (text), widget (QRadioButton, sameproject_folder)
-#: src/ui/configproject_ui.ui:57
+#: src/ui/configproject_ui.ui:41
 #, fuzzy, kde-format
 #| msgid "Default folder for project files"
 msgid "Parent folder of project file"
 msgstr "기본 프로젝트 파일 폴더"
 
 #. i18n: ectx: property (text), widget (QRadioButton, customproject_folder)
-#: src/ui/configproject_ui.ui:66
+#: src/ui/configproject_ui.ui:50
 #, fuzzy, kde-format
 #| msgid "Custom project folder"
 msgid "Custom project folder:"
 msgstr "사용자 정의 프로젝트 폴더"
 
 #. i18n: ectx: property (text), widget (QLabel, label_video_tracks)
-#: src/ui/configproject_ui.ui:96 src/ui/newtimeline_ui.ui:67
+#: src/ui/configproject_ui.ui:87 src/ui/newtimeline_ui.ui:67
 #: src/ui/projectsettings_ui.ui:139
 #, fuzzy, kde-format
 #| msgid "Video tracks"
@@ -40669,7 +41437,7 @@ msgid "Video tracks:"
 msgstr "동영상 트랙"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_tracks)
-#: src/ui/configproject_ui.ui:106 src/ui/newtimeline_ui.ui:60
+#: src/ui/configproject_ui.ui:97 src/ui/newtimeline_ui.ui:60
 #: src/ui/projectsettings_ui.ui:149
 #, fuzzy, kde-format
 #| msgid "Audio tracks"
@@ -40677,67 +41445,105 @@ msgid "Audio tracks:"
 msgstr "오디오 트랙"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
-#: src/ui/configproject_ui.ui:124
+#: src/ui/configproject_ui.ui:115
 #, kde-format
 msgid "2 channels (stereo)"
 msgstr "2채널(스테레오)"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
-#: src/ui/configproject_ui.ui:129
+#: src/ui/configproject_ui.ui:120
 #, kde-format
 msgid "4 channels"
 msgstr "4채널"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_audio_channels)
-#: src/ui/configproject_ui.ui:134
+#: src/ui/configproject_ui.ui:125
 #, kde-format
 msgid "6 channels"
 msgstr "6채널"
 
 #. i18n: ectx: property (text), widget (QLabel, label_preview_profile)
-#: src/ui/configproject_ui.ui:148
+#: src/ui/configproject_ui.ui:139
 #, fuzzy, kde-format
 #| msgid "Timeline Preview"
 msgid "Timeline Preview profile:"
 msgstr "타임라인 미리 보기"
 
+#. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
+#: src/ui/configprojectdefaults_ui.ui:21
+#, kde-format
+msgid ""
+"These are the default settings for new projects. To edit the parameters of "
+"the current project, use the project settings."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
+#. i18n: ectx: attribute (title), widget (QWidget, tab)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_settings)
+#: src/ui/configprojectdefaults_ui.ui:41 src/ui/histogram_ui.ui:69
+#: src/ui/projectsettings_ui.ui:41 src/ui/rgbparade_ui.ui:72
+#: src/ui/vectorscope_ui.ui:119 src/ui/waveform_ui.ui:69
+#, kde-format
+msgid "Settings"
+msgstr "설정"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
+#. i18n: ectx: attribute (title), widget (QWidget, tab_proxy)
+#: src/ui/configprojectdefaults_ui.ui:47 src/ui/projectsettings_ui.ui:233
+#, kde-format
+msgid "Proxy"
+msgstr "프록시"
+
+#. i18n: ectx: attribute (title), widget (QWidget, tab_markers)
+#: src/ui/configprojectdefaults_ui.ui:53
+#, fuzzy, kde-format
+#| msgid "Category"
+msgid "Markers and Tags"
+msgstr "분류"
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
+#: src/ui/configproxy_ui.ui:21
+#, kde-format
+msgid "Enable proxy clips"
+msgstr "프록시 클립 사용"
+
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateproxy)
-#: src/ui/configproxy_ui.ui:36
+#: src/ui/configproxy_ui.ui:43
 #, fuzzy, kde-format
 #| msgid "Generate for videos larger than"
 msgid "Generate for videos larger than:"
 msgstr "다음보다 큰 동영상인 경우 생성"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/configproxy_ui.ui:56
+#: src/ui/configproxy_ui.ui:63
 #, fuzzy, kde-format
 #| msgid "Proxy video resize (width)"
 msgid "Proxy video resize (width):"
 msgstr "프록시 동영상 크기 조정(너비)"
 
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
+#. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configproxy_ui.ui:103
+#, fuzzy, kde-format
+#| msgid "copied to the alpha channel."
+msgid "Profile for clips with alpha channel:"
+msgstr "알파 채널에 복사되었습니다."
+
+#. i18n: ectx: property (text), widget (QCheckBox, kcfg_generateimageproxy)
+#: src/ui/configproxy_ui.ui:120
 #, fuzzy, kde-format
 #| msgid "Generate for images larger than"
 msgid "Generate for images larger than:"
 msgstr "다음보다 큰 이미지인 경우 생성"
 
 #. i18n: ectx: property (text), widget (QLabel, image_label)
-#: src/ui/configproxy_ui.ui:126
+#: src/ui/configproxy_ui.ui:143
 #, fuzzy, kde-format
 #| msgid "Proxy image size"
 msgid "Proxy image size:"
 msgstr "프록시 이미지 크기"
 
-#. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/configproxy_ui.ui:173
-#, fuzzy, kde-format
-#| msgid "copied to the alpha channel."
-msgid "Profile for clips with alpha channel:"
-msgstr "알파 채널에 복사되었습니다."
-
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_externalproxy)
-#: src/ui/configproxy_ui.ui:183
+#: src/ui/configproxy_ui.ui:173
 #, fuzzy, kde-format
 #| msgid "Remove proxy clip"
 #| msgid_plural "Remove proxy clips"
@@ -40745,16 +41551,10 @@ msgid "Camcorder proxy clips:"
 msgstr "프록시 클립 삭제"
 
 #. i18n: ectx: property (title), widget (KCollapsibleGroupBox, kcollapsiblegroupbox)
-#: src/ui/configproxy_ui.ui:193
+#: src/ui/configproxy_ui.ui:203
 #, kde-format
 msgid "Allowed FFmpeg parameters for proxy clips"
 msgstr ""
-
-#. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
-#: src/ui/configproxy_ui.ui:218
-#, kde-format
-msgid "Enable proxy clips"
-msgstr "프록시 클립 사용"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configsdl_ui.ui:21
@@ -41954,15 +42754,6 @@ msgstr "검색 중단됨"
 msgid "KSqueezedTextLabel"
 msgstr "텍스트 레이블"
 
-#. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
-#. i18n: ectx: attribute (title), widget (QWidget, tab)
-#: src/ui/histogram_ui.ui:69 src/ui/projectsettings_ui.ui:41
-#: src/ui/rgbparade_ui.ui:72 src/ui/vectorscope_ui.ui:119
-#: src/ui/waveform_ui.ui:69
-#, kde-format
-msgid "Settings"
-msgstr "설정"
-
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/import_subtitle_ui.ui:51
 #, fuzzy, kde-format
@@ -42631,7 +43422,7 @@ msgstr "D"
 
 #. i18n: ectx: property (text), widget (QLabel, xLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:561
+#: src/ui/profiledialog_ui.ui:153 src/ui/renderwidget_ui.ui:558
 #, kde-format
 msgid "x"
 msgstr "x"
@@ -42755,12 +43546,6 @@ msgstr "6채널"
 #| msgid "Timeline Preview"
 msgid "Timeline Preview:"
 msgstr "타임라인 미리 보기"
-
-#. i18n: ectx: attribute (title), widget (QWidget, tab_4)
-#: src/ui/projectsettings_ui.ui:233
-#, kde-format
-msgid "Proxy"
-msgstr "프록시"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:264
@@ -42947,203 +43732,197 @@ msgstr "저장(&S)"
 msgid "Download New Render Presets…"
 msgstr "새 렌더링 프로필 다운로드..."
 
-#. i18n: ectx: property (configFile), widget (KNSWidgets::Button, m_knsbutton)
-#: src/ui/renderwidget_ui.ui:150
-#, kde-format
-msgid ":data/kdenlive_renderprofiles.knsrc"
-msgstr ""
-
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:167
+#: src/ui/renderwidget_ui.ui:164
 #, kde-format
 msgid "Save current preset as new custom preset"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSaveAs)
-#: src/ui/renderwidget_ui.ui:170
+#: src/ui/renderwidget_ui.ui:167
 #, kde-format
 msgid "&Favorite"
 msgstr "책갈피(&F)"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:186
+#: src/ui/renderwidget_ui.ui:183
 #, fuzzy, kde-format
 #| msgid "Edit Streams"
 msgid "Edit preset"
 msgstr "스트림 편집"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonEdit)
-#: src/ui/renderwidget_ui.ui:189
+#: src/ui/renderwidget_ui.ui:186
 #, kde-format
 msgid "&Edit"
 msgstr "편집(&E)"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonDelete)
-#: src/ui/renderwidget_ui.ui:208
+#: src/ui/renderwidget_ui.ui:205
 #, kde-format
 msgid "&Delete"
 msgstr "삭제(&D)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, options)
-#: src/ui/renderwidget_ui.ui:244
+#: src/ui/renderwidget_ui.ui:241
 #, kde-format
 msgid "More options"
 msgstr "옵션 더 보기"
 
 #. i18n: ectx: property (title), widget (QGroupBox, guide_multi_box)
-#: src/ui/renderwidget_ui.ui:253
+#: src/ui/renderwidget_ui.ui:250
 #, fuzzy, kde-format
 #| msgid "Category"
 msgid "Markers Multi-Export"
 msgstr "분류"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: src/ui/renderwidget_ui.ui:265
+#: src/ui/renderwidget_ui.ui:262
 #, kde-format
 msgid "Markers to use as separator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, outfileLabel)
-#: src/ui/renderwidget_ui.ui:290
+#: src/ui/renderwidget_ui.ui:287
 #, kde-format
 msgid "Output file"
 msgstr "출력 파일"
 
 #. i18n: ectx: property (toolTip), widget (KUrlRequester, out_file)
-#: src/ui/renderwidget_ui.ui:300
+#: src/ui/renderwidget_ui.ui:297
 #, kde-format
 msgid "Select output destination"
 msgstr "출력 대상 선택"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_full)
-#: src/ui/renderwidget_ui.ui:334
+#: src/ui/renderwidget_ui.ui:331
 #, kde-format
 msgid "Fu&ll project"
 msgstr "전체 프로젝트(&L)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_zone)
-#: src/ui/renderwidget_ui.ui:344
+#: src/ui/renderwidget_ui.ui:341
 #, kde-format
 msgid "Selected &zone"
 msgstr "선택한 영역(&Z)"
 
 #. i18n: ectx: property (text), widget (QRadioButton, render_guide)
-#: src/ui/renderwidget_ui.ui:351
+#: src/ui/renderwidget_ui.ui:348
 #, fuzzy, kde-format
 #| msgid "Marker 2"
 msgid "&Marker zone"
 msgstr "마커 2"
 
 #. i18n: ectx: property (text), widget (QLabel, toLabel)
-#: src/ui/renderwidget_ui.ui:379
+#: src/ui/renderwidget_ui.ui:376
 #, kde-format
 msgid "to"
 msgstr "끝"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonRender)
-#: src/ui/renderwidget_ui.ui:418
+#: src/ui/renderwidget_ui.ui:415
 #, kde-format
 msgid "Render to File"
 msgstr "파일로 렌더링"
 
 #. i18n: ectx: property (text), widget (QPushButton, buttonGenerateScript)
-#: src/ui/renderwidget_ui.ui:425
+#: src/ui/renderwidget_ui.ui:422
 #, kde-format
 msgid "Generate Script"
 msgstr "스크립트 생성"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_full_color)
-#: src/ui/renderwidget_ui.ui:502
+#: src/ui/renderwidget_ui.ui:499
 #, fuzzy, kde-format
 #| msgid "Select fill color"
 msgid "Render full color range"
 msgstr "채우기 색 선택"
 
 #. i18n: ectx: property (text), widget (QCheckBox, render_at_preview_res)
-#: src/ui/renderwidget_ui.ui:509
+#: src/ui/renderwidget_ui.ui:506
 #, fuzzy, kde-format
 #| msgid "Preview Resolution"
 msgid "Render at Preview Resolution"
 msgstr "미리 보기 해상도"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
-#: src/ui/renderwidget_ui.ui:516
+#: src/ui/renderwidget_ui.ui:513
 #, fuzzy, kde-format
 #| msgid "Proxy Clips"
 msgid "Use Proxy Clips"
 msgstr "프록시 클립"
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: src/ui/renderwidget_ui.ui:523
+#: src/ui/renderwidget_ui.ui:520
 #, fuzzy, kde-format
 #| msgid "Rescale"
 msgid "Rescale:"
 msgstr "다시 크기 조절"
 
 #. i18n: ectx: property (text), widget (QCheckBox, rescale)
-#: src/ui/renderwidget_ui.ui:530
+#: src/ui/renderwidget_ui.ui:527
 #, fuzzy, kde-format
 #| msgid "Enable %1"
 msgid "Enabled"
 msgstr "%1 활성화"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/ui/renderwidget_ui.ui:599
+#: src/ui/renderwidget_ui.ui:596
 #, fuzzy, kde-format
 #| msgid "Overlay"
 msgid "Overlay:"
 msgstr "오버레이"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/ui/renderwidget_ui.ui:633
+#: src/ui/renderwidget_ui.ui:630
 #, fuzzy, kde-format
 #| msgid "Aspect ratio"
 msgid "Aspect Ratio:"
 msgstr "종횡 비율"
 
 #. i18n: ectx: property (text), widget (QCheckBox, stemAudioExport)
-#: src/ui/renderwidget_ui.ui:655
+#: src/ui/renderwidget_ui.ui:652
 #, fuzzy, kde-format
 #| msgid "Fade in audio track"
 msgid "Separate file for each audio track"
 msgstr "오디오 트랙 페이드 인"
 
 #. i18n: ectx: property (title), widget (QGroupBox, qualityGroup)
-#: src/ui/renderwidget_ui.ui:665
+#: src/ui/renderwidget_ui.ui:662
 #, fuzzy, kde-format
 #| msgid "Quality"
 msgid "Custom Quality"
 msgstr "품질"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/ui/renderwidget_ui.ui:679
+#: src/ui/renderwidget_ui.ui:676
 #, fuzzy, kde-format
 #| msgid "Log"
 msgid "Low"
 msgstr "로그"
 
 #. i18n: ectx: property (toolTip), widget (QSlider, quality)
-#: src/ui/renderwidget_ui.ui:692
+#: src/ui/renderwidget_ui.ui:689
 #, fuzzy, kde-format
 #| msgid "Compromise file size versus quality"
 msgid "Compromise file size versus quality."
 msgstr "파일 크기와 품질 균형 조정"
 
 #. i18n: ectx: property (text), widget (QLabel, qualityPercent)
-#: src/ui/renderwidget_ui.ui:711
+#: src/ui/renderwidget_ui.ui:708
 #, fuzzy, no-c-format, kde-format
 #| msgid "50%"
 msgid "75%"
 msgstr "50%"
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: src/ui/renderwidget_ui.ui:718
+#: src/ui/renderwidget_ui.ui:715
 #, kde-format
 msgid "High"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, encoder_box)
-#: src/ui/renderwidget_ui.ui:730
+#: src/ui/renderwidget_ui.ui:727
 #, fuzzy, kde-format
 #| msgid "Encoder speed"
 msgid "Encoder"
@@ -43151,7 +43930,7 @@ msgstr "인코더 속도"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, speedLabel)
 #. i18n: ectx: property (toolTip), widget (QSlider, speed)
-#: src/ui/renderwidget_ui.ui:736 src/ui/renderwidget_ui.ui:752
+#: src/ui/renderwidget_ui.ui:733 src/ui/renderwidget_ui.ui:749
 #, fuzzy, kde-format
 #| msgid ""
 #| "For a given quality, tune the compromise between encoding time and output "
@@ -43164,7 +43943,7 @@ msgstr ""
 "라지면 파일이 커짐)"
 
 #. i18n: ectx: property (text), widget (QLabel, speedLabel)
-#: src/ui/renderwidget_ui.ui:739
+#: src/ui/renderwidget_ui.ui:736
 #, fuzzy, kde-format
 #| msgid "Speed"
 msgid "Speed:"
@@ -43172,116 +43951,116 @@ msgstr "속도"
 
 #. i18n: ectx: property (text), widget (QLabel, threadsLabel)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/ui/renderwidget_ui.ui:771 src/ui/renderwidget_ui.ui:806
+#: src/ui/renderwidget_ui.ui:768 src/ui/renderwidget_ui.ui:803
 #, kde-format
 msgid "Threads:"
 msgstr "스레드:"
 
 #. i18n: ectx: property (toolTip), widget (QSpinBox, encoder_threads)
-#: src/ui/renderwidget_ui.ui:784
+#: src/ui/renderwidget_ui.ui:781
 #, fuzzy, kde-format
 #| msgid "Decoding threads"
 msgid "Encoding threads"
 msgstr "디코딩 스레드 수"
 
 #. i18n: ectx: property (title), widget (QGroupBox, processing_box)
-#: src/ui/renderwidget_ui.ui:797
+#: src/ui/renderwidget_ui.ui:794
 #, fuzzy, kde-format
 #| msgid "Parallel processing (experimental!)"
 msgid "Parallel Processing"
 msgstr "병렬 처리(실험적!)"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, processing_warning)
-#: src/ui/renderwidget_ui.ui:820
+#: src/ui/renderwidget_ui.ui:817
 #, fuzzy, kde-format
 #| msgid "Parallel processing (experimental!)"
 msgid "Parallel processing may cause render artifacts"
 msgstr "병렬 처리(실험적!)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, checkTwoPass)
-#: src/ui/renderwidget_ui.ui:836
+#: src/ui/renderwidget_ui.ui:833
 #, kde-format
 msgid "2 pass"
 msgstr "2패스"
 
 #. i18n: ectx: property (text), widget (QCheckBox, export_meta)
-#: src/ui/renderwidget_ui.ui:845
+#: src/ui/renderwidget_ui.ui:842
 #, kde-format
 msgid "Export metadata"
 msgstr "메타데이터 내보내기"
 
 #. i18n: ectx: property (text), widget (QLabel, edit_metadata)
-#: src/ui/renderwidget_ui.ui:852
+#: src/ui/renderwidget_ui.ui:849
 #, kde-format
 msgid "<a href=\"#\">Edit metadata</a>"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, embed_subtitles)
-#: src/ui/renderwidget_ui.ui:877
+#: src/ui/renderwidget_ui.ui:874
 #, kde-format
 msgid "Embed subtitles instead of burning them"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, open_browser)
-#: src/ui/renderwidget_ui.ui:884
+#: src/ui/renderwidget_ui.ui:881
 #, fuzzy, kde-format
 #| msgid "Open browser window after export"
 msgid "Open folder after export"
 msgstr "내보내기가 끝난 후 브라우저 창 열기"
 
 #. i18n: ectx: property (text), widget (QCheckBox, play_after)
-#: src/ui/renderwidget_ui.ui:891
+#: src/ui/renderwidget_ui.ui:888
 #, kde-format
 msgid "Play after render"
 msgstr "렌더링이 끝난 후 재생"
 
 #. i18n: ectx: property (text), widget (QCheckBox, keep_log_files)
-#: src/ui/renderwidget_ui.ui:898
+#: src/ui/renderwidget_ui.ui:895
 #, fuzzy, kde-format
 #| msgid "Delete profile"
 msgid "Keep log files"
 msgstr "프로필 삭제"
 
 #. i18n: ectx: property (text), widget (QCheckBox, add_to_bin)
-#: src/ui/renderwidget_ui.ui:905
+#: src/ui/renderwidget_ui.ui:902
 #, fuzzy, kde-format
 #| msgid "Project Bin"
 msgid "Add to Project Bin"
 msgstr "프로젝트 보관함"
 
 #. i18n: ectx: attribute (title), widget (QWidget, jobTab)
-#: src/ui/renderwidget_ui.ui:927
+#: src/ui/renderwidget_ui.ui:924
 #, kde-format
 msgid "Job Queue"
 msgstr "작업 대기열"
 
 #. i18n: ectx: property (text), widget (QPushButton, start_job)
-#: src/ui/renderwidget_ui.ui:936
+#: src/ui/renderwidget_ui.ui:933
 #, kde-format
 msgid "Start Job"
 msgstr "작업 시작"
 
 #. i18n: ectx: property (text), widget (QPushButton, clean_up)
-#: src/ui/renderwidget_ui.ui:956
+#: src/ui/renderwidget_ui.ui:953
 #, kde-format
 msgid "Clean Up"
 msgstr "청소"
 
 #. i18n: ectx: property (text), widget (QLabel, errorLabel_2)
-#: src/ui/renderwidget_ui.ui:1045
+#: src/ui/renderwidget_ui.ui:1042
 #, kde-format
 msgid "Error Log"
 msgstr "오류 로그"
 
 #. i18n: ectx: property (text), widget (QLabel, postRenderLabel)
-#: src/ui/renderwidget_ui.ui:1068
+#: src/ui/renderwidget_ui.ui:1065
 #, fuzzy, kde-format
 #| msgid "Abort processing"
 msgid "After rendering:"
 msgstr "처리 중단"
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
-#: src/ui/renderwidget_ui.ui:1101
+#: src/ui/renderwidget_ui.ui:1098
 #, kde-format
 msgid "Scripts"
 msgstr "스크립트"
@@ -44529,16 +45308,6 @@ msgstr "%1시간"
 #~ msgid "Custom"
 #~ msgstr "사용자 정의"
 
-#, fuzzy
-#~| msgid "Center"
-#~ msgid "Center X"
-#~ msgstr "가운데"
-
-#, fuzzy
-#~| msgid "Center"
-#~ msgid "Center Y"
-#~ msgstr "가운데"
-
 #~ msgid "Correct audio loudness as recommended by EBU R128"
 #~ msgstr "EBU R128 기준에 따라 오디오 음량 교정"
 
@@ -45321,11 +46090,6 @@ msgstr "%1시간"
 #~ msgstr "항목을 찾을 수 없습니다."
 
 #, fuzzy
-#~| msgid "&Delete"
-#~ msgid "Delete "
-#~ msgstr "삭제(&D)"
-
-#, fuzzy
 #~| msgid "Border "
 #~ msgid "BorderStyle"
 #~ msgstr "테두리 "
@@ -45456,9 +46220,6 @@ msgstr "%1시간"
 
 #~ msgid "Adjust clip"
 #~ msgstr "클립 조정"
-
-#~ msgid "Param"
-#~ msgstr "인자"
 
 #~ msgctxt "x axis position"
 #~ msgid "X"
@@ -46975,9 +47736,6 @@ msgstr "%1시간"
 
 #~ msgid "Split Audio"
 #~ msgstr "오디오 나누기"
-
-#~ msgid "Split Video"
-#~ msgstr "동영상 분할"
 
 #~ msgid "Split video"
 #~ msgstr "동영상 나누기"
