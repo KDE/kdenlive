@@ -98,6 +98,8 @@ private:
     QScrollArea *m_sc;
     KMessageWidget *m_infoMessage;
     QTimer m_dragScrollTimer;
+    bool m_onAudioTrack{false};
+    void fillTransitionsList();
 
 private Q_SLOTS:
     void processSplitEffect(bool enable);
