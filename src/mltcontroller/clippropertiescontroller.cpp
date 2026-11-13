@@ -337,6 +337,7 @@ QHBoxLayout *ClipPropertiesController::doubleSpinboxProperty(const QString &labe
     auto *spin = new QDoubleSpinBox(this);
     spin->setObjectName(QStringLiteral("%1_value").arg(propertyName));
     spin->setMaximum(maxValue);
+    spin->setKeyboardTracking(false);
 
     // connect signals and initialize state
     connect(spin, &QDoubleSpinBox::valueChanged, this, [this, propertyName](double value) {
