@@ -524,6 +524,13 @@ QVariant MyTextItem::itemChange(GraphicsItemChange change, const QVariant &value
 void MyTextItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *evt)
 {
     if (textInteractionFlags() == Qt::TextEditorInteraction) {
+        if (evt->button() != Qt::LeftButton) {
+            // Exit editing on double right click (otherwise enters a state that was breaking selection)
+            evt->accept();
+            setTextInteractionFlags(Qt::NoTextInteraction);
+            setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
+            return;
+        }
         // if editor mode is already on: pass double click events on to the editor:
         QGraphicsTextItem::mouseDoubleClickEvent(evt);
         Q_EMIT cursorFormatChanged(this);
