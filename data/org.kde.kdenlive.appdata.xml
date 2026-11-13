@@ -557,7 +557,7 @@
           <li>Effects: add avfilter.curves, allowing to adjust all channels in one effect</li>
           <li xml:lang="ar">التأثيرات: إضافة «avfilter.curves»، مما يتيح ضبط جميع القنوات في تأثير واحد</li>
           <li xml:lang="ca">Efectes: afegeix avfilter.curves, que permet ajustar tots els canals en un efecte</li>
-          <li xml:lang="ca-valencia">Efectes: afig avfilter.curves, permetent ajustar tots els canals en un efecte</li>
+          <li xml:lang="ca-valencia">Efectes: afig avfilter.curves, que permet ajustar tots els canals en un efecte</li>
           <li xml:lang="es">Efectos: Se agregó el efecto Curvas (avfilter), que permite ajustar todos los canales usando un único efecto</li>
           <li xml:lang="he">אפקטים: נוסף avfilter.curves (עקומות), מה שמאפשר לכוון את כל הערוצים באפקט אחד</li>
           <li xml:lang="it">Effetti: è stato aggiunto avfilter.curves, che permette di regolare tutti i canali in un unico effetto</li>
@@ -573,7 +573,7 @@
           <li>Effects: improve gradientmap filter, allowing up to 32 stops in the gradient</li>
           <li xml:lang="ar">التأثيرات: تحسين مرشح «خريطة التدرج»، مما يتيح ما يصل إلى 32 درجة تدرج</li>
           <li xml:lang="ca">Efectes: millora el filtre de mapa de degradats, que permet fins a 32 aturades en el degradat</li>
-          <li xml:lang="ca-valencia">Efectes: millora el filtre de mapa de degradats, permetent fins a 32 parades en el degradat</li>
+          <li xml:lang="ca-valencia">Efectes: millora el filtre de mapa de degradats, que permet fins a 32 parades en el degradat</li>
           <li xml:lang="es">Efectos: Se mejoró el efecto Mapear gradiente, permitiendo hasta 32 paradas en el gradiente</li>
           <li xml:lang="he">אפקטים: מסנן מפת מדרגים השתפר, מאפשר עד 32 נקודות עצירה במדרג</li>
           <li xml:lang="it">Effetti: è stato migliorato il filtro gradientmap, che permette fino a 32 punto di arresto del gradiente</li>
@@ -821,7 +821,7 @@
           <li>Fix crash in spacer tool with grouped subtitles</li>
           <li xml:lang="ar">أُصلح الانهيار في أداة المباعدة مع الترجمات المجمعة</li>
           <li xml:lang="ca">Corregeix una fallada a l'eina espaiadora amb subtítols agrupats</li>
-          <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiador amb subtítols agrupats</li>
+          <li xml:lang="ca-valencia">Corregix una fallada a l'eina espaiadora amb subtítols agrupats</li>
           <li xml:lang="es">Se corrigió un cierre inesperado al usar la herramienta Espaciar con subtítulos agrupados</li>
           <li xml:lang="fr">Correction du plantage de l'outil séparateur avec des sous-titres groupés</li>
           <li xml:lang="he">תוקנה קריסה בכלי ריווח עם כתוביות מקובצות</li>
@@ -1077,7 +1077,7 @@
       <caption>Time remapping and same-track transitions</caption>
       <caption xml:lang="ar">انتقالات و إعادة رسم خرائط الوقت  في نفسه المسار</caption>
       <caption xml:lang="ca">Reassignació del temps i transicions de la mateixa pista</caption>
-      <caption xml:lang="ca-valencia">Reassignació del temps i transicions de la mateixa pista</caption>
+      <caption xml:lang="ca-valencia">Reassignació del temps i de les transicions de la mateixa pista</caption>
       <caption xml:lang="de">Zeit-Neuzuordnung und Übergänge innerhalb der selben Spur</caption>
       <caption xml:lang="en-GB">Time remapping and same-track transitions</caption>
       <caption xml:lang="eo">Tempa remapado kaj samtrakaj transiroj</caption>
