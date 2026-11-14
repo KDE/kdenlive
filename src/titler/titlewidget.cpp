@@ -4155,21 +4155,20 @@ void TitleWidget::slotPaste()
 
 void TitleWidget::loadTitleState(const QDomDocument &doc)
 {
+    Q_ASSERT(m_scene);
     m_blockUndo = true;
 
     int selType = -1;
     QPointF selPos;
     qreal selZ = 0;
-    if (m_scene) {
-        QList<QGraphicsItem *> selectedItems = m_scene->selectedItems();
-        if (!selectedItems.isEmpty()) {
-            selType = selectedItems.first()->type();
-            selPos = selectedItems.first()->pos();
-            selZ = selectedItems.first()->zValue();
-        }
-        m_scene->clearTextSelection(true);
-        m_scene->setSelectedItem(nullptr);
+    QList<QGraphicsItem *> selectedItems = m_scene->selectedItems();
+    if (!selectedItems.isEmpty()) {
+        selType = selectedItems.first()->type();
+        selPos = selectedItems.first()->pos();
+        selZ = selectedItems.first()->zValue();
     }
+    m_scene->clearTextSelection(true);
+    m_scene->setSelectedItem(nullptr);
 
     QList<QGraphicsItem *> items = m_scene->items();
     for (auto item : std::as_const(items)) {
