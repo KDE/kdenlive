@@ -101,12 +101,12 @@ PluginsSettings::PluginsSettings(QWidget *parent)
         modelV_folder_label->setVisible(true);
         QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             modelV_size->setText(KIO::convertSize(size));
             watcher->deleteLater();
         });
+        watcher->setFuture(future);
     } else {
         modelV_folder_label->setVisible(false);
     }
@@ -690,12 +690,12 @@ void PluginsSettings::checkSamFolderSize()
 
         QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             sam_model_size->setText(KIO::convertSize(size));
             watcher->deleteLater();
         });
+        watcher->setFuture(future);
     }
 }
 
@@ -713,7 +713,6 @@ void PluginsSettings::checkWhisperFolderSize()
 
         QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), path);
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             whisper_model_size->setText(KIO::convertSize(size));
@@ -724,6 +723,7 @@ void PluginsSettings::checkWhisperFolderSize()
             }
             watcher->deleteLater();
         });
+        watcher->setFuture(future);
     }
     const QString folder2 = m_sttWhisper->modelFolder(false);
     QDir seamlessFolder(folder2);
@@ -734,12 +734,12 @@ void PluginsSettings::checkWhisperFolderSize()
         seamless_folder_label->setVisible(true);
         QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), seamlessFolder.absolutePath());
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             seamless_folder_label->setText(KIO::convertSize(size));
             watcher->deleteLater();
         });
+        watcher->setFuture(future);
     }
 }
 
@@ -903,12 +903,12 @@ void PluginsSettings::slotParseVoskDictionaries()
         modelV_folder_label->setVisible(true);
         QFuture<KIO::filesize_t> future = QtConcurrent::run(&MainWindow::fetchFolderSize, pCore->window(), voskModelFolder);
         QFutureWatcher<KIO::filesize_t> *watcher = new QFutureWatcher<KIO::filesize_t>(this);
-        watcher->setFuture(future);
         connect(watcher, &QFutureWatcherBase::finished, this, [this, watcher] {
             KIO::filesize_t size = watcher->result();
             modelV_size->setText(KIO::convertSize(size));
             watcher->deleteLater();
         });
+        watcher->setFuture(future);
     } else {
         modelV_folder_label->setVisible(false);
     }
