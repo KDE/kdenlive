@@ -4848,26 +4848,27 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right && getTrackById_const(trackId)->isLastClip(getItemPosition(itemId))) {
                 return true;
             }
-            std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position + 1, true, true);
+            std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
             int cid = spacerOp.first;
             if (cid == -1) {
                 return false;
             }
             int endPos = getItemPosition(cid) + delta;
             // Start undoable command
-            TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId,
-                                                         KdenliveSettings::lockedGuides() ? -1 : position, local_undo, local_redo, false);
-            return true;
+            return TimelineFunctions::requestSpacerEndOperation(timeline, cid, getItemPosition(cid), endPos, affectAllTracks ? -1 : trackId,
+                                                                KdenliveSettings::lockedGuides() ? -1 : position, local_undo, local_redo, false);
         };
         if (delta > 0) {
             if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId);
                 if (!spacerOperation(position)) {
+                    local_undo();
                     return false;
                 }
             } else {
                 int position = getItemPosition(itemId);
                 if (!spacerOperation(position)) {
+                    local_undo();
                     return false;
                 }
             }
@@ -4881,11 +4882,13 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             if (right) {
                 int position = getItemPosition(itemId) + getItemPlaytime(itemId) - delta;
                 if (!spacerOperation(position)) {
+                    local_undo();
                     return false;
                 }
             } else {
                 int position = getItemPosition(itemId) + delta;
                 if (!spacerOperation(position)) {
+                    local_undo();
                     return false;
                 }
             }

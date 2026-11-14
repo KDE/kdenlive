@@ -674,6 +674,8 @@ std::pair<int, int> TimelineFunctions::requestSpacerStartOperation(const std::sh
 bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition,
                                                   int affectedTrack, int moveGuidesPosition, Fun &undo, Fun &redo, bool pushUndo)
 {
+    Fun spacer_undo = []() { return true; };
+    Fun spacer_redo = []() { return true; };
     // Move guides if needed
     if (moveGuidesPosition > -1) {
         moveGuidesPosition = qMin(moveGuidesPosition, startPosition);
@@ -681,7 +683,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         GenTime toPos(endPosition - startPosition, pCore->getCurrentFps());
         QList<CommentedTime> guides = timeline->getGuideModel()->getMarkersInRange(moveGuidesPosition, -1);
         if (!guides.isEmpty()) {
-            timeline->getGuideModel()->moveMarkers(guides, fromPos, fromPos + toPos, undo, redo);
+            timeline->getGuideModel()->moveMarkers(guides, fromPos, fromPos + toPos, spacer_undo, spacer_redo);
         }
     }
 
@@ -712,12 +714,12 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
             while (it != timeline->m_allTracks.cend()) {
                 int target_track = (*it)->getId();
                 if (!timeline->getTrackById_const(target_track)->isLocked()) {
-                    liftOk = liftOk && TimelineFunctions::liftZone(timeline, target_track, QPoint(endPosition, startPosition), undo, redo);
+                    liftOk = liftOk && TimelineFunctions::liftZone(timeline, target_track, QPoint(endPosition, startPosition), spacer_undo, spacer_redo);
                 }
                 ++it;
             }
         } else if (timeline->isTrack(affectedTrack)) {
-            liftOk = TimelineFunctions::liftZone(timeline, affectedTrack, QPoint(endPosition, startPosition), undo, redo);
+            liftOk = TimelineFunctions::liftZone(timeline, affectedTrack, QPoint(endPosition, startPosition), spacer_undo, spacer_redo);
         }
         // The lift operation destroys selection group, so regroup now
         if (clips.size() > 1) {
@@ -727,7 +729,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
     }
     if (liftOk && (mainGroup > -1 || clips.size() == 1)) {
         if (clips.size() > 1) {
-            final = timeline->requestGroupMove(itemId, mainGroup, 0, endPosition - startPosition, true, true, undo, redo);
+            final = timeline->requestGroupMove(itemId, mainGroup, 0, endPosition - startPosition, true, true, spacer_undo, spacer_redo);
             for (auto i : clips) {
                 if (timeline->isClip(i)) {
                     timeline->m_allClips[i]->cleanFakeState();
@@ -738,14 +740,14 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         } else {
             // only 1 clip to be moved
             if (isClip) {
-                final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, undo, redo) == TimelineModel::MoveSuccess;
+                final = timeline->requestClipMove(itemId, track, endPosition, true, true, true, true, spacer_undo, spacer_redo) == TimelineModel::MoveSuccess;
                 timeline->m_allClips[itemId]->setFakePosition(-1);
             } else if (timeline->isComposition(itemId)) {
-                final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, undo, redo);
+                final = timeline->requestCompositionMove(itemId, track, -1, endPosition, true, true, spacer_undo, spacer_redo);
                 timeline->m_allCompositions[itemId]->setFakePosition(-1);
             } else {
                 int layer = timeline->getSubtitleLayer(itemId);
-                final = timeline->requestSubtitleMove(itemId, layer, endPosition, true, true, true, true, undo, redo);
+                final = timeline->requestSubtitleMove(itemId, layer, endPosition, true, true, true, true, spacer_undo, spacer_redo);
             }
         }
     }
@@ -754,6 +756,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         timeline->getSubtitleModel()->cleanupSubtitleFakePos();
     }
     if (final) {
+        UPDATE_UNDO_REDO_NOLOCK(spacer_redo, spacer_undo, undo, redo);
         if (pushUndo) {
             if (startPosition < endPosition) {
                 pCore->pushUndo(undo, redo, i18n("Insert space"));
@@ -790,7 +793,7 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
         spacerUngroupedItems.clear();
         return true;
     } else {
-        undo();
+        spacer_undo();
     }
     return false;
 }
