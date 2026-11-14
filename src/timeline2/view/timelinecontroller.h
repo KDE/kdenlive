@@ -629,7 +629,7 @@ public:
     Q_INVOKABLE int getFreeSpace(int tid, int position);
     /** @brief Returns a map of track ids/track names
      */
-    QMap<int, QString> getTrackNames(bool videoOnly);
+    QMap<int, QString> getTrackNames(bool video);
     /** @brief Returns the transition a track index for a composition (MLT index / Track id)
      */
     QPair<int, int> getCompositionATrack(int cid) const;
