@@ -38,7 +38,7 @@ void TransitionStackView::refreshTracks()
     m_trackBox->clear();
     QPair<int, int> aTrack = pCore->getCompositionATrack(m_model->getOwnerId().itemId);
     m_trackBox->addItem(i18n("Automatic"), -1);
-    QMapIterator<int, QString> i(pCore->getTrackNames(true));
+    QMapIterator<int, QString> i(pCore->getTrackNames(!m_model->isAudio()));
     i.toBack();
     while (i.hasPrevious()) {
         i.previous();

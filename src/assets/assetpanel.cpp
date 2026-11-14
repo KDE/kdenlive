@@ -56,12 +56,7 @@ AssetPanel::AssetPanel(QWidget *parent)
     // Edit composition button
     m_switchCompoButton = new QComboBox(this);
     m_switchCompoButton->setFrame(false);
-    auto allTransitions = TransitionsRepository::get()->getNames();
-    for (const auto &transition : std::as_const(allTransitions)) {
-        if (transition.first != QLatin1String("mix")) {
-            m_switchCompoButton->addItem(transition.second, transition.first);
-        }
-    }
+    fillTransitionsList();
     connect(m_switchCompoButton, static_cast<void (QComboBox::*)(int)>(&QComboBox::activated), this, [&]() {
         if (m_transitionWidget->stackOwner().type == KdenliveObjectType::TimelineComposition) {
             Q_EMIT switchCurrentComposition(m_transitionWidget->stackOwner().itemId, m_switchCompoButton->currentData().toString());
@@ -202,6 +197,17 @@ AssetPanel::AssetPanel(QWidget *parent)
     connect(&m_dragScrollTimer, &QTimer::timeout, this, &AssetPanel::checkDragScroll);
 }
 
+void AssetPanel::fillTransitionsList()
+{
+    m_switchCompoButton->clear();
+    auto allTransitions = TransitionsRepository::get()->getNamesByType(m_onAudioTrack);
+    for (const auto &transition : std::as_const(allTransitions)) {
+        if (transition.first != QLatin1String("mix")) {
+            m_switchCompoButton->addItem(transition.second, transition.first);
+        }
+    }
+}
+
 void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterModel> &transitionModel)
 {
     Q_UNUSED(tid)
@@ -211,8 +217,12 @@ void AssetPanel::showTransition(int tid, const std::shared_ptr<AssetParameterMod
         return;
     }
     clear();
+    if (m_onAudioTrack != transitionModel->isAudio()) {
+        m_onAudioTrack = !m_onAudioTrack;
+        fillTransitionsList();
+    }
     m_switchCompoButton->setCurrentIndex(m_switchCompoButton->findData(transitionModel->getAssetId()));
-    m_switchAction->setVisible(true);
+    m_switchAction->setVisible(m_switchCompoButton->count() > 1);
     m_transitionWidget->setVisible(true);
     m_compositionHelpLink->setVisible(true);
     m_timelineButton->setVisible(true);

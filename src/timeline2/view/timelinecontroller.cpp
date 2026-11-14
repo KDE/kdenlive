@@ -304,12 +304,18 @@ const QString TimelineController::getTrackNameFromIndex(int trackIndex)
     return trackName.isEmpty() ? m_model->getTrackTagById(trackIndex) : trackName;
 }
 
-QMap<int, QString> TimelineController::getTrackNames(bool videoOnly)
+QMap<int, QString> TimelineController::getTrackNames(bool video)
 {
     QMap<int, QString> names;
     for (const auto &track : m_model->m_iteratorTable) {
-        if (videoOnly && m_model->getTrackById_const(track.first)->isAudioTrack()) {
-            continue;
+        if (video) {
+            if (m_model->getTrackById_const(track.first)->isAudioTrack()) {
+                continue;
+            }
+        } else {
+            if (!m_model->getTrackById_const(track.first)->isAudioTrack()) {
+                continue;
+            }
         }
         QString trackName = m_model->getTrackFullName(track.first);
         names[m_model->getTrackMltIndex(track.first)] = trackName;

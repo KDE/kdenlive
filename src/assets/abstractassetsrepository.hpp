@@ -29,6 +29,7 @@ public:
     /** @brief Returns a vector of pair (asset id, asset name)
      */
     QVector<QPair<QString, QString>> getNames() const;
+    QVector<QPair<QString, QString>> getNamesByType(bool isAudio) const;
 
     /** @brief Return type of asset */
     AssetType getType(const QString &assetId) const;

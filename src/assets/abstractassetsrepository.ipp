@@ -342,6 +342,32 @@ template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRep
     return res;
 }
 
+template <typename AssetType> QVector<QPair<QString, QString>> AbstractAssetsRepository<AssetType>::getNamesByType(bool isAudio) const
+{
+    QVector<QPair<QString, QString>> res;
+    res.reserve(int(m_assets.size()));
+    std::set<AssetType> audioTypes = {AssetType::Audio, AssetType::CustomAudio, AssetType::TemplateAudio, AssetType::TemplateCustomAudio, AssetType::AudioComposition, AssetType::AudioTransition};
+    for (const auto &asset : m_assets) {
+        if ((int(asset.second.type) == -1) || (!KdenliveSettings::gpu_accel() && asset.first.contains(QLatin1String("movit.")))) {
+            // Hide GPU effects/compositions when movit disabled
+            continue;
+        }
+        if (isAudio) {
+            if (!audioTypes.contains(asset.second.type)) {
+                continue;
+            }
+        } else {
+            if (audioTypes.contains(asset.second.type)) {
+                continue;
+            }
+        }
+        res.push_back({asset.first, asset.second.name});
+    }
+    std::sort(res.begin(), res.end(), [](const QPair<QString, QString> &a, const QPair<QString, QString> &b) { return a.second < b.second; });
+    return res;
+}
+
+
 template <typename AssetType> AssetType AbstractAssetsRepository<AssetType>::getType(const QString &assetId) const
 {
     Q_ASSERT(m_assets.count(assetId) > 0);

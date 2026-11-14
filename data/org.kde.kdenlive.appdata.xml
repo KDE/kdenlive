@@ -387,6 +387,22 @@
     </ul>
   </description>
   <releases>
+    <release version="26.11.70" type="snapshot">
+      <description>
+        <p>Improvements and new features:</p>
+        <ul>
+          <li>Titler: add undo/redo support, copy/paste and image drop</li>
+          <li>Titler: allow multiple style in each text block</li>
+          <li>Titler: relative paths for images</li>
+          <li>Project file: improved support for project folder</li>
+          <li>Project file: relative paths for all media</li>
+          <li>Project file: relative paths for all media</li>
+          <li>Timeline: add auto duck transition</li>
+          <li>Effects: rescale keyframe positions</li>
+          <li>Performance: multiple notable performance improvements on keyframe operations and undo/redo</li>
+        </ul>
+      </description>
+    </release>
     <release version="26.08.3" date="2026-11-05"/>
     <release version="26.08.2" date="2026-10-08"/>
     <release version="26.08.1" date="2026-09-10"/>

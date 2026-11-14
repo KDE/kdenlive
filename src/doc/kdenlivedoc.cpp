@@ -1964,6 +1964,7 @@ bool KdenliveDoc::loadDocumentProperties()
             m_documentProperties.remove(QStringLiteral("proxyparams"));
             m_documentProperties.remove(QStringLiteral("proxyextension"));
             QString warningMessage;
+            bool silenceWarning = false;
             if (discard) {
                 warningMessage = i18n("Project file <b>%1</b> contains suspicious proxy parameters. This command might be "
                                       "executed:<br><br><code style=\"background-color:darkred;color:white\"><b>%2 -i "
@@ -1971,14 +1972,17 @@ bool KdenliveDoc::loadDocumentProperties()
                                       m_url.fileName(), KdenliveSettings::ffmpegpath(), proxyparams, proxyExtension);
             } else {
                 // Non local profile
+                if (!pCore->window()) {
+                    silenceWarning = true;
+                }
                 warningMessage = i18n("Project file <b>%1</b> contains an unknown proxy profile, it will be discarded. "
                                       "This will only affect newly created proxy clips. If you really need to keep this profile and understand the ffmpeg "
                                       "syntax and possible security risks, create a new proxy profile in the project settings with these "
                                       "parameters:<br><code>%2<br>Extension: %3</code>",
                                       m_url.fileName(), proxyparams, proxyExtension);
             }
-            if (KMessageBox::warningContinueCancel(pCore->window(), warningMessage, QString(), KStandardGuiItem::cont(), KGuiItem(i18n("Abort Loading"))) !=
-                KMessageBox::Continue) {
+            if (!silenceWarning && KMessageBox::warningContinueCancel(pCore->window(), warningMessage, QString(), KStandardGuiItem::cont(),
+                                                                      KGuiItem(i18n("Abort Loading"))) != KMessageBox::Continue) {
                 return false;
             }
         } else {

@@ -37,7 +37,8 @@ AssetParameterModel::AssetParameterModel(std::unique_ptr<Mlt::Properties> asset,
     QDomNodeList parameterNodes = assetXml.elementsByTagName(QStringLiteral("parameter"));
     m_hideKeyframesByDefault = assetXml.hasAttribute(QStringLiteral("hideKeyframes"));
     m_requiresInOut = assetXml.hasAttribute(QStringLiteral("requires_in_out"));
-    m_isAudio = assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio");
+    m_isAudio =
+        assetXml.attribute(QStringLiteral("type")) == QLatin1String("audio") || assetXml.attribute(QStringLiteral("type")) == QLatin1String("audiotransition");
     if (m_asset->property_exists("kdenlive:builtin")) {
         m_builtIn = true;
     }
@@ -2018,4 +2019,9 @@ bool AssetParameterModel::isDefault() const
     }
     qDebug() << "YYYYYYYYYYYYY DISABLING EFFECT:\n";
     return true;
+}
+
+bool AssetParameterModel::isAudio() const
+{
+    return m_isAudio;
 }
