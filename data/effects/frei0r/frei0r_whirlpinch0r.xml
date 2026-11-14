@@ -14,7 +14,7 @@
     </parameter>
     <parameter type="animated" name="2" default="0.5" min="0.000" max="2.000" factor="2" decimals="3">
         <name>Radius</name>
-        <comment><![CDATA[Radius. 1 means the entire frame is affected.]]>'</comment>
+        <comment><![CDATA[Radius. 1 means the entire frame is affected.]]></comment>
     </parameter>
     <parameter type="animated" name="3" default="0.5" min="0" max="%width" factor="%width">
         <name>Center X</name>
@@ -22,6 +22,6 @@
     </parameter>
     <parameter type="animated" name="4" default="0.5" min="0" max="%height" factor="%height">
         <name>Center Y</name>
-        <comment><![CDATA[Vertical position]]>'</comment>
+        <comment><![CDATA[Vertical position]]></comment>
     </parameter>
 </effect>
