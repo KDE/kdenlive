@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 18.12\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-13 03:38+0000\n"
+"POT-Creation-Date: 2026-11-14 03:15+0000\n"
 "PO-Revision-Date: 2026-11-11 22:57+0200\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Basealt Translation Team\n"
@@ -914,7 +914,7 @@ msgstr "Ширина фильтра"
 #: data/effects/avfilter/avfilter_lowshelf.xml:28
 #: data/effects/avfilter/avfilter_sofalizer.xml:34
 #: data/effects/sox/sox_gain.xml:11
-#: src/mltcontroller/clippropertiescontroller.cpp:975
+#: src/mltcontroller/clippropertiescontroller.cpp:976
 #, kde-format
 msgid "Normalize"
 msgstr "Нормализация"
@@ -3457,8 +3457,8 @@ msgstr "Рисование цветной рамки на входном вид�
 #: data/effects/dropshadow.xml:20
 #: data/effects/frei0r/frei0r_bluescreen0r.xml:11
 #: data/effects/frei0r/frei0r_camerashake.xml:37
-#: data/effects/frei0r/frei0r_flarefx.xml:28 src/bin/bin.cpp:3107
-#: src/mltcontroller/clippropertiescontroller.cpp:657
+#: data/effects/frei0r/frei0r_flarefx.xml:28 src/bin/bin.cpp:3222
+#: src/mltcontroller/clippropertiescontroller.cpp:658
 #, kde-format
 msgid "Color"
 msgstr "Цвет"
@@ -4470,7 +4470,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_defish0r.xml:14
 #: data/effects/frei0r/frei0r_iirblur.xml:12
 #: data/effects/frei0r/frei0r_medians.xml:8 data/effects/typewriter.xml:22
-#: src/bin/bin.cpp:1627 src/bin/projectitemmodel.cpp:341
+#: src/bin/bin.cpp:1732 src/bin/projectitemmodel.cpp:341
 #: src/ui/timeremap_ui.ui:197
 #, kde-format
 msgid "Type"
@@ -7368,8 +7368,8 @@ msgstr "Установить режим обёртки"
 #: data/effects/mask_start_frei0r_select0r.xml:8
 #: data/effects/mask_start_rotoscoping.xml:8
 #: data/effects/mask_start_shape.xml:8
-#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1738
-#: src/bin/bin.cpp:1743 src/bin/bin.cpp:2963
+#: src/assets/assetlist/view/assetlistwidget.cpp:207 src/bin/bin.cpp:1843
+#: src/bin/bin.cpp:1848 src/bin/bin.cpp:3076
 #, kde-format
 msgid "Filter"
 msgstr "Фильтр"
@@ -7583,7 +7583,7 @@ msgstr "Y"
 #: data/effects/fade_from_black.xml:8 data/effects/fade_to_black.xml:8
 #: data/effects/fadein.xml:11 data/effects/fadeout.xml:8
 #: data/effects/timer.xml:85 src/assets/view/widgets/keyframeimport.cpp:170
-#: src/bin/bin.cpp:1631 src/bin/projectitemmodel.cpp:347
+#: src/bin/bin.cpp:1736 src/bin/projectitemmodel.cpp:347
 #: src/timeline2/view/dialogs/speeddialog.cpp:64
 #: src/timeline2/view/qml/Track.qml:98 src/timeline2/view/qml/Track.qml:124
 #: src/timeline2/view/qml/Track.qml:132 src/ui/clipdurationdialog_ui.ui:18
@@ -7704,7 +7704,7 @@ msgstr "В"
 
 #: data/effects/channelcopy.xml:16 data/effects/copychannelstostereo.xml:16
 #: data/effects/swapchannels.xml:4
-#: src/mltcontroller/clippropertiescontroller.cpp:993
+#: src/mltcontroller/clippropertiescontroller.cpp:994
 #, kde-format
 msgid "Swap channels"
 msgstr "Поменять каналы местами"
@@ -8129,7 +8129,7 @@ msgstr "По верхнему краю,По центру,По нижнему к�
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:89 data/effects/dynamictext.xml:181
-#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1144
+#: data/effects/gpstext.xml:8 src/titler/graphicsscenerectmove.cpp:1151
 #: src/ui/managesubtitles_ui.ui:216
 #, kde-format
 msgid "Text"
@@ -8306,7 +8306,7 @@ msgstr "Заливка изображением или чёрным"
 #: data/effects/frei0r/frei0r_3dperspective.xml:4
 #, kde-format
 msgid "3D Perspective"
-msgstr ""
+msgstr "3D-перспектива"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:5
 #, kde-format
@@ -8314,6 +8314,8 @@ msgid ""
 "Simulated 3D plane rotation with adjustable perspective strength, like a "
 "fake-3D camera transform."
 msgstr ""
+"Имитация вращения плоскости в пространстве с настраиваемой силой "
+"перспективы, как при ложном 3D-преобразовании камеры."
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:8
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:8
@@ -8324,10 +8326,9 @@ msgid "Yaw"
 msgstr "Рыскание"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:9
-#, fuzzy, kde-format
-#| msgid "Angle of rotation along the Z axis"
+#, kde-format
 msgid "Amount of rotation around Z axis (pointing up)"
-msgstr "Угол вращения вдоль оси Z"
+msgstr "Угол вращения вокруг оси Z (направлена вверх)"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:12
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
@@ -8340,7 +8341,7 @@ msgstr "Тангаж"
 #: data/effects/frei0r/frei0r_3dperspective.xml:13
 #, kde-format
 msgid "Amount of rotation around y axis (pointing right)"
-msgstr ""
+msgstr "Угол вращения вокруг оси Y (направлена вправо)"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:16
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:18
@@ -8353,49 +8354,42 @@ msgstr "Крен"
 #: data/effects/frei0r/frei0r_3dperspective.xml:17
 #, kde-format
 msgid "Amount of rotation around X axis (pointing into the screen)"
-msgstr ""
+msgstr "Угол вращения вокруг оси X (направлена вглубь экрана)"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:20
 #, kde-format
 msgid "Perspective"
-msgstr ""
+msgstr "Перспектива"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:21
-#, fuzzy, kde-format
-#| msgid "Amount of spatial filtering"
+#, kde-format
 msgid "Amount of perspective distortion"
-msgstr "Мощность пространственного фильтрования"
+msgstr "Сила перспективного искажения"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:25
 #, no-c-format, kde-format
 msgid "Amount of zoom (max 400%)"
-msgstr ""
+msgstr "Масштаб (не более 400 %)"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:28
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Pan horizontal"
-msgstr "Линейный, по горизонтали"
+msgstr "Панорамирование по горизонтали"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:29
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Horizontal displacement"
-msgstr "Выравнивание по горизонтали"
+msgstr "Смещение по горизонтали"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:32
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Pan vertical"
-msgstr "Линейный, по вертикали"
+msgstr "Панорамирование по вертикали"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:33
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Vertical displacement"
-msgstr "Выравнивание по вертикали"
+msgstr "Смещение по вертикали"
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
@@ -11226,7 +11220,7 @@ msgstr "Величина вариации яркости между кадрам
 #: data/effects/frei0r/frei0r_flarefx.xml:4
 #, kde-format
 msgid "FlareFX"
-msgstr ""
+msgstr "FlareFX"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:5
 #, kde-format
@@ -11235,29 +11229,29 @@ msgid ""
 "a scattering of small reflectors that travel through the frame center as the "
 "light source moves, based on the classic GIMP FlareFX algorithm"
 msgstr ""
+"Имитирует солнечный свет, попадающий в объектив: яркое ядро, цветные кольца "
+"и россыпь мелких бликов, которые проходят через центр кадра при движении "
+"источника света. Основано на классическом алгоритме FlareFX из GIMP"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:9
-#, fuzzy, kde-format
-#| msgid "The relative horizontal position of the shadow"
+#, kde-format
 msgid "Horizontal position of the light source"
-msgstr "Относительное положение тени по горизонтали"
+msgstr "Положение источника света по горизонтали"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:13
-#, fuzzy, kde-format
-#| msgid "The relative vertical position of the shadow"
+#, kde-format
 msgid "Vertical position of the light source"
-msgstr "Относительное положение тени по вертикали"
+msgstr "Положение источника света по вертикали"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:17
 #, kde-format
 msgid "Overall opacity/intensity of the flare overlay"
-msgstr ""
+msgstr "Общая непрозрачность и интенсивность наложения блика"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:21
-#, fuzzy, kde-format
-#| msgid "Width of the linear area"
+#, kde-format
 msgid "Size of the flare"
-msgstr "Ширина линейной области"
+msgstr "Размер блика"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:24
 #: data/effects/ladspa/ladspa_phaser.xml:17
@@ -11271,12 +11265,13 @@ msgid ""
 "How far the small reflectors travel through the frame center as the light "
 "moves off-center"
 msgstr ""
+"Насколько далеко мелкие блики проходят через центр кадра, когда источник "
+"света смещается от центра"
 
 #: data/effects/frei0r/frei0r_flarefx.xml:29
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Tint color of the flare"
-msgstr "Цвет звукового спектра."
+msgstr "Цвет оттенка блика"
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -11394,26 +11389,26 @@ msgid "Creates a Glamorous Glow"
 msgstr "Создание чарующего свечения"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Favorite Effects"
+#, kde-format
 msgid "Harris Shutter Effect"
-msgstr "Избранные эффекты"
+msgstr "Эффект затвора Харриса"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:5
 #, kde-format
 msgid "Creates the Harris shutter effect: dynamic RGB split with a delay."
 msgstr ""
+"Создаёт эффект затвора Харриса: динамическое разделение каналов RGB с "
+"задержкой."
 
 #: data/effects/frei0r/frei0r_harris0r.xml:9
 #, kde-format
 msgid "Harris shutter color filtering delay"
-msgstr ""
+msgstr "Задержка цветовой фильтрации затвора Харриса"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Simple Editor"
+#, kde-format
 msgid "Simple"
-msgstr "Простой редактор"
+msgstr "Простой"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:14
 #, kde-format
@@ -11421,6 +11416,8 @@ msgid ""
 "Use simple effect instead of smooth.<br>\n"
 "        Reduces RAM usage, less eye-pleasing"
 msgstr ""
+"Использовать простой эффект вместо сглаженного.<br>\n"
+"        Снижает расход памяти, но выглядит хуже"
 
 #: data/effects/frei0r/frei0r_heatmap0r.xml:4
 #, kde-format
@@ -12683,34 +12680,31 @@ msgstr ""
 "можно настроить смещение, масштаб и вращение."
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Grain Extract"
+#, kde-format
 msgid "Motion Extraction"
-msgstr "Извлечение зерна"
+msgstr "Выделение движения"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:5
 #, kde-format
 msgid ""
 "reveals motion by comparing the current frame with a delayed copy of the "
 "stream"
-msgstr ""
+msgstr "выявляет движение, сравнивая текущий кадр с задержанной копией потока"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Select font"
+#, kde-format
 msgid "Select mode"
-msgstr "Выберите шрифт"
+msgstr "Режим"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:10
 #, kde-format
 msgid "Negative overlay,Absolute difference,Motion mask"
-msgstr ""
+msgstr "Наложение негатива,Абсолютная разность,Маска движения"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Time Offset"
-msgstr "Смещение времени:"
+msgstr "Смещение времени"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:15
 #, kde-format
@@ -12718,6 +12712,8 @@ msgid ""
 "Time offset in seconds (0-2).<br>\n"
 "        Limited to 128 frames / 1 GiB of history; 0 = previous frame"
 msgstr ""
+"Смещение времени в секундах (0–2).<br>\n"
+"        Не более 128 кадров или 1 ГиБ истории; 0 — предыдущий кадр"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:20
 #, kde-format
@@ -12725,12 +12721,13 @@ msgid ""
 "Opacity of the inverted delayed<br>\n"
 "        frame in negative overlay mode"
 msgstr ""
+"Непрозрачность инвертированного задержанного<br>\n"
+"        кадра в режиме наложения негатива"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:24
-#, fuzzy, kde-format
-#| msgid "Align to Reference"
+#, kde-format
 msgid "Amplification of the differences"
-msgstr "Выровнять по привязке"
+msgstr "Усиление разности"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:29
 #, kde-format
@@ -12738,6 +12735,8 @@ msgid ""
 "Compare luminance only and<br>\n"
 "        produce a grayscale result"
 msgstr ""
+"Сравнивать только яркость и<br>\n"
+"        выдавать результат в оттенках серого"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:34
 #, kde-format
@@ -12745,6 +12744,8 @@ msgid ""
 "Ignore differences smaller than<br>\n"
 "        this to suppress noise"
 msgstr ""
+"Не учитывать разность меньше этой,<br>\n"
+"        чтобы подавить шум"
 
 #: data/effects/frei0r/frei0r_ndvi.xml:4
 #, kde-format
@@ -13436,7 +13437,7 @@ msgstr "Мягкость"
 #: data/effects/frei0r/frei0r_shadert0y.xml:4
 #, kde-format
 msgid "Shadert0y"
-msgstr ""
+msgstr "Shadert0y"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:5
 #, kde-format
@@ -13444,12 +13445,14 @@ msgid ""
 "Runs a Shadertoy-style GLSL script offscreen via OpenGL, with file slots, "
 "custom iParams, and alpha control."
 msgstr ""
+"Выполняет сценарий GLSL в стиле Shadertoy во внеэкранном буфере через "
+"OpenGL, с ячейками для файлов, пользовательскими iParam и управлением альфа-"
+"каналом."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:8
-#, fuzzy, kde-format
-#| msgid "Script Files"
+#, kde-format
 msgid "Script File"
-msgstr "Файлы сценариев"
+msgstr "Файл сценария"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:9
 #, kde-format
@@ -13457,41 +13460,41 @@ msgid ""
 "Select the main .glsl or .frag file. If empty, a default color shader is "
 "used."
 msgstr ""
+"Выберите основной файл .glsl или .frag. Если файл не выбран, используется "
+"стандартный цветовой шейдер."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:13
 #, kde-format
 msgid "Time multiplier. Negative values reverse time."
-msgstr ""
+msgstr "Множитель времени. Отрицательные значения обращают время вспять."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:16
-#, fuzzy, kde-format
-#| msgid "Split Video"
+#, kde-format
 msgid "Flip Video Y"
-msgstr "Отделить видео"
+msgstr "Отразить видео по Y"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:17
-#, fuzzy, kde-format
-#| msgid "Align item vertically."
+#, kde-format
 msgid "Flip input video vertically."
-msgstr "Выровнять по вертикали"
+msgstr "Отразить входное видео по вертикали."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:20
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Use Shader Alpha"
-msgstr "Альфа по фигуре"
+msgstr "Альфа-канал шейдера"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:21
 #, kde-format
 msgid ""
 "Off = force alpha to 1.0 (opaque). On = keep the alpha written by the shader."
 msgstr ""
+"Выключено — альфа-канал принудительно равен 1,0 (непрозрачно). Включено — "
+"сохраняется альфа-канал, записанный шейдером."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:24
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel0"
-msgstr "Канал"
+msgstr "iChannel0"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:25
 #: data/effects/frei0r/frei0r_shadert0y.xml:29
@@ -13499,207 +13502,208 @@ msgstr "Канал"
 #: data/effects/frei0r/frei0r_shadert0y.xml:37
 #, kde-format
 msgid "None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha"
-msgstr ""
+msgstr "Нет,Текущий клип,Файл 0,Файл 1,Файл 2,Файл 3,Альфа-канал видео"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:28
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel1"
-msgstr "Канал"
+msgstr "iChannel1"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:32
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel2"
-msgstr "Канал"
+msgstr "iChannel2"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:36
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel3"
-msgstr "Канал"
+msgstr "iChannel3"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:41
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 0"
-msgstr "Файл"
+msgstr "Файл 0"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:42
 #, kde-format
 msgid ""
 "Image, video, or basic .glsl buffer used when an iChannel is set to File 0."
 msgstr ""
+"Изображение, видео или простой буфер .glsl, используемый, когда для iChannel "
+"выбран «Файл 0»."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:46
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 1"
-msgstr "Файл"
+msgstr "Файл 1"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:47
 #, kde-format
 msgid ""
 "Image, video, or basic .glsl buffer used when an iChannel is set to File 1."
 msgstr ""
+"Изображение, видео или простой буфер .glsl, используемый, когда для iChannel "
+"выбран «Файл 1»."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:51
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 2"
-msgstr "Файл"
+msgstr "Файл 2"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:52
 #, kde-format
 msgid ""
 "Image, video, or basic .glsl buffer used when an iChannel is set to File 2."
 msgstr ""
+"Изображение, видео или простой буфер .glsl, используемый, когда для iChannel "
+"выбран «Файл 2»."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:56
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 3"
-msgstr "Файл"
+msgstr "Файл 3"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:57
 #, kde-format
 msgid ""
 "Image, video, or basic .glsl buffer used when an iChannel is set to File 3."
 msgstr ""
+"Изображение, видео или простой буфер .glsl, используемый, когда для iChannel "
+"выбран «Файл 3»."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:60
-#, fuzzy, kde-format
-#| msgid "Mouse cursor:"
+#, kde-format
 msgid "Mouse X"
-msgstr "Курсор мыши:"
+msgstr "Мышь X"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:61
 #, kde-format
 msgid "Normalized mouse X. 0 = left."
-msgstr ""
+msgstr "Нормализованная координата X мыши. 0 — левый край."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:64
-#, fuzzy, kde-format
-#| msgid "Mouse cursor:"
+#, kde-format
 msgid "Mouse Y"
-msgstr "Курсор мыши:"
+msgstr "Мышь Y"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:65
 #, kde-format
 msgid "Normalized mouse Y. 0 = bottom."
-msgstr ""
+msgstr "Нормализованная координата Y мыши. 0 — нижний край."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:68
-#, fuzzy, kde-format
-#| msgid "Border Width"
+#, kde-format
 msgid "Render Width"
-msgstr "Ширина рамки"
+msgstr "Ширина отрисовки"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:69
 #, kde-format
 msgid ""
 "Internal shader render width (horizontal). 0 = use incoming frame width."
 msgstr ""
+"Внутренняя ширина отрисовки шейдера (по горизонтали). 0 — ширина входящего "
+"кадра."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:72
-#, fuzzy, kde-format
-#| msgid "Rendering"
+#, kde-format
 msgid "Render Height"
-msgstr "Сборка"
+msgstr "Высота отрисовки"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:73
 #, kde-format
 msgid ""
 "Internal shader render height (vertical). 0 = use incoming frame height."
 msgstr ""
+"Внутренняя высота отрисовки шейдера (по вертикали). 0 — высота входящего "
+"кадра."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:76
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam0"
-msgstr "Параметр"
+msgstr "iParam0"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:77
 #, kde-format
 msgid "Shader uniform iParam0. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam0. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:80
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam1"
-msgstr "Параметр"
+msgstr "iParam1"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:81
 #, kde-format
 msgid "Shader uniform iParam1. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam1. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:84
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam2"
-msgstr "Параметр"
+msgstr "iParam2"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:85
 #, kde-format
 msgid "Shader uniform iParam2. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam2. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:88
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam3"
-msgstr "Параметр"
+msgstr "iParam3"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:89
 #, kde-format
 msgid "Shader uniform iParam3. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam3. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:92
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam4"
-msgstr "Параметр"
+msgstr "iParam4"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:93
 #, kde-format
 msgid "Shader uniform iParam4. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam4. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:96
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam5"
-msgstr "Параметр"
+msgstr "iParam5"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:97
 #, kde-format
 msgid "Shader uniform iParam5. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam5. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:100
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam6"
-msgstr "Параметр"
+msgstr "iParam6"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:101
 #, kde-format
 msgid "Shader uniform iParam6. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam6. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:104
-#, fuzzy, kde-format
-#| msgid "Param"
+#, kde-format
 msgid "iParam7"
-msgstr "Параметр"
+msgstr "iParam7"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:105
 #, kde-format
 msgid "Shader uniform iParam7. Can be keyframed."
 msgstr ""
+"Uniform-переменная шейдера iParam7. Может задаваться ключевыми кадрами."
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
@@ -13790,10 +13794,9 @@ msgid "Sharpness of transfer."
 msgstr "Резкость перехода."
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Split compare"
+#, kde-format
 msgid "Slit Scan"
-msgstr "Разделить вид"
+msgstr "Щелевое сканирование"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:6
 #, kde-format
@@ -13803,16 +13806,21 @@ msgid ""
 "of consecutive frames are laid side by side, so one axis of the image "
 "becomes time."
 msgstr ""
+"Фильтр щелевого сканирования с режимами «Сканирование» и «Звёздные врата»."
+"<br>\n"
+"    Каждый кадр даёт только пиксели под тонкой щелью, а щели "
+"последовательных кадров укладываются рядом, так что одна из осей изображения "
+"становится осью времени."
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:10
 #, kde-format
 msgid "Scan or Stargate"
-msgstr ""
+msgstr "Сканирование или звёздные врата"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:11
 #, kde-format
 msgid "Scan,Stargate"
-msgstr ""
+msgstr "Сканирование,Звёздные врата"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:16
 #, kde-format
@@ -13820,6 +13828,8 @@ msgid ""
 "Position of the slit across<br>\n"
 "        the input. 0=left/top, 1=right/bottom"
 msgstr ""
+"Положение щели на входном<br>\n"
+"        изображении. 0 — слева/сверху, 1 — справа/снизу"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:19 data/effects/wave.xml:28
 #: src/dialogs/Splash.qml:933
@@ -13828,10 +13838,9 @@ msgid "Vertical"
 msgstr "По вертикали"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Use cos instead of linear"
+#, kde-format
 msgid "Sample a column instead of a row"
-msgstr "Использовать косинус вместо линейного преобразования"
+msgstr "Брать столбец вместо строки"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:25
 #, kde-format
@@ -13839,6 +13848,8 @@ msgid ""
 "Slit width, 1-64 px: how far<br>\n"
 "        the image advances per frame"
 msgstr ""
+"Ширина щели, 1–64 пикселя: на сколько<br>\n"
+"        изображение сдвигается за кадр"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:30
 #, kde-format
@@ -13846,6 +13857,8 @@ msgid ""
 "Scan: new slits enter at the<br>\n"
 "        left/top edge; Stargate: slits flow inwards"
 msgstr ""
+"«Сканирование»: новые щели входят с<br>\n"
+"        левого/верхнего края; «Звёздные врата»: щели текут к центру"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:35
 #, kde-format
@@ -13853,12 +13866,13 @@ msgid ""
 "Stargate: how far the tunnel<br>\n"
 "        reaches (size of the dark hole in the middle)"
 msgstr ""
+"«Звёздные врата»: глубина туннеля<br>\n"
+"        (размер тёмного отверстия в середине)"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Fades:"
+#, kde-format
 msgid "Fade"
-msgstr "Исчезания:"
+msgstr "Затухание"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:40
 #, kde-format
@@ -13866,6 +13880,8 @@ msgid ""
 "Stargate: darken the walls with<br>\n"
 "        distance, as in a long exposure."
 msgstr ""
+"«Звёздные врата»: затемнять стены<br>\n"
+"        с удалением, как при длинной выдержке."
 
 #: data/effects/frei0r/frei0r_sobel.xml:4
 #, kde-format
@@ -14110,7 +14126,7 @@ msgstr "Создаёт эффект дрожания, имитирующий р�
 msgid "Displacement amount"
 msgstr "Величина смещения"
 
-#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1643
+#: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1748
 #: src/bin/projectitemmodel.cpp:359
 #, kde-format
 msgid "FPS"
@@ -14316,18 +14332,17 @@ msgstr "Плавность"
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:4
 #, kde-format
 msgid "Whirl and Pinch"
-msgstr ""
+msgstr "Вихрь и сжатие"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:5
-#, fuzzy, kde-format
-#| msgid "Creates a hand-drawn wobble effect"
+#, kde-format
 msgid "Creates a whirl and pinch effect."
-msgstr "Создаёт эффект дрожания, имитирующий рисование от руки"
+msgstr "Создаёт эффект вихря и сжатия."
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:8
 #, kde-format
 msgid "Whirl"
-msgstr ""
+msgstr "Вихрь"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:9
 #, kde-format
@@ -14335,11 +14350,13 @@ msgid ""
 "Amount of whirl. 0 means -720 degrees, 0.5 is neutral (no whirl), 1 means "
 "+720 degrees."
 msgstr ""
+"Сила вихря. 0 — −720 градусов, 0,5 — нейтрально (без вихря), 1 — +720 "
+"градусов."
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:12
 #, kde-format
 msgid "Pinch"
-msgstr ""
+msgstr "Сжатие"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:13
 #, kde-format
@@ -14347,11 +14364,13 @@ msgid ""
 "Amount of pinching. 0 means pinch out, 0.5 is neutral (no pinch), 1 means "
 "pinch in."
 msgstr ""
+"Сила сжатия. 0 — растяжение, 0,5 — нейтрально (без сжатия), 1 — сжатие."
 
+# BUGME: Stray apostrophe at the end of the string (frei0r_whirlpinch0r.xml) --ayavorsky 2026-11-13
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:17
 #, kde-format
 msgid "Radius. 1 means the entire frame is affected.'"
-msgstr ""
+msgstr "Радиус. 1 — эффект применяется ко всему кадру."
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:20
 #, kde-format
@@ -14359,21 +14378,20 @@ msgid "Center X"
 msgstr "Центр по X"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:21
-#, fuzzy, kde-format
-#| msgid "Initial Horizontal Position"
+#, kde-format
 msgid "Horizontal position"
-msgstr "Начальное положение по горизонтали"
+msgstr "Положение по горизонтали"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:24
 #, kde-format
 msgid "Center Y"
 msgstr "Центр по Y"
 
+# BUGME: Stray apostrophe at the end of the string (frei0r_whirlpinch0r.xml) --ayavorsky 2026-11-13
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:25
-#, fuzzy, kde-format
-#| msgid "Initial Vertical Position"
+#, kde-format
 msgid "Vertical position'"
-msgstr "Начальное положение по вертикали"
+msgstr "Положение по вертикали"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -21451,7 +21469,7 @@ msgstr "Показать/Скрыть описание эффектов"
 msgid "Show/hide description of the compositions"
 msgstr "Показать/Скрыть описание композиций"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1519
+#: src/assets/assetlist/view/assetlistwidget.cpp:306 src/bin/bin.cpp:1624
 #: src/dialogs/renderwidget.cpp:566 src/project/dialogs/profilewidget.cpp:155
 #: src/project/notesplugin.cpp:179 src/titler/titlewidget.cpp:2691
 #, kde-format
@@ -21475,22 +21493,22 @@ msgctxt "@info:tooltip"
 msgid "Online documentation"
 msgstr "Документация в Интернете"
 
-#: src/assets/assetpanel.cpp:72
+#: src/assets/assetpanel.cpp:67
 #, kde-format
 msgid "Change composition type"
 msgstr "Изменить тип композиции"
 
-#: src/assets/assetpanel.cpp:83
+#: src/assets/assetpanel.cpp:78
 #, kde-format
 msgid "Apply only to effects with same value"
 msgstr "Применить только к эффектам с тем же значением"
 
-#: src/assets/assetpanel.cpp:89
+#: src/assets/assetpanel.cpp:84
 #, kde-format
 msgid "Apply effect change to all clips in the group…"
 msgstr "Применить изменение эффекта ко всем клипам в группе…"
 
-#: src/assets/assetpanel.cpp:91
+#: src/assets/assetpanel.cpp:86
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21502,12 +21520,12 @@ msgstr ""
 "будет применено также ко всем находящимся в этой группе клипам с тем же "
 "эффектом. Удаление эффекта приведёт к его удалению для всех клипов в группе."
 
-#: src/assets/assetpanel.cpp:102
+#: src/assets/assetpanel.cpp:97
 #, kde-format
 msgid "Create an object mask"
 msgstr "Создать маску объекта"
 
-#: src/assets/assetpanel.cpp:109
+#: src/assets/assetpanel.cpp:104
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21517,12 +21535,12 @@ msgstr ""
 "Показывает панель создания маски. Маски можно использовать, например, для "
 "удаления фона в видео."
 
-#: src/assets/assetpanel.cpp:115
+#: src/assets/assetpanel.cpp:110
 #, kde-format
 msgid "Save Effect Stack…"
 msgstr "Сохранить стек эффектов…"
 
-#: src/assets/assetpanel.cpp:116
+#: src/assets/assetpanel.cpp:111
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Saves the entire effect stack as an XML file for use in other projects."
@@ -21530,17 +21548,17 @@ msgstr ""
 "Сохраняет весь стек эффектов в виде файла XML для использования в других "
 "проектах."
 
-#: src/assets/assetpanel.cpp:121
+#: src/assets/assetpanel.cpp:116
 #, kde-format
 msgid "Normal view"
 msgstr "Обычный просмотр"
 
-#: src/assets/assetpanel.cpp:121 src/assets/assetpanel.cpp:125
+#: src/assets/assetpanel.cpp:116 src/assets/assetpanel.cpp:120
 #, kde-format
 msgid "Compare effect"
 msgstr "Сравнение до/после"
 
-#: src/assets/assetpanel.cpp:128
+#: src/assets/assetpanel.cpp:123
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21550,17 +21568,17 @@ msgstr ""
 "Включает или отключает разделённое видеоизображение в мониторе проекта и/или "
 "клипов: слева отображается клип с эффектом, справа — клип без эффекта."
 
-#: src/assets/assetpanel.cpp:133
+#: src/assets/assetpanel.cpp:128
 #, kde-format
 msgid "Effects disabled"
 msgstr "Эффекты отключены"
 
-#: src/assets/assetpanel.cpp:133
+#: src/assets/assetpanel.cpp:128
 #, kde-format
 msgid "Effects enabled"
 msgstr "Эффекты включены"
 
-#: src/assets/assetpanel.cpp:136
+#: src/assets/assetpanel.cpp:131
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -21571,48 +21589,48 @@ msgstr ""
 "оригинальной и изменённой версией, а также для ускорения покадрового "
 "воспроизведения."
 
-#: src/assets/assetpanel.cpp:143
+#: src/assets/assetpanel.cpp:138
 #, kde-format
 msgid "Open composition documentation in browser"
 msgstr "Открыть документацию по композиции в браузере"
 
-#: src/assets/assetpanel.cpp:147
+#: src/assets/assetpanel.cpp:142
 #, kde-format
 msgid "Display keyframes in timeline"
 msgstr "Показать ключевые кадры на монтажном столе"
 
-#: src/assets/assetpanel.cpp:147
+#: src/assets/assetpanel.cpp:142
 #, kde-format
 msgid "Hide keyframes in timeline"
 msgstr "Скрыть ключевые кадры на монтажном столе"
 
-#: src/assets/assetpanel.cpp:148
+#: src/assets/assetpanel.cpp:143
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of keyframes in the clip on the timeline"
 msgstr "Включает или отключает отображение ключевых кадров на монтажном столе."
 
-#: src/assets/assetpanel.cpp:275
+#: src/assets/assetpanel.cpp:285
 #, kde-format
 msgid "%1 effects"
 msgstr "Эффекты %1"
 
-#: src/assets/assetpanel.cpp:280 src/jobs/customjobtask.cpp:67
+#: src/assets/assetpanel.cpp:290 src/jobs/customjobtask.cpp:67
 #, kde-format
 msgid "%1 parameters"
 msgstr "Параметры %1"
 
-#: src/assets/assetpanel.cpp:284
+#: src/assets/assetpanel.cpp:294
 #, kde-format
 msgid "Track %1 effects"
 msgstr "Эффекты дорожки %1"
 
-#: src/assets/assetpanel.cpp:289
+#: src/assets/assetpanel.cpp:299
 #, kde-format
 msgid "Bin %1 effects"
 msgstr "Эффекты корзины %1"
 
-#: src/assets/assetpanel.cpp:493 src/bin/bin.cpp:4578
+#: src/assets/assetpanel.cpp:503 src/bin/bin.cpp:4705
 #: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
@@ -21620,19 +21638,19 @@ msgstr "Эффекты корзины %1"
 msgid "Show log"
 msgstr "Показать журнал"
 
-#: src/assets/assetpanel.cpp:495 src/bin/bin.cpp:4581
+#: src/assets/assetpanel.cpp:505 src/bin/bin.cpp:4708
 #: src/dialogs/textbasededit.cpp:766
 #: src/effects/effectstack/view/maskmanager.cpp:117
 #, kde-format
 msgid "Detailed log"
 msgstr "Подробный журнал"
 
-#: src/assets/assetpanel.cpp:580
+#: src/assets/assetpanel.cpp:590
 #, kde-format
 msgid "You have a mask job running. Abort the task ?"
 msgstr "Выполняется операция маски. Прервать её?"
 
-#: src/assets/assetpanel.cpp:581
+#: src/assets/assetpanel.cpp:591
 #, kde-format
 msgctxt "@action:button"
 msgid "Abort Mask Task"
@@ -21786,7 +21804,7 @@ msgid "Delete keyframes"
 msgstr "Удалить ключевые кадры"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:803
-#: src/assets/model/assetparametermodel.cpp:1867
+#: src/assets/model/assetparametermodel.cpp:1868
 #, kde-format
 msgid "Update effect"
 msgstr "Обновить эффект"
@@ -21883,13 +21901,13 @@ msgstr "Изменить ключевой кадр %1"
 msgid "Update %1"
 msgstr "Обновлено %1"
 
-#: src/assets/model/assetparametermodel.cpp:1704
-#: src/assets/model/assetparametermodel.cpp:1751
+#: src/assets/model/assetparametermodel.cpp:1705
+#: src/assets/model/assetparametermodel.cpp:1752
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Не удалось открыть файл предустановок «%1»"
 
-#: src/assets/model/assetparametermodel.cpp:1841
+#: src/assets/model/assetparametermodel.cpp:1842
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
@@ -22074,7 +22092,7 @@ msgid "Limit automatic keyframes"
 msgstr "Ограничить автоматические ключевые кадры"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: src/assets/view/widgets/keyframecontainer.cpp:285 src/bin/bin.cpp:1685
+#: src/assets/view/widgets/keyframecontainer.cpp:285 src/bin/bin.cpp:1790
 #: src/ui/clipstabilize_ui.ui:37
 #, kde-format
 msgid "Options"
@@ -22371,7 +22389,7 @@ msgstr "Нет звука"
 
 #: src/audiomixer/audiolevels/audiolevelwidget.cpp:430
 #: src/audiomixer/mixerwidget.cpp:154 src/audiomixer/mixerwidget.cpp:608
-#: src/mltcontroller/clippropertiescontroller.cpp:1045
+#: src/mltcontroller/clippropertiescontroller.cpp:1046
 #, kde-format
 msgid "dB"
 msgstr "дБ"
@@ -22519,7 +22537,7 @@ msgstr ""
 "Включает или отключает отображение элементов управления звуковой дорожки в "
 "звуковом микшере."
 
-#: src/bin/bin.cpp:141
+#: src/bin/bin.cpp:235
 #, kde-format
 msgctxt "Text shown when no media is imported yet. %1 is replaced by an icon"
 msgid "Double click, drop files or click %1 to import media"
@@ -22527,7 +22545,7 @@ msgstr ""
 "Сделайте двойной щелчок, перетащите файлы или нажмите %1 для импорта "
 "мультимедийных данных"
 
-#: src/bin/bin.cpp:143
+#: src/bin/bin.cpp:237
 #, kde-format
 msgctxt ""
 "Multiline version: Text shown when no media is imported yet. %1 is replaced "
@@ -22539,28 +22557,28 @@ msgstr ""
 "Сделайте двойной щелчок, перетащите файлы\n"
 "или нажмите %1 для импорта мультимедийных данных"
 
-#: src/bin/bin.cpp:324 src/bin/bin.cpp:692 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:417 src/bin/bin.cpp:785 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only audio to timeline"
 msgstr "Переместите, чтобы добавить на монтажный стол только аудио"
 
-#: src/bin/bin.cpp:328 src/bin/bin.cpp:696 src/monitor/view/ClipMonitor.qml:525
+#: src/bin/bin.cpp:421 src/bin/bin.cpp:789 src/monitor/view/ClipMonitor.qml:525
 #, kde-format
 msgid "Drag to add only video to timeline"
 msgstr "Переместите, чтобы добавить на монтажный стол только видео"
 
-#: src/bin/bin.cpp:450 src/bin/bin.cpp:853 src/timeline2/view/qml/Clip.qml:1555
+#: src/bin/bin.cpp:543 src/bin/bin.cpp:946 src/timeline2/view/qml/Clip.qml:1555
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
 msgstr "П"
 
-#: src/bin/bin.cpp:963 src/bin/bin.cpp:1161
+#: src/bin/bin.cpp:1056 src/bin/bin.cpp:1254
 #, kde-format
 msgid "<b>Double click</b> to add a file to the project"
 msgstr "<b>Щёлкните дважды</b> для добавления файла в проект"
 
-#: src/bin/bin.cpp:1051 src/bin/bin.cpp:1241
+#: src/bin/bin.cpp:1144 src/bin/bin.cpp:1334
 #, kde-format
 msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
@@ -22569,12 +22587,12 @@ msgstr ""
 "<b>Shift+переход</b> на миниатюре: назначить миниатюру по умолчанию, <b>F2</"
 "b>: переименование выделенного элемента"
 
-#: src/bin/bin.cpp:1053 src/bin/bin.cpp:1243
+#: src/bin/bin.cpp:1146 src/bin/bin.cpp:1336
 #, kde-format
 msgid "<b>F2</b> to rename selected item"
 msgstr "<b>F2</b>: переименование выделенного элемента"
 
-#: src/bin/bin.cpp:1390
+#: src/bin/bin.cpp:1495
 #, kde-format
 msgid "%1 job"
 msgid_plural "%1 jobs"
@@ -22583,7 +22601,7 @@ msgstr[1] "%1 задания"
 msgstr[2] "%1 заданий"
 msgstr[3] "%1 задание"
 
-#: src/bin/bin.cpp:1391
+#: src/bin/bin.cpp:1496
 #, kde-format
 msgid "%1 pending job"
 msgid_plural "%1 pending jobs"
@@ -22592,82 +22610,82 @@ msgstr[1] "%1 задания в очереди"
 msgstr[2] "%1 заданий в очереди"
 msgstr[3] "%1 задание в очереди"
 
-#: src/bin/bin.cpp:1521
+#: src/bin/bin.cpp:1626
 #, kde-format
 msgid "Bin Search"
 msgstr "Поиск в корзине"
 
-#: src/bin/bin.cpp:1574
+#: src/bin/bin.cpp:1679
 #, kde-format
 msgid "View Mode"
 msgstr "Режим просмотра"
 
-#: src/bin/bin.cpp:1577
+#: src/bin/bin.cpp:1682
 #, kde-format
 msgid "Tree View"
 msgstr "В виде дерева"
 
-#: src/bin/bin.cpp:1584
+#: src/bin/bin.cpp:1689
 #, kde-format
 msgid "Adjust Profile to Current Clip"
 msgstr "Скорректировать профиль по текущему клипу"
 
-#: src/bin/bin.cpp:1588
+#: src/bin/bin.cpp:1693
 #, kde-format
 msgid "Icon View"
 msgstr "В виде миниатюр"
 
-#: src/bin/bin.cpp:1596 src/project/dialogs/guideslist.cpp:222
+#: src/bin/bin.cpp:1701 src/project/dialogs/guideslist.cpp:222
 #, kde-format
 msgid "Descending"
 msgstr "По убыванию"
 
-#: src/bin/bin.cpp:1612
+#: src/bin/bin.cpp:1717
 #, kde-format
 msgid "Sort By"
 msgstr "Сортировка"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, fileList)
 #. i18n: ectx: property (text), widget (QTreeWidget, styleList)
-#: src/bin/bin.cpp:1615 src/bin/projectitemmodel.cpp:332
+#: src/bin/bin.cpp:1720 src/bin/projectitemmodel.cpp:332
 #: src/ui/managesubtitles_ui.ui:66 src/ui/managesubtitles_ui.ui:349
 #, kde-format
 msgid "Name"
 msgstr "Имя"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:1619 src/bin/projectitemmodel.cpp:335
+#: src/bin/bin.cpp:1724 src/bin/projectitemmodel.cpp:335
 #: src/project/dialogs/projectsettings.cpp:245 src/ui/managecache_ui.ui:369
 #, kde-format
 msgid "Date"
 msgstr "Дата"
 
-#: src/bin/bin.cpp:1623 src/bin/projectitemmodel.cpp:338
+#: src/bin/bin.cpp:1728 src/bin/projectitemmodel.cpp:338
 #, kde-format
 msgid "Description"
 msgstr "Описание"
 
-#: src/bin/bin.cpp:1635
+#: src/bin/bin.cpp:1740
 #, kde-format
 msgid "Insert Order"
 msgstr "Порядок вставки"
 
-#: src/bin/bin.cpp:1639 src/bin/projectitemmodel.cpp:353
+#: src/bin/bin.cpp:1744 src/bin/projectitemmodel.cpp:353
 #, kde-format
 msgid "Rating"
 msgstr "Оценка"
 
-#: src/bin/bin.cpp:1668
+#: src/bin/bin.cpp:1773
 #, kde-format
 msgid "Disable Bin Effects"
 msgstr "Отключить эффекты корзины"
 
-#: src/bin/bin.cpp:1676
+#: src/bin/bin.cpp:1781
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
 msgstr "Предварительный просмотр видео в миниатюрах"
 
-#: src/bin/bin.cpp:1686
+#: src/bin/bin.cpp:1791
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22677,37 +22695,37 @@ msgstr ""
 "Открывает меню для настройки параметров корзины проекта (например, режим "
 "просмотра, сортировка, отображение оценки)."
 
-#: src/bin/bin.cpp:1693
+#: src/bin/bin.cpp:1798
 #, kde-format
 msgid "Show Date"
 msgstr "Показать дату"
 
-#: src/bin/bin.cpp:1697
+#: src/bin/bin.cpp:1802
 #, kde-format
 msgid "Show Description"
 msgstr "Показать описание"
 
-#: src/bin/bin.cpp:1701
+#: src/bin/bin.cpp:1806
 #, kde-format
 msgid "Show Rating"
 msgstr "Показать оценку"
 
-#: src/bin/bin.cpp:1705
+#: src/bin/bin.cpp:1810
 #, kde-format
 msgid "Show FPS"
 msgstr "Показать частоту кадров"
 
-#: src/bin/bin.cpp:1717
+#: src/bin/bin.cpp:1822
 #, kde-format
 msgid "Open Current Folder In New Bin"
 msgstr "Открыть текущую папку в новой корзине"
 
-#: src/bin/bin.cpp:1722
+#: src/bin/bin.cpp:1827
 #, kde-format
 msgid "Tags Panel"
 msgstr "Панель меток"
 
-#: src/bin/bin.cpp:1744
+#: src/bin/bin.cpp:1849
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -22719,52 +22737,52 @@ msgstr ""
 "применение. Щелчок по значку стрелки выводит список параметров настройки "
 "фильтра."
 
-#: src/bin/bin.cpp:1779
+#: src/bin/bin.cpp:1884
 #, kde-format
 msgid "Close Current Bin"
 msgstr "Закрыть текущую корзину"
 
-#: src/bin/bin.cpp:1791
+#: src/bin/bin.cpp:1896
 #, kde-format
 msgid "Cancel All Jobs"
 msgstr "Отменить все задания"
 
-#: src/bin/bin.cpp:1793
+#: src/bin/bin.cpp:1898
 #, kde-format
 msgid "Cancel Current Clip Jobs"
 msgstr "Отменить текущие задания"
 
-#: src/bin/bin.cpp:1795
+#: src/bin/bin.cpp:1900
 #, kde-format
 msgid "Cancel Pending Jobs"
 msgstr "Отменить задания в очереди"
 
-#: src/bin/bin.cpp:1836
+#: src/bin/bin.cpp:1941
 #, kde-format
 msgid "Bin Clip Properties"
 msgstr "Свойства клипа в корзине"
 
-#: src/bin/bin.cpp:2180
+#: src/bin/bin.cpp:2293
 #, kde-format
 msgid "You cannot delete all sequences of a project"
 msgstr "Нельзя удалить все последовательности в проекте"
 
-#: src/bin/bin.cpp:2183
+#: src/bin/bin.cpp:2296
 #, kde-format
 msgid "Deleting sequences cannot be undone"
 msgstr "Удаление последовательностей невозможно отменить"
 
-#: src/bin/bin.cpp:2190
+#: src/bin/bin.cpp:2303
 #, kde-format
 msgid "This will delete all selected clips from the timeline"
 msgstr "С монтажного стола будут удалены все выбранные клипы"
 
-#: src/bin/bin.cpp:2193
+#: src/bin/bin.cpp:2306
 #, kde-format
 msgid "This will delete all folder content"
 msgstr "Всё содержимое папки будет удалено"
 
-#: src/bin/bin.cpp:2303
+#: src/bin/bin.cpp:2416
 #, kde-format
 msgid ""
 "Some items could not be deleted. Maybe there are instances on locked tracks?"
@@ -22772,17 +22790,17 @@ msgstr ""
 "Не удалось удалить некоторые элементы. Может быть имеются экземпляры на "
 "заблокированных дорожках?"
 
-#: src/bin/bin.cpp:2305
+#: src/bin/bin.cpp:2418
 #, kde-format
 msgid "Delete bin Clips"
 msgstr "Удалить клипы из корзины"
 
-#: src/bin/bin.cpp:2345 src/effects/effectstack/view/maskmanager.cpp:266
+#: src/bin/bin.cpp:2458 src/effects/effectstack/view/maskmanager.cpp:266
 #, kde-format
 msgid "Missing source clip"
 msgstr "Отсутствует исходный клип"
 
-#: src/bin/bin.cpp:2365 src/bin/bin.cpp:3172
+#: src/bin/bin.cpp:2478 src/bin/bin.cpp:3287
 #: src/effects/effectlist/view/effectlistwidget.cpp:186
 #: src/renderpresets/renderpresetrepository.cpp:170
 #: src/renderpresets/renderpresetrepository.cpp:478
@@ -22790,7 +22808,7 @@ msgstr "Отсутствует исходный клип"
 msgid "Unable to write to file %1"
 msgstr "Не удалось осуществить запись в файл «%1»"
 
-#: src/bin/bin.cpp:2372 src/bin/bin.cpp:3178 src/doc/kdenlivedoc.cpp:783
+#: src/bin/bin.cpp:2485 src/bin/bin.cpp:3293 src/doc/kdenlivedoc.cpp:783
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -22799,17 +22817,17 @@ msgstr ""
 "Файл проекта был изменён приложением Kdenlive.\n"
 "Во избежание потери данных создана резервная копия с именем «%1»."
 
-#: src/bin/bin.cpp:2378
+#: src/bin/bin.cpp:2491
 #, kde-format
 msgid "Unable to parse file %1"
 msgstr "Не удалось обработать файл «%1»"
 
-#: src/bin/bin.cpp:2389
+#: src/bin/bin.cpp:2502
 #, kde-format
 msgid "Cannot replace clip with invalid file %1"
 msgstr "Не удалось заменить клип на недопустимый файл «%1»"
 
-#: src/bin/bin.cpp:2415 src/bin/bin.cpp:2669
+#: src/bin/bin.cpp:2528 src/bin/bin.cpp:2782
 #, kde-format
 msgid ""
 "You are replacing a clip with a shorter one, this might cause issues in "
@@ -22820,18 +22838,18 @@ msgstr ""
 "стать причиной возникновения проблем на монтажном столе.\n"
 "В заменяющем клипе количество кадров меньше на %1."
 
-#: src/bin/bin.cpp:2424 src/bin/bin.cpp:2677
+#: src/bin/bin.cpp:2537 src/bin/bin.cpp:2790
 #: src/bin/model/subtitlemodel.cpp:421
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "Выбран недопустимый файл «%1»."
 
-#: src/bin/bin.cpp:2430
+#: src/bin/bin.cpp:2543
 #, kde-format
 msgid "Cannot find original clip to be replaced"
 msgstr "Не удалось найти исходный клип для замены"
 
-#: src/bin/bin.cpp:2461
+#: src/bin/bin.cpp:2574
 #, kde-format
 msgid ""
 "You need to select 2 clips (the replacement clip and the original clip) for "
@@ -22840,25 +22858,25 @@ msgstr ""
 "Для замены на монтажном столе необходимо выбрать 2 клипа (заменяющий клип и "
 "исходный клип)."
 
-#: src/bin/bin.cpp:2467
+#: src/bin/bin.cpp:2580
 #, kde-format
 msgid "The current clip <b>%1</b> is not inserted in the active timeline."
 msgstr ""
 "Текущий клип <b>%1</b> не вставлен на выделенную дорожку монтажного стола."
 
-#: src/bin/bin.cpp:2472
+#: src/bin/bin.cpp:2585
 #, kde-format
 msgid "You cannot insert the sequence <b>%1</b> into itself."
 msgstr "Нельзя вставить последовательность <b>%1</b> в саму себя."
 
-#: src/bin/bin.cpp:2491
+#: src/bin/bin.cpp:2604
 #, kde-format
 msgid ""
 "The selected clips %1 and %2 don't match, cannot replace audio nor video"
 msgstr ""
 "Выбранные клипы %1 и %2 не совпадают, невозможно заменить аудио или видео"
 
-#: src/bin/bin.cpp:2502
+#: src/bin/bin.cpp:2615
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b> (%2)<br/>in active timeline\n"
@@ -22868,7 +22886,7 @@ msgstr ""
 "стола\n"
 "на клип <b>%3</b> (%4)"
 
-#: src/bin/bin.cpp:2507
+#: src/bin/bin.cpp:2620
 #, kde-format
 msgid ""
 "Replacing instances of clip <b>%1</b><br/>in active timeline\n"
@@ -22878,17 +22896,17 @@ msgstr ""
 "стола\n"
 "на клип <b>%2</b>"
 
-#: src/bin/bin.cpp:2509 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2622 src/timeline2/model/timelineitemmodel.cpp:997
 #, kde-format
 msgid "Replace audio"
 msgstr "Заменить звук"
 
-#: src/bin/bin.cpp:2512 src/timeline2/model/timelineitemmodel.cpp:997
+#: src/bin/bin.cpp:2625 src/timeline2/model/timelineitemmodel.cpp:997
 #, kde-format
 msgid "Replace video"
 msgstr "Заменить видео"
 
-#: src/bin/bin.cpp:2522
+#: src/bin/bin.cpp:2635
 #, kde-format
 msgid ""
 "Replacement clip is shorter than source clip.<br><b>Some clips in timeline "
@@ -22897,36 +22915,39 @@ msgstr ""
 "Заменяющий клип короче исходного клипа.<br><b>Некоторые клипы на монтажном "
 "столе может не получиться заменить</b>"
 
-#: src/bin/bin.cpp:2525
+#: src/bin/bin.cpp:2638
 #, kde-format
 msgid "Replacement clip duration is longer that your source clip"
 msgstr "Длительность заменяющего клипа превышает длительность исходного клипа"
 
-#: src/bin/bin.cpp:2569
+#: src/bin/bin.cpp:2682
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Replacement for %1"
 msgstr "Открытие замены для %1"
 
-#: src/bin/bin.cpp:2577
+#: src/bin/bin.cpp:2690
 #, kde-format
 msgid ""
 "You have multiple selected clips to be replaced.\n"
 "\n"
 "Do you want to cancel all pending replace actions?\n"
 msgstr ""
+"Выбрано несколько клипов для замены.\n"
+"\n"
+"Отменить все ожидающие замены?\n"
 
-#: src/bin/bin.cpp:2578 src/mltcontroller/clippropertiescontroller.cpp:1406
+#: src/bin/bin.cpp:2691 src/mltcontroller/clippropertiescontroller.cpp:1407
 #, kde-format
 msgid "No"
 msgstr "Нет"
 
-#: src/bin/bin.cpp:2578
+#: src/bin/bin.cpp:2691
 #, kde-format
 msgid "Yes, cancel all actions"
-msgstr ""
+msgstr "Да, отменить все"
 
-#: src/bin/bin.cpp:2626
+#: src/bin/bin.cpp:2739
 #, kde-format
 msgid ""
 "Replacement clip does not contain a video stream. Do you want to replace "
@@ -22935,7 +22956,7 @@ msgstr ""
 "Заменяющий клип не содержит видеопоток. Заменить только аудио этого клипа на "
 "выделенной дорожке монтажного стола?"
 
-#: src/bin/bin.cpp:2631
+#: src/bin/bin.cpp:2744
 #, kde-format
 msgid ""
 "Replacement clip does not contain an audio stream. Do you want to replace "
@@ -22944,7 +22965,7 @@ msgstr ""
 "Заменяющий клип не содержит аудиопоток. Заменить только видео этого клипа на "
 "выделенной дорожке монтажного стола?"
 
-#: src/bin/bin.cpp:2635 src/bin/bin.cpp:2661
+#: src/bin/bin.cpp:2748 src/bin/bin.cpp:2774
 #, kde-format
 msgid ""
 "You cannot replace a clip with a different type of clip (audio/video not "
@@ -22952,50 +22973,50 @@ msgid ""
 msgstr ""
 "Нельзя заменить клип на клип другого типа (не соответствует звук или видео)"
 
-#: src/bin/bin.cpp:2638
+#: src/bin/bin.cpp:2751
 #, kde-format
 msgid "Replace in timeline"
 msgstr "Заменить на монтажном столе"
 
-#: src/bin/bin.cpp:2659 src/bin/bin.cpp:6632 src/bin/clipcreator.cpp:357
+#: src/bin/bin.cpp:2772 src/bin/bin.cpp:6791 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
 msgid "Add clip"
 msgstr "Добавить клип"
 
-#: src/bin/bin.cpp:2709
+#: src/bin/bin.cpp:2822
 #, kde-format
 msgid "Could not locate %1"
 msgstr "Не удалось найти %1"
 
-#: src/bin/bin.cpp:2842
+#: src/bin/bin.cpp:2955
 #, kde-format
 msgid "Could not create temporary file in %1"
 msgstr "Не удалось создать временный файл в %1"
 
-#: src/bin/bin.cpp:2849
+#: src/bin/bin.cpp:2962
 #, kde-format
 msgid "Duplicating sequence failed"
 msgstr "Не удалось продублировать последовательность"
 
-#: src/bin/bin.cpp:2874 src/bin/bin.cpp:2889
+#: src/bin/bin.cpp:2987 src/bin/bin.cpp:3002
 #: src/timeline2/view/timelinecontroller.cpp:962
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Дублировать клип"
 
-#: src/bin/bin.cpp:3017
+#: src/bin/bin.cpp:3132
 #, kde-format
 msgid "Clear Filters"
 msgstr "Снять фильтры"
 
-#: src/bin/bin.cpp:3023
+#: src/bin/bin.cpp:3138
 #, kde-format
 msgid "No Tags"
 msgstr "Без меток"
 
-#: src/bin/bin.cpp:3042
+#: src/bin/bin.cpp:3157
 #, kde-format
 msgid "%1 Star"
 msgid_plural "%1 Stars"
@@ -23004,37 +23025,37 @@ msgstr[1] "%1 звезды"
 msgstr[2] "%1 звёзд"
 msgstr[3] "%1 звезда"
 
-#: src/bin/bin.cpp:3049
+#: src/bin/bin.cpp:3164
 #, kde-format
 msgid "Filter by Usage"
 msgstr "Фильтр по использованию"
 
-#: src/bin/bin.cpp:3052
+#: src/bin/bin.cpp:3167
 #, kde-format
 msgid "All Clips"
 msgstr "Все клипы"
 
-#: src/bin/bin.cpp:3057
+#: src/bin/bin.cpp:3172
 #, kde-format
 msgid "Unused Clips"
 msgstr "Неиспользуемые клипы"
 
-#: src/bin/bin.cpp:3061
+#: src/bin/bin.cpp:3176
 #, kde-format
 msgid "Used Clips"
 msgstr "Используемые клипы"
 
-#: src/bin/bin.cpp:3068
+#: src/bin/bin.cpp:3183
 #, kde-format
 msgid "Filter by Type"
 msgstr "Фильтр по типу"
 
-#: src/bin/bin.cpp:3071
+#: src/bin/bin.cpp:3186
 #, kde-format
 msgid "AV Clip"
 msgstr "Аудиовидеоклип"
 
-#: src/bin/bin.cpp:3075
+#: src/bin/bin.cpp:3190
 #, kde-format
 msgid "Mute Video"
 msgstr "Видео без звука"
@@ -23045,7 +23066,7 @@ msgstr "Видео без звука"
 #. i18n: ectx: property (text), widget (QCheckBox, enable_audio)
 #. i18n: ectx: attribute (title), widget (QWidget, audio_tab)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: src/bin/bin.cpp:3079 src/effects/effectlist/model/effecttreemodel.cpp:63
+#: src/bin/bin.cpp:3194 src/effects/effectlist/model/effecttreemodel.cpp:63
 #: src/lib/audio/audioStreamInfo.cpp:25 src/lib/audio/audioStreamInfo.cpp:31
 #: src/monitor/recmanager.cpp:45 src/onlineresources/resourcewidget.cpp:685
 #: src/ui/clipjobmanager_ui.ui:388 src/ui/configcapture_ui.ui:331
@@ -23055,62 +23076,62 @@ msgstr "Видео без звука"
 msgid "Audio"
 msgstr "Звук"
 
-#: src/bin/bin.cpp:3083 src/mltcontroller/clippropertiescontroller.cpp:390
+#: src/bin/bin.cpp:3198 src/mltcontroller/clippropertiescontroller.cpp:391
 #, kde-format
 msgid "Image"
 msgstr "Изображение"
 
-#: src/bin/bin.cpp:3087
+#: src/bin/bin.cpp:3202
 #, kde-format
 msgid "Slideshow"
 msgstr "Слайд-шоу"
 
-#: src/bin/bin.cpp:3091
+#: src/bin/bin.cpp:3206
 #, kde-format
 msgid "Playlist"
 msgstr "Список воспроизведения"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: src/bin/bin.cpp:3095 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
+#: src/bin/bin.cpp:3210 src/bin/clipcreator.cpp:259 src/bin/clipcreator.cpp:261
 #: src/project/projectmanager.cpp:1787 src/project/projectmanager.cpp:1789
 #: src/ui/managecache_ui.ui:192
 #, kde-format
 msgid "Sequences"
 msgstr "Последовательности"
 
-#: src/bin/bin.cpp:3099 src/project/dialogs/projectsettings.cpp:213
+#: src/bin/bin.cpp:3214 src/project/dialogs/projectsettings.cpp:213
 #, kde-format
 msgid "Title"
 msgstr "Титры"
 
-#: src/bin/bin.cpp:3103
+#: src/bin/bin.cpp:3218
 #, kde-format
 msgid "Title Template"
 msgstr "Шаблоны титров"
 
-#: src/bin/bin.cpp:3144
+#: src/bin/bin.cpp:3259
 #, kde-format
 msgid "Select an option in the menu to enable filtering"
 msgstr "Выберите опцию в меню для включения фильтра"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, listWidget)
-#: src/bin/bin.cpp:3199 src/ui/managecache_ui.ui:359
+#: src/bin/bin.cpp:3314 src/ui/managecache_ui.ui:359
 #, kde-format
 msgid "Folder"
 msgstr "Папка"
 
-#: src/bin/bin.cpp:3200
+#: src/bin/bin.cpp:3315
 #, kde-format
 msgid "Create bin folder"
 msgstr "Создать папку корзины"
 
-#: src/bin/bin.cpp:3342 src/bin/bin.cpp:3355 src/bin/bin.cpp:4465
+#: src/bin/bin.cpp:3457 src/bin/bin.cpp:3470 src/bin/bin.cpp:4592
 #: src/timeline2/model/timelinemodel.cpp:2623
 #, kde-format
 msgid "Delete Clip"
 msgstr "Удалить клип"
 
-#: src/bin/bin.cpp:3344 src/bin/bin.cpp:3357
+#: src/bin/bin.cpp:3459 src/bin/bin.cpp:3472
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23119,43 +23140,43 @@ msgid ""
 msgstr ""
 "Удаляет выделенные клипы из корзины проекта, а также из монтажного стола."
 
-#: src/bin/bin.cpp:3345 src/bin/bin.cpp:3358 src/bin/bin.cpp:4441
+#: src/bin/bin.cpp:3460 src/bin/bin.cpp:3473 src/bin/bin.cpp:4568
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Прокси-клип"
 
-#: src/bin/bin.cpp:3349
+#: src/bin/bin.cpp:3464
 #, kde-format
 msgid "Delete Folder"
 msgstr "Удалить папку"
 
-#: src/bin/bin.cpp:3350
+#: src/bin/bin.cpp:3465
 #, kde-format
 msgid "Proxy Folder"
 msgstr "Папка прокси-файлов"
 
-#: src/bin/bin.cpp:3630
+#: src/bin/bin.cpp:3745
 #, kde-format
 msgid "Edit rating"
 msgstr "Изменить оценку"
 
-#: src/bin/bin.cpp:3632
+#: src/bin/bin.cpp:3747
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "Не удалось оценить данный элемент"
 
-#: src/bin/bin.cpp:4359 src/bin/bin.cpp:4495 src/mainwindow.cpp:147
+#: src/bin/bin.cpp:4486 src/bin/bin.cpp:4622 src/mainwindow.cpp:147
 #: src/timeline2/view/timelinewidget.cpp:241
 #, kde-format
 msgid "Add Clip"
 msgstr "Добавить клип"
 
-#: src/bin/bin.cpp:4379
+#: src/bin/bin.cpp:4506
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Добавить клип или папку…"
 
-#: src/bin/bin.cpp:4380
+#: src/bin/bin.cpp:4507
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23169,102 +23190,102 @@ msgstr ""
 "стрелкой вниз для выбора из списка типов исходных данных.<nl/>Щёлкните по "
 "значку мультимедиа для открытия окна выбора исходных файлов."
 
-#: src/bin/bin.cpp:4386
+#: src/bin/bin.cpp:4513
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Добавить цветовой клип…"
 
-#: src/bin/bin.cpp:4388
+#: src/bin/bin.cpp:4515
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Добавить серию изображений…"
 
-#: src/bin/bin.cpp:4390
+#: src/bin/bin.cpp:4517
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Добавить клип титров…"
 
-#: src/bin/bin.cpp:4392
+#: src/bin/bin.cpp:4519
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Добавить шаблон титров…"
 
-#: src/bin/bin.cpp:4394
+#: src/bin/bin.cpp:4521
 #, kde-format
 msgid "Create Animation…"
 msgstr "Создать анимацию…"
 
-#: src/bin/bin.cpp:4396
+#: src/bin/bin.cpp:4523
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Добавить последовательность…"
 
-#: src/bin/bin.cpp:4400 src/mainwindow.cpp:351
+#: src/bin/bin.cpp:4527 src/mainwindow.cpp:351
 #, kde-format
 msgid "Online Resources"
 msgstr "Онлайн-ресурсы"
 
-#: src/bin/bin.cpp:4404
+#: src/bin/bin.cpp:4531
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Найти клип…"
 
-#: src/bin/bin.cpp:4409
+#: src/bin/bin.cpp:4536
 #, kde-format
 msgid "Reload Clip"
 msgstr "Перезагрузить клип"
 
-#: src/bin/bin.cpp:4415
+#: src/bin/bin.cpp:4542
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Перекодировать в редактируемый формат…"
 
-#: src/bin/bin.cpp:4420
+#: src/bin/bin.cpp:4547
 #, kde-format
 msgid "Insert at Timecode"
 msgstr "Вставить по тайм-коду"
 
-#: src/bin/bin.cpp:4425
+#: src/bin/bin.cpp:4552
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Заменить клип…"
 
-#: src/bin/bin.cpp:4431
+#: src/bin/bin.cpp:4558
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Заменить клип на монтажном столе…"
 
-#: src/bin/bin.cpp:4436 src/mainwindow_actions.cpp:958
+#: src/bin/bin.cpp:4563 src/mainwindow_actions.cpp:958
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Дублировать клип"
 
-#: src/bin/bin.cpp:4448 src/bin/bin.cpp:4525
+#: src/bin/bin.cpp:4575 src/bin/bin.cpp:4652
 #, kde-format
 msgid "Clip Properties"
 msgstr "Свойства клипа"
 
-#: src/bin/bin.cpp:4453 src/mltcontroller/clippropertiescontroller.cpp:620
+#: src/bin/bin.cpp:4580 src/mltcontroller/clippropertiescontroller.cpp:621
 #, kde-format
 msgid "Edit Clip"
 msgstr "Изменить клип"
 
-#: src/bin/bin.cpp:4471
+#: src/bin/bin.cpp:4598
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Целевая папка по умолчанию для последовательностей"
 
-#: src/bin/bin.cpp:4476
+#: src/bin/bin.cpp:4603
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Целевая папка по умолчанию для захвата звука"
 
-#: src/bin/bin.cpp:4480
+#: src/bin/bin.cpp:4607
 #, kde-format
 msgid "Create Folder"
 msgstr "Создать папку"
 
-#: src/bin/bin.cpp:4483
+#: src/bin/bin.cpp:4610
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23274,18 +23295,18 @@ msgstr ""
 "Создаёт папку в текущей позиции корзины проекта. Обеспечивает лучшую "
 "организацию исходных файлов. Поддерживает вложенные папки."
 
-#: src/bin/bin.cpp:4643 src/bin/bin.cpp:4676
+#: src/bin/bin.cpp:4770 src/bin/bin.cpp:4803
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Создание новой последовательности"
 
-#: src/bin/bin.cpp:4646 src/bin/bin.cpp:4649 src/bin/bin.cpp:4679
+#: src/bin/bin.cpp:4773 src/bin/bin.cpp:4776 src/bin/bin.cpp:4806
 #, kde-format
 msgid "Sequence %1"
 msgstr "Последовательность %1"
 
-#: src/bin/bin.cpp:4710
+#: src/bin/bin.cpp:4837
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
@@ -23294,40 +23315,40 @@ msgstr[1] "Переместить клипы"
 msgstr[2] "Переместить клипы"
 msgstr[3] "Переместить клип"
 
-#: src/bin/bin.cpp:4752
+#: src/bin/bin.cpp:4879
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "Отсутствуют допустимые для вставки клипы"
 
-#: src/bin/bin.cpp:4765 src/timeline2/view/timelinecontroller.cpp:1885
+#: src/bin/bin.cpp:4892 src/timeline2/view/timelinecontroller.cpp:1885
 #: src/timeline2/view/timelinecontroller.cpp:4016
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Выберите клип для применения эффекта"
 
-#: src/bin/bin.cpp:4799 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4926 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "Не удалось добавить эффект к клипу"
 
-#: src/bin/bin.cpp:4873 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:5000 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "Вставить эффект"
 
-#: src/bin/bin.cpp:4910 src/bin/bin.cpp:4917
+#: src/bin/bin.cpp:5037 src/bin/bin.cpp:5044
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Выберите клип для добавления метки"
 
-#: src/bin/bin.cpp:5056
+#: src/bin/bin.cpp:5183
 #, kde-format
 msgid "Edit Tags"
 msgstr "Изменить метки"
 
-#: src/bin/bin.cpp:5393 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:5520 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:2053 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
@@ -23335,43 +23356,43 @@ msgstr "Изменить метки"
 msgid "Unnamed"
 msgstr "Без имени"
 
-#: src/bin/bin.cpp:5457
+#: src/bin/bin.cpp:5584
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Введите путь к своему приложению для редактирования изображений"
 
-#: src/bin/bin.cpp:5469
+#: src/bin/bin.cpp:5596
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "файлов изображений"
 
-#: src/bin/bin.cpp:5474
+#: src/bin/bin.cpp:5601
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Введите путь к своему приложению для редактирования звука"
 
-#: src/bin/bin.cpp:5486
+#: src/bin/bin.cpp:5613
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "звуковых файлов"
 
-#: src/bin/bin.cpp:5493
+#: src/bin/bin.cpp:5620
 #, kde-format
 msgid "Enter path for your video editing application"
 msgstr "Введите путь к своему приложению для редактирования видео"
 
-#: src/bin/bin.cpp:5505
+#: src/bin/bin.cpp:5632
 #, kde-format
 msgid "Please set a default application to open video files"
 msgstr ""
 "Укажите приложение, которое по умолчанию будет использоваться для открытия "
 "видеофайлов"
 
-#: src/bin/bin.cpp:5515 src/core.cpp:713 src/core.cpp:741
+#: src/bin/bin.cpp:5642 src/core.cpp:713 src/core.cpp:741
 #: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -23381,12 +23402,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "Не удалось открыть файл «%1»"
 
-#: src/bin/bin.cpp:5552 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5679 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(копия)"
 
-#: src/bin/bin.cpp:5562
+#: src/bin/bin.cpp:5689
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -23395,95 +23416,95 @@ msgstr ""
 "Выполняется редактирование внешнего клипа титров (%1). Сохранить изменения в "
 "файл с титрами или применить изменения только к этому проекту?"
 
-#: src/bin/bin.cpp:5565 src/titler/titlewidget.cpp:2631
+#: src/bin/bin.cpp:5692 src/titler/titlewidget.cpp:2631
 #, kde-format
 msgid "Save Title"
 msgstr "Сохранить титры"
 
-#: src/bin/bin.cpp:5565
+#: src/bin/bin.cpp:5692
 #, kde-format
 msgid "Save to title file"
 msgstr "Сохранить в файл с титрами"
 
-#: src/bin/bin.cpp:5566
+#: src/bin/bin.cpp:5693
 #, kde-format
 msgid "Save in project only"
 msgstr "Сохранить только в проекте"
 
-#: src/bin/bin.cpp:5593 src/dialogs/clipcreationdialog.cpp:354
+#: src/bin/bin.cpp:5720 src/dialogs/clipcreationdialog.cpp:354
 #, kde-format
 msgid "Title clip"
 msgstr "Клип титров"
 
-#: src/bin/bin.cpp:5599
+#: src/bin/bin.cpp:5726
 #, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
 msgstr "Заменить клип титров на монтажном столе на новый?"
 
-#: src/bin/bin.cpp:5600
+#: src/bin/bin.cpp:5727
 #, kde-format
 msgid "Replace Title Clip"
 msgstr "Замена клипа титров"
 
-#: src/bin/bin.cpp:5600
+#: src/bin/bin.cpp:5727
 #, kde-format
 msgid "Replace"
 msgstr "Заменить"
 
-#: src/bin/bin.cpp:5600
+#: src/bin/bin.cpp:5727
 #, kde-format
 msgid "Keep Existing"
 msgstr "Оставить существующий"
 
-#: src/bin/bin.cpp:5660
+#: src/bin/bin.cpp:5819
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "Недопустимый клип — будет удалён из проекта."
 
-#: src/bin/bin.cpp:5664
+#: src/bin/bin.cpp:5823
 #, kde-format
 msgid "Invalid clip"
 msgstr "Недопустимый клип"
 
-#: src/bin/bin.cpp:5778
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Enable proxies"
 msgstr "Включить прокси"
 
-#: src/bin/bin.cpp:5778
+#: src/bin/bin.cpp:5937
 #, kde-format
 msgid "Disable proxies"
 msgstr "Отключить прокси"
 
-#: src/bin/bin.cpp:5964
+#: src/bin/bin.cpp:6123
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Пересоздать прокси"
 
-#: src/bin/bin.cpp:6230
+#: src/bin/bin.cpp:6389
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:6246
+#: src/bin/bin.cpp:6405
 #, kde-format
 msgid "Add Tracks"
 msgstr "Добавить дорожки"
 
-#: src/bin/bin.cpp:6248
+#: src/bin/bin.cpp:6407
 #, kde-format
 msgid "Edit Streams"
 msgstr "Редактировать потоки"
 
-#: src/bin/bin.cpp:6267
+#: src/bin/bin.cpp:6426
 #, kde-format
 msgid "Don't ask again"
 msgstr "Больше не спрашивать"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:6271
+#: src/bin/bin.cpp:6430
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -23492,7 +23513,7 @@ msgstr ""
 "Для обработки всех потоков проекту необходимо большее количество звуковых "
 "дорожек. Добавить звуковых дорожек: %1?"
 
-#: src/bin/bin.cpp:6283 src/mainwindow.cpp:1836
+#: src/bin/bin.cpp:6442 src/mainwindow.cpp:1836
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "Не удалось найти клип для добавления маркера"
@@ -23500,7 +23521,7 @@ msgstr "Не удалось найти клип для добавления ма
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:6297 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:6456 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
 #: src/timeline2/view/timelinecontroller.cpp:1533
 #: src/timeline2/view/timelinecontroller.cpp:1849
@@ -23510,22 +23531,22 @@ msgstr "Не удалось найти клип для добавления ма
 msgid "Marker"
 msgstr "Маркер"
 
-#: src/bin/bin.cpp:6387
+#: src/bin/bin.cpp:6546
 #, kde-format
 msgid "Could not find master clip"
 msgstr "Не удалось найти мастер-клип"
 
-#: src/bin/bin.cpp:6654
+#: src/bin/bin.cpp:6813
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "Клипы: <b>%1</b> | "
 
-#: src/bin/bin.cpp:6656
+#: src/bin/bin.cpp:6815
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "Клипы: <b>%1</b> (выбрано %2) | "
 
-#: src/bin/bin.cpp:6725 src/bin/bin.cpp:6803
+#: src/bin/bin.cpp:6884 src/bin/bin.cpp:6962
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
@@ -23534,12 +23555,12 @@ msgstr[1] "Добавить дополнительные потоки для к�
 msgstr[2] "Добавить дополнительные потоки для клипа"
 msgstr[3] "Добавить дополнительный поток для клипа"
 
-#: src/bin/bin.cpp:6746
+#: src/bin/bin.cpp:6905
 #, kde-format
 msgid "Import selected clips"
 msgstr "Импорт выбранных клипов"
 
-#: src/bin/bin.cpp:6748
+#: src/bin/bin.cpp:6907
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -23548,51 +23569,51 @@ msgstr ""
 "Дополнительные потоки для клипа\n"
 "%1"
 
-#: src/bin/bin.cpp:6762 src/mltcontroller/clippropertiescontroller.cpp:734
+#: src/bin/bin.cpp:6921 src/mltcontroller/clippropertiescontroller.cpp:735
 #, kde-format
 msgid "Video stream %1"
 msgstr "Видеопоток %1"
 
-#: src/bin/bin.cpp:6777
+#: src/bin/bin.cpp:6936
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Звуковой поток %1"
 
-#: src/bin/bin.cpp:6830
+#: src/bin/bin.cpp:6989
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Удалить маркеры клипа"
 
-#: src/bin/bin.cpp:7027
+#: src/bin/bin.cpp:7186
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
 msgstr "Рекомендуется сохранить проект перед операцией перекодирования"
 
-#: src/bin/bin.cpp:7028
+#: src/bin/bin.cpp:7187
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Сохранить проект"
 
-#: src/bin/bin.cpp:7029
+#: src/bin/bin.cpp:7188
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Перекодировать без сохранения"
 
-#: src/bin/bin.cpp:7187 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:7346 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1132
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Удалить эффект %1"
 
-#: src/bin/bin.cpp:7253 src/mainwindow.cpp:272
+#: src/bin/bin.cpp:7412 src/mainwindow.cpp:272
 #, kde-format
 msgid "Project Bin"
 msgstr "Корзина проекта"
 
-#: src/bin/bin.cpp:7256 src/bin/bin.cpp:7259 src/mainwindow.cpp:3888
+#: src/bin/bin.cpp:7415 src/bin/bin.cpp:7418 src/mainwindow.cpp:3888
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Корзина проекта %1"
@@ -23703,7 +23724,7 @@ msgstr[3] "Добавить клип"
 #. i18n: ectx: property (text), widget (QLabel, duration_label)
 #. i18n: ectx: property (text), widget (QLabel, clip_filesize_2)
 #: src/bin/generators/generators.cpp:56
-#: src/mltcontroller/clippropertiescontroller.cpp:631
+#: src/mltcontroller/clippropertiescontroller.cpp:632
 #: src/transitions/view/mixstackview.cpp:88 src/ui/clipdurationdialog_ui.ui:91
 #: src/ui/colorclip_ui.ui:41 src/ui/editsub_ui.ui:106
 #: src/ui/qtextclip_ui.ui:198 src/ui/spacerdialog_ui.ui:37
@@ -25601,8 +25622,8 @@ msgid "None"
 msgstr "Отсутствует"
 
 #: src/dialogs/renderwidget.cpp:412
-#: src/mltcontroller/clippropertiescontroller.cpp:1414
-#: src/mltcontroller/clippropertiescontroller.cpp:1456
+#: src/mltcontroller/clippropertiescontroller.cpp:1415
+#: src/mltcontroller/clippropertiescontroller.cpp:1457
 #, kde-format
 msgid "Timecode"
 msgstr "Тайм-код"
@@ -25802,7 +25823,7 @@ msgstr "Звук без видеодорожки"
 msgid "Rendering %1 started"
 msgstr "Сборка %1 запущена"
 
-#: src/dialogs/renderwidget.cpp:1300 src/monitor/monitor.cpp:1579
+#: src/dialogs/renderwidget.cpp:1300 src/monitor/monitor.cpp:1578
 #, kde-format
 msgid "untitled"
 msgstr "безымянный"
@@ -26132,10 +26153,9 @@ msgid "Project Defaults"
 msgstr "Параметры проекта по умолчанию"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:354
-#, fuzzy, kde-format
-#| msgid "Colors and Markers"
+#, kde-format
 msgid "Colors and Grid"
-msgstr "Цвета и маркеры"
+msgstr "Цвета и сетка"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:383
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:429
@@ -26250,7 +26270,7 @@ msgstr ""
 #. i18n: ectx: Menu (transcoders)
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:700
 #: src/dialogs/timeremap.cpp:1692 src/kdenliveui.rc:81
-#: src/mltcontroller/clippropertiescontroller.cpp:795
+#: src/mltcontroller/clippropertiescontroller.cpp:796
 #: src/project/transcodeseek.cpp:51 src/project/transcodeseek.cpp:64
 #, kde-format
 msgid "Transcode"
@@ -27465,8 +27485,8 @@ msgstr "Кадровая частота"
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
 #: src/dialogs/Splash.qml:998
-#: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:690
+#: src/mltcontroller/clippropertiescontroller.cpp:1380
 #: src/project/dialogs/profilewidget.cpp:263 src/ui/editrenderpreset_ui.ui:215
 #: src/ui/profiledialog_ui.ui:103
 #, kde-format
@@ -28516,7 +28536,7 @@ msgid "Asset file"
 msgstr "Файл ресурса"
 
 #: src/doc/documentchecker.cpp:2036
-#: src/mltcontroller/clippropertiescontroller.cpp:679
+#: src/mltcontroller/clippropertiescontroller.cpp:680
 #, kde-format
 msgid "Proxy clip"
 msgstr "Прокси-клип"
@@ -28914,12 +28934,16 @@ msgid ""
 "security risks, create a new proxy profile in the project settings with "
 "these parameters:<br><code>%2<br>Extension: %3</code>"
 msgstr ""
+"Файл проекта <b>%1</b> содержит неизвестный профиль прокси, он будет "
+"отброшен. Это повлияет только на новые прокси-клипы. Если этот профиль "
+"действительно нужен и вы понимаете синтаксис ffmpeg и возможные риски для "
+"безопасности, создайте в параметрах проекта новый профиль прокси с такими "
+"параметрами:<br><code>%2<br>Расширение: %3</code>"
 
 #: src/doc/kdenlivedoc.cpp:1985
-#, fuzzy, kde-format
-#| msgid "Abort rendering"
+#, kde-format
 msgid "Abort Loading"
-msgstr "Прервать сборку"
+msgstr "Прервать загрузку"
 
 #: src/doc/kdenlivedoc.cpp:2012
 #, kde-format
@@ -28953,7 +28977,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Project's video profile is corrupted, using default one"
-msgstr ""
+msgstr "Профиль видео проекта повреждён, используется профиль по умолчанию"
 
 #: src/doc/kdenlivedoc.cpp:2228
 #, kde-format
@@ -29556,10 +29580,9 @@ msgid "User Files"
 msgstr "Файлы пользователя"
 
 #: src/filefilter.cpp:135
-#, fuzzy, kde-format
-#| msgid "Kdenlive title"
+#, kde-format
 msgid "Kdenlive Files"
-msgstr "Титры Kdenlive"
+msgstr "Файлы Kdenlive"
 
 #: src/filefilter.cpp:137
 #, kde-format
@@ -32782,8 +32805,8 @@ msgid "Cannot find your MLT profiles, please give the path"
 msgstr "Не найдены профили MLT, укажите путь к ним"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:165
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgctxt "Kilobytes per seconds"
 msgid "kb/s"
@@ -32843,54 +32866,54 @@ msgctxt "@info:whatsthis"
 msgid "Displays analysis data."
 msgstr "Выводит данные обработки."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:428
+#: src/mltcontroller/clippropertiescontroller.cpp:429
 #, kde-format
 msgid "Delete proxy file"
 msgstr "Удалить прокси-файл"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:435
+#: src/mltcontroller/clippropertiescontroller.cpp:436
 #, kde-format
 msgid "Proxy options"
 msgstr "Опции прокси"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:440
+#: src/mltcontroller/clippropertiescontroller.cpp:441
 #, kde-format
 msgid "Open folder…"
 msgstr "Открыть папку…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:446
+#: src/mltcontroller/clippropertiescontroller.cpp:447
 #, kde-format
 msgid "Play proxy clip"
 msgstr "Воспроизвести прокси-клип"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:452
+#: src/mltcontroller/clippropertiescontroller.cpp:453
 #, kde-format
 msgid "Copy file location to clipboard"
 msgstr "Копировать путь к файлу в буфер обмена"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:601
+#: src/mltcontroller/clippropertiescontroller.cpp:602
 #, kde-format
 msgid "Apply"
 msgstr "Применить"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:626
+#: src/mltcontroller/clippropertiescontroller.cpp:627
 #, kde-format
 msgid "Timecode Offset:"
 msgstr "Смещение тайм-кода:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:639
+#: src/mltcontroller/clippropertiescontroller.cpp:640
 #, kde-format
 msgid "Disable autorotate"
 msgstr "Отключить автоповорот"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:650
+#: src/mltcontroller/clippropertiescontroller.cpp:651
 #, kde-format
 msgid "Enter template text here"
 msgstr "Введите здесь текст шаблона"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: src/mltcontroller/clippropertiescontroller.cpp:673
-#: src/mltcontroller/clippropertiescontroller.cpp:1363
+#: src/mltcontroller/clippropertiescontroller.cpp:674
+#: src/mltcontroller/clippropertiescontroller.cpp:1364
 #: src/ui/profiledialog_ui.ui:343
 #, kde-format
 msgid "Pixel aspect ratio:"
@@ -32898,9 +32921,9 @@ msgstr "Соотношение сторон пиксела:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: src/mltcontroller/clippropertiescontroller.cpp:685
-#: src/mltcontroller/clippropertiescontroller.cpp:1369
-#: src/mltcontroller/clippropertiescontroller.cpp:1374
+#: src/mltcontroller/clippropertiescontroller.cpp:686
+#: src/mltcontroller/clippropertiescontroller.cpp:1370
+#: src/mltcontroller/clippropertiescontroller.cpp:1375
 #: src/ui/configcapture_ui.ui:217 src/ui/profiledialog_ui.ui:287
 #, kde-format
 msgid "Frame rate:"
@@ -32908,8 +32931,8 @@ msgstr "Кадровая частота:"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, scanning)
 #. i18n: ectx: property (text), item, widget (QComboBox, scanningCombo)
-#: src/mltcontroller/clippropertiescontroller.cpp:689
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:690
+#: src/mltcontroller/clippropertiescontroller.cpp:1380
 #: src/project/dialogs/profilewidget.cpp:264 src/ui/editrenderpreset_ui.ui:220
 #: src/ui/profiledialog_ui.ui:108
 #, kde-format
@@ -32918,305 +32941,305 @@ msgstr "Прогрессивно"
 
 #. i18n: ectx: property (text), widget (QLabel, label_scanning)
 #. i18n: ectx: property (text), widget (QCheckBox, cScanning)
-#: src/mltcontroller/clippropertiescontroller.cpp:690
-#: src/mltcontroller/clippropertiescontroller.cpp:1379
+#: src/mltcontroller/clippropertiescontroller.cpp:691
+#: src/mltcontroller/clippropertiescontroller.cpp:1380
 #: src/ui/editrenderpreset_ui.ui:508 src/ui/profiledialog_ui.ui:197
 #, kde-format
 msgid "Scanning:"
 msgstr "Сканирование:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:694
+#: src/mltcontroller/clippropertiescontroller.cpp:695
 #, kde-format
 msgid "Bottom First"
 msgstr "Сначала нижнее"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:694
+#: src/mltcontroller/clippropertiescontroller.cpp:695
 #, kde-format
 msgid "Top First"
 msgstr "Сначала верхнее"
 
 #. i18n: ectx: property (text), widget (QLabel, label_field_order)
-#: src/mltcontroller/clippropertiescontroller.cpp:695
+#: src/mltcontroller/clippropertiescontroller.cpp:696
 #: src/ui/profiledialog_ui.ui:217
 #, kde-format
 msgid "Field order:"
 msgstr "Порядок полей:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:706
+#: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "%1 (default)"
 msgstr "%1 (по умолчанию)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:711
+#: src/mltcontroller/clippropertiescontroller.cpp:712
 #, kde-format
 msgid "Rotate:"
 msgstr "Вращение:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:722
+#: src/mltcontroller/clippropertiescontroller.cpp:723
 #, kde-format
 msgid "Disable video"
 msgstr "Отключить видео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:722
+#: src/mltcontroller/clippropertiescontroller.cpp:723
 #, kde-format
 msgid "Enable video"
 msgstr "Включить видео"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:730
+#: src/mltcontroller/clippropertiescontroller.cpp:731
 #, kde-format
 msgid "Video stream"
 msgstr "Видеопоток"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:783
+#: src/mltcontroller/clippropertiescontroller.cpp:784
 #, kde-format
 msgid "Color space:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "Broadcast limited (MPEG)"
 msgstr "Ограниченный для трансляции (MPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:787
+#: src/mltcontroller/clippropertiescontroller.cpp:788
 #, kde-format
 msgid "Full (JPEG)"
 msgstr "Полный (JPEG)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:789
+#: src/mltcontroller/clippropertiescontroller.cpp:790
 #, kde-format
 msgid "Color range:"
 msgstr "Цветовой диапазон:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:794
+#: src/mltcontroller/clippropertiescontroller.cpp:795
 #, kde-format
 msgid "File uses a variable frame rate, not recommended"
 msgstr "В файле используется переменная кадровая частота, не рекомендуется"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:834
+#: src/mltcontroller/clippropertiescontroller.cpp:835
 #, kde-format
 msgid "Disable audio"
 msgstr "Отключить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:834
+#: src/mltcontroller/clippropertiescontroller.cpp:835
 #, kde-format
 msgid "Enable audio"
 msgstr "Включить звук"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:842
+#: src/mltcontroller/clippropertiescontroller.cpp:843
 #: src/monitor/monitor.cpp:308
 #, kde-format
 msgid "Audio streams"
 msgstr "Звуковые потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:864
-#: src/monitor/monitor.cpp:2297
+#: src/mltcontroller/clippropertiescontroller.cpp:865
+#: src/monitor/monitor.cpp:2296
 #, kde-format
 msgid "Merge all streams"
 msgstr "Объединить все потоки"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1011
+#: src/mltcontroller/clippropertiescontroller.cpp:1012
 #, kde-format
 msgid "Copy channel:"
 msgstr "Копировать канал:"
 
 #. i18n: ectx: property (text), widget (QLabel, aspect_den)
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1012
+#: src/mltcontroller/clippropertiescontroller.cpp:1013
 #: src/ui/profiledialog_ui.ui:267 src/ui/projectsettings_ui.ui:625
 #, kde-format
 msgid "1"
 msgstr "1"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, metadata_list)
-#: src/mltcontroller/clippropertiescontroller.cpp:1013
+#: src/mltcontroller/clippropertiescontroller.cpp:1014
 #: src/ui/projectsettings_ui.ui:630
 #, kde-format
 msgid "2"
 msgstr "2"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1042
+#: src/mltcontroller/clippropertiescontroller.cpp:1043
 #, kde-format
 msgid "Gain:"
 msgstr "Усиление:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1069
+#: src/mltcontroller/clippropertiescontroller.cpp:1070
 #, kde-format
 msgid "Audio sync:"
 msgstr "Синхронизация звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1071
+#: src/mltcontroller/clippropertiescontroller.cpp:1072
 #, kde-format
 msgid "ms"
 msgstr "мс"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1120
+#: src/mltcontroller/clippropertiescontroller.cpp:1121
 #, kde-format
 msgid "Analysis data"
 msgstr "Данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1123
+#: src/mltcontroller/clippropertiescontroller.cpp:1124
 #, kde-format
 msgid "Delete analysis"
 msgstr "Удалить данные анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1124
+#: src/mltcontroller/clippropertiescontroller.cpp:1125
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Deletes the data set(s)."
 msgstr "Удаляет набор(ы) данных."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1125
+#: src/mltcontroller/clippropertiescontroller.cpp:1126
 #, kde-format
 msgid "Export analysis…"
 msgstr "Экспорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1126
+#: src/mltcontroller/clippropertiescontroller.cpp:1127
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to export/save the analysis data."
 msgstr "Открывает диалоговое окно для экспорта/сохранения данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1127
+#: src/mltcontroller/clippropertiescontroller.cpp:1128
 #, kde-format
 msgid "Import analysis…"
 msgstr "Импорт данных анализа…"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1128
+#: src/mltcontroller/clippropertiescontroller.cpp:1129
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Opens a file dialog window to import/load analysis data."
 msgstr "Открывает диалоговое окно для импорта/загрузки данных анализа."
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1198
-#: src/mltcontroller/clippropertiescontroller.cpp:1568
+#: src/mltcontroller/clippropertiescontroller.cpp:1199
+#: src/mltcontroller/clippropertiescontroller.cpp:1569
 #, kde-format
 msgid "Tracks:"
 msgstr "Дорожки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1350
+#: src/mltcontroller/clippropertiescontroller.cpp:1351
 #, kde-format
 msgid "Frame size:"
 msgstr "Размер кадра:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1385
+#: src/mltcontroller/clippropertiescontroller.cpp:1386
 #, kde-format
 msgid "Video bitrate:"
 msgstr "Битовый поток видео:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1392
+#: src/mltcontroller/clippropertiescontroller.cpp:1393
 #, kde-format
 msgid "Video codec:"
 msgstr "Видеокодек:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1398
+#: src/mltcontroller/clippropertiescontroller.cpp:1399
 #, kde-format
 msgid "Pixel format:"
 msgstr "Формат пиксела:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_12)
-#: src/mltcontroller/clippropertiescontroller.cpp:1402
+#: src/mltcontroller/clippropertiescontroller.cpp:1403
 #: src/ui/profiledialog_ui.ui:323
 #, kde-format
 msgid "Colorspace:"
 msgstr "Цветовое пространство:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1406
+#: src/mltcontroller/clippropertiescontroller.cpp:1407
 #, kde-format
 msgid "B frames:"
 msgstr "B-кадры:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1406
+#: src/mltcontroller/clippropertiescontroller.cpp:1407
 #, kde-format
 msgid "Yes"
 msgstr "Да"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_channels)
-#: src/mltcontroller/clippropertiescontroller.cpp:1429
+#: src/mltcontroller/clippropertiescontroller.cpp:1430
 #: src/ui/configproject_ui.ui:107 src/ui/projectsettings_ui.ui:159
 #, kde-format
 msgid "Audio channels:"
 msgstr "Каналы звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1434
+#: src/mltcontroller/clippropertiescontroller.cpp:1435
 #, kde-format
 msgid "Audio frequency:"
 msgstr "Частота звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1434
+#: src/mltcontroller/clippropertiescontroller.cpp:1435
 #, kde-format
 msgctxt "Herz"
 msgid "Hz"
 msgstr "Гц"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1440
+#: src/mltcontroller/clippropertiescontroller.cpp:1441
 #, kde-format
 msgid "Audio codec:"
 msgstr "Кодек звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1447
+#: src/mltcontroller/clippropertiescontroller.cpp:1448
 #, kde-format
 msgid "Audio bitrate:"
 msgstr "Битовый поток звука:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1472
+#: src/mltcontroller/clippropertiescontroller.cpp:1473
 #, kde-format
 msgid "File size:"
 msgstr "Размер файла:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1498
+#: src/mltcontroller/clippropertiescontroller.cpp:1499
 #, kde-format
 msgid "Image size:"
 msgstr "Размер изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1501
+#: src/mltcontroller/clippropertiescontroller.cpp:1502
 #, kde-format
 msgid "Image duration:"
 msgstr "Длительность изображения:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1508
+#: src/mltcontroller/clippropertiescontroller.cpp:1509
 #, kde-format
 msgid "Image count:"
 msgstr "Количество изображений:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1547
+#: src/mltcontroller/clippropertiescontroller.cpp:1548
 #, kde-format
 msgid "Video streams:"
 msgstr "Видеопотоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1555
+#: src/mltcontroller/clippropertiescontroller.cpp:1556
 #, kde-format
 msgid "Audio streams:"
 msgstr "Звуковые потоки:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1560
+#: src/mltcontroller/clippropertiescontroller.cpp:1561
 #, kde-format
 msgid "Subtitle streams:"
 msgstr "Потоки субтитров:"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1749
+#: src/mltcontroller/clippropertiescontroller.cpp:1750
 #, kde-format
 msgid "Exif"
 msgstr "Exif"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1776
+#: src/mltcontroller/clippropertiescontroller.cpp:1777
 #, kde-format
 msgid "Magic Lantern"
 msgstr "Magic Lantern"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1817
+#: src/mltcontroller/clippropertiescontroller.cpp:1818
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Analysis Data"
 msgstr "Сохранение данных анализа"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1818
-#: src/mltcontroller/clippropertiescontroller.cpp:1831
+#: src/mltcontroller/clippropertiescontroller.cpp:1819
+#: src/mltcontroller/clippropertiescontroller.cpp:1832
 #: src/project/dialogs/projectsettings.cpp:810
 #, kde-format
 msgid "Text File (*.txt)"
 msgstr "Текстовый файл (*.txt)"
 
-#: src/mltcontroller/clippropertiescontroller.cpp:1830
+#: src/mltcontroller/clippropertiescontroller.cpp:1831
 #, kde-format
 msgctxt "@title:window"
 msgid "Open Analysis Data"
@@ -33419,29 +33442,29 @@ msgstr "Невозможно изменить участок во время с�
 msgid "Set Zone"
 msgstr "Установка участка"
 
-#: src/monitor/monitor.cpp:1592
+#: src/monitor/monitor.cpp:1591
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image to Project"
 msgstr "Сохранение изображения в проект"
 
-#: src/monitor/monitor.cpp:1592
+#: src/monitor/monitor.cpp:1591
 #, kde-format
 msgctxt "@title:window"
 msgid "Save Image"
 msgstr "Сохранение изображения"
 
-#: src/monitor/monitor.cpp:1599
+#: src/monitor/monitor.cpp:1598
 #, kde-format
 msgid "Export image using source resolution"
 msgstr "Экспорт изображения с разрешением источника"
 
-#: src/monitor/monitor.cpp:2171
+#: src/monitor/monitor.cpp:2170
 #, kde-format
 msgid "Exit Mask Mode ?"
 msgstr "Выйти из режима маски?"
 
-#: src/monitor/monitor.cpp:2282 src/monitor/monitor.cpp:2412
+#: src/monitor/monitor.cpp:2281 src/monitor/monitor.cpp:2411
 #, kde-format
 msgid "%1 audio stream"
 msgid_plural "%1 audio streams"
@@ -33450,12 +33473,12 @@ msgstr[1] "%1 звуковых потока"
 msgstr[2] "%1 звуковых потоков"
 msgstr[3] "%1 звуковой поток"
 
-#: src/monitor/monitor.cpp:2730
+#: src/monitor/monitor.cpp:2729
 #, kde-format
 msgid "Cannot initialize Movit's GLSL manager, please disable Movit"
 msgstr "Не удалось инициализировать менеджер GLSL Movit, отключите Movit"
 
-#: src/monitor/monitor.cpp:2772 src/monitor/monitor.cpp:2829
+#: src/monitor/monitor.cpp:2771 src/monitor/monitor.cpp:2828
 #, kde-format
 msgid ""
 "The alphagrad filter is required for that feature, please install frei0r and "
@@ -33464,17 +33487,17 @@ msgstr ""
 "Для данной функции требуется фильтр alphagrad. Установите frei0r и "
 "перезапустите Kdenlive"
 
-#: src/monitor/monitor.cpp:2792
+#: src/monitor/monitor.cpp:2791
 #, kde-format
 msgid "Clip has no effects"
 msgstr "В клипе отсутствуют какие-либо эффекты"
 
-#: src/monitor/monitor.cpp:2794
+#: src/monitor/monitor.cpp:2793
 #, kde-format
 msgid "Select a clip in project bin to compare effect"
 msgstr "Для сравнения эффектов выберите клип в корзине проекта"
 
-#: src/monitor/monitor.cpp:2836
+#: src/monitor/monitor.cpp:2835
 #, kde-format
 msgid ""
 "The cairoblend transition is required for that feature, please install "
@@ -33483,39 +33506,39 @@ msgstr ""
 "Для данной функции требуется переход cairoblend. Установите frei0r и "
 "перезапустите Kdenlive"
 
-#: src/monitor/monitor.cpp:2916
+#: src/monitor/monitor.cpp:2915
 #, kde-format
 msgid "Enable edit mode in monitor to edit effect"
 msgstr "Для изменения эффекта включите в мониторе режим редактирования"
 
-#: src/monitor/monitor.cpp:3419
+#: src/monitor/monitor.cpp:3418
 #, kde-format
 msgid "No clip selected in Clip Monitor"
 msgstr "В мониторе клипов не выбран клип"
 
-#: src/monitor/monitor.cpp:3440
+#: src/monitor/monitor.cpp:3439
 #, kde-format
 msgid "Cannot get producer for Clip Monitor"
 msgstr "Не удалось получить средство создания для монитора клипов"
 
-#: src/monitor/monitor.cpp:3522 src/monitor/monitor.cpp:3553
+#: src/monitor/monitor.cpp:3521 src/monitor/monitor.cpp:3552
 #: src/timeline2/view/timelinecontroller.cpp:6469
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr "Не задан корректный участок. Сначала укажите входную и выходную точки."
 
-#: src/monitor/monitor.cpp:3532
+#: src/monitor/monitor.cpp:3531
 #, kde-format
 msgid "Create Range Marker from Zone"
 msgstr "Создать маркер диапазона из участка"
 
-#: src/monitor/monitor.cpp:3538 src/monitor/monitor.cpp:3559
+#: src/monitor/monitor.cpp:3537 src/monitor/monitor.cpp:3558
 #: src/timeline2/view/timelinecontroller.cpp:6484
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Маркер диапазона, созданный из участка"
 
-#: src/monitor/monitor.cpp:3540 src/monitor/monitor.cpp:3561
+#: src/monitor/monitor.cpp:3539 src/monitor/monitor.cpp:3560
 #: src/timeline2/view/timelinecontroller.cpp:6487
 #, kde-format
 msgid "Failed to create range marker from zone"
@@ -34644,7 +34667,7 @@ msgstr ""
 #: src/project/dialogs/archivewidget.cpp:415
 #, kde-format
 msgid "Archive contains an unsafe path or symbolic link"
-msgstr ""
+msgstr "Архив содержит небезопасный путь или символическую ссылку"
 
 #: src/project/dialogs/archivewidget.cpp:439
 #, kde-format
@@ -34761,11 +34784,12 @@ msgstr "Во время архивации проекта произошла о�
 msgid ""
 "Extraction destination must be a directory and must not be a symbolic link"
 msgstr ""
+"Место распаковки должно быть папкой и не должно быть символической ссылкой"
 
 #: src/project/dialogs/archivewidget.cpp:1364
 #, kde-format
 msgid "Extraction destination must be empty"
-msgstr ""
+msgstr "Место распаковки должно быть пустым"
 
 #: src/project/dialogs/archivewidget.cpp:1374
 #, kde-format
@@ -34801,40 +34825,34 @@ msgid "Showing backup files for %1"
 msgstr "Показаны резервные копии для %1"
 
 #: src/project/dialogs/guidecategories.cpp:31
-#, fuzzy, kde-format
-#| msgid "Project Bins"
+#, kde-format
 msgid "Project Bin Tags"
-msgstr "Корзины проектов"
+msgstr "Метки корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:34
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete Tag"
-msgstr "Удалить "
+msgstr "Удалить метку"
 
 #: src/project/dialogs/guidecategories.cpp:36
-#, fuzzy, kde-format
-#| msgid "Add to Project Bin"
+#, kde-format
 msgid "Add a Project Bin tag"
-msgstr "Добавить в корзину проекта"
+msgstr "Добавить метку корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:37
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "Edit the selected Project Bin tag"
-msgstr "В корзине проекта не выбрано ни одного клипа"
+msgstr "Изменить выбранную метку корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:38
-#, fuzzy, kde-format
-#| msgid "Delete the selected speech model"
+#, kde-format
 msgid "Delete the selected Project Bin tag"
-msgstr "Удалите выбранную модель распознавания речи"
+msgstr "Удалить выбранную метку корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:52
-#, fuzzy, kde-format
-#| msgid "Add to Project Bin"
+#, kde-format
 msgid "Edit Project Bin Tag"
-msgstr "Добавить в корзину проекта"
+msgstr "Изменение метки корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:52
 #, kde-format
@@ -34847,16 +34865,14 @@ msgid "This color is already used in another category"
 msgstr "Этот цвет уже используется в другой категории"
 
 #: src/project/dialogs/guidecategories.cpp:158
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Tag"
-msgstr "Пользовательские"
+msgstr "Пользовательская метка"
 
 #: src/project/dialogs/guidecategories.cpp:170
-#, fuzzy, kde-format
-#| msgid "Automatic (%1)"
+#, kde-format
 msgid "Custom Tag (%1)"
-msgstr "Автоматически (%1)"
+msgstr "Пользовательская метка (%1)"
 
 #: src/project/dialogs/guidecategories.cpp:173
 #, kde-format
@@ -34864,10 +34880,9 @@ msgid "Category %1"
 msgstr "Категория %1"
 
 #: src/project/dialogs/guidecategories.cpp:194
-#, fuzzy, kde-format
-#| msgid "Project Bin %1"
+#, kde-format
 msgid "Delete Project Bin Tag"
-msgstr "Корзина проекта %1"
+msgstr "Удаление метки корзины проекта"
 
 #: src/project/dialogs/guidecategories.cpp:194
 #, kde-format
@@ -39371,12 +39386,12 @@ msgstr "Эффект пишущей машинки"
 msgid "Insert Pattern"
 msgstr "Вставить шаблон"
 
-#: src/titler/unicodedialog.cpp:28
+#: src/titler/unicodedialog.cpp:42
 #, kde-format
 msgid "Details"
 msgstr "Подробнее"
 
-#: src/titler/unicodedialog.cpp:77
+#: src/titler/unicodedialog.cpp:91
 #, kde-format
 msgid ""
 "Information about unicode characters: <a href=\"https://decodeunicode.org"
@@ -39385,29 +39400,29 @@ msgstr ""
 "Информация о символах Unicode: <a href=\"https://decodeunicode.org\">https://"
 "decodeunicode.org</a>"
 
-#: src/titler/unicodedialog.cpp:78
+#: src/titler/unicodedialog.cpp:92
 #, kde-format
 msgid "Previous Unicode character (Arrow Up)"
 msgstr "Предыдущий символ Unicode (клавиша со стрелкой вверх)"
 
-#: src/titler/unicodedialog.cpp:79
+#: src/titler/unicodedialog.cpp:93
 #, kde-format
 msgid "Next Unicode character (Arrow Down)"
 msgstr "Следующий символ Unicode (клавиша со стрелкой вниз)"
 
-#: src/titler/unicodedialog.cpp:80
+#: src/titler/unicodedialog.cpp:94
 #, kde-format
 msgid "Enter your Unicode number here. Allowed characters: [0-9] and [a-f]."
 msgstr ""
 "Введите в этом поле число, соответствующее номеру знака Unicode. Допустимые "
 "символы: [0-9] и [a-f]."
 
-#: src/titler/unicodedialog.cpp:136
+#: src/titler/unicodedialog.cpp:150
 #, kde-format
 msgid "<small>(no character selected)</small>"
 msgstr "<small>(символы не выбраны)</small>"
 
-#: src/titler/unicodedialog.cpp:145
+#: src/titler/unicodedialog.cpp:159
 #, kde-format
 msgid ""
 "Control character. Cannot be inserted/printed. See <a href=\"https://en."
@@ -39417,12 +39432,12 @@ msgstr ""
 "href=\"https://ru.wikipedia.org/wiki/Управляющие_символы\">Википедия: "
 "Управляющие символы</a>"
 
-#: src/titler/unicodedialog.cpp:147
+#: src/titler/unicodedialog.cpp:161
 #, kde-format
 msgid "Line Feed (newline character, \\\\n)"
 msgstr "Перевод строки (символ новой строки, \\\\n)"
 
-#: src/titler/unicodedialog.cpp:149
+#: src/titler/unicodedialog.cpp:163
 #, kde-format
 msgid ""
 "Standard space character. (Other space characters: U+00a0, U"
@@ -39431,12 +39446,12 @@ msgstr ""
 "Стандартный символ пробела. (Другие символы пробела: U+00a0, U"
 "+2000&#x2013;200b, U+202f)"
 
-#: src/titler/unicodedialog.cpp:151
+#: src/titler/unicodedialog.cpp:165
 #, kde-format
 msgid "No-break space. &amp;nbsp; in HTML. See U+2009 and U+0020."
 msgstr "Неразрывный пробел. &amp;nbsp; в HTML. См. U+2009 и U+0020."
 
-#: src/titler/unicodedialog.cpp:154
+#: src/titler/unicodedialog.cpp:168
 #, kde-format
 msgid ""
 "<p><strong>&laquo;</strong> (u+00ab, <code>&amp;lfquo;</code> in HTML) and "
@@ -39457,32 +39472,32 @@ msgstr ""
 "</p><p>См. <a href=\"https://ru.wikipedia.org/wiki/Кавычки>Википедия: "
 "Кавычки</a></p>"
 
-#: src/titler/unicodedialog.cpp:159
+#: src/titler/unicodedialog.cpp:173
 #, kde-format
 msgid "En Space (width of an n)"
 msgstr "Полукруглая шпация (шириной в половину кегля шрифта)"
 
-#: src/titler/unicodedialog.cpp:161
+#: src/titler/unicodedialog.cpp:175
 #, kde-format
 msgid "Em Space (width of an m)"
 msgstr "Круглая шпация (шириной в целый кегль шрифта)"
 
-#: src/titler/unicodedialog.cpp:163
+#: src/titler/unicodedialog.cpp:177
 #, kde-format
 msgid "Three-Per-Em Space. Width: 1/3 of one <em>em</em>"
 msgstr "Третная шпация (ширина: 1/3 часть круглой)<em>em</em>"
 
-#: src/titler/unicodedialog.cpp:165
+#: src/titler/unicodedialog.cpp:179
 #, kde-format
 msgid "Four-Per-Em Space. Width: 1/4 of one <em>em</em>"
 msgstr "Четвертная шпация (ширина: 1/4 круглой)<em>em</em>"
 
-#: src/titler/unicodedialog.cpp:167
+#: src/titler/unicodedialog.cpp:181
 #, kde-format
 msgid "Six-Per-Em Space. Width: 1/6 of one <em>em</em>"
 msgstr "Пробел в одну шестую ширины<em>em</em>"
 
-#: src/titler/unicodedialog.cpp:169
+#: src/titler/unicodedialog.cpp:183
 #, kde-format
 msgid ""
 "Figure space (non-breaking). Width of a digit if digits have fixed width in "
@@ -39491,7 +39506,7 @@ msgstr ""
 "Пробел шириной c цифру, если цифры имеют фиксированную ширину в данном "
 "шрифте (неразрывный)."
 
-#: src/titler/unicodedialog.cpp:171
+#: src/titler/unicodedialog.cpp:185
 #, kde-format
 msgid ""
 "Punctuation Space. Width the same as between a punctuation character and the "
@@ -39500,7 +39515,7 @@ msgstr ""
 "Пунктуационный пробел, ширина равна расстоянию между пунктуационным знаком и "
 "следующим символом."
 
-#: src/titler/unicodedialog.cpp:173
+#: src/titler/unicodedialog.cpp:187
 #, kde-format
 msgid ""
 "Thin space, in HTML also &amp;thinsp;. See U+202f and <a href=\"https://en."
@@ -39509,12 +39524,12 @@ msgstr ""
 "Тонкая шпация, в HTML также &amp;thinsp;. См. U+202f и <a href=\"https://ru."
 "wikipedia.org/wiki/Пробел\">Википедия: Пробел</a>"
 
-#: src/titler/unicodedialog.cpp:176
+#: src/titler/unicodedialog.cpp:190
 #, kde-format
 msgid "Hair Space. Thinner than U+2009."
 msgstr "Волосяная шпация. Тоньше, чем U+2009."
 
-#: src/titler/unicodedialog.cpp:179
+#: src/titler/unicodedialog.cpp:193
 #, kde-format
 msgid ""
 "Punctuation Apostrophe. Should be used instead of U+0027. See <a href="
@@ -39523,7 +39538,7 @@ msgstr ""
 "Апостроф. Должен использоваться вместо U+0027. См. <a href=\"https://ru."
 "wikipedia.org/wiki/Апостроф\">Википедия: Апостроф</a>"
 
-#: src/titler/unicodedialog.cpp:181
+#: src/titler/unicodedialog.cpp:195
 #, kde-format
 msgid ""
 "<p>An en Dash (dash of the width of an n).</p><p>Usage examples: In English "
@@ -39536,7 +39551,7 @@ msgstr ""
 "<p>Короткое тире. В русской типографике не используется.</p><p>См. <a href="
 "\"https://ru.wikipedia.org/wiki/Тире\">Википедия: Тире</a></p>"
 
-#: src/titler/unicodedialog.cpp:186
+#: src/titler/unicodedialog.cpp:200
 #, kde-format
 msgid ""
 "<p>An em Dash (dash of the width of an m).</p><p>Usage examples: In English "
@@ -39551,7 +39566,7 @@ msgstr ""
 "Отечественная война 1941&mdash;1945 гг.</em> (Не отбивается)</p><p>См. <a "
 "href=\"https://ru.wikipedia.org/wiki/Тире\">Википедия: Тире</a></p>"
 
-#: src/titler/unicodedialog.cpp:189
+#: src/titler/unicodedialog.cpp:203
 #, kde-format
 msgid ""
 "<p>Narrow no-break space. Has the same width as U+2009.</p><p>Usage: For "
@@ -39568,7 +39583,7 @@ msgstr ""
 "10 пунктов.</p><p>См. <a href=\"https://ru.wikipedia.org/wiki/Узкий_пробел"
 "\">Википедия: Узкий пробел</a></p>"
 
-#: src/titler/unicodedialog.cpp:194
+#: src/titler/unicodedialog.cpp:208
 #, kde-format
 msgid ""
 "Ellipsis: If text has been left o&#x2026; See <a href=\"https://en.wikipedia."
@@ -39577,17 +39592,17 @@ msgstr ""
 "Многоточие: обозначение незаконченности высказывания o&#x2026; См. <a href="
 "\"https://ru.wikipedia.org/wiki/Многоточие\">Википедия: Многоточие</a>"
 
-#: src/titler/unicodedialog.cpp:196
+#: src/titler/unicodedialog.cpp:210
 #, kde-format
 msgid "Minus sign. For numbers: &#x2212;42"
 msgstr "Знак минуса. Для чисел: &#x2212;42"
 
-#: src/titler/unicodedialog.cpp:198
+#: src/titler/unicodedialog.cpp:212
 #, kde-format
 msgid "Open box; stands for a space."
 msgstr "Пустой прямоугольник; заменяет пробел."
 
-#: src/titler/unicodedialog.cpp:200
+#: src/titler/unicodedialog.cpp:214
 #, kde-format
 msgid ""
 "Quarter note (Am.) or crochet (Brit.). See <a href=\"https://en.wikipedia."
@@ -39596,7 +39611,7 @@ msgstr ""
 "Четвертная нота. См. <a href=\"https://en.wikipedia.org/wiki/Quarter_note"
 "\">Википедия: Четвертная нота (на английском)</a>"
 
-#: src/titler/unicodedialog.cpp:202
+#: src/titler/unicodedialog.cpp:216
 #, kde-format
 msgid ""
 "Eighth note (Am.) or quaver (Brit.). Half as long as a quarter note (U"
@@ -39607,7 +39622,7 @@ msgstr ""
 "\"https://en.wikipedia.org/wiki/Eighth_note\">Википедия: Восьмая нота (на "
 "английском)</a>"
 
-#: src/titler/unicodedialog.cpp:205
+#: src/titler/unicodedialog.cpp:219
 #, kde-format
 msgid ""
 "Sixteenth note (Am.) or semiquaver (Brit.). Half as long as an eighth note (U"
@@ -39618,7 +39633,7 @@ msgstr ""
 "href=\"https://en.wikipedia.org/wiki/Sixteenth_note\">Википедия: "
 "Шестнадцатая нота (на английском)</a>"
 
-#: src/titler/unicodedialog.cpp:208
+#: src/titler/unicodedialog.cpp:222
 #, kde-format
 msgid ""
 "Thirty-second note (Am.) or demisemiquaver (Brit.). Half as long as a "
@@ -39629,7 +39644,7 @@ msgstr ""
 "См. <a href=\"https://en.wikipedia.org/wiki/Thirty-second_note\">Википедия: "
 "Тридцать вторая нота (на английском)</a>"
 
-#: src/titler/unicodedialog.cpp:211
+#: src/titler/unicodedialog.cpp:225
 #, kde-format
 msgid "<small>No additional information available for this character.</small>"
 msgstr "<small>Дополнительные сведения о данном символе отсутствуют.</small>"
@@ -40635,14 +40650,13 @@ msgstr "Не переходить в спящий режим при воспро
 #: src/ui/configenv_ui.ui:128
 #, kde-format
 msgid "Warn when free memory during rendering is below:"
-msgstr ""
+msgstr "Предупреждать, если свободной памяти при сборке меньше:"
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_lowMemoryThreshold)
 #: src/ui/configenv_ui.ui:141
-#, fuzzy, kde-format
-#| msgid " MiB"
+#, kde-format
 msgid " MB"
-msgstr " МиБ"
+msgstr " МБ"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, lowMemoryWarning)
 #: src/ui/configenv_ui.ui:172
@@ -40650,6 +40664,8 @@ msgstr " МиБ"
 msgid ""
 "Setting the value too low can lead to renders being aborted without warning."
 msgstr ""
+"Слишком низкое значение может привести к прерыванию сборки без "
+"предупреждения."
 
 #. i18n: ectx: property (text), widget (QCheckBox, dragFromTitlebarOnly)
 #: src/ui/configenv_ui.ui:190
@@ -41224,10 +41240,9 @@ msgstr "Прокси"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_markers)
 #: src/ui/configprojectdefaults_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "Markers Categories"
+#, kde-format
 msgid "Markers and Tags"
-msgstr "Категории маркеров"
+msgstr "Маркеры и метки"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:21
