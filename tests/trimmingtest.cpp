@@ -526,6 +526,24 @@ TEST_CASE("Simple trimming operations", "[Trimming]")
         state2();
     }
 
+    SECTION("Undo a cut of a group while both cut parts are selected")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid1, 10));
+        REQUIRE(timeline->requestClipMove(cid2, tid1, 40));
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 0));
+        REQUIRE(timeline->requestClipMove(cid4, tid3, 30));
+        int gid = timeline->requestClipsGroup({cid1, cid2, cid3, cid4});
+        REQUIRE(gid > -1);
+        // Each cut splits the group
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid4, 40));
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 24));
+        // Select clips from two groups resulting from the cuts
+        REQUIRE(timeline->requestSetSelection({cid1, cid2}));
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid3, cid4}));
+    }
+
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
 
