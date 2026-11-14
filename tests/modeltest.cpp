@@ -2419,12 +2419,13 @@ TEST_CASE("Ungroup and delete a clip", "[ClipModel]")
         REQUIRE_FALSE(timeline->isInGroup(partner));
     }
 
-    // Builds an A/V pair grouped with another clip:
-    //         root (Normal)
-    //        /      \
-    //   av (AVSplit)  other
-    //     /  \
-    //   cid  partner
+    /* Builds an A/V pair grouped with another clip:
+              root (Normal)
+             /      \
+        av (AVSplit)  other
+          /  \
+        cid  partner
+    */
     auto buildNestedGroups = [&](int &cid, int &partner, int &other) {
         REQUIRE(timeline->requestClipInsertion(binIdAV, tid1, 10, cid, true, true, false));
         REQUIRE(timeline->requestClipInsertion(binId, tid2, 50, other, true, true, false));

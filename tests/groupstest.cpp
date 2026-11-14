@@ -1368,12 +1368,13 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
         test_tree2();
     }
 
-    // Tree used by the removeFromGroup tests:
-    //          6 (Normal)
-    //        /    \
-    //   4 (AVSplit) 5 (Normal)
-    //     / \       / \
-    //    0   1     2   3
+    /* Tree used by the removeFromGroup tests:
+               6 (Normal)
+             /    \
+        4 (AVSplit) 5 (Normal)
+          / \       / \
+         0   1     2   3
+    */
     auto build_tree = [&]() {
         for (int i = 0; i <= 6; i++) {
             groups->createGroupItem(i);
@@ -1504,11 +1505,12 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     {
         Fun undo = []() { return true; };
         Fun redo = []() { return true; };
-        //      4
-        //     / \
-        //    0   3
-        //       / \
-        //      1   2
+        /*      4
+               / \
+              0   3
+                 / \
+                1   2
+        */
         for (int i = 0; i <= 4; i++) {
             groups->createGroupItem(i);
         }
