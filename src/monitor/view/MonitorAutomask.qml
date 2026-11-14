@@ -389,7 +389,7 @@ Item {
             onClicked: root.controller.position = root.maskEnd
         }
     }
-    MaskToolBar {
+    K.MaskToolBar {
         id: sceneToolBar
         anchors {
             right: parent.right
@@ -435,7 +435,7 @@ Item {
             visible: firstTimer.running
         }
     }
-    MonitorRuler {
+    K.MonitorRuler {
         id: clipMonitorRuler
         anchors {
             left: root.left

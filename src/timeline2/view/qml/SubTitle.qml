@@ -181,7 +181,7 @@ Item {
 
                 var layerOffset = mouse.y / subtitleRoot.height
                 if (layerOffset >= 1 || layerOffset <= 0) {
-                    var newLayer = Math.min(subtitleRoot.subLayer + layerOffset, subtitleRoot.timeline.maxSubLayer)
+                    let newLayer = Math.min(subtitleRoot.subLayer + layerOffset, subtitleRoot.timeline.maxSubLayer)
                     newLayer = Math.max(0, newLayer)
                     snappedLayer = Math.floor(newLayer)
                     subtitleRoot.controller.requestSubtitleMove(subtitleRoot.subId, snappedLayer, snappedFrame, true, false)
@@ -334,7 +334,7 @@ Item {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / subtitleRoot.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, subtitleRoot.snapping, shiftTrim);
+                        const frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -350,7 +350,7 @@ Item {
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
-                        var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        const updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
                         subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, false)
                     }
                 }
@@ -435,7 +435,7 @@ Item {
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
                         newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX) / subtitleRoot.timeScale)
                         // Perform resize without changing model
-                        var frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, subtitleRoot.snapping, shiftTrim);
+                        const frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -453,7 +453,7 @@ Item {
                         // Perform real resize
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
                     } else {
-                        var updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        const updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
                         subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, true)
                     }
                     sizeChanged = false

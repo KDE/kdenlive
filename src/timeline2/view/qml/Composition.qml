@@ -90,7 +90,7 @@ Item {
         }
         updateLabelOffset()
         if (compositionRoot.width > timelineScrollViewWidth) {
-            let kfrView = effectRow.item as KeyframeView
+            let kfrView = effectRow.item as K.KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
             }
@@ -115,7 +115,7 @@ Item {
     onFakeTidChanged: {
         if (compositionRoot.fakeTid > -1 && parentTrack) {
             if (compositionRoot.parent != dragContainer) {
-                var pos = compositionRoot.mapToGlobal(compositionRoot.x, compositionRoot.y);
+                let pos = compositionRoot.mapToGlobal(compositionRoot.x, compositionRoot.y);
                 compositionRoot.parent = dragContainer
                 pos = compositionRoot.mapFromGlobal(pos.x, pos.y)
                 compositionRoot.x = pos.x
@@ -146,7 +146,7 @@ Item {
 
     function resetSelection() {
         if (effectRow.visible) {
-            (effectRow.item as KeyframeView).resetSelection()
+            (effectRow.item as K.KeyframeView).resetSelection()
         }
     }
 
@@ -166,7 +166,7 @@ Item {
         width = clipDuration * timeScale;
         if (compositionRoot.visible) {
             updateLabelOffset()
-            let kfrView = effectRow.item as KeyframeView
+            let kfrView = effectRow.item as K.KeyframeView
             if (kfrView && kfrView.kfrCanvas) {
                 kfrView.kfrCanvas.requestPaint()
             }
@@ -281,8 +281,8 @@ Item {
                 if (mouse.modifiers & Qt.ShiftModifier) {
                     if (compositionRoot.keyframeModel && compositionRoot.showKeyframes) {
                         // Add new keyframe
-                        var xPos = Math.round(mouse.x  / compositionRoot.timeline.scaleFactor)
-                        var yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
+                        const xPos = Math.round(mouse.x  / compositionRoot.timeline.scaleFactor)
+                        const yPos = (compositionRoot.height - mouse.y) / compositionRoot.height
                         compositionRoot.keyframeModel.addKeyframe(xPos + compositionRoot.inPoint, yPos)
                     } else {
                         compositionRoot.seek(compositionRoot.x / compositionRoot.timeline.scaleFactor)
@@ -322,12 +322,12 @@ Item {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var delta = Math.round(x / compositionRoot.timeScale)
+                        let delta = Math.round(x / compositionRoot.timeScale)
                         if (delta < -compositionRoot.modelStart) {
                             delta = -compositionRoot.modelStart
                         }
                         if (delta !== 0) {
-                            var newDuration = compositionRoot.clipDuration - delta
+                            const newDuration = compositionRoot.clipDuration - delta
                             compositionRoot.trimmingIn(compositionRoot, newDuration)
                         }
                     }
@@ -392,7 +392,7 @@ Item {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var newDuration = Math.round((x + width) / compositionRoot.timeScale)
+                        const newDuration = Math.round((x + width) / compositionRoot.timeScale)
                         compositionRoot.trimmingOut(compositionRoot, newDuration)
                     }
                 }

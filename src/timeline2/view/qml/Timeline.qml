@@ -1736,7 +1736,7 @@ function getTrackColor(audio, header) {
                     }
                     var topTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y))
                     var bottomTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
-                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as Track
+                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as K.Track
                     // Check if bottom of rubber selection covers the last track compositions
                     console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(bottomTrack.trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
                     var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(bottomTrack.trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrackIx) * 0.6)
@@ -1744,7 +1744,7 @@ function getTrackColor(audio, header) {
                         var t = []
                         if (!selectOnlySubs) {
                             for (var i = topTrackIx; i <= bottomTrackIx; i++) {
-                                t.push((tracksRepeater.itemAt(i) as Track).trackInternalId)
+                                t.push((tracksRepeater.itemAt(i) as K.Track).trackInternalId)
                             }
                         }
                         var startFrame = Math.round(rubberSelect.x / root.timeScale)
