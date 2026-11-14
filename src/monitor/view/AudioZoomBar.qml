@@ -49,22 +49,22 @@ Rectangle {
                     audioSeekZone.zoomInRuler(wheel.x)
                 }
             } else {
-                var newPos = zoomRef.x
+                let newPos = zoomRef.x
                 if (wheel.angleDelta.y < 0) {
                     newPos = newPos + 10
                 } else {
                     newPos = newPos - 10
                 }
-                var zs = Math.max(0, newPos / audioSeekZone.width)
+                let zs = Math.max(0, newPos / audioSeekZone.width)
                 zs = Math.min((audioSeekZone.width - zoomRef.width) / audioSeekZone.width, zs)
                 audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
         onPressed: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.max(0, mouseX - zoomRef.width / 2)
+                let updatedPos = Math.max(0, mouseX - zoomRef.width / 2)
                 updatedPos = Math.min(audioSeekZone.width - zoomRef.width, updatedPos)
-                var zs = updatedPos / audioSeekZone.width
+                const zs = updatedPos / audioSeekZone.width
                 audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
@@ -193,10 +193,10 @@ Rectangle {
         }
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.max(0, x + mouseX - clickPos)
+                let updatedPos = Math.max(0, x + mouseX - clickPos)
                 updatedPos = Math.max(0, updatedPos)
                 updatedPos = Math.min(audioSeekZone.width - mainHandleArea.width, updatedPos)
-                var zs = updatedPos / audioSeekZone.width
+                const zs = updatedPos / audioSeekZone.width
                 audioSeekZone.monitorController.timeZoomOffset = zs
             }
         }
@@ -214,10 +214,10 @@ Rectangle {
         cursorShape: Qt.SizeHorCursor
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.max(0, x + mouseX)
+                let updatedPos = Math.max(0, x + mouseX)
                 updatedPos = Math.min(updatedPos, zoomRef.x + zoomRef.width)
-                var zs = updatedPos / audioSeekZone.width
-                var zf = (zoomRef.x + zoomRef.width - updatedPos) / audioSeekZone.width
+                const zs = updatedPos / audioSeekZone.width
+                const zf = (zoomRef.x + zoomRef.width - updatedPos) / audioSeekZone.width
                 audioSeekZone.monitorController.timeZoomOffset = zs
                 audioSeekZone.monitorController.timeZoomFactor = zf
             }
@@ -237,9 +237,9 @@ Rectangle {
 
         onPositionChanged: mouse => {
             if (mouse.buttons === Qt.LeftButton) {
-                var updatedPos = Math.min(audioSeekZone.width, x + mouseX)
+                let updatedPos = Math.min(audioSeekZone.width, x + mouseX)
                 updatedPos = Math.max(updatedPos, zoomRef.x)
-                var zf = (updatedPos - zoomRef.x) / audioSeekZone.width
+                const zf = (updatedPos - zoomRef.x) / audioSeekZone.width
                 audioSeekZone.monitorController.timeZoomFactor = zf
             }
         }

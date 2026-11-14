@@ -1599,7 +1599,7 @@ Rectangle {
                 anchors.fill: parent
                 asynchronous: true
                 active: clipRoot.visible
-                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && (effectRow.item as KeyframeView).kfrCount > 1 && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
+                visible: status == Loader.Ready && effectRow.item && clipRoot.showKeyframes && clipRoot.keyframeModel && (effectRow.item as K.KeyframeView).kfrCount > 1 && clipRoot.width > 2 * K.UiUtils.baseSizeMedium
                 source: clipRoot.hideClipViews || clipRoot.keyframeModel == undefined ? "" : "KeyframeView.qml"
                 Binding {
                     target: effectRow.item

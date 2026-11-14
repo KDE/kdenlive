@@ -22,14 +22,14 @@ Item {
         spacing: 12
         anchors.fill: parent
         
-        AudioRecordButton {
+        K.AudioRecordButton {
             timeline: recContainer.timeline
             recState: recContainer.recState
             trackId: recContainer.trackId
             isLocked: recContainer.isLocked
         }
         
-        AudioLevels {
+        K.AudioLevels {
             Layout.fillWidth: true
             Layout.fillHeight: true
             Layout.rightMargin: 5

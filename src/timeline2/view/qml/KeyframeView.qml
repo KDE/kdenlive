@@ -188,7 +188,7 @@ Rectangle
             ctx.fillStyle = Qt.rgba(0,0,0.8, 0.5);
             ctx.moveTo(0, keyframeContainer.parent.height)
 
-            let firstKeyframe = keyframes.itemAt(0) as KeyframeDelegate
+            let firstKeyframe = keyframes.itemAt(0) as K.KeyframeDelegate
             let xpos = firstKeyframe.pixelPos
             let ypos = firstKeyframe.pixelValue
             // Add first curve point
@@ -196,9 +196,9 @@ Rectangle
 
             for(let i = 1; i < keyframes.count; i++)
             {
-                let previousKeyframe = keyframes.itemAt(i - 1) as KeyframeDelegate
-                let currentKeyframe = keyframes.itemAt(i) as KeyframeDelegate
-                let nextKeyframe = keyframes.itemAt(i + 1) as KeyframeDelegate
+                let previousKeyframe = keyframes.itemAt(i - 1) as K.KeyframeDelegate
+                let currentKeyframe = keyframes.itemAt(i) as K.KeyframeDelegate
+                let nextKeyframe = keyframes.itemAt(i + 1) as K.KeyframeDelegate
                 if (i + 1 < keyframes.count) {
                     if (nextKeyframe.pixelPos < offset) {
                         continue;
@@ -262,7 +262,7 @@ Rectangle
                             quadTo(ctx, {"x": xpos, "y": ypos, "controlX": nextxpos, "controlY": nextypos})
                             break;
                         } else {
-                            let beforePreviousKeframe = keyframes.itemAt(i - 2) as KeyframeDelegate
+                            let beforePreviousKeframe = keyframes.itemAt(i - 2) as K.KeyframeDelegate
                             prevXOffset = (currentKeyframe.pixelPos - beforePreviousKeframe.pixelPos) / 6
                             prevYOffset = (currentKeyframe.pixelValue - beforePreviousKeframe.pixelValue) / 6
                         }

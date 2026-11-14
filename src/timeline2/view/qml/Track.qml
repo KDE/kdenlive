@@ -161,7 +161,7 @@ Item {
                 }
             }
         } else {
-            var updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
+            const updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
             trackRoot.controller.processGroupResize(trackRoot.groupTrimData, updatedGroupData, right)
         }
         trackRoot.updateGroupTrimData(undefined)
@@ -360,8 +360,8 @@ Item {
                             clip.lastValidDuration = newDuration
                             clip.originalX = clip.draggedX
                             // Show amount trimmed as a time in a "bubble" help.
-                            var delta = clip.originalDuration - new_duration
-                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            const delta = clip.originalDuration - new_duration
+                            let s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
                             s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                                 , s, trackRoot.timeline.simplifiedTC(new_duration))
                             trackRoot.timeline.showToolTip(s)
@@ -378,8 +378,8 @@ Item {
                         if (new_duration > 0) {
                             clip.lastValidDuration = newDuration
                             // Show amount trimmed as a time in a "bubble" help.
-                            var delta = clip.originalDuration - new_duration
-                            var s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
+                            const delta = clip.originalDuration - new_duration
+                            let s = trackRoot.timeline.simplifiedTC(Math.abs(delta))
                             s = KI18n.i18n("%1%2, Duration = %3", ((delta <= 0)? '+' : '-')
                                 , s, trackRoot.timeline.simplifiedTC(new_duration))
                             trackRoot.timeline.showToolTip(s)
