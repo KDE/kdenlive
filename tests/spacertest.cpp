@@ -49,7 +49,7 @@ TEST_CASE("Remove all spaces", "[Spacer]")
     REQUIRE(timeline->requestClipInsertion(binId, tid2, 20, cid4));
 
     auto state1 = [&]() {
-        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
         REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
         REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
         REQUIRE(timeline->getClipsCount() == 4);
@@ -205,6 +205,40 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         undoStack->undo();
         state1();
     }
+    SECTION("Failed spacer preserves incoming undo and redo")
+    {
+        auto guides = timeline->getGuideModel();
+        REQUIRE(guides->addMarker(GenTime(110, pCore->getCurrentFps()), QStringLiteral("guide")));
+        int undoCalls = 0;
+        int redoCalls = 0;
+        Fun undo = [&]() {
+            ++undoCalls;
+            return true;
+        };
+        Fun redo = [&]() {
+            ++redoCalls;
+            return true;
+        };
+        auto spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, tid1, 101);
+        REQUIRE(spacerOp.first > -1);
+        int start = timeline->getItemPosition(spacerOp.first);
+
+        // Guides move first, but the clip move collides with the clip at frame 80.
+        REQUIRE_FALSE(TimelineFunctions::requestSpacerEndOperation(timeline, spacerOp.first, start, 80, tid1, 101, undo, redo, false));
+        state1();
+        REQUIRE(guides->hasMarker(110));
+        REQUIRE_FALSE(guides->hasMarker(89));
+        REQUIRE(undoCalls == 0);
+        REQUIRE(redoCalls == 0);
+        REQUIRE(undo());
+        REQUIRE(undoCalls == 1);
+        REQUIRE(redo());
+        REQUIRE(redoCalls == 1);
+        REQUIRE(guides->hasMarker(110));
+        REQUIRE_FALSE(guides->hasMarker(89));
+        state1();
+    }
+
     SECTION("Insert space test with ungrouped clips")
     {
         // We have clips at 10, 80, 101 on track 1 (length 20 frames each)
