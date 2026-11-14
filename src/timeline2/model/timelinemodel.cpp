@@ -7534,7 +7534,8 @@ void TimelineModel::clearGroupSelectionOnDelete(std::vector<int> groups)
     if (m_currentSelection.size() == 0) {
         return;
     }
-    if (std::find(groups.begin(), groups.end(), *m_currentSelection.begin()) != groups.end()) {
+    // The deleted groups can be selected directly or through a selection group
+    if (std::any_of(groups.begin(), groups.end(), [this](int gid) { return isGroup(gid) && m_groups->getRootId(gid) == *m_currentSelection.begin(); })) {
         requestClearSelection(true);
     }
 }
