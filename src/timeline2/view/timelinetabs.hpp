@@ -10,6 +10,8 @@
 #include <QTabWidget>
 #include <memory>
 
+Q_MOC_INCLUDE("timeline2/view/timelinewidget.h")
+
 class QAction;
 class KActionCollection;
 class TimelineWidget;

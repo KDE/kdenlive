@@ -3352,7 +3352,6 @@ void ProjectClip::loadMasks(const QString &maskData)
         return;
     }
     auto list = json.array();
-    int ix = 0;
     for (const auto &entry : std::as_const(list)) {
         if (!entry.isObject()) {
             qDebug() << "Warning : Skipping invalid mask data";
@@ -3375,7 +3374,6 @@ void ProjectClip::loadMasks(const QString &maskData)
             mask.isValid = false;
         }
         m_masks.append(mask);
-        ix++;
     }
     Q_EMIT masksUpdated();
 }

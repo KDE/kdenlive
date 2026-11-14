@@ -46,10 +46,8 @@ void TaskManager::discardJobsByType(AbstractTask::JOBTYPE jobType)
     }
     m_tasksListLock.lockForWrite();
     m_blockUpdates = true;
-    int cnt = 0;
     for (const auto &task : m_taskList) {
         int ix = task.second.size() - 1;
-        cnt++;
         while (ix >= 0) {
             AbstractTask *t = task.second.at(ix);
             if (t->m_type != jobType) {
