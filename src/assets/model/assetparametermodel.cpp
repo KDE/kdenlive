@@ -1463,9 +1463,10 @@ QJsonDocument AssetParameterModel::toJson(QVector<int> selection, bool includeFi
         currentParam.insert(QLatin1String("name"), QJsonValue(param.first));
         currentParam.insert(QLatin1String("DisplayName"), QJsonValue(param.second.name));
         if (param.second.value.typeId() == QMetaType::Double) {
-            currentParam.insert(QLatin1String("value"), QJsonValue(param.second.value.toDouble()));
+            currentParam.insert(QLatin1String("value"), QJsonValue(data(ix, AssetParameterModel::ValueRole).toDouble()));
         } else {
-            QString resultValue = param.second.value.toString();
+            // Get MLT's animation string
+            QString resultValue = data(ix, AssetParameterModel::ValueRole).toString();
             ParamType type = data(ix, AssetParameterModel::TypeRole).value<ParamType>();
             if (percentageExport &&
                 (type == ParamType::AnimatedRect || type == ParamType::AnimatedFakeRect || type == ParamType::FakeRect ||
