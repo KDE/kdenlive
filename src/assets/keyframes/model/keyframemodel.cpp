@@ -152,7 +152,6 @@ void KeyframeModel::setup()
 
 bool KeyframeModel::addKeyframe(GenTime pos, KeyframeType::KeyframeEnum type, QVariant value, bool notify, Fun &undo, Fun &redo)
 {
-    qDebug() << "ADD keyframe" << pos.frames(pCore->getCurrentFps()) << "; VAL: " << value << notify;
     QWriteLocker locker(&m_lock);
     Fun local_undo = []() { return true; };
     Fun local_redo = []() { return true; };

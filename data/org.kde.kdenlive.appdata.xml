@@ -390,16 +390,56 @@
     <release version="26.11.70" type="snapshot">
       <description>
         <p>Improvements and new features:</p>
+        <p xml:lang="ar">تحسينات وميزات جديدة:</p>
+        <p xml:lang="ca">Millores i característiques noves:</p>
+        <p xml:lang="ca-valencia">Millores i característiques noves:</p>
+        <p xml:lang="pt-BR">Melhorias e novas funcionalidades:</p>
         <ul>
           <li>Titler: add undo/redo support, copy/paste and image drop</li>
+          <li xml:lang="ar">محرر العناوين: أضف دعم التراجع/الإعادة والنسخ/اللصق وإفلات الصور</li>
+          <li xml:lang="ca">Creador de títols: afegeix la implementació de desfer/refer, copiar/enganxar i deixar anar imatges</li>
+          <li xml:lang="ca-valencia">Creador de títols: afig la implementació de desfer/refer, copiar/apegar i deixar anar imatges</li>
+          <li xml:lang="pt-BR">Titulador: adição de suporte a desfazer/refazer, copiar/colar e inserção de imagens por arrastar e soltar</li>
           <li>Titler: allow multiple style in each text block</li>
+          <li xml:lang="ar">محرر العناوين: اسمح بأنماط متعددة في كل كتلة نص</li>
+          <li xml:lang="ca">Creador de títols: permet diversos estils en cada bloc de text</li>
+          <li xml:lang="ca-valencia">Creador de títols: permet diversos estils en cada bloc de text</li>
+          <li xml:lang="pt-BR">Titulador: permitir múltiplos estilos em cada bloco de texto</li>
           <li>Titler: relative paths for images</li>
+          <li xml:lang="ar">محرر العناوين: مسارات نسبية للصور</li>
+          <li xml:lang="ca">Creador de títols: camins relatius de les imatges</li>
+          <li xml:lang="ca-valencia">Creador de títols: camins relatius de les imatges</li>
+          <li xml:lang="pt-BR">Titulador: caminhos relativos para imagens</li>
           <li>Project file: improved support for project folder</li>
+          <li xml:lang="ar">ملف المشروع: دعم محسّن لمجلد المشروع</li>
+          <li xml:lang="ca">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
+          <li xml:lang="ca-valencia">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
+          <li xml:lang="pt-BR">Arquivo de projeto: suporte aprimorado para a pasta do projeto</li>
           <li>Project file: relative paths for all media</li>
+          <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
+          <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="pt-BR">Arquivo de projeto: caminhos relativos para todas as mídias</li>
           <li>Project file: relative paths for all media</li>
+          <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
+          <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="pt-BR">Arquivo de projeto: caminhos relativos para todas as mídias</li>
           <li>Timeline: add auto duck transition</li>
+          <li xml:lang="ar">الخط الزمني: أضف انتقال خفض تلقائي</li>
+          <li xml:lang="ca">Línia de temps: afegeix la transició automàtica d'ànec</li>
+          <li xml:lang="ca-valencia">Línia de temps: afig la transició automàtica d'ànec</li>
+          <li xml:lang="pt-BR">Linha do tempo: adicionar transição de atenuação automática</li>
           <li>Effects: rescale keyframe positions</li>
+          <li xml:lang="ar">المؤثرات: أعد قياس مواضع الإطارات الرئيسة</li>
+          <li xml:lang="ca">Efectes: torna a escalar les posicions dels fotogrames clau</li>
+          <li xml:lang="ca-valencia">Efectes: torna a escalar les posicions dels fotogrames clau</li>
+          <li xml:lang="pt-BR">Efeitos: redimensionar posições de quadros-chave</li>
           <li>Performance: multiple notable performance improvements on keyframe operations and undo/redo</li>
+          <li xml:lang="ar">الأداء: تحسينات أداء ملحوظة متعددة في عمليات الإطارات الرئيسة والتراجع/الإعادة</li>
+          <li xml:lang="ca">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
+          <li xml:lang="ca-valencia">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
+          <li xml:lang="pt-BR">Desempenho: diversas melhorias notáveis ​​de desempenho em operações com quadros-chave e nas funções desfazer/refazer</li>
         </ul>
       </description>
     </release>
