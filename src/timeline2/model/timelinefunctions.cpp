@@ -3288,11 +3288,16 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
     QMap<QString, int> producerMap;
     QMap<QString, double> producerSpeed;
     QMap<QString, int> producerSpeedResource;
+    // Audio stream used by each producer, several producers can share the same bin clip with a different stream
+    QMap<QString, int> producerAudioStream;
     QDomNodeList producers = sourceDoc.elementsByTagName(QLatin1String("producer"));
     for (int i = 0; i < producers.count(); ++i) {
         QDomElement currentProd = producers.item(i).toElement();
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
+        if (Xml::hasXmlProperty(currentProd, QLatin1String("audio_index"))) {
+            producerAudioStream.insert(currentProd.attribute(QLatin1String("id")), Xml::getXmlProperty(currentProd, QLatin1String("audio_index")).toInt());
+        }
         if (!ok) {
             // Check if this is a black bg track
             if (Xml::hasXmlProperty(currentProd, QLatin1String("kdenlive:playlistid"))) {
@@ -3369,6 +3374,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
         QDomElement currentProd = chains.item(i).toElement();
         bool ok;
         int clipId = Xml::getXmlProperty(currentProd, QLatin1String("kdenlive:id")).toInt(&ok);
+        if (Xml::hasXmlProperty(currentProd, QLatin1String("audio_index"))) {
+            producerAudioStream.insert(currentProd.attribute(QLatin1String("id")), Xml::getXmlProperty(currentProd, QLatin1String("audio_index")).toInt());
+        }
         if (!ok) {
             const QString resource = QDir::cleanPath(Xml::getXmlProperty(currentProd, QLatin1String("resource")));
             qDebug() << "===== CLIP NOT FOUND: " << resource;
@@ -3491,6 +3499,9 @@ QDomDocument TimelineFunctions::extractClip(const std::shared_ptr<TimelineItemMo
                 clipElement.setAttribute(QStringLiteral("state"), audioTrack ? 2 : 1);
                 if (audioTrack) {
                     clipElement.setAttribute(QLatin1String("audioTrack"), 1);
+                    if (producerAudioStream.contains(originalProducer)) {
+                        clipElement.setAttribute(QStringLiteral("audioStream"), producerAudioStream.value(originalProducer));
+                    }
                     int mirror = audioTrack + videoTracks - track - 1;
                     if (track <= videoTracks) {
                         clipElement.setAttribute(QLatin1String("mirrorTrack"), mirror);
