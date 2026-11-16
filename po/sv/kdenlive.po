@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-15 03:14+0000\n"
+"POT-Creation-Date: 2026-11-16 04:00+0000\n"
 "PO-Revision-Date: 2026-09-27 14:42+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@gmail.com>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -21490,7 +21490,7 @@ msgstr "Elastisk ut"
 msgid "Smooth (deprecated)"
 msgstr "Utjämna (föråldrad)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:148
@@ -21499,14 +21499,14 @@ msgstr "Utjämna (föråldrad)"
 msgid "Add keyframe"
 msgstr "Lägg till nyckelbild"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Ändra nyckelbildtyp"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:296
+#: src/assets/keyframes/model/keyframemodel.cpp:295
 #: src/assets/keyframes/model/keyframemodellist.cpp:271
 #: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1757
@@ -21514,14 +21514,14 @@ msgstr "Ändra nyckelbildtyp"
 msgid "Delete keyframe"
 msgstr "Ta bort nyckelbild"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:600
+#: src/assets/keyframes/model/keyframemodel.cpp:599
 #: src/assets/keyframes/model/keyframemodellist.cpp:472
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Flytta nyckelbilder"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:632
+#: src/assets/keyframes/model/keyframemodel.cpp:631
 #: src/assets/keyframes/model/keyframemodellist.cpp:395
 #: src/assets/keyframes/model/keyframemodellist.cpp:421
 #: src/assets/keyframes/model/keyframemodellist.cpp:486
@@ -21532,29 +21532,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Flytta nyckelbild"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:704
+#: src/assets/keyframes/model/keyframemodel.cpp:703
 #: src/assets/keyframes/view/keyframeview.cpp:175
 #, kde-format
 msgid "Update keyframe"
 msgstr "Uppdatera nyckelbild"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1181
+#: src/assets/keyframes/model/keyframemodel.cpp:1180
 #: src/assets/keyframes/model/keyframemodellist.cpp:339
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Ta bort alla nyckelbilder"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1343
+#: src/assets/keyframes/model/keyframemodel.cpp:1342
 #, kde-format
 msgid "effect"
 msgstr "effekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1352
+#: src/assets/keyframes/model/keyframemodel.cpp:1351
 #, kde-format
 msgid "Reset %1"
 msgstr "Återställ %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1607
+#: src/assets/keyframes/model/keyframemodel.cpp:1606
 #, kde-format
 msgid "Reset effect"
 msgstr "Återställ effekt"
@@ -21565,7 +21565,7 @@ msgid "Delete keyframes"
 msgstr "Ta bort nyckelbilder"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:803
-#: src/assets/model/assetparametermodel.cpp:1868
+#: src/assets/model/assetparametermodel.cpp:1869
 #, kde-format
 msgid "Update effect"
 msgstr "Uppdatera effekt"
@@ -21665,13 +21665,13 @@ msgstr "Redigera nyckelbild %1"
 msgid "Update %1"
 msgstr "Uppdatera %1"
 
-#: src/assets/model/assetparametermodel.cpp:1705
-#: src/assets/model/assetparametermodel.cpp:1752
+#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "Kan inte öppna förinställningsfil %1"
 
-#: src/assets/model/assetparametermodel.cpp:1842
+#: src/assets/model/assetparametermodel.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"
