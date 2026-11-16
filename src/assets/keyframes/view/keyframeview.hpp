@@ -24,7 +24,7 @@ public:
     /** @brief Copy a keyframe parameter to selected keyframes. */
     void copyCurrentValue(const QModelIndex &ix, const QString &paramName);
     /** @brief Returns the index (position in model) of the currently selected keyframes. */
-    const QVector<int> selectedKeyframesIndexes();
+    const QVector<int> selectedKeyframesIndexes() const;
 
 public Q_SLOTS:
     /** @brief moves the current position*/

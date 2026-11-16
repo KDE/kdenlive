@@ -134,7 +134,7 @@ void KeyframeView::initKeyframePos()
     Q_EMIT atKeyframe(m_model->hasKeyframe(m_position + offset), m_model->singleKeyframe());
 }
 
-const QVector<int> KeyframeView::selectedKeyframesIndexes()
+const QVector<int> KeyframeView::selectedKeyframesIndexes() const
 {
     return m_model->selectedKeyframes();
 }
