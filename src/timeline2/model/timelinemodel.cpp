@@ -4432,9 +4432,19 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
                 }
             }
         }
-        if (finalSize < 1) {
+        // A resize must not move a group member past the cut of a mix at its other end.
+        // Mix adjustments above may already have resized another participant,
+        // so use the common failure path to roll back the whole operation.
+        if (finalSize < 1 || (right && isClip(id) && trackId > -1 && getTrackById_const(trackId)->hasStartMix(id) &&
+                              finalSize < m_allClips[id]->getMixDuration() - m_allClips[id]->getMixCutPosition())) {
             // Abort resize
             result = false;
+        } else if (!right && isClip(id) && trackId > -1 && getTrackById_const(trackId)->hasEndMix(id)) {
+            const auto partner = m_allClips.at(getTrackById_const(trackId)->getSecondMixPartner(id));
+            const int mixCut = partner->getPosition() + partner->getMixDuration() - partner->getMixCutPosition();
+            if (finalPos > mixCut) {
+                result = false;
+            }
         }
         result = result && requestItemResize(id, finalSize, right, logUndo, undo, redo);
         if (!result) {
