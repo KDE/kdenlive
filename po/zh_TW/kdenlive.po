@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-15 01:05+0000\n"
+"POT-Creation-Date: 2026-11-16 01:05+0000\n"
 "PO-Revision-Date: 2026-11-14 23:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -20838,7 +20838,7 @@ msgstr "彈性出"
 msgid "Smooth (deprecated)"
 msgstr "平滑（已棄用）"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:148
@@ -20847,14 +20847,14 @@ msgstr "平滑（已棄用）"
 msgid "Add keyframe"
 msgstr "新增關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #, kde-format
 msgid "Change keyframe type"
 msgstr "修改關鍵幀類型"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:296
+#: src/assets/keyframes/model/keyframemodel.cpp:295
 #: src/assets/keyframes/model/keyframemodellist.cpp:271
 #: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1757
@@ -20862,14 +20862,14 @@ msgstr "修改關鍵幀類型"
 msgid "Delete keyframe"
 msgstr "刪除關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:600
+#: src/assets/keyframes/model/keyframemodel.cpp:599
 #: src/assets/keyframes/model/keyframemodellist.cpp:472
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "移動關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:632
+#: src/assets/keyframes/model/keyframemodel.cpp:631
 #: src/assets/keyframes/model/keyframemodellist.cpp:395
 #: src/assets/keyframes/model/keyframemodellist.cpp:421
 #: src/assets/keyframes/model/keyframemodellist.cpp:486
@@ -20880,29 +20880,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "移動關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:704
+#: src/assets/keyframes/model/keyframemodel.cpp:703
 #: src/assets/keyframes/view/keyframeview.cpp:175
 #, kde-format
 msgid "Update keyframe"
 msgstr "更新關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1181
+#: src/assets/keyframes/model/keyframemodel.cpp:1180
 #: src/assets/keyframes/model/keyframemodellist.cpp:339
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "刪除所有關鍵幀"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1343
+#: src/assets/keyframes/model/keyframemodel.cpp:1342
 #, kde-format
 msgid "effect"
 msgstr "效果"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1352
+#: src/assets/keyframes/model/keyframemodel.cpp:1351
 #, kde-format
 msgid "Reset %1"
 msgstr "重設 %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1607
+#: src/assets/keyframes/model/keyframemodel.cpp:1606
 #, kde-format
 msgid "Reset effect"
 msgstr "重設效果"
@@ -20913,7 +20913,7 @@ msgid "Delete keyframes"
 msgstr "刪除關鍵幀"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:803
-#: src/assets/model/assetparametermodel.cpp:1868
+#: src/assets/model/assetparametermodel.cpp:1869
 #, kde-format
 msgid "Update effect"
 msgstr "更新效果"
@@ -21011,13 +21011,13 @@ msgstr "編輯 %1 關鍵幀"
 msgid "Update %1"
 msgstr "更新 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1705
-#: src/assets/model/assetparametermodel.cpp:1752
+#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "無法寫入預設檔 %1"
 
-#: src/assets/model/assetparametermodel.cpp:1842
+#: src/assets/model/assetparametermodel.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"

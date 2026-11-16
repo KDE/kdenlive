@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-15 01:05+0000\n"
-"PO-Revision-Date: 2026-11-13 12:36+0100\n"
+"POT-Creation-Date: 2026-11-16 01:05+0000\n"
+"PO-Revision-Date: 2026-11-15 09:43+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -14350,8 +14350,7 @@ msgstr ""
 "(sense pessic), 1 significa pessigada cap a dins."
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:17
-#, fuzzy, kde-format
-#| msgid "Radius. 1 means the entire frame is affected.'"
+#, kde-format
 msgid "Radius. 1 means the entire frame is affected."
 msgstr "Radi. 1 significa que tot el fotograma es veu afectat."
 
@@ -14371,8 +14370,7 @@ msgid "Center Y"
 msgstr "Y del centre"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:25
-#, fuzzy, kde-format
-#| msgid "Vertical position'"
+#, kde-format
 msgid "Vertical position"
 msgstr "Posició vertical"
 
@@ -21697,7 +21695,7 @@ msgstr "Elàstic (sortida)"
 msgid "Smooth (deprecated)"
 msgstr "Suau (obsolet)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:148
@@ -21706,14 +21704,14 @@ msgstr "Suau (obsolet)"
 msgid "Add keyframe"
 msgstr "Afegeix un fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #, kde-format
 msgid "Change keyframe type"
 msgstr "Canvia el tipus de fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:296
+#: src/assets/keyframes/model/keyframemodel.cpp:295
 #: src/assets/keyframes/model/keyframemodellist.cpp:271
 #: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1757
@@ -21721,14 +21719,14 @@ msgstr "Canvia el tipus de fotograma clau"
 msgid "Delete keyframe"
 msgstr "Suprimeix el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:600
+#: src/assets/keyframes/model/keyframemodel.cpp:599
 #: src/assets/keyframes/model/keyframemodellist.cpp:472
 #, kde-format
 msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Mou els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:632
+#: src/assets/keyframes/model/keyframemodel.cpp:631
 #: src/assets/keyframes/model/keyframemodellist.cpp:395
 #: src/assets/keyframes/model/keyframemodellist.cpp:421
 #: src/assets/keyframes/model/keyframemodellist.cpp:486
@@ -21739,29 +21737,29 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Mou el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:704
+#: src/assets/keyframes/model/keyframemodel.cpp:703
 #: src/assets/keyframes/view/keyframeview.cpp:175
 #, kde-format
 msgid "Update keyframe"
 msgstr "Actualitza el fotograma clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1181
+#: src/assets/keyframes/model/keyframemodel.cpp:1180
 #: src/assets/keyframes/model/keyframemodellist.cpp:339
 #, kde-format
 msgid "Delete all keyframes"
 msgstr "Suprimeix tots els fotogrames clau"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1343
+#: src/assets/keyframes/model/keyframemodel.cpp:1342
 #, kde-format
 msgid "effect"
 msgstr "efecte"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1352
+#: src/assets/keyframes/model/keyframemodel.cpp:1351
 #, kde-format
 msgid "Reset %1"
 msgstr "Reinicialitza %1"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1607
+#: src/assets/keyframes/model/keyframemodel.cpp:1606
 #, kde-format
 msgid "Reset effect"
 msgstr "Reinicialitza l'efecte"
@@ -21772,7 +21770,7 @@ msgid "Delete keyframes"
 msgstr "Suprimeix els fotogrames clau"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:803
-#: src/assets/model/assetparametermodel.cpp:1868
+#: src/assets/model/assetparametermodel.cpp:1869
 #, kde-format
 msgid "Update effect"
 msgstr "Actualitza l'efecte"
@@ -21868,13 +21866,13 @@ msgstr "Edita el fotograma clau %1"
 msgid "Update %1"
 msgstr "Actualitza el %1"
 
-#: src/assets/model/assetparametermodel.cpp:1705
-#: src/assets/model/assetparametermodel.cpp:1752
+#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1753
 #, kde-format
 msgid "Cannot open preset file %1"
 msgstr "No s'ha pogut obrir el fitxer %1 de valors predefinits"
 
-#: src/assets/model/assetparametermodel.cpp:1842
+#: src/assets/model/assetparametermodel.cpp:1843
 #, kde-format
 msgctxt "@info:status"
 msgid "Failed to load preset %1"

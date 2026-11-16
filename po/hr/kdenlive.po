@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDENLIVE 0.7.2.1\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-15 01:05+0000\n"
+"POT-Creation-Date: 2026-11-16 01:05+0000\n"
 "PO-Revision-Date: 2009-05-21 12:03+0200\n"
 "Last-Translator:  <dbuday>\n"
 "Language-Team: Croatian <kde-i18n-doc@kde.org>\n"
@@ -20777,7 +20777,7 @@ msgstr "Izlazna Snaga"
 msgid "Smooth (deprecated)"
 msgstr ""
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #: src/assets/view/widgets/keyframecontainer.cpp:148
@@ -20786,7 +20786,7 @@ msgstr ""
 msgid "Add keyframe"
 msgstr "dodaj ključni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:205
+#: src/assets/keyframes/model/keyframemodel.cpp:204
 #: src/assets/keyframes/model/keyframemodellist.cpp:133
 #: src/assets/keyframes/model/keyframemodellist.cpp:214
 #, fuzzy, kde-format
@@ -20794,7 +20794,7 @@ msgstr "dodaj ključni okvir"
 msgid "Change keyframe type"
 msgstr "Promijeni tip trake"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:296
+#: src/assets/keyframes/model/keyframemodel.cpp:295
 #: src/assets/keyframes/model/keyframemodellist.cpp:271
 #: src/assets/view/widgets/keyframecontainer.cpp:150
 #: src/dialogs/timeremap.cpp:1757
@@ -20802,7 +20802,7 @@ msgstr "Promijeni tip trake"
 msgid "Delete keyframe"
 msgstr "Obriši ključni okvir (keyframe)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:600
+#: src/assets/keyframes/model/keyframemodel.cpp:599
 #: src/assets/keyframes/model/keyframemodellist.cpp:472
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
@@ -20810,7 +20810,7 @@ msgctxt "@action"
 msgid "Move keyframes"
 msgstr "Obriši ključni okvir (keyframe)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:632
+#: src/assets/keyframes/model/keyframemodel.cpp:631
 #: src/assets/keyframes/model/keyframemodellist.cpp:395
 #: src/assets/keyframes/model/keyframemodellist.cpp:421
 #: src/assets/keyframes/model/keyframemodellist.cpp:486
@@ -20822,31 +20822,31 @@ msgctxt "@action"
 msgid "Move keyframe"
 msgstr "Obriši ključni okvir (keyframe)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:704
+#: src/assets/keyframes/model/keyframemodel.cpp:703
 #: src/assets/keyframes/view/keyframeview.cpp:175
 #, fuzzy, kde-format
 #| msgid "Add keyframe"
 msgid "Update keyframe"
 msgstr "dodaj ključni okvir"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1181
+#: src/assets/keyframes/model/keyframemodel.cpp:1180
 #: src/assets/keyframes/model/keyframemodellist.cpp:339
 #, fuzzy, kde-format
 #| msgid "Delete keyframe"
 msgid "Delete all keyframes"
 msgstr "Obriši ključni okvir (keyframe)"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1343
+#: src/assets/keyframes/model/keyframemodel.cpp:1342
 #, kde-format
 msgid "effect"
 msgstr "efekt"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1352
+#: src/assets/keyframes/model/keyframemodel.cpp:1351
 #, fuzzy, kde-format
 msgid "Reset %1"
 msgstr "Promjeni veličinu isječka"
 
-#: src/assets/keyframes/model/keyframemodel.cpp:1607
+#: src/assets/keyframes/model/keyframemodel.cpp:1606
 #, fuzzy, kde-format
 #| msgid "Reset effect"
 msgid "Reset effect"
@@ -20859,7 +20859,7 @@ msgid "Delete keyframes"
 msgstr "Obriši ključni okvir (keyframe)"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:803
-#: src/assets/model/assetparametermodel.cpp:1868
+#: src/assets/model/assetparametermodel.cpp:1869
 #, fuzzy, kde-format
 #| msgid "Paste Effects"
 msgid "Update effect"
@@ -20965,14 +20965,14 @@ msgstr "Uredi ključni okvir (keyframe)"
 msgid "Update %1"
 msgstr "Spremi profil"
 
-#: src/assets/model/assetparametermodel.cpp:1705
-#: src/assets/model/assetparametermodel.cpp:1752
+#: src/assets/model/assetparametermodel.cpp:1706
+#: src/assets/model/assetparametermodel.cpp:1753
 #, fuzzy, kde-format
 #| msgid "Cannot write to file %1"
 msgid "Cannot open preset file %1"
 msgstr "Ne mogu pisati u datoteku %1"
 
-#: src/assets/model/assetparametermodel.cpp:1842
+#: src/assets/model/assetparametermodel.cpp:1843
 #, fuzzy, kde-format
 #| msgid "Delete current file"
 msgctxt "@info:status"
