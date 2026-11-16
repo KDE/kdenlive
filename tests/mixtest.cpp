@@ -910,6 +910,45 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->checkConsistency());
     }
 
+    SECTION("Consistency rejects a mix with a missing participant")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        auto track = KdenliveTests::getTrackById_const(timeline, tid2);
+        REQUIRE(track->reAssignEndMix(cid3, -1));
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        // Separate the clips through the preview-revert path so overlap validation
+        // cannot mask the dangling registration when checking the transition.
+        REQUIRE(timeline->requestClipMove(cid3, tid2, 450, true, true, false, false, undo, redo, true) == TimelineModel::MoveSuccess);
+        CHECK_FALSE(track->checkConsistency());
+        REQUIRE(track->reAssignEndMix(-1, cid3));
+        REQUIRE(undo());
+        REQUIRE(timeline->checkConsistency());
+    }
+
+    SECTION("Consistency requires clip mix duration to match the transition")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        auto clip = KdenliveTests::getClipPtr(timeline, cid4);
+        const int cut = clip->getMixCutPosition();
+        for (int duration : {0, mixDuration + 1}) {
+            CAPTURE(duration);
+            clip->setMixDuration(duration, cut);
+            CHECK_FALSE(timeline->checkConsistency());
+            clip->setMixDuration(mixDuration, cut);
+            REQUIRE(timeline->checkConsistency());
+        }
+    }
+
+    SECTION("Consistency rejects mix duration on an unmixed clip")
+    {
+        auto clip = KdenliveTests::getClipPtr(timeline, cid3);
+        clip->setMixDuration(mixDuration, 13);
+        CHECK_FALSE(timeline->checkConsistency());
+        clip->setMixDuration(0, 0);
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Consistency rejects mix bounds outside either participant")
     {
         REQUIRE(timeline->mixClip(cid4));
@@ -1826,6 +1865,100 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         undoStack->undo();
         state0();
     }
+
+    SECTION("Group move of a clip into its mix partner that is also mixed with the next clip")
+    {
+        state0();
+        const int initialUndoIndex = undoStack->index();
+        REQUIRE(timeline->requestItemResize(cid4, 40, true, true) == 40);
+        int cid6 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 600, cid6));
+        REQUIRE(timeline->requestItemResize(cid6, 20, false, true) == 20);
+        REQUIRE(timeline->requestClipMove(cid6, tid2, 560));
+        // Mix the start of cid4 with cid3, then the start of cid6 with cid4
+        REQUIRE(timeline->mixClip(cid4, QStringLiteral("luma"), -1));
+        REQUIRE(timeline->mixClip(cid6, QStringLiteral("luma"), -1));
+        // cid4 is now mixed with cid3 and cid6: it stays on the mix playlist when its mix with cid3 is removed
+        int cidY = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 1000, cidY));
+        REQUIRE(timeline->requestClipsGroup({cid3, cidY}) > -1);
+        const int delta = timeline->getClipPosition(cid4) - timeline->getClipPosition(cid3) + 2;
+        const int groupedUndoIndex = undoStack->index();
+        // Removing the mix would leave cid3 overlapping cid4, so reject the move and restore the mix.
+        REQUIRE_FALSE(timeline->requestClipMove(cid3, tid2, timeline->getClipPosition(cid3) + delta));
+        REQUIRE(undoStack->index() == groupedUndoIndex);
+        REQUIRE(timeline->getMixDuration(cid4) == mixDuration);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cidY) == 1000);
+        REQUIRE(timeline->checkConsistency());
+        // Remove the mix by shrinking cid3. cid4 remains on the mix playlist because of its other mix.
+        REQUIRE(timeline->requestItemResize(cid3, timeline->getClipPosition(cid4) - timeline->getClipPosition(cid3), true, true) > 0);
+        REQUIRE(timeline->getMixDuration(cid4) == 0);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        // An overlap without a shared mix must also be rejected across playlists.
+        REQUIRE_FALSE(timeline->requestClipMove(cid3, tid2, timeline->getClipPosition(cid3) + delta));
+        REQUIRE(undoStack->index() == groupedUndoIndex + 1);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cidY) == 1000);
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Resize cid3 and remove its mix
+        REQUIRE(timeline->getMixDuration(cid4) == mixDuration);
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Group cid3 and cidY
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidY
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Mix cid4 and cid6
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Mix cid3 and cid4
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Move cid6
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Resize cid6
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cid6
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Resize cid4
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state0();
+        REQUIRE(timeline->checkConsistency());
+    }
+
+    SECTION("Group move of mixed clips over a clip only covered by the second clip of the mix")
+    {
+        state0();
+        const int initialUndoIndex = undoStack->index();
+        REQUIRE(timeline->mixClip(cid4));
+        REQUIRE(timeline->requestClipsGroup({cid3, cid4}) > -1);
+        int end3 = timeline->getClipPosition(cid3) + timeline->getClipPlaytime(cid3);
+        int end4 = timeline->getClipPosition(cid4) + timeline->getClipPlaytime(cid4);
+        REQUIRE(end4 - end3 > 3);
+        // cidZ will be under cid4 (on the other playlist) but not under cid3 once the group is moved by -110
+        int cidZ = -1;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, end3 - 110 + 1, cidZ));
+        REQUIRE(timeline->requestItemResize(cidZ, 2, true, true) == 2);
+        const int beforeMoveUndoIndex = undoStack->index();
+        REQUIRE_FALSE(timeline->requestClipMove(cid3, tid2, timeline->getClipPosition(cid3) - 110));
+        REQUIRE(undoStack->index() == beforeMoveUndoIndex);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cid4) == 507);
+        REQUIRE(timeline->checkConsistency());
+        const bool noOverlap = timeline->getClipPosition(cid4) + timeline->getClipPlaytime(cid4) <= timeline->getClipPosition(cidZ) ||
+                               timeline->getClipPosition(cid4) >= timeline->getClipPosition(cidZ) + 2;
+        REQUIRE(noOverlap);
+        undoStack->undo(); // Resize cidZ
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidZ
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Group cid3 and cid4
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Mix cid3 and cid4
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state0();
+    }
+
     timeline.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
