@@ -1959,6 +1959,135 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
+    SECTION("Right resize of an audio clip whose video partner has a start mix")
+    {
+        state0();
+        const int initialUndoIndex = undoStack->index();
+        int cidC = -1;
+        int cidX = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 1100, cidX));
+        REQUIRE(timeline->requestItemResize(cidX, 20, true, true) == 20);
+        int audioX = timeline->getClipSplitPartner(cidX);
+        // Trim the video part alone: it starts 7 frames after its audio
+        REQUIRE(timeline->requestItemResize(cidX, 13, false, true, -1, true) == 13);
+        REQUIRE(timeline->requestClipInsertion(QStringLiteral("V") + binId, tid2, 1007, cidC));
+        REQUIRE(timeline->getClipPosition(cidC) + timeline->getClipPlaytime(cidC) == 1107);
+        // Only the video part has a neighbour to mix with
+        REQUIRE(timeline->mixClip(audioX, QStringLiteral("luma"), 0));
+        REQUIRE(timeline->getMixDuration(cidX) > 4);
+        const int mixedUndoIndex = undoStack->index();
+        const int videoPosition = timeline->getClipPosition(cidX);
+        const int videoDuration = timeline->getClipPlaytime(cidX);
+        const int duration = timeline->getMixDuration(cidX);
+        const int cut = KdenliveTests::getClipPtr(timeline, cidX)->getMixCutPosition();
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(undoStack->index() == mixedUndoIndex);
+            REQUIRE(timeline->getClipPosition(audioX) == 1100);
+            REQUIRE(timeline->getClipPlaytime(audioX) == 20);
+            REQUIRE(timeline->getClipPosition(cidX) == videoPosition);
+            REQUIRE(timeline->getClipPlaytime(cidX) == videoDuration);
+            REQUIRE(timeline->getMixDuration(cidX) == duration);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cidX)->getMixCutPosition() == cut);
+            REQUIRE(timeline->getClipPosition(cidC) == 1007);
+            REQUIRE(timeline->getClipPlaytime(cidC) == 100);
+        };
+        mixedState();
+        // The video end would go before its mix cut position
+        REQUIRE(timeline->requestItemResize(audioX, 4, true, true) == -1);
+        mixedState();
+        // The same boundary applies when the video initiates the resize.
+        REQUIRE(timeline->requestItemResize(cidX, 4, true, true) == -1);
+        mixedState();
+        // Ending exactly at the cut is valid and remains undoable.
+        const int sizeAtCut = videoPosition + duration - cut - timeline->getClipPosition(audioX);
+        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, true, true) == sizeAtCut);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(audioX) == sizeAtCut);
+        REQUIRE(timeline->getClipPlaytime(cidX) == duration - cut);
+        undoStack->undo();
+        mixedState();
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(audioX) == sizeAtCut);
+        REQUIRE(timeline->getClipPlaytime(cidX) == duration - cut);
+        undoStack->undo();
+        mixedState();
+        undoStack->undo(); // Mix cidC and cidX
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidC
+        undoStack->undo(); // Trim the video part of cidX
+        undoStack->undo(); // Resize cidX and audioX
+        undoStack->undo(); // Insert cidX and audioX
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state0();
+        REQUIRE(timeline->checkConsistency());
+    }
+
+    SECTION("Left resize of an audio clip whose video partner has an end mix")
+    {
+        state0();
+        const int initialUndoIndex = undoStack->index();
+        int cidC = -1;
+        int cidX = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 1020, cidX));
+        REQUIRE(timeline->requestItemResize(cidX, 20, false, true) == 20);
+        const int audioX = timeline->getClipSplitPartner(cidX);
+        // Trim the video part alone: it ends 7 frames before its audio.
+        REQUIRE(timeline->requestItemResize(cidX, 13, true, true, -1, true) == 13);
+        REQUIRE(timeline->requestClipInsertion(QStringLiteral("V") + binId, tid2, 1113, cidC));
+        REQUIRE(timeline->getClipPosition(cidX) + timeline->getClipPlaytime(cidX) == 1113);
+        REQUIRE(timeline->mixClip(audioX, QStringLiteral("luma"), 0));
+        const int mixedUndoIndex = undoStack->index();
+        const int videoPosition = timeline->getClipPosition(cidX);
+        const int videoDuration = timeline->getClipPlaytime(cidX);
+        const int duration = timeline->getMixDuration(cidC);
+        const int cut = KdenliveTests::getClipPtr(timeline, cidC)->getMixCutPosition();
+        const int cutPosition = timeline->getClipPosition(cidC) + duration - cut;
+        const int sizeAtCut = timeline->getClipPosition(audioX) + timeline->getClipPlaytime(audioX) - cutPosition;
+        REQUIRE(sizeAtCut > 4);
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(undoStack->index() == mixedUndoIndex);
+            REQUIRE(timeline->getClipPosition(audioX) == 1100);
+            REQUIRE(timeline->getClipPlaytime(audioX) == 20);
+            REQUIRE(timeline->getClipPosition(cidX) == videoPosition);
+            REQUIRE(timeline->getClipPlaytime(cidX) == videoDuration);
+            REQUIRE(timeline->getMixDuration(cidC) == duration);
+            REQUIRE(KdenliveTests::getClipPtr(timeline, cidC)->getMixCutPosition() == cut);
+            REQUIRE(timeline->getClipPosition(cidC) == 1113);
+            REQUIRE(timeline->getClipPlaytime(cidC) == 100);
+        };
+        mixedState();
+        // Neither partner may move the video start beyond the end mix's cut.
+        REQUIRE(timeline->requestItemResize(audioX, 4, false, true) == -1);
+        mixedState();
+        REQUIRE(timeline->requestItemResize(cidX, 4, false, true) == -1);
+        mixedState();
+        // Starting exactly at the cut is valid and remains undoable.
+        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, false, true) == sizeAtCut);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(audioX) == cutPosition);
+        REQUIRE(timeline->getClipPosition(cidX) == cutPosition);
+        undoStack->undo();
+        mixedState();
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(audioX) == cutPosition);
+        REQUIRE(timeline->getClipPosition(cidX) == cutPosition);
+        undoStack->undo();
+        mixedState();
+        undoStack->undo(); // Mix cidX and cidC
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidC
+        undoStack->undo(); // Trim the video part of cidX
+        undoStack->undo(); // Resize cidX and audioX
+        undoStack->undo(); // Insert cidX and audioX
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state0();
+        REQUIRE(timeline->checkConsistency());
+    }
+
     timeline.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
