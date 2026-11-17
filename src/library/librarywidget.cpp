@@ -202,15 +202,31 @@ LibraryWidget::LibraryWidget(ProjectManager *manager, QWidget *parent)
     connect(m_libraryTree, &LibraryTree::moveData, this, &LibraryWidget::slotMoveData);
     connect(m_libraryTree, &LibraryTree::importSequence, this, &LibraryWidget::slotSaveSequence);
 
-    m_coreLister = new KCoreDirLister(this);
-    m_coreLister->setDelayedMimeTypes(false);
-    connect(m_coreLister, &KCoreDirLister::itemsAdded, this, &LibraryWidget::slotItemsAdded);
-    connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
-    connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
-    m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
     m_libraryTree->setSortingEnabled(true);
     m_libraryTree->sortByColumn(0, Qt::AscendingOrder);
     connect(m_libraryTree, &LibraryTree::itemChanged, this, &LibraryWidget::slotItemEdited, Qt::UniqueConnection);
+}
+
+void LibraryWidget::showEvent(QShowEvent *event)
+{
+    if (!m_coreLister) {
+        m_coreLister = new KCoreDirLister(this);
+        m_coreLister->setDelayedMimeTypes(false);
+        connect(m_coreLister, &KCoreDirLister::itemsAdded, this, &LibraryWidget::slotItemsAdded);
+        connect(m_coreLister, &KCoreDirLister::itemsDeleted, this, &LibraryWidget::slotItemsDeleted);
+        connect(m_coreLister, SIGNAL(clear()), this, SLOT(slotClearAll()));
+        m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
+    }
+    m_coreLister->setAutoUpdate(true);
+    QWidget::showEvent(event);
+}
+
+void LibraryWidget::hideEvent(QHideEvent *event)
+{
+    if (m_coreLister) {
+        m_coreLister->setAutoUpdate(false);
+    }
+    QWidget::hideEvent(event);
 }
 
 void LibraryWidget::setupActions()
@@ -521,7 +537,7 @@ void LibraryWidget::slotUpdateLibraryPath()
         // Something is really broken, disable library
         showMessage(i18n("Check your settings, Library path is invalid: %1", m_directory.absolutePath()), KMessageWidget::Warning);
         setEnabled(false);
-    } else {
+    } else if (m_coreLister) {
         m_coreLister->openUrl(QUrl::fromLocalFile(m_directory.absolutePath()));
         setEnabled(true);
     }
@@ -620,7 +636,9 @@ void LibraryWidget::slotItemsAdded(const QUrl &url, const KFileItemList &list)
         if (fitem.isDir()) {
             treeItem->setData(0, Qt::UserRole + 2, int(LibraryItem::Folder));
             m_folders << treeItem;
-            m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
+            if (m_coreLister) {
+                m_coreLister->openUrl(fileUrl, KCoreDirLister::Keep);
+            }
         } else if (name.endsWith(QLatin1String(".mlt")) || name.endsWith(QLatin1String(".kdenlive"))) {
             treeItem->setData(0, Qt::UserRole + 2, int(LibraryItem::PlayList));
         } else {

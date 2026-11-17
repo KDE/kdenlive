@@ -44,6 +44,18 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 MediaBrowser::MediaBrowser(QWidget *parent)
     : QWidget(parent)
 {
+    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
+    if (clipFolder.isEmpty() || !QFile::exists(clipFolder)) {
+        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+        if (!QFile::exists(clipFolder)) {
+            clipFolder = QDir::homePath();
+        }
+    }
+    m_startUrl = QUrl::fromLocalFile(clipFolder);
+}
+
+void MediaBrowser::initializeView()
+{
     QVBoxLayout *lay = new QVBoxLayout(this);
     lay->setSpacing(0);
     QToolBar *tb = new QToolBar(this);
@@ -64,18 +76,8 @@ MediaBrowser::MediaBrowser(QWidget *parent)
     autoPlay->setCheckable(true);
     autoPlay->setChecked(KdenliveSettings::mediaBrowserAutoPlay());
     connect(autoPlay, &QAction::triggered, this, [](bool enable) { KdenliveSettings::setMediaBrowserAutoPlay(enable); });
-
-    QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
-    if (clipFolder.isEmpty() || !QFile::exists(clipFolder)) {
-        clipFolder = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
-        if (!QFile::exists(clipFolder)) {
-            clipFolder = QDir::homePath();
-        }
-    }
-    m_startUrl = QUrl::fromLocalFile(clipFolder);
-
     // Create View
-    m_op = new KDirOperator(QUrl(), parent);
+    m_op = new KDirOperator(m_startUrl, this);
     m_op->setSupportedSchemes({QStringLiteral("file")});
     m_op->dirLister()->setAutoUpdate(false);
     m_op->dirLister()->stop();
@@ -290,12 +292,15 @@ MediaBrowser::MediaBrowser(QWidget *parent)
         preview->setChecked(true);
     }
     connectView();
+    detectShortcutConflicts();
 }
 
 MediaBrowser::~MediaBrowser()
 {
-    KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
-    m_op->writeConfig(grp);
+    if (m_op) {
+        KConfigGroup grp(KSharedConfig::openConfig(), "Media Browser");
+        m_op->writeConfig(grp);
+    }
 }
 
 void MediaBrowser::connectView()
@@ -404,43 +409,53 @@ void MediaBrowser::importSelection()
 
 const QUrl MediaBrowser::url() const
 {
-    if (!m_initialized) {
+    if (!m_op) {
         return m_startUrl;
     }
     return m_op->url();
+}
+
+void MediaBrowser::showEvent(QShowEvent *event)
+{
+    if (!m_op) {
+        initializeView();
+    } else {
+        // Refresh since jobs are aborted on hide
+        m_op->dirLister()->updateDirectory(m_op->url());
+    }
+    if (KdenliveSettings::mediaBrowserInlinePreview()) {
+        m_inlinePreview->setChecked(true);
+    }
+    if (!m_op->dirLister()->autoUpdate()) {
+        m_op->dirLister()->setAutoUpdate(true);
+    }
+    QWidget::showEvent(event);
+}
+
+void MediaBrowser::hideEvent(QHideEvent *event)
+{
+    if (m_op) {
+        if (KdenliveSettings::mediaBrowserInlinePreview()) {
+            m_inlinePreview->setChecked(false);
+        }
+        if (m_op->dirLister()->autoUpdate()) {
+            m_op->dirLister()->setAutoUpdate(false);
+        }
+        m_op->dirLister()->stop();
+    }
+    QWidget::hideEvent(event);
 }
 
 bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
 {
     // To avoid shortcut conflicts between the media browser and main app, we dis/enable actions when we gain/lose focus
     if (event->type() == QEvent::FocusIn) {
-        disableAppShortcuts();
+        if (m_op) {
+            disableAppShortcuts();
+        }
     } else if (event->type() == QEvent::FocusOut) {
-        enableAppShortcuts();
-    } else if (event->type() == QEvent::Hide) {
-        if (KdenliveSettings::mediaBrowserInlinePreview()) {
-            m_inlinePreview->setChecked(false);
-        }
-        if (m_initialized) {
-            if (m_op->dirLister()->autoUpdate()) {
-                m_op->dirLister()->setAutoUpdate(false);
-            }
-            m_op->dirLister()->stop();
-        }
-    } else if (event->type() == QEvent::Show) {
-        if (!m_initialized) {
-            m_initialized = true;
-            // Load initial folder
-            m_op->setUrl(m_startUrl, true);
-        } else {
-            // Refresh since jobs are aborted on hide
-            m_op->dirLister()->updateDirectory(m_op->url());
-        }
-        if (KdenliveSettings::mediaBrowserInlinePreview()) {
-            m_inlinePreview->setChecked(true);
-        }
-        if (!m_op->dirLister()->autoUpdate()) {
-            m_op->dirLister()->setAutoUpdate(true);
+        if (m_op) {
+            enableAppShortcuts();
         }
     }
     const bool res = QWidget::eventFilter(watched, event);
@@ -452,7 +467,7 @@ bool MediaBrowser::eventFilter(QObject *watched, QEvent *event)
     const auto type = event->type();
     const auto key = keyEvent->key();
 
-    if (watched == m_op && type == QEvent::KeyPress && (key == Qt::Key_Return || key == Qt::Key_Enter)) {
+    if (m_op && watched == m_op && type == QEvent::KeyPress && (key == Qt::Key_Return || key == Qt::Key_Enter)) {
         // ignore return events from the KDirOperator
         importSelection();
         event->accept();
@@ -506,7 +521,7 @@ void MediaBrowser::setUrl(const QUrl url)
         // Don't allow setting an invalid start folder
         return;
     }
-    if (!m_initialized) {
+    if (!m_op) {
         m_startUrl = url;
         return;
     }

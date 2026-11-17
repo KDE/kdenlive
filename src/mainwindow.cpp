@@ -728,9 +728,6 @@ void MainWindow::init()
     m_hamburgerMenu->setMenuBar(menuBar());
     m_hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
 
-    // Detect shortcut conflicts bewtween mainwindow and media browser
-    pCore->mediaBrowser()->detectShortcutConflicts();
-
     connect(toolBar(), &KToolBar::visibilityChanged, this, [&](bool visible) {
         if (visible && !toolBar()->actions().contains(m_hamburgerMenu)) {
             // hack to be able to insert the hamburger menu at the first position
