@@ -28,14 +28,11 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
     m_engine = new QQmlApplicationEngine(this);
     KLocalization::setupLocalizedContext(m_engine);
     qDebug() << ":::::::::: CREATING SPLASH SCREEN";
-    QLocale locale;
 
     QStringList fileNames;
-    QStringList fileDates;
     for (auto &s : urls) {
         QFileInfo info(s);
-        fileNames.append(info.fileName());
-        fileDates.append(locale.toString(info.lastModified(), "dd/MM/yy HH:mm"));
+        fileNames.append(QFileInfo(s).fileName());
     }
     if (firstRun) {
         // Default to dark palette on first run
@@ -49,7 +46,6 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         bool isPalFps = ProjectManager::getDefaultProjectFormat().endsWith(QLatin1String("_25"));
         m_engine->setInitialProperties({{"version", version},
                                         {"fileNames", fileNames},
-                                        {"fileDates", fileDates},
                                         {"urls", urls},
                                         {"profileIds", profileIds},
                                         {"profileNames", profileNames},
@@ -103,11 +99,32 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
         }
     }
     qApp->processEvents(QEventLoop::AllEvents);
+    m_datesCheck = QtConcurrent::run(&Splash::calculateDates, this, urls);
+}
+
+Splash::~Splash()
+{
+    m_datesCheck.cancel();
+    m_datesCheck.waitForFinished();
 }
 
 bool Splash::welcomeDisplayed() const
 {
     return m_showWelcome;
+}
+
+void Splash::calculateDates(QPromise<int> &promise, const QStringList filesList) const
+{
+    QLocale locale;
+    int ix = 0;
+    for (auto &s : filesList) {
+        if (promise.isCanceled()) {
+            return; // Exit cleanly
+        }
+        QMetaObject::invokeMethod(m_rootObject, "updateDate", Q_ARG(QVariant, ix),
+                                  Q_ARG(QVariant, locale.toString(QFileInfo(s).lastModified(), "dd/MM/yy HH:mm")));
+        ix++;
+    }
 }
 
 bool Splash::hasCrashRecovery() const

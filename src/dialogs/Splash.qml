@@ -19,7 +19,6 @@ Window {
     property string version
     property var urls: []
     property var fileNames: []
-    property var fileDates: []
     property var profileIds: []
     property var profileNames: []
     property var horizontalModel: [{value: "3840x2160x709x1x1x16x9", text: KI18n.i18n("4K UHD 3840x2160")}, {value: "4096x2160x709x1x1x256x135", text: KI18n.i18n("4K DCI 4096x2160")}, {value: "2560x1440x709x1x1x16x9", text: KI18n.i18n("2.5K QHD 2560x1440")}, {value: "1920x1080x709x1x1x16x9", text: KI18n.i18n("Full HD 1920x1080")}, {value: "1280x720x709x1x1x16x9", text: KI18n.i18n("HD 1280x720")}, {value: "720x480x601x32x27x16x9", text: KI18n.i18n("SD NTSC Wide 720x480")}, {value: "720x480x601x8x9x4x3", text: KI18n.i18n("SD NTSC 720x480")}, {value: "720x576x601x64x45x16x9", text: KI18n.i18n("SD PAL Wide 720x576")}, {value: "720x576x601x16x15x4x3", text: KI18n.i18n("SD PAL 720x576")}]
@@ -64,6 +63,15 @@ Window {
     width: splashContent.implicitWidth
     height: splashContent.implicitHeight
 
+    ListModel {
+        id: myFilesModel
+    }
+
+    function updateDate(ix, date)
+    {
+        myFilesModel.setProperty(ix, "itemDate", date)
+    }
+
     onClosing: function(close) {
       close.accepted = true
       splash.closeApp()
@@ -88,6 +96,9 @@ Window {
     }
 
     Component.onCompleted: {
+        for (let i = 0; i < splash.fileNames.length; i++) {
+            myFilesModel.append({ itemUrl: splash.urls[i], itemText:splash.fileNames[i], itemDate:''})
+        }
         splash.x = Math.round((Screen.width - splash.width) / 2)
         splash.y = Math.round((Screen.height - splash.height) / 2)
         if (splash.firstRun)
@@ -126,11 +137,11 @@ Window {
         Keys.enabled: splash.actionsEnabled
         Keys.onDownPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex < splash.urls.length)
+                if (listView.currentIndex < myFilesModel.count)
                     listView.currentIndex += 1;
 
             } else if (tlistView.activeFocus) {
-                if (tlistView.currentIndex < splash.urls.length)
+                if (tlistView.currentIndex < splash.profileIds.length)
                     tlistView.currentIndex += 1;
 
             }
@@ -148,10 +159,10 @@ Window {
         }
         Keys.onReturnPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                if (listView.currentIndex >= 0 && listView.currentIndex < myFilesModel.count) {
                     splashContent.enabled = false
                     splash.fade()
-                    splash.openFile(splash.urls[listView.currentIndex]);
+                    splash.openFile(myFilesModel.get(listView.currentIndex).itemUrl);
                 }
 
             } else if (tlistView.activeFocus) {
@@ -161,10 +172,10 @@ Window {
         }
         Keys.onEnterPressed: {
             if (listView.activeFocus) {
-                if (listView.currentIndex >= 0 && listView.currentIndex < splash.urls.length) {
+                if (listView.currentIndex >= 0 && listView.currentIndex < myFilesModel.count) {
                     splashContent.enabled = false
                     splash.fade()
-                    splash.openFile(splash.urls[listView.currentIndex]);
+                    splash.openFile(myFilesModel.get(listView.currentIndex).itemUrl);
                 }
 
             } else if (tlistView.activeFocus) {
@@ -300,7 +311,7 @@ Window {
                         anchors.left: parent.left
                         anchors.right: parent.right
                         height: childrenRect.height
-                        visible: splash.urls.length > 0
+                        visible: myFilesModel.count > 0
 
                         Rectangle {
                             id: recentSeparator
@@ -329,10 +340,7 @@ Window {
                                 KeyNavigation.tab: templatesClearButton
                                 onClicked: {
                                     splash.clearHistory()
-                                    splash.urls = []
-                                    splash.fileNames = []
-                                    splash.fileDates = []
-                                    listView.model = splash.urls
+                                    myFilesModel.clear()
                                 }
                             }
 
@@ -353,7 +361,7 @@ Window {
                                 property int hoveredIndex: -1
                                 property int itemHeight: recentLabel.font.pixelSize * 2.2
                                 focus: true
-                                model: splash.urls
+                                model: myFilesModel
                                 KeyNavigation.right: tlistView
                                 KeyNavigation.tab: tlistView
 
@@ -361,10 +369,13 @@ Window {
                                     id: fileItem
                                     width: parent.width
                                     height: listView.itemHeight
-                                    required property url modelData
+                                    //required property url modelData
                                     required property int index
+                                    required property string itemUrl
+                                    required property string itemText
+                                    required property string itemDate
 
-                                    ToolTip.text: modelData
+                                    ToolTip.text: itemUrl
                                     ToolTip.visible: index == listView.hoveredIndex
                                     ToolTip.delay: Application.styleHints.mousePressAndHoldInterval
                                     Rectangle {
@@ -382,7 +393,7 @@ Window {
                                         anchors.leftMargin: 4
                                         anchors.right: datesLabel.left
                                         leftPadding: 4
-                                        text: splash.fileNames[fileItem.index]
+                                        text: fileItem.itemText
                                         elide: Text.ElideRight
                                         color: labelArea.containsMouse || listButton.hovered ? activePalette.highlight : activePalette.text
                                         opacity: recentProjects.enabled ? 1 : 0.5
@@ -392,7 +403,7 @@ Window {
                                         anchors.verticalCenter: parent.verticalCenter
                                         anchors.right: parent.right
                                         anchors.rightMargin: 4
-                                        text: splash.fileDates[fileItem.index]
+                                        text: fileItem.itemDate //splash.fileDates[fileItem.index]
                                         color: activePalette.text
                                         opacity: recentProjects.enabled ? 0.7 : 0.4
                                     }
@@ -413,7 +424,7 @@ Window {
                                         onClicked: {
                                             splashContent.enabled = false
                                             splash.fade()
-                                            splash.openFile(fileItem.modelData);
+                                            splash.openFile(fileItem.itemUrl);
                                         }
                                     }
                                     Rectangle {
@@ -437,10 +448,8 @@ Window {
                                         ToolTip.visible: hovered
                                         visible: labelArea.containsMouse || hovered
                                         onClicked: {
-                                            splash.forgetFile(fileItem.modelData)
-                                            splash.fileNames.splice(fileItem.index, 1)
-                                            splash.urls.splice(fileItem.index, 1)
-                                            listView.model = splash.urls
+                                            splash.forgetFile(fileItem.itemUrl)
+                                            myFilesModel.remove(fileItem.index)
                                         }
                                     }
 
@@ -729,7 +738,7 @@ Window {
                 anchors.bottom: buttonBar.top
                 height: donateText.height + 8
                 anchors.margins: 10
-                visible: splash.urls.length > 2 && !splash.crashRecovery && !upgradeBox.visible
+                visible: myFilesModel.count > 2 && !splash.crashRecovery && !upgradeBox.visible
                 radius: 5
                 color: Qt.darker(splashContent.color, 1.5)
 
