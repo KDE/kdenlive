@@ -41,13 +41,14 @@ public:
     void setUrl(const QUrl url);
     void back();
     void forward();
-    /** @brief create a map of all actions having shortcut conflicts between Kdenlive's actioncollection and the KDirOperator */
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
 private:
-    KDirOperator *m_op;
+    KDirOperator *m_op{nullptr};
     KUrlNavigator *m_locationEdit;
     KFileFilterCombo *m_filterCombo;
     KUrlComboBox *m_filenameEdit;
@@ -60,12 +61,16 @@ private:
     KFileItem m_item;
     QLabel *m_fileLabel;
     bool m_isVideo{false};
-    bool m_initialized{false};
     QUrl m_startUrl;
+
+    /** @brief Initialize KDirOperator and the UI, only on first show event */
+    void initializeView();
     void openExternalFile(const QUrl &url);
     void enableAppShortcuts();
     void disableAppShortcuts();
+
 public Q_SLOTS:
+    /** @brief create a map of all actions having shortcut conflicts between Kdenlive's actioncollection and the KDirOperator */
     void detectShortcutConflicts();
 
 private Q_SLOTS:
