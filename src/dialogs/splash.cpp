@@ -60,8 +60,8 @@ Splash::Splash(const QString version, const QStringList urls, const QStringList 
     } else {
         m_engine->setInitialProperties({{"version", version}, {"crashRecovery", m_hasCrashRecovery}, {"wasUpgraded", m_wasUpgraded}});
     }
-    m_engine->load(showWelcome ? QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Splash.qml"))
-                               : QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/Simplesplash.qml")));
+    m_engine->load(showWelcome ? QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/splash/Splash.qml"))
+                               : QUrl(QStringLiteral("qrc:/qt/qml/org/kde/kdenlive/splash/Simplesplash.qml")));
     m_rootObject = m_engine->rootObjects().at(0);
     if (showWelcome) {
         connect(m_rootObject, SIGNAL(openBlank()), this, SIGNAL(openBlank()));

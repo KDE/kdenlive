@@ -198,8 +198,21 @@ ecm_target_qml_sources(kdenliveLib
     timeline2/view/qml/Composition.qml
     timeline2/view/qml/PulsingAnimation.qml
     timeline2/view/qml/GuidesMenu.qml
-    dialogs/Splash.qml
-    dialogs/Simplesplash.qml
+)
+
+add_library(kdenliveSplash)
+
+ecm_add_qml_module(kdenliveSplash
+    URI "org.kde.kdenlive.splash"
+    GENERATE_PLUGIN_SOURCE
+    DEPENDENCIES
+        QtQuick
+)
+
+ecm_target_qml_sources(kdenliveSplash
+    SOURCES
+        dialogs/Splash.qml
+        dialogs/Simplesplash.qml
 )
 
 qt_add_resources(kdenlive_extra_SRCS icons.qrc uiresources.qrc)
@@ -241,7 +254,7 @@ set_target_properties(kdenlive PROPERTIES
 #set_target_properties(kdenlive PROPERTIES MACOSX_BUNDLE ON)
 endif()
 
-target_link_libraries(kdenlive PUBLIC kdenliveLib kdenliveLibplugin)
+target_link_libraries(kdenlive PUBLIC kdenliveLib kdenliveSplash kdenliveLibplugin)
 install(TARGETS kdenlive DESTINATION ${KDE_INSTALL_BINDIR})
 
 ## Kdenlive Lib
@@ -291,6 +304,13 @@ target_link_libraries(kdenliveLib PUBLIC
     ${CMAKE_THREAD_LIBS_INIT}
     kiss_fft
     )
+
+target_include_directories(kdenliveSplash PRIVATE
+${CMAKE_BINARY_DIR}
+${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(kdenliveSplash PUBLIC Qt${QT_MAJOR_VERSION}::Core Qt${QT_MAJOR_VERSION}::Quick KF${KF_MAJOR}::I18nQml)
 
 if(KF6_VERSION VERSION_GREATER_EQUAL "6.8.0")
   target_link_libraries(kdenliveLib PUBLIC KF${KF_MAJOR}::I18nQml)
@@ -386,4 +406,5 @@ add_dependencies(kdenlive all_qmllint)
 
 ecm_finalize_qml_module(kdenliveLib
     DESTINATION ${KDE_INSTALL_QMLDIR})
-
+ecm_finalize_qml_module(kdenliveSplash
+    DESTINATION ${KDE_INSTALL_QMLDIR})
