@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 04:00+0000\n"
-"PO-Revision-Date: 2026-11-13 10:52+0100\n"
-"Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
+"PO-Revision-Date: 2026-11-16 14:07+0100\n"
+"Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 26.08.3\n"
+"X-Generator: Lokalize 26.04.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -8306,7 +8306,7 @@ msgstr "Hoeveelheid rotatie rond de X-as (wijst in het scherm)"
 #: data/effects/frei0r/frei0r_3dperspective.xml:20
 #, kde-format
 msgid "Perspective"
-msgstr ""
+msgstr "Perspectief"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:21
 #, fuzzy, kde-format
@@ -11363,7 +11363,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Simple Editor"
 msgid "Simple"
-msgstr "Eenvoudige bewerker"
+msgstr "Eenvoudig"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:14
 #, kde-format
@@ -12646,7 +12646,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Select font"
 msgid "Select mode"
-msgstr "Lettertype selecteren"
+msgstr "&Modus selecteren"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:10
 #, kde-format
@@ -13389,10 +13389,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:8
-#, fuzzy, kde-format
-#| msgid "Script Files"
+#, kde-format
 msgid "Script File"
-msgstr "Script bestanden"
+msgstr "Scriptbestand"
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:9
 #, kde-format
@@ -13801,7 +13800,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Fades:"
 msgid "Fade"
-msgstr "Vervagingen:"
+msgstr "Vervagen"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:40
 #, kde-format
@@ -14278,9 +14277,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:12
-#, kde-format
+#, fuzzy, kde-format
 msgid "Pinch"
-msgstr ""
+msgstr "Indrukken:"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:13
 #, kde-format
@@ -14303,7 +14302,7 @@ msgstr "Centrum X"
 #, fuzzy, kde-format
 #| msgid "Initial Horizontal Position"
 msgid "Horizontal position"
-msgstr "Initiële horizontale positie"
+msgstr "Horizontale positie"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:24
 #, kde-format
@@ -14314,7 +14313,7 @@ msgstr "Centrum Y"
 #, fuzzy, kde-format
 #| msgid "Initial Vertical Position"
 msgid "Vertical position"
-msgstr "Initiële verticale positie"
+msgstr "Verticale positie"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -22791,6 +22790,9 @@ msgid ""
 "\n"
 "Do you want to cancel all pending replace actions?\n"
 msgstr ""
+"U hebt meerdere clips geselecteerd die vervangen moeten worden.\n"
+"\n"
+"Wilt u alle geplande vervangingsacties annuleren?\n"
 
 #: src/bin/bin.cpp:2691 src/mltcontroller/clippropertiescontroller.cpp:1407
 #, kde-format
@@ -22800,7 +22802,7 @@ msgstr "Nee"
 #: src/bin/bin.cpp:2691
 #, kde-format
 msgid "Yes, cancel all actions"
-msgstr ""
+msgstr "Ja, annuleer alle acties"
 
 #: src/bin/bin.cpp:2739
 #, kde-format
@@ -25984,10 +25986,9 @@ msgid "Project Defaults"
 msgstr "Standaard project instellingen"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:354
-#, fuzzy, kde-format
-#| msgid "Colors and Markers"
+#, kde-format
 msgid "Colors and Grid"
-msgstr "Kleuren en markeringen"
+msgstr "Kleuren en raster"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:383
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:429
@@ -29382,10 +29383,9 @@ msgid "User Files"
 msgstr "Gebruikersbestanden"
 
 #: src/filefilter.cpp:135
-#, fuzzy, kde-format
-#| msgid "Kdenlive title"
+#, kde-format
 msgid "Kdenlive Files"
-msgstr "Kdenlive-titel"
+msgstr "Kdenlive-bestanden"
 
 #: src/filefilter.cpp:137
 #, kde-format
@@ -34583,10 +34583,9 @@ msgid "Project Bin Tags"
 msgstr "Projectmappen"
 
 #: src/project/dialogs/guidecategories.cpp:34
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete Tag"
-msgstr "Verwijderen "
+msgstr "Tag verwijderen"
 
 #: src/project/dialogs/guidecategories.cpp:36
 #, fuzzy, kde-format
@@ -40382,7 +40381,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid " MiB"
 msgid " MB"
-msgstr " MiB"
+msgstr " MB"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, lowMemoryWarning)
 #: src/ui/configenv_ui.ui:172

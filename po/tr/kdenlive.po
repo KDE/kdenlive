@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 04:00+0000\n"
-"PO-Revision-Date: 2026-11-15 19:06+0300\n"
+"PO-Revision-Date: 2026-11-16 18:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23381,7 +23381,7 @@ msgstr "Kendiliğinden oynat"
 #: src/bin/mediabrowser.cpp:94
 #, kde-format
 msgid "Show Preview Panel"
-msgstr "Önizleme Panelini Göster"
+msgstr "Ön İzleme Panelini Göster"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -27390,7 +27390,7 @@ msgstr "Dış Hat Olarak Kutu"
 #: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
-msgstr "Önizlemeyi Göster >>>"
+msgstr "Ön İzlemeyi Göster >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:146
 #, kde-format
@@ -29586,7 +29586,7 @@ msgstr "Geçerli Monitör Üzerindekiler"
 #: src/kdenliveui.rc:293 src/mainwindow_actions.cpp:720
 #, kde-format
 msgid "Preview Resolution"
-msgstr "Önizleme Çözünürlüğü"
+msgstr "Ön İzleme Çözünürlüğü"
 
 #. i18n: ectx: Menu (monitor_config)
 #: src/kdenliveui.rc:302
@@ -31019,7 +31019,7 @@ msgstr "Ses Önizlemelerini Normalleştir"
 #: src/mainwindow_actions.cpp:161
 #, kde-format
 msgid "Preview Using Proxy Clips"
-msgstr "Vekil Klipleri Kullanarak Önizle"
+msgstr "Vekil Klipleri Kullanarak Ön İzle"
 
 #: src/mainwindow_actions.cpp:165
 #, kde-format
@@ -31663,7 +31663,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:823
 #, kde-format
 msgid "Add Preview Zone"
-msgstr "Önizleme Bölgesi Ekle"
+msgstr "Ön İzleme Bölgesi Ekle"
 
 #: src/mainwindow_actions.cpp:824
 #, kde-kuit-format
@@ -31677,7 +31677,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:826 src/timeline2/view/previewmanager.cpp:595
 #, kde-format
 msgid "Remove Preview Zone"
-msgstr "Önizleme Bölgesi Çıkar"
+msgstr "Ön İzleme Bölgesini Çıkar"
 
 #: src/mainwindow_actions.cpp:829
 #, kde-kuit-format
@@ -31704,7 +31704,7 @@ msgstr "Tüm önizleme sunma bölgelerini kaldırın."
 #: src/mainwindow_actions.cpp:833
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Önizleme Sunmayı Başlat"
+msgstr "Ön İzleme Görüntüsü Almayı Başlat"
 
 #: src/mainwindow_actions.cpp:836
 #, kde-kuit-format
@@ -31722,7 +31722,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:838
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Önizleme Sunmayı Durdur"
+msgstr "Ön İzleme Görüntüsü Almayı Durdur"
 
 #: src/mainwindow_actions.cpp:840
 #, kde-format
@@ -33200,7 +33200,7 @@ msgstr "Bölge imleyicisi"
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
-msgstr "Önizleme"
+msgstr "Ön İzle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
@@ -33393,7 +33393,7 @@ msgstr "Maske oluşturmadan çık"
 #: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Preview Mode"
-msgstr "Önizleme kipinden çık"
+msgstr "Ön İzleme Kipinden Çık"
 
 #: src/monitor/view/MonitorAutomask.qml:241
 #, kde-kuit-format
@@ -33787,7 +33787,7 @@ msgstr "Bilinmeyen Lisans"
 #: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "Önizleme yüklenirken lütfen sabırlı olun…"
+msgstr "Ön izleme yüklenirken lütfen sabırlı olun…"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -37465,7 +37465,7 @@ msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
-"Önizleme sunması başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
+"Ön izleme için görüntü alınamadı; parametreleri denetleyin. %1Ayrıntıları "
 "göster…%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:28
@@ -38233,7 +38233,7 @@ msgstr "İmleyiciye Git…"
 #: src/timeline2/view/timelinewidget.cpp:227
 #, kde-format
 msgid "Thumbnails"
-msgstr "Önizlemeler"
+msgstr "Ön İzlemeler"
 
 #: src/timeline2/view/timelinewidget.cpp:235
 #, kde-format
@@ -39082,12 +39082,12 @@ msgstr "Lumalar"
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:31
 #, kde-format
 msgid "No Preview"
-msgstr "Önizleme yok"
+msgstr "Ön izleme yok"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
 #, kde-format
 msgid "Generate Previews"
-msgstr "Önizlemeleri Üret"
+msgstr "Ön İzlemeleri Üret"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
@@ -39095,7 +39095,7 @@ msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
-"Önizleme üretim betiği bulunamadı. Düzgünce kurulu olduğundan emin olun."
+"Ön izleme üretim betiği bulunamadı. Düzgünce kurulu olduğundan emin olun."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
@@ -42290,7 +42290,7 @@ msgstr "Maskeyi Düzenle"
 #: src/ui/maskmanage_ui.ui:83
 #, kde-format
 msgid "Preview Mask"
-msgstr "Maskeyi Önizle"
+msgstr "Maskeyi Ön İzle"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:95
@@ -42829,7 +42829,7 @@ msgstr "Tam renk aralığını sun"
 #: src/ui/renderwidget_ui.ui:506
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Önizleme Çözünürlüğünde Sun"
+msgstr "Ön İzleme Çözünürlüğünde Görüntü Al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:513
