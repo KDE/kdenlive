@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <QFuture>
 #include <QQmlApplicationEngine>
 
 class QQmlComponent;
@@ -16,6 +17,7 @@ class Splash : public QObject
 public:
     Splash(const QString version, const QStringList urls, const QStringList profileIds, const QStringList profileNames, bool showWelcome, bool firstRun,
            bool showCrashRecovery, bool wasUpgraded, QObject *parent = Q_NULLPTR);
+    ~Splash() override;
     bool welcomeDisplayed() const;
     bool hasCrashRecovery() const;
     bool wasUpgraded() const;
@@ -28,6 +30,7 @@ private:
     bool m_showWelcome;
     bool m_hasCrashRecovery;
     bool m_wasUpgraded;
+    QFuture<void> m_datesCheck;
 
 public Q_SLOTS:
     void fadeOut();
@@ -41,6 +44,7 @@ private Q_SLOTS:
     void forgetFile(const QString &path);
     void clearProfiles();
     void forgetProfile(const QString &path);
+    void calculateDates(QPromise<int> &promise, const QStringList filesList) const;
 
 Q_SIGNALS:
     void openBlank();
