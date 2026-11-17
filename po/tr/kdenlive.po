@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 01:05+0000\n"
-"PO-Revision-Date: 2026-11-15 19:06+0300\n"
+"PO-Revision-Date: 2026-11-16 18:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -9038,9 +9038,9 @@ msgid ""
 "video viewer. Delayed frame blitting mapped on a time bitmap"
 msgstr ""
 "Eşdüzlemsel (panoramik) bir kareyi dikdüzlemsel (alışık olduğunuz) bir "
-"kareye dönüştürür. 360° video görüntüleyicisinde gösterilecek içeriği "
-"önizlemek için kullanılabilir. Gecikmeli kare blit işlemi, zaman bit "
-"eşlemine göre eşlenir."
+"kareye dönüştürür. 360° video görüntüleyicisinde gösterilecek içeriği ön "
+"izlemek için kullanılabilir. Gecikmeli kare blit işlemi, zaman bit eşlemine "
+"göre eşlenir."
 
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:10
 #: data/effects/frei0r/frei0r_bigsh0t_transform_360.xml:10
@@ -14019,7 +14019,7 @@ msgstr "Beyaz Renk"
 #: data/effects/frei0r/frei0r_three_point_balance.xml:17
 #, kde-format
 msgid "Split screen preview"
-msgstr "Bölünmüş ekran önizlemesi"
+msgstr "Bölünmüş ekran ön izlemesi"
 
 #: data/effects/frei0r/frei0r_three_point_balance.xml:20
 #, kde-format
@@ -22314,7 +22314,7 @@ msgstr "Kova Efektlerini Devre Dışı Bırak"
 #: src/bin/bin.cpp:1781
 #, kde-format
 msgid "Show Video Preview in Thumbnails"
-msgstr "Küçük Görsellerde Video Önizlemelerini Göster"
+msgstr "Küçük Görsellerde Video Ön İzlemelerini Göster"
 
 #: src/bin/bin.cpp:1791
 #, kde-kuit-format
@@ -23381,7 +23381,7 @@ msgstr "Kendiliğinden oynat"
 #: src/bin/mediabrowser.cpp:94
 #, kde-format
 msgid "Show Preview Panel"
-msgstr "Önizleme Panelini Göster"
+msgstr "Ön İzleme Panelini Göster"
 
 #. i18n: ectx: property (text), widget (QLabel, label_name)
 #. i18n: ectx: property (text), widget (QLabel, label_3)
@@ -24481,7 +24481,7 @@ msgstr "Alfalı Vekil Klipler"
 #: src/mainwindow_actions.cpp:134
 #, kde-format
 msgid "Timeline Preview"
-msgstr "Zaman Akışı Önizlemesi"
+msgstr "Zaman Akışı Ön İzlemesi"
 
 #: src/dialogs/encodingprofilesdialog.cpp:59
 #, kde-format
@@ -24602,7 +24602,7 @@ msgid ""
 "framerate,\n"
 "reverting to Automatic."
 msgstr ""
-"Seçili zaman akışı önizleme profili, proje kare hızıyla uyumlu değil,\n"
+"Seçili zaman akışı ön izleme profili, proje kare hızıyla uyumlu değil,\n"
 "Kendiliğinden’e geri dönülüyor."
 
 #: src/dialogs/exportguidesdialog.cpp:37
@@ -27390,12 +27390,12 @@ msgstr "Dış Hat Olarak Kutu"
 #: src/dialogs/subtitlestyleedit.cpp:137 src/ui/editsubstyle_ui.ui:316
 #, kde-format
 msgid "Show Preview >>>"
-msgstr "Önizlemeyi Göster >>>"
+msgstr "Ön İzlemeyi Göster >>>"
 
 #: src/dialogs/subtitlestyleedit.cpp:146
 #, kde-format
 msgid "<<< Hide Preview"
-msgstr "<<< Önizlemeyi Gizle"
+msgstr "<<< Ön İzlemeyi Gizle"
 
 #: src/dialogs/subtitlestyleedit.cpp:174 src/dialogs/subtitlestyleedit.cpp:179
 #: src/dialogs/subtitlestyleedit.cpp:184
@@ -27865,7 +27865,7 @@ msgstr ""
 msgid ""
 "<li>Missing app: <b>ffplay</b><br/>recommended for some preview jobs</li>"
 msgstr ""
-"<li>Eksik uygulama: <b>ffplay</b><br/>bazı önizleme işleri için tavsiye "
+"<li>Eksik uygulama: <b>ffplay</b><br/>bazı ön izleme işleri için tavsiye "
 "edilir</li>"
 
 #: src/dialogs/wizard.cpp:517
@@ -29151,22 +29151,22 @@ msgstr "Öge, bir canlandırma klibi değil"
 #: src/jobs/audiolevels/audiolevelstask.cpp:31
 #, kde-format
 msgid "Audio thumbs"
-msgstr "Ses önizlemeleri"
+msgstr "Ses ön izlemeleri"
 
 #: src/jobs/audiolevels/audiolevelstask.cpp:133
 #, kde-format
 msgid "Audio thumbs: cannot open file %1"
-msgstr "Ses önizlemesi: %1 dosyası açılamıyor"
+msgstr "Ses ön izlemesi: %1 dosyası açılamıyor"
 
 #: src/jobs/audiolevels/audiolevelstask.cpp:146
 #, kde-format
 msgid "Audio thumbs: unknown file length for %1"
-msgstr "Ses önizlemesi: %1 için bilinmeyen dosya uzunluğu"
+msgstr "Ses ön izlemesi: %1 için bilinmeyen dosya uzunluğu"
 
 #: src/jobs/cachetask.cpp:33 src/jobs/cliploadtask.cpp:48
 #, kde-format
 msgid "Video thumbs"
-msgstr "Video önizlemeleri"
+msgstr "Video ön izlemeleri"
 
 #: src/jobs/cliploadtask.cpp:48
 #, kde-format
@@ -29586,7 +29586,7 @@ msgstr "Geçerli Monitör Üzerindekiler"
 #: src/kdenliveui.rc:293 src/mainwindow_actions.cpp:720
 #, kde-format
 msgid "Preview Resolution"
-msgstr "Önizleme Çözünürlüğü"
+msgstr "Ön İzleme Çözünürlüğü"
 
 #. i18n: ectx: Menu (monitor_config)
 #: src/kdenliveui.rc:302
@@ -30458,7 +30458,7 @@ msgstr "Görüntü Al…"
 #: src/mainwindow.cpp:580
 #, kde-format
 msgid "Rendering preview"
-msgstr "Görüntü alma önizlemesi"
+msgstr "Görüntü alma ön izlemesi"
 
 #: src/mainwindow.cpp:748
 #, kde-format
@@ -30721,7 +30721,7 @@ msgstr "Seç"
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "<shortcut>Shift</shortcut> to preview cut frame"
-msgstr "Kesilen kareyi önizlemek için <b> Üst Karakter </b>’e basın"
+msgstr "Kesilen kareyi ön izlemek için <b> Üst Karakter </b>’e basın"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_1)
 #: src/mainwindow.cpp:2412 src/ui/configtools_ui.ui:21
@@ -31014,17 +31014,17 @@ msgstr "Kanalları Ayır"
 #: src/mainwindow_actions.cpp:157
 #, kde-format
 msgid "Normalize Audio Thumbnails"
-msgstr "Ses Önizlemelerini Normalleştir"
+msgstr "Ses Ön İzlemelerini Normalleştir"
 
 #: src/mainwindow_actions.cpp:161
 #, kde-format
 msgid "Preview Using Proxy Clips"
-msgstr "Vekil Klipleri Kullanarak Önizle"
+msgstr "Vekil Klipleri Kullanarak Ön İzle"
 
 #: src/mainwindow_actions.cpp:165
 #, kde-format
 msgid "Automatic Preview"
-msgstr "Kendiliğinden önizleme"
+msgstr "Kendiliğinden ön izleme"
 
 #: src/mainwindow_actions.cpp:170 src/monitor/recmanager.cpp:100
 #, kde-format
@@ -31244,7 +31244,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:372
 #, kde-format
 msgid "Show Video Thumbnails"
-msgstr "Video Önizlemelerini Göster"
+msgstr "Video Ön İzlemelerini Göster"
 
 #: src/mainwindow_actions.cpp:373
 #, kde-kuit-format
@@ -31259,7 +31259,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:381
 #, kde-format
 msgid "Show Audio Thumbnails"
-msgstr "Ses Önizlemelerini Göster"
+msgstr "Ses Ön İzlemelerini Göster"
 
 #: src/mainwindow_actions.cpp:382
 #, kde-kuit-format
@@ -31268,7 +31268,7 @@ msgid ""
 "Toggles the display of audio thumbnails for the clips in the timeline "
 "(default is On)."
 msgstr ""
-"Zaman akışındaki klipler için ses önizlemelerinin görüntülenmesini açar/"
+"Zaman akışındaki klipler için ses ön izlemelerinin görüntülenmesini açar/"
 "kapatır (öntanımlı olarak açıktır)."
 
 #: src/mainwindow_actions.cpp:405 src/mainwindow_actions.cpp:460
@@ -31289,7 +31289,7 @@ msgstr "Geçerli ses dalga biçimi yakınlaştırma düzeyi"
 #: src/mainwindow_actions.cpp:474
 #, kde-format
 msgid "Audio Thumbnails"
-msgstr "Ses Önizlemeleri"
+msgstr "Ses Ön İzlemeleri"
 
 #: src/mainwindow_actions.cpp:477
 #, kde-format
@@ -31663,7 +31663,7 @@ msgstr ""
 #: src/mainwindow_actions.cpp:823
 #, kde-format
 msgid "Add Preview Zone"
-msgstr "Önizleme Bölgesi Ekle"
+msgstr "Ön İzleme Bölgesi Ekle"
 
 #: src/mainwindow_actions.cpp:824
 #, kde-kuit-format
@@ -31671,13 +31671,13 @@ msgctxt "@info:whatsthis"
 msgid ""
 "Add the currently defined timeline/selection zone as a preview render zone"
 msgstr ""
-"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunma "
+"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini ön izleme sunma "
 "bölgesi olarak ekle"
 
 #: src/mainwindow_actions.cpp:826 src/timeline2/view/previewmanager.cpp:595
 #, kde-format
 msgid "Remove Preview Zone"
-msgstr "Önizleme Bölgesi Çıkar"
+msgstr "Ön İzleme Bölgesini Çıkar"
 
 #: src/mainwindow_actions.cpp:829
 #, kde-kuit-format
@@ -31686,25 +31686,25 @@ msgid ""
 "Removes the currently defined timeline/selection zone from the preview "
 "render zone. Note that this can leave gaps in the preview render zones."
 msgstr ""
-"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini önizleme sunma "
-"bölgesinden kaldırır. Bunun, önizleme sunma bölgelerinde boşluklar "
+"Geçerli olarak tanımlanmış zaman akışını/seçim bölgesini ön izleme sunma "
+"bölgesinden kaldırır. Bunun, ön izleme sunma bölgelerinde boşluklar "
 "bırakabileceğini unutmayın."
 
 #: src/mainwindow_actions.cpp:831 src/timeline2/view/previewmanager.cpp:516
 #, kde-format
 msgid "Remove All Preview Zones"
-msgstr "Tüm Önizleme Bölgelerini Çıkar"
+msgstr "Tüm Ön İzleme Bölgelerini Çıkar"
 
 #: src/mainwindow_actions.cpp:832
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Remove all preview render zones."
-msgstr "Tüm önizleme sunma bölgelerini kaldırın."
+msgstr "Tüm ön izleme sunma bölgelerini kaldırın."
 
 #: src/mainwindow_actions.cpp:833
 #, kde-format
 msgid "Start Preview Render"
-msgstr "Önizleme Sunmayı Başlat"
+msgstr "Ön İzleme Görüntüsü Almayı Başlat"
 
 #: src/mainwindow_actions.cpp:836
 #, kde-kuit-format
@@ -31714,15 +31714,15 @@ msgid ""
 "with complex and many effects).<nl/>Click on the down-arrow icon to get a "
 "list of options (for example: add preview render zone, remove all zones)."
 msgstr ""
-"Tüm önizleme bölgelerinin sunmasını başlatmak için tıklayın (karmaşık ve "
+"Tüm ön izleme bölgelerinin sunmasını başlatmak için tıklayın (karmaşık ve "
 "birçok efekt içeren alanlar için önerilir).<nl/>Seçeneklerin listesini almak "
-"için aşağı ok simgesine tıklayın (örneğin: önizleme sunma bölgesi ekle, tüm "
+"için aşağı ok simgesine tıklayın (örneğin: ön izleme sunma bölgesi ekle, tüm "
 "bölgeleri kaldır)."
 
 #: src/mainwindow_actions.cpp:838
 #, kde-format
 msgid "Stop Preview Render"
-msgstr "Önizleme Sunmayı Durdur"
+msgstr "Ön İzleme Görüntüsü Almayı Durdur"
 
 #: src/mainwindow_actions.cpp:840
 #, kde-format
@@ -32086,7 +32086,7 @@ msgstr "Önbelleklenmiş Veriyi Yönet…"
 #: src/mainwindow_actions.cpp:1095
 #, kde-format
 msgid "Disable Timeline Preview"
-msgstr "Zaman Akışı Önizlemesini Kapat"
+msgstr "Zaman Akışı Ön İzlemesini Kapat"
 
 #: src/mainwindow_actions.cpp:1100
 #, kde-format
@@ -32758,8 +32758,8 @@ msgstr "%​%1"
 #, kde-format
 msgid "Preview resolution - lower resolution means faster preview"
 msgstr ""
-"Önizleme çözünürlüğü — daha düşük çözünürlük daha hızlı önizleme anlamına "
-"gelir"
+"Ön izleme çözünürlüğü — daha düşük çözünürlük daha hızlı ön izleme anlamına "
+"gelir."
 
 #: src/monitor/monitor.cpp:231
 #, kde-kuit-format
@@ -32769,9 +32769,9 @@ msgid ""
 "between 1:1, 1080p, 720p, 540p, 360p, 270p (the lower the resolution the "
 "faster the preview)."
 msgstr ""
-"Proje/klip monitörünün önizleme çözünürlüğünü ayarlar. 1:1, 1080p, 720p, "
-"540p, 360p, 270p arasından seçim yapılabilir (çözünürlük ne kadar düşükse "
-"önizleme o kadar hızlıdır)."
+"Proje/klip monitörünün ön izleme çözünürlüğünü ayarlar. 1:1, 1080p, 720p, "
+"540p, 360p, 270p arasından seçim yapılabilir (çözünürlük ne kadar düşükse ön "
+"izleme o kadar hızlıdır)."
 
 #: src/monitor/monitor.cpp:234
 #, kde-format
@@ -32913,7 +32913,7 @@ msgstr "Bölgeden İmleyici Oluştur…"
 #: src/monitor/monitor.cpp:740
 #, kde-format
 msgid "Always show audio thumbnails"
-msgstr "Ses Önizlemelerini Her Zaman Göster"
+msgstr "Ses Ön İzlemelerini Her Zaman Göster"
 
 #: src/monitor/monitor.cpp:754
 #, kde-format
@@ -33200,7 +33200,7 @@ msgstr "Bölge imleyicisi"
 #: src/monitor/recmanager.cpp:34 src/ui/resourcewidget_ui.ui:251
 #, kde-format
 msgid "Preview"
-msgstr "Önizleme"
+msgstr "Ön İzle"
 
 #. i18n: ectx: property (title), widget (QGroupBox, video_box)
 #. i18n: ectx: property (text), widget (QCheckBox, video_thumbs)
@@ -33272,7 +33272,7 @@ msgid ""
 "There is something wrong with your Kdenlive install or your driver settings, "
 "please fix it."
 msgstr ""
-"Video önizleme penceresi oluşturulamadı.\n"
+"Video ön izleme penceresi oluşturulamadı.\n"
 "Kdenlive kurulumunuzla veya sürücü ayarlarınızla ilgili ters bir şeyler var, "
 "lütfen bunları giderin."
 
@@ -33393,7 +33393,7 @@ msgstr "Maske oluşturmadan çık"
 #: src/monitor/view/MaskToolBar.qml:96
 #, kde-format
 msgid "Exit Preview Mode"
-msgstr "Önizleme kipinden çık"
+msgstr "Ön İzleme Kipinden Çık"
 
 #: src/monitor/view/MonitorAutomask.qml:241
 #, kde-kuit-format
@@ -33437,7 +33437,7 @@ msgstr ""
 #: src/monitor/view/MonitorAutomask.qml:361
 #, kde-format
 msgid "Previewing video mask"
-msgstr "Video maskesi önizleniyor"
+msgstr "Video maskesi ön izleniyor"
 
 #: src/monitor/view/MonitorAutomask.qml:372
 #, kde-format
@@ -33787,12 +33787,12 @@ msgstr "Bilinmeyen Lisans"
 #: src/onlineresources/resourcewidget.cpp:612
 #, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "Önizleme yüklenirken lütfen sabırlı olun…"
+msgstr "Ön izleme yüklenirken lütfen sabırlı olun…"
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
 msgid "Online Resources Preview"
-msgstr "Çevrim İçi Özkaynaklar Önizlemesi"
+msgstr "Çevrim İçi Özkaynaklar Ön İzlemesi"
 
 #: src/onlineresources/resourcewidget.cpp:642
 #, kde-format
@@ -34799,8 +34799,8 @@ msgid ""
 "timeline previews for this project.\n"
 " Are you sure you want to proceed?"
 msgstr ""
-"Zaman akışı önizleme profilini değiştirdiniz. Bu eylem bu proje için var "
-"olan tüm zaman akışı önizlemelerini kaldırır.\n"
+"Zaman akışı ön izleme profilini değiştirdiniz. Bu eylem bu proje için var "
+"olan tüm zaman akışı ön izlemelerini kaldırır.\n"
 "Sürdürmek istediğinizden emin misiniz?"
 
 #: src/project/dialogs/projectsettings.cpp:551
@@ -34871,12 +34871,12 @@ msgstr "Görsel Sekansı"
 #: src/project/dialogs/slideshowclip.cpp:57
 #, kde-format
 msgid "Preview from CR2 (*.cr2)"
-msgstr "CR2 önizlemesi (*.cr2)"
+msgstr "CR2 ön izlemesi (*.cr2)"
 
 #: src/project/dialogs/slideshowclip.cpp:58
 #, kde-format
 msgid "Preview from ARW (*.arw)"
-msgstr "ARW önizlemesi (*.arw)"
+msgstr "ARW ön izlemesi (*.arw)"
 
 #: src/project/dialogs/slideshowclip.cpp:64
 #, kde-format
@@ -34914,7 +34914,7 @@ msgid ""
 "files used for faster editing. Deleting is safe, proxy clips can be "
 "recreated if you have the original source clips."
 msgstr ""
-"<b>Önbelleklenmiş veri</b>, klip küçük görselleri ve zaman akışı önizleme "
+"<b>Önbelleklenmiş veri</b>, klip küçük görselleri ve zaman akışı ön izleme "
 "videolarından oluşur. Rahatlıkla silebilirsiniz; tüm veri proje açılışında "
 "yeniden oluşturulur.<br/><b>Yedek verisi</b>, proje dosyalarınızın eski "
 "sürümlerinin arşivlerinden oluşur. Projenin eski bir sürümünü geri "
@@ -34941,9 +34941,9 @@ msgid ""
 "Preview folder contains the timeline previews, and can be recreated with the "
 "source project."
 msgstr ""
-"Önizleme klasöründeki tüm veriyi sil:\n"
+"Ön izleme klasöründeki tüm veriyi sil:\n"
 "%1\n"
-"Önizleme klasörü, zaman akışı önizlemelerini içerir ve kaynak projeden "
+"Ön izleme klasörü, zaman akışı ön izlemelerini içerir ve kaynak projeden "
 "yeniden oluşturulabilir."
 
 #: src/project/dialogs/temporarydata.cpp:363
@@ -35013,7 +35013,7 @@ msgid ""
 msgstr ""
 "Ses önbelleği klasöründeki tüm veriyi sil:\n"
 "%1\n"
-"Bu klasör, bu projedeki ses önizleme verisini içerir."
+"Bu klasör, bu projedeki ses ön izleme verisini içerir."
 
 #: src/project/dialogs/temporarydata.cpp:503
 #, kde-format
@@ -35024,7 +35024,7 @@ msgid ""
 msgstr ""
 "Küçük görsel önbelleği klasöründeki tüm veriyi sil:\n"
 "%1\n"
-"Bu klasör, bu projedeki ses ve video önizlemelerini içerir."
+"Bu klasör, bu projedeki ses ve video ön izlemelerini içerir."
 
 #: src/project/dialogs/temporarydata.cpp:521
 #, kde-format
@@ -35036,8 +35036,8 @@ msgid ""
 msgstr ""
 "Önbellek klasöründeki tüm veriyi sil:\n"
 "%1\n"
-"Önbellek klasörleri, zaman akışı önizlemelerinin yanı sıra ses ve video "
-"önizlemelerini içerir. Tüm bu veri proje açılışında yeniden oluşturulacaktır."
+"Önbellek klasörleri, zaman akışı ön izlemelerinin yanı sıra ses ve video ön "
+"izlemelerini içerir. Tüm bu veri proje açılışında yeniden oluşturulacaktır."
 
 #: src/project/dialogs/temporarydata.cpp:691
 #, kde-format
@@ -35059,8 +35059,8 @@ msgid ""
 msgstr ""
 "Aşağıdaki önbellek klasörlerini şu konumdan silin:\n"
 "%1\n"
-"Önbellek klasörleri, zaman akışı önizlemelerinin yanı sıra ses ve video "
-"önizlemelerini içerir. Tüm bu veri proje açılışında yeniden oluşturulacaktır."
+"Önbellek klasörleri, zaman akışı ön izlemelerinin yanı sıra ses ve video ön "
+"izlemelerini içerir. Tüm bu veri proje açılışında yeniden oluşturulacaktır."
 
 #: src/project/dialogs/temporarydata.cpp:737
 #, kde-format
@@ -37298,7 +37298,7 @@ msgstr "Karışımı yeniden boyutlandır"
 #: src/timeline2/model/timelinemodel.cpp:8114
 #, kde-format
 msgid "Error initializing timeline preview"
-msgstr "Zaman akışı önizlemesi ilklendirilirken hata"
+msgstr "Zaman akışı ön izlemesi ilklendirilirken hata"
 
 #: src/timeline2/view/dialogs/autotrackcreationdialog.cpp:18
 #, kde-format
@@ -37454,7 +37454,7 @@ msgstr "%1 önbellek klasöründe bir şeyler yanlış"
 #: src/timeline2/view/previewmanager.cpp:104
 #, kde-format
 msgid "Invalid timeline preview parameters"
-msgstr "Geçersiz zaman akışı önizleme parametreleri"
+msgstr "Geçersiz zaman akışı ön izleme parametreleri"
 
 #: src/timeline2/view/previewmanager.cpp:111
 #, kde-format
@@ -37465,7 +37465,7 @@ msgstr "Önbellek klasörleri ile ilgili bir şeyler yanlış"
 #, kde-format
 msgid "Preview rendering failed, check your parameters. %1Show details...%2"
 msgstr ""
-"Önizleme sunması başarısız oldu, parametreleri denetleyin. %1Ayrıntıları "
+"Ön izleme için görüntü alınamadı; parametreleri denetleyin. %1Ayrıntıları "
 "göster…%2"
 
 #: src/timeline2/view/qml/AudioLevels.qml:28
@@ -38233,7 +38233,7 @@ msgstr "İmleyiciye Git…"
 #: src/timeline2/view/timelinewidget.cpp:227
 #, kde-format
 msgid "Thumbnails"
-msgstr "Önizlemeler"
+msgstr "Ön İzlemeler"
 
 #: src/timeline2/view/timelinewidget.cpp:235
 #, kde-format
@@ -39082,12 +39082,12 @@ msgstr "Lumalar"
 #: src/transitions/transitionlist/view/transitionicondelegate.cpp:31
 #, kde-format
 msgid "No Preview"
-msgstr "Önizleme yok"
+msgstr "Ön izleme yok"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:78
 #, kde-format
 msgid "Generate Previews"
-msgstr "Önizlemeleri Üret"
+msgstr "Ön İzlemeleri Üret"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:219
 #, kde-format
@@ -39095,7 +39095,7 @@ msgid ""
 "Could not find the preview generation script. Please make sure it is "
 "installed correctly."
 msgstr ""
-"Önizleme üretim betiği bulunamadı. Düzgünce kurulu olduğundan emin olun."
+"Ön izleme üretim betiği bulunamadı. Düzgünce kurulu olduğundan emin olun."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:276
 #, kde-format
@@ -39105,12 +39105,12 @@ msgstr "Python yorumcusu bulunamadı. Python’un kurulu olduğundan emin olun."
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:284
 #, kde-format
 msgid "Generating transition previews. This may take a few minutes..."
-msgstr "Geçiş önizlemeleri üretiliyor. Bu, birkaç dakika sürebilir…"
+msgstr "Geçiş ön izlemeleri üretiliyor. Bu, birkaç dakika sürebilir…"
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:297
 #, kde-format
 msgid "Transition previews have been generated successfully."
-msgstr "Geçiş önizlemeleri başarıyla üretildi."
+msgstr "Geçiş ön izlemeleri başarıyla üretildi."
 
 #: src/transitions/transitionlist/view/transitionlistwidget.cpp:302
 #, kde-format
@@ -39118,7 +39118,7 @@ msgid ""
 "Failed to generate transition previews. Check the application log for "
 "details."
 msgstr ""
-"Geçiş önizlemeleri üretilemedi. Ayrıntılar için uygulama günlüğüne bakın."
+"Geçiş ön izlemeleri üretilemedi. Ayrıntılar için uygulama günlüğüne bakın."
 
 #: src/transitions/transitionsrepository.cpp:38
 #, kde-format
@@ -39934,7 +39934,7 @@ msgstr "Aygıt Öntanımlısını Kullan"
 #: src/ui/configcolors_ui.ui:21
 #, kde-format
 msgid "Audio thumbnail colors:"
-msgstr "Ses önizlemesi rengi:"
+msgstr "Ses ön izlemesi rengi:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_monitor_overlay)
 #: src/ui/configcolors_ui.ui:38
@@ -40624,7 +40624,7 @@ msgstr "6 kanal"
 #: src/ui/configproject_ui.ui:139
 #, kde-format
 msgid "Timeline Preview profile:"
-msgstr "Zaman akışı önizlemesi profili:"
+msgstr "Zaman akışı ön izlemesi profili:"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, kmessagewidget)
 #: src/ui/configprojectdefaults_ui.ui:21
@@ -41862,7 +41862,7 @@ msgstr "Kare hızını dönüştür"
 #: src/ui/import_subtitle_ui.ui:241
 #, kde-format
 msgid "Subtitle Preview"
-msgstr "Alt yazı önizleme"
+msgstr "Alt yazı ön izleme"
 
 #. i18n: ectx: property (text), widget (QCheckBox, create_track)
 #: src/ui/import_subtitle_ui.ui:274
@@ -41909,19 +41909,19 @@ msgstr "0 B"
 #: src/ui/managecache_ui.ui:55
 #, kde-format
 msgid "Video thumbnails:"
-msgstr "Video önizlemeleri:"
+msgstr "Video ön izlemeleri:"
 
 #. i18n: ectx: property (text), widget (QLabel, previewLabel)
 #: src/ui/managecache_ui.ui:121
 #, kde-format
 msgid "Timeline preview:"
-msgstr "Zaman akışı önizlemesi:"
+msgstr "Zaman akışı ön izlemesi:"
 
 #. i18n: ectx: property (text), widget (QLabel, audioLabel)
 #: src/ui/managecache_ui.ui:199
 #, kde-format
 msgid "Audio thumbnails:"
-msgstr "Ses önizlemeleri:"
+msgstr "Ses ön izlemeleri:"
 
 #. i18n: ectx: property (toolTip), widget (QLabel, currentPath)
 #: src/ui/managecache_ui.ui:220
@@ -41961,8 +41961,8 @@ msgid ""
 "preview videos. Deleting is safe, all data can be recreated on project "
 "opening."
 msgstr ""
-"Önbelleklenmiş veri, klip küçük görselleri (ses ve video) ve zaman akışı "
-"önizleme videolarından oluşur. Rahatlıkla silebilirsiniz; tüm veri proje "
+"Önbelleklenmiş veri, klip küçük görselleri (ses ve video) ve zaman akışı ön "
+"izleme videolarından oluşur. Rahatlıkla silebilirsiniz; tüm veri proje "
 "açılışında yeniden oluşturulur."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
@@ -42253,7 +42253,7 @@ msgstr "Sayım"
 #: src/ui/markerdialog_ui.ui:102
 #, kde-format
 msgid "Image preview"
-msgstr "Görsel önizlemesi"
+msgstr "Görsel ön izlemesi"
 
 #. i18n: ectx: property (text), widget (QLabel, label_end_time)
 #: src/ui/markerdialog_ui.ui:158
@@ -42290,7 +42290,7 @@ msgstr "Maskeyi Düzenle"
 #: src/ui/maskmanage_ui.ui:83
 #, kde-format
 msgid "Preview Mask"
-msgstr "Maskeyi Önizle"
+msgstr "Maskeyi Ön İzle"
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, buttonAdd)
 #: src/ui/maskmanage_ui.ui:95
@@ -42493,7 +42493,7 @@ msgstr "Proje Ayarları"
 #, kde-format
 msgid " Used to store proxy clips, thumbnails, previews"
 msgstr ""
-" Vekil klipleri, küçük görselleri ve önizlemeleri depolamak için kullanılır"
+" Vekil klipleri, küçük görselleri ve ön izlemeleri depolamak için kullanılır"
 
 #. i18n: ectx: property (whatsThis), widget (QLabel, label_4)
 #: src/ui/projectsettings_ui.ui:75
@@ -42502,7 +42502,7 @@ msgid ""
 " The project folder is the place where assets like proxy clips, thumbnails "
 "or previews get stored."
 msgstr ""
-" Proje klasörü; vekil klipler, küçük görseller veya önizlemeler gibi "
+" Proje klasörü; vekil klipler, küçük görseller veya ön izlemeler gibi "
 "ögelerin depolandığı yerdir."
 
 #. i18n: ectx: property (text), widget (QRadioButton, default_folder)
@@ -42545,7 +42545,7 @@ msgstr "6 kanal"
 #: src/ui/projectsettings_ui.ui:218
 #, kde-format
 msgid "Timeline Preview:"
-msgstr "Zaman akışı önizlemesi:"
+msgstr "Zaman akışı ön izlemesi:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, proxy_box)
 #: src/ui/projectsettings_ui.ui:264
@@ -42829,7 +42829,7 @@ msgstr "Tam renk aralığını sun"
 #: src/ui/renderwidget_ui.ui:506
 #, kde-format
 msgid "Render at Preview Resolution"
-msgstr "Önizleme Çözünürlüğünde Sun"
+msgstr "Ön İzleme Çözünürlüğünde Görüntü Al"
 
 #. i18n: ectx: property (text), widget (QCheckBox, proxy_render)
 #: src/ui/renderwidget_ui.ui:513

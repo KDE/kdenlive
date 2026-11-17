@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: nl\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-16 01:05+0000\n"
-"PO-Revision-Date: 2026-11-12 18:21+0100\n"
+"PO-Revision-Date: 2026-11-16 13:51+0100\n"
 "Last-Translator: freek <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -8307,7 +8307,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_3dperspective.xml:20
 #, kde-format
 msgid "Perspective"
-msgstr ""
+msgstr "Perspectief"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:21
 #, fuzzy, kde-format
@@ -11361,10 +11361,9 @@ msgid "Harris shutter color filtering delay"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_harris0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Simple Editor"
+#, kde-format
 msgid "Simple"
-msgstr "Eenvoudige bewerker"
+msgstr "Eenvoudig"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:14
 #, kde-format
@@ -13799,10 +13798,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Fades:"
+#, kde-format
 msgid "Fade"
-msgstr "Vervagingen:"
+msgstr "Vervagen"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:40
 #, kde-format
@@ -14304,7 +14302,7 @@ msgstr "Centrum X"
 #, fuzzy, kde-format
 #| msgid "Initial Horizontal Position"
 msgid "Horizontal position"
-msgstr "Initiële horizontale positie"
+msgstr "Horizontale positie"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:24
 #, kde-format
@@ -14315,7 +14313,7 @@ msgstr "Centrum Y"
 #, fuzzy, kde-format
 #| msgid "Initial Vertical Position"
 msgid "Vertical position"
-msgstr "Initiële verticale positie"
+msgstr "Verticale positie"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -34585,10 +34583,9 @@ msgid "Project Bin Tags"
 msgstr "Projectmappen"
 
 #: src/project/dialogs/guidecategories.cpp:34
-#, fuzzy, kde-format
-#| msgid "Delete "
+#, kde-format
 msgid "Delete Tag"
-msgstr "Verwijderen "
+msgstr "Tag verwijderen"
 
 #: src/project/dialogs/guidecategories.cpp:36
 #, fuzzy, kde-format
@@ -40381,10 +40378,9 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_lowMemoryThreshold)
 #: src/ui/configenv_ui.ui:141
-#, fuzzy, kde-format
-#| msgid " MiB"
+#, kde-format
 msgid " MB"
-msgstr " MiB"
+msgstr " MB"
 
 #. i18n: ectx: property (text), widget (KMessageWidget, lowMemoryWarning)
 #: src/ui/configenv_ui.ui:172
