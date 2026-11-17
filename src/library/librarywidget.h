@@ -158,6 +158,10 @@ public Q_SLOTS:
     void slotAddToLibrary();
     void slotUpdateLibraryPath();
 
+protected:
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
+
 private Q_SLOTS:
     void slotAddToProject();
     void slotDeleteFromLibrary();
@@ -186,7 +190,7 @@ private:
     ProjectManager *m_manager;
     QList<QTreeWidgetItem *> m_folders;
     KIO::PreviewJob *m_previewJob;
-    KCoreDirLister *m_coreLister;
+    KCoreDirLister *m_coreLister{nullptr};
     QMutex m_treeMutex;
     QDir m_directory;
     /** @brief if true, the next file appearing in the library will be selected */
