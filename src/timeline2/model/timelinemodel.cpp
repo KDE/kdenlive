@@ -3484,14 +3484,16 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                     subPlaylist = m_allClips[item.first]->getSubPlaylistIndex();
                 }
                 if (!getTrackById_const(current_track_id)->isAvailable(moveStart, moveEnd - moveStart, subPlaylist)) {
-                    int newStart = getTrackById_const(current_track_id)->getBlankEnd(current_in + playtime, subPlaylist);
-                    if (newStart == current_in + playtime) {
+                    const int blankStart = current_in + playtime;
+                    if (!getTrackById_const(current_track_id)->isBlankAt(blankStart, subPlaylist)) {
                         // No move possible, abort
                         bool undone = local_undo();
                         Q_ASSERT(undone);
                         return false;
                     }
-                    delta_pos = qMin(delta_pos, newStart - (current_in + playtime));
+                    // getBlankEnd returns the last blank frame (inclusive)
+                    const int blankEnd = getTrackById_const(current_track_id)->getBlankEnd(blankStart, subPlaylist);
+                    delta_pos = qMin(delta_pos, blankEnd - blankStart + 1);
                 }
             }
         }

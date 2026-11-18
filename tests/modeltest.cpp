@@ -1144,6 +1144,31 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(tid6);
     }
 
+    SECTION("Group move right is clamped to fill the blank before the next clip")
+    {
+        TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid5 = TrackModel::construct(timeline);
+        QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 10);
+        int cid6 = -1, cid7 = -1, cid8 = -1;
+        // cid6 [0, 9], 1 frame blank, cid7 [11, 20], 3 frames blank, cid8 [24, 33]
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, 0, cid6, true, true, false));
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, 11, cid7, true, true, false));
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, 24, cid8, true, true, false));
+        auto moveRight = [&](int cid, int delta) { return timeline->requestGroupMove(cid, KdenliveTests::groupsModel(timeline)->getRootId(cid), 0, delta); };
+        auto checkPos = [&](int cid, int pos) {
+            REQUIRE(timeline->getClipPosition(cid) == pos);
+            REQUIRE(timeline->getClipPosition(timeline->getClipSplitPartner(cid)) == pos);
+        };
+        REQUIRE(moveRight(cid6, 5));
+        checkPos(cid6, 1);
+        REQUIRE(moveRight(cid7, 5));
+        checkPos(cid7, 14);
+        // cid7 now touches cid8
+        REQUIRE_FALSE(moveRight(cid7, 1));
+        checkPos(cid7, 14);
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Creation and movement of AV groups")
     {
         int tid6b = TrackModel::construct(timeline, -1, -1, QString(), true);
