@@ -5198,7 +5198,7 @@ bool TimelineController::exists(int itemId)
 
 void TimelineController::slotMultitrackView(bool enable, bool refresh)
 {
-    QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh);
+    QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, enable, refresh, m_multitrackMonitorSize);
     if (!refresh) {
         // This is just a temporary state (disable multitrack view for playlist save, don't change scene
         return;
@@ -5247,6 +5247,15 @@ void TimelineController::updateMultiTrack()
 {
     QStringList trackNames = TimelineFunctions::enableMultitrackView(m_model, true, true);
     pCore->monitorManager()->projectMonitor()->slotShowEffectScene(SceneType::MonitorSplitTrack, false, QVariant(trackNames));
+}
+
+void TimelineController::updateMultiTrackLayout(int width, int height)
+{
+    if (width <= 0 || height <= 0 || !m_model) {
+        return;
+    }
+    m_multitrackMonitorSize = QSize(width, height);
+    TimelineFunctions::enableMultitrackView(m_model, true, true, m_multitrackMonitorSize);
 }
 
 void TimelineController::activateTrackAndSelect(int trackPosition, bool notesMode)

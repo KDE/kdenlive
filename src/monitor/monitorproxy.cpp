@@ -13,9 +13,11 @@
 #include "doc/kdenlivedoc.h"
 #include "doc/kthumb.h"
 #include "kdenlivesettings.h"
+#include "mainwindow.h"
 #include "markersortmodel.h"
 #include "monitormanager.h"
 #include "profiles/profilemodel.hpp"
+#include "timeline2/view/timelinewidget.h"
 
 #include <QUuid>
 
@@ -48,6 +50,17 @@ MonitorProxy::MonitorProxy(VideoWidget *parent)
 void MonitorProxy::switchGrid()
 {
     KdenliveSettings::setShowMonitorGrid(!KdenliveSettings::showMonitorGrid());
+}
+
+void MonitorProxy::updateMultiTrackLayout(int width, int height)
+{
+    if (q->m_id != int(Kdenlive::ProjectMonitor) || width <= 0 || height <= 0) {
+        return;
+    }
+    auto *timeline = pCore->window()->getCurrentTimeline();
+    if (timeline) {
+        timeline->controller()->updateMultiTrackLayout(width, height);
+    }
 }
 
 int MonitorProxy::getPosition() const

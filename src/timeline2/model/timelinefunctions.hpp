@@ -15,6 +15,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <unordered_map>
 
 #include <QDir>
+#include <QSize>
 
 class TimelineItemModel;
 
@@ -161,7 +162,7 @@ struct TimelineFunctions
     static bool requestSplitVideo(const std::shared_ptr<TimelineItemModel> &timeline, int clipId, int videoTarget);
     static void setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack);
     static bool setCompositionATrack(const std::shared_ptr<TimelineItemModel> &timeline, int cid, int aTrack, Fun &undo, Fun &redo, bool pushUndo);
-    static QStringList enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh);
+    static QStringList enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh, const QSize &monitorSize = QSize());
     static void saveTimelineSelection(const std::shared_ptr<TimelineItemModel> &timeline, const std::unordered_set<int> &selection, const QDir &targetDir,
                                       int duration);
     /** @brief returns the number of same type tracks between 2 tracks

@@ -217,11 +217,19 @@ void VideoWidget::resizeVideo(int width, int height)
     height -= m_displayRulerHeight;
     double this_aspect = double(width) / height;
 
+    QQuickItem *rootQml = rootObject();
+    const bool fillMonitorForMultitrack = rootQml && rootQml->property("viewType").toInt() == int(SceneType::MonitorSplitTrack);
     // Special case optimization to negate odd effect of sample aspect ratio
     // not corresponding exactly with image resolution.
     if (m_fixedSize.isValid()) {
         w = m_fixedSize.width();
         h = m_fixedSize.height();
+    } else if (fillMonitorForMultitrack) {
+        // Multitrack is a preview-only composition: fill the whole monitor viewport
+        // instead of letterboxing the project-aspect frame inside it. The MLT frame
+        // remains at the project's resolution; only its on-screen display is stretched.
+        w = width;
+        h = height;
     } else {
         if (int(this_aspect * 1000) == int(m_dar * 1000)) {
             w = width;
@@ -242,7 +250,6 @@ void VideoWidget::resizeVideo(int width, int height)
     const QSize parentSize = !m_fixedSize.isValid() && parentWidget() ? parentWidget()->size() : size();
     m_monitorOffset = QPointF((parentSize.width() - width) / 2., (parentSize.height() - m_displayRulerHeight - height) / 2.);
 
-    QQuickItem *rootQml = rootObject();
     if (rootQml) {
         QSize s = pCore->getCurrentFrameSize();
         double scalex = m_rect.width() * m_zoom / s.width();

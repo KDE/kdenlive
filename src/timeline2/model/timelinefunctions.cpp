@@ -1421,7 +1421,7 @@ bool TimelineFunctions::setCompositionATrack(const std::shared_ptr<TimelineItemM
     return false;
 }
 
-QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh)
+QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<TimelineItemModel> &timeline, bool enable, bool refresh, const QSize &monitorSize)
 {
     QStringList trackNames;
     std::vector<int> videoTracks;
@@ -1459,6 +1459,24 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
     if (enable) {
         int count = 0;
 
+        const int trackCount = int(videoTracks.size());
+        const QSize profileSize = pCore->getCurrentFrameSize();
+        const double profileAspect = profileSize.width() > 0 && profileSize.height() > 0 ? double(profileSize.width()) / profileSize.height() : (16.0 / 9.0);
+        const double viewAspect = monitorSize.width() > 0 && monitorSize.height() > 0 ? double(monitorSize.width()) / monitorSize.height() : profileAspect;
+        // Keep the current grid at the project's native aspect ratio, then
+        // add columns as the monitor becomes wider (and rows as it gets taller).
+        const double aspectScale = std::sqrt(viewAspect / profileAspect);
+        int gridColumns = 1;
+        if (trackCount > 0) {
+            gridColumns = qBound(1, int(std::ceil(std::sqrt(double(trackCount)) * aspectScale)), trackCount);
+        }
+        const int gridRows = qMax(1, (trackCount + gridColumns - 1) / gridColumns);
+        const double layoutWidth = monitorSize.width() > 0 ? monitorSize.width() : profileSize.width();
+
+        const double layoutHeight = monitorSize.height() > 0 ? monitorSize.height() : profileSize.height();
+
+        const double cameraDAR = profileAspect;
+
         for (int tid : videoTracks) {
             int b_track = timeline->getTrackMltIndex(tid);
             Mlt::Transition transition(timeline->m_tractor->get_profile(), "qtblend");
@@ -1467,108 +1485,42 @@ QStringList TimelineFunctions::enableMultitrackView(const std::shared_ptr<Timeli
             transition.set("b_track", b_track);
             // 200 is an arbitrary number so we can easily remove these transition later
             transition.set("internal_added", 200);
+            transition.set("distort", 1);
             QString geometry;
             trackNames << timeline->getTrackFullName(tid);
-            switch (count) {
-            case 0:
-                switch (videoTracks.size()) {
-                case 1:
-                    geometry = QStringLiteral("0 0 100% 100% 100%");
-                    break;
-                case 2:
-                    geometry = QStringLiteral("0 0 50% 100% 100%");
-                    break;
-                case 3:
-                case 4:
-                    geometry = QStringLiteral("0 0 50% 50% 100%");
-                    break;
-                case 5:
-                case 6:
-                    geometry = QStringLiteral("0 0 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("0 0 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 1:
-                switch (videoTracks.size()) {
-                case 2:
-                    geometry = QStringLiteral("50% 0 50% 100% 100%");
-                    break;
-                case 3:
-                case 4:
-                    geometry = QStringLiteral("50% 0 50% 50% 100%");
-                    break;
-                case 5:
-                case 6:
-                    geometry = QStringLiteral("33.3% 0 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("33.3% 0 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 2:
-                switch (videoTracks.size()) {
-                case 3:
-                case 4:
-                    geometry = QStringLiteral("0 50% 50% 50% 100%");
-                    break;
-                case 5:
-                case 6:
-                    geometry = QStringLiteral("66.6% 0 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("66.6% 0 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 3:
-                switch (videoTracks.size()) {
-                case 4:
-                    geometry = QStringLiteral("50% 50% 50% 50% 100%");
-                    break;
-                case 5:
-                case 6:
-                    geometry = QStringLiteral("0 50% 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("0 33.3% 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 4:
-                switch (videoTracks.size()) {
-                case 5:
-                case 6:
-                    geometry = QStringLiteral("33.3% 50% 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("33.3% 33.3% 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 5:
-                switch (videoTracks.size()) {
-                case 6:
-                    geometry = QStringLiteral("66.6% 50% 33.3% 50% 100%");
-                    break;
-                default:
-                    geometry = QStringLiteral("66.6% 33.3% 33.3% 33.3% 100%");
-                    break;
-                }
-                break;
-            case 6:
-                geometry = QStringLiteral("0 66.6% 33.3% 33.3% 100%");
-                break;
-            case 7:
-                geometry = QStringLiteral("33.3% 66.6% 33.3% 33.3% 100%");
-                break;
-            default:
-                geometry = QStringLiteral("66.6% 66.6% 33.3% 33.3% 100%");
-                break;
+
+            const int row = count / gridColumns;
+            const int column = count % gridColumns;
+
+            const int itemsInRow = qMin(gridColumns, trackCount - row * gridColumns);
+
+            const double cellWidth = 100.0 / itemsInRow;
+            const double cellHeight = 100.0 / gridRows;
+
+            const double cellX = column * cellWidth;
+            const double cellY = row * cellHeight;
+
+            // Convert the cell dimensions into actual viewport pixels.
+            const double cellPixelWidth = cellWidth / 100.0 * layoutWidth;
+
+            const double cellPixelHeight = cellHeight / 100.0 * layoutHeight;
+
+            // Constrain the camera container to its desired aspect ratio.
+            double tileWidth = cellWidth;
+            double tileHeight = cellHeight;
+
+            if (cellPixelWidth / cellPixelHeight > cameraDAR) {
+                tileWidth = cellPixelHeight * cameraDAR / layoutWidth * 100.0;
+            } else {
+                tileHeight = cellPixelWidth / cameraDAR / layoutHeight * 100.0;
             }
+
+            // Center the camera container inside its grid cell.
+            const double x = cellX + (cellWidth - tileWidth) / 2.0;
+            const double y = cellY + (cellHeight - tileHeight) / 2.0;
+
+            geometry = QStringLiteral("%1% %2% %3% %4% 100%").arg(x, 0, 'f', 4).arg(y, 0, 'f', 4).arg(tileWidth, 0, 'f', 4).arg(tileHeight, 0, 'f', 4);
+
             count++;
             // Add transition to track:
             transition.set("rect", geometry.toUtf8().constData());

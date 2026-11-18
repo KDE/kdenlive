@@ -12,6 +12,7 @@
 #include <KActionCollection>
 #include <QApplication>
 #include <QDir>
+#include <QSize>
 
 class QAction;
 class ClipModel;
@@ -799,6 +800,8 @@ public Q_SLOTS:
     void checkDuration();
     /** @brief Dis / enable multi track view. */
     void slotMultitrackView(bool enable = true, bool refresh = true);
+    /** @brief Recalculate multitrack tile rectangles after the monitor is resized. */
+    void updateMultiTrackLayout(int width, int height);
     /** @brief Activate a video track by its position (0 = topmost). */
     void activateTrackAndSelect(int trackPosition, bool notesMode = false);
     /** @brief Save timeline selected clips to target folder. */
@@ -873,6 +876,7 @@ private:
     int m_recordTrack{-1};
     QPoint m_zone;
     int m_activeTrack;
+    QSize m_multitrackMonitorSize;
     double m_scale;
     bool m_previewDisabled{false};
     std::shared_ptr<AudioCorrelation> m_audioCorrelator;
