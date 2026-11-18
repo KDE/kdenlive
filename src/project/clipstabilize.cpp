@@ -54,6 +54,9 @@ ClipStabilize::ClipStabilize(const std::vector<QString> &binIds, QString filterN
     }
     connect(config_button, &QToolButton::clicked, this, [&]() { pCore->window()->manageClipJobs(AbstractTask::STABILIZEJOB, this); });
 
+    connect(buttonBox->button(QDialogButtonBox::Help), &QPushButton::clicked, this,
+            []() { pCore->openLink(QUrl(QStringLiteral("https://docs.kdenlive.org/en/user_interface/menu/media_menu.html#stabilize"))); });
+
     connect(buttonBox->button(QDialogButtonBox::Ok), &QPushButton::clicked, this, &QDialog::accept);
     adjustSize();
 }
