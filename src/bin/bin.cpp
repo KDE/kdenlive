@@ -4014,11 +4014,27 @@ void Bin::slotItemDoubleClicked(const QModelIndex &ix, const QPoint &pos, uint m
 
     QRect IconRect = m_itemView->visualRect(ix);
     IconRect.setWidth(int(double(IconRect.height()) / m_itemView->iconSize().height() * m_itemView->iconSize().width()));
-    if (!pos.isNull() && ((ix.column() == BinColumns::Description && item->itemType() == AbstractProjectItem::ClipItem) ||
-                          (!IconRect.contains(pos) && pos.y() < (IconRect.y() + IconRect.height() / 2)))) {
-        // User clicked outside icon, trigger rename
-        m_itemView->edit(ix);
-        return;
+    if (!pos.isNull()) {
+        if (ix.column() == BinColumns::Description && item->itemType() == AbstractProjectItem::ClipItem) {
+            m_itemView->edit(ix);
+            return;
+        }
+        if (!IconRect.contains(pos)) {
+            if (item->itemType() == AbstractProjectItem::FolderItem) {
+                const int textWidth = m_itemView->fontMetrics().horizontalAdvance(item->name());
+                if (pos.x() > IconRect.right() + textWidth + 8) {
+                    // Double clicked in empty space to the right of the folder name: import clip into this folder
+                    m_proxyModel->selectionModel()->setCurrentIndex(ix, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+                    slotAddClip();
+                    return;
+                }
+            }
+            if (pos.y() < (IconRect.y() + IconRect.height() / 2)) {
+                // User clicked outside icon, trigger rename
+                m_itemView->edit(ix);
+                return;
+            }
+        }
     }
     if (item->itemType() == AbstractProjectItem::ClipItem) {
         std::shared_ptr<ProjectClip> clip = std::static_pointer_cast<ProjectClip>(item);
