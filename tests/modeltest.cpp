@@ -1255,6 +1255,36 @@ TEST_CASE("Clip manipulation", "[ClipModel]")
         state(1);
     }
 
+    SECTION("Insert AV clips into tight spaces")
+    {
+        int tid6 = TrackModel::construct(timeline, -1, -1, QString(), true);
+        int tid5 = TrackModel::construct(timeline);
+        QString binId3 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 1);
+        QString binId4 = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 10);
+        auto checkAV = [&](int cid, int tid, int partnerTid, int pos, int length) {
+            const int partner = timeline->getClipSplitPartner(cid);
+            REQUIRE(partner > -1);
+            for (auto [id, expectedTid] : {std::pair{cid, tid}, std::pair{partner, partnerTid}}) {
+                REQUIRE(timeline->getClipTrackId(id) == expectedTid);
+                REQUIRE(timeline->getClipPosition(id) == pos);
+                REQUIRE(timeline->getClipPlaytime(id) == length);
+            }
+        };
+        int cid6 = -1, cid7 = -1, cid8 = -1, cid9 = -1, cid10 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId4, tid5, 0, cid6, true, true, false));
+        // One frame clip right after another clip
+        REQUIRE(timeline->requestClipInsertion(binId3, tid5, 10, cid7, true, true, false));
+        checkAV(cid7, tid5, tid6, 10, 1);
+        // Clip overlapping the next one by a single frame is moved back into the blank
+        REQUIRE(timeline->requestClipInsertion(binId4, tid5, 30, cid8, true, true, false));
+        REQUIRE(timeline->requestClipInsertion(binId4, tid5, 21, cid9, true, true, false));
+        checkAV(cid9, tid5, tid6, 20, 10);
+        // One frame clip dropped on the audio track, right after another clip
+        REQUIRE(timeline->requestClipInsertion(binId3, tid6, 11, cid10, true, true, false));
+        checkAV(cid10, tid6, tid5, 11, 1);
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Clip clone")
     {
         int cid6 = ClipModel::construct(timeline, binId, -1, PlaylistState::VideoOnly);

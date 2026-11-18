@@ -2098,9 +2098,9 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
     if (binIdWithInOut.count(QLatin1Char('/')) == 2) {
         int in = binClipId.section(QLatin1Char('/'), 1, 1).toInt();
         int out = binClipId.section(QLatin1Char('/'), 2, 2).toInt();
-        duration = out - in;
+        duration = out - in + 1;
     } else {
-        duration = master->getFramePlaytime() - 1;
+        duration = master->getFramePlaytime();
     }
     if (useTargets && m_audioTarget.isEmpty() && m_videoTarget == -1) {
         useTargets = false;
@@ -2193,7 +2193,7 @@ bool TimelineModel::requestClipInsertion(const QString &binClipId, int trackId, 
                 if (m_editMode == TimelineMode::NormalEdit) {
                     if (!getTrackById_const(trackId)->isAvailable(position, duration, -1)) {
                         // Try to find better position
-                        int newStart = getTrackById_const(trackId)->getBlankEnd(position, -1) - duration;
+                        int newStart = getTrackById_const(trackId)->getBlankEnd(position, -1) - (duration - 1);
                         if (getTrackById_const(trackId)->isAvailable(newStart, duration, -1)) {
                             position = newStart;
                         } else {
