@@ -153,6 +153,25 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         state1();
         undoStack->undo();
     }
+    SECTION("Remove all clips on track with a group that has a clip on a locked track")
+    {
+        const int initialUndoIndex = undoStack->index();
+        REQUIRE(timeline->requestClipsGroup({cid2, cid4}) > -1);
+        timeline->setTrackLockedState(tid2, true);
+        const int lockedUndoIndex = undoStack->index();
+        // The locked group prevents the bulk deletion; any earlier deletions must be rolled back.
+        REQUIRE_FALSE(TimelineFunctions::requestDeleteAllClipsFrom(timeline, tid1, 70));
+        state1();
+        REQUIRE(undoStack->index() == lockedUndoIndex);
+        REQUIRE(timeline->trackIsLocked(tid2));
+        REQUIRE(timeline->getGroupElements(cid2).size() == 2);
+        REQUIRE(timeline->getGroupElements(cid2).count(cid4) == 1);
+        undoStack->undo(); // Lock tid2
+        undoStack->undo(); // Group cid2 and cid4
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state1();
+    }
+
     SECTION("Ensure delete blank works correctly with grouped clips")
     {
         // We have clips at 10, 80, 101 on track 1 (length 20 frames each)
