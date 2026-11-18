@@ -2457,3 +2457,16 @@ std::list<int> Core::getAudioTrackIds()
     }
     return {};
 }
+
+void Core::openUrl(const QString &file)
+{
+    if (m_splash && m_splash->welcomeDisplayed()) {
+        Q_EMIT m_splash->openFile(file);
+    } else {
+        if (m_projectManager) {
+            QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, QUrl::fromLocalFile(file)));
+        } else {
+            QTimer::singleShot(500, this, [this, file]() -> void { openUrl(file); });
+        }
+    }
+}

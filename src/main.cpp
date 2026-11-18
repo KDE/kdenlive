@@ -180,6 +180,7 @@ class Application : public QApplication
 {
 public:
     QUrl url;
+    bool coreInitialized{false};
     Application(int &argc, char **argv)
         : QApplication(argc, argv)
     {
@@ -190,7 +191,12 @@ protected:
     {
         if (event->type() == QEvent::FileOpen) {
             QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
-            url = QUrl::fromLocalFile(openEvent->file());
+            // Trigger opening
+            if (coreInitialized) {
+                pCore->openUrl(openEvent->file());
+            } else {
+                url = QUrl::fromLocalFile(openEvent->file());
+            }
             return true;
         } else
             return QApplication::event(event);
@@ -453,6 +459,7 @@ int main(int argc, char *argv[])
             return EXIT_FAILURE;
         }
         pCore->initHeadless(app.url);
+        app.coreInitialized = true;
         app.processEvents();
 
         KdenliveDoc *doc = pCore->currentDoc();

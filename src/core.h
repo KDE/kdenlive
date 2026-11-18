@@ -381,6 +381,8 @@ public:
     void updateHwDecoding();
     /** Close the application */
     void closeApp();
+    /** Open a file on demand, triggered by MacOS OpenFile event */
+    void openUrl(const QString &file);
 
     void startHideBarsTimer();
     void updateHideBarsTimer(bool inhibit);
