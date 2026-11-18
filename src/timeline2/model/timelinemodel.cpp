@@ -4144,14 +4144,14 @@ int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logU
     QWriteLocker locker(&m_lock);
     TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
     Q_ASSERT(isItem(itemId));
-    if (size <= 0) {
+    const int tid = getItemTrackId(itemId);
+    if (size <= 0 || (tid > -1 && trackIsLocked(tid))) {
         // cppcheck-suppress unknownMacro
         TRACE_RES(-1)
         return -1;
     }
     int in = 0;
     int offset = getItemPlaytime(itemId);
-    int tid = getItemTrackId(itemId);
     int out = offset;
     qDebug() << "======= REQUESTING NEW CLIP SIZE: " << size << ", ON TID: " << tid;
     if (tid != -1 || !isClip(itemId)) {

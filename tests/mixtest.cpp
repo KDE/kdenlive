@@ -2131,6 +2131,26 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->checkConsistency());
     }
+    SECTION("Resizing a mixed clip on a locked track is refused")
+    {
+        state0();
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        const int mix = timeline->getMixDuration(cid4);
+        timeline->setTrackLockedState(tid2, true);
+        REQUIRE(timeline->trackIsLocked(tid2));
+        const int lockedUndoIndex = undoStack->index();
+        // Shrinking cid4 into its mix used to resize the mix only
+        REQUIRE(timeline->requestItemResize(cid4, mix - 1, true, true) == -1);
+        REQUIRE(undoStack->index() == lockedUndoIndex);
+        state2();
+        REQUIRE(timeline->getMixDuration(cid4) == mix);
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Lock tid2
+        REQUIRE_FALSE(timeline->trackIsLocked(tid2));
+        undoStack->undo(); // Mix cid3 and cid4
+        state0();
+    }
 
     timeline.reset();
     pCore->projectManager()->closeCurrentDocument(false, false);
