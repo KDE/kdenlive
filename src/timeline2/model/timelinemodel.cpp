@@ -3193,8 +3193,9 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
                         // First part of the mix is not moving, delete start mix
                         mixesToDelete.insert({affectedItemId, mixData.second.secondClipId}, current_track_id);
                     }
-                } else if (!tracksWithMix.contains(current_track_id)) {
-                    // There is a mix, prepare for update
+                }
+                if (!tracksWithMix.contains(current_track_id)) {
+                    // There is a mix, prepare for update. Also needed when delta_track != 0, as it may be reset to 0 below if the track move is not possible
                     tracksWithMix << current_track_id;
                 }
             }

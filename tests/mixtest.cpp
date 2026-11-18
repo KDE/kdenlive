@@ -1005,6 +1005,7 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Move on same track
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         REQUIRE(timeline->requestClipMove(cid4, tid3, 800));
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
         undoStack->undo();
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
