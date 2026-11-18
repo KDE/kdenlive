@@ -38,6 +38,27 @@ Item {
 
     signal activateTrack(int position)
 
+    function scheduleLayoutUpdate() {
+        if (root.tracks.length > 1) {
+            layoutUpdateTimer.restart();
+	}
+    }
+
+    Timer {
+       id: layoutUpdateTimer
+       interval: 120
+       repeat: false
+       onTriggered: {
+           const availableHeight = Math.round(root.height - root.controller.rulerHeight);
+	   root.controller.updateMultiTrackLayout(Math.round(root.width), availableHeight);
+        }
+    }
+    onWidthChanged: scheduleLayoutUpdate()
+    onHeightChanged: scheduleLayoutUpdate()
+    onTracksChanged: scheduleLayoutUpdate()
+    onProfileChanged: scheduleLayoutUpdate()
+    Component.onCompleted: scheduleLayoutUpdate()
+
     MouseArea {
         id: barOverArea
         hoverEnabled: true
@@ -58,16 +79,24 @@ Item {
         Repeater {
             id: trackSeparators
             model: root.tracks
-            property int rows: trackSeparators.count < 2 ? 1 : trackSeparators.count < 5 ? 2 : 3
-            property int columns: trackSeparators.count < 2 ? 1 : trackSeparators.count < 3 ? 1 : trackSeparators.count < 7 ? 2 : 3
+	    property real viewportHeight: Math.max(1, root.height - root.controller.rulerHeight)
+	    property real profileAspect: root.profile.x > 0 && root.profile.y > 0 ? root.profile.x / root.profile.y : (16 / 9)
+	    property real viewportAspect: root.width > 0 && root.height > root.controller.rulerHeight ? root.width / viewportHeight : profileAspect
+	    property int columns: trackSeparators.count > 0 ? Math.min(trackSeparators.count, Math.max(1, Math.ceil(Math.sqrt(trackSeparators.count) * Math.sqrt(viewportAspect / profileAspect)))) : 1
+	    property int rows: trackSeparators.count > 0 ? Math.ceil(trackSeparators.count / columns) : 1
+	    
             Rectangle {
                 id: trackSeperatorFrame
                 required property int index
                 required property string modelData
-                width: parent.width / trackSeparators.rows
-                height: parent.height / trackSeparators.columns
-                x: width * (index % trackSeparators.rows)
-                y: height * (Math.floor(index / trackSeparators.rows))
+		property int rowIndex: Math.floor(index / trackSeparators.columns)
+		property int columnIndex: index % trackSeparators.columns
+		property int itemsInRow: Math.min(trackSeparators.columns, trackSeparators.count - rowIndex * trackSeparators.columns)
+
+		width: parent.width / itemsInRow
+		height: parent.height / trackSeparators.rows
+		x: width * columnIndex
+		y: height * rowIndex
                 color: "transparent"
                 border.color: index == root.activeTrack ? "#ff0000" : "#00000000"
                 border.width: 2
