@@ -1020,15 +1020,23 @@ void TitleWidget::slotSelectTool()
 
 void TitleWidget::slotImageTool()
 {
-    QList<QByteArray> supported = QImageReader::supportedImageFormats();
+    const QList<QByteArray> supported = QImageReader::supportedImageFormats();
     QStringList mimeTypeFilters;
-    QString allExtensions = i18n("All Images") + QStringLiteral(" (");
-    for (const QByteArray &mimeType : std::as_const(supported)) {
-        mimeTypeFilters.append(i18n("%1 Image", QString(mimeType)) + QStringLiteral("( *.") + QString(mimeType) + QLatin1Char(')'));
-        allExtensions.append(QStringLiteral("*.") + mimeType + QLatin1Char(' '));
+    QStringList allGlobs;
+    for (const QByteArray &mimeType : supported) {
+        const QString lower = QString::fromLatin1(mimeType).toLower();
+        const QString upper = QString::fromLatin1(mimeType).toUpper();
+        QString glob = QStringLiteral("*.") + lower;
+        allGlobs.append(QStringLiteral("*.") + lower);
+        if (lower != upper) {
+            glob += QStringLiteral(" *.") + upper;
+            allGlobs.append(QStringLiteral("*.") + upper);
+        }
+        mimeTypeFilters.append(i18n("%1 Image", QString::fromLatin1(mimeType)) + QStringLiteral(" (") + glob + QLatin1Char(')'));
     }
     mimeTypeFilters.sort();
-    allExtensions.append(QLatin1Char(')'));
+    allGlobs.removeDuplicates();
+    const QString allExtensions = i18n("All Images") + QStringLiteral(" (") + allGlobs.join(QLatin1Char(' ')) + QLatin1Char(')');
     mimeTypeFilters.prepend(allExtensions);
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveImageFolder"));
     if (clipFolder.isEmpty()) {
