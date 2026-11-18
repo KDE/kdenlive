@@ -2377,6 +2377,82 @@ TEST_CASE("Operations under locked tracks", "[Locked]")
         REQUIRE(timeline->checkConsistency());
     }
 
+    SECTION("Failed grouped deletion preserves earlier undo and redo")
+    {
+        int cid1 = -1;
+        int cid2 = -1;
+        int cid3 = -1;
+        int cid4 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 10, cid1));
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 80, cid2));
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 101, cid3));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 20, cid4));
+        auto originalState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getTrackClipsCount(tid1) == 3);
+            REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+            REQUIRE(timeline->getClipsCount() == 4);
+            REQUIRE(timeline->getClipPosition(cid1) == 10);
+            REQUIRE(timeline->getClipPosition(cid2) == 80);
+            REQUIRE(timeline->getClipPosition(cid3) == 101);
+            REQUIRE(timeline->getClipPosition(cid4) == 20);
+        };
+        REQUIRE(timeline->requestClipsGroup({cid2, cid4}) > -1);
+        timeline->setTrackLockedState(tid2, true);
+        const int lockedUndoIndex = undoStack->index();
+        int undoCalls = 0;
+        int redoCalls = 0;
+        Fun undo = [&]() {
+            ++undoCalls;
+            return true;
+        };
+        Fun redo = [&]() {
+            ++redoCalls;
+            return true;
+        };
+        REQUIRE(timeline->requestItemDeletion(cid3, undo, redo));
+        REQUIRE_FALSE(timeline->isClip(cid3));
+        REQUIRE_FALSE(timeline->requestItemDeletion(cid2, undo, redo));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE_FALSE(timeline->isClip(cid3));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+        REQUIRE(timeline->getTrackClipsCount(tid2) == 1);
+        REQUIRE(timeline->getGroupElements(cid2).size() == 2);
+        REQUIRE(timeline->getGroupElements(cid2).count(cid4) == 1);
+        REQUIRE(undoCalls == 0);
+        REQUIRE(redoCalls == 0);
+        REQUIRE(undo());
+        REQUIRE(undoCalls == 1);
+        originalState();
+        REQUIRE(redo());
+        REQUIRE(redoCalls == 1);
+        REQUIRE_FALSE(timeline->isClip(cid3));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 2);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undo());
+        REQUIRE(undoCalls == 2);
+        originalState();
+        REQUIRE(undoStack->index() == lockedUndoIndex);
+        undoStack->undo(); // Lock tid2
+        undoStack->undo(); // Group cid2 and cid4
+        originalState();
+    }
+
+    SECTION("Deleting a clip grouped with a composition on a locked track is refused")
+    {
+        int cid1 = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid1, 2, cid1));
+        int compo = CompositionModel::construct(timeline, aCompo, QString());
+        REQUIRE(timeline->requestCompositionMove(compo, tid2, 2));
+        REQUIRE(timeline->requestClipsGroup({cid1, compo}) > -1);
+        timeline->setTrackLockedState(tid2, true);
+        // The deletion of the clip used to be reverted twice when the composition deletion failed
+        REQUIRE_FALSE(timeline->requestItemDeletion(cid1));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipsCount() == 1);
+        REQUIRE(timeline->getCompositionTrackId(compo) == tid2);
+    }
+
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
 

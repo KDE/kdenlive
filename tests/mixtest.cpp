@@ -1968,6 +1968,50 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(undoStack->index() == initialUndoIndex);
         state0();
     }
+    SECTION("Moving an AV clip with end mix so that it starts after its mix partner")
+    {
+        state0();
+        const int initialUndoIndex = undoStack->index();
+        int cidX = -1;
+        int cidC = -1;
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 1000, cidX));
+        REQUIRE(timeline->requestItemResize(cidX, 20, true, true) == 20);
+        const int audioX = timeline->getClipSplitPartner(cidX);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 1020, cidC));
+        // Only the video part has a neighbour to mix with.
+        REQUIRE(timeline->mixClip(audioX, QStringLiteral("luma"), 0));
+        const int mixStart = timeline->getClipPosition(cidC);
+        const int videoDuration = timeline->getClipPlaytime(cidX);
+        const int partnerDuration = timeline->getClipPlaytime(cidC);
+        const int originalMixDuration = timeline->getMixDuration(cidC);
+        const int originalMixCut = KdenliveTests::getClipPtr(timeline, cidC)->getMixCutPosition();
+        const int beforeMoveUndoIndex = undoStack->index();
+        REQUIRE(timeline->getMixDuration(audioX) == 0);
+        REQUIRE(timeline->getClipPosition(cidX) < mixStart);
+        // cidX would start after cidC starts while ending inside it: reject the whole AV move.
+        REQUIRE(mixStart + 3 + videoDuration < mixStart + partnerDuration);
+        REQUIRE_FALSE(timeline->requestClipMove(cidX, tid2, mixStart + 3));
+        REQUIRE(undoStack->index() == beforeMoveUndoIndex);
+        REQUIRE(timeline->getClipPosition(cidX) == 1000);
+        REQUIRE(timeline->getClipPlaytime(cidX) == videoDuration);
+        REQUIRE(timeline->getClipPosition(audioX) == 1000);
+        REQUIRE(timeline->getClipPlaytime(audioX) == 20);
+        REQUIRE(timeline->getClipPosition(cidC) == mixStart);
+        REQUIRE(timeline->getClipPlaytime(cidC) == partnerDuration);
+        REQUIRE(timeline->getMixDuration(cidC) == originalMixDuration);
+        REQUIRE(KdenliveTests::getClipPtr(timeline, cidC)->getMixCutPosition() == originalMixCut);
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Mix cidX and cidC
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidC
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Resize cidX and audioX
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo(); // Insert cidX and audioX
+        REQUIRE(undoStack->index() == initialUndoIndex);
+        state0();
+        REQUIRE(timeline->checkConsistency());
+    }
 
     SECTION("Right resize of an audio clip whose video partner has a start mix")
     {
