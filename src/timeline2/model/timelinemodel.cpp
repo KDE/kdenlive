@@ -1160,6 +1160,26 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
 
     int foundClips = 0;
     int inactiveTracks = 0;
+    // First check where to add mix if undecided
+    bool hasEndClip = false;
+    if (delta == 0) {
+        for (int s : clipIds) {
+            int track = getClipTrackId(s);
+            if (getTrackById_const(track)->hasEndMix(s)) {
+                // End mix already exists, add mix at start
+                delta = -1;
+                break;
+            }
+            int clipEnd = getItemPosition(s) + getItemPlaytime(s) + 1;
+            if (getTrackById_const(track)->getClipByPosition(clipEnd) != -1) {
+                // At least one clip has another clip after its end
+                hasEndClip = true;
+            }
+        }
+    }
+    if (delta == 0 && !hasEndClip) {
+        delta = -1;
+    }
     for (int s : clipIds) {
         if (!isClip(s)) {
             continue;
@@ -1178,12 +1198,6 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
         }
         mixInfo.mixPosition = getItemPosition(s);
         int clipDuration = getItemPlaytime(s);
-        // Check if clip already has a mix
-        if (delta == 0 && (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s) ||
-                           getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1) == -1)) {
-            // There already is a mix or no next clip, try adding a mix at clip start
-            delta = -1;
-        }
         if (delta > -1) {
             // we want to add a mix at clip end
             if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
