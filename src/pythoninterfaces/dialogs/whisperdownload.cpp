@@ -74,7 +74,8 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, const QString &modelName,
     if (!m_modelToInstall.isEmpty()) {
         m_lw->setEnabled(false);
     }
-    connect(this, &WhisperDownload::itemMatch, [this](const QString hash, bool match) {
+    // itemMatch is emitted from a worker thread, the context object makes this run on the GUI thread
+    connect(this, &WhisperDownload::itemMatch, this, [this](const QString hash, bool match) {
         for (int i = 0; i < m_lw->count(); i++) {
             auto *item = m_lw->item(i);
             if (item->data(WPUrlRole).toString().contains(hash)) {
@@ -94,6 +95,19 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, const QString &modelName,
         }
         updateDownloadButton(m_lw->currentRow());
     });
+}
+
+WhisperDownload::~WhisperDownload()
+{
+    // The hash check workers use this object, it must outlive them however the dialog was closed
+    waitForHashChecks();
+}
+
+void WhisperDownload::waitForHashChecks()
+{
+    m_hashChecks.waitForFinished();
+    // The results are queued for this thread and would be lost with the dialog, but a mismatch must still delete the model
+    QCoreApplication::sendPostedEvents(this, QEvent::MetaCall);
 }
 
 void WhisperDownload::installFeedback(const QString &feedback)
@@ -305,20 +319,16 @@ void WhisperDownload::checkHashes(const QStringList modelsToCheck)
         }
     }
     if (!hashesToCheck.isEmpty()) {
-        (void)QtConcurrent::run(&WhisperDownload::processHashCheck, this, hashesToCheck);
+        m_hashChecks.addFuture(QtConcurrent::run(&WhisperDownload::processHashCheck, this, hashesToCheck));
     }
 }
 
 void WhisperDownload::processHashCheck(QMap<QString, QString> hashesToCheck)
 {
-    QMutexLocker lock(&m_closeMutex);
     QMapIterator<QString, QString> i(hashesToCheck);
     while (i.hasNext()) {
         i.next();
         QFile info(i.key());
-        if (m_requestClose) {
-            return;
-        }
         bool hashMatch = false;
         if (info.open(QFile::ReadOnly)) {
             QCryptographicHash shahash(QCryptographicHash::Sha256);
@@ -326,6 +336,9 @@ void WhisperDownload::processHashCheck(QMap<QString, QString> hashesToCheck)
             const QString calculatedHash(shahash.result().toHex());
             hashMatch = calculatedHash == i.value();
         }
+        // This is required to ensure proper order of operations on Windows - A mismatched file can be deleted as soon as the result arrives, possibly even
+        // before the worker arrives at this point.
+        info.close();
         Q_EMIT itemMatch(i.value(), hashMatch);
     }
     QMetaObject::invokeMethod(m_mw, "hide", Qt::QueuedConnection);
@@ -376,8 +389,6 @@ void WhisperDownload::queryClose()
             }
         }
     }
-    m_requestClose = true;
-    m_closeMutex.lock();
-    m_closeMutex.unlock();
+    waitForHashChecks();
     close();
 }
