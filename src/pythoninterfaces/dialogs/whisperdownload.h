@@ -25,6 +25,7 @@ class WhisperDownload : public QDialog
     Q_OBJECT
 public:
     enum WhisperRole { WPModelNameRole = Qt::UserRole, WPUrlRole, WPSizeRole, WPInstalledRole };
+    enum InstallStatus { NotInstalled = 0, Installed = 1, Downloading = 2 };
     WhisperDownload(SpeechToText *engine, const QString &modelName, QWidget *parent = nullptr);
     ~WhisperDownload() override;
     static const QString getWhisperModelsFolder();
@@ -57,6 +58,7 @@ private Q_SLOTS:
     void processHashCheck(QMap<QString, QString> hashesToCheck);
     void updateDownloadButton(int ix);
     void queryClose();
+    void checkDownloads();
 
 Q_SIGNALS:
     void itemMatch(const QString hash, bool match);
