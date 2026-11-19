@@ -77,6 +77,11 @@ Window {
       splash.closeApp()
     }
 
+    function hideWindow()
+    {
+        splash.visible = false
+    }
+
     function fade()
     {
         fadeAnimation.start()
