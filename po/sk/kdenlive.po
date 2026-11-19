@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-18 01:09+0000\n"
+"POT-Creation-Date: 2026-11-19 01:06+0000\n"
 "PO-Revision-Date: 2026-09-14 20:10+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -23606,7 +23606,7 @@ msgid "Cut clip"
 msgstr "Vystrihnúť klip"
 
 #: src/bin/model/subtitlemodel.cpp:888 src/bin/model/subtitlemodel.cpp:1662
-#: src/timeline2/model/timelinemodel.cpp:4461
+#: src/timeline2/model/timelinemodel.cpp:4473
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Zmeniť veľkosť titulku"
@@ -28756,7 +28756,7 @@ msgstr "Efekt %1 nemožno pridať dvakrát."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5789
+#: src/timeline2/model/timelinemodel.cpp:5801
 #, kde-format
 msgid "Add effect %1"
 msgstr "Pridať efekt %1"
@@ -34011,7 +34011,7 @@ msgstr "Stabilizovať klip"
 msgid "Last setting"
 msgstr "Posledné nastavenie"
 
-#: src/project/clipstabilize.cpp:81
+#: src/project/clipstabilize.cpp:84
 #, kde-format
 msgctxt "Description"
 msgid "Stabilize clip"
@@ -36975,7 +36975,7 @@ msgid "No gaps found on selected track"
 msgstr "Na vybranej stope sa nenašli žiadne medzery"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:5164
+#: src/timeline2/model/timelinemodel.cpp:5176
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -37143,67 +37143,67 @@ msgstr "Odstrániť kompozíciu"
 msgid "Move group"
 msgstr "Presunúť skupinu"
 
-#: src/timeline2/model/timelinemodel.cpp:3814
+#: src/timeline2/model/timelinemodel.cpp:3816
 #, kde-format
 msgid "Resize group"
 msgstr "Zmeniť veľkosť skupiny"
 
-#: src/timeline2/model/timelinemodel.cpp:3966
+#: src/timeline2/model/timelinemodel.cpp:3968
 #, kde-format
 msgid "Cannot resize this clip"
 msgstr "Nie je možné zmeniť veľkosť tohto klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:3969
+#: src/timeline2/model/timelinemodel.cpp:3971
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
 msgstr "Nie je možné resize the corresponding split clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3972
+#: src/timeline2/model/timelinemodel.cpp:3974
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
 msgstr "Nie je možné zmeniť veľkosť jedného alebo viacerých klipov vo výbere"
 
-#: src/timeline2/model/timelinemodel.cpp:3976
+#: src/timeline2/model/timelinemodel.cpp:3978
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Zmeniť veľkosť rýchlosti klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:4135
+#: src/timeline2/model/timelinemodel.cpp:4137
 #, kde-format
 msgid "Remove mix"
 msgstr "Odstrániť mix"
 
-#: src/timeline2/model/timelinemodel.cpp:4137
+#: src/timeline2/model/timelinemodel.cpp:4139
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Odstránenie mixu zlyhalo"
 
-#: src/timeline2/model/timelinemodel.cpp:4457
+#: src/timeline2/model/timelinemodel.cpp:4469
 #, kde-format
 msgid "Resize clip"
 msgstr "Zmeniť veľkosť klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:4459
+#: src/timeline2/model/timelinemodel.cpp:4471
 #, kde-format
 msgid "Resize composition"
 msgstr "Zmeniť veľkosť konca prechodu"
 
-#: src/timeline2/model/timelinemodel.cpp:4787
+#: src/timeline2/model/timelinemodel.cpp:4799
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Zmeniť veľkosť klipu s vlnením"
 
-#: src/timeline2/model/timelinemodel.cpp:4789
+#: src/timeline2/model/timelinemodel.cpp:4801
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Zmena veľkosti kompozície s vlnením"
 
-#: src/timeline2/model/timelinemodel.cpp:4791
+#: src/timeline2/model/timelinemodel.cpp:4803
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Zmeniť veľkosť titulku s vlnením"
 
-#: src/timeline2/model/timelinemodel.cpp:4937
+#: src/timeline2/model/timelinemodel.cpp:4949
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -37212,131 +37212,131 @@ msgstr[0] "Vlnitý klip"
 msgstr[1] "Vlnitý klip"
 msgstr[2] "Vlnitý klip"
 
-#: src/timeline2/model/timelinemodel.cpp:4972
+#: src/timeline2/model/timelinemodel.cpp:4984
 #, kde-format
 msgid "Slip clip"
 msgstr "Vlnitý klip"
 
-#: src/timeline2/model/timelinemodel.cpp:5007
+#: src/timeline2/model/timelinemodel.cpp:5019
 #, kde-format
 msgid "Group clips"
 msgstr "Zoskupí klipy"
 
-#: src/timeline2/model/timelinemodel.cpp:5092
-#: src/timeline2/model/timelinemodel.cpp:5108
+#: src/timeline2/model/timelinemodel.cpp:5104
+#: src/timeline2/model/timelinemodel.cpp:5120
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Zruší zoskupenie klipov"
 
-#: src/timeline2/model/timelinemodel.cpp:5273
+#: src/timeline2/model/timelinemodel.cpp:5285
 #: src/timeline2/view/timelinecontroller.cpp:1050
 #, kde-format
 msgid "Delete Track"
 msgstr "Vymazať stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:5283
+#: src/timeline2/model/timelinemodel.cpp:5295
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "Nie je možné odstrániť poslednú stopu v časovej osi"
 
-#: src/timeline2/model/timelinemodel.cpp:5385
+#: src/timeline2/model/timelinemodel.cpp:5397
 #, kde-format
 msgid "Move Track"
 msgstr "Presunúť stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:5710
+#: src/timeline2/model/timelinemodel.cpp:5722
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "Nie je možné pridať efekt %1 na master stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:5717
+#: src/timeline2/model/timelinemodel.cpp:5729
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "Nepodarilo sa pridať efekt %1 k vybranej stope"
 
-#: src/timeline2/model/timelinemodel.cpp:5738
+#: src/timeline2/model/timelinemodel.cpp:5750
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "Nie je možné vložiť efekt do hlavnej stopy"
 
-#: src/timeline2/model/timelinemodel.cpp:5744
+#: src/timeline2/model/timelinemodel.cpp:5756
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "Nie je možné vložiť efekt do vybranej stopy"
 
-#: src/timeline2/model/timelinemodel.cpp:5792
+#: src/timeline2/model/timelinemodel.cpp:5804
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "Nepodarilo sa pridať efekt %1 k vybranému klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:5816
+#: src/timeline2/model/timelinemodel.cpp:5828
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Nastaviť prechod"
 
-#: src/timeline2/model/timelinemodel.cpp:6191
+#: src/timeline2/model/timelinemodel.cpp:6203
 #, kde-format
 msgid "Insert Composition"
 msgstr "Vložiť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:6416
+#: src/timeline2/model/timelinemodel.cpp:6428
 #, kde-format
 msgid "Move composition"
 msgstr "Presunúť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:7185
+#: src/timeline2/model/timelinemodel.cpp:7197
 #, kde-format
 msgid "Enable time remap"
 msgstr "Povoliť premapovanie času"
 
-#: src/timeline2/model/timelinemodel.cpp:7263
+#: src/timeline2/model/timelinemodel.cpp:7275
 #, kde-format
 msgid "Change speed failed"
 msgstr "Zmena rýchlosti zlyhala"
 
-#: src/timeline2/model/timelinemodel.cpp:7273
+#: src/timeline2/model/timelinemodel.cpp:7285
 #: src/timeline2/view/timelinecontroller.cpp:3422
 #, kde-format
 msgid "Change clip speed"
 msgstr "Zmeniť rýchlosť klipu"
 
-#: src/timeline2/model/timelinemodel.cpp:7722
+#: src/timeline2/model/timelinemodel.cpp:7734
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Zamknúť stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:7727
+#: src/timeline2/model/timelinemodel.cpp:7739
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Odomknúť stopu"
 
-#: src/timeline2/model/timelinemodel.cpp:7761
-#: src/timeline2/model/timelinemodel.cpp:7823
+#: src/timeline2/model/timelinemodel.cpp:7773
+#: src/timeline2/model/timelinemodel.cpp:7835
 #, kde-format
 msgid "Change composition"
 msgstr "Zmeniť kompozíciu"
 
-#: src/timeline2/model/timelinemodel.cpp:7775
+#: src/timeline2/model/timelinemodel.cpp:7787
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Nie je možné pracovať so zoskupenou kompozíciou, prosím, zrušte zoskupenie"
 
-#: src/timeline2/model/timelinemodel.cpp:7927
+#: src/timeline2/model/timelinemodel.cpp:7939
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Nie je možné zmeniť veľkosť prechodu"
 
-#: src/timeline2/model/timelinemodel.cpp:7996
+#: src/timeline2/model/timelinemodel.cpp:8008
 #, kde-format
 msgid "Resize mix"
 msgstr "Zmeniť veľkosť miešania"
 
-#: src/timeline2/model/timelinemodel.cpp:8114
+#: src/timeline2/model/timelinemodel.cpp:8126
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Chyba inicializácie náhľadu časovej osi"
