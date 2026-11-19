@@ -52,21 +52,13 @@ public:
         ft.setBold(true);
         QFontMetricsF fm(ft);
         QRect r2 = fm.boundingRect(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::DisplayRole).toString()).toRect();
+        r2.setWidth(qMin(r2.width(), r1.width()));
         editor->setGeometry(r2);
     }
 
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         QSize hint = QStyledItemDelegate::sizeHint(option, index);
-        QString text = index.data(Qt::UserRole + 1).toString();
-        QRectF r = option.rect;
-        QFont ft = option.font;
-        ft.setBold(true);
-        QFontMetricsF fm(ft);
-        QStyle *style = option.widget ? option.widget->style() : QApplication::style();
-        const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
-        int width = int(fm.boundingRect(r, Qt::AlignLeft | Qt::AlignTop, text).width() + option.decorationSize.width() + 2 * textMargin);
-        hint.setWidth(width);
         return {hint.width(), qMax(option.fontMetrics.lineSpacing() * 2 + 4, qMax(hint.height(), option.decorationSize.height()))};
     }
 
@@ -101,10 +93,13 @@ public:
             QRect r2 = option.rect;
             r2.adjust(decoWidth, mid, 0, 0);
             QRectF bounding;
-            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, index.data(Qt::DisplayRole).toString(), &bounding);
+            QFontMetrics fontMetrics(font);
+            const QString title = fontMetrics.elidedText(index.data(Qt::DisplayRole).toString(), Qt::ElideRight, r1.width());
+            painter->drawText(r1, Qt::AlignLeft | Qt::AlignTop, title, &bounding);
             font.setBold(false);
             painter->setFont(font);
-            QString subText = index.data(Qt::UserRole + 1).toString();
+            QFontMetrics subMetrics(font);
+            const QString subText = subMetrics.elidedText(index.data(Qt::UserRole + 1).toString(), Qt::ElideRight, r2.width());
             r2.adjust(0, int(bounding.bottom() - r2.top()), 0, 0);
             QColor subTextColor = painter->pen().color();
             subTextColor.setAlphaF(.5);
