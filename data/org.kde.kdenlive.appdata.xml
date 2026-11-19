@@ -390,6 +390,7 @@
     <release version="26.11.70" type="snapshot">
       <description>
         <p>Improvements and new features:</p>
+        <p xml:lang="ar">تحسينات وميزات جديدة:</p>
         <p xml:lang="ca">Millores i característiques noves:</p>
         <p xml:lang="ca-valencia">Millores i característiques noves:</p>
         <p xml:lang="nl">Verbeteringen en nieuwe mogelijkheden:</p>
@@ -399,6 +400,7 @@
         <p xml:lang="uk">Удосконалення і нові можливості:</p>
         <ul>
           <li>Titler: add undo/redo support, copy/paste and image drop</li>
+          <li xml:lang="ar">محرر العناوين: أضف دعم التراجع/الإعادة والنسخ/اللصق وإفلات الصور</li>
           <li xml:lang="ca">Creador de títols: afegeix la implementació de desfer/refer, copiar/enganxar i deixar anar imatges</li>
           <li xml:lang="ca-valencia">Creador de títols: afig la implementació de desfer/refer, copiar/apegar i deixar anar imatges</li>
           <li xml:lang="nl">Titelmaker: ongedaan maken/opnieuw doen, kopiëren/plakken en afbeelding loslaten toevoegen</li>
@@ -407,6 +409,7 @@
           <li xml:lang="tr">Başlıkçı: Geri Al/Yinele desteği, Kopyala/Yapıştır ve görsel sürükleme</li>
           <li xml:lang="uk">Титрування: додано підтримку скасовуванні і повторення дій, копіювання і встановлення, а також скидання зображення</li>
           <li>Titler: allow multiple style in each text block</li>
+          <li xml:lang="ar">محرر العناوين: اسمح بأنماط متعددة في كل كتلة نص</li>
           <li xml:lang="ca">Creador de títols: permet diversos estils en cada bloc de text</li>
           <li xml:lang="ca-valencia">Creador de títols: permet diversos estils en cada bloc de text</li>
           <li xml:lang="nl">Titelmaker: meerdere stijlen in elk tekstblok toestaan</li>
@@ -415,6 +418,7 @@
           <li xml:lang="tr">Başlıkçı: Her bir metin blokunda birden çok stil</li>
           <li xml:lang="uk">Титрування: уможливлено декілька стилів у кожному текстовому блоці</li>
           <li>Titler: relative paths for images</li>
+          <li xml:lang="ar">محرر العناوين: مسارات نسبية للصور</li>
           <li xml:lang="ca">Creador de títols: camins relatius de les imatges</li>
           <li xml:lang="ca-valencia">Creador de títols: camins relatius de les imatges</li>
           <li xml:lang="nl">Titelmaker: relatief pad voor afbeeldingen</li>
@@ -423,6 +427,7 @@
           <li xml:lang="tr">Başlıkçı: Görseller için göreceli yollar</li>
           <li xml:lang="uk">Титрування: відносні шляхи до зображень</li>
           <li>Project file: improved support for project folder</li>
+          <li xml:lang="ar">ملف المشروع: دعم محسّن لمجلد المشروع</li>
           <li xml:lang="ca">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
           <li xml:lang="ca-valencia">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
           <li xml:lang="nl">Projectbestand: verbeterde ondersteuning voor projectmap</li>
@@ -431,6 +436,7 @@
           <li xml:lang="tr">Proje dosyası: Proje klasörü için iyileştirilmiş destek</li>
           <li xml:lang="uk">Файл проєкту: удосконалено підтримку теки проєкту</li>
           <li>Project file: relative paths for all media</li>
+          <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
           <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="nl">Projectbestand: relatieve paden voor alle media</li>
@@ -439,6 +445,7 @@
           <li xml:lang="tr">Proje dosyası: Tüm ortamlar için göreceli yollar</li>
           <li xml:lang="uk">Файл проєкту: відносні шляхи для усіх мультимедійних даних</li>
           <li>Project file: relative paths for all media</li>
+          <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
           <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="nl">Projectbestand: relatieve paden voor alle media</li>
@@ -447,6 +454,7 @@
           <li xml:lang="tr">Proje dosyası: Tüm ortamlar için göreceli yollar</li>
           <li xml:lang="uk">Файл проєкту: відносні шляхи для усіх мультимедійних даних</li>
           <li>Timeline: add auto duck transition</li>
+          <li xml:lang="ar">الخط الزمني: أضف انتقال خفض تلقائي</li>
           <li xml:lang="ca">Línia de temps: afegeix la transició automàtica d'ànec</li>
           <li xml:lang="ca-valencia">Línia de temps: afig la transició automàtica d'ànec</li>
           <li xml:lang="nl">Tijdlijn: automatische ducking-overgang toevoegen</li>
@@ -455,6 +463,7 @@
           <li xml:lang="tr">Zaman akışı: Otomatik ses kısma geçişi</li>
           <li xml:lang="uk">Монтажний стіл: додано перехід автоматичного пірнання</li>
           <li>Effects: rescale keyframe positions</li>
+          <li xml:lang="ar">المؤثرات: أعد قياس مواضع الإطارات الرئيسة</li>
           <li xml:lang="ca">Efectes: torna a escalar les posicions dels fotogrames clau</li>
           <li xml:lang="ca-valencia">Efectes: torna a escalar les posicions dels fotogrames clau</li>
           <li xml:lang="nl">Effecten: posities van keyframe herschalen</li>
@@ -463,6 +472,7 @@
           <li xml:lang="tr">Efektler: Anahtar kare konumlarını yeniden ölçekleme</li>
           <li xml:lang="uk">Ефекти: реалізовано перемасштабування позицій ключових кадрів</li>
           <li>Performance: multiple notable performance improvements on keyframe operations and undo/redo</li>
+          <li xml:lang="ar">الأداء: تحسينات أداء ملحوظة متعددة في عمليات الإطارات الرئيسة والتراجع/الإعادة</li>
           <li xml:lang="ca">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
           <li xml:lang="ca-valencia">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
           <li xml:lang="nl">Prestaties: diverse aanzienlijke prestatieverbeteringen bij keyframe-bewerkingen en de functionaliteit ongedaan maken/opnieuw doen</li>
