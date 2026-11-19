@@ -487,6 +487,8 @@ public Q_SLOTS:
     /** @brief Open a documentation link, showing a warning box first */
     void openDocumentationLink(const QUrl &link);
     void openLink(const QUrl &link);
+    /** Open a file on demand, triggered by MacOS OpenFile event */
+    void openUrl(const QString &file);
 
 private Q_SLOTS:
     /** @brief display a user info/warning message in the project bin */

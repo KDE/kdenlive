@@ -8,6 +8,7 @@
 
 #include <KMessageWidget>
 
+#include <QFutureSynchronizer>
 #include <QFutureWatcher>
 #include <QMap>
 #include <QMutex>
@@ -75,6 +76,8 @@ public:
     void deleteVenv();
     /** @brief User readable list of dependencies. */
     const QStringList listDependencies();
+    /** @brief Returns true . */
+    bool hasRunningJobs() const;
     void setStatus(InstallStatus status);
     InstallStatus status() const;
     virtual QString featureName() { return {}; };
@@ -104,12 +107,11 @@ private:
     QMap<QString, QString> m_versions;
     bool m_dependenciesChecked{false};
     QMutex m_versionsMutex;
-    QFutureWatcher<void> m_watcher;
+    QFutureSynchronizer<void> m_watcher;
     QFutureWatcher<void> m_depsWatcher;
     QFutureWatcher<void> m_versionWatcher;
     QFuture<void> m_depsJob;
     QFuture<void> m_versionJob;
-    QFuture<void> m_scriptJob;
     const QString locateScript(const QString &script);
     QString runPackageScript(QString mode, bool concurrent = false, bool displayFeedback = true, bool forceInstall = false);
     int versionToInt(const QString &version);

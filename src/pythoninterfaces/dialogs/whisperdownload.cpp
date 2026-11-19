@@ -80,7 +80,7 @@ WhisperDownload::WhisperDownload(SpeechToText *engine, const QString &modelName,
             auto *item = m_lw->item(i);
             if (item->data(WPUrlRole).toString().contains(hash)) {
                 if (match) {
-                    item->setData(WPInstalledRole, 1);
+                    item->setData(WPInstalledRole, InstallStatus::Installed);
                     item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
                     if (!m_modelToInstall.isEmpty() && item->data(WPModelNameRole).toString() == m_modelToInstall) {
                         // We are done, exit
@@ -131,13 +131,13 @@ void WhisperDownload::updateDownloadButton(int ix)
         return;
     }
     int installStatus = item->data(WPInstalledRole).toInt();
-    if (installStatus == -1) {
+    if (installStatus == InstallStatus::Downloading) {
         // We are already downloading this one
         m_bd->setIcon(QIcon::fromTheme("dialog-cancel"));
         m_bd->setText(i18n("Abort downloads"));
     } else {
         m_bd->setEnabled(true);
-        if (installStatus == 1) {
+        if (installStatus == InstallStatus::Installed) {
             m_bd->setIcon(QIcon::fromTheme("edit-delete-remove"));
             m_bd->setText(i18n("Remove model"));
         } else {
@@ -153,10 +153,10 @@ void WhisperDownload::downloadModel()
     if (item == nullptr) {
         return;
     }
-    if (item->data(WPInstalledRole).toInt() == 0) {
+    if (item->data(WPInstalledRole).toInt() == InstallStatus::NotInstalled) {
         // Start download
         m_mw->setVisible(false);
-        item->setData(WPInstalledRole, -1);
+        item->setData(WPInstalledRole, InstallStatus::Downloading);
         const QString modelName = item->data(WPModelNameRole).toString();
         const QString url = item->data(WPUrlRole).toString();
         QStringList args = {QStringLiteral("task=download"), QStringLiteral("model=%1").arg(modelName),
@@ -164,18 +164,28 @@ void WhisperDownload::downloadModel()
         m_downloadProgress = 0;
         item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-1")));
         m_engine->runConcurrentScript(QStringLiteral("whisper/whisperquery.py"), args, true);
-        m_downloadGroup->setVisible(true);
         updateDownloadButton(m_lw->row(item));
-    } else if (item->data(WPInstalledRole).toInt() == 1) {
+    } else if (item->data(WPInstalledRole).toInt() == InstallStatus::Installed) {
         // Remove model
         deleteModel(m_lw->row(item));
-    } else if (item->data(WPInstalledRole).toInt() == -1) {
+    } else if (item->data(WPInstalledRole).toInt() == InstallStatus::Downloading) {
         // Abort download
         Q_EMIT m_engine->abortScript();
-        // Remove model
-        deleteModel(m_lw->row(item));
+        // Remove downloading models
         m_downloadProgress = 0;
+        for (int i = 0; i < m_lw->count(); i++) {
+            auto item = m_lw->item(i);
+            if (item->data(WPInstalledRole).toInt() == InstallStatus::Downloading) {
+                deleteModel(i);
+            }
+        }
     }
+    QTimer::singleShot(100, this, &WhisperDownload::checkDownloads);
+}
+
+void WhisperDownload::checkDownloads()
+{
+    m_downloadGroup->setVisible(m_engine->hasRunningJobs());
 }
 
 void WhisperDownload::deleteModel(int row)
@@ -192,7 +202,7 @@ void WhisperDownload::deleteModel(int row)
     const QString fileName = QUrl(item->data(WPUrlRole).toString()).fileName();
     const QString toRemove = modelFolder.absoluteFilePath(fileName);
     QFile::remove(toRemove);
-    item->setData(WPInstalledRole, 0);
+    item->setData(WPInstalledRole, InstallStatus::NotInstalled);
     item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
     m_newModelInstalled = true;
     if (row == m_lw->currentRow()) {
@@ -276,10 +286,10 @@ void WhisperDownload::parseScriptFeedback(const QString &scriptName, const QStri
             item->setData(WPUrlRole, url);
             item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
             if (installedModels.contains(name)) {
-                item->setData(WPInstalledRole, 1);
+                item->setData(WPInstalledRole, InstallStatus::Installed);
                 item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-4")));
             } else {
-                item->setData(WPInstalledRole, 0);
+                item->setData(WPInstalledRole, InstallStatus::NotInstalled);
                 item->setIcon(QIcon::fromTheme(QStringLiteral("task-process-0")));
             }
         }
@@ -350,7 +360,7 @@ void WhisperDownload::scriptFinished(const QString &scriptName, const QStringLis
         if (args.contains(QLatin1String("task=list"))) {
             // Nothing
         } else if (args.contains(QLatin1String("task=download"))) {
-            m_downloadGroup->setVisible(false);
+            m_downloadGroup->setVisible(m_engine->hasRunningJobs());
             m_newModelInstalled = true;
             m_downloadProgress = 0;
             QString modelName;
@@ -383,7 +393,7 @@ void WhisperDownload::queryClose()
         Q_EMIT m_engine->abortScript();
         for (int i = 0; i < m_lw->count(); i++) {
             auto *item = m_lw->item(i);
-            if (item->data(WPInstalledRole).toInt() == -1) {
+            if (item->data(WPInstalledRole).toInt() == InstallStatus::Downloading) {
                 // Download was in progress, remove file
                 deleteModel(i);
             }

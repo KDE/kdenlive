@@ -184,13 +184,17 @@ public:
         : QApplication(argc, argv)
     {
     }
-
 protected:
     bool event(QEvent *event) override
     {
         if (event->type() == QEvent::FileOpen) {
             QFileOpenEvent *openEvent = static_cast<QFileOpenEvent *>(event);
-            url = QUrl::fromLocalFile(openEvent->file());
+            // Trigger opening
+            if (Core::self()) {
+                pCore->openUrl(openEvent->file());
+            } else {
+                url = QUrl::fromLocalFile(openEvent->file());
+            }
             return true;
         } else
             return QApplication::event(event);

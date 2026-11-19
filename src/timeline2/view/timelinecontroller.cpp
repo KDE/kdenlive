@@ -5773,14 +5773,7 @@ void TimelineController::expandActiveClip()
                 int pos = clip->getPosition();
                 int inPos = m_model->getClipIn(id);
                 int duration = m_model->getClipPlaytime(id);
-                bool clipIsAudio = m_model->getTrackById_const(clip->getCurrentTrackId())->isAudioTrack();
-                exportTrack = m_activeTrack;
-                if (clipIsAudio != m_model->getTrackById_const(exportTrack)->isAudioTrack()) {
-                    const int mirror = m_model->getMirrorTrackId(exportTrack);
-                    if (mirror > -1) {
-                        exportTrack = mirror;
-                    }
-                }
+                exportTrack = clip->getCurrentTrackId();
                 QDomDocument doc = TimelineFunctions::extractClip(m_model, id, getClipBinId(id));
                 result = m_model->requestClipDeletion(id, undo, redo) &&
                          TimelineFunctions::pasteClips(m_model, doc.toString(), exportTrack, pos, undo, redo, inPos, duration);

@@ -168,9 +168,8 @@ AbstractPythonInterface::AbstractPythonInterface(QObject *parent)
 AbstractPythonInterface::~AbstractPythonInterface()
 {
     qDebug() << ":::: DELETING ABSTRACT PYTHON INTERFACE.....";
-    if (m_watcher.isRunning()) {
-        m_watcher.waitForFinished();
-    }
+    m_watcher.waitForFinished();
+
     if (m_depsWatcher.isRunning()) {
         m_depsWatcher.waitForFinished();
     }
@@ -645,8 +644,18 @@ void AbstractPythonInterface::runConcurrentScript(const QString &script, QString
         qWarning() << "setup error for script: " << script;
         return;
     }
-    m_scriptJob = QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback);
-    m_watcher.setFuture(m_scriptJob);
+    m_watcher.addFuture(QtConcurrent::run(&AbstractPythonInterface::runScript, this, script, args, QString(), true, feedback));
+}
+
+bool AbstractPythonInterface::hasRunningJobs() const
+{
+    auto futures = m_watcher.futures();
+    for (auto &f : futures) {
+        if (f.isRunning()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void AbstractPythonInterface::proposeMaybeUpdate(const QString &dependency, const QString &minVersion)
@@ -806,7 +815,6 @@ const QStringList AbstractPythonInterface::listDependencies()
 QString AbstractPythonInterface::runScript(const QString &script, QStringList args, const QString &firstarg, bool concurrent, bool packageFeedback)
 {
     const QString scriptpath = m_scripts.value(script);
-    qDebug() << "=== CHECKING RUNNING SCRIPT: " << scriptpath;
     const QString pythonExe = venvPythonExecs().python;
     if (pythonExe.isEmpty()) {
         Q_EMIT setupError(i18n("Python exec not found"));
@@ -818,6 +826,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     }
 
     bool installAction = firstarg.contains(QLatin1String("install")) || firstarg == QLatin1String("--upgrade");
+    bool downloadAction = args.contains(QLatin1String("task=download"));
 
     if (concurrent && installAction) {
         Q_EMIT scriptStarted();
@@ -827,7 +836,7 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
         args.prepend(firstarg);
     }
     args.prepend(scriptpath);
-    QProcess scriptJob;
+    QProcess scriptJob(this);
     connect(this, &AbstractPythonInterface::abortScript, &scriptJob, &QProcess::kill, Qt::DirectConnection);
     if (installAction) {
         setStatus(InProgress);
@@ -851,8 +860,11 @@ QString AbstractPythonInterface::runScript(const QString &script, QStringList ar
     scriptJob.waitForFinished(-1);
 
     if (scriptJob.exitStatus() != QProcess::NormalExit || scriptJob.exitCode() != 0) {
-        const QString errorMessage = concurrent ? scriptJob.readAllStandardOutput() : scriptJob.readAllStandardError();
-        Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
+        if (!downloadAction) {
+            // Don't error on aborted download action
+            const QString errorMessage = concurrent ? scriptJob.readAllStandardOutput() : scriptJob.readAllStandardError();
+            Q_EMIT setupError(i18n("Error while running python3 script:\n %1\n%2", scriptpath, errorMessage));
+        }
         if (installAction) {
             setStatus(Broken);
         }

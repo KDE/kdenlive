@@ -147,6 +147,12 @@ void Splash::updateWelcomeDisplay(bool show)
     KdenliveSettings::setShowWelcome(show);
 }
 
+void Splash::hideSplash()
+{
+    QMetaObject::invokeMethod(m_rootObject, "hideWindow");
+    m_datesCheck.cancel();
+}
+
 void Splash::fadeOutAndDelete()
 {
     QMetaObject::invokeMethod(m_rootObject, "close");

@@ -34,6 +34,7 @@ private:
 
 public Q_SLOTS:
     void fadeOut();
+    void hideSplash();
     void fadeOutAndDelete();
     void showProgressMessage(const QString &message, int max = -1);
 

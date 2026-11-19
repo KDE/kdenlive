@@ -359,7 +359,6 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
     if (m_splash->hasEventLoop()) {
         // Last startup crashed, so stop here until we have a change to reset the config file
         connect(m_splash, &Splash::releaseLock, this, [&]() {
-            qDebug() << "::::::: EVENT LOOP RELEASED!!!\n\nSSSSSSSSSSSSSSSSSSSSSSSSSSSSS";
             m_loop.quit();
             disconnect(m_splash, &Splash::releaseLock, this, nullptr);
         });
@@ -2456,4 +2455,26 @@ std::list<int> Core::getAudioTrackIds()
         return m_mainWindow->getCurrentTimeline()->model()->getAudioTrackIndexes();
     }
     return {};
+}
+
+void Core::openUrl(const QString &file)
+{
+    if (m_splash && m_splash->welcomeDisplayed()) {
+        m_splash->hideSplash();
+        QMetaObject::invokeMethod(&m_loop, "quit");
+        if (!m_guiConstructed) {
+            connect(this, &Core::mainWindowReady, this, [this, file]() {
+                // Ensure the slot is called once project manager is build.
+                const QUrl url = QUrl::fromLocalFile(file);
+                QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, url));
+            });
+            return;
+        }
+    }
+    if (m_projectManager) {
+        const QUrl url = QUrl::fromLocalFile(file);
+        QMetaObject::invokeMethod(m_projectManager, "openFile", Q_ARG(QUrl, url));
+    } else {
+        QTimer::singleShot(500, this, [this, file]() -> void { openUrl(file); });
+    }
 }
