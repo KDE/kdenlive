@@ -9,7 +9,7 @@
 #include "pythoninterfaces/speechtotext.h"
 
 #include <QDialog>
-#include <QMutex>
+#include <QFutureSynchronizer>
 #include <QProcess>
 
 class QListWidget;
@@ -26,6 +26,7 @@ class WhisperDownload : public QDialog
 public:
     enum WhisperRole { WPModelNameRole = Qt::UserRole, WPUrlRole, WPSizeRole, WPInstalledRole };
     WhisperDownload(SpeechToText *engine, const QString &modelName, QWidget *parent = nullptr);
+    ~WhisperDownload() override;
     static const QString getWhisperModelsFolder();
     bool newModelsInstalled();
 
@@ -39,12 +40,14 @@ private:
     QProgressBar *m_pb;
     QGroupBox *m_downloadGroup;
     QString m_modelToInstall;
-    bool m_requestClose{false};
-    QMutex m_closeMutex;
+    /** @brief The hash check workers. They use this object, so it must not be destroyed before they have returned */
+    QFutureSynchronizer<void> m_hashChecks;
     int m_downloadProgress{0};
     bool m_newModelInstalled{false};
     void checkHashes(const QStringList modelsToCheck);
     void deleteModel(int row);
+    /** @brief Wait until the running hash checks have finished, then handle their results */
+    void waitForHashChecks();
 
 private Q_SLOTS:
     void parseScriptFeedback(const QString &scriptName, const QStringList args, const QStringList jobData);
