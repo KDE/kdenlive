@@ -972,7 +972,8 @@ void PluginsSettings::checkCuda(bool isSam)
 {
     // Determine CUDA version
     QString detectedCuda;
-    const QStringList acceptedCudaVersions = {"11.8", "12.4", "12.6", "12.8", "13.0", "13.2"};
+    const QStringList acceptedCudaVersions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6"), QStringLiteral("12.8"),
+                                              QStringLiteral("13.0"), QStringLiteral("13.2"), QStringLiteral("13.4")};
     const QString nvidiasmi = QStandardPaths::findExecutable(QStringLiteral("nvidia-smi"));
     if (!nvidiasmi.isEmpty()) {
         QProcess extractInfo;
@@ -981,17 +982,35 @@ void PluginsSettings::checkCuda(bool isSam)
         if (extractInfo.exitStatus() == QProcess::NormalExit) {
             const QString output = extractInfo.readAllStandardOutput();
             const QStringList lines = output.split("\n");
+            // Newer nvidia-smi reports version in "CUDA UMD" instead of "CUDA"
             const QStringList cudaLines = lines.filter("CUDA");
-            const QString cudaLine = cudaLines.front();
-            const QStringList cudaParts = cudaLine.split(":");
-            QString cudaVersionRaw = cudaParts.back();
-            QString cudaVersion = cudaVersionRaw.trimmed();
-            qDebug() << "The CUDA version read in nvidia-smi: " << cudaVersion;
-            if (acceptedCudaVersions.contains(cudaVersion)) {
-                cudaVersion.remove(".");
-                detectedCuda = QStringLiteral("cuda");
-                detectedCuda.append(cudaVersion);
-                qDebug() << "The detected CUDA version: " << detectedCuda;
+            QString cudaLine;
+            for (auto &c : cudaLines) {
+                if (c.section(QLatin1Char(':'), 0, 0).simplified().startsWith(QLatin1String("CUDA UMD"))) {
+                    cudaLine = c;
+                    break;
+                }
+            }
+            if (cudaLine.isEmpty()) {
+                // Old format version
+                for (auto &c : cudaLines) {
+                    if (c.section(QLatin1Char(':'), 0, 0).simplified().startsWith(QLatin1String("CUDA"))) {
+                        cudaLine = c;
+                        break;
+                    }
+                }
+            }
+            if (cudaLine.contains(QLatin1Char(':'))) {
+                const QStringList cudaParts = cudaLine.split(":");
+                QString cudaVersionRaw = cudaParts.back();
+                QString cudaVersion = cudaVersionRaw.trimmed();
+                qDebug() << "The CUDA version read in nvidia-smi: " << cudaVersion;
+                if (acceptedCudaVersions.contains(cudaVersion)) {
+                    cudaVersion.remove(".");
+                    detectedCuda = QStringLiteral("cuda");
+                    detectedCuda.append(cudaVersion);
+                    qDebug() << "The detected CUDA version: " << detectedCuda;
+                }
             }
         }
     } else {
@@ -1005,9 +1024,8 @@ void PluginsSettings::checkCuda(bool isSam)
     d.setLayout(l);
     const QString featureName = isSam ? m_samInterface->featureName() : m_sttWhisper->featureName();
     l->addWidget(new QLabel(i18n("Nvidia GPU support for %1\nSelect the CUDA version to install.", featureName), &d));
-    const QStringList versions = {QStringLiteral("11.8"), QStringLiteral("12.4"), QStringLiteral("12.6"), QStringLiteral("12.8"), QStringLiteral("13.0")};
     QButtonGroup bg;
-    for (auto &v : versions) {
+    for (auto &v : acceptedCudaVersions) {
         QRadioButton *button = new QRadioButton(i18n("CUDA %1", v), &d);
         QString versionName = QStringLiteral("cuda%1").arg(v);
         versionName.remove(QLatin1Char('.'));

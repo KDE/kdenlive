@@ -1,0 +1,4 @@
+--index-url https://download.pytorch.org/whl/cu134
+torch
+torchvision
+torchaudio
