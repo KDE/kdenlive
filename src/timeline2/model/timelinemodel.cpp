@@ -1164,7 +1164,13 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
     bool hasEndClip = false;
     if (delta == 0) {
         for (int s : clipIds) {
+            if (!isClip(s)) {
+                continue;
+            }
             int track = getClipTrackId(s);
+            if (track == -1 || !isTrack(track) || !getTrackById_const(track)->shouldReceiveTimelineOp()) {
+                continue;
+            }
             if (getTrackById_const(track)->hasEndMix(s)) {
                 // End mix already exists, add mix at start
                 delta = -1;
