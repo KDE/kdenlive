@@ -179,6 +179,16 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
     }
 
+    SECTION("Create mix from a selection containing a composition")
+    {
+        state0();
+        int compoId;
+        REQUIRE(timeline->requestCompositionInsertion(QStringLiteral("luma"), tid2, 600, 10, nullptr, compoId));
+        REQUIRE(timeline->requestSetSelection({cid4, compoId}));
+        REQUIRE(timeline->mixClip());
+        state2();
+    }
+
     SECTION("Create mix and cut on color clips")
     {
         // Cid3 at 500, length 20
