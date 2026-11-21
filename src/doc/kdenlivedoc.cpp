@@ -2085,7 +2085,7 @@ bool KdenliveDoc::loadDocumentProperties()
         xmlProfile.reset(new ProfileParam(list.at(0).toElement()));
         if (propertiesProfile->is_valid() && xmlProfile->is_valid()) {
             // Ensure that both profiles match
-            if (propertiesProfile == xmlProfile) {
+            if (*propertiesProfile == *xmlProfile.get()) {
                 // Match, everything is ok.
             } else {
                 // Profiles not matching, keep only xml info
