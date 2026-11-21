@@ -6233,19 +6233,19 @@ const QString Bin::getCurrentFolder()
 void Bin::adjustProjectProfileToItem()
 {
     const QString clipId = pCore->getMonitor(Kdenlive::ClipMonitor)->activeClipId();
-    slotCheckProfile(clipId);
+    slotCheckProfile(clipId, true);
 }
 
-void Bin::slotCheckProfile(const QString &binId)
+void Bin::slotCheckProfile(const QString &binId, bool force)
 {
     std::shared_ptr<ProjectClip> clip = m_itemModel->getClipByBinID(binId);
     if (clip && clip->statusReady()) {
-        checkProfile(clip->originalProducer());
+        checkProfile(clip->originalProducer(), force);
     }
 }
 
 // static
-void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
+void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer, bool force)
 {
     // Check if clip profile matches
     QString service = producer->get("mlt_service");
@@ -6268,7 +6268,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
             projectProfile->m_display_aspect_den = height;
             projectProfile->m_description.clear();
             QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam *, new ProfileParam(projectProfile.get())),
-                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
+                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()), Q_ARG(bool, force));
         } else {
             // Very small image, we probably don't want to use this as profile
         }
@@ -6287,7 +6287,7 @@ void Bin::checkProfile(const std::shared_ptr<Mlt::Producer> &producer)
         } else {
             // Profiles do not match, propose profile adjustment
             QMetaObject::invokeMethod(pCore->currentDoc(), "switchProfile", Q_ARG(ProfileParam *, new ProfileParam(clipProfile.get())),
-                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()));
+                                      Q_ARG(QString, QFileInfo(producer->get("resource")).fileName()), Q_ARG(bool, force));
         }
     }
 }

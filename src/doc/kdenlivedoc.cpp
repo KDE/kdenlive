@@ -154,8 +154,7 @@ KdenliveDoc::KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int,
     pCore->taskManager.unBlock();
 }
 
-DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
-    bool recoverCorruption, MainWindow *parent)
+DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, bool recoverCorruption, MainWindow *parent)
 {
 
     DocOpenResult result = DocOpenResult{};
@@ -229,7 +228,6 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     }
     file.close();
 
-
     qCDebug(KDENLIVE_LOG) << "// validating project file";
     DocumentValidator validator(domDoc, url);
     bool success = validator.isProject();
@@ -285,7 +283,7 @@ DocOpenResult KdenliveDoc::Open(const QUrl &url, const QString &projectFolder, Q
     auto doc = std::unique_ptr<KdenliveDoc>(new KdenliveDoc(url, domDoc, projectFolder, undoGroup, parent));
     if (!validationResult.second.isEmpty()) {
         doc->m_modifiedDecimalPoint = validationResult.second;
-        //doc->setModifiedDecimalPoint(validationResult.second);
+        // doc->setModifiedDecimalPoint(validationResult.second);
     }
     if (!doc->loadDocumentProperties()) {
         result.setAborted();
@@ -2213,7 +2211,7 @@ std::pair<int, int> KdenliveDoc::getFpsFraction(double fps, bool *adjusted)
     return {m_frame_rate_num, m_frame_rate_den};
 }
 
-void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
+void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName, bool force)
 {
     // Request profile update
     // Check profile fps so that we don't end up with an fps = 30.003 which would mess things up
@@ -2227,6 +2225,19 @@ void KdenliveDoc::switchProfile(ProfileParam *pf, const QString &clipName)
     if (adjusted) {
         adjustMessage = i18n("Warning: non standard fps, adjusting to closest integer. ");
     }
+
+    if (pCore->getCurrentProfile() && *profile == *pCore->getCurrentProfile()) {
+        return;
+    }
+
+    const QString profileKey = profile->profileKey();
+    if (!force) {
+        if (m_proposedProfiles.contains(profileKey)) {
+            return;
+        }
+        m_proposedProfiles.insert(profileKey);
+    }
+
     QString matchingProfile = ProfileRepository::get()->findMatchingProfile(profile.get());
     if (matchingProfile.isEmpty() && (profile->width() % 2 != 0)) {
         // Make sure profile width is a multiple of 8, required by some parts of mlt

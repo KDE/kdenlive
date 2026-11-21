@@ -8,7 +8,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
  *  @brief Represents a kdenlive project file
  *
  *  Instances of KdenliveDoc classes are created by void MainWindow::newFile(bool showProjectSettings, bool force)
-*/
+ */
 
 #pragma once
 
@@ -44,7 +44,7 @@ class DocOpenResult;
 namespace Mlt {
 class Profile;
 class Properties;
-}
+} // namespace Mlt
 
 /** Object returned by KdenliveDoc::Open(), containing a pointer to a KdenliveDoc
  * (if successful) and also additional information about whether the doc was
@@ -63,12 +63,11 @@ public:
     /** @brief Create a new empty Kdenlive project with the specified profile and requested number of tracks.
      *
      * @param tracks The number of <video, audio> tracks to create in the project.
-    */
+     */
     KdenliveDoc(QString projectFolder, QUndoGroup *undoGroup, const QString &profileName, const QMap<QString, QString> &properties,
                 const QMap<QString, QString> &metadata, const std::pair<int, int> &tracks, int audioChannels, MainWindow *parent = nullptr);
     /** @brief Open an existing Kdenlive project, returning nothing if the project cannot be opened. */
-    static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup,
-                bool recoverCorruption, MainWindow *parent = nullptr);
+    static DocOpenResult Open(const QUrl &url, const QString &projectFolder, QUndoGroup *undoGroup, bool recoverCorruption, MainWindow *parent = nullptr);
     /** @brief Create a dummy project, used for testing. */
     KdenliveDoc(std::shared_ptr<DocUndoStack> undoStack, std::pair<int, int> tracks = {2, 2}, MainWindow *parent = nullptr);
     ~KdenliveDoc() override;
@@ -115,7 +114,7 @@ public:
     /** @brief Returns the folder used to store project data files (titles, etc).
      *
      * @param newPath If the project file is being moved, this is the new location.
-    */
+     */
     QString projectDataFolder(const QString &newPath = QString()) const;
     /** @brief Returns the folder used to render videos
      *
@@ -228,7 +227,7 @@ public:
     int clipsCount() const;
     int updateClipsCount();
     /** @brief Returns a list of project tags (color / description) */
-    QMap <int, QStringList> getProjectTags() const;
+    QMap<int, QStringList> getProjectTags() const;
     /** @brief Returns the number of audio channels for this project */
     int audioChannels() const;
     /** @brief Ensure we don't have leftover preview chunks (created after last save */
@@ -323,8 +322,7 @@ protected:
 private:
     /** @brief Create a new KdenliveDoc using the provided QDomDocument (an
      * existing project file), used by the Open() named constructor. */
-    KdenliveDoc(const QUrl &url, QDomDocument& newDom, QString projectFolder, QUndoGroup *undoGroup,
-        MainWindow *parent = nullptr);
+    KdenliveDoc(const QUrl &url, QDomDocument &newDom, QString projectFolder, QUndoGroup *undoGroup, MainWindow *parent = nullptr);
     /** @brief Set document default properties using hard-coded values and KdenliveSettings.
      *  @param newDocument true if we are creating a new document, false when opening an existing one
      */
@@ -363,6 +361,7 @@ private:
     QMap<QUuid, QMap<QString, QString>> m_sequenceProperties;
     QUuid m_filteredTimelineUuid;
     QSet<QUuid> m_sequenceThumbsNeedsRefresh;
+    QSet<QString> m_proposedProfiles;
 
     QString m_modifiedDecimalPoint;
     /** @brief A list of guide models for this project (one for each timeline). */
@@ -399,7 +398,7 @@ public Q_SLOTS:
      *
      * The autosave files are in ~/.kde/data/stalefiles/kdenlive/ */
     void slotAutoSave(const QString &scene);
-    void switchProfile(ProfileParam* pf, const QString &clipName);
+    void switchProfile(ProfileParam *pf, const QString &clipName, bool force = false);
 
 private Q_SLOTS:
     void slotModified();
