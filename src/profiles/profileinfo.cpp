@@ -88,3 +88,8 @@ const QString ProfileInfo::dialogDescriptiveString() const
     }
     return text;
 }
+
+const QString ProfileInfo::profileKey() const
+{
+    return QStringLiteral("%1x%2_%3_%4").arg(width()).arg(height()).arg(frame_rate_num()).arg(frame_rate_den());
+}

@@ -369,7 +369,7 @@ public:
      * @param createNew if true, the playlist will be added as a new clip in project binId */
     void savePlaylist(const QString &binId, const QString &savePath, const QVector<QPoint> &zones, const QMap<QString, QString> &properties, bool createNew);
     /** @brief Do some checks on the profile */
-    static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer);
+    static void checkProfile(const std::shared_ptr<Mlt::Producer> &producer, bool force = false);
     /** @brief Should we process a profile check for added clips */
     std::atomic<bool> shouldCheckProfile;
     /** @brief Set the message for key binding info. */
@@ -556,7 +556,7 @@ public Q_SLOTS:
     /** @brief Add a filter with some presets to a clip */
     void addFilterToClip(const QString &sourceClipId, const QString &filterId, stringMap params);
     /** @brief Check if a clip profile matches project, propose switch otherwise */
-    void slotCheckProfile(const QString &binId);
+    void slotCheckProfile(const QString &binId, bool force = false);
     /** @brief A non seekable clip was added to project, propose transcoding */
     void requestTranscoding(const QString &id, TranscodeSeek::TranscodeInfo info, bool checkProfile, const QString &suffix = QString(),
                             const QString &message = QString());

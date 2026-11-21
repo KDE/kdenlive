@@ -52,4 +52,5 @@ public:
 
     const QString descriptiveString() const;
     const QString dialogDescriptiveString() const;
+    const QString profileKey() const;
 };
