@@ -658,6 +658,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state2();
     }
 
+    SECTION("No clip insertion over the end of a mixed clip")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // After the mix, cid4 is alone on its sub playlist from 532 to 540
+        const int undoIndex = undoStack->index();
+        int cid = -1;
+        REQUIRE_FALSE(timeline->requestClipInsertion(binId2, tid2, 535, cid));
+        REQUIRE(undoStack->index() == undoIndex);
+        REQUIRE(timeline->checkConsistency());
+        state2();
+        undoStack->undo();
+    }
+
     SECTION("Cut inside a mix keeps both clips visible")
     {
         REQUIRE(timeline->mixClip(cid4));
