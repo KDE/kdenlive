@@ -82,8 +82,6 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
         }
     }
 
-    registerSnap(snapModel);
-
     // Load multiple subtitle data
     QMap<std::pair<int, QString>, QString> multiSubs = pCore->currentDoc()->multiSubtitlePath(timelineUuid);
     m_subtitlesList = multiSubs;
@@ -796,11 +794,19 @@ void SubtitleModel::registerSnap(const std::weak_ptr<SnapInterface> &snapModel)
 {
     // make sure ptr is valid
     if (auto ptr = snapModel.lock()) {
+        // A snap model registered twice would count every subtitle point twice
+        for (const auto &registered : m_regSnaps) {
+            if (registered.lock() == ptr) {
+                qWarning() << "Snap model already registered for subtitles, ignoring";
+                return;
+            }
+        }
         // ptr is valid, we store it
         m_regSnaps.push_back(snapModel);
-        // we now add the already existing subtitles to the snap
+        // we now add the already existing subtitles to the snap, like addSubtitle does
         for (const auto &subtitle : m_subtitleList) {
             ptr->addPoint(subtitle.first.second.frames(pCore->getCurrentFps()));
+            ptr->addPoint(subtitle.second.endTime().frames(pCore->getCurrentFps()));
         }
     } else {
         qDebug() << "Error: added snapmodel for subtitle is null";
