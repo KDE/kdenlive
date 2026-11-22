@@ -4754,15 +4754,15 @@ int TimelineModel::requestClipsGroup(const std::unordered_set<int> &ids, Fun &un
         int firstId = *it;
         std::advance(it, 1);
         int secondId = *it;
-        bool isAVGroup = false;
-        if (getClipBinId(firstId) == getClipBinId(secondId)) {
-            if (getClipState(firstId).first == PlaylistState::AudioOnly) {
-                if (getClipState(secondId).first == PlaylistState::VideoOnly) {
-                    isAVGroup = true;
-                }
-            } else if (getClipState(secondId).first == PlaylistState::AudioOnly) {
-                isAVGroup = true;
-            }
+        // The clips must not already be grouped, since the group is built from their roots
+        bool isAVGroup = !m_groups->isInGroup(firstId) && !m_groups->isInGroup(secondId) && getClipBinId(firstId) == getClipBinId(secondId);
+        if (isAVGroup) {
+            // One audio clip on an audio track and one video clip on a video track. The clips may be offset.
+            bool firstOnAudio = isAudioTrack(getClipTrackId(firstId));
+            bool secondOnAudio = isAudioTrack(getClipTrackId(secondId));
+            auto expectedState = [](bool onAudio) { return onAudio ? PlaylistState::AudioOnly : PlaylistState::VideoOnly; };
+            isAVGroup = firstOnAudio != secondOnAudio && getClipState(firstId).first == expectedState(firstOnAudio) &&
+                        getClipState(secondId).first == expectedState(secondOnAudio);
         }
         if (isAVGroup) {
             type = GroupType::AVSplit;
