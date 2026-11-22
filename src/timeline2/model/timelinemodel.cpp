@@ -3470,9 +3470,13 @@ bool TimelineModel::requestGroupMove(int itemId, int groupId, int delta_track, i
     bool updateThisView = allowViewRefresh;
     if (delta_track == 0) {
         // Special case, we are moving on same track, avoid too many calculations
-        // First pass, check for collisions and suggest better delta
+        // First pass, check for collisions and suggest better delta. A revert restores the original positions, which must not be adjusted
+        // (mixed clips overlap there)
         QVector<int> processedTracks;
         for (const std::pair<int, int> &item : sorted_clips) {
+            if (revertMove) {
+                break;
+            }
             int current_track_id = getClipTrackId(item.first);
             if (processedTracks.contains(current_track_id)) {
                 // We only check the first clip for each track since they are sorted depending on the move direction
