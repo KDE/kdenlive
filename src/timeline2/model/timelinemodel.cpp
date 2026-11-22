@@ -1213,6 +1213,10 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                 continue;
             }
             mixInfo.clips.second = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition + clipDuration + 1);
+            if (mixInfo.clips.second > -1 && getTrackById_const(mixInfo.selectedTrack)->hasStartMix(mixInfo.clips.second)) {
+                // The next clip is already mixed with a clip before it, like a fragment fully covered by its mix
+                mixInfo.clips.second = -1;
+            }
             if (getTrackById_const(mixInfo.selectedTrack)->hasStartMix(s)) {
                 // There is a mix at clip start
                 // Check if previous clip was selected, and not next clip. In that case we stop processing
@@ -1229,6 +1233,10 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                 continue;
             }
             mixInfo.clips.first = getTrackById_const(mixInfo.selectedTrack)->getClipByPosition(mixInfo.mixPosition - 1);
+            if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
+                // The previous clip is already mixed with a clip after it, e.g. if 2 clips before are mixed to full length
+                mixInfo.clips.first = -1;
+            }
             if (getTrackById_const(mixInfo.selectedTrack)->hasEndMix(s)) {
                 // There is a mix at clip end
                 // Check if next clip was selected, and not previous clip. In that case we stop processing
@@ -1236,10 +1244,6 @@ bool TimelineModel::mixClip(int idToMove, const QString &mixId, int delta)
                 if (std::find(clipIds.begin(), clipIds.end(), nextClip) != clipIds.end() &&
                     std::find(clipIds.begin(), clipIds.end(), mixInfo.clips.first) == clipIds.end()) {
                     continue;
-                }
-                if (mixInfo.clips.first > -1 && getTrackById_const(mixInfo.selectedTrack)->hasEndMix(mixInfo.clips.first)) {
-                    // Could happen if 2 clips before are mixed to full length
-                    mixInfo.clips.first = -1;
                 }
             }
         }

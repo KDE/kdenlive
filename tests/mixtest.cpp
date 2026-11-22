@@ -641,6 +641,23 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state2();
     }
 
+    SECTION("No mix with a next clip already mixed with a covered fragment")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Cutting cid3 at the edit point leaves a fragment before the edit point that is fully covered by the mix, so that the clip found right
+        // after the end of cid3 is cid4
+        const int cut = 532 - KdenliveTests::getClipPtr(timeline, cid4)->getMixCutPosition();
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid3, cut));
+        REQUIRE(timeline->checkConsistency());
+        const int undoIndex = undoStack->index();
+        REQUIRE_FALSE(timeline->mixClip(cid3));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == undoIndex);
+        undoStack->undo();
+        state2();
+    }
+
     SECTION("Cut inside a mix keeps both clips visible")
     {
         REQUIRE(timeline->mixClip(cid4));
