@@ -3108,7 +3108,12 @@ bool TimelineFunctions::requestDeleteAllClipsFrom(const std::shared_ptr<Timeline
     if (items.size() == 0) {
         return false;
     }
+    // Deleting a grouped item deletes its whole group, so only delete one item per group
+    std::unordered_map<int, int> itemByRoot;
     for (int id : items) {
+        itemByRoot.emplace(timeline->m_groups->getRootId(id), id);
+    }
+    for (const auto &[root, id] : itemByRoot) {
         if (!timeline->requestItemDeletion(id, undo, redo)) {
             bool undone = undo();
             Q_ASSERT(undone);

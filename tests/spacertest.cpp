@@ -153,6 +153,16 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         state1();
         undoStack->undo();
     }
+    SECTION("Remove all clips on track with grouped clips after the position")
+    {
+        REQUIRE(timeline->requestClipsGroup({cid2, cid3}) > -1);
+        REQUIRE(TimelineFunctions::requestDeleteAllClipsFrom(timeline, tid1, 20));
+        REQUIRE(timeline->getTrackClipsCount(tid1) == 0);
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
+        undoStack->undo();
+        state1();
+        undoStack->undo();
+    }
     SECTION("Remove all clips on track with a group that has a clip on a locked track")
     {
         const int initialUndoIndex = undoStack->index();
