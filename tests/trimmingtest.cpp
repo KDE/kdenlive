@@ -2078,6 +2078,23 @@ TEST_CASE("Advanced trimming operations: Ripple", "[TrimmingRipple]")
         REQUIRE(undoStack->index() == undoIndex);
     }
 
+    SECTION("Ripple resize doesn't move a composition before the timeline start")
+    {
+        REQUIRE(timeline->requestClipMove(cid1, tid2, 5));
+        int l1 = timeline->getClipPlaytime(cid1);
+        int composition = -1;
+        REQUIRE(timeline->requestCompositionInsertion(QStringLiteral("luma"), tid2, 0, 10, nullptr, composition));
+        int undoIndex = undoStack->index();
+
+        // The spacer moves the composition overlapping the clip start by the trimmed length
+        REQUIRE(timeline->requestItemRippleResize(timeline, cid1, l1 - 10, false) == -1);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(cid1) == 5);
+        REQUIRE(timeline->getClipPlaytime(cid1) == l1);
+        REQUIRE(timeline->getCompositionPosition(composition) == 0);
+        REQUIRE(undoStack->index() == undoIndex);
+    }
+
     SECTION("Ripple resize before a one frame clip")
     {
         REQUIRE(timeline->requestClipMove(cid1, tid1, 5));
