@@ -35,8 +35,8 @@ TimelineWaveform::TimelineWaveform(QQuickItem *parent)
     connect(this, &TimelineWaveform::waveInPointChanged, this, &TimelineWaveform::requestRecompute);
     connect(this, &TimelineWaveform::waveOutPointChanged, this, &TimelineWaveform::requestRecompute);
     connect(this, &TimelineWaveform::formatChanged, this, &TimelineWaveform::requestRecompute);
-    connect(this, &TimelineWaveform::needRedraw, &QQuickItem::update);
-    connect(this, &TimelineWaveform::normalizeChanged, [this] {
+    connect(this, &TimelineWaveform::needRedraw, this, &QQuickItem::update);
+    connect(this, &TimelineWaveform::normalizeChanged, this, [this] {
         if (m_normalize) {
             m_normalizeFactor = static_cast<double>(std::numeric_limits<int16_t>::max()) / pCore->projectItemModel()->getAudioMaxLevel(m_binId, m_stream);
         } else {

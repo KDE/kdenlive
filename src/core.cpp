@@ -284,7 +284,7 @@ void Core::buildSplash(bool firstRun, bool showWelcome, bool showCrashRecovery, 
         });
         connect(m_splash, &Splash::openOtherFile, this, [this]() {
             if (m_splash->hasEventLoop() || !m_guiConstructed) {
-                connect(this, &Core::mainWindowReady, [this]() { QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection); });
+                connect(this, &Core::mainWindowReady, this, [this]() { QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection); });
             } else {
                 QMetaObject::invokeMethod(m_projectManager, "slotOpenFile", Qt::QueuedConnection);
             }

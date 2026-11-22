@@ -68,7 +68,7 @@ void ClipLoadTask::start(const ObjectId &owner, const QDomElement &xml, bool thu
     if (task) {
         // Otherwise, start a new load task thread.
         task->m_isForce = force;
-        connect(task, &ClipLoadTask::taskDone, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
+        connect(task, &ClipLoadTask::taskDone, task, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
         pCore->taskManager.startTask(owner.itemId, task);
     }
 }

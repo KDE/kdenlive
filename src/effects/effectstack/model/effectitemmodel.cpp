@@ -22,7 +22,7 @@ EffectItemModel::EffectItemModel(const QList<QVariant> &effectData, std::unique_
         m_effectStackEnabled = false;
         m_enabled = true;
     }
-    connect(this, &AssetParameterModel::updateChildren, [&](const QStringList &names) {
+    connect(this, &AssetParameterModel::updateChildren, this, [&](const QStringList &names) {
         if (m_childEffects.size() == 0) {
             return;
         }

@@ -347,7 +347,7 @@ public:
         : QStyledItemDelegate(parent)
 
     {
-        connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
+        connect(this, &QStyledItemDelegate::closeEditor, this, [&]() { m_editorOpen = false; });
     }
     void setEditorData(QWidget *w, const QModelIndex &i) const override
     {
@@ -743,7 +743,7 @@ public:
         : QStyledItemDelegate(parent)
 
     {
-        connect(this, &QStyledItemDelegate::closeEditor, [&]() { m_editorOpen = false; });
+        connect(this, &QStyledItemDelegate::closeEditor, this, [&]() { m_editorOpen = false; });
     }
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) override
     {
@@ -1781,7 +1781,7 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
     QAction *hoverPreview = new QAction(i18n("Show Video Preview in Thumbnails"), this);
     hoverPreview->setCheckable(true);
     hoverPreview->setChecked(KdenliveSettings::hoverPreview());
-    connect(hoverPreview, &QAction::triggered, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
+    connect(hoverPreview, &QAction::triggered, this, [](bool checked) { KdenliveSettings::setHoverPreview(checked); });
 
     m_listTypeAction->setToolBarMode(KSelectAction::MenuMode);
     connect(m_listTypeAction, &KSelectAction::actionTriggered, this, &Bin::slotInitView);
@@ -1911,12 +1911,12 @@ Bin::Bin(std::shared_ptr<ProjectItemModel> model, QWidget *parent, bool isMainBi
                 pCore->taskManager.discardJobs(ObjectId(KdenliveObjectType::BinClip, currentId.toInt(), QUuid()), AbstractTask::NOJOBTYPE, true);
             }
         });
-        connect(m_cancelJobs, &QAction::triggered, [&]() { pCore->taskManager.slotCancelJobs(); });
-        connect(m_discardPendingJobs, &QAction::triggered, [&]() {
+        connect(m_cancelJobs, &QAction::triggered, this, [&]() { pCore->taskManager.slotCancelJobs(); });
+        connect(m_discardPendingJobs, &QAction::triggered, this, [&]() {
             // TODO: implement pending only deletion
             pCore->taskManager.slotCancelJobs();
         });
-        connect(this, &Bin::requestUpdateSequences, [this](QMap<QUuid, std::pair<int, int>> sequences) {
+        connect(this, &Bin::requestUpdateSequences, this, [this](QMap<QUuid, std::pair<int, int>> sequences) {
             QMapIterator<QUuid, std::pair<int, int>> s(sequences);
             while (s.hasNext()) {
                 s.next();
@@ -6419,9 +6419,9 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
         }
         QList<QAction *> list;
         QAction *ac = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Add Tracks"), this);
-        connect(ac, &QAction::triggered, [requestedTracks]() { pCore->projectManager()->addAudioTracks(requestedTracks); });
+        connect(ac, &QAction::triggered, ac, [requestedTracks]() { pCore->projectManager()->addAudioTracks(requestedTracks); });
         QAction *ac2 = new QAction(QIcon::fromTheme(QStringLiteral("document-edit")), i18n("Edit Streams"), this);
-        connect(ac2, &QAction::triggered, this, [this, clipId]() {
+        connect(ac2, &QAction::triggered, ac2, [this, clipId]() {
             selectClipById(clipId);
             if (m_propertiesPanel) {
                 const QList<ClipPropertiesController *> children = m_propertiesPanel->findChildren<ClipPropertiesController *>();
@@ -6440,7 +6440,7 @@ void Bin::checkProjectAudioTracks(QString clipId, int minimumTracksCount)
             }
         });
         QAction *ac3 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-ok")), i18n("Don't ask again"), this);
-        connect(ac3, &QAction::triggered, [&]() { KdenliveSettings::setMultistream_checktrack(false); });
+        connect(ac3, &QAction::triggered, ac3, [&]() { KdenliveSettings::setMultistream_checktrack(false); });
         // QAction *ac4 = new QAction(QIcon::fromTheme(QStringLiteral("dialog-cancel")), i18n("Cancel"), this);
         list << ac << ac2 << ac3; // << ac4;
         doDisplayMessage(i18n("Your project needs more audio tracks to handle all streams. Add %1 audio tracks ?", requestedTracks),

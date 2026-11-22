@@ -13,7 +13,7 @@
 ElidedFileLinkLabel::ElidedFileLinkLabel(QWidget *parent)
     : QLabel(parent)
 {
-    connect(this, &QLabel::linkActivated, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
+    connect(this, &QLabel::linkActivated, this, [](const QString &link) { pCore->highlightFileInExplorer({QUrl::fromLocalFile(link)}); });
 }
 
 void ElidedFileLinkLabel::setText(const QString &text)

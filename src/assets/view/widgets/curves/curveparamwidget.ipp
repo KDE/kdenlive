@@ -237,7 +237,7 @@ CurveParamWidget<CurveWidget_t>::CurveParamWidget(std::shared_ptr<AssetParameter
 
     deleteIrrelevantItems();
     // emit the signal of the base class when appropriate
-    connect(m_edit, &CurveWidget_t::modified, [this]() { Q_EMIT valueChanged(m_index, m_edit->toString(), true); });
+    connect(m_edit, &CurveWidget_t::modified, this, [this]() { Q_EMIT valueChanged(m_index, m_edit->toString(), true); });
 }
 
 template <> void CurveParamWidget<KisCurveWidget>::deleteIrrelevantItems()
@@ -797,7 +797,7 @@ CurveParamWidget<KisCurveWidget>::CurveParamWidget(std::shared_ptr<AssetParamete
 
     // emit valueChanged for the currently active index; also refresh ghosts so
     // other tabs see an up-to-date curve if the user edits this one then switches away
-    connect(m_edit, &KisCurveWidget::modified, [this]() {
+    connect(m_edit, &KisCurveWidget::modified, this, [this]() {
         Q_EMIT valueChanged(m_index, m_edit->toString(), true);
         if (!m_tabIndexes.isEmpty()) {
             const int activeTab = m_tabBar ? m_tabBar->currentIndex() : 0;

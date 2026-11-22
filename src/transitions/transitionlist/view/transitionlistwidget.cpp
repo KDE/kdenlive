@@ -348,7 +348,7 @@ void TransitionListWidget::iconViewEntered(const QModelIndex &ix)
     if (movie) {
         m_hoveredTransition = transitionId;
         // Connect to frameChanged to trigger repaint
-        m_hoverAnimationConnection = connect(movie, &QMovie::updated, [this, ix]() {
+        m_hoverAnimationConnection = connect(movie, &QMovie::updated, this, [this, ix]() {
             auto index = m_proxyModel->mapToSource(ix);
             Q_EMIT m_model->dataChanged(index, index, {Qt::DecorationRole, Qt::DisplayRole});
         });

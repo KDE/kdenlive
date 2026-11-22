@@ -2800,7 +2800,7 @@ void MainWindow::buildDynamicActions()
         if (transList.count() > 1) {
             a->setToolTip(transList.at(1));
         }
-        connect(a, &QAction::triggered, [&, a]() {
+        connect(a, &QAction::triggered, a, [&, a]() {
             QStringList transcodeData = a->data().toStringList();
             std::vector<QString> ids = pCore->activeBin()->selectedClipsIds(true);
             QMap<QString, QVector<int>> clipStreamSelection;
@@ -2938,7 +2938,7 @@ void MainWindow::slotFriendlyTranscode(const QString &binId, bool checkProfile)
     sourceProps.insert(QStringLiteral("kdenlive:proxy"), clip->getProducerProperty(QStringLiteral("kdenlive:proxy")));
     sourceProps.insert(QStringLiteral("_fullreload"), QStringLiteral("1"));
     ClipTranscode *d = new ClipTranscode(urls, params, QStringList(), desc, pCore->activeBin()->getCurrentFolder());
-    connect(d, &ClipTranscode::addClip, [&, binId, sourceProps](const QUrl &url, const QString & /*folderInfo*/) {
+    connect(d, &ClipTranscode::addClip, d, [&, binId, sourceProps](const QUrl &url, const QString & /*folderInfo*/) {
         QMap<QString, QString> newProps;
         newProps.insert(QStringLiteral("resource"), QDir::cleanPath(url.toLocalFile()));
         newProps.insert(QStringLiteral("kdenlive:originalurl"), url.toLocalFile());

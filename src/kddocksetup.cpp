@@ -95,13 +95,13 @@ public:
         }
         setPalette(qApp->palette());
 
-        connect(this, &QWidget::customContextMenuRequested, []() { Q_EMIT pCore.get()->switchTitleBars(); });
-        connect(this, &KDDockWidgets::QtWidgets::TabBar::countChanged, [&]() {
+        connect(this, &QWidget::customContextMenuRequested, this, []() { Q_EMIT pCore.get()->switchTitleBars(); });
+        connect(this, &KDDockWidgets::QtWidgets::TabBar::countChanged, this, [&]() {
             if (!KdenliveSettings::showtitlebars()) {
                 pCore->startHideBarsTimer();
             }
         });
-        connect(this, &KDDockWidgets::QtWidgets::TabBar::dockWidgetInserted, [&, this, controller](int index) {
+        connect(this, &KDDockWidgets::QtWidgets::TabBar::dockWidgetInserted, this, [&, this, controller](int index) {
             auto dock = controller->dockWidgetAt(index);
             if (dock && dock->view() && dock->uniqueName() == QStringLiteral("project_bin")) {
                 KDDockWidgets::QtWidgets::DockWidget *qtDock = dynamic_cast<KDDockWidgets::QtWidgets::DockWidget *>(dock->view());

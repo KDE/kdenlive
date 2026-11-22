@@ -28,7 +28,7 @@ void MeltTask::start(const ObjectId &owner, const QString &binId, const QString 
                      QObject *object, const std::function<void()> &readyCallBack)
 {
     MeltTask *task = new MeltTask(owner, binId, playlistName, jobArgs, jobDescription, object);
-    connect(task, &MeltTask::taskDone, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
+    connect(task, &MeltTask::taskDone, task, [readyCallBack]() { QMetaObject::invokeMethod(qApp, [readyCallBack] { readyCallBack(); }); });
     pCore->taskManager.startTask(owner.itemId, task);
 }
 

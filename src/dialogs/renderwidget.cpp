@@ -473,7 +473,7 @@ RenderWidget::RenderWidget(bool enableProxy, QWidget *parent)
     connect(m_view.buttonRender, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(); });
     connect(m_view.buttonGenerateScript, &QAbstractButton::clicked, this, [&]() { slotPrepareExport(true); });
     updateMetadataToolTip();
-    connect(m_view.edit_metadata, &QLabel::linkActivated, []() { pCore->window()->slotEditProjectSettings(3); });
+    connect(m_view.edit_metadata, &QLabel::linkActivated, this, []() { pCore->window()->slotEditProjectSettings(3); });
 
     m_view.infoMessage->hide();
     m_view.jobInfo->hide();
@@ -2834,7 +2834,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     }
     QMenu menu(this);
     QAction *newAct = new QAction(i18n("Add to Current Project"), this);
-    connect(newAct, &QAction::triggered, [&, renderItem]() {
+    connect(newAct, &QAction::triggered, this, [&, renderItem]() {
         QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));
@@ -2843,7 +2843,7 @@ void RenderWidget::prepareJobContextMenu(const QPoint &pos)
     });
     menu.addAction(newAct);
     QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
-    connect(openContainingFolder, &QAction::triggered, [&, renderItem]() {
+    connect(openContainingFolder, &QAction::triggered, this, [&, renderItem]() {
         QString fileName = renderItem->data(1, Qt::DisplayRole).toString();
         if (!QFile::exists(fileName) && fileName.contains(QLatin1Char('&'))) {
             fileName.replace(QLatin1Char('&'), QStringLiteral("&#38;"));

@@ -27,7 +27,7 @@ SlideWidget::SlideWidget(std::shared_ptr<AssetParameterModel> model, QModelIndex
     connect(end_transp, &QAbstractSlider::valueChanged, this, &SlideWidget::updateValue);
 
     // Q_EMIT the signal of the base class when appropriate
-    connect(this, &SlideWidget::modified, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
+    connect(this, &SlideWidget::modified, this, [this](const QString &val) { Q_EMIT valueChanged(m_index, val, true); });
 }
 
 void SlideWidget::slotShowComment(bool) {}

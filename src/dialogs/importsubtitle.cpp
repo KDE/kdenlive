@@ -104,7 +104,7 @@ ImportSubtitle::ImportSubtitle(const QString &path, QWidget *parent)
         subtitle_url->setText(path);
         checkEncoding();
     }
-    connect(codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), [updateSub]() { updateSub(); });
+    connect(codecs_list, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, [updateSub]() { updateSub(); });
     connect(subtitle_url, &KUrlRequester::urlSelected, this, [this]() { m_parseTimer.start(); });
     connect(subtitle_url, &KUrlRequester::textChanged, this, [this]() { m_parseTimer.start(); });
     connect(&m_parseTimer, &QTimer::timeout, this, [this, checkEncoding]() {

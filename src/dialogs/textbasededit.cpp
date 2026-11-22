@@ -46,7 +46,7 @@ VideoTextEdit::VideoTextEdit(QWidget *parent)
     setReadOnly(true);
     // setTextInteractionFlags(Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard);
     lineNumberArea = new LineNumberArea(this);
-    connect(this, &VideoTextEdit::cursorPositionChanged, [this]() { lineNumberArea->update(); });
+    connect(this, &VideoTextEdit::cursorPositionChanged, this, [this]() { lineNumberArea->update(); });
     connect(verticalScrollBar(), &QScrollBar::valueChanged, this, [this]() { lineNumberArea->update(); });
     QRect rect = this->contentsRect();
     setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
@@ -671,8 +671,8 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     menu->addAction(configAction);
     button_config->setMenu(menu);
     button_config->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    connect(m_translateAction, &QAction::triggered, [](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
-    connect(configAction, &QAction::triggered, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
+    connect(m_translateAction, &QAction::triggered, this, [](bool enabled) { KdenliveSettings::setWhisperTranslate(enabled); });
+    connect(configAction, &QAction::triggered, this, []() { pCore->window()->slotShowPreferencePage(Kdenlive::PageSpeech); });
     connect(menu, &QMenu::aboutToShow, this, [this]() {
         m_translateAction->setChecked(KdenliveSettings::whisperTranslate());
         // Whisper turbo model does not handle translation
@@ -766,7 +766,7 @@ TextBasedEdit::TextBasedEdit(QWidget *parent)
     connect(m_logAction, &QAction::triggered, this, [this]() { KMessageBox::error(this, m_errorString, i18n("Detailed log")); });
 
     speech_zone->setChecked(KdenliveSettings::speech_zone());
-    connect(speech_zone, &QCheckBox::checkStateChanged, [](Qt::CheckState state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
+    connect(speech_zone, &QCheckBox::checkStateChanged, this, [](Qt::CheckState state) { KdenliveSettings::setSpeech_zone(state == Qt::Checked); });
     button_delete->setDefaultAction(m_visualEditor->deleteAction);
     button_delete->setToolTip(i18n("Delete selected text"));
     connect(m_visualEditor->deleteAction, &QAction::triggered, this, &TextBasedEdit::deleteItem);

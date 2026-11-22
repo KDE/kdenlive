@@ -142,7 +142,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool
     connect(this, &TimelineController::selectionChanged, this, &TimelineController::updateTrimmingMode);
     connect(this, &TimelineController::videoTargetChanged, this, &TimelineController::updateVideoTarget);
     connect(this, &TimelineController::audioTargetChanged, this, &TimelineController::updateAudioTarget);
-    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, [&]() { pCore->refreshProjectMonitorOnce(true); });
+    connect(m_model.get(), &TimelineItemModel::requestMonitorRefresh, this, [&]() { pCore->refreshProjectMonitorOnce(true); });
     connect(m_model.get(), &TimelineModel::audioTargetChanged, this, &TimelineController::updateAudioTarget);
     connect(m_model.get(), &TimelineModel::durationUpdated, this, &TimelineController::checkDuration);
     connect(m_model.get(), &TimelineModel::selectionChanged, this, &TimelineController::selectionChanged);
@@ -5208,7 +5208,7 @@ void TimelineController::slotMultitrackView(bool enable, bool refresh)
     QObject::disconnect(m_connection);
     if (enable) {
         connect(m_model.get(), &TimelineItemModel::trackVisibilityChanged, this, &TimelineController::updateMultiTrack, Qt::UniqueConnection);
-        m_connection = connect(this, &TimelineController::activeTrackChanged, [this]() {
+        m_connection = connect(this, &TimelineController::activeTrackChanged, this, [this]() {
             int ix = 0;
             auto it = m_model->m_allTracks.cbegin();
             while (it != m_model->m_allTracks.cend()) {

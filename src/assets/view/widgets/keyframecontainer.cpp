@@ -221,7 +221,7 @@ KeyframeContainer::KeyframeContainer(std::shared_ptr<AssetParameterModel> model,
     QAction *seekKeyframe = new QAction(i18n("Seek to Keyframe on Select"), parent);
     seekKeyframe->setCheckable(true);
     seekKeyframe->setChecked(KdenliveSettings::keyframeseek());
-    connect(seekKeyframe, &QAction::triggered, [&](bool selected) { KdenliveSettings::setKeyframeseek(selected); });
+    connect(seekKeyframe, &QAction::triggered, this, [&](bool selected) { KdenliveSettings::setKeyframeseek(selected); });
     // copy/paste keyframes from clipboard
     QAction *copy = new QAction(i18n("Copy All Keyframes to Clipboard"), parent);
     connect(copy, &QAction::triggered, this, &KeyframeContainer::slotCopyKeyframes);

@@ -40,7 +40,7 @@ BackupWidget::BackupWidget(const QUrl &projectUrl, QUrl projectFolder, const QSt
     m_projectWildcard.append(QStringLiteral("-??"));
     m_projectWildcard.append(QStringLiteral("-??.kdenlive"));
     QAction *openContainingFolder = new QAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Open Containing Folder"), this);
-    connect(openContainingFolder, &QAction::triggered, [&]() {
+    connect(openContainingFolder, &QAction::triggered, this, [&]() {
         if (backup_list->currentItem()) {
             const QString fileName = backup_list->currentItem()->data(Qt::UserRole).toString();
             pCore->highlightFileInExplorer({QUrl::fromLocalFile(fileName)});

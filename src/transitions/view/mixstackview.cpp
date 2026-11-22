@@ -54,7 +54,7 @@ MixStackView::MixStackView(QWidget *parent)
     m_durationLayout->addWidget(m_alignLeft);
     connect(m_duration, &TimecodeDisplay::timeCodeUpdated, this, &MixStackView::updateDuration);
     connect(m_position, &PositionWidget::valueChanged, this, &MixStackView::updatePosition);
-    connect(this, &AssetParameterView::seekToPos, [this](int pos) {
+    connect(this, &AssetParameterView::seekToPos, this, [this](int pos) {
         // at this point, the effects returns a pos relative to the clip. We need to convert it to a global time
         int clipIn = pCore->getItemPosition(m_model->getOwnerId());
         Q_EMIT seekToTransPos(pos + clipIn);

@@ -178,7 +178,7 @@ Monitor::Monitor(Kdenlive::MonitorId id, MonitorManager *manager, QWidget *paren
     };
 
     connect(m_glMonitor, &VideoWidget::reconnectWindow, this, [this, rebuildViewConnection]() {
-        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, [rebuildViewConnection]() {
+        connect(m_glMonitor->quickWindow(), &QQuickWindow::destroyed, this, [rebuildViewConnection]() {
             if (!pCore->closing) {
                 rebuildViewConnection(true);
             }

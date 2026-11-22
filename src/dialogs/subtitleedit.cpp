@@ -275,8 +275,8 @@ SubtitleEdit::SubtitleEdit(QWidget *parent)
     connect(buttonApply, &QToolButton::clicked, this, &SubtitleEdit::updateSubtitle);
     connect(buttonPrev, &QToolButton::clicked, this, &SubtitleEdit::goToPrevious);
     connect(buttonNext, &QToolButton::clicked, this, &SubtitleEdit::goToNext);
-    connect(buttonIn, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_start")); });
-    connect(buttonOut, &QToolButton::clicked, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
+    connect(buttonIn, &QToolButton::clicked, this, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_start")); });
+    connect(buttonOut, &QToolButton::clicked, this, []() { pCore->triggerAction(QStringLiteral("resize_timeline_clip_end")); });
     connect(buttonDelete, &QToolButton::clicked, this, [this]() {
         if (m_model && m_activeSub >= 0) {
             Q_EMIT deleteSubtitleRequested(m_activeSub);

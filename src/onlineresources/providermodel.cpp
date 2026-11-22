@@ -137,7 +137,7 @@ void ProviderModel::initOAuth2()
         qCWarning(KDENLIVE_LOG) << "Error in authorization flow. " << error << " " << errorDescription;
         Q_EMIT authenticated(QString());
     });
-    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, &QDesktopServices::openUrl);
+    connect(&m_oauth2, &QOAuth2AuthorizationCodeFlow::authorizeWithBrowser, this, &QDesktopServices::openUrl);
 
     m_oauth2InitDone = true;
 }

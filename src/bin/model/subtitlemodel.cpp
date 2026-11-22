@@ -45,7 +45,7 @@ SubtitleModel::SubtitleModel(std::shared_ptr<TimelineItemModel> timeline, const 
         m_subtitleFilter->set("internal_added", 237);
     }
     setup();
-    connect(this, &SubtitleModel::modelChanged, [this]() { jsontoSubtitle(toJson()); });
+    connect(this, &SubtitleModel::modelChanged, this, [this]() { jsontoSubtitle(toJson()); });
 
     const QUuid timelineUuid = timeline->uuid();
     int id = pCore->currentDoc()->getSequenceProperty(timelineUuid, QStringLiteral("kdenlive:activeSubtitleIndex"), QStringLiteral("0")).toInt();
