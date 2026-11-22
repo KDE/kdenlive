@@ -1930,8 +1930,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            int size = l - 5;
-            REQUIRE(timeline->requestItemResize(cid6, size, true, true, undo, redo, false));
+            REQUIRE(timeline->requestItemResize(cid6, l - 5, true, true, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state2 = [&]() {
@@ -1960,8 +1959,7 @@ TEST_CASE("Undo and Redo", "[ClipModel]")
         {
             std::function<bool(void)> undo = []() { return true; };
             std::function<bool(void)> redo = []() { return true; };
-            int size = l - 6;
-            REQUIRE(timeline->requestItemResize(cid6, size, false, true, undo, redo, false));
+            REQUIRE(timeline->requestItemResize(cid6, l - 6, false, true, undo, redo));
             pCore->pushUndo(undo, redo, QString());
         }
         auto state4 = [&]() {

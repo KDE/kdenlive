@@ -344,7 +344,7 @@ int OtioImport::importClip(const std::shared_ptr<OtioImportData> &importData, co
     }
 
     // Resize the clip.
-    importData->timeline->requestItemResize(clipId, duration, true, false, -1, true);
+    importData->timeline->requestItemResize(clipId, duration, true, false, undo, redo);
 
     // Slip the clip.
     const int start = otioClip->trimmed_range().start_time().rescaled_to(otioTimelineDuration).round().value();

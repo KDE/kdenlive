@@ -216,6 +216,20 @@ std::shared_ptr<ClipModel> KdenliveTests::getClipPtr(std::shared_ptr<TimelineIte
     return timeline->getClipPtr(clipId);
 }
 
+bool KdenliveTests::requestRawClipResize(std::shared_ptr<TimelineItemModel> timeline, int clipId, int size, bool right, Fun &undo, Fun &redo)
+{
+    return timeline->getClipPtr(clipId)->requestResize(size, right, undo, redo, true, true);
+}
+
+void KdenliveTests::reloadShorterBinClip(const QString &binId, int length)
+{
+    std::shared_ptr<ProjectClip> binClip = pCore->projectItemModel()->getClipByBinID(binId);
+    REQUIRE(length < int(binClip->frameDuration()));
+    binClip->m_masterProducer->set("length", length);
+    binClip->m_masterProducer->set("out", length - 1);
+    binClip->replaceInTimeline();
+}
+
 bool KdenliveTests::addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, KeyframeType::KeyframeEnum type, QVariant value)
 {
     return model->addKeyframe(pos, type, value);

@@ -2531,7 +2531,7 @@ void Bin::replaceSingleClip(const QString clipId, const QString &newUrl)
                         ;
                     }
                     // Ensure all instances use a correct duration
-                    currentItem->limitMaxDuration(replacementDuration - 1);
+                    currentItem->limitMaxDuration(replacementDuration);
                 }
             } else {
                 KMessageBox::error(this, i18n("The selected file %1 is invalid.", newUrl));
@@ -2784,7 +2784,7 @@ void Bin::slotReplaceClip()
                                 continue;
                             }
                             // Ensure all instances use a correct duration
-                            currentItem->limitMaxDuration(replacementDuration - 1);
+                            currentItem->limitMaxDuration(replacementDuration);
                         }
                     } else {
                         KMessageBox::error(this, i18n("The selected file %1 is invalid.", fileName));

@@ -132,6 +132,10 @@ public:
     static int downLinks(std::shared_ptr<TimelineItemModel> timeline, int gid);
     static int downLinksSize(std::shared_ptr<TimelineItemModel> timeline);
     static std::shared_ptr<ClipModel> getClipPtr(std::shared_ptr<TimelineItemModel> timeline, int clipId);
+    /** @brief Resize a clip on its track without any mix handling, to build inconsistent states */
+    static bool requestRawClipResize(std::shared_ptr<TimelineItemModel> timeline, int clipId, int size, bool right, Fun &undo, Fun &redo);
+    /** @brief Shortens the footage of a bin clip to length frames and reloads its timeline instances, as when its file is replaced by a shorter one */
+    static void reloadShorterBinClip(const QString &binId, int length);
     static bool addKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos, KeyframeType::KeyframeEnum type, QVariant value);
     static bool removeKeyframe(std::shared_ptr<KeyframeModel> model, GenTime pos);
     static bool removeAllKeyframes(std::shared_ptr<KeyframeModel> model);

@@ -2701,8 +2701,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
         std::shared_ptr<EffectStackModel> destStack = timeline->getClipEffectStackModel(newId);
         destStack->fromXml(prod.firstChildElement(QStringLiteral("effects")), timeline_undo, timeline_redo);
         if (newIn != in) {
-            int newSize = out - newIn + 1;
-            res = res && timeline->requestItemResize(newId, newSize, false, true, timeline_undo, timeline_redo);
+            res = res && timeline->requestItemResize(newId, out - newIn + 1, false, true, timeline_undo, timeline_redo);
             if (res) {
                 std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(newId);
                 sourceStack->cleanFadeEffects(true, timeline_undo, timeline_redo);
@@ -2710,8 +2709,7 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             // TODO manage mixes
         }
         if (newOut != out) {
-            int newSize = newOut - newIn;
-            res = res && timeline->requestItemResize(newId, newSize, true, true, timeline_undo, timeline_redo);
+            res = res && timeline->requestItemResize(newId, newOut - newIn, true, true, timeline_undo, timeline_redo);
             if (res) {
                 std::shared_ptr<EffectStackModel> sourceStack = timeline->getClipEffectStackModel(newId);
                 sourceStack->cleanFadeEffects(false, timeline_undo, timeline_redo);
@@ -2813,10 +2811,10 @@ bool TimelineFunctions::pasteTimelineClips(const std::shared_ptr<TimelineItemMod
             res = res && timeline->requestCompositionCreation(originalId, out - in + 1, std::move(transProps), newId, timeline_undo, timeline_redo);
             if (newPos != pos) {
                 // transition start resized
-                timeline->requestItemResize(newId, compoDuration, false, true, timeline_undo, timeline_redo, false);
+                timeline->requestItemResize(newId, compoDuration, false, true, timeline_undo, timeline_redo);
             }
             if (compoDuration != compoDuration2) {
-                timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo, false);
+                timeline->requestItemResize(newId, compoDuration2, true, true, timeline_undo, timeline_redo);
             }
             pastedItems.insert(newId);
             res = res && timeline->requestCompositionMove(newId, curTrackId, aTrackPos, position + newPos, true, true, timeline_undo, timeline_redo);

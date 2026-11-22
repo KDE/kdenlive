@@ -320,6 +320,13 @@ Item {
                     trimIn.opacity = 0
                     compositionRoot.updateDrag()
                 }
+                onCanceled: {
+                    // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                    anchors.left = parent.left
+                    trimIn.opacity = 0
+                    compositionRoot.timeline.showToolTip()
+                    compositionRoot.timeline.revertResizePreview()
+                }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
                         let delta = Math.round(x / compositionRoot.timeScale)
@@ -389,6 +396,13 @@ Item {
                     anchors.right = parent.right
                     compositionRoot.trimmedOut(compositionRoot)
                     compositionRoot.updateDrag()
+                }
+                onCanceled: {
+                    // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                    trimOut.opacity = 0
+                    anchors.right = parent.right
+                    compositionRoot.timeline.showToolTip()
+                    compositionRoot.timeline.revertResizePreview()
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {

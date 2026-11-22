@@ -663,6 +663,14 @@ public:
     /** @brief @todo TODO */
     Q_INVOKABLE int requestItemRippleResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
 
+    /** @brief Trim previews: while trimming, the timeline shows the resize without logging it. Each preview replaces the previous one. When the trim
+     *  ends, released or canceled, revertResizePreview must be called, before the final undoable resize if any.
+     *  Returns the size or mix side reached (see the model functions), or -1 on failure */
+    Q_INVOKABLE int requestItemResizePreview(int itemId, int size, bool right, int snapDistance, bool allowSingleResize);
+    Q_INVOKABLE int requestResizeMixSidePreview(int cid, int frames, bool beforeCut, bool singleResize);
+    /** @brief Reverts the last trim preview, if any */
+    Q_INVOKABLE void revertResizePreview();
+
     /** @brief Add current timeline zone to preview rendering
      */
     void addPreviewRange(bool add);
@@ -853,6 +861,10 @@ public:
 
 private:
     SelectionState selectionState(const std::unordered_set<int> &selectedItems) const;
+    /** @brief Replaces the current trim preview by the result of operation, which returns -1 on failure */
+    int applyResizePreview(const std::function<int(Fun &, Fun &)> &operation);
+    /** @brief Undo of the current trim preview */
+    Fun m_resizePreviewUndo;
     int m_duration;
     QQuickItem *m_root;
     KActionCollection *m_actionCollection{nullptr};

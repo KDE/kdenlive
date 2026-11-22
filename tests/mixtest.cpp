@@ -8,7 +8,9 @@
 #include "doc/docundostack.hpp"
 #include "doc/kdenlivedoc.h"
 #include "kdenlivesettings.h"
+#include "timeline2/view/timelinecontroller.h"
 #include <QString>
+#include <functional>
 #include <unordered_set>
 
 #include "core.h"
@@ -159,6 +161,20 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
     };
 
+    // Checks the timeline consistency and the number of mixes on the tracks of the AV clips
+    auto checkAVMixCounts = [&](int count) {
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == count);
+        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == count);
+    };
+
+    // Undoes the last operation and checks that the timeline is back to the given state
+    auto undoTo = [&](const std::function<void()> &state) {
+        undoStack->undo();
+        REQUIRE(timeline->checkConsistency());
+        state();
+    };
+
     SECTION("Create and delete mix on color clips")
     {
         // Cid3 at 500, length 20
@@ -232,12 +248,15 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->mixClip(cid4));
         state2();
         // Resize clip 4
-        REQUIRE(timeline->requestItemResize(cid4, 60, true, true));
-        REQUIRE(timeline->getClipPlaytime(cid4) == 60);
+        // Sizes are logical: the clip starts 13 frames before the edit point
+        REQUIRE(timeline->requestItemResize(cid4, 60, true, true) == 60);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid4) == 60);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 73);
+        REQUIRE(timeline->checkConsistency());
         undoStack->undo();
         REQUIRE(timeline->getClipPlaytime(cid4) == 33);
         undoStack->redo();
-        REQUIRE(timeline->getClipPlaytime(cid4) == 60);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 73);
         undoStack->undo();
 
         undoStack->undo();
@@ -973,10 +992,9 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
                 REQUIRE(timeline->requestClipMove(cid3, tid2, 508, true, true, false, false, undo, redo, true) == TimelineModel::MoveSuccess);
                 track->syncronizeMixes(true);
             } else {
-                // The low-level resize bypasses partner trimming: B ends at
+                // Resizing the clip model directly bypasses mix handling: B ends at
                 // 531 while the mix and A still end at 532.
-                int size = 24;
-                REQUIRE(timeline->requestItemResize(cid4, size, true, true, undo, redo));
+                REQUIRE(KdenliveTests::requestRawClipResize(timeline, cid4, 24, true, undo, redo));
             }
             CHECK_FALSE(track->checkConsistency());
             REQUIRE(undo());
@@ -1046,18 +1064,39 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state0();
         REQUIRE(timeline->mixClip(cid2));
         state1();
-        // Resize right clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid2, 15, false, true) == 15);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        undoStack->undo();
+        // The mix covers [100, 120) with its edit point at 110: logically CID1 is [100, 110) and CID2 [110, 120)
+        REQUIRE(timeline->getMixCutPos(cid2) == 10);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid1) == 10);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid2) == 10);
+        // Moving the start of the right clip towards the left clip is invalid
+        REQUIRE(timeline->requestItemResize(cid2, 15, false, true) == -1);
         state1();
-        // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid1, 18, true, true) == 18);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        undoStack->undo();
-        state1();
+        // Shrinking the part of the mix before the edit point moves the start of the right clip and its audio
+        REQUIRE(timeline->requestResizeMixSide(cid2, 5, true, false) == 5);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPosition(cid2) == 105);
+        REQUIRE(timeline->getClipPosition(audio2) == 105);
+        undoTo(state1);
+        // Moving the start of the right clip away from the left clip deletes both mixes
+        REQUIRE(timeline->requestItemResize(cid2, 5, false, true) == 5);
+        checkAVMixCounts(0);
+        REQUIRE(timeline->getClipPosition(cid2) == 115);
+        REQUIRE(timeline->getClipPosition(audio2) == 115);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 10);
+        undoTo(state1);
+        // Same for the end of the left clip
+        REQUIRE(timeline->requestItemResize(cid1, 18, true, true) == -1);
+        REQUIRE(timeline->requestResizeMixSide(cid2, 8, false, false) == 8);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 18);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 18);
+        undoTo(state1);
+        REQUIRE(timeline->requestItemResize(cid1, 4, true, true) == 4);
+        checkAVMixCounts(0);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 4);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 4);
+        REQUIRE(timeline->getClipPosition(cid2) == 110);
+        undoTo(state1);
         // Move clip outside mix zone, should delete the mix
         REQUIRE(timeline->requestClipMove(cid2, tid2, 200));
         REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
@@ -1126,80 +1165,149 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         // Default mix duration = 25 frames (12 before / 13 after)
         REQUIRE(timeline->mixClip(cid3));
         state2();
-        // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid3, 24, true, true) == 24);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        undoStack->undo();
+        // The mix covers [507, 532) with its edit point at 520: logically CID3 is [500, 520) and CID4 [520, 540)
+        REQUIRE(timeline->getMixCutPos(cid4) == 12);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid3) == 20);
+        REQUIRE(timeline->getItemLogicalPosition(cid4) == 520);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid4) == 20);
+        auto checkUnmixed = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
+            REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
+        };
+        // Edges facing the mix partner cannot move towards it
+        REQUIRE(timeline->requestItemResize(cid3, 24, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid3, 100, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid4, 50, false, true) == -1);
         state2();
-        // Resize left clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
-        undoStack->undo();
-        state2();
-        // Resize right clip, should resize the mix
+        // Moving them away from the partner deletes the mix, the requested size is the logical one
+        REQUIRE(timeline->requestItemResize(cid3, 4, true, true) == 4);
+        checkUnmixed();
+        REQUIRE(timeline->getClipPlaytime(cid3) == 4);
+        REQUIRE(timeline->getClipPosition(cid4) == 520);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 20);
+        undoTo(state2);
         REQUIRE(timeline->requestItemResize(cid4, 16, false, true) == 16);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        undoStack->undo();
-        state2();
-        // Resize right clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid4, 4, false, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
-        undoStack->undo();
-        state2();
-        // Resize right clip before left clip, should limit the resize to left clip position
-        REQUIRE(timeline->requestItemResize(cid4, 50, false, true) == 40);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        undoStack->undo();
-        state2();
-        // Resize left clip past right clip, should limit the resize to left clip position
-        REQUIRE(timeline->requestItemResize(cid3, 100, true, true) == 40);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        undoStack->undo();
-        state2();
-
-        // Before mix: CID 3 length=20, pos=500, CID4 length=20, pos=520
-        // Default mix duration = 25 frames (12 before / 13 after)
-
-        // Resize left clip before right clip start, then right clip outside left clip, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
-        undoStack->undo();
-        undoStack->undo();
-        state2();
-
-        // Resize right clip after left clip end, then left clip outside right clip, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid4, 20, false, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
-        REQUIRE(timeline->requestItemResize(cid3, 20, true, true) == 20);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid3) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 0);
-        undoStack->undo();
-        undoStack->undo();
-        state2();
+        checkUnmixed();
+        REQUIRE(timeline->getClipPlaytime(cid3) == 20);
+        REQUIRE(timeline->getClipPosition(cid4) == 524);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 16);
+        undoTo(state2);
+        undoStack->redo();
+        checkUnmixed();
+        undoTo(state2);
+        // Shrinking the other edge caps the partner's part of the mix
+        REQUIRE(timeline->requestItemResize(cid4, 8, true, true) == 8);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(cid3) == 28);
+        REQUIRE(timeline->getClipPlaytime(cid4) == 21);
+        REQUIRE(timeline->getMixDuration(cid4) == 21);
+        REQUIRE(timeline->getMixCutPos(cid4) == 8);
+        undoTo(state2);
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getMixDuration(cid4) == 21);
+        undoTo(state2);
+        REQUIRE(timeline->requestItemResize(cid3, 10, false, true) == 10);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(cid3) == 510);
+        REQUIRE(timeline->getClipPosition(cid4) == 510);
+        REQUIRE(timeline->getMixDuration(cid4) == 22);
+        REQUIRE(timeline->getMixCutPos(cid4) == 12);
+        undoTo(state2);
+        // The mix is unchanged when the partner's part still fits
+        REQUIRE(timeline->requestItemResize(cid4, 15, true, true) == 15);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(cid3) == 32);
+        REQUIRE(timeline->getMixDuration(cid4) == 25);
+        undoTo(state2);
+        REQUIRE(timeline->requestItemResize(cid4, 30, true, true) == 30);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(cid4) == 43);
+        REQUIRE(timeline->getMixDuration(cid4) == 25);
+        undoTo(state2);
 
         undoStack->undo();
         state0();
+    }
+
+    SECTION("Logical resize of a clip mixed at both ends, and resize previews")
+    {
+        state0();
+        REQUIRE(timeline->requestItemResize(cid4, 40, true, true) == 40);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 560, cid5));
+        REQUIRE(timeline->requestItemResize(cid5, 20, true, true) == 20);
+        REQUIRE(timeline->mixClip(cid4, QStringLiteral("luma"), -1));
+        REQUIRE(timeline->mixClip(cid4, QStringLiteral("luma"), 1));
+        auto mixCount = [&]() { return KdenliveTests::getTrackById_const(timeline, tid2)->mixCount(); };
+        const int undoIndex = undoStack->index();
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(mixCount() == 2);
+            REQUIRE(undoStack->index() == undoIndex);
+            REQUIRE(timeline->getItemLogicalPosition(cid4) == 520);
+            REQUIRE(timeline->getItemLogicalPlaytime(cid4) == 40);
+            REQUIRE(timeline->getMixCutPos(cid4) == 12);
+            REQUIRE(timeline->getMixDuration(cid5) == 25);
+        };
+        mixedState();
+        // Both edges face a mix partner: they cannot move towards it
+        REQUIRE(timeline->requestItemResize(cid4, 45, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid4, 45, false, true) == -1);
+        mixedState();
+        // Moving the end away deletes the end mix, and caps the part of the start mix inside the clip
+        REQUIRE(timeline->requestItemResize(cid4, 5, true, true) == 5);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid4) == 5);
+        REQUIRE(timeline->getMixCutPos(cid4) == 5);
+        REQUIRE(timeline->getItemLogicalPosition(cid5) == 560);
+        undoStack->undo();
+        mixedState();
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(mixCount() == 1);
+        undoStack->undo();
+        mixedState();
+        // Same with the start
+        REQUIRE(timeline->requestItemResize(cid4, 5, false, true) == 5);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getItemLogicalPosition(cid4) == 555);
+        REQUIRE(timeline->getClipPosition(cid5) == 555);
+        REQUIRE(timeline->getClipPlaytime(cid3) == 20);
+        undoStack->undo();
+        mixedState();
+        // Resize previews replace each other
+        TimelineController controller{nullptr};
+        controller.setModel(timeline, false);
+        REQUIRE(controller.requestItemResizePreview(cid4, 5, true, -1, false) == 5);
+        REQUIRE(mixCount() == 1);
+        // A refused preview leaves the original state, the previous preview being reverted
+        REQUIRE(controller.requestItemResizePreview(cid4, 45, true, -1, false) == -1);
+        mixedState();
+        REQUIRE(controller.requestItemResizePreview(cid4, 8, true, -1, false) == 8);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getMixCutPos(cid4) == 8);
+        // Reverting the preview leaves no trace
+        controller.revertResizePreview();
+        mixedState();
+        // Mix side previews are clamped like the final resize
+        REQUIRE(controller.requestResizeMixSidePreview(cid5, -10, true, false) == 0);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == undoIndex);
+        controller.revertResizePreview();
+        mixedState();
+        // Committing after a preview, as the timeline does when releasing a trim handle
+        REQUIRE(controller.requestItemResizePreview(cid4, 3, true, -1, false) == 3);
+        controller.revertResizePreview();
+        REQUIRE(timeline->requestItemResize(cid4, 8, true, true) == 8);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == undoIndex + 1);
+        REQUIRE(timeline->getMixCutPos(cid4) == 8);
+        undoStack->undo();
+        mixedState();
     }
 
     SECTION("Create mix on AV clips and resize")
@@ -1218,54 +1326,87 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         state3();
         // CID 1 length=30, pos=100, CID2 length=30, pos=130
         // Default mix duration = 25 frames (12 before / 13 after)
-        // Resize left clip, should resize the mix
-        REQUIRE(timeline->requestItemResize(cid1, 35, true, true) == 35);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
-        undoStack->undo();
+        // The mix covers [117, 142) with its edit point at 130: logically CID1 is [100, 130) and CID2 [130, 160)
+        REQUIRE(timeline->getMixCutPos(cid2) == 12);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid1) == 30);
+        REQUIRE(timeline->getItemLogicalPlaytime(cid2) == 30);
+        // Edges facing the mix partner cannot move towards it
+        REQUIRE(timeline->requestItemResize(cid1, 35, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid1, 80, true, true) == -1);
+        REQUIRE(timeline->requestItemResize(cid2, 80, false, true) == -1);
+        checkAVMixCounts(1);
         state3();
-        // Resize left clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 30);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
+        // Moving them away from the partner deletes the mixes of the video and audio clips
+        REQUIRE(timeline->requestItemResize(cid1, 10, true, true) == 10);
+        checkAVMixCounts(0);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 10);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 10);
+        REQUIRE(timeline->getClipPosition(cid2) == 130);
         REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
         REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 0);
-        undoStack->undo();
-        state3();
-        // Resize right clip, should resize the mix
+        undoTo(state3);
         REQUIRE(timeline->requestItemResize(cid2, 25, false, true) == 25);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
-        undoStack->undo();
-        state3();
-        // Resize right clip outside mix zone, should delete the mix
-        REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 30);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 0);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 0);
-        undoStack->undo();
-        state3();
-        // Resize right clip before left clip, should limit to left clip position
-        REQUIRE(timeline->requestItemResize(cid2, 80, false, true) == 60);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
-        undoStack->undo();
-        state3();
-        // Resize left clip after right clip, should limit to right clip duration
-        REQUIRE(timeline->requestItemResize(cid1, 80, true, true) == 60);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid2)->mixCount() == 1);
-        REQUIRE(KdenliveTests::getTrackById_const(timeline, tid3)->mixCount() == 1);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid1) == 0);
-        REQUIRE(timeline->getClipSubPlaylistIndex(cid2) == 1);
-        undoStack->undo();
-        state3();
+        checkAVMixCounts(0);
+        REQUIRE(timeline->getClipPosition(cid2) == 135);
+        REQUIRE(timeline->getClipPosition(audio2) == 135);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 30);
+        undoTo(state3);
+        REQUIRE(timeline->requestItemResize(cid2, 4, false, true) == 4);
+        checkAVMixCounts(0);
+        REQUIRE(timeline->getClipPosition(cid2) == 156);
+        undoTo(state3);
+        // Shrinking the other edge caps the partner's part of both mixes
+        REQUIRE(timeline->requestItemResize(cid2, 8, true, true) == 8);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 38);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 38);
+        REQUIRE(timeline->getMixDuration(cid2) == 21);
+        REQUIRE(timeline->getMixDuration(audio2) == 21);
+        REQUIRE(timeline->getMixCutPos(cid2) == 8);
+        undoTo(state3);
+        REQUIRE(timeline->requestItemResize(cid1, 10, false, true) == 10);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPosition(cid1) == 120);
+        REQUIRE(timeline->getClipPosition(cid2) == 120);
+        REQUIRE(timeline->getClipPosition(audio2) == 120);
+        REQUIRE(timeline->getMixDuration(cid2) == 22);
+        undoTo(state3);
+        undoStack->redo();
+        checkAVMixCounts(1);
+        undoTo(state3);
+        // Mix gestures change one side of both mixes, or of a single one
+        REQUIRE(timeline->requestResizeMixSide(cid2, 5, true, false) == 5);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPosition(cid2) == 125);
+        REQUIRE(timeline->getClipPosition(audio2) == 125);
+        undoTo(state3);
+        REQUIRE(timeline->requestResizeMixSide(cid2, 20, false, true) == 20);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(cid1) == 50);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 42);
+        undoTo(state3);
+        // Sides are clamped to the partner's outer edge
+        REQUIRE(timeline->requestResizeMixSide(cid2, 31, true, false) == 30);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPosition(cid2) == 100);
+        REQUIRE(timeline->getClipPosition(audio2) == 100);
+        undoTo(state3);
+        REQUIRE(timeline->requestResizeMixSide(cid2, 31, false, false) == 30);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getClipPlaytime(cid1) == 60);
+        REQUIRE(timeline->getClipPlaytime(audio1) == 60);
+        undoTo(state3);
+        // The mix keeps at least one frame
+        REQUIRE(timeline->requestResizeMixSide(cid2, 0, false, false) == 0);
+        REQUIRE(timeline->requestResizeMixSide(cid2, -5, true, false) == 1);
+        checkAVMixCounts(1);
+        REQUIRE(timeline->getMixDuration(cid2) == 1);
+        REQUIRE(timeline->getMixDuration(audio2) == 1);
+        undoTo([&]() {
+            checkAVMixCounts(1);
+            REQUIRE(timeline->getMixCutPos(cid2) == 0);
+        });
+        undoTo(state3);
         undoStack->undo();
         undoStack->undo();
         undoStack->undo();
@@ -1401,12 +1542,14 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->mixClip(cid6));
         mix1();
 
-        // Test resize, should fail
-        int clipSize = timeline->getClipPlaytime(cid5);
+        // Test resize, should fail (sizes are logical)
+        int clipSize = timeline->getItemLogicalPlaytime(cid5);
         REQUIRE(timeline->requestItemResize(cid5, 38, true, true) == clipSize);
 
-        clipSize = timeline->getClipPlaytime(cid6);
+        clipSize = timeline->getItemLogicalPlaytime(cid6);
         REQUIRE(timeline->requestItemResize(cid6, 60, false, true) == clipSize);
+        REQUIRE(timeline->checkConsistency());
+        mix1();
 
         // Undo second mix
         undoStack->undo();
@@ -1902,8 +2045,10 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE(timeline->getClipPosition(cid3) == 500);
         REQUIRE(timeline->getClipPosition(cidY) == 1000);
         REQUIRE(timeline->checkConsistency());
-        // Remove the mix by shrinking cid3. cid4 remains on the mix playlist because of its other mix.
-        REQUIRE(timeline->requestItemResize(cid3, timeline->getClipPosition(cid4) - timeline->getClipPosition(cid3), true, true) > 0);
+        // Remove the mix by shrinking cid3 just before the edit point. cid4 remains on the mix playlist because of its other mix.
+        const int sizeBeforeCut = timeline->getItemLogicalPlaytime(cid3) - 1;
+        REQUIRE(timeline->requestItemResize(cid3, sizeBeforeCut, true, true) == sizeBeforeCut);
+        REQUIRE(timeline->checkConsistency());
         REQUIRE(timeline->getMixDuration(cid4) == 0);
         REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
         // An overlap without a shared mix must also be rejected across playlists.
@@ -2048,24 +2193,28 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
             REQUIRE(timeline->getClipPlaytime(cidC) == 100);
         };
         mixedState();
-        // The video end would go before its mix cut position
+        // The video logically starts at the mix cut position: it would end before it
         REQUIRE(timeline->requestItemResize(audioX, 4, true, true) == -1);
         mixedState();
-        // The same boundary applies when the video initiates the resize.
-        REQUIRE(timeline->requestItemResize(cidX, 4, true, true) == -1);
+        // Ending exactly at the cut leaves no logical part to the video
+        const int cutPosition = videoPosition + duration - cut;
+        const int sizeAtCut = cutPosition - timeline->getClipPosition(audioX);
+        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, true, true) == -1);
         mixedState();
-        // Ending exactly at the cut is valid and remains undoable.
-        const int sizeAtCut = videoPosition + duration - cut - timeline->getClipPosition(audioX);
-        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, true, true) == sizeAtCut);
-        REQUIRE(timeline->checkConsistency());
-        REQUIRE(timeline->getClipPlaytime(audioX) == sizeAtCut);
-        REQUIRE(timeline->getClipPlaytime(cidX) == duration - cut);
+        // When the video initiates the resize, its size is logical and the audio follows its end
+        REQUIRE(timeline->requestItemResize(cidX, 4, true, true) == 4);
+        auto resizedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getItemLogicalPlaytime(cidX) == 4);
+            REQUIRE(timeline->getClipPlaytime(cidX) == cutPosition + 4 - videoPosition);
+            REQUIRE(timeline->getClipPlaytime(audioX) == sizeAtCut + 4);
+            REQUIRE(timeline->getMixDuration(cidX) == duration);
+        };
+        resizedState();
         undoStack->undo();
         mixedState();
         undoStack->redo();
-        REQUIRE(timeline->checkConsistency());
-        REQUIRE(timeline->getClipPlaytime(audioX) == sizeAtCut);
-        REQUIRE(timeline->getClipPlaytime(cidX) == duration - cut);
+        resizedState();
         undoStack->undo();
         mixedState();
         undoStack->undo(); // Mix cidC and cidX
@@ -2114,22 +2263,26 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
             REQUIRE(timeline->getClipPlaytime(cidC) == 100);
         };
         mixedState();
-        // Neither partner may move the video start beyond the end mix's cut.
+        // The video logically ends at the mix cut position: it would start after it
         REQUIRE(timeline->requestItemResize(audioX, 4, false, true) == -1);
         mixedState();
-        REQUIRE(timeline->requestItemResize(cidX, 4, false, true) == -1);
+        // Starting exactly at the cut leaves no logical part to the video
+        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, false, true) == -1);
         mixedState();
-        // Starting exactly at the cut is valid and remains undoable.
-        REQUIRE(timeline->requestItemResize(audioX, sizeAtCut, false, true) == sizeAtCut);
-        REQUIRE(timeline->checkConsistency());
-        REQUIRE(timeline->getClipPosition(audioX) == cutPosition);
-        REQUIRE(timeline->getClipPosition(cidX) == cutPosition);
+        // When the video initiates the resize, its size is logical and the audio follows its start
+        REQUIRE(timeline->requestItemResize(cidX, 4, false, true) == 4);
+        auto resizedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getItemLogicalPlaytime(cidX) == 4);
+            REQUIRE(timeline->getClipPosition(cidX) == cutPosition - 4);
+            REQUIRE(timeline->getClipPosition(audioX) == cutPosition - 4);
+            REQUIRE(timeline->getMixDuration(cidC) == duration);
+        };
+        resizedState();
         undoStack->undo();
         mixedState();
         undoStack->redo();
-        REQUIRE(timeline->checkConsistency());
-        REQUIRE(timeline->getClipPosition(audioX) == cutPosition);
-        REQUIRE(timeline->getClipPosition(cidX) == cutPosition);
+        resizedState();
         undoStack->undo();
         mixedState();
         undoStack->undo(); // Mix cidX and cidC
@@ -2161,6 +2314,246 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         REQUIRE_FALSE(timeline->trackIsLocked(tid2));
         undoStack->undo(); // Mix cid3 and cid4
         state0();
+    }
+
+    // Fits a clip to footage of the given length, as when its bin clip is replaced by a shorter one
+    auto fitToFootage = [&](int clipId, int length) {
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        const bool changed = timeline->limitClipMaxDuration(clipId, length, undo, redo);
+        if (changed) {
+            pCore->pushUndo(undo, redo, QStringLiteral("Adjust timeline clips"));
+        }
+        REQUIRE(timeline->checkConsistency());
+        return changed;
+    };
+
+    SECTION("Shorter footage at the end mix of a clip")
+    {
+        state0();
+        const QString limitedId = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel, 50, true);
+        int cidA;
+        int cidB;
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 800, cidA));
+        REQUIRE(timeline->requestItemResize(cidA, 20, true, true) == 20);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 820, cidB));
+        REQUIRE(timeline->requestItemResize(cidB, 20, true, true) == 20);
+        REQUIRE(timeline->mixClip(cidA));
+        auto mixCount = [&]() { return KdenliveTests::getTrackById_const(timeline, tid2)->mixCount(); };
+        // The mix covers [807, 832) with its edit point at 820, cidA uses its footage up to frame 32
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(mixCount() == 1);
+            REQUIRE(timeline->getClipPosition(cidA) == 800);
+            REQUIRE(timeline->getClipPlaytime(cidA) == 32);
+            REQUIRE(timeline->getClipPosition(cidB) == 807);
+            REQUIRE(timeline->getClipPlaytime(cidB) == 33);
+            REQUIRE(timeline->getMixDuration(cidB) == 25);
+            REQUIRE(timeline->getMixCutPos(cidB) == 12);
+        };
+        mixedState();
+        // The footage covers the clip
+        REQUIRE_FALSE(fitToFootage(cidA, 32));
+        mixedState();
+        // The footage ends after the edit point: the part of the mix after it shrinks
+        REQUIRE(fitToFootage(cidA, 26));
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPlaytime(cidA) == 26);
+        REQUIRE(timeline->getClipPosition(cidB) == 807);
+        REQUIRE(timeline->getClipPlaytime(cidB) == 33);
+        REQUIRE(timeline->getMixDuration(cidB) == 19);
+        REQUIRE(timeline->getMixCutPos(cidB) == 6);
+        undoTo(mixedState);
+        // The footage ends at the edit point: the mix keeps its part before it
+        REQUIRE(fitToFootage(cidA, 20));
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPlaytime(cidA) == 20);
+        REQUIRE(timeline->getMixDuration(cidB) == 13);
+        REQUIRE(timeline->getMixCutPos(cidB) == 0);
+        undoTo(mixedState);
+        // The footage ends before the edit point: the mix is removed
+        REQUIRE(fitToFootage(cidA, 15));
+        REQUIRE(mixCount() == 0);
+        REQUIRE(timeline->getClipPlaytime(cidA) == 15);
+        REQUIRE(timeline->getClipPosition(cidB) == 820);
+        REQUIRE(timeline->getClipPlaytime(cidB) == 20);
+        undoTo(mixedState);
+        undoStack->redo();
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(mixCount() == 0);
+        undoTo(mixedState);
+        // Reloading the bin clip with shorter footage fits its instances the same way
+        const int undoIndex = undoStack->index();
+        KdenliveTests::reloadShorterBinClip(limitedId, 26);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(undoStack->index() == undoIndex + 1);
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPlaytime(cidA) == 26);
+        REQUIRE(timeline->getClipPosition(cidB) == 807);
+        REQUIRE(timeline->getMixDuration(cidB) == 19);
+        REQUIRE(timeline->getMixCutPos(cidB) == 6);
+    }
+
+    SECTION("Shorter footage at the start mix of a clip")
+    {
+        state0();
+        const QString limitedId = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel, 50, true);
+        int cidC;
+        int cidD;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 900, cidC));
+        REQUIRE(timeline->requestItemResize(cidC, 20, true, true) == 20);
+        // cidD uses its footage from frame 20, leaving room for the mix before its start
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 920, cidD));
+        REQUIRE(timeline->requestItemResize(cidD, 30, false, true) == 30);
+        REQUIRE(timeline->requestClipMove(cidD, tid2, 920));
+        REQUIRE(timeline->mixClip(cidC));
+        auto mixCount = [&]() { return KdenliveTests::getTrackById_const(timeline, tid2)->mixCount(); };
+        // The mix covers [907, 932) with its edit point at 920, cidD uses its footage from frame 7 up to frame 50
+        auto mixedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(mixCount() == 1);
+            REQUIRE(timeline->getClipPlaytime(cidC) == 32);
+            REQUIRE(timeline->getClipPosition(cidD) == 907);
+            REQUIRE(timeline->getClipIn(cidD) == 7);
+            REQUIRE(timeline->getClipPlaytime(cidD) == 43);
+            REQUIRE(timeline->getMixDuration(cidD) == 25);
+            REQUIRE(timeline->getMixCutPos(cidD) == 12);
+        };
+        mixedState();
+        // The footage ends after the mix: the mix is unchanged
+        REQUIRE(fitToFootage(cidD, 45));
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPlaytime(cidD) == 38);
+        REQUIRE(timeline->getMixDuration(cidD) == 25);
+        undoTo(mixedState);
+        // The footage ends inside the part of the mix after the edit point: it is capped
+        REQUIRE(fitToFootage(cidD, 25));
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPosition(cidD) == 907);
+        REQUIRE(timeline->getClipPlaytime(cidD) == 18);
+        REQUIRE(timeline->getClipPlaytime(cidC) == 25);
+        REQUIRE(timeline->getMixDuration(cidD) == 18);
+        REQUIRE(timeline->getMixCutPos(cidD) == 5);
+        undoTo(mixedState);
+        // The footage ends at the edit point: the clip shows none of it and is deleted
+        const int clipsCount = timeline->getClipsCount();
+        REQUIRE(fitToFootage(cidD, 20));
+        REQUIRE_FALSE(timeline->isClip(cidD));
+        REQUIRE(timeline->getClipsCount() == clipsCount - 1);
+        REQUIRE(mixCount() == 0);
+        REQUIRE(timeline->getClipPlaytime(cidC) == 20);
+        undoTo(mixedState);
+        // Reloading the bin clip with shorter footage fits its instances the same way
+        KdenliveTests::reloadShorterBinClip(limitedId, 25);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(mixCount() == 1);
+        REQUIRE(timeline->getClipPlaytime(cidD) == 18);
+        REQUIRE(timeline->getMixCutPos(cidD) == 5);
+    }
+
+    SECTION("Shorter footage of a clip with speed")
+    {
+        state0();
+        // Color producers can't be timewarped, use an AV clip: only its video part gets a speed
+        const QString limitedId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 50);
+        int cidSlow;
+        int cidFast;
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 1000, cidSlow));
+        REQUIRE(timeline->requestItemResize(cidSlow, 20, true, true) == 20);
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 1100, cidFast));
+        REQUIRE(timeline->requestItemResize(cidFast, 20, true, true) == 20);
+        Fun undo = []() { return true; };
+        Fun redo = []() { return true; };
+        REQUIRE(timeline->requestClipTimeWarp(cidSlow, 0.5, false, true, undo, redo));
+        REQUIRE(timeline->requestClipTimeWarp(cidFast, 2., false, true, undo, redo));
+        pCore->pushUndo(undo, redo, QStringLiteral("Change speed"));
+        // cidSlow plays 20 frames of footage in 40, cidFast plays them in 10
+        auto speedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->getClipPlaytime(cidSlow) == 40);
+            REQUIRE(timeline->getClipPlaytime(cidFast) == 10);
+        };
+        speedState();
+        // 25 frames of footage last 50 frames at half speed: the slow clip is covered
+        REQUIRE_FALSE(fitToFootage(cidSlow, 25));
+        speedState();
+        // 15 frames of footage last 30 frames at half speed
+        REQUIRE(fitToFootage(cidSlow, 15));
+        REQUIRE(timeline->getClipPlaytime(cidSlow) == 30);
+        undoTo(speedState);
+        // 16 frames of footage last 8 frames at double speed
+        REQUIRE(fitToFootage(cidFast, 16));
+        REQUIRE(timeline->getClipPlaytime(cidFast) == 8);
+        undoTo(speedState);
+        // Reloading the bin clip with shorter footage fits each instance according to its speed
+        KdenliveTests::reloadShorterBinClip(limitedId, 16);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPlaytime(cidSlow) == 32);
+        REQUIRE(timeline->getClipPlaytime(cidFast) == 8);
+    }
+
+    SECTION("Shorter footage of a clip on a locked track")
+    {
+        state0();
+        const QString limitedId = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel, 50, true);
+        int cidA;
+        int cidB;
+        int cidC;
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 1200, cidA));
+        REQUIRE(timeline->requestItemResize(cidA, 20, true, true) == 20);
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 1220, cidB));
+        REQUIRE(timeline->requestItemResize(cidB, 20, true, true) == 20);
+        REQUIRE(timeline->mixClip(cidA));
+        REQUIRE(timeline->requestClipInsertion(limitedId, tid2, 1300, cidC));
+        REQUIRE(timeline->requestItemResize(cidC, 30, true, true) == 30);
+        timeline->setTrackLockedState(tid2, true);
+        auto mixCount = [&]() { return KdenliveTests::getTrackById_const(timeline, tid2)->mixCount(); };
+        // cidA has an end mix with its edit point at 1220, cidC has no mix
+        auto lockedState = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->trackIsLocked(tid2));
+            REQUIRE(mixCount() == 1);
+            REQUIRE(timeline->getClipPlaytime(cidA) == 32);
+            REQUIRE(timeline->getMixDuration(cidB) == 25);
+            REQUIRE(timeline->getMixCutPos(cidB) == 12);
+            REQUIRE(timeline->getClipPlaytime(cidC) == 30);
+        };
+        lockedState();
+        // The clips follow their footage despite the lock, their mixes too
+        auto fittedA = [&]() {
+            REQUIRE(timeline->checkConsistency());
+            REQUIRE(timeline->trackIsLocked(tid2));
+            REQUIRE(timeline->getClipPlaytime(cidA) == 26);
+            REQUIRE(timeline->getMixDuration(cidB) == 19);
+            REQUIRE(timeline->getMixCutPos(cidB) == 6);
+        };
+        REQUIRE(fitToFootage(cidA, 26));
+        fittedA();
+        // Undo and redo also bypass the lock
+        undoTo(lockedState);
+        undoStack->redo();
+        fittedA();
+        undoTo(lockedState);
+        REQUIRE(fitToFootage(cidC, 20));
+        REQUIRE(timeline->trackIsLocked(tid2));
+        REQUIRE(timeline->getClipPlaytime(cidC) == 20);
+        // The lock still prevents edits
+        REQUIRE(timeline->requestItemResize(cidC, 10, true, true) == -1);
+        REQUIRE(timeline->getClipPlaytime(cidC) == 20);
+        undoTo(lockedState);
+        // The footage of cidC ends before its start: it is deleted
+        const int clipsCount = timeline->getClipsCount();
+        REQUIRE(fitToFootage(cidC, 0));
+        REQUIRE_FALSE(timeline->isClip(cidC));
+        REQUIRE(timeline->getClipsCount() == clipsCount - 1);
+        REQUIRE(timeline->trackIsLocked(tid2));
+        undoTo(lockedState);
+        // Reloading the bin clip with shorter footage fits the instances on the locked track
+        const int undoIndex = undoStack->index();
+        KdenliveTests::reloadShorterBinClip(limitedId, 26);
+        REQUIRE(undoStack->index() == undoIndex + 1);
+        fittedA();
+        REQUIRE(timeline->getClipPlaytime(cidC) == 26);
     }
 
     timeline.reset();
