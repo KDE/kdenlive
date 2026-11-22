@@ -847,6 +847,15 @@ TimelineModel::MoveResult TimelineModel::requestClipMove(int clipId, int trackId
     }
     Q_ASSERT(isClip(clipId));
     if (m_allClips[clipId]->clipState() == PlaylistState::Disabled) {
+        // A disabled clip keeps the type of its track (it gets it back when enabled again)
+        int sourceTrack = m_allClips[clipId]->getCurrentTrackId();
+        if (sourceTrack == -1) {
+            sourceTrack = moving_clips.value(clipId, -1);
+        }
+        if (sourceTrack > -1 && isTrack(sourceTrack) && getTrackById_const(sourceTrack)->trackType() != getTrackById_const(trackId)->trackType()) {
+            qWarning() << "clip type mismatch for disabled clip";
+            return MoveErrorType;
+        }
         if (getTrackById_const(trackId)->trackType() == PlaylistState::AudioOnly && !m_allClips[clipId]->canBeAudio()) {
             qWarning() << "clip type mismatch 1";
             return MoveErrorAudio;

@@ -1621,3 +1621,37 @@ TEST_CASE("Undo a group cut while the cut parts are selected", "[GroupsModel]")
 
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
+
+TEST_CASE("A disabled clip keeps the type of its track", "[GroupsModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    KdenliveDoc document(undoStack);
+    pCore->projectManager()->testSetDocument(&document);
+    QDateTime documentDate = QDateTime::currentDateTime();
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    int videoTrack = timeline->getTrackIndexFromPosition(2);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
+
+    int videoClip;
+    REQUIRE(timeline->requestClipInsertion(binId, videoTrack, 100, videoClip));
+    int audioClip = timeline->getClipSplitPartner(videoClip);
+    REQUIRE(audioClip > -1);
+    int audioTrack = timeline->getClipTrackId(audioClip);
+    REQUIRE(TimelineFunctions::setClipsEnabled(timeline, {videoClip, audioClip}, false));
+    REQUIRE(timeline->checkConsistency());
+
+    // Moving the disabled video part alone to an audio track would put both parts of the AV group on audio tracks
+    REQUIRE_FALSE(timeline->requestClipMove(videoClip, audioTrack, 300, false, true, true));
+    REQUIRE(timeline->getClipTrackId(videoClip) == videoTrack);
+    REQUIRE(timeline->getClipPosition(videoClip) == 100);
+    REQUIRE(timeline->checkConsistency());
+
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}
