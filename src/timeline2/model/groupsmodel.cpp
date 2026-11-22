@@ -1103,7 +1103,7 @@ bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineCo
 
     if (checkTimelineConsistency) {
         if (auto ptr = m_parent.lock()) {
-            auto isTimelineObject = [&](int cid) { return ptr->isClip(cid) || ptr->isComposition(cid); };
+            auto isTimelineObject = [&](int cid) { return ptr->isClip(cid) || ptr->isComposition(cid) || ptr->isSubTitle(cid); };
             for (int g : ptr->m_allGroups) {
                 if (m_upLink.count(g) == 0 || getType(g) == GroupType::Leaf) {
                     qDebug() << "ERROR: Timeline contains inconsistent group data";
@@ -1113,7 +1113,7 @@ bool GroupsModel::checkConsistency(bool failOnSingleGroups, bool checkTimelineCo
             for (const auto &elem : m_upLink) {
                 if (getType(elem.first) == GroupType::Leaf) {
                     if (!isTimelineObject(elem.first)) {
-                        qDebug() << "ERROR: Group model contains leaf element that is not a clip nor a composition";
+                        qDebug() << "ERROR: Group model contains leaf element that is not a clip, a composition nor a subtitle";
                         return false;
                     }
                 } else {
