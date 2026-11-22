@@ -179,8 +179,14 @@ bool TimelineFunctions::processClipCut(const std::shared_ptr<TimelineItemModel> 
         const int oldCut = timeline->m_allClips[mix.secondClipId]->getMixCutPosition();
         const int oldCutPosition = mix.firstClipInOut.second - oldCut;
         // Splitting may put the old edit point outside the retained fragment. Keep
-        // at least one frame of that fragment if the mix is subsequently removed.
-        const int cutPosition = startMix ? qBound(mixIn, oldCutPosition, mixOut - 1) : qBound(mixIn + 1, oldCutPosition, mixOut);
+        // at least one frame of that fragment, and of the partner clip which may
+        // start or end with the mix, if the mix is subsequently removed.
+        const int minCut = startMix ? qMax(mixIn, mix.firstClipInOut.first + 1) : mixIn + 1;
+        const int maxCut = startMix ? mixOut - 1 : qMin(mixOut, mix.secondClipInOut.second - 1);
+        if (minCut > maxCut) {
+            return false;
+        }
+        const int cutPosition = qBound(minCut, oldCutPosition, maxCut);
         if (cutPosition != oldCutPosition) {
             auto updateCut = [timeline, trackId, secondId = mix.secondClipId](int cut) {
                 auto track = timeline->getTrackById_const(trackId);

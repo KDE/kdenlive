@@ -618,6 +618,26 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         }
     }
 
+    SECTION("Cut inside a mix keeps both clips visible")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        // Cutting cid3 where cid4 starts leaves a fragment fully covered by the mix
+        REQUIRE(TimelineFunctions::requestClipCut(timeline, cid3, 507));
+        const int fragment = timeline->getClipByPosition(tid2, 507, 0);
+        REQUIRE(timeline->getClipPosition(fragment) == 507);
+        // No edit point inside what remains of the mix after cutting cid4 at 508 keeps the fragment visible
+        const int undoIndex = undoStack->index();
+        REQUIRE_FALSE(TimelineFunctions::requestClipCut(timeline, cid4, 508));
+        REQUIRE(undoStack->index() == undoIndex);
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->requestItemDeletion(cid4));
+        REQUIRE(timeline->checkConsistency());
+        undoStack->undo();
+        undoStack->undo();
+        state2();
+    }
+
     SECTION("Cut inside chained mixes preserves the other mix")
     {
         REQUIRE(timeline->requestItemResize(cid4, 80, true) == 80);
