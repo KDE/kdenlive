@@ -401,6 +401,12 @@ bool TimelineFunctions::requestClipCut(const std::shared_ptr<TimelineItemModel> 
             return false;
         }
     }
+    if (count > 0) {
+        // Like the split above, undoing or redoing it must not happen inside a selection group
+        Fun unselect = [timeline]() { return timeline->requestClearSelection(); };
+        PUSH_FRONT_LAMBDA(unselect, undo);
+        PUSH_FRONT_LAMBDA(unselect, redo);
+    }
     if (count > 0 && trackToSelect > -1) {
         int newClip = timeline->getClipByPosition(trackToSelect, position, subLayerToSelect);
         if (newClip > -1) {
