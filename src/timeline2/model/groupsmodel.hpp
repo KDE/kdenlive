@@ -38,6 +38,8 @@ public:
     int groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &redo, GroupType type = GroupType::Normal, bool force = false);
 
 protected:
+    /** @brief Returns true if the given items can form an AVSplit group, i.e. they are exactly two leaves */
+    bool isValidAVSplit(const std::unordered_set<int> &ids) const;
     /* Lambda version */
     Fun groupItems_lambda(int gid, const std::unordered_set<int> &ids, GroupType type = GroupType::Normal, int parent = -1);
 

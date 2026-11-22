@@ -1535,3 +1535,56 @@ TEST_CASE("Complex Functions", "[GroupsModel]")
     }
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
+
+TEST_CASE("Grouping the audio part of an AV clip with another clip", "[GroupsModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    KdenliveDoc document(undoStack);
+    pCore->projectManager()->testSetDocument(&document);
+    QDateTime documentDate = QDateTime::currentDateTime();
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    int tidVideo = timeline->getTrackIndexFromPosition(2);
+    QString binId = KdenliveTests::createProducerWithSound(pCore->getProjectProfile(), binModel, 100);
+    QMap<int, QString> audioInfo;
+    audioInfo.insert(1, QStringLiteral("stream1"));
+    KdenliveTests::setAudioTargets(timeline, audioInfo);
+
+    // A video only clip (AV clip whose audio part was removed) and an AV clip from the same bin clip
+    int videoOnly;
+    REQUIRE(timeline->requestClipInsertion(binId, tidVideo, 100, videoOnly));
+    int removedAudio = timeline->getClipSplitPartner(videoOnly);
+    REQUIRE(timeline->requestClipUngroup(videoOnly));
+    REQUIRE(timeline->requestItemDeletion(removedAudio));
+    REQUIRE(timeline->getClipState(videoOnly).first == PlaylistState::VideoOnly);
+    REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(videoOnly) == videoOnly);
+    int avVideo;
+    REQUIRE(timeline->requestClipInsertion(binId, tidVideo, 300, avVideo));
+    int avAudio = timeline->getClipSplitPartner(avVideo);
+    REQUIRE(avAudio > -1);
+    int avGroup = KdenliveTests::groupsModel(timeline)->getRootId(avVideo);
+    REQUIRE(KdenliveTests::groupsModel(timeline)->getType(avGroup) == GroupType::AVSplit);
+    REQUIRE(timeline->checkConsistency());
+
+    // Grouping only the audio part (as with single selection) with the other clip must not create an AVSplit group
+    int gid = timeline->requestClipsGroup({avAudio, videoOnly});
+    REQUIRE(gid > -1);
+    auto check = [&]() {
+        REQUIRE(KdenliveTests::groupsModel(timeline)->getType(gid) == GroupType::Normal);
+        REQUIRE(KdenliveTests::groupsModel(timeline)->getDirectChildren(gid) == std::unordered_set<int>({avGroup, videoOnly}));
+        REQUIRE(KdenliveTests::groupsModel(timeline)->getType(avGroup) == GroupType::AVSplit);
+        REQUIRE(timeline->checkConsistency());
+    };
+    check();
+    undoStack->undo();
+    REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(videoOnly) == videoOnly);
+    REQUIRE(KdenliveTests::groupsModel(timeline)->getRootId(avAudio) == avGroup);
+    REQUIRE(timeline->checkConsistency());
+    undoStack->redo();
+    check();
+
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}

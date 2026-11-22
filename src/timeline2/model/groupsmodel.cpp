@@ -90,6 +90,10 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
         // We do not create a group with only one element. Instead, we return the id of that element
         return *(roots.begin());
     }
+    if (type == GroupType::AVSplit && !isValidAVSplit(roots)) {
+        qWarning() << "Invalid AVSplit group request, creating a normal group instead";
+        type = GroupType::Normal;
+    }
 
     int gid = TimelineModel::getNextId();
     auto operation = groupItems_lambda(gid, roots, type);
@@ -99,6 +103,12 @@ int GroupsModel::groupItems(const std::unordered_set<int> &ids, Fun &undo, Fun &
         return gid;
     }
     return -1;
+}
+
+bool GroupsModel::isValidAVSplit(const std::unordered_set<int> &ids) const
+{
+    // An AVSplit group is made of exactly two leaves (an audio and a video clip), never of other groups
+    return ids.size() == 2 && std::all_of(ids.begin(), ids.end(), [this](int id) { return isLeaf(id); });
 }
 
 bool GroupsModel::ungroupItem(int id, Fun &undo, Fun &redo, bool deleteOrphan)
