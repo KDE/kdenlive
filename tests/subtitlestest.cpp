@@ -222,6 +222,18 @@ surrounded by whitespace
         REQUIRE(subtitleModel->rowCount() == 0);
     }
 
+    SECTION("Subtitle snap points are registered once")
+    {
+        int subId = KdenliveTests::getNextId();
+        double fps = pCore->getCurrentFps();
+        REQUIRE(subtitleModel->addSubtitle(subId, {0, GenTime(50, fps)},
+                                           SubtitleEvent(true, GenTime(70, fps), "Default", "", 0, 0, 0, "", QStringLiteral("Hello")), false, false));
+        // The timeline snaps hold the subtitle start and end exactly once
+        REQUIRE(timeline->checkConsistency({50, 70}));
+        subtitleModel->removeAllSubtitles();
+        REQUIRE(timeline->checkConsistency());
+    }
+
     SECTION("Ensure 2 subtitles cannot be place at same frame position")
     {
         // In our current implementation, having 2 subtitles at same start time is not allowed
