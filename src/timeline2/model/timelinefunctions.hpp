@@ -130,6 +130,11 @@ struct TimelineFunctions
      */
     static bool requestSpacerEndOperation(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int startPosition, int endPosition, int affectedTrack,
                                           int moveGuidesPosition, Fun &undo, Fun &redo, bool pushUndo = true);
+    /** @brief Reverts the changes of requestSpacerStartOperation (snap point, selection, temporarily ungrouped items) when the operation is abandoned
+        without calling requestSpacerEndOperation
+        @see requestSpacerStartOperation
+     */
+    static void cancelSpacerOperation(const std::shared_ptr<TimelineItemModel> &timeline);
     static bool extractZone(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly, int clipToUnGroup = -1,
                             std::unordered_set<int> clipsToRegroup = {});
     static bool extractZoneWithUndo(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, bool liftOnly,
@@ -187,5 +192,7 @@ struct TimelineFunctions
     static int spacerMaxPos();
 
 private:
+    /** @brief Puts back the items that requestSpacerStartOperation removed from their groups */
+    static void restoreSpacerUngroupedItems(const std::shared_ptr<TimelineItemModel> &timeline);
     static bool getUsedTracks(const QDomNodeList &clips, const QDomNodeList &compositions, int masterSourceTrack, int &topAudioMirror, TimelineTracksInfo &allTracks, QList<int> &singleAudioTracks, std::unordered_map<int, int> &audioMirrors);
 };

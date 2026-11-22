@@ -4560,6 +4560,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
             std::pair<int, int> spacerOp = TimelineFunctions::requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position, true, true);
             int cid = spacerOp.first;
             if (cid == -1) {
+                TimelineFunctions::cancelSpacerOperation(timeline);
                 return false;
             }
             int endPos = getItemPosition(cid) + delta;

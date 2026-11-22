@@ -770,38 +770,53 @@ bool TimelineFunctions::requestSpacerEndOperation(const std::shared_ptr<Timeline
                 pCore->pushUndo(undo, redo, i18n("Remove space"));
             }
         }
-        // Regroup temporarily ungrouped items
-        QMapIterator<int, int> i(spacerUngroupedItems);
-        Fun local_undo = []() { return true; };
-        Fun local_redo = []() { return true; };
-        std::unordered_set<int> newlyGrouped;
-        while (i.hasNext()) {
-            i.next();
-            if (timeline->isItem(i.value())) {
-                if (newlyGrouped.count(i.value()) > 0) {
-                    Q_ASSERT(timeline->m_groups->isInGroup(i.value()));
-                    timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
-                } else {
-                    std::unordered_set<int> items = {i.key(), i.value()};
-                    timeline->m_groups->groupItems(items, local_undo, local_redo);
-                    newlyGrouped.insert(i.value());
-                }
+        restoreSpacerUngroupedItems(timeline);
+        return true;
+    }
+    spacer_undo();
+    restoreSpacerUngroupedItems(timeline);
+    return false;
+}
+
+void TimelineFunctions::restoreSpacerUngroupedItems(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    QMapIterator<int, int> i(spacerUngroupedItems);
+    Fun local_undo = []() { return true; };
+    Fun local_redo = []() { return true; };
+    std::unordered_set<int> newlyGrouped;
+    while (i.hasNext()) {
+        i.next();
+        if (timeline->isItem(i.value())) {
+            if (newlyGrouped.count(i.value()) > 0) {
+                Q_ASSERT(timeline->m_groups->isInGroup(i.value()));
+                timeline->m_groups->setInGroupOf(i.key(), i.value(), local_undo, local_redo);
             } else {
-                // i.value() is either a group (detectable via timeline->isGroup) or an empty group
-                if (timeline->isGroup(i.key())) {
-                    std::unordered_set<int> items = {i.key(), i.value()};
-                    timeline->m_groups->groupItems(items, local_undo, local_redo);
-                } else {
-                    timeline->m_groups->setGroup(i.key(), i.value());
-                }
+                std::unordered_set<int> items = {i.key(), i.value()};
+                timeline->m_groups->groupItems(items, local_undo, local_redo);
+                newlyGrouped.insert(i.value());
+            }
+        } else {
+            // i.value() is either a group (detectable via timeline->isGroup) or an empty group
+            if (timeline->isGroup(i.key())) {
+                std::unordered_set<int> items = {i.key(), i.value()};
+                timeline->m_groups->groupItems(items, local_undo, local_redo);
+            } else {
+                timeline->m_groups->setGroup(i.key(), i.value());
             }
         }
-        spacerUngroupedItems.clear();
-        return true;
-    } else {
-        spacer_undo();
     }
-    return false;
+    spacerUngroupedItems.clear();
+}
+
+void TimelineFunctions::cancelSpacerOperation(const std::shared_ptr<TimelineItemModel> &timeline)
+{
+    if (spacerMinPosition > -1) {
+        timeline->m_snaps->removePoint(spacerMinPosition);
+    }
+    spacerMinPosition = -1;
+    spacerMaxPosition = -1;
+    timeline->requestClearSelection();
+    restoreSpacerUngroupedItems(timeline);
 }
 
 bool TimelineFunctions::breakAffectedGroups(const std::shared_ptr<TimelineItemModel> &timeline, const QVector<int> &tracks, QPoint zone, Fun &undo, Fun &redo)
@@ -2971,18 +2986,20 @@ bool TimelineFunctions::requestDeleteBlankAt(const std::shared_ptr<TimelineItemM
     std::pair<int, int> spacerOp = requestSpacerStartOperation(timeline, affectAllTracks ? -1 : trackId, position);
     int cid = spacerOp.first;
     if (cid == -1 || spacerOp.second == -1) {
+        cancelSpacerOperation(timeline);
         return false;
     }
     int start = timeline->getItemPosition(cid);
     int spaceStart = start - spacerOp.second;
     if (spaceStart >= start) {
+        cancelSpacerOperation(timeline);
         return false;
     }
     // Start undoable command
     std::function<bool(void)> undo = []() { return true; };
     std::function<bool(void)> redo = []() { return true; };
-    requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, KdenliveSettings::lockedGuides() ? -1 : position, undo, redo);
-    return true;
+    return requestSpacerEndOperation(timeline, cid, start, spaceStart, affectAllTracks ? -1 : trackId, KdenliveSettings::lockedGuides() ? -1 : position, undo,
+                                     redo);
 }
 
 bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<TimelineItemModel> &timeline, int trackId, int position)
@@ -3020,7 +3037,7 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
                     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
                 }
             } else {
-                timeline->m_snaps->removePoint(spacerMinPosition);
+                cancelSpacerOperation(timeline);
                 if (timeline->getSubtitleModel()->isBlankAt(-1, blankStart)) {
                     blankStart = timeline->getSubtitleModel()->getBlankEnd(-1, blankStart) + 1;
                     if (blankStart == 1) {
@@ -3068,7 +3085,7 @@ bool TimelineFunctions::requestDeleteAllBlanksFrom(const std::shared_ptr<Timelin
                     UPDATE_UNDO_REDO_NOLOCK(local_redo, local_undo, undo, redo);
                 }
             } else {
-                timeline->m_snaps->removePoint(spacerMinPosition);
+                cancelSpacerOperation(timeline);
                 if (timeline->getTrackById_const(trackId)->isBlankAt(blankStart)) {
                     blankStart = timeline->getTrackById_const(trackId)->getBlankEnd(blankStart) + 1;
                 } else {

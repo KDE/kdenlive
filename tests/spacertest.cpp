@@ -234,6 +234,42 @@ TEST_CASE("Remove all spaces", "[Spacer]")
         undoStack->undo();
         state1();
     }
+    SECTION("Failed delete blank leaves no snap point nor selection")
+    {
+        // A clip right before cid1 prevents it from moving left, so its group with cid3 blocks the blank removal before cid2
+        QString shortBinId = KdenliveTests::createProducer(pCore->getProjectProfile(), "blue", binModel, 10);
+        int blockingClip;
+        REQUIRE(timeline->requestClipInsertion(shortBinId, tid1, 0, blockingClip));
+        REQUIRE(timeline->requestClipsGroup({cid1, cid3}) > -1);
+        REQUIRE_FALSE(TimelineFunctions::requestDeleteBlankAt(timeline, tid1, 50, false));
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
+        REQUIRE(timeline->getCurrentSelection().empty());
+        undoStack->undo();
+        undoStack->undo();
+        state1();
+    }
+    SECTION("Failed ripple trim restores the groups broken by the spacer")
+    {
+        // On tid2: grouped clips at 0, 40 and 60, cid4 at 20. Trimming the clip at 60 shifts the clip at 40 into cid4, while the clip at 0 is
+        // temporarily ungrouped by the spacer
+        int before;
+        int blocked;
+        int trimmed;
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 0, before));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 40, blocked));
+        REQUIRE(timeline->requestClipInsertion(binId, tid2, 60, trimmed));
+        REQUIRE(timeline->requestClipsGroup({before, blocked, trimmed}) > -1);
+        REQUIRE(timeline->requestItemRippleResize(timeline, trimmed, 17, false, true, false, 0, false) == -1);
+        REQUIRE(timeline->getGroupElements(before) == std::unordered_set<int>({before, blocked, trimmed}));
+        REQUIRE(timeline->getClipPosition(blocked) == 40);
+        REQUIRE(timeline->getClipPosition(trimmed) == 60);
+        REQUIRE(timeline->getClipPlaytime(trimmed) == 20);
+        REQUIRE(timeline->checkConsistency(timeline->getGuideModel()->getSnapPoints()));
+        for (int i = 0; i < 4; i++) {
+            undoStack->undo();
+        }
+        state1();
+    }
     SECTION("Failed spacer preserves incoming undo and redo")
     {
         auto guides = timeline->getGuideModel();
