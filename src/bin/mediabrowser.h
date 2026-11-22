@@ -9,6 +9,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 
 #include <KDirOperator>
 #include <QPointer>
+#include <QScrollArea>
 #include <QTimer>
 
 class KUrlNavigator;
@@ -30,7 +31,7 @@ class PreviewJob;
  * @class MediaBrowser
  * @brief The bin widget takes care of both item model and view upon project opening.
  */
-class MediaBrowser : public QWidget
+class MediaBrowser : public QScrollArea
 {
     Q_OBJECT
 

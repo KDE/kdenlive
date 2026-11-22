@@ -353,6 +353,7 @@ AssetListWidget::AssetListWidget(bool isEffect, QAction *includeList, QAction *t
 
     m_viewSplitter = new QSplitter(Qt::Vertical, this);
     m_viewSplitter->addWidget(m_effectsView);
+    m_viewSplitter->setMinimumHeight(m_searchLine->sizeHint().height());
     m_textEdit = new QTextBrowser(this);
     m_textEdit->setReadOnly(true);
     m_textEdit->setAcceptRichText(true);
