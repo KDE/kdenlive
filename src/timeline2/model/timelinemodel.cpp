@@ -1392,7 +1392,7 @@ bool TimelineModel::requestClipMix(const QString &mixId, std::pair<int, int> cli
 bool TimelineModel::requestFakeClipMove(int clipId, int trackId, int position, bool updateView, bool logUndo, bool invalidateTimeline)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline)
+    TRACE(clipId, trackId, position, updateView, logUndo, invalidateTimeline);
     Q_ASSERT(m_allClips.count(clipId) > 0);
     bool groupMove = m_groups->isInGroup(clipId);
     if (m_singleSelectionMode) {
@@ -4083,7 +4083,7 @@ bool TimelineModel::removeMix(int cid)
 int TimelineModel::requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
     const int previousSize = getItemLogicalPlaytime(itemId);
@@ -4232,7 +4232,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
                                            int snapDistance, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize)
+    TRACE(itemId, size, right, logUndo, snapDistance, allowSingleResize);
     Q_ASSERT(isItem(itemId));
     std::unordered_set<int> rippledItems{itemId};
     if (!m_singleSelectionMode && !allowSingleResize && m_groups->isInGroup(itemId)) {
@@ -4242,7 +4242,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
     const bool hasMix = std::any_of(rippledItems.begin(), rippledItems.end(),
                                     [this](int id) { return isClip(id) && getClipTrackId(id) > -1 && getTrackById_const(getClipTrackId(id))->hasMix(id); });
     if (size <= 0 || hasMix) {
-        TRACE_RES(-1)
+        TRACE_RES(-1);
         return -1;
     }
     int in = 0;
@@ -4497,7 +4497,7 @@ int TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMod
         }
     }
     int res = result ? size : -1;
-    TRACE_RES(res)
+    TRACE_RES(res);
     return res;
 }
 
@@ -4621,7 +4621,7 @@ bool TimelineModel::requestItemRippleResize(const std::shared_ptr<TimelineItemMo
 int TimelineModel::requestSlipSelection(int offset, bool logUndo)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(offset, logUndo)
+    TRACE(offset, logUndo);
 
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -4646,14 +4646,14 @@ int TimelineModel::requestSlipSelection(int offset, bool logUndo)
         PUSH_UNDO(undo, redo, i18ncp("Undo/Redo menu text", "Slip clip", "Slip clips", slipCount));
     }
     int res = result ? offset : 0;
-    TRACE_RES(res)
+    TRACE_RES(res);
     return res;
 }
 
 int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool allowSingleResize)
 {
     QWriteLocker locker(&m_lock);
-    TRACE(itemId, offset, logUndo, allowSingleResize)
+    TRACE(itemId, offset, logUndo, allowSingleResize);
     Q_ASSERT(isClip(itemId));
     Fun undo = []() { return true; };
     Fun redo = []() { return true; };
@@ -4681,7 +4681,7 @@ int TimelineModel::requestClipSlip(int itemId, int offset, bool logUndo, bool al
         PUSH_UNDO(undo, redo, i18n("Slip clip"))
     }
     int res = result ? offset : 0;
-    TRACE_RES(res)
+    TRACE_RES(res);
     return res;
 }
 
