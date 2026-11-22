@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 01:09+0000\n"
+"POT-Creation-Date: 2026-11-22 01:03+0000\n"
 "PO-Revision-Date: 2024-12-29 22:43+0530\n"
 "Last-Translator: kali <shreekantkalwar@gmail.com>\n"
 "Language-Team: Sanskrit <kde-i18n-doc@kde.org>\n"
@@ -10214,8 +10214,8 @@ msgstr "चित्रसमायोजनम्"
 msgid "Simple color adjustment"
 msgstr "चित्रसमायोजनम्"
 
-#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:404
-#: src/doc/kdenlivedoc.cpp:2751 src/project/dialogs/guidecategories.cpp:115
+#: data/effects/frei0r/frei0r_coloradj_rgb.xml:8 src/doc/kdenlivedoc.cpp:402
+#: src/doc/kdenlivedoc.cpp:2762 src/project/dialogs/guidecategories.cpp:115
 #: src/scopes/colorscopes/colorplaneexport.cpp:231
 #: src/scopes/colorscopes/colorplaneexport.cpp:259
 #, kde-format
@@ -10224,8 +10224,8 @@ msgstr "रक्त"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:11
 #: data/effects/hsl_primaries.xml:18 data/effects/hsl_primaries.xml:36
-#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:404
-#: src/doc/kdenlivedoc.cpp:2752 src/project/dialogs/guidecategories.cpp:115
+#: data/effects/hsl_primaries.xml:54 src/doc/kdenlivedoc.cpp:402
+#: src/doc/kdenlivedoc.cpp:2763 src/project/dialogs/guidecategories.cpp:115
 #: src/scopes/colorscopes/colorplaneexport.cpp:232
 #: src/scopes/colorscopes/colorplaneexport.cpp:260
 #: src/scopes/colorscopes/vectorscope.cpp:68
@@ -10236,8 +10236,8 @@ msgstr "हरित"
 
 #: data/effects/frei0r/frei0r_coloradj_rgb.xml:14
 #: data/effects/hsl_primaries.xml:24 data/effects/hsl_primaries.xml:42
-#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:405
-#: src/doc/kdenlivedoc.cpp:2753 src/project/dialogs/guidecategories.cpp:116
+#: data/effects/hsl_primaries.xml:60 src/doc/kdenlivedoc.cpp:403
+#: src/doc/kdenlivedoc.cpp:2764 src/project/dialogs/guidecategories.cpp:116
 #: src/scopes/colorscopes/colorplaneexport.cpp:233
 #: src/scopes/colorscopes/colorplaneexport.cpp:261
 #, kde-format
@@ -15374,16 +15374,16 @@ msgid "<b><u>Hue Shift</u></b> Red"
 msgstr "एच् एस वी ह्यू शिफ्ट"
 
 #: data/effects/hsl_primaries.xml:15 data/effects/hsl_primaries.xml:33
-#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:405
-#: src/doc/kdenlivedoc.cpp:2754 src/project/dialogs/guidecategories.cpp:116
+#: data/effects/hsl_primaries.xml:51 src/doc/kdenlivedoc.cpp:403
+#: src/doc/kdenlivedoc.cpp:2765 src/project/dialogs/guidecategories.cpp:116
 #: src/scopes/colorscopes/waveform.cpp:47
 #, kde-format
 msgid "Yellow"
 msgstr "पीतं"
 
 #: data/effects/hsl_primaries.xml:21 data/effects/hsl_primaries.xml:39
-#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:406
-#: src/doc/kdenlivedoc.cpp:2755 src/project/dialogs/guidecategories.cpp:117
+#: data/effects/hsl_primaries.xml:57 src/doc/kdenlivedoc.cpp:404
+#: src/doc/kdenlivedoc.cpp:2766 src/project/dialogs/guidecategories.cpp:117
 #, kde-format
 msgid "Cyan"
 msgstr "सियान्"
@@ -22779,7 +22779,7 @@ msgstr "स्रोतक्लिप् अनुपलब्धम्"
 msgid "Unable to write to file %1"
 msgstr "%1 सञ्चिकायां लेखितुं असमर्थः"
 
-#: src/bin/bin.cpp:2485 src/bin/bin.cpp:3293 src/doc/kdenlivedoc.cpp:783
+#: src/bin/bin.cpp:2485 src/bin/bin.cpp:3293 src/doc/kdenlivedoc.cpp:781
 #, kde-format
 msgid ""
 "Your project file was modified by Kdenlive.\n"
@@ -23347,7 +23347,7 @@ msgid "Please set a default application to open video files"
 msgstr "कृपया श्रव्यसञ्चिकाः उद्घाटयितुं पूर्वनिर्धारितं अनुप्रयोगं सेट् कुर्वन्तु"
 
 #: src/bin/bin.cpp:5658 src/core.cpp:712 src/core.cpp:740
-#: src/doc/kdenlivedoc.cpp:172 src/jobs/cliploadtask.cpp:494
+#: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
 #: src/profiles/profilerepository.cpp:205
@@ -25024,8 +25024,8 @@ msgid "Export Markers Data"
 msgstr "निर्यात मार्गदर्शकाः आँकडा"
 
 #: src/dialogs/exportguidesdialog.cpp:91 src/dialogs/renderwidget.cpp:2389
-#: src/dialogs/renderwidget.cpp:2419 src/doc/kdenlivedoc.cpp:800
-#: src/doc/kdenlivedoc.cpp:806 src/doc/kdenlivedoc.cpp:1411
+#: src/dialogs/renderwidget.cpp:2419 src/doc/kdenlivedoc.cpp:798
+#: src/doc/kdenlivedoc.cpp:804 src/doc/kdenlivedoc.cpp:1409
 #: src/effects/effectlist/model/effecttreemodel.cpp:309
 #: src/effects/effectlist/model/effecttreemodel.cpp:331
 #: src/effects/effectsrepository.cpp:433
@@ -26526,32 +26526,32 @@ msgstr "अभिलेखागारं निष्कासयन्…"
 msgid "New dictionary installed."
 msgstr "नवीनः शब्दकोशः संस्थापितः।"
 
-#: src/dialogs/settings/pluginssettings.cpp:1000
+#: src/dialogs/settings/pluginssettings.cpp:1026
 #, kde-format
 msgid ""
 "Nvidia GPU support for %1\n"
 "Select the CUDA version to install."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1004
+#: src/dialogs/settings/pluginssettings.cpp:1029
 #, kde-format
 msgid "CUDA %1"
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1017
+#: src/dialogs/settings/pluginssettings.cpp:1042
 #, fuzzy, kde-format
 #| msgid "Detected devices:"
 msgid "Detected version: %1"
 msgstr "ज्ञातानि यन्त्राणि :"
 
-#: src/dialogs/settings/pluginssettings.cpp:1020
+#: src/dialogs/settings/pluginssettings.cpp:1045
 #, kde-format
 msgid ""
 "Cannot determine CUDA version,\n"
 "please select the version available on your system."
 msgstr ""
 
-#: src/dialogs/settings/pluginssettings.cpp:1034
+#: src/dialogs/settings/pluginssettings.cpp:1059
 #, kde-format
 msgid ""
 "Only use this install option if your GPU\n"
@@ -28675,18 +28675,18 @@ msgstr "निम्नलिखित-छिद्रकाः/संक्र�
 msgid "The following filters/transitions were deleted from the project:"
 msgstr "परियोजनायाः निम्नलिखित-छिद्रकाणि/संक्रमणानि विलोपितानि आसन्:"
 
-#: src/doc/kdenlivedoc.cpp:164
+#: src/doc/kdenlivedoc.cpp:163
 #, kde-format
 msgid "Invalid file path"
 msgstr "अमान्यः सञ्चिकामार्गः"
 
-#: src/doc/kdenlivedoc.cpp:218 src/project/projectmanager.cpp:907
+#: src/doc/kdenlivedoc.cpp:217 src/project/projectmanager.cpp:907
 #: src/project/projectmanager.cpp:959
 #, kde-format
 msgid "Could not recover corrupted file."
 msgstr "दूषितसञ्चिकां पुनः प्राप्तुं न शक्तवान् ।"
 
-#: src/doc/kdenlivedoc.cpp:226
+#: src/doc/kdenlivedoc.cpp:225
 #, kde-format
 msgid ""
 "Cannot open file %1:\n"
@@ -28695,17 +28695,17 @@ msgstr ""
 "%1 सञ्चिकां उद्घाटयितुं न शक्यते:\n"
 "%2 (पङ्क्ति %3, कोल %4)"
 
-#: src/doc/kdenlivedoc.cpp:238
+#: src/doc/kdenlivedoc.cpp:236
 #, kde-format
 msgid "File %1 is not a Kdenlive project file"
 msgstr "%1 सञ्चिका Kdenlive परियोजना सञ्चिका नास्ति"
 
-#: src/doc/kdenlivedoc.cpp:245
+#: src/doc/kdenlivedoc.cpp:243
 #, kde-format
 msgid "File %1 is not a valid Kdenlive project file."
 msgstr "सञ्चिका %1 वैधः Kdenlive परियोजना सञ्चिका नास्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:258
+#: src/doc/kdenlivedoc.cpp:256
 #, kde-format
 msgid ""
 "GPU acceleration is turned off in Kdenlive settings, but is required for "
@@ -28714,7 +28714,7 @@ msgstr ""
 "GPU त्वरणं Kdenlive सेटिंग्स् मध्ये निष्क्रियं भवति, परन्तु अस्य परियोजनायाः Movit फ़िल्टर्स् "
 "कृते आवश्यकम् अस्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:301
+#: src/doc/kdenlivedoc.cpp:299
 #, fuzzy, kde-format
 #| msgid ""
 #| "The project directory %1, could not be created.\n"
@@ -28729,7 +28729,7 @@ msgstr ""
 "कृपया सुनिश्चितं कुर्वन्तु यत् भवतः समीपे आवश्यकाः अनुमतिः सन्ति।\n"
 "सिस्टम् समुच्चय प्रति पूर्वनिर्धारितम्"
 
-#: src/doc/kdenlivedoc.cpp:303
+#: src/doc/kdenlivedoc.cpp:301
 #, fuzzy, kde-format
 #| msgid "Document project folder is invalid, using system default folders"
 msgid ""
@@ -28738,17 +28738,17 @@ msgid ""
 "is invalid, using system default folders"
 msgstr "दस्तावेजप्रकल्पपुटम् अमान्यम् अस्ति, प्रणालीपूर्वनिर्धारितपुटस्य उपयोगेन"
 
-#: src/doc/kdenlivedoc.cpp:617 src/doc/kdenlivedoc.cpp:627
+#: src/doc/kdenlivedoc.cpp:615 src/doc/kdenlivedoc.cpp:625
 #, kde-format
 msgid "Cannot create autosave file %1"
 msgstr "%1 स्वतः रक्षितसञ्चिकां निर्मातुं न शक्यते"
 
-#: src/doc/kdenlivedoc.cpp:622 src/doc/kdenlivedoc.cpp:759
+#: src/doc/kdenlivedoc.cpp:620 src/doc/kdenlivedoc.cpp:757
 #, kde-format
 msgid "Cannot write to file %1, scene list is corrupted."
 msgstr "%1 सञ्चिकायां लिखितुं न शक्यते, दृश्यसूची दूषिता अस्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:779
+#: src/doc/kdenlivedoc.cpp:777
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version.\n"
@@ -28757,7 +28757,7 @@ msgstr ""
 "भवतः परियोजनासञ्चिका नवीनतमं Kdenlive दस्तावेजसंस्करणं प्रति उन्नयनं कृतम् ।\n"
 "भवान् दत्तांशं न हास्यति इति सुनिश्चित्य %1 इति बैकअप प्रतिलिपिः निर्मितवती ।"
 
-#: src/doc/kdenlivedoc.cpp:793
+#: src/doc/kdenlivedoc.cpp:791
 #, kde-format
 msgid ""
 "Your project file was upgraded to the latest Kdenlive document version, but "
@@ -28766,29 +28766,29 @@ msgstr ""
 "भवतः परियोजनासञ्चिका नवीनतमं Kdenlive दस्तावेजसंस्करणं प्रति उन्नयनं कृतम्, परन्तु %1 "
 "बैकअपप्रतिं निर्मातुं न शक्यते स्म ।"
 
-#: src/doc/kdenlivedoc.cpp:1009 src/project/projectmanager.cpp:1651
+#: src/doc/kdenlivedoc.cpp:1007 src/project/projectmanager.cpp:1651
 #: src/project/projectmanager.cpp:1695
 #, kde-format
 msgid "Error moving project folder: %1"
 msgstr "परियोजनापुटं स्थानान्तरयितुं त्रुटिः: %1"
 
-#: src/doc/kdenlivedoc.cpp:1205 src/doc/kdenlivedoc.cpp:2712
+#: src/doc/kdenlivedoc.cpp:1203 src/doc/kdenlivedoc.cpp:2723
 #: src/project/dialogs/archivewidget.cpp:304
 #, kde-format
 msgid "Untitled"
 msgstr "अनामिका"
 
-#: src/doc/kdenlivedoc.cpp:1418
+#: src/doc/kdenlivedoc.cpp:1416
 #, kde-format
 msgid "The following effects were imported from the project:"
 msgstr "परियोजनायाः निम्नलिखितप्रभावाः आयाताः आसन् ।"
 
-#: src/doc/kdenlivedoc.cpp:1451 src/doc/kdenlivedoc.cpp:1465
+#: src/doc/kdenlivedoc.cpp:1449 src/doc/kdenlivedoc.cpp:1463
 #, kde-format
 msgid "Project Folder"
 msgstr "परियोजना पुटम्"
 
-#: src/doc/kdenlivedoc.cpp:1509 src/doc/kdenlivedoc.cpp:1526
+#: src/doc/kdenlivedoc.cpp:1507 src/doc/kdenlivedoc.cpp:1524
 #, kde-format
 msgid ""
 "Cannot create backup copy:\n"
@@ -28797,55 +28797,55 @@ msgstr ""
 "बैकअप प्रतिलिपिं निर्मातुं न शक्यते:\n"
 "%1"
 
-#: src/doc/kdenlivedoc.cpp:1684
+#: src/doc/kdenlivedoc.cpp:1682
 #, kde-format
 msgid "Proxy clips are not intended for compositing or color grading."
 msgstr "प्रॉक्सी क्लिप्स् कम्पोजिटिङ्ग् अथवा वर्णग्रेडिंग् कृते न अभिप्रेताः ।"
 
-#: src/doc/kdenlivedoc.cpp:1686
+#: src/doc/kdenlivedoc.cpp:1684
 #, kde-format
 msgid "The clip has an alpha channel. "
 msgid_plural "The clips have an alpha channel. "
 msgstr[0] "क्लिप् इत्यस्य अल्फा चैनल् अस्ति ।"
 msgstr[1] "क्लिप्स् मध्ये अल्फा चैनल् अस्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:1692
+#: src/doc/kdenlivedoc.cpp:1690
 #, kde-format
 msgid "You have a clip with an alpha channel. "
 msgid_plural "You have %1 clips with an alpha channel. "
 msgstr[0] "भवतः समीपे अल्फा-चैनल-युक्तः क्लिप् अस्ति ।"
 msgstr[1] "भवतः %1 क्लिप्स् अल्फा चैनल् इत्यनेन सह सन्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:1694
+#: src/doc/kdenlivedoc.cpp:1692
 #, kde-format
 msgid "Proxy all clips"
 msgstr "सर्वाणि क्लिप्स् प्रॉक्सी कुर्वन्तु"
 
-#: src/doc/kdenlivedoc.cpp:1695
+#: src/doc/kdenlivedoc.cpp:1693
 #, kde-format
 msgid "Proxy clips without alpha only"
 msgstr "केवलं अल्फा विना प्रॉक्सी क्लिप्स्"
 
-#: src/doc/kdenlivedoc.cpp:1711
+#: src/doc/kdenlivedoc.cpp:1709
 #, kde-format
 msgid "Add proxy clip"
 msgid_plural "Add proxy clips"
 msgstr[0] "प्रॉक्सी क्लिप् योजयन्तु"
 msgstr[1] "प्रॉक्सी क्लिप्स् योजयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:1713
+#: src/doc/kdenlivedoc.cpp:1711
 #, kde-format
 msgid "Remove proxy clip"
 msgid_plural "Remove proxy clips"
 msgstr[0] "प्रॉक्सी क्लिप् निष्कासयन्तु"
 msgstr[1] "प्रॉक्सी क्लिप्स् निष्कासयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:1759 src/doc/kdenlivedoc.cpp:1819
+#: src/doc/kdenlivedoc.cpp:1757 src/doc/kdenlivedoc.cpp:1817
 #, kde-format
 msgid "Clip type does not support proxies"
 msgstr "क्लिप् प्रकारः प्रॉक्सी समर्थयति न"
 
-#: src/doc/kdenlivedoc.cpp:1969
+#: src/doc/kdenlivedoc.cpp:1967
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains suspicious proxy parameters. This command "
@@ -28854,7 +28854,7 @@ msgid ""
 "discarded."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1978
+#: src/doc/kdenlivedoc.cpp:1976
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains an unknown proxy profile, it will be "
@@ -28864,20 +28864,20 @@ msgid ""
 "these parameters:<br><code>%2<br>Extension: %3</code>"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:1985
+#: src/doc/kdenlivedoc.cpp:1983
 #, fuzzy, kde-format
 #| msgid "Abort processing"
 msgid "Abort Loading"
 msgstr "प्रसंस्करणं निरस्तं कुर्वन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2012
+#: src/doc/kdenlivedoc.cpp:2010
 #, fuzzy, kde-format
 #| msgid "Warning"
 msgctxt "@title:window"
 msgid "Warning"
 msgstr "चेतवानी"
 
-#: src/doc/kdenlivedoc.cpp:2014
+#: src/doc/kdenlivedoc.cpp:2012
 #, kde-format
 msgid ""
 "Project file <b>%1</b> contains unexpected parameters for proxy creation. "
@@ -28885,7 +28885,7 @@ msgid ""
 "b></code><br><br>These parameters will be discarded unless you allow them."
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2106
+#: src/doc/kdenlivedoc.cpp:2104
 #, kde-format
 msgctxt "@label:textbox"
 msgid ""
@@ -28895,18 +28895,18 @@ msgstr ""
 "परियोजना अमानक फ्रेमरेट् (%1) उपयुज्यते, एतस्य परिणामः भवति यत् दुर्स्थापिताः क्लिप्स् तथा "
 "फ्रेम ऑफसेट् च भविष्यन्ति ।"
 
-#: src/doc/kdenlivedoc.cpp:2117
+#: src/doc/kdenlivedoc.cpp:2115
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Project's video profile is corrupted, using default one"
 msgstr ""
 
-#: src/doc/kdenlivedoc.cpp:2228
+#: src/doc/kdenlivedoc.cpp:2226
 #, kde-format
 msgid "Warning: non standard fps, adjusting to closest integer. "
 msgstr "चेतावनी: गैर-मानक fps, निकटतमपूर्णाङ्कं समायोजयति। "
 
-#: src/doc/kdenlivedoc.cpp:2246
+#: src/doc/kdenlivedoc.cpp:2257
 #, kde-format
 msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
@@ -28915,43 +28915,43 @@ msgstr ""
 "भवतः पूर्वनिर्धारितं परियोजनारूपरेखा %1 अस्ति, परन्तु भवतः क्लिप्-रूपरेखा (%2) %3 अस्ति ।\n"
 "किं भवान् भविष्यस्य परियोजनानां कृते पूर्वनिर्धारितरूपरेखा परिवर्तयितुम् इच्छति?"
 
-#: src/doc/kdenlivedoc.cpp:2248
+#: src/doc/kdenlivedoc.cpp:2259
 #, kde-format
 msgid "Change default project profile"
 msgstr "पूर्वनिर्धारितं परियोजनारूपरेखां परिवर्तयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2248
+#: src/doc/kdenlivedoc.cpp:2259
 #, kde-format
 msgid "Change default to %1"
 msgstr "पूर्वनिर्धारितं %1 इति परिवर्तयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2249
+#: src/doc/kdenlivedoc.cpp:2260
 #, kde-format
 msgid "Keep current default %1"
 msgstr "वर्तमानं पूर्वनिर्धारितं %1 स्थापयन्तु"
 
-#: src/doc/kdenlivedoc.cpp:2249
+#: src/doc/kdenlivedoc.cpp:2260
 #, kde-format
 msgid "Ask me later"
 msgstr "पश्चात् मां पृच्छतु"
 
-#: src/doc/kdenlivedoc.cpp:2269
+#: src/doc/kdenlivedoc.cpp:2280
 #, kde-format
 msgid "Switch"
 msgstr "नुदति"
 
 #. i18n: ectx: property (text), widget (QPushButton, cancelButton)
-#: src/doc/kdenlivedoc.cpp:2271 src/ui/titlewidget_ui.ui:186
+#: src/doc/kdenlivedoc.cpp:2282 src/ui/titlewidget_ui.ui:186
 #, kde-format
 msgid "Cancel"
 msgstr "निरसयतु"
 
-#: src/doc/kdenlivedoc.cpp:2273
+#: src/doc/kdenlivedoc.cpp:2284
 #, kde-format
 msgid "Switch to clip (%1) profile %2?"
 msgstr "क्लिप् (%1) प्रोफाइल %2 प्रति स्विच् कुर्वन्तु?"
 
-#: src/doc/kdenlivedoc.cpp:2278
+#: src/doc/kdenlivedoc.cpp:2289
 #, kde-format
 msgid ""
 "\n"
@@ -28960,7 +28960,7 @@ msgstr ""
 "\n"
 "मूल %1 तः समायोजितं प्रोफाइल fps"
 
-#: src/doc/kdenlivedoc.cpp:2282
+#: src/doc/kdenlivedoc.cpp:2293
 #, kde-format
 msgid ""
 "No profile found for your clip %1.\n"
@@ -28970,7 +28970,7 @@ msgstr ""
 "नूतनं प्रोफाइलं रचयन्तु (%2x%3, %4fps)?%5"
 
 #. i18n: ectx: property (text), widget (QLabel, label_category)
-#: src/doc/kdenlivedoc.cpp:3110 src/ui/markerdialog_ui.ui:121
+#: src/doc/kdenlivedoc.cpp:3121 src/ui/markerdialog_ui.ui:121
 #: src/ui/multiplemarkerdialog_ui.ui:68
 #, kde-format
 msgid "Category"
