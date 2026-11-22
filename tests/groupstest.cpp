@@ -17,6 +17,7 @@
 #include "project/projectmanager.h"
 #include "timeline2/model/clipmodel.hpp"
 #include "timeline2/model/groupsmodel.hpp"
+#include "timeline2/model/timelinefunctions.hpp"
 #include "timeline2/model/timelinemodel.hpp"
 #include "timeline2/model/trackmodel.hpp"
 
@@ -1585,6 +1586,38 @@ TEST_CASE("Grouping the audio part of an AV clip with another clip", "[GroupsMod
     REQUIRE(timeline->checkConsistency());
     undoStack->redo();
     check();
+
+    pCore->projectManager()->closeCurrentDocument(false, false);
+}
+
+TEST_CASE("Undo a group cut while the cut parts are selected", "[GroupsModel]")
+{
+    auto binModel = pCore->projectItemModel();
+    std::shared_ptr<DocUndoStack> undoStack = std::make_shared<DocUndoStack>(nullptr);
+    KdenliveDoc document(undoStack);
+    pCore->projectManager()->testSetDocument(&document);
+    QDateTime documentDate = QDateTime::currentDateTime();
+    KdenliveTests::updateTimeline(false, QString(), QString(), documentDate, 0);
+    auto timeline = document.getTimeline(document.uuid());
+    pCore->projectManager()->testSetActiveTimeline(timeline);
+
+    int tid1 = timeline->getTrackIndexFromPosition(3);
+    int tid2 = timeline->getTrackIndexFromPosition(2);
+    QString binId = KdenliveTests::createProducer(pCore->getProjectProfile(), "red", binModel, 20, true);
+    int cid1;
+    int cid2;
+    REQUIRE(timeline->requestClipInsertion(binId, tid1, 10, cid1));
+    REQUIRE(timeline->requestClipInsertion(binId, tid2, 30, cid2));
+    REQUIRE(timeline->requestClipsGroup({cid1, cid2}) > -1);
+    REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 40));
+    REQUIRE(TimelineFunctions::requestClipCut(timeline, cid1, 24));
+    // After the second cut, cid1 and the part of cid2 after 40 are both ungrouped: select them together
+    REQUIRE(timeline->requestSetSelection({cid1, timeline->getClipByPosition(tid2, 40)}));
+    undoStack->undo();
+    REQUIRE(timeline->checkConsistency());
+    REQUIRE(timeline->getGroupElements(cid1) == std::unordered_set<int>({cid1, cid2}));
+    undoStack->redo();
+    REQUIRE(timeline->checkConsistency());
 
     pCore->projectManager()->closeCurrentDocument(false, false);
 }
