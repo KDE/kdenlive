@@ -618,6 +618,29 @@ TEST_CASE("Simple Mix", "[SameTrackMix]")
         }
     }
 
+    SECTION("Reverting a group drag preview restores a mixed clip overlapping its partner")
+    {
+        REQUIRE(timeline->mixClip(cid4));
+        state2();
+        int other;
+        REQUIRE(timeline->requestClipInsertion(binId2, tid2, 400, other));
+        REQUIRE(timeline->requestClipsGroup({other, cid4}) > -1);
+        // The preview moves cid4 to the left of its mix partner cid3
+        REQUIRE(timeline->suggestClipMove(cid4, tid2, 300, -1, 0).at(0).toInt() == 300);
+        REQUIRE(timeline->getClipPosition(other) == 193);
+        // Reverting the drag puts cid4 back on cid3, which only the mix allows
+        REQUIRE(timeline->requestClipMove(cid4, tid2, 507, true, true, false, false, true));
+        REQUIRE(timeline->checkConsistency());
+        REQUIRE(timeline->getClipPosition(other) == 400);
+        REQUIRE(timeline->getClipPosition(cid3) == 500);
+        REQUIRE(timeline->getClipPosition(cid4) == 507);
+        REQUIRE(timeline->getClipSubPlaylistIndex(cid4) == 1);
+        REQUIRE(timeline->getMixDuration(cid4) == 25);
+        undoStack->undo();
+        undoStack->undo();
+        state2();
+    }
+
     SECTION("Cut inside a mix keeps both clips visible")
     {
         REQUIRE(timeline->mixClip(cid4));
