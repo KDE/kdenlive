@@ -252,6 +252,10 @@ public:
     int getItemPlaytime(int itemId) const;
     /** @brief Returns an item's out point on its track, item can be clip, subtitle or composition */
     int getItemEnd(int itemId) const;
+    /** @brief Returns the logical position of an item: for a clip with a mix at its start, this is the mix cut (edit point), otherwise its position */
+    int getItemLogicalPosition(int itemId) const;
+    /** @brief Returns the logical duration of an item: the clip extent between the edit points of its mixes, otherwise its playtime */
+    Q_INVOKABLE int getItemLogicalPlaytime(int itemId) const;
     /** @brief Returns a clip in / out frames */
     std::pair<int, int> getClipInOut(int cid) const;
     bool clipIsValid(int cid) const;
@@ -630,8 +634,10 @@ public:
      *  This action is undoable
      *  Returns the real size reached (can be different, if snapping occurs).
      *  If it fails, nothing is modified, and -1 is returned
+     *  Sizes are logical (see getItemLogicalPlaytime): the edge of a clip facing a mix partner can only move away from the partner, which deletes the
+     *  mix. Shrinking the other edge caps the partner's side of the mix to the new logical size.
      *  @param itemId is the ID of the item
-     *  @param size is the new size of the item
+     *  @param size is the new logical size of the item
      *  @param right is true if we change the right side of the item, false otherwise
      *  @param logUndo if set to true, an undo object is created
      *  @param snap if set to true, the resize order will be coerced to use the snapping grid
@@ -639,9 +645,11 @@ public:
      *  time)
      */
     Q_INVOKABLE int requestItemResize(int itemId, int size, bool right, bool logUndo = true, int snapDistance = -1, bool allowSingleResize = false);
+    /** @brief Same function, accumulating undo and redo */
+    int requestItemResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize, Fun &undo, Fun &redo);
 
-    /** @brief Same function, but accumulates undo and redo and doesn't deal with snapping*/
-    bool requestItemResize(int itemId, int &size, bool right, bool logUndo, Fun &undo, Fun &redo, bool blockUndo = false);
+    /** @brief Same function for a single item (no group), but accumulates undo and redo and doesn't deal with snapping*/
+    bool requestItemResize(int itemId, int size, bool right, bool logUndo, Fun &undo, Fun &redo);
 
     /** @brief @todo TODO */
     int requestItemRippleResize(const std::shared_ptr<TimelineItemModel> &timeline, int itemId, int size, bool right, bool logUndo = true,
@@ -677,6 +685,7 @@ public:
     Q_INVOKABLE int requestItemSpeedChange(int itemId, int size, bool right, int snapDistance);
     /** @brief Returns a list of {id, position duration} for all elements in the group*/
     Q_INVOKABLE const QVariantList getGroupData(int itemId);
+    /** @brief Resize the items of a group from their start data to their end data (as returned by getGroupData), the items being in their start state */
     Q_INVOKABLE void processGroupResize(QVariantList startPosList, QVariantList endPosList, bool right);
 
     Q_INVOKABLE int requestClipResizeAndTimeWarp(int itemId, int size, bool right, int snapDistance, bool allowSingleResize, double speed);
@@ -881,17 +890,20 @@ public:
     /** @brief Inform asset view of duration change
      */
     virtual void adjustAssetRange(int clipId, int in, int out);
-    /** @brief Reload a timeline clip occurrence from its bin clip.
-     *  @returns true if the timeline clip was shortened by the reload operation
+    /** @brief Reload a timeline clip occurrence from its bin clip. If its footage is now shorter, the clip is first fitted to it (see limitClipMaxDuration)
+     *  @returns true if the timeline clip was shortened or deleted by the reload operation
      */
     bool requestClipReload(int clipId, int forceDuration, Fun &local_undo, Fun &local_redo);
     /** @brief Extract a clip from its group hierarchy if needed, then delete it. Other items stay grouped.
        On failure, nothing is changed and undo/redo are left untouched */
     bool requestClipExtractAndDeletion(int clipId, Fun &undo, Fun &redo);
-    /** @brief Ensure a clip occurrence is not longer than maxDuration
-     *  @returns true if the timeline clip was shortened by the operation
+    /** @brief Ensure a clip occurrence doesn't use bin footage beyond maxDuration frames (before any speed change), by shortening its end. Its mixes follow:
+     * the part of its end mix after the edit point shrinks, or the mix is removed when the footage ends before it, and the start mix is capped. A clip whose
+     * footage ends before its logical start is deleted. This is done even on a locked track, as the clip has to match its footage. On failure, nothing is
+     * changed.
+     *  @returns true if the timeline clip was shortened or deleted by the operation
      */
-    bool limitClipMaxDuration(int clipId, int maxDuration, Fun &local_undo, Fun &local_redo);
+    bool limitClipMaxDuration(int clipId, int maxDuration, Fun &undo, Fun &redo);
     void requestClipUpdate(int clipId, const QVector<int> &roles);
     /** @brief define current edit mode (normal, insert, overwrite */
     void setEditMode(TimelineMode::EditMode mode);
@@ -964,10 +976,18 @@ public:
     void importMasterEffects(std::weak_ptr<Mlt::Service> service);
     /** @brief Create a mix selection with currently selected clip. If delta = -1, mix with previous clip, +1 with next clip and 0 will check cursor position*/
     bool mixClip(int idToMove = -1, const QString &mixId = QStringLiteral("luma"), int delta = 0);
-    Q_INVOKABLE bool resizeStartMix(int cid, int duration, bool singleResize);
+    /** @brief Change one side of the mix at the start of clip cid: the part before the edit point (beforeCut) or after it, keeping the other one.
+     *  The side is clamped to the partner's outer edge and to the available footage, and the mix keeps at least one frame.
+     *  Unless singleResize, the matching mix of the split partner is changed too. This action is undoable
+     *  Returns the side reached, or -1 if it fails */
+    Q_INVOKABLE int requestResizeMixSide(int cid, int frames, bool beforeCut, bool singleResize);
+    /** @brief Same function, accumulating undo and redo */
+    int requestResizeMixSide(int cid, int frames, bool beforeCut, bool singleResize, Fun &undo, Fun &redo);
     void requestResizeMix(int cid, int duration, MixAlignment align, int leftFrames = -1);
     /** @brief Get Mix cut pos (the duration of the mix on the right clip) */
-    int getMixCutPos(int cid) const;
+    Q_INVOKABLE int getMixCutPos(int cid) const;
+    /** @brief Returns the second clip of the mix at the end of clipId, or -1 */
+    Q_INVOKABLE int getClipEndMixPartner(int clipId) const;
     MixAlignment getMixAlign(int cid) const;
     bool hasSubtitleModel();
     bool hasSubtitles() const;
@@ -997,6 +1017,12 @@ public:
     void loadPreview(const QString &chunks, const QString &dirty, bool enable, Mlt::Playlist &playlist);
 
 protected:
+    /** @brief Durations of the parts before and after the edit point of the mix at the start of clip cid */
+    std::pair<int, int> getMixSides(int cid) const;
+    /** @brief Maximum durations of the parts before and after the edit point of the mix at the start of clip cid */
+    std::pair<int, int> getMixSideLimits(int cid) const;
+    /** @brief Number of frames of the timeline clip clipId's producer for sourceDuration frames of bin footage, rounded like its timewarp producer */
+    int getClipFootageDuration(int clipId, int sourceDuration) const;
     /** @brief Register a new track. This is a call-back meant to be called from TrackModel
        @param pos indicates the number of the track we are adding. If this is -1, then we add at the end.
      */

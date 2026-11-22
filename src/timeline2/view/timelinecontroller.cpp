@@ -57,6 +57,7 @@
 #include <QtMath>
 
 #include <memory>
+#include <utility>
 
 TimelineController::TimelineController(QObject *parent)
     : QObject(parent)
@@ -116,6 +117,7 @@ void TimelineController::setModel(std::shared_ptr<TimelineItemModel> model, bool
     m_lastVideoTarget = -1;
     m_lastAudioTarget.clear();
     m_usePreview = false;
+    m_resizePreviewUndo = nullptr;
     m_model = model;
     m_previewDisabled = !previewEnabled;
     m_activeSnaps.clear();
@@ -1292,7 +1294,7 @@ void TimelineController::setInPoint(bool ripple)
     auto requestResize = [this, ripple](int id, int size) {
         if (ripple) {
             m_model->requestItemRippleResize(m_model, id, size, false, true, !KdenliveSettings::lockedGuides(), 0, false);
-            setPosition(m_model->getItemPosition(id));
+            setPosition(m_model->getItemLogicalPosition(id));
         } else {
             m_model->requestItemResize(id, size, false, true, 0, false);
         }
@@ -1302,11 +1304,11 @@ void TimelineController::setInPoint(bool ripple)
     bool selectionFound = false;
     if (!selection.empty()) {
         for (int id : selection) {
-            int start = m_model->getItemPosition(id);
+            int start = m_model->getItemLogicalPosition(id);
             if (start == cursorPos) {
                 continue;
             }
-            int size = start + m_model->getItemPlaytime(id) - cursorPos;
+            int size = start + m_model->getItemLogicalPlaytime(id) - cursorPos;
             requestResize(id, size);
             selectionFound = true;
             if (ripple) {
@@ -1326,9 +1328,9 @@ void TimelineController::setInPoint(bool ripple)
                 }
             }
             if (cid >= 0) {
-                int start = m_model->getItemPosition(cid);
+                int start = m_model->getItemLogicalPosition(cid);
                 if (start != cursorPos) {
-                    int size = start + m_model->getItemPlaytime(cid) - cursorPos;
+                    int size = start + m_model->getItemLogicalPlaytime(cid) - cursorPos;
                     requestResize(cid, size);
                     selectionFound = true;
                 }
@@ -1350,9 +1352,9 @@ void TimelineController::setInPoint(bool ripple)
                     sid = *sids.begin();
                 }
                 if (sid > -1) {
-                    int start = m_model->getItemPosition(sid);
+                    int start = m_model->getItemLogicalPosition(sid);
                     if (start != cursorPos) {
-                        int size = start + m_model->getItemPlaytime(sid) - cursorPos;
+                        int size = start + m_model->getItemLogicalPlaytime(sid) - cursorPos;
                         requestResize(sid, size);
                         selectionFound = true;
                     }
@@ -1385,8 +1387,8 @@ void TimelineController::setOutPoint(bool ripple)
     bool selectionFound = false;
     if (!selection.empty()) {
         for (int id : selection) {
-            int start = m_model->getItemPosition(id);
-            if (start + m_model->getItemPlaytime(id) == cursorPos) {
+            int start = m_model->getItemLogicalPosition(id);
+            if (start + m_model->getItemLogicalPlaytime(id) == cursorPos) {
                 continue;
             }
             int size = cursorPos - start;
@@ -1397,7 +1399,7 @@ void TimelineController::setOutPoint(bool ripple)
     if (!selectionFound) {
         if (m_activeTrack >= 0) {
             int cid = m_model->getClipByPosition(m_activeTrack, cursorPos, activeSubLayer());
-            if (cid < 0 || cursorPos == m_model->getItemPosition(cid)) {
+            if (cid < 0 || cursorPos == m_model->getItemLogicalPosition(cid)) {
                 // If no clip found at cursor pos or we are at the first frame of a clip, try to find previous clip
                 // Check first item before timeline position
                 // If we are at a clip start, check space before this clip
@@ -1406,8 +1408,8 @@ void TimelineController::setOutPoint(bool ripple)
                 cid = m_model->getClipByPosition(m_activeTrack, qMax(0, previousPos - 1), activeSubLayer());
             }
             if (cid >= 0) {
-                int start = m_model->getItemPosition(cid);
-                if (start + m_model->getItemPlaytime(cid) != cursorPos) {
+                int start = m_model->getItemLogicalPosition(cid);
+                if (start + m_model->getItemLogicalPlaytime(cid) != cursorPos) {
                     int size = cursorPos - start;
                     requestResize(cid, size);
                     selectionFound = true;
@@ -1430,8 +1432,8 @@ void TimelineController::setOutPoint(bool ripple)
                     sid = *sids.begin();
                 }
                 if (sid > -1) {
-                    int start = m_model->getItemPosition(sid);
-                    if (start + m_model->getItemPlaytime(sid) != cursorPos) {
+                    int start = m_model->getItemLogicalPosition(sid);
+                    if (start + m_model->getItemLogicalPlaytime(sid) != cursorPos) {
                         int size = cursorPos - start;
                         requestResize(sid, size);
                         selectionFound = true;
@@ -2603,6 +2605,38 @@ void TimelineController::removeSplitOverlay()
 int TimelineController::requestItemRippleResize(int itemId, int size, bool right, bool logUndo, int snapDistance, bool allowSingleResize)
 {
     return m_model->requestItemRippleResize(m_model, itemId, size, right, logUndo, !KdenliveSettings::lockedGuides(), snapDistance, allowSingleResize);
+}
+
+int TimelineController::applyResizePreview(const std::function<int(Fun &, Fun &)> &operation)
+{
+    revertResizePreview();
+    Fun undo = []() { return true; };
+    Fun redo = []() { return true; };
+    const int result = operation(undo, redo);
+    if (result > -1) {
+        m_resizePreviewUndo = std::move(undo);
+    }
+    return result;
+}
+
+int TimelineController::requestItemResizePreview(int itemId, int size, bool right, int snapDistance, bool allowSingleResize)
+{
+    return applyResizePreview(
+        [&](Fun &undo, Fun &redo) { return m_model->requestItemResize(itemId, size, right, false, snapDistance, allowSingleResize, undo, redo); });
+}
+
+int TimelineController::requestResizeMixSidePreview(int cid, int frames, bool beforeCut, bool singleResize)
+{
+    return applyResizePreview([&](Fun &undo, Fun &redo) { return m_model->requestResizeMixSide(cid, frames, beforeCut, singleResize, undo, redo); });
+}
+
+void TimelineController::revertResizePreview()
+{
+    if (m_resizePreviewUndo) {
+        const Fun revert = std::exchange(m_resizePreviewUndo, nullptr);
+        bool reverted = revert();
+        Q_ASSERT(reverted);
+    }
 }
 
 void TimelineController::updateTrimmingMode()

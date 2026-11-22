@@ -100,6 +100,8 @@ Rectangle {
     property int originalTrackId: -1
     property int originalX: x
     property int originalDuration: clipDuration
+    // Duration of the clip between the edit points of its mixes, resize requests use it
+    property int originalLogicalDuration: clipDuration
     property int lastValidDuration: clipDuration
     property int draggedX: x
     property double xIntegerOffset: 0
@@ -666,7 +668,9 @@ Rectangle {
                         }
                         onReleased: mouse => {
                             if (sizeChanged) {
-                                clipRoot.controller.resizeStartMix(clipRoot.clipId, Math.round(Math.max(0, x) / clipRoot.timeScale), mouse.modifiers & Qt.ShiftModifier)
+                                // Part of the mix after the edit point, the model keeps it within the limits of the mix
+                                const after = Math.round(Math.max(0, x) / clipRoot.timeScale) - (clipRoot.mixDuration - clipRoot.mixCut)
+                                clipRoot.controller.requestResizeMixSide(clipRoot.clipId, after, false, mouse.modifiers & Qt.ShiftModifier)
                                 sizeChanged = false
                             }
                             anchors.left = parent.left
@@ -1133,16 +1137,23 @@ Rectangle {
                 property bool controlTrim: false
                 property bool sizeChanged: false
                 property int lastDuration
+                // With a mix at clip start, dragging changes the part of the mix before the edit point
+                property bool mixTrim: false
+                property int mixBefore
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 onPressed: mouse => {
                     clipRoot.originalX = clipRoot.x
                     clipRoot.originalDuration = clipRoot.clipDuration
+                    clipRoot.originalLogicalDuration = clipRoot.controller.getItemLogicalPlaytime(clipRoot.clipId)
                     lastDuration = clipRoot.clipDuration
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
                     controlTrim = mouse.modifiers & Qt.ControlModifier
                                     && clipRoot.itemType != K.ClipType.Color && clipRoot.itemType != K.ClipType.Timeline
                                     && clipRoot.itemType != K.ClipType.Playlist && clipRoot.itemType != K.ClipType.Image
-                    if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
+                    mixTrim = K.Core.activeTool === K.ToolType.SelectTool && !controlTrim && clipRoot.mixDuration > 0
+                    if (mixTrim) {
+                        mixBefore = clipRoot.mixDuration - clipRoot.mixCut
+                    } else if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (K.Core.activeTool === K.ToolType.RippleTool) { //TODO
@@ -1152,7 +1163,13 @@ Rectangle {
                 onReleased: {
                     trimIn.opacity = 0
                     x = -itemBorder.border.width
-                    if (sizeChanged) {
+                    if (sizeChanged && mixTrim) {
+                        sizeChanged = false
+                        clipRoot.timeline.showToolTip()
+                        clipRoot.timeline.revertResizePreview()
+                        clipRoot.controller.requestResizeMixSide(clipRoot.clipId, mixBefore, true, shiftTrim)
+                        clipRoot.updateDrag()
+                    } else if (sizeChanged) {
                         clipRoot.trimmedIn(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
                         if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
@@ -1171,6 +1188,17 @@ Rectangle {
                         clipRoot.clearGroupTrimData()
                     }
                 }
+                onCanceled: {
+                    // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                    trimIn.opacity = 0
+                    x = -itemBorder.border.width
+                    if (sizeChanged) {
+                        sizeChanged = false
+                        clipRoot.timeline.showToolTip()
+                        clipRoot.timeline.revertResizePreview()
+                    }
+                    clipRoot.clearGroupTrimData()
+                }
                 onDoubleClicked: {
                     if (clipRoot.mixDuration == 0) {
                         clipRoot.timeline.mixClip(clipRoot.clipId, -1)
@@ -1181,6 +1209,16 @@ Rectangle {
                         var currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / clipRoot.timeScale)
                         var currentClipPos = clipRoot.modelStart
                         var delta = currentFrame - currentClipPos
+                        if (mixTrim) {
+                            // The clip start follows the mouse, the model keeps it before the edit point and within the mix partner
+                            const before = clipRoot.timeline.requestResizeMixSidePreview(clipRoot.clipId, clipRoot.mixDuration - clipRoot.mixCut - delta, true, shiftTrim)
+                            if (before > -1 && before != mixBefore) {
+                                mixBefore = before
+                                sizeChanged = true
+                                clipRoot.timeline.showToolTip(KI18n.i18n("Mix duration: %1", clipRoot.timeline.simplifiedTC(before + clipRoot.mixCut)))
+                            }
+                            return
+                        }
                         if (delta !== 0) {
                             if (delta > 0 && (clipRoot.mixDuration > 0 && clipRoot.mixDuration - clipRoot.mixCut - delta < (clipRoot.mixCut == 0 ? 1 : 0))) {
                                 if (clipRoot.mixCut == 0 && clipRoot.mixDuration > 1) {
@@ -1199,6 +1237,10 @@ Rectangle {
                                     delta = -clipRoot.inPoint
                                 }
                                 newDuration = clipRoot.clipDuration - delta
+                            }
+                            if (!controlTrim) {
+                                // Resize sizes are logical: remove the mix overlaps, which don't change while trimming
+                                newDuration = Math.max(1, newDuration - (clipRoot.originalDuration - clipRoot.originalLogicalDuration))
                             }
                             if (newDuration != lastDuration) {
                                 sizeChanged = true
@@ -1255,6 +1297,11 @@ Rectangle {
                 property bool controlTrim: false
                 property bool sizeChanged: false
                 property int lastDuration
+                // With a mix at clip end, dragging changes the part of the mix after the edit point
+                property int mixPartner: -1
+                property int mixOriginalAfter
+                property int mixAfter
+                property int mixBeforeCut
                 cursorShape: (enabled && (containsMouse || pressed) ? Qt.SizeHorCursor : Qt.OpenHandCursor)
                 drag.target: trimOutMouseArea
                 drag.axis: Drag.XAxis
@@ -1262,6 +1309,7 @@ Rectangle {
 
                 onPressed: mouse => {
                     clipRoot.originalDuration = clipRoot.clipDuration
+                    clipRoot.originalLogicalDuration = clipRoot.controller.getItemLogicalPlaytime(clipRoot.clipId)
                     lastDuration = clipRoot.clipDuration
                     anchors.right = undefined
                     shiftTrim = mouse.modifiers & Qt.ShiftModifier
@@ -1270,7 +1318,12 @@ Rectangle {
                                && clipRoot.itemType != K.ClipType.Timeline
                                && clipRoot.itemType != K.ClipType.Playlist
                                && clipRoot.itemType != K.ClipType.Image
-                    if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
+                    mixPartner = (K.Core.activeTool === K.ToolType.SelectTool && !controlTrim && clipRoot.mixEndDuration > 0) ? clipRoot.controller.getClipEndMixPartner(clipRoot.clipId) : -1
+                    if (mixPartner > -1) {
+                        mixOriginalAfter = clipRoot.controller.getMixCutPos(mixPartner)
+                        mixAfter = mixOriginalAfter
+                        mixBeforeCut = clipRoot.mixEndDuration - mixOriginalAfter
+                    } else if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
                         clipRoot.initGroupTrim(clipRoot.clipId)
                     }
                     if (K.Core.activeTool === K.ToolType.RippleTool) {
@@ -1280,7 +1333,13 @@ Rectangle {
                 onReleased: {
                     trimOut.opacity = 0
                     anchors.right = parent.right
-                    if (sizeChanged) {
+                    if (sizeChanged && mixPartner > -1) {
+                        sizeChanged = false
+                        clipRoot.timeline.showToolTip()
+                        clipRoot.timeline.revertResizePreview()
+                        clipRoot.controller.requestResizeMixSide(mixPartner, mixAfter, false, shiftTrim)
+                        clipRoot.updateDrag()
+                    } else if (sizeChanged) {
                         clipRoot.trimmedOut(clipRoot, shiftTrim, controlTrim)
                         sizeChanged = false
                         if (!controlTrim && K.Core.activeTool !== K.ToolType.RippleTool) {
@@ -1299,6 +1358,17 @@ Rectangle {
                         clipRoot.clearGroupTrimData()
                     }
                 }
+                onCanceled: {
+                    // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                    trimOut.opacity = 0
+                    anchors.right = parent.right
+                    if (sizeChanged) {
+                        sizeChanged = false
+                        clipRoot.timeline.showToolTip()
+                        clipRoot.timeline.revertResizePreview()
+                    }
+                    clipRoot.clearGroupTrimData()
+                }
                 onDoubleClicked: {
                     clipRoot.timeline.mixClip(clipRoot.clipId, 1)
                 }
@@ -1307,6 +1377,20 @@ Rectangle {
                         var newDuration = Math.round((x + width + itemBorder.border.width) / clipRoot.timeScale)
                         if (clipRoot.maxDuration > 0 && (newDuration > clipRoot.maxDuration - clipRoot.inPoint) && !(mouse.modifiers & Qt.ControlModifier)) {
                             newDuration = clipRoot.maxDuration - clipRoot.inPoint
+                        }
+                        if (mixPartner > -1) {
+                            // The clip end follows the mouse, the model keeps it after the edit point and within the mix partner
+                            const after = clipRoot.timeline.requestResizeMixSidePreview(mixPartner, mixOriginalAfter + newDuration - clipRoot.originalDuration, false, shiftTrim)
+                            if (after > -1 && after != mixAfter) {
+                                mixAfter = after
+                                sizeChanged = true
+                                clipRoot.timeline.showToolTip(KI18n.i18n("Mix duration: %1", clipRoot.timeline.simplifiedTC(mixBeforeCut + after)))
+                            }
+                            return
+                        }
+                        if (!controlTrim) {
+                            // Resize sizes are logical: remove the mix overlaps, which don't change while trimming
+                            newDuration = Math.max(1, newDuration - (clipRoot.originalDuration - clipRoot.originalLogicalDuration))
                         }
                         if (newDuration != lastDuration) {
                             sizeChanged = true

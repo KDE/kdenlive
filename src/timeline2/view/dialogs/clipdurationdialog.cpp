@@ -18,6 +18,19 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <KMessageBox>
 #include <QWheelEvent>
 
+namespace {
+/** @brief Item info using the logical bounds of the item (excluding the mix overlaps), as resize sizes are logical */
+ItemInfo logicalItemInfo(const std::shared_ptr<TimelineItemModel> &model, int id)
+{
+    ItemInfo info = model->getItemInfo(id);
+    const int offset = model->getItemLogicalPosition(id) - model->getItemPosition(id);
+    info.position += offset;
+    info.cropStart += offset;
+    info.playTime = model->getItemLogicalPlaytime(id);
+    return info;
+}
+} // namespace
+
 ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeline, std::unordered_set<int> clipIds, QWidget *parent)
     : QDialog(parent)
     , m_itemIds(clipIds)
@@ -41,7 +54,7 @@ ClipDurationDialog::ClipDurationDialog(std::shared_ptr<TimelineItemModel> timeli
         if (!m_model->isItem(id)) {
             continue;
         }
-        ItemInfo currentInfo = m_model->getItemInfo(id);
+        ItemInfo currentInfo = logicalItemInfo(m_model, id);
         int currentPos = currentInfo.position;
         if (pos == -1) {
             pos = currentPos;
@@ -229,7 +242,7 @@ void ClipDurationDialog::accept()
                 continue;
             }
 
-            ItemInfo currentInfo = m_model->getItemInfo(c);
+            ItemInfo currentInfo = logicalItemInfo(m_model, c);
             if (newDuration <= currentInfo.playTime) {
                 // Making clip shorter, nothing else to do
                 targetDurations[c] = newDuration;
@@ -327,11 +340,11 @@ void ClipDurationDialog::accept()
             }
         }
         // Update reference
-        m_firstItemInfo = m_model->getItemInfo(m_firstItemInfo.itemId);
+        m_firstItemInfo = logicalItemInfo(m_model, m_firstItemInfo.itemId);
         if (result) {
             if (newIn != m_firstItemInfo.cropStart && m_cropStart->isVisible()) {
                 for (auto &c : children) {
-                    ItemInfo currentInfo = m_model->getItemInfo(c);
+                    ItemInfo currentInfo = logicalItemInfo(m_model, c);
                     int updatedDuration = currentInfo.playTime + (currentInfo.cropStart - newIn);
                     result = m_model->requestItemResize(c, updatedDuration, false, true, undo, redo);
                 }
@@ -340,7 +353,7 @@ void ClipDurationDialog::accept()
             if (duration_for_all->isChecked() || !duration_for_all->isVisible()) {
                 for (auto &c : children) {
                     bool isClip = m_model->isClip(c);
-                    ItemInfo currentInfo = m_model->getItemInfo(c);
+                    ItemInfo currentInfo = logicalItemInfo(m_model, c);
                     int clipTarget = targetDurations.count(c) ? targetDurations[c] : newDuration;
                     if (currentInfo.playTime == clipTarget) {
                         continue;
@@ -369,10 +382,10 @@ void ClipDurationDialog::accept()
                 }
             }
         }
-        m_firstItemInfo = m_model->getItemInfo(m_firstItemInfo.itemId);
+        m_firstItemInfo = logicalItemInfo(m_model, m_firstItemInfo.itemId);
         if (duration_for_all->isChecked() || !duration_for_all->isVisible()) {
             for (auto &c : children) {
-                ItemInfo currentInfo = m_model->getItemInfo(c);
+                ItemInfo currentInfo = logicalItemInfo(m_model, c);
                 int clipTarget = targetDurations.count(c) ? targetDurations[c] : newDuration;
                 if (currentInfo.playTime == clipTarget) {
                     continue;

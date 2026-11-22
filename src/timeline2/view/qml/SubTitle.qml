@@ -334,7 +334,7 @@ Item {
                 if (pressed) {
                     newDuration = subtitleRoot.endFrame - Math.round(leftstart.x / subtitleRoot.timeScale)
                     if (newDuration != originalDuration && subtitleBase.x >= 0) {
-                        const frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , false, false, subtitleRoot.snapping, shiftTrim);
+                        const frame = subtitleRoot.timeline.requestItemResizePreview(subtitleRoot.subId, newDuration, false, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newStart = subtitleRoot.endFrame - frame
                         }
@@ -347,13 +347,23 @@ Item {
                 leftstart.anchors.left = subtitleBase.left
                 if (oldStartFrame != newStart) {
                     if (shiftTrim || (subtitleRoot.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
-                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - oldStartFrame, false, false);
+                        subtitleRoot.timeline.revertResizePreview()
                         subtitleRoot.controller.requestItemResize(subtitleRoot.subId, subtitleRoot.endFrame - newStart, false, true, -1, shiftTrim);
                     } else {
                         const updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        subtitleRoot.timeline.revertResizePreview()
                         subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, false)
                     }
+                } else {
+                    subtitleRoot.timeline.revertResizePreview()
                 }
+                subtitleRoot.setGroupTrimData(undefined)
+            }
+            onCanceled: {
+                // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                trimIn.opacity = 0
+                leftstart.anchors.left = subtitleBase.left
+                subtitleRoot.timeline.revertResizePreview()
                 subtitleRoot.setGroupTrimData(undefined)
             }
             onEntered: {
@@ -434,8 +444,8 @@ Item {
                         sizeChanged = true
                         //duration = subtitleBase.width + (mouseX - oldMouseX)/ timeline.scaleFactor
                         newDuration = Math.round((subtitleBase.width + mouseX - oldMouseX) / subtitleRoot.timeScale)
-                        // Perform resize without changing model
-                        const frame = subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, false, subtitleRoot.snapping, shiftTrim);
+                        // Preview the resize, without logging it
+                        const frame = subtitleRoot.timeline.requestItemResizePreview(subtitleRoot.subId, newDuration, true, subtitleRoot.snapping, shiftTrim);
                         if (frame > 0) {
                             newDuration = frame
                         }
@@ -448,16 +458,25 @@ Item {
                 console.log(' GOT RESIZE: ', newDuration, ' > ', originalDuration)
                 if (mouseX != oldMouseX || sizeChanged) {
                     if (shiftTrim || (subtitleRoot.groupTrimData == undefined || K.Core.activeTool === K.ToolType.RippleTool)) {
-                        // Restore original size
-                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, originalDuration , true, false);
-                        // Perform real resize
-                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration , true, true, -1, shiftTrim)
+                        subtitleRoot.timeline.revertResizePreview()
+                        subtitleRoot.controller.requestItemResize(subtitleRoot.subId, newDuration, true, true, -1, shiftTrim)
                     } else {
                         const updatedGroupData = subtitleRoot.controller.getGroupData(subtitleRoot.subId)
+                        subtitleRoot.timeline.revertResizePreview()
                         subtitleRoot.controller.processGroupResize(subtitleRoot.groupTrimData, updatedGroupData, true)
                     }
                     sizeChanged = false
+                } else {
+                    subtitleRoot.timeline.revertResizePreview()
                 }
+                subtitleRoot.setGroupTrimData(undefined)
+            }
+            onCanceled: {
+                // The press was taken away (popup, focus change...): there is no release, drop the trim preview
+                trimOut.opacity = 0
+                rightend.anchors.right = subtitleBase.right
+                sizeChanged = false
+                subtitleRoot.timeline.revertResizePreview()
                 subtitleRoot.setGroupTrimData(undefined)
             }
             onEntered: {

@@ -107,7 +107,7 @@ Item {
             trackRoot.timeline.requestStartTrimmingMode(clip.clipId, false, right);
             trackRoot.timeline.ripplePosChanged(new_duration, right);
         } else {
-            new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, right, false, trackRoot.snapping, shiftTrim)
+            new_duration = trackRoot.timeline.requestItemResizePreview(clip.clipId, newDuration, right, trackRoot.snapping, shiftTrim)
         }
         if (new_duration > 0) {
             clip.lastValidDuration = new_duration
@@ -118,13 +118,13 @@ Item {
             // Show amount trimmed as a time in a "bubble" help.
             let s;
             if (right) {
-                let delta = clip.originalDuration - new_duration
+                let delta = clip.originalLogicalDuration - new_duration
                 s = '%1%2, %3:%4'.arg((delta <= 0)? '+' : '-')
                     .arg(delta)
                     .arg(KI18n.i18n("Duration"))
                     .arg(trackRoot.timeline.simplifiedTC(new_duration))
             } else {
-                let delta = new_duration - clip.originalDuration
+                let delta = new_duration - clip.originalLogicalDuration
                 s = '%1%2, %3:%4, %5:%6'.arg((delta <= 0)? '+' : '-')
                     .arg(delta)
                     .arg(KI18n.i18n("In"))
@@ -142,9 +142,9 @@ Item {
         if (shiftTrim || (trackRoot.groupTrimData == undefined/*TODO > */ || K.Core.activeTool === K.ToolType.RippleTool /* < TODO*/) || controlTrim) {
             // We only resize one element
             if (K.Core.activeTool === K.ToolType.RippleTool) {
-                trackRoot.timeline.requestItemRippleResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
+                trackRoot.timeline.requestItemRippleResize(clip.clipId, clip.originalLogicalDuration, right, false, 0, shiftTrim)
             } else {
-                trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, right, false, 0, shiftTrim)
+                trackRoot.timeline.revertResizePreview()
             }
 
             if (K.Core.activeTool === K.ToolType.SelectTool && controlTrim) {
@@ -162,6 +162,7 @@ Item {
             }
         } else {
             const updatedGroupData = trackRoot.controller.getGroupData(clip.clipId)
+            trackRoot.timeline.revertResizePreview()
             trackRoot.controller.processGroupResize(trackRoot.groupTrimData, updatedGroupData, right)
         }
         trackRoot.updateGroupTrimData(undefined)
@@ -355,7 +356,7 @@ Item {
                     timelineScrollViewWidth: trackRoot.timelineScrollView.width
 
                     onTrimmingIn: (clip, newDuration) => {
-                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, false, false, trackRoot.snapping)
+                        var new_duration = trackRoot.timeline.requestItemResizePreview(clip.clipId, newDuration, false, trackRoot.snapping, false)
                         if (new_duration > 0) {
                             clip.lastValidDuration = newDuration
                             clip.originalX = clip.draggedX
@@ -370,11 +371,11 @@ Item {
                     onTrimmedIn: clip => {
                         trackRoot.timeline.showToolTip()
                         //bubbleHelp.hide()
-                        trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, false, false, trackRoot.snapping)
+                        trackRoot.timeline.revertResizePreview()
                         trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, false, true, trackRoot.snapping)
                     }
                     onTrimmingOut: (clip, newDuration) => {
-                        var new_duration = trackRoot.controller.requestItemResize(clip.clipId, newDuration, true, false, trackRoot.snapping)
+                        var new_duration = trackRoot.timeline.requestItemResizePreview(clip.clipId, newDuration, true, trackRoot.snapping, false)
                         if (new_duration > 0) {
                             clip.lastValidDuration = newDuration
                             // Show amount trimmed as a time in a "bubble" help.
@@ -388,7 +389,7 @@ Item {
                     onTrimmedOut: clip => {
                         trackRoot.timeline.showToolTip()
                         //bubbleHelp.hide()
-                        trackRoot.controller.requestItemResize(clip.clipId, clip.originalDuration, true, false, trackRoot.snapping)
+                        trackRoot.timeline.revertResizePreview()
                         trackRoot.controller.requestItemResize(clip.clipId, clip.lastValidDuration, true, true, trackRoot.snapping)
                     }
 

@@ -2118,9 +2118,12 @@ void TimeRemap::updateKeyframesWithUndo(const QMap<int, int> &updatedKeyframes, 
         int length = updatedKeyframes.lastKey() - m_view->m_inFrame + 1;
         std::shared_ptr<TimelineItemModel> model = pCore->currentDoc()->getTimeline(m_uuid);
         m_isUpdatingKeyframes = true;
-        model->requestItemResize(m_cid, length, true, true, undo, redo);
+        // Resize sizes are logical: they don't include the clip's start mix
+        const int clipLength = length + model->getItemPosition(m_cid) - model->getItemLogicalPosition(m_cid);
+        model->requestItemResize(m_cid, clipLength, true, true, undo, redo);
         if (m_splitId > 0) {
-            model->requestItemResize(m_splitId, length, true, true, undo, redo);
+            const int splitLength = length + model->getItemPosition(m_splitId) - model->getItemLogicalPosition(m_splitId);
+            model->requestItemResize(m_splitId, splitLength, true, true, undo, redo);
         }
         m_isUpdatingKeyframes = false;
     }
