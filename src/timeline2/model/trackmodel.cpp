@@ -1488,6 +1488,10 @@ bool TrackModel::requestCompositionInsertion(int compoId, int position, bool upd
     if (isLocked()) {
         return false;
     }
+    if (position < 0) {
+        // Like clips, compositions cannot start before the timeline start
+        return false;
+    }
     auto operation = requestCompositionInsertion_lambda(compoId, position, updateView, finalMove);
     if (operation()) {
         auto reverse = requestCompositionDeletion_lambda(compoId, updateView, finalMove);
