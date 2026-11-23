@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 03:21+0000\n"
+"POT-Creation-Date: 2026-11-23 03:48+0000\n"
 "PO-Revision-Date: 2026-03-16 16:10+0000\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -20976,7 +20976,7 @@ msgid "Generator Failed"
 msgstr "Generatorul a eșuat"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, fuzzy, kde-format
 #| msgid "Copy profile to favorites"
 msgid "Add to favorites"
@@ -21099,19 +21099,19 @@ msgstr "Descriere"
 msgid "Search…"
 msgstr "Căutare"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:375
+#: src/assets/assetlist/view/assetlistwidget.cpp:376
 #, kde-format
 msgid "You have enabled unsupported assets"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, fuzzy, kde-format
 #| msgid "Remove file"
 msgid "Remove from favorites"
 msgstr "Șterge fișierul"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:600
-#: src/assets/assetlist/view/assetlistwidget.cpp:602
+#: src/assets/assetlist/view/assetlistwidget.cpp:601
+#: src/assets/assetlist/view/assetlistwidget.cpp:603
 #, fuzzy, kde-format
 #| msgid "Document to open"
 msgctxt "@info:tooltip"

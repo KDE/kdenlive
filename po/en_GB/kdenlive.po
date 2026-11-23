@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 03:21+0000\n"
+"POT-Creation-Date: 2026-11-23 03:48+0000\n"
 "PO-Revision-Date: 2024-11-16 12:52+0000\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English\n"
@@ -21547,7 +21547,7 @@ msgid "Generator Failed"
 msgstr "Generator Failed"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Add to favorites"
 msgstr "Add to favourites"
@@ -21661,18 +21661,18 @@ msgstr "Show/hide description of the compositions"
 msgid "Search…"
 msgstr "Search…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:375
+#: src/assets/assetlist/view/assetlistwidget.cpp:376
 #, kde-format
 msgid "You have enabled unsupported assets"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Remove from favorites"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:600
-#: src/assets/assetlist/view/assetlistwidget.cpp:602
+#: src/assets/assetlist/view/assetlistwidget.cpp:601
+#: src/assets/assetlist/view/assetlistwidget.cpp:603
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"

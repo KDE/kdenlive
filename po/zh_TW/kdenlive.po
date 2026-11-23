@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kdenlive 16.08.0\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-21 03:21+0000\n"
+"POT-Creation-Date: 2026-11-23 03:48+0000\n"
 "PO-Revision-Date: 2026-11-14 23:40+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -20479,7 +20479,7 @@ msgid "Generator Failed"
 msgstr "產生器已失敗"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Add to favorites"
 msgstr "新增到最愛"
@@ -20592,18 +20592,18 @@ msgstr "顯示/隱藏合成方案的描述"
 msgid "Search…"
 msgstr "搜尋…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:375
+#: src/assets/assetlist/view/assetlistwidget.cpp:376
 #, kde-format
 msgid "You have enabled unsupported assets"
 msgstr ""
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Remove from favorites"
 msgstr "從最愛中移除"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:600
-#: src/assets/assetlist/view/assetlistwidget.cpp:602
+#: src/assets/assetlist/view/assetlistwidget.cpp:601
+#: src/assets/assetlist/view/assetlistwidget.cpp:603
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
