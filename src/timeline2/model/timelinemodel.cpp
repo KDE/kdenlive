@@ -7332,9 +7332,15 @@ void TimelineModel::requestAddToSelection(int itemId, bool clear, bool singleSel
     }
     if (singleSelect) {
         QWriteLocker locker(&m_lock);
+        if (!clear) {
+            // Dissolve the selection group, if any: single selection holds the items themselves
+            requestClearSelection();
+        }
         selection.insert(itemId);
         m_currentSelection = selection;
-        setSelected(itemId, true);
+        for (int id : selection) {
+            setSelected(id, true);
+        }
         Q_EMIT selectionChanged();
         if (!m_singleSelectionMode) {
             m_singleSelectionMode = true;
