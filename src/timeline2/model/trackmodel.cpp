@@ -227,7 +227,8 @@ Fun TrackModel::requestClipInsertion_lambda(int clipId, int position, bool updat
         qDebug() << "Error : Clip Insertion failed because timeline is not available anymore";
         return false;
     };
-    if (!hasMix(clipId)) {
+    // A final insertion on the second playlist restores a clip whose mix is recreated right after (project loading, undo)
+    if (!hasMix(clipId) && (!finalMove || target_playlist == 0)) {
         if (allowedClipMixes.isEmpty()) {
             if (!m_playlists[0].is_blank_at(position) || !m_playlists[1].is_blank_at(position)) {
                 // Track is not empty
