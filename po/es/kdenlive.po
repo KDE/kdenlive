@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-22 01:03+0000\n"
+"POT-Creation-Date: 2026-11-23 01:02+0000\n"
 "PO-Revision-Date: 2026-11-07 23:01+0100\n"
 "Last-Translator: Gabriel Gazzán <gabcorreo@gmail.com>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -7625,7 +7625,7 @@ msgid "Duration"
 msgstr "Duración"
 
 #. i18n: ectx: Menu (subtitles)
-#: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:91
+#: data/effects/avfilter/subtitles.xml:4 src/bin/model/subtitlemodel.cpp:89
 #: src/core.cpp:1197 src/kdenliveui.rc:196 src/mainwindow.cpp:277
 #: src/project/dialogs/archivewidget.cpp:149
 #: src/project/dialogs/projectsettings.cpp:431
@@ -21746,7 +21746,7 @@ msgstr "Efectos (pista) %1"
 msgid "Bin %1 effects"
 msgstr "Efectos (medio) %1"
 
-#: src/assets/assetpanel.cpp:503 src/bin/bin.cpp:4721
+#: src/assets/assetpanel.cpp:503 src/bin/bin.cpp:4747
 #: src/dialogs/speechdialog.cpp:50 src/dialogs/textbasededit.cpp:765
 #: src/effects/effectstack/view/maskmanager.cpp:115
 #: src/monitor/recmanager.cpp:41
@@ -21754,7 +21754,7 @@ msgstr "Efectos (medio) %1"
 msgid "Show log"
 msgstr "Mostrar registro"
 
-#: src/assets/assetpanel.cpp:505 src/bin/bin.cpp:4724
+#: src/assets/assetpanel.cpp:505 src/bin/bin.cpp:4750
 #: src/dialogs/textbasededit.cpp:766
 #: src/effects/effectstack/view/maskmanager.cpp:117
 #, kde-format
@@ -22675,7 +22675,7 @@ msgstr "Arrastrar a la línea de tiempo solo el audio"
 msgid "Drag to add only video to timeline"
 msgstr "Arrastrar a la línea de tiempo solo el video"
 
-#: src/bin/bin.cpp:543 src/bin/bin.cpp:946 src/timeline2/view/qml/Clip.qml:1555
+#: src/bin/bin.cpp:543 src/bin/bin.cpp:946 src/timeline2/view/qml/Clip.qml:1639
 #, kde-format
 msgctxt "@label The first letter of Proxy, used as abbreviation"
 msgid "P"
@@ -22946,7 +22946,7 @@ msgstr ""
 "El sustituto es %1 fotogramas más corto."
 
 #: src/bin/bin.cpp:2537 src/bin/bin.cpp:2790
-#: src/bin/model/subtitlemodel.cpp:422
+#: src/bin/model/subtitlemodel.cpp:420
 #, kde-format
 msgid "The selected file %1 is invalid."
 msgstr "El archivo seleccionado %1 no es válido."
@@ -23083,7 +23083,7 @@ msgstr ""
 msgid "Replace in timeline"
 msgstr "Sustituir en línea de tiempo"
 
-#: src/bin/bin.cpp:2772 src/bin/bin.cpp:6807 src/bin/clipcreator.cpp:357
+#: src/bin/bin.cpp:2772 src/bin/bin.cpp:6833 src/bin/clipcreator.cpp:357
 #: src/effects/effectstack/view/maskmanager.cpp:641
 #, kde-format
 msgctxt "@action"
@@ -23106,7 +23106,7 @@ msgid "Duplicating sequence failed"
 msgstr "Falla al duplicar secuencia"
 
 #: src/bin/bin.cpp:2987 src/bin/bin.cpp:3002
-#: src/timeline2/view/timelinecontroller.cpp:968
+#: src/timeline2/view/timelinecontroller.cpp:970
 #, kde-format
 msgid "Duplicate clip"
 msgstr "Duplicar medio"
@@ -23228,8 +23228,8 @@ msgstr "Carpeta"
 msgid "Create bin folder"
 msgstr "Crear carpeta"
 
-#: src/bin/bin.cpp:3457 src/bin/bin.cpp:3470 src/bin/bin.cpp:4608
-#: src/timeline2/model/timelinemodel.cpp:2643
+#: src/bin/bin.cpp:3457 src/bin/bin.cpp:3470 src/bin/bin.cpp:4634
+#: src/timeline2/model/timelinemodel.cpp:2658
 #, kde-format
 msgid "Delete Clip"
 msgstr "Borrar medio"
@@ -23244,7 +23244,7 @@ msgstr ""
 "Borra los medios seleccionados del panel Medios y los clips correspondientes "
 "de la línea de tiempo."
 
-#: src/bin/bin.cpp:3460 src/bin/bin.cpp:3473 src/bin/bin.cpp:4584
+#: src/bin/bin.cpp:3460 src/bin/bin.cpp:3473 src/bin/bin.cpp:4610
 #, kde-format
 msgid "Proxy Clip"
 msgstr "Medio de reemplazo"
@@ -23259,28 +23259,28 @@ msgstr "Borrar carpeta"
 msgid "Proxy Folder"
 msgstr "Carpeta de reemplazos"
 
-#: src/bin/bin.cpp:3745
+#: src/bin/bin.cpp:3756
 #, kde-format
 msgid "Edit rating"
 msgstr "Editar valoración"
 
-#: src/bin/bin.cpp:3747
+#: src/bin/bin.cpp:3758
 #, kde-format
 msgid "Cannot set rating on this item"
 msgstr "No es posible establecer una valoración para este elemento"
 
-#: src/bin/bin.cpp:4502 src/bin/bin.cpp:4638 src/mainwindow.cpp:147
+#: src/bin/bin.cpp:4528 src/bin/bin.cpp:4664 src/mainwindow.cpp:147
 #: src/timeline2/view/timelinewidget.cpp:241
 #, kde-format
 msgid "Add Clip"
 msgstr "Cargar medio"
 
-#: src/bin/bin.cpp:4522
+#: src/bin/bin.cpp:4548
 #, kde-format
 msgid "Add Clip or Folder…"
 msgstr "Cargar medio o carpeta…"
 
-#: src/bin/bin.cpp:4523
+#: src/bin/bin.cpp:4549
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23295,102 +23295,102 @@ msgstr ""
 "clic sobre el ícono de medios para abrir una ventana para seleccionar "
 "archivos y cargarlos al proyecto."
 
-#: src/bin/bin.cpp:4529
+#: src/bin/bin.cpp:4555
 #, kde-format
 msgid "Add Color Clip…"
 msgstr "Crear color…"
 
-#: src/bin/bin.cpp:4531
+#: src/bin/bin.cpp:4557
 #, kde-format
 msgid "Add Image Sequence…"
 msgstr "Crear presentación de imágenes…"
 
-#: src/bin/bin.cpp:4533
+#: src/bin/bin.cpp:4559
 #, kde-format
 msgid "Add Title Clip…"
 msgstr "Crear título…"
 
-#: src/bin/bin.cpp:4535
+#: src/bin/bin.cpp:4561
 #, kde-format
 msgid "Add Template Title…"
 msgstr "Crear título desde plantilla…"
 
-#: src/bin/bin.cpp:4537
+#: src/bin/bin.cpp:4563
 #, kde-format
 msgid "Create Animation…"
 msgstr "Crear animación…"
 
-#: src/bin/bin.cpp:4539
+#: src/bin/bin.cpp:4565
 #, kde-format
 msgid "Add Sequence…"
 msgstr "Crear secuencia…"
 
-#: src/bin/bin.cpp:4543 src/mainwindow.cpp:351
+#: src/bin/bin.cpp:4569 src/mainwindow.cpp:351
 #, kde-format
 msgid "Online Resources"
 msgstr "Medios en línea"
 
-#: src/bin/bin.cpp:4547
+#: src/bin/bin.cpp:4573
 #, kde-format
 msgid "Locate Clip…"
 msgstr "Localizar en disco…"
 
-#: src/bin/bin.cpp:4552
+#: src/bin/bin.cpp:4578
 #, kde-format
 msgid "Reload Clip"
 msgstr "Recargar medio"
 
-#: src/bin/bin.cpp:4558
+#: src/bin/bin.cpp:4584
 #, kde-format
 msgid "Transcode to Edit Friendly Format…"
 msgstr "Transcodificar a formato editable…"
 
-#: src/bin/bin.cpp:4563
+#: src/bin/bin.cpp:4589
 #, kde-format
 msgid "Insert at Timecode"
 msgstr "Insertar en código de tiempo"
 
-#: src/bin/bin.cpp:4568
+#: src/bin/bin.cpp:4594
 #, kde-format
 msgid "Replace Clip…"
 msgstr "Sustituir medio…"
 
-#: src/bin/bin.cpp:4574
+#: src/bin/bin.cpp:4600
 #, kde-format
 msgid "Replace Clip In Timeline…"
 msgstr "Sustituir medio (secuencia activa)…"
 
-#: src/bin/bin.cpp:4579 src/mainwindow_actions.cpp:958
+#: src/bin/bin.cpp:4605 src/mainwindow_actions.cpp:958
 #, kde-format
 msgid "Duplicate Clip"
 msgstr "Duplicar"
 
-#: src/bin/bin.cpp:4591 src/bin/bin.cpp:4668
+#: src/bin/bin.cpp:4617 src/bin/bin.cpp:4694
 #, kde-format
 msgid "Clip Properties"
 msgstr "Propiedades del medio"
 
-#: src/bin/bin.cpp:4596 src/mltcontroller/clippropertiescontroller.cpp:621
+#: src/bin/bin.cpp:4622 src/mltcontroller/clippropertiescontroller.cpp:621
 #, kde-format
 msgid "Edit Clip"
 msgstr "Editar medio…"
 
-#: src/bin/bin.cpp:4614
+#: src/bin/bin.cpp:4640
 #, kde-format
 msgid "Default Target Folder for Sequences"
 msgstr "Carpeta predeterminada para secuencias"
 
-#: src/bin/bin.cpp:4619
+#: src/bin/bin.cpp:4645
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
 msgstr "Carpeta predeterminada para capturas de audio"
 
-#: src/bin/bin.cpp:4623
+#: src/bin/bin.cpp:4649
 #, kde-format
 msgid "Create Folder"
 msgstr "Crear carpeta"
 
-#: src/bin/bin.cpp:4626
+#: src/bin/bin.cpp:4652
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -23400,58 +23400,58 @@ msgstr ""
 "Crea una carpeta en la posición actual del panel Medios. Permite una mejor "
 "organización de los archivos originales. Las carpetas podrán ser anidadas."
 
-#: src/bin/bin.cpp:4786 src/bin/bin.cpp:4819
+#: src/bin/bin.cpp:4812 src/bin/bin.cpp:4845
 #, kde-format
 msgctxt "@title:window"
 msgid "Create New Sequence"
 msgstr "Nueva secuencia"
 
-#: src/bin/bin.cpp:4789 src/bin/bin.cpp:4792 src/bin/bin.cpp:4822
+#: src/bin/bin.cpp:4815 src/bin/bin.cpp:4818 src/bin/bin.cpp:4848
 #, kde-format
 msgid "Sequence %1"
 msgstr "Secuencia %1"
 
-#: src/bin/bin.cpp:4853
+#: src/bin/bin.cpp:4879
 #, kde-format
 msgid "Move Clip"
 msgid_plural "Move Clips"
 msgstr[0] "Mover medio"
 msgstr[1] "Mover medios"
 
-#: src/bin/bin.cpp:4895
+#: src/bin/bin.cpp:4921
 #, kde-format
 msgid "No valid clip to insert"
 msgstr "No es un medio válido para insertar"
 
-#: src/bin/bin.cpp:4908 src/timeline2/view/timelinecontroller.cpp:1891
-#: src/timeline2/view/timelinecontroller.cpp:4022
+#: src/bin/bin.cpp:4934 src/timeline2/view/timelinecontroller.cpp:1893
+#: src/timeline2/view/timelinecontroller.cpp:4056
 #, kde-format
 msgid "Select a clip to apply an effect"
 msgstr "Seleccionar un medio o clip para aplicar un efecto"
 
-#: src/bin/bin.cpp:4942 src/effects/effectstack/model/effectstackmodel.cpp:761
+#: src/bin/bin.cpp:4968 src/effects/effectstack/model/effectstackmodel.cpp:761
 #: src/effects/effectstack/model/effectstackmodel.cpp:767
 #: src/timeline2/model/timelineitemmodel.cpp:749
 #, kde-format
 msgid "Cannot add effect to clip"
 msgstr "No es posible agregar el efecto al medio o clip"
 
-#: src/bin/bin.cpp:5016 src/effects/effectstack/model/effectstackmodel.cpp:717
+#: src/bin/bin.cpp:5042 src/effects/effectstack/model/effectstackmodel.cpp:717
 #, kde-format
 msgid "Paste effect"
 msgstr "Pegar efecto"
 
-#: src/bin/bin.cpp:5053 src/bin/bin.cpp:5060
+#: src/bin/bin.cpp:5079 src/bin/bin.cpp:5086
 #, kde-format
 msgid "Select a clip to add a tag"
 msgstr "Seleccionar un medio para agregar una etiqueta"
 
-#: src/bin/bin.cpp:5199
+#: src/bin/bin.cpp:5225
 #, kde-format
 msgid "Edit Tags"
 msgstr "Editar etiquetas"
 
-#: src/bin/bin.cpp:5536 src/bin/projectclip.cpp:190
+#: src/bin/bin.cpp:5562 src/bin/projectclip.cpp:190
 #: src/bin/projectclip.cpp:2053 src/onlineresources/resourcewidget.cpp:292
 #: src/onlineresources/resourcewidget.cpp:695
 #: src/onlineresources/resourcewidget.cpp:710
@@ -23459,41 +23459,41 @@ msgstr "Editar etiquetas"
 msgid "Unnamed"
 msgstr "Sin nombre"
 
-#: src/bin/bin.cpp:5600
+#: src/bin/bin.cpp:5626
 #, kde-format
 msgid "Enter path for your image editing application"
 msgstr "Introducir la ruta a la aplicación de edición de imágenes"
 
-#: src/bin/bin.cpp:5612
+#: src/bin/bin.cpp:5638
 #, kde-format
 msgid "Please set a default application to open image files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de "
 "imagen"
 
-#: src/bin/bin.cpp:5617
+#: src/bin/bin.cpp:5643
 #, kde-format
 msgid "Enter path for your audio editing application"
 msgstr "Introducir la ruta a la aplicación de edición de audio"
 
-#: src/bin/bin.cpp:5629
+#: src/bin/bin.cpp:5655
 #, kde-format
 msgid "Please set a default application to open audio files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de audio"
 
-#: src/bin/bin.cpp:5636
+#: src/bin/bin.cpp:5662
 #, kde-format
 msgid "Enter path for your video editing application"
 msgstr "Introducir la ruta a la aplicación de edición de video"
 
-#: src/bin/bin.cpp:5648
+#: src/bin/bin.cpp:5674
 #, kde-format
 msgid "Please set a default application to open video files"
 msgstr ""
 "Por favor, definir una aplicación predeterminada para abrir archivos de video"
 
-#: src/bin/bin.cpp:5658 src/core.cpp:712 src/core.cpp:740
+#: src/bin/bin.cpp:5684 src/core.cpp:712 src/core.cpp:740
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
 #: src/jobs/cliploadtask.cpp:506 src/jobs/filtertask.cpp:100
 #: src/jobs/filtertask.cpp:141 src/layouts/layoutmanagerdialog.cpp:212
@@ -23503,12 +23503,12 @@ msgstr ""
 msgid "Cannot open file %1"
 msgstr "No es posible abrir el archivo %1"
 
-#: src/bin/bin.cpp:5695 src/dialogs/profilesdialog.cpp:237
+#: src/bin/bin.cpp:5721 src/dialogs/profilesdialog.cpp:237
 #, kde-format
 msgid "(copy)"
 msgstr "(copia)"
 
-#: src/bin/bin.cpp:5705
+#: src/bin/bin.cpp:5731
 #, kde-format
 msgid ""
 "You are editing an external title clip (%1). Do you want to save your "
@@ -23517,95 +23517,95 @@ msgstr ""
 "Se está editando un medio de título externo (%1). ¿Guardar los cambios en el "
 "archivo de título o solo en este proyecto?"
 
-#: src/bin/bin.cpp:5708 src/titler/titlewidget.cpp:2631
+#: src/bin/bin.cpp:5734 src/titler/titlewidget.cpp:2631
 #, kde-format
 msgid "Save Title"
 msgstr "Guardar título"
 
-#: src/bin/bin.cpp:5708
+#: src/bin/bin.cpp:5734
 #, kde-format
 msgid "Save to title file"
 msgstr "Guardar título en archivo"
 
-#: src/bin/bin.cpp:5709
+#: src/bin/bin.cpp:5735
 #, kde-format
 msgid "Save in project only"
 msgstr "Guardar solo en el proyecto"
 
-#: src/bin/bin.cpp:5736 src/dialogs/clipcreationdialog.cpp:354
+#: src/bin/bin.cpp:5762 src/dialogs/clipcreationdialog.cpp:354
 #, kde-format
 msgid "Title clip"
 msgstr "Medio de título"
 
-#: src/bin/bin.cpp:5742
+#: src/bin/bin.cpp:5768
 #, kde-format
 msgid "Replace the title clip in the timeline with the new one?"
 msgstr "¿Sustituir el clip de título en la línea de tiempo por el nuevo?"
 
-#: src/bin/bin.cpp:5743
+#: src/bin/bin.cpp:5769
 #, kde-format
 msgid "Replace Title Clip"
 msgstr "Sustituir clip de título"
 
-#: src/bin/bin.cpp:5743
+#: src/bin/bin.cpp:5769
 #, kde-format
 msgid "Replace"
 msgstr "Sustituir"
 
-#: src/bin/bin.cpp:5743
+#: src/bin/bin.cpp:5769
 #, kde-format
 msgid "Keep Existing"
 msgstr "Mantener existente"
 
-#: src/bin/bin.cpp:5835
+#: src/bin/bin.cpp:5861
 #, kde-format
 msgid "Clip is invalid, will be removed from project."
 msgstr "El medio no es válido, será eliminado del proyecto."
 
-#: src/bin/bin.cpp:5839
+#: src/bin/bin.cpp:5865
 #, kde-format
 msgid "Invalid clip"
 msgstr "Medio no válido"
 
-#: src/bin/bin.cpp:5953
+#: src/bin/bin.cpp:5979
 #, kde-format
 msgid "Enable proxies"
 msgstr "Habilitar reemplazos"
 
-#: src/bin/bin.cpp:5953
+#: src/bin/bin.cpp:5979
 #, kde-format
 msgid "Disable proxies"
 msgstr "Deshabilitar reemplazos"
 
-#: src/bin/bin.cpp:6139
+#: src/bin/bin.cpp:6165
 #, kde-format
 msgid "Rebuild proxies"
 msgstr "Reconstruir reemplazos"
 
-#: src/bin/bin.cpp:6405
+#: src/bin/bin.cpp:6431
 #, kde-format
 msgctxt "@title:window"
 msgid "Project Bin"
 msgstr "Medios"
 
-#: src/bin/bin.cpp:6421
+#: src/bin/bin.cpp:6447
 #, kde-format
 msgid "Add Tracks"
 msgstr "Agregar pistas"
 
-#: src/bin/bin.cpp:6423
+#: src/bin/bin.cpp:6449
 #, kde-format
 msgid "Edit Streams"
 msgstr "Editar fuentes"
 
-#: src/bin/bin.cpp:6442
+#: src/bin/bin.cpp:6468
 #, kde-format
 msgid "Don't ask again"
 msgstr "No volver a preguntar"
 
 #. i18n("Cancel"), this);
 #. << ac4;
-#: src/bin/bin.cpp:6446
+#: src/bin/bin.cpp:6472
 #, kde-format
 msgid ""
 "Your project needs more audio tracks to handle all streams. Add %1 audio "
@@ -23614,7 +23614,7 @@ msgstr ""
 "La secuencia necesita más pistas de audio para manipular todas las fuentes. "
 "¿Agregar %1 pistas de audio?"
 
-#: src/bin/bin.cpp:6458 src/mainwindow.cpp:1833
+#: src/bin/bin.cpp:6484 src/mainwindow.cpp:1833
 #, kde-format
 msgid "Cannot find clip to add marker"
 msgstr "No se encuentra medio al cual agregar un marcador"
@@ -23622,44 +23622,44 @@ msgstr "No se encuentra medio al cual agregar un marcador"
 #. i18n: ectx: property (windowTitle), widget (QDialog, MarkerDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, ExportGuidesDialog_UI)
 #. i18n: ectx: property (windowTitle), widget (QDialog, MultipleMarkerDialog_UI)
-#: src/bin/bin.cpp:6472 src/bin/model/markerlistmodel.cpp:909
+#: src/bin/bin.cpp:6498 src/bin/model/markerlistmodel.cpp:909
 #: src/definitions.cpp:82 src/definitions.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:1539
-#: src/timeline2/view/timelinecontroller.cpp:1855
+#: src/timeline2/view/timelinecontroller.cpp:1541
+#: src/timeline2/view/timelinecontroller.cpp:1857
 #: src/ui/exportguidesdialog_ui.ui:18 src/ui/markerdialog_ui.ui:24
 #: src/ui/multiplemarkerdialog_ui.ui:18
 #, kde-format
 msgid "Marker"
 msgstr "Marcador"
 
-#: src/bin/bin.cpp:6562
+#: src/bin/bin.cpp:6588
 #, kde-format
 msgid "Could not find master clip"
 msgstr "No fue posible encontrar el medio maestro"
 
-#: src/bin/bin.cpp:6829
+#: src/bin/bin.cpp:6855
 #, kde-format
 msgid "<b>%1</b> clips | "
 msgstr "<b>%1</b> medios | "
 
-#: src/bin/bin.cpp:6831
+#: src/bin/bin.cpp:6857
 #, kde-format
 msgid "<b>%1</b> clips (%2 selected) | "
 msgstr "<b>%1</b> medios (%2 seleccionados) | "
 
-#: src/bin/bin.cpp:6900 src/bin/bin.cpp:6978
+#: src/bin/bin.cpp:6926 src/bin/bin.cpp:7004
 #, kde-format
 msgid "Add additional stream for clip"
 msgid_plural "Add additional streams for clip"
 msgstr[0] "Agregar fuente adicional al medio"
 msgstr[1] "Agregar fuentes adicionales al medio"
 
-#: src/bin/bin.cpp:6921
+#: src/bin/bin.cpp:6947
 #, kde-format
 msgid "Import selected clips"
 msgstr "Importar medios seleccionados"
 
-#: src/bin/bin.cpp:6923
+#: src/bin/bin.cpp:6949
 #, kde-format
 msgid ""
 "Additional streams for clip\n"
@@ -23668,22 +23668,22 @@ msgstr ""
 "Fuentes adicionales del medio\n"
 " %1"
 
-#: src/bin/bin.cpp:6937 src/mltcontroller/clippropertiescontroller.cpp:735
+#: src/bin/bin.cpp:6963 src/mltcontroller/clippropertiescontroller.cpp:735
 #, kde-format
 msgid "Video stream %1"
 msgstr "Fuente de video %1"
 
-#: src/bin/bin.cpp:6952
+#: src/bin/bin.cpp:6978
 #, kde-format
 msgid "Audio stream %1"
 msgstr "Fuente de audio %1"
 
-#: src/bin/bin.cpp:7005
+#: src/bin/bin.cpp:7031
 #, kde-format
 msgid "Remove clip markers"
 msgstr "Eliminar marcadores del medio"
 
-#: src/bin/bin.cpp:7202
+#: src/bin/bin.cpp:7228
 #, kde-format
 msgctxt "@label:textbox"
 msgid "We recommend that you save the project before the transcode operation"
@@ -23691,30 +23691,30 @@ msgstr ""
 "Es recomendable guardar el proyecto antes de realizar la operación de "
 "transcodificación"
 
-#: src/bin/bin.cpp:7203
+#: src/bin/bin.cpp:7229
 #, kde-format
 msgctxt "@action:button"
 msgid "Save Project"
 msgstr "Guardar proyecto"
 
-#: src/bin/bin.cpp:7204
+#: src/bin/bin.cpp:7230
 #, kde-format
 msgctxt "@action:button"
 msgid "Transcode Without Saving"
 msgstr "Transcodificar sin guardar"
 
-#: src/bin/bin.cpp:7362 src/effects/effectstack/model/effectstackmodel.cpp:198
+#: src/bin/bin.cpp:7388 src/effects/effectstack/model/effectstackmodel.cpp:198
 #: src/timeline2/model/timelineitemmodel.cpp:1132
 #, kde-format
 msgid "Delete effect %1"
 msgstr "Borrar efecto %1"
 
-#: src/bin/bin.cpp:7428 src/mainwindow.cpp:272
+#: src/bin/bin.cpp:7454 src/mainwindow.cpp:272
 #, kde-format
 msgid "Project Bin"
 msgstr "Medios"
 
-#: src/bin/bin.cpp:7431 src/bin/bin.cpp:7434 src/mainwindow.cpp:3885
+#: src/bin/bin.cpp:7457 src/bin/bin.cpp:7460 src/mainwindow.cpp:3885
 #, kde-format
 msgid "Project Bin %1"
 msgstr "Medios %1"
@@ -23945,8 +23945,8 @@ msgid "Delete marker"
 msgstr "Borrar marcador"
 
 #: src/bin/model/markerlistmodel.cpp:437
-#: src/timeline2/view/timelinecontroller.cpp:1706
-#: src/timeline2/view/timelinecontroller.cpp:1710
+#: src/timeline2/view/timelinecontroller.cpp:1708
+#: src/timeline2/view/timelinecontroller.cpp:1712
 #, kde-format
 msgid "Move marker"
 msgstr "Mover marcador"
@@ -23979,7 +23979,7 @@ msgstr "Borrar todos los marcadores"
 #: src/bin/model/markerlistmodel.cpp:1076
 #: src/bin/model/markerlistmodel.cpp:1118
 #: src/bin/model/markerlistmodel.cpp:1148
-#: src/timeline2/view/timelinecontroller.cpp:1845
+#: src/timeline2/view/timelinecontroller.cpp:1847
 #, kde-format
 msgid "No marker found at current position"
 msgstr "No se encontró un marcador en la posición actual"
@@ -24029,39 +24029,39 @@ msgstr "Convertir a marcador de rango"
 msgid "Add range marker"
 msgstr "Agregar marcador de rango"
 
-#: src/bin/model/subtitlemodel.cpp:113
+#: src/bin/model/subtitlemodel.cpp:111
 #, kde-format
 msgid "Edit global subtitle style"
 msgstr "Editar estilo global de subtítulos"
 
-#: src/bin/model/subtitlemodel.cpp:432 src/bin/model/subtitlemodel.cpp:654
-#: src/bin/model/subtitlemodel.cpp:1639 src/bin/model/subtitlemodel.cpp:2243
-#: src/bin/model/subtitlemodel.cpp:2310 src/bin/model/subtitlemodel.cpp:2343
-#: src/bin/model/subtitlemodel.cpp:2376 src/bin/model/subtitlemodel.cpp:2409
-#: src/bin/model/subtitlemodel.cpp:2442
+#: src/bin/model/subtitlemodel.cpp:430 src/bin/model/subtitlemodel.cpp:652
+#: src/bin/model/subtitlemodel.cpp:1645 src/bin/model/subtitlemodel.cpp:2249
+#: src/bin/model/subtitlemodel.cpp:2316 src/bin/model/subtitlemodel.cpp:2349
+#: src/bin/model/subtitlemodel.cpp:2382 src/bin/model/subtitlemodel.cpp:2415
+#: src/bin/model/subtitlemodel.cpp:2448
 #, kde-format
 msgid "Edit subtitle"
 msgstr "Editar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:712 src/bin/model/subtitlemodel.cpp:1738
-#: src/timeline2/model/timelinefunctions.cpp:288
+#: src/bin/model/subtitlemodel.cpp:710 src/bin/model/subtitlemodel.cpp:1744
+#: src/timeline2/model/timelinefunctions.cpp:294
 #, kde-format
 msgid "Cut clip"
 msgstr "Cortar clip"
 
-#: src/bin/model/subtitlemodel.cpp:888 src/bin/model/subtitlemodel.cpp:1662
-#: src/timeline2/model/timelinemodel.cpp:4493
+#: src/bin/model/subtitlemodel.cpp:894 src/bin/model/subtitlemodel.cpp:1668
+#: src/timeline2/model/timelinemodel.cpp:4115
 #, kde-format
 msgid "Resize subtitle"
 msgstr "Redimensionar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1089
-#: src/timeline2/model/timelinemodel.cpp:1491
+#: src/bin/model/subtitlemodel.cpp:1095
+#: src/timeline2/model/timelinemodel.cpp:1506
 #, kde-format
 msgid "Move subtitle"
 msgstr "Mover subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1256
+#: src/bin/model/subtitlemodel.cpp:1262
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
 #: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:969
@@ -24074,44 +24074,44 @@ msgstr ""
 "El archivo %1 ya existe.\n"
 "¿Sobrescribirlo?"
 
-#: src/bin/model/subtitlemodel.cpp:1674 src/titler/titlewidget.cpp:453
+#: src/bin/model/subtitlemodel.cpp:1680 src/titler/titlewidget.cpp:453
 #, kde-format
 msgid "Add Text"
 msgstr "Agregar texto"
 
-#: src/bin/model/subtitlemodel.cpp:1699 src/dialogs/subtitleedit.cpp:289
+#: src/bin/model/subtitlemodel.cpp:1705 src/dialogs/subtitleedit.cpp:289
 #, kde-format
 msgid "Add subtitle"
 msgstr "Agregar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1762 src/dialogs/managesubtitles.cpp:730
+#: src/bin/model/subtitlemodel.cpp:1768 src/dialogs/managesubtitles.cpp:730
 #: src/dialogs/subtitleedit.cpp:299
 #, kde-format
 msgid "Delete subtitle"
 msgstr "Borrar subtítulo"
 
-#: src/bin/model/subtitlemodel.cpp:1834
+#: src/bin/model/subtitlemodel.cpp:1840
 #, kde-format
 msgid "Delete subtitle layer"
 msgstr "Borrar capa de subtítulos"
 
-#: src/bin/model/subtitlemodel.cpp:1861
+#: src/bin/model/subtitlemodel.cpp:1867
 #, kde-format
 msgid "Create subtitle layer"
 msgstr "Crear capa de subtítulos"
 
-#: src/bin/model/subtitlemodel.cpp:1973 src/bin/model/subtitlemodel.cpp:1976
+#: src/bin/model/subtitlemodel.cpp:1979 src/bin/model/subtitlemodel.cpp:1982
 #, kde-format
 msgctxt "@item:inlistbox subtitle track name"
 msgid "Subtitle %1"
 msgstr "Subtítulo %1"
 
-#: src/bin/model/subtitlemodel.cpp:2087
+#: src/bin/model/subtitlemodel.cpp:2093
 #, kde-format
 msgid "Cannot create more than %1 layers in subtitles."
 msgstr "No es posible crear más de %1 capas de subtítulos."
 
-#: src/bin/model/subtitlemodel.cpp:2279
+#: src/bin/model/subtitlemodel.cpp:2285
 #, kde-format
 msgid "Assign a new style to a subtitle."
 msgstr "Asignar un nuevo estilo a un subtítulo."
@@ -24207,7 +24207,7 @@ msgstr "No válido"
 
 #: src/bin/projectclip.cpp:1408 src/dialogs/clipcreationdialog.cpp:137
 #: src/jobs/cuttask.cpp:169 src/jobs/speedtask.cpp:117
-#: src/timeline2/model/timelinefunctions.cpp:1553
+#: src/timeline2/model/timelinefunctions.cpp:1580
 #, kde-format
 msgid "File already exists"
 msgstr "El archivo ya existe"
@@ -25169,8 +25169,8 @@ msgstr "Exportar datos de marcadores"
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
 #: src/renderpresets/renderpresetrepository.cpp:484
-#: src/timeline2/view/timelinecontroller.cpp:5962
-#: src/timeline2/view/timelinecontroller.cpp:5967
+#: src/timeline2/view/timelinecontroller.cpp:5996
+#: src/timeline2/view/timelinecontroller.cpp:6001
 #: src/titler/titlewidget.cpp:2644
 #, kde-format
 msgid "Cannot write to file %1"
@@ -26015,7 +26015,7 @@ msgstr "Interrumpir tarea"
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
 #: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:850
 #: src/project/dialogs/archivewidget.cpp:1375
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:285
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:298
 #, kde-format
 msgid "Abort"
 msgstr "Interrumpir"
@@ -28154,7 +28154,7 @@ msgstr ""
 "El remapeo de tiempo no funciona en clips que contengan fotogramas B "
 "(bidireccionales)."
 
-#: src/dialogs/timeremap.cpp:2213
+#: src/dialogs/timeremap.cpp:2216
 #, kde-format
 msgid "Edit Timeremap keyframes"
 msgstr "Editar claves de remapeo de tiempo"
@@ -29233,7 +29233,7 @@ msgstr "El efecto %1 no puede ser agregado dos veces."
 
 #: src/effects/effectstack/model/effectstackmodel.cpp:733
 #: src/effects/effectstack/view/effectstackview.cpp:229
-#: src/timeline2/model/timelinemodel.cpp:5821
+#: src/timeline2/model/timelinemodel.cpp:5516
 #, kde-format
 msgid "Add effect %1"
 msgstr "Agregar efecto %1"
@@ -29472,13 +29472,13 @@ msgid "Exporting…"
 msgstr "Exportando…"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
-#: src/timeline2/view/timelinecontroller.cpp:3868
+#: src/timeline2/view/timelinecontroller.cpp:3902
 #, kde-format
 msgid "Enable Effect Stack"
 msgstr "Habilitar pila de efectos"
 
 #: src/effects/effectstack/view/effectstackview.cpp:692
-#: src/timeline2/view/timelinecontroller.cpp:3868
+#: src/timeline2/view/timelinecontroller.cpp:3902
 #, kde-format
 msgid "Disable Effect Stack"
 msgstr "Deshabilitar pila de efectos"
@@ -31069,7 +31069,7 @@ msgstr "Iniciarlos ahora"
 msgid "Delete them"
 msgstr "Eliminarlas"
 
-#: src/mainwindow.cpp:1013 src/timeline2/view/timelinecontroller.cpp:2552
+#: src/mainwindow.cpp:1013 src/timeline2/view/timelinecontroller.cpp:2554
 #, kde-format
 msgid "Select a clip to compare effect"
 msgstr "Seleccionar un clip para comparar el efecto"
@@ -31192,12 +31192,12 @@ msgstr "No hay un marcador bajo el cursor"
 msgid "An error occurred while deleting markers"
 msgstr "Ocurrió un error al borrar marcadores"
 
-#: src/mainwindow.cpp:1910 src/timeline2/view/timelinecontroller.cpp:1465
-#: src/timeline2/view/timelinecontroller.cpp:1473
-#: src/timeline2/view/timelinecontroller.cpp:1494
-#: src/timeline2/view/timelinecontroller.cpp:1534
-#: src/timeline2/view/timelinecontroller.cpp:1569
-#: src/timeline2/view/timelinecontroller.cpp:1589
+#: src/mainwindow.cpp:1910 src/timeline2/view/timelinecontroller.cpp:1467
+#: src/timeline2/view/timelinecontroller.cpp:1475
+#: src/timeline2/view/timelinecontroller.cpp:1496
+#: src/timeline2/view/timelinecontroller.cpp:1536
+#: src/timeline2/view/timelinecontroller.cpp:1571
+#: src/timeline2/view/timelinecontroller.cpp:1591
 #, kde-format
 msgid "Cannot find clip to edit marker"
 msgstr "No se encuentra medio del cual editar un marcador"
@@ -31207,15 +31207,15 @@ msgstr "No se encuentra medio del cual editar un marcador"
 msgid "Marker category does not exist"
 msgstr "La categoría de marcador no existe"
 
-#: src/mainwindow.cpp:2097 src/timeline2/model/timelinefunctions.cpp:868
-#: src/timeline2/view/timelinecontroller.cpp:3699
+#: src/mainwindow.cpp:2097 src/timeline2/model/timelinefunctions.cpp:895
+#: src/timeline2/view/timelinecontroller.cpp:3733
 #, kde-format
 msgid "Overwrite zone"
 msgstr "Sobreescribir zona"
 
 #: src/mainwindow.cpp:2099 src/mainwindow.cpp:2118
-#: src/timeline2/model/timelinefunctions.cpp:870
-#: src/timeline2/view/timelinecontroller.cpp:3701
+#: src/timeline2/model/timelinefunctions.cpp:897
+#: src/timeline2/view/timelinecontroller.cpp:3735
 #, kde-format
 msgid "Could not insert zone"
 msgstr "No fue posible insertar la zona"
@@ -31225,8 +31225,8 @@ msgstr "No fue posible insertar la zona"
 msgid "No clip selected in project bin"
 msgstr "Ningún medio seleccionado en el panel Medios"
 
-#: src/mainwindow.cpp:2116 src/timeline2/model/timelinefunctions.cpp:868
-#: src/timeline2/view/timelinecontroller.cpp:3699
+#: src/mainwindow.cpp:2116 src/timeline2/model/timelinefunctions.cpp:895
+#: src/timeline2/view/timelinecontroller.cpp:3733
 #, kde-format
 msgid "Insert zone"
 msgstr "Insertar zona"
@@ -32395,7 +32395,7 @@ msgid "Edit Marker…"
 msgstr "Editar marcador…"
 
 #: src/mainwindow_actions.cpp:912
-#: src/timeline2/model/timelinefunctions.cpp:1309
+#: src/timeline2/model/timelinefunctions.cpp:1336
 #, kde-format
 msgid "Restore Audio"
 msgstr "Recuperar audio"
@@ -32598,7 +32598,7 @@ msgid "Fit all Tracks in View"
 msgstr "Ajustar todas las pistas a la vista"
 
 #: src/mainwindow_actions.cpp:1046
-#: src/timeline2/view/timelinecontroller.cpp:5687
+#: src/timeline2/view/timelinecontroller.cpp:5721
 #, kde-format
 msgid "Sequence effects"
 msgstr "Efectos (secuencia activa)"
@@ -33407,7 +33407,7 @@ msgstr "Redimensionar libremente"
 #. i18n: ectx: property (text), item, widget (QComboBox, bgBox)
 #: src/monitor/monitor.cpp:451 src/scopes/colorscopes/vectorscope.cpp:72
 #: src/scopes/colorscopes/vectorscope.cpp:107
-#: src/timeline2/view/timelinecontroller.cpp:296 src/ui/titlewidget_ui.ui:140
+#: src/timeline2/view/timelinecontroller.cpp:298 src/ui/titlewidget_ui.ui:140
 #, kde-format
 msgid "Black"
 msgstr "Negro"
@@ -33492,7 +33492,7 @@ msgid "Cannot change zone when creating a mask"
 msgstr "No es posible cambiar la zona al crear una máscara"
 
 #: src/monitor/monitor.cpp:998 src/monitor/monitor.cpp:1034
-#: src/timeline2/view/timelinecontroller.cpp:2171
+#: src/timeline2/view/timelinecontroller.cpp:2173
 #, kde-format
 msgid "Set Zone"
 msgstr "Marcar zona"
@@ -33577,7 +33577,7 @@ msgid "Cannot get producer for Clip Monitor"
 msgstr "No es posible obtener productor para el Monitor de medios"
 
 #: src/monitor/monitor.cpp:3497 src/monitor/monitor.cpp:3528
-#: src/timeline2/view/timelinecontroller.cpp:6486
+#: src/timeline2/view/timelinecontroller.cpp:6520
 #, kde-format
 msgid "No valid zone defined. Please set in/out points first."
 msgstr ""
@@ -33589,13 +33589,13 @@ msgid "Create Range Marker from Zone"
 msgstr "Crear marcador de rango desde zona"
 
 #: src/monitor/monitor.cpp:3513 src/monitor/monitor.cpp:3534
-#: src/timeline2/view/timelinecontroller.cpp:6501
+#: src/timeline2/view/timelinecontroller.cpp:6535
 #, kde-format
 msgid "Range marker created from zone"
 msgstr "Se creó un marcador de rango a partir de la zona"
 
 #: src/monitor/monitor.cpp:3515 src/monitor/monitor.cpp:3536
-#: src/timeline2/view/timelinecontroller.cpp:6504
+#: src/timeline2/view/timelinecontroller.cpp:6538
 #, kde-format
 msgid "Failed to create range marker from zone"
 msgstr "No fue posible crear un marcador de rango a partir de la zona"
@@ -33748,7 +33748,7 @@ msgid "Go to Zone End"
 msgstr "Ir al fin de la zona"
 
 #: src/monitor/monitorproxy.cpp:816
-#: src/timeline2/view/timelinecontroller.cpp:6493
+#: src/timeline2/view/timelinecontroller.cpp:6527
 #, kde-format
 msgid "Zone marker"
 msgstr "Marcador de zona"
@@ -35132,7 +35132,7 @@ msgid "Select some timecodes to reassign"
 msgstr "Seleccionar algunos códigos de tiempo para reasignarlos"
 
 #: src/project/dialogs/noteswidget.cpp:259
-#: src/timeline2/view/timelinecontroller.cpp:4664
+#: src/timeline2/view/timelinecontroller.cpp:4698
 #, kde-format
 msgid "No clip selected in timeline"
 msgstr "Ningún clip seleccionado en la línea de tiempo"
@@ -37273,187 +37273,187 @@ msgstr "Se reparó el clip %1 etiquetado como sin video en la pista "
 msgid "Insert Clips"
 msgstr "Insertar clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:352
+#: src/timeline2/model/timelinefunctions.cpp:358
 #, kde-format
 msgctxt "@info:status"
 msgid "Cannot cut overlapping subtitles"
 msgstr "No es posible cortar subtítulos superpuestos"
 
-#: src/timeline2/model/timelinefunctions.cpp:434
-#: src/timeline2/model/timelinefunctions.cpp:454
+#: src/timeline2/model/timelinefunctions.cpp:446
+#: src/timeline2/model/timelinefunctions.cpp:466
 #, kde-format
 msgid "Failed to cut clip"
 msgstr "No fue posible cortar el clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:445
+#: src/timeline2/model/timelinefunctions.cpp:457
 #, kde-format
 msgid "All tracks are locked"
 msgstr "Todas las pistas están bloqueadas"
 
-#: src/timeline2/model/timelinefunctions.cpp:465
+#: src/timeline2/model/timelinefunctions.cpp:477
 #, kde-format
 msgid "No clips to cut"
 msgstr "Ningún clip que cortar"
 
-#: src/timeline2/model/timelinefunctions.cpp:467
+#: src/timeline2/model/timelinefunctions.cpp:479
 #, kde-format
 msgid "Cut all clips"
 msgstr "Cortar todos los clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:762
-#: src/timeline2/view/timelinecontroller.cpp:1816
+#: src/timeline2/model/timelinefunctions.cpp:774
+#: src/timeline2/view/timelinecontroller.cpp:1818
 #, kde-format
 msgid "Insert space"
 msgstr "Insertar espacio"
 
-#: src/timeline2/model/timelinefunctions.cpp:764
-#: src/timeline2/view/timelinecontroller.cpp:1818
+#: src/timeline2/model/timelinefunctions.cpp:776
+#: src/timeline2/view/timelinecontroller.cpp:1820
 #, kde-format
 msgid "Remove space"
 msgstr "Eliminar espacio"
 
-#: src/timeline2/model/timelinefunctions.cpp:833
-#: src/timeline2/view/timelinecontroller.cpp:3504
+#: src/timeline2/model/timelinefunctions.cpp:860
+#: src/timeline2/view/timelinecontroller.cpp:3538
 #, kde-format
 msgid "Lift zone"
 msgstr "Remover zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:833
-#: src/timeline2/view/timelinecontroller.cpp:825
-#: src/timeline2/view/timelinecontroller.cpp:3504
-#: src/timeline2/view/timelinecontroller.cpp:3577
+#: src/timeline2/model/timelinefunctions.cpp:860
+#: src/timeline2/view/timelinecontroller.cpp:827
+#: src/timeline2/view/timelinecontroller.cpp:3538
+#: src/timeline2/view/timelinecontroller.cpp:3611
 #, kde-format
 msgid "Extract zone"
 msgstr "Extraer zona"
 
-#: src/timeline2/model/timelinefunctions.cpp:904
+#: src/timeline2/model/timelinefunctions.cpp:931
 #, kde-format
 msgid "Please activate a track by clicking on a track's label"
 msgstr "Por favor activar una pista haciendo clic sobre su etiqueta"
 
-#: src/timeline2/model/timelinefunctions.cpp:1053
-#: src/timeline2/view/timelinecontroller.cpp:953
-#: src/timeline2/view/timelinecontroller.cpp:1363
-#: src/timeline2/view/timelinecontroller.cpp:1443
-#: src/timeline2/view/timelinecontroller.cpp:1453
-#: src/timeline2/view/timelinecontroller.cpp:1482
-#: src/timeline2/view/timelinecontroller.cpp:1522
-#: src/timeline2/view/timelinecontroller.cpp:1557
-#: src/timeline2/view/timelinecontroller.cpp:1582
-#: src/timeline2/view/timelinecontroller.cpp:1638
-#: src/timeline2/view/timelinecontroller.cpp:2719
-#: src/timeline2/view/timelinecontroller.cpp:3522
-#: src/timeline2/view/timelinecontroller.cpp:3586
-#: src/timeline2/view/timelinecontroller.cpp:3830
-#: src/timeline2/view/timelinecontroller.cpp:3876
-#: src/timeline2/view/timelinecontroller.cpp:3922
-#: src/timeline2/view/timelinecontroller.cpp:3929
-#: src/timeline2/view/timelinecontroller.cpp:3957
-#: src/timeline2/view/timelinecontroller.cpp:4031
-#: src/timeline2/view/timelinecontroller.cpp:4048
-#: src/timeline2/view/timelinecontroller.cpp:4310
-#: src/timeline2/view/timelinecontroller.cpp:4325
-#: src/timeline2/view/timelinecontroller.cpp:4350
-#: src/timeline2/view/timelinecontroller.cpp:4365
-#: src/timeline2/view/timelinecontroller.cpp:4419
-#: src/timeline2/view/timelinecontroller.cpp:4472
-#: src/timeline2/view/timelinecontroller.cpp:4495
+#: src/timeline2/model/timelinefunctions.cpp:1080
+#: src/timeline2/view/timelinecontroller.cpp:955
+#: src/timeline2/view/timelinecontroller.cpp:1365
+#: src/timeline2/view/timelinecontroller.cpp:1445
+#: src/timeline2/view/timelinecontroller.cpp:1455
+#: src/timeline2/view/timelinecontroller.cpp:1484
+#: src/timeline2/view/timelinecontroller.cpp:1524
+#: src/timeline2/view/timelinecontroller.cpp:1559
+#: src/timeline2/view/timelinecontroller.cpp:1584
+#: src/timeline2/view/timelinecontroller.cpp:1640
+#: src/timeline2/view/timelinecontroller.cpp:2753
+#: src/timeline2/view/timelinecontroller.cpp:3556
+#: src/timeline2/view/timelinecontroller.cpp:3620
+#: src/timeline2/view/timelinecontroller.cpp:3864
+#: src/timeline2/view/timelinecontroller.cpp:3910
+#: src/timeline2/view/timelinecontroller.cpp:3956
+#: src/timeline2/view/timelinecontroller.cpp:3963
+#: src/timeline2/view/timelinecontroller.cpp:3991
+#: src/timeline2/view/timelinecontroller.cpp:4065
+#: src/timeline2/view/timelinecontroller.cpp:4082
+#: src/timeline2/view/timelinecontroller.cpp:4344
+#: src/timeline2/view/timelinecontroller.cpp:4359
+#: src/timeline2/view/timelinecontroller.cpp:4384
+#: src/timeline2/view/timelinecontroller.cpp:4399
+#: src/timeline2/view/timelinecontroller.cpp:4453
+#: src/timeline2/view/timelinecontroller.cpp:4506
+#: src/timeline2/view/timelinecontroller.cpp:4529
 #, kde-format
 msgid "No clip selected"
 msgstr "Ningún clip seleccionado"
 
-#: src/timeline2/model/timelinefunctions.cpp:1123
+#: src/timeline2/model/timelinefunctions.cpp:1150
 #, kde-format
 msgid "Cannot move selected group"
 msgstr "No es posible mover el grupo seleccionado"
 
-#: src/timeline2/model/timelinefunctions.cpp:1216
+#: src/timeline2/model/timelinefunctions.cpp:1243
 #, kde-format
 msgid "Enable clips"
 msgstr "Habilitar clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1216
+#: src/timeline2/model/timelinefunctions.cpp:1243
 #, kde-format
 msgid "Disable clips"
 msgstr "Deshabilitar clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1232
+#: src/timeline2/model/timelinefunctions.cpp:1259
 #, kde-format
 msgid "Cannot change clip state"
 msgstr "No es posible cambiar estado del clip"
 
-#: src/timeline2/model/timelinefunctions.cpp:1261
+#: src/timeline2/model/timelinefunctions.cpp:1288
 #, kde-format
 msgid "One or more clips do not have audio, or are already audio"
 msgstr "Uno o más clips carecen de audio o son audios"
 
-#: src/timeline2/model/timelinefunctions.cpp:1286
-#: src/timeline2/model/timelinefunctions.cpp:1302
+#: src/timeline2/model/timelinefunctions.cpp:1313
+#: src/timeline2/model/timelinefunctions.cpp:1329
 #, kde-format
 msgid "Audio restore failed"
 msgstr "Falló la recuperación de audio"
 
-#: src/timeline2/model/timelinefunctions.cpp:1341
+#: src/timeline2/model/timelinefunctions.cpp:1368
 #, kde-format
 msgid "No available video track for restore operation"
 msgstr "No hay una pista de video disponible para la operación de recuperación"
 
-#: src/timeline2/model/timelinefunctions.cpp:1349
-#: src/timeline2/model/timelinefunctions.cpp:1362
+#: src/timeline2/model/timelinefunctions.cpp:1376
+#: src/timeline2/model/timelinefunctions.cpp:1389
 #, kde-format
 msgid "Video restore failed"
 msgstr "Falló la recuperación de video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1368
+#: src/timeline2/model/timelinefunctions.cpp:1395
 #, kde-format
 msgid "Restore Video"
 msgstr "Recuperar video"
 
-#: src/timeline2/model/timelinefunctions.cpp:1420
+#: src/timeline2/model/timelinefunctions.cpp:1447
 #, kde-format
 msgid "Change Composition Track"
 msgstr "Cambiar pista para composición"
 
-#: src/timeline2/model/timelinefunctions.cpp:1439
+#: src/timeline2/model/timelinefunctions.cpp:1466
 #, kde-format
 msgid "Cannot enable multitrack view on a single track"
 msgstr "No es posible habilitar la vista multipista en una sola pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:1545
+#: src/timeline2/model/timelinefunctions.cpp:1572
 #, kde-format
 msgid "Add Clip to Library"
 msgstr "Agregar clip a la biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1545
+#: src/timeline2/model/timelinefunctions.cpp:1572
 #, kde-format
 msgid "Enter a name for the clip in Library"
 msgstr "Introducir un nombre para el clip en la biblioteca"
 
-#: src/timeline2/model/timelinefunctions.cpp:1945
+#: src/timeline2/model/timelinefunctions.cpp:1972
 #, kde-format
 msgid "Paste clips"
 msgstr "Pegar clips"
 
-#: src/timeline2/model/timelinefunctions.cpp:1959
-#: src/timeline2/model/timelinefunctions.cpp:2133
-#: src/timeline2/model/timelinefunctions.cpp:2156
-#: src/timeline2/model/timelinefunctions.cpp:2193
-#: src/timeline2/model/timelinefunctions.cpp:2614
+#: src/timeline2/model/timelinefunctions.cpp:1986
+#: src/timeline2/model/timelinefunctions.cpp:2160
+#: src/timeline2/model/timelinefunctions.cpp:2183
+#: src/timeline2/model/timelinefunctions.cpp:2220
+#: src/timeline2/model/timelinefunctions.cpp:2641
 #, kde-format
 msgid "Not enough tracks to paste clipboard"
 msgstr "No hay suficientes pistas para pegar el portapapeles"
 
-#: src/timeline2/model/timelinefunctions.cpp:2028
+#: src/timeline2/model/timelinefunctions.cpp:2055
 #, kde-format
 msgid "Another paste operation is in progress"
 msgstr "Otra operación de pegado ya está en curso"
 
-#: src/timeline2/model/timelinefunctions.cpp:2041
+#: src/timeline2/model/timelinefunctions.cpp:2068
 #, kde-format
 msgid "No valid data in clipboard"
 msgstr "No hay información válida en el portapapeles"
 
-#: src/timeline2/model/timelinefunctions.cpp:2079
+#: src/timeline2/model/timelinefunctions.cpp:2106
 #, kde-format
 msgid ""
 "Not enough tracks to paste clipboard (requires %1 audio, %2 video tracks)"
@@ -37461,15 +37461,15 @@ msgstr ""
 "No hay suficientes pistas para pegar el contenido del portapapeles (se "
 "necesitan %1 de audio, %2 de video)"
 
-#: src/timeline2/model/timelinefunctions.cpp:2222
-#: src/timeline2/model/timelinefunctions.cpp:2243
-#: src/timeline2/model/timelinefunctions.cpp:2274
-#: src/timeline2/model/timelinefunctions.cpp:2279
+#: src/timeline2/model/timelinefunctions.cpp:2249
+#: src/timeline2/model/timelinefunctions.cpp:2270
+#: src/timeline2/model/timelinefunctions.cpp:2301
+#: src/timeline2/model/timelinefunctions.cpp:2306
 #, kde-format
 msgid "Pasted clips"
 msgstr "Clips pegados"
 
-#: src/timeline2/model/timelinefunctions.cpp:2263
+#: src/timeline2/model/timelinefunctions.cpp:2290
 #, kde-format
 msgid ""
 "The source project has a different framerate (%1fps) than your current "
@@ -37479,73 +37479,73 @@ msgstr ""
 "del proyecto actual.<br/>Es posible que tanto clips como fotogramas clave "
 "aparezcan alterados."
 
-#: src/timeline2/model/timelinefunctions.cpp:2265
+#: src/timeline2/model/timelinefunctions.cpp:2292
 #, kde-format
 msgid "Pasting Warning"
 msgstr "Advertencia de pegado"
 
-#: src/timeline2/model/timelinefunctions.cpp:2265
+#: src/timeline2/model/timelinefunctions.cpp:2292
 #: src/titler/titlewidget.cpp:4153
 #, kde-format
 msgid "Paste"
 msgstr "Pegar"
 
-#: src/timeline2/model/timelinefunctions.cpp:2398
-#: src/timeline2/model/timelinefunctions.cpp:2522
-#: src/timeline2/model/timelinefunctions.cpp:2550
+#: src/timeline2/model/timelinefunctions.cpp:2425
+#: src/timeline2/model/timelinefunctions.cpp:2549
+#: src/timeline2/model/timelinefunctions.cpp:2577
 #, kde-format
 msgid "Could not add bin clip"
 msgstr "No fue posible agregar medio en el panel Medios"
 
-#: src/timeline2/model/timelinefunctions.cpp:2606
+#: src/timeline2/model/timelinefunctions.cpp:2633
 #, kde-format
 msgid "Not all clips were copied successfully"
 msgstr "No todos los clips fueron copiados exitosamente"
 
-#: src/timeline2/model/timelinefunctions.cpp:2662
-#: src/timeline2/model/timelinefunctions.cpp:2845
+#: src/timeline2/model/timelinefunctions.cpp:2689
+#: src/timeline2/model/timelinefunctions.cpp:2870
 #, kde-format
 msgid "Could not paste items in timeline"
 msgstr "No fue posible pegar los elementos en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:2869
+#: src/timeline2/model/timelinefunctions.cpp:2894
 #, kde-format
 msgid "Paste timeline clips"
 msgstr "Pegar clips de la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3089
+#: src/timeline2/model/timelinefunctions.cpp:3116
 #, kde-format
 msgid "Remove space on track"
 msgstr "Eliminar espacio en la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:3120
+#: src/timeline2/model/timelinefunctions.cpp:3152
 #, kde-format
 msgid "Delete clips on track"
 msgstr "Borrar clips en la pista"
 
-#: src/timeline2/model/timelinefunctions.cpp:3141
+#: src/timeline2/model/timelinefunctions.cpp:3173
 #, kde-format
 msgid "No clips found in timeline"
 msgstr "Ningún clip encontrado en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3170
+#: src/timeline2/model/timelinefunctions.cpp:3202
 #, kde-format
 msgid "No gaps found in timeline"
 msgstr "Ningún hueco encontrado en la línea de tiempo"
 
-#: src/timeline2/model/timelinefunctions.cpp:3179
 #: src/timeline2/model/timelinefunctions.cpp:3211
+#: src/timeline2/model/timelinefunctions.cpp:3243
 #, kde-format
 msgid "Gap"
 msgstr "Hueco"
 
-#: src/timeline2/model/timelinefunctions.cpp:3204
+#: src/timeline2/model/timelinefunctions.cpp:3236
 #, kde-format
 msgid "No gaps found on selected track"
 msgstr "Ningún hueco encontrado en la pista seleccionada"
 
 #: src/timeline2/model/timelineitemmodel.cpp:157
-#: src/timeline2/model/timelinemodel.cpp:5196
+#: src/timeline2/model/timelinemodel.cpp:4891
 #, kde-format
 msgctxt "@action"
 msgid "Insert Track"
@@ -37601,179 +37601,179 @@ msgstr "Medios sustituidos: %1, Medios demasiado extensos: %2"
 msgid "Replace clip"
 msgstr "Sustituir medio"
 
-#: src/timeline2/model/timelinemodel.cpp:1087
-#: src/timeline2/model/timelinemodel.cpp:1331
+#: src/timeline2/model/timelinemodel.cpp:1098
+#: src/timeline2/model/timelinemodel.cpp:1346
 #, kde-format
 msgid "Select a clip to apply the mix"
 msgstr "Seleccionar un clip para aplicar la mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:1326
+#: src/timeline2/model/timelinemodel.cpp:1341
 #, kde-format
 msgid "start"
 msgstr "inicio"
 
-#: src/timeline2/model/timelinemodel.cpp:1326
+#: src/timeline2/model/timelinemodel.cpp:1341
 #, kde-format
 msgid "end"
 msgstr "final"
 
-#: src/timeline2/model/timelinemodel.cpp:1326
+#: src/timeline2/model/timelinemodel.cpp:1341
 #, kde-format
 msgid "Not enough frames at clip %1 to apply the mix"
 msgstr "No existen suficientes fotogramas en el clip %1 para aplicar la mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:1329
-#: src/timeline2/view/timelinecontroller.cpp:2048
+#: src/timeline2/model/timelinemodel.cpp:1344
+#: src/timeline2/view/timelinecontroller.cpp:2050
 #, kde-format
 msgid "No active track"
 msgstr "Ninguna pista activa"
 
-#: src/timeline2/model/timelinemodel.cpp:1336
+#: src/timeline2/model/timelinemodel.cpp:1351
 #, kde-format
 msgid "Create mix"
 msgstr "Crear mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:1415
-#: src/timeline2/model/timelinemodel.cpp:1451
+#: src/timeline2/model/timelinemodel.cpp:1430
+#: src/timeline2/model/timelinemodel.cpp:1466
 #, kde-format
 msgid "Move clip"
 msgstr "Mover clip"
 
-#: src/timeline2/model/timelinemodel.cpp:2007
-#: src/timeline2/model/timelinemodel.cpp:2036
-#: src/timeline2/model/timelinemodel.cpp:2160
-#: src/timeline2/model/timelinemodel.cpp:2182
-#: src/timeline2/model/timelinemodel.cpp:2199
-#: src/timeline2/model/timelinemodel.cpp:2206
-#: src/timeline2/model/timelinemodel.cpp:2238
-#: src/timeline2/model/timelinemodel.cpp:2243
+#: src/timeline2/model/timelinemodel.cpp:2022
+#: src/timeline2/model/timelinemodel.cpp:2051
+#: src/timeline2/model/timelinemodel.cpp:2175
+#: src/timeline2/model/timelinemodel.cpp:2197
+#: src/timeline2/model/timelinemodel.cpp:2214
+#: src/timeline2/model/timelinemodel.cpp:2221
+#: src/timeline2/model/timelinemodel.cpp:2253
 #: src/timeline2/model/timelinemodel.cpp:2258
-#: src/timeline2/model/timelinemodel.cpp:2271
-#: src/timeline2/model/timelinemodel.cpp:2279
-#: src/timeline2/view/timelinecontroller.cpp:3907
+#: src/timeline2/model/timelinemodel.cpp:2273
+#: src/timeline2/model/timelinemodel.cpp:2286
+#: src/timeline2/model/timelinemodel.cpp:2294
+#: src/timeline2/view/timelinecontroller.cpp:3941
 #, kde-format
 msgid "No available track for insert operation"
 msgstr "No hay una pista disponible para la operación de inserción"
 
-#: src/timeline2/model/timelinemodel.cpp:2011
+#: src/timeline2/model/timelinemodel.cpp:2026
 #, kde-format
 msgid "Failed to create audio tracks"
 msgstr "Error al crear pistas de audio"
 
-#: src/timeline2/model/timelinemodel.cpp:2050
+#: src/timeline2/model/timelinemodel.cpp:2065
 #, kde-format
 msgid "Insert Clip"
 msgstr "Insertar clip"
 
-#: src/timeline2/model/timelinemodel.cpp:2113
+#: src/timeline2/model/timelinemodel.cpp:2128
 #, kde-format
 msgid "You cannot insert a sequence containing itself"
 msgstr "No es posible insertar una secuencia que se contenga a sí misma"
 
-#: src/timeline2/model/timelinemodel.cpp:2191
+#: src/timeline2/model/timelinemodel.cpp:2206
 #, kde-format
 msgid "Not enough audio tracks for all streams (%1)"
 msgstr "No hay suficientes pistas de audio para todas las fuentes (%1)"
 
-#: src/timeline2/model/timelinemodel.cpp:2418
+#: src/timeline2/model/timelinemodel.cpp:2433
 #, kde-format
 msgid "No available track for split operation"
 msgstr "No hay una pista disponible para la operación de división"
 
-#: src/timeline2/model/timelinemodel.cpp:2456
+#: src/timeline2/model/timelinemodel.cpp:2471
 #, kde-format
 msgid "Audio split failed: no viable track"
 msgstr "Falló la división de audio: no hay pistas viables"
 
-#: src/timeline2/model/timelinemodel.cpp:2464
+#: src/timeline2/model/timelinemodel.cpp:2479
 #, kde-format
 msgid "Audio split failed: impossible to create audio clip"
 msgstr "Falló la división de audio: no fue posible crear el clip de audio"
 
-#: src/timeline2/model/timelinemodel.cpp:2609
-#: src/timeline2/model/timelinemodel.cpp:2647
+#: src/timeline2/model/timelinemodel.cpp:2624
+#: src/timeline2/model/timelinemodel.cpp:2662
 #, kde-format
 msgid "Delete Subtitle"
 msgstr "Borrar subtítulo"
 
-#: src/timeline2/model/timelinemodel.cpp:2640
+#: src/timeline2/model/timelinemodel.cpp:2655
 #, kde-format
 msgid "Remove group"
 msgstr "Eliminar grupo"
 
-#: src/timeline2/model/timelinemodel.cpp:2645
+#: src/timeline2/model/timelinemodel.cpp:2660
 #, kde-format
 msgid "Delete Composition"
 msgstr "Borrar composición"
 
-#: src/timeline2/model/timelinemodel.cpp:2852
-#: src/timeline2/model/timelinemodel.cpp:3126
-#: src/timeline2/view/timelinecontroller.cpp:4982
+#: src/timeline2/model/timelinemodel.cpp:2867
+#: src/timeline2/model/timelinemodel.cpp:3141
+#: src/timeline2/view/timelinecontroller.cpp:5016
 #, kde-format
 msgid "Move group"
 msgstr "Mover grupo"
 
-#: src/timeline2/model/timelinemodel.cpp:3836
+#: src/timeline2/model/timelinemodel.cpp:3798
 #, kde-format
 msgid "Resize group"
 msgstr "Redimensionar grupo"
 
-#: src/timeline2/model/timelinemodel.cpp:3988
+#: src/timeline2/model/timelinemodel.cpp:3950
 #, kde-format
 msgid "Cannot resize this clip"
 msgstr "No es posible redimensionar este clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3991
+#: src/timeline2/model/timelinemodel.cpp:3953
 #, kde-format
 msgid "Cannot resize the corresponding split clip"
 msgstr "No es posible redimensionar la otra parte del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:3994
+#: src/timeline2/model/timelinemodel.cpp:3956
 #, kde-format
 msgid "Cannot resize one or more clips in the selection"
 msgstr "No es posible redimensionar uno o más clips seleccionados"
 
-#: src/timeline2/model/timelinemodel.cpp:3998
+#: src/timeline2/model/timelinemodel.cpp:3960
 #, kde-format
 msgid "Resize clip speed"
 msgstr "Cambiar velocidad del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4157
+#: src/timeline2/model/timelinemodel.cpp:4093
 #, kde-format
 msgid "Remove mix"
 msgstr "Eliminar mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:4159
+#: src/timeline2/model/timelinemodel.cpp:4095
 #, kde-format
 msgid "Removing mix failed"
 msgstr "Falla al eliminar mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:4489
+#: src/timeline2/model/timelinemodel.cpp:4111
 #, kde-format
 msgid "Resize clip"
 msgstr "Redimensionar clip"
 
-#: src/timeline2/model/timelinemodel.cpp:4491
+#: src/timeline2/model/timelinemodel.cpp:4113
 #, kde-format
 msgid "Resize composition"
 msgstr "Redimensionar composición"
 
-#: src/timeline2/model/timelinemodel.cpp:4819
+#: src/timeline2/model/timelinemodel.cpp:4509
 #, kde-format
 msgid "Ripple resize clip"
 msgstr "Redimensionar clip encadenado"
 
-#: src/timeline2/model/timelinemodel.cpp:4821
+#: src/timeline2/model/timelinemodel.cpp:4511
 #, kde-format
 msgid "Ripple resize composition"
 msgstr "Redimensionar composición encadenado"
 
-#: src/timeline2/model/timelinemodel.cpp:4823
+#: src/timeline2/model/timelinemodel.cpp:4513
 #, kde-format
 msgid "Ripple resize subtitle"
 msgstr "Redimensionar subtítulo encadenado"
 
-#: src/timeline2/model/timelinemodel.cpp:4969
+#: src/timeline2/model/timelinemodel.cpp:4664
 #, kde-format
 msgctxt "Undo/Redo menu text"
 msgid "Slip clip"
@@ -37781,131 +37781,132 @@ msgid_plural "Slip clips"
 msgstr[0] "Desplazar clip"
 msgstr[1] "Desplazar clips"
 
-#: src/timeline2/model/timelinemodel.cpp:5004
+#: src/timeline2/model/timelinemodel.cpp:4699
 #, kde-format
 msgid "Slip clip"
 msgstr "Desplazar clip"
 
-#: src/timeline2/model/timelinemodel.cpp:5039
+#: src/timeline2/model/timelinemodel.cpp:4734
 #, kde-format
 msgid "Group clips"
 msgstr "Agrupar clips"
 
-#: src/timeline2/model/timelinemodel.cpp:5124
-#: src/timeline2/model/timelinemodel.cpp:5140
+#: src/timeline2/model/timelinemodel.cpp:4819
+#: src/timeline2/model/timelinemodel.cpp:4835
 #, kde-format
 msgid "Ungroup clips"
 msgstr "Desagrupar clips"
 
-#: src/timeline2/model/timelinemodel.cpp:5305
-#: src/timeline2/view/timelinecontroller.cpp:1050
+#: src/timeline2/model/timelinemodel.cpp:5000
+#: src/timeline2/view/timelinecontroller.cpp:1052
 #, kde-format
 msgid "Delete Track"
 msgstr "Borrar pista"
 
-#: src/timeline2/model/timelinemodel.cpp:5315
+#: src/timeline2/model/timelinemodel.cpp:5010
 #, kde-format
 msgid "Cannot delete last track in timeline"
 msgstr "No es posible borrar la última pista de la línea de tiempo"
 
-#: src/timeline2/model/timelinemodel.cpp:5417
+#: src/timeline2/model/timelinemodel.cpp:5112
 #, kde-format
 msgid "Move Track"
 msgstr "Mover pista"
 
-#: src/timeline2/model/timelinemodel.cpp:5742
+#: src/timeline2/model/timelinemodel.cpp:5437
 #, kde-format
 msgid "Cannot add effect %1 to master track"
 msgstr "No es posible agregar el efecto %1 a la pista maestra"
 
-#: src/timeline2/model/timelinemodel.cpp:5749
+#: src/timeline2/model/timelinemodel.cpp:5444
 #, kde-format
 msgid "Cannot add effect %1 to selected track"
 msgstr "No es posible agregar el efecto %1 a la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:5770
+#: src/timeline2/model/timelinemodel.cpp:5465
 #, kde-format
 msgid "Cannot paste effect to master track"
 msgstr "No es posible pegar el efecto en la pista maestra"
 
-#: src/timeline2/model/timelinemodel.cpp:5776
+#: src/timeline2/model/timelinemodel.cpp:5471
 #, kde-format
 msgid "Cannot paste effect to selected track"
 msgstr "No es posible pegar el efecto en la pista seleccionada"
 
-#: src/timeline2/model/timelinemodel.cpp:5824
+#: src/timeline2/model/timelinemodel.cpp:5519
 #, kde-format
 msgid "Cannot add effect %1 to selected clip"
 msgstr "No es posible agregar el efecto %1 al clip seleccionado"
 
-#: src/timeline2/model/timelinemodel.cpp:5848
+#: src/timeline2/model/timelinemodel.cpp:5543
 #, kde-format
 msgid "Adjust Fade"
 msgstr "Ajustar fundido"
 
-#: src/timeline2/model/timelinemodel.cpp:6223
+#: src/timeline2/model/timelinemodel.cpp:5918
 #, kde-format
 msgid "Insert Composition"
 msgstr "Insertar composición"
 
-#: src/timeline2/model/timelinemodel.cpp:6448
+#: src/timeline2/model/timelinemodel.cpp:6167
 #, kde-format
 msgid "Move composition"
 msgstr "Mover composición"
 
-#: src/timeline2/model/timelinemodel.cpp:7217
+#: src/timeline2/model/timelinemodel.cpp:6978
 #, kde-format
 msgid "Enable time remap"
 msgstr "Habilitar remapeo de tiempo"
 
-#: src/timeline2/model/timelinemodel.cpp:7295
+#: src/timeline2/model/timelinemodel.cpp:7056
 #, kde-format
 msgid "Change speed failed"
 msgstr "Falló el cambio de velocidad"
 
-#: src/timeline2/model/timelinemodel.cpp:7305
-#: src/timeline2/view/timelinecontroller.cpp:3422
+#: src/timeline2/model/timelinemodel.cpp:7066
+#: src/timeline2/view/timelinecontroller.cpp:3456
 #, kde-format
 msgid "Change clip speed"
 msgstr "Cambiar velocidad del clip"
 
-#: src/timeline2/model/timelinemodel.cpp:7754
+#: src/timeline2/model/timelinemodel.cpp:7515
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "Bloquear pista"
 
-#: src/timeline2/model/timelinemodel.cpp:7759
+#: src/timeline2/model/timelinemodel.cpp:7520
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "Desbloquear pista"
 
-#: src/timeline2/model/timelinemodel.cpp:7793
-#: src/timeline2/model/timelinemodel.cpp:7855
+#: src/timeline2/model/timelinemodel.cpp:7554
+#: src/timeline2/model/timelinemodel.cpp:7616
 #, kde-format
 msgid "Change composition"
 msgstr "Cambiar composición"
 
-#: src/timeline2/model/timelinemodel.cpp:7807
+#: src/timeline2/model/timelinemodel.cpp:7568
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "No es posible operar sobre una composición agrupada, por favor desagruparla"
 
-#: src/timeline2/model/timelinemodel.cpp:7959
-#, kde-format
-msgid "Cannot resize mix"
-msgstr "No es posible redimensionar la mezcla"
-
-#: src/timeline2/model/timelinemodel.cpp:8028
+#: src/timeline2/model/timelinemodel.cpp:7645
+#: src/timeline2/model/timelinemodel.cpp:7861
 #, kde-format
 msgid "Resize mix"
 msgstr "Redimensionar mezcla"
 
-#: src/timeline2/model/timelinemodel.cpp:8146
+#: src/timeline2/model/timelinemodel.cpp:7801
+#, kde-format
+msgid "Cannot resize mix"
+msgstr "No es posible redimensionar la mezcla"
+
+#: src/timeline2/model/timelinemodel.cpp:7979
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Error al inicializar la previsualización de la línea de tiempo"
@@ -37939,31 +37940,31 @@ msgstr[1] ""
 msgid "Create all required tracks (%1)"
 msgstr "Crear todas las pistas necesarias (%1)"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:124
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:137
 #, kde-format
 msgid "Editing duration for %1 clips."
 msgstr "Editando la duración de %1 clips."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:131
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:137
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:138
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:141
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:144
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:150
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:151
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:154
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:164
 #, kde-format
 msgid "Resizing in Ripple mode."
 msgstr "Redimensionando en modo Encadenado."
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:283
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:296
 #, kde-format
 msgid "Resize All to Same Duration"
 msgstr "Redimensionar todo a la misma duración"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:284
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:297
 #, kde-format
 msgid "Resize Each Clip Using Available Space"
 msgstr "Redimensionar cada clip usando el espacio disponible"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:289
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:302
 #, kde-format
 msgid ""
 "There is not enough space to reach the requested duration for all clips.\n"
@@ -37984,12 +37985,12 @@ msgstr ""
 "\n"
 "Usar el modo Encadenado para desplazar los otros clips hacia adelante\n"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:293
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:306
 #, kde-format
 msgid "Not Enough Space"
 msgstr "No hay suficiente espacio"
 
-#: src/timeline2/view/dialogs/clipdurationdialog.cpp:419
+#: src/timeline2/view/dialogs/clipdurationdialog.cpp:432
 #, kde-format
 msgid "Edit item"
 msgstr "Editar elemento"
@@ -38108,44 +38109,45 @@ msgstr "Detener"
 msgid "Paused"
 msgstr "Pausado"
 
-#: src/timeline2/view/qml/Clip.qml:283 src/timeline2/view/qml/Clip.qml:1336
+#: src/timeline2/view/qml/Clip.qml:285 src/timeline2/view/qml/Clip.qml:1420
 #, kde-format
 msgid "%1 (%2-%3), Position: %4, Duration: %5"
 msgstr "%1 (%2-%3), Posición: %4, Duración: %5"
 
-#: src/timeline2/view/qml/Clip.qml:398 src/timeline2/view/qml/Clip.qml:413
+#: src/timeline2/view/qml/Clip.qml:400 src/timeline2/view/qml/Clip.qml:415
 #: src/timeline2/view/qml/SubTitle.qml:226
 #: src/timeline2/view/qml/SubTitle.qml:232
 #, kde-format
 msgid "Position: %1"
 msgstr "Posición: %1"
 
-#: src/timeline2/view/qml/Clip.qml:633
+#: src/timeline2/view/qml/Clip.qml:635
 #, kde-format
 msgid "Mix duration: %1, Cut at: %2"
 msgstr "Duración de mezcla: %1, Corte en: %2"
 
-#: src/timeline2/view/qml/Clip.qml:687
+#: src/timeline2/view/qml/Clip.qml:691
 #, kde-format
 msgid "+%1, Mix duration: %2"
 msgstr "+%1, Duración de mezcla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:689
+#: src/timeline2/view/qml/Clip.qml:693
 #, kde-format
 msgid "-%1, Mix duration: %2"
 msgstr "-%1, Duración de mezcla: %2"
 
-#: src/timeline2/view/qml/Clip.qml:692 src/timeline2/view/qml/Clip.qml:707
+#: src/timeline2/view/qml/Clip.qml:696 src/timeline2/view/qml/Clip.qml:711
+#: src/timeline2/view/qml/Clip.qml:1218 src/timeline2/view/qml/Clip.qml:1387
 #, kde-format
 msgid "Mix duration: %1"
 msgstr "Duración de mezcla: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1216
+#: src/timeline2/view/qml/Clip.qml:1258
 #, kde-format
 msgid "In:%1, Position:%2"
 msgstr "Entrada:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1219 src/timeline2/view/qml/Clip.qml:1326
+#: src/timeline2/view/qml/Clip.qml:1261 src/timeline2/view/qml/Clip.qml:1410
 #, kde-format
 msgid ""
 "<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent "
@@ -38154,54 +38156,54 @@ msgstr ""
 "<b>Ctrl+arrastrar</b> para cambiar la velocidad, <b>Doble clic</b> para "
 "mezclar con clip adyacente"
 
-#: src/timeline2/view/qml/Clip.qml:1221
+#: src/timeline2/view/qml/Clip.qml:1263
 #, kde-format
 msgid "<b>Drag</b> to change mix duration"
 msgstr "<b>Arrastrar</b> para cambiar la duración de la mezcla"
 
-#: src/timeline2/view/qml/Clip.qml:1323
+#: src/timeline2/view/qml/Clip.qml:1407
 #, kde-format
 msgid "Out:%1, Position:%2"
 msgstr "Salida:%1, Posición:%2"
 
-#: src/timeline2/view/qml/Clip.qml:1462
+#: src/timeline2/view/qml/Clip.qml:1546
 #, kde-format
 msgid "Offset: -%1"
 msgstr "Desplazamiento: -%1"
 
-#: src/timeline2/view/qml/Clip.qml:1463
+#: src/timeline2/view/qml/Clip.qml:1547
 #, kde-format
 msgid "Offset: %1"
 msgstr "Desplazamiento: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1464
+#: src/timeline2/view/qml/Clip.qml:1548
 #, kde-format
 msgid " <b>Click</b> to align clips"
 msgstr " <b>Clic</b> para alinear clips"
 
-#: src/timeline2/view/qml/Clip.qml:1748 src/timeline2/view/qml/Clip.qml:1789
+#: src/timeline2/view/qml/Clip.qml:1832 src/timeline2/view/qml/Clip.qml:1873
 #, kde-format
 msgid "<b>Click</b> to add composition"
 msgstr "<b>Clic</b> para agregar un método de composición"
 
-#: src/timeline2/view/qml/Clip.qml:1868 src/timeline2/view/qml/Clip.qml:1875
+#: src/timeline2/view/qml/Clip.qml:1952 src/timeline2/view/qml/Clip.qml:1959
 #, kde-format
 msgid "Fade out: %1"
 msgstr "Fundido saliente: %1"
 
-#: src/timeline2/view/qml/Clip.qml:1879 src/timeline2/view/qml/Clip.qml:1988
+#: src/timeline2/view/qml/Clip.qml:1963 src/timeline2/view/qml/Clip.qml:2072
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
 "<b>Arrastrar</b> para ajustar fundido, <b>Clic</b> para agregar un fundido "
 "de duración predeterminada"
 
-#: src/timeline2/view/qml/Clip.qml:1977 src/timeline2/view/qml/Clip.qml:1984
+#: src/timeline2/view/qml/Clip.qml:2061 src/timeline2/view/qml/Clip.qml:2068
 #, kde-format
 msgid "Fade in: %1"
 msgstr "Fundido entrante: %1"
 
-#: src/timeline2/view/qml/Clip.qml:2072
+#: src/timeline2/view/qml/Clip.qml:2156
 #, kde-format
 msgid "Slip Clip"
 msgstr "Desplazar clip"
@@ -38211,10 +38213,10 @@ msgstr "Desplazar clip"
 msgid "%1, Position: %2, Duration: %3"
 msgstr "%1, Posición: %2, Duración: %3"
 
-#: src/timeline2/view/qml/Composition.qml:338
-#: src/timeline2/view/qml/Composition.qml:402
-#: src/timeline2/view/qml/SubTitle.qml:362
-#: src/timeline2/view/qml/SubTitle.qml:467
+#: src/timeline2/view/qml/Composition.qml:345
+#: src/timeline2/view/qml/Composition.qml:416
+#: src/timeline2/view/qml/SubTitle.qml:372
+#: src/timeline2/view/qml/SubTitle.qml:486
 #, kde-format
 msgid "<b>Drag</b> to resize"
 msgstr "<b>Arrastrar</b> para redimensionar"
@@ -38299,12 +38301,12 @@ msgstr "Grabando"
 msgid "Multicam In"
 msgstr "Inicio multicámara"
 
-#: src/timeline2/view/qml/Track.qml:365 src/timeline2/view/qml/Track.qml:383
+#: src/timeline2/view/qml/Track.qml:366 src/timeline2/view/qml/Track.qml:384
 #, kde-format
 msgid "%1%2, Duration = %3"
 msgstr "%1%2, Duración = %3"
 
-#: src/timeline2/view/qml/Track.qml:438
+#: src/timeline2/view/qml/Track.qml:439
 #, kde-format
 msgid "%1% | Adjusting speed"
 msgstr "%1 % | Ajustando velocidad"
@@ -38372,256 +38374,256 @@ msgstr ""
 msgid "Edit track name"
 msgstr "Nombre de pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:293
+#: src/timeline2/view/timelinecontroller.cpp:295
 #, kde-format
 msgid "unknown"
 msgstr "desconocido"
 
-#: src/timeline2/view/timelinecontroller.cpp:398
+#: src/timeline2/view/timelinecontroller.cpp:400
 #, kde-format
 msgid "Hide Track"
 msgstr "Ocultar pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:398
+#: src/timeline2/view/timelinecontroller.cpp:400
 #, kde-format
 msgid "Enable Track"
 msgstr "Habilitar pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:461
+#: src/timeline2/view/timelinecontroller.cpp:463
 #, kde-format
 msgid "No item under timeline cursor in active track"
 msgstr "No hay un elemento en la pista activa bajo el cursor de tiempo"
 
-#: src/timeline2/view/timelinecontroller.cpp:672
-#: src/timeline2/view/timelinecontroller.cpp:696
+#: src/timeline2/view/timelinecontroller.cpp:674
+#: src/timeline2/view/timelinecontroller.cpp:698
 #, kde-format
 msgid "Could not add composition at selected position"
 msgstr ""
 "No fue posible agregar el método de composición en la posición seleccionada"
 
-#: src/timeline2/view/timelinecontroller.cpp:771
-#: src/timeline2/view/timelinecontroller.cpp:1247
-#: src/timeline2/view/timelinecontroller.cpp:1264
-#: src/timeline2/view/timelinecontroller.cpp:1288
-#: src/timeline2/view/timelinecontroller.cpp:1372
+#: src/timeline2/view/timelinecontroller.cpp:773
+#: src/timeline2/view/timelinecontroller.cpp:1249
+#: src/timeline2/view/timelinecontroller.cpp:1266
+#: src/timeline2/view/timelinecontroller.cpp:1290
+#: src/timeline2/view/timelinecontroller.cpp:1374
 #, kde-format
 msgid "Cannot perform operation while dragging in timeline"
 msgstr ""
 "No es posible realizar la operación mientras se arrastra en la línea de "
 "tiempo"
 
-#: src/timeline2/view/timelinecontroller.cpp:969
+#: src/timeline2/view/timelinecontroller.cpp:971
 #, kde-format
 msgid "Could not duplicate clip"
 msgstr "No fue posible duplicar el clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:1027
-#: src/timeline2/view/timelinecontroller.cpp:5850
+#: src/timeline2/view/timelinecontroller.cpp:1029
+#: src/timeline2/view/timelinecontroller.cpp:5884
 #, kde-format
 msgid "Could not insert track"
 msgstr "No fue posible insertar una pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:1050
+#: src/timeline2/view/timelinecontroller.cpp:1052
 #, kde-format
 msgid "Delete Tracks"
 msgstr "Borrar pistas"
 
-#: src/timeline2/view/timelinecontroller.cpp:1115
+#: src/timeline2/view/timelinecontroller.cpp:1117
 #, kde-format
 msgid "Select an audio track to display record controls"
 msgstr ""
 "Seleccionar una pista de audio donde mostrar los controles de grabación"
 
-#: src/timeline2/view/timelinecontroller.cpp:1252
+#: src/timeline2/view/timelinecontroller.cpp:1254
 #, kde-format
 msgid "Select at least 2 items to group"
 msgstr "Seleccionar al menos 2 elementos para agrupar"
 
-#: src/timeline2/view/timelinecontroller.cpp:1599
+#: src/timeline2/view/timelinecontroller.cpp:1601
 #, kde-format
 msgid "No range marker found at position"
 msgstr "No hay un marcador de rango en la posición actual"
 
-#: src/timeline2/view/timelinecontroller.cpp:1771
+#: src/timeline2/view/timelinecontroller.cpp:1773
 #, kde-format
 msgid "No marker at frame %1"
 msgstr "No hay un marcador en el fotograma %1"
 
-#: src/timeline2/view/timelinecontroller.cpp:2132
+#: src/timeline2/view/timelinecontroller.cpp:2134
 #, kde-format
 msgid "No item selected in timeline"
 msgstr "Ningún elemento seleccionado en la línea de tiempo"
 
-#: src/timeline2/view/timelinecontroller.cpp:2270
+#: src/timeline2/view/timelinecontroller.cpp:2272
 #, kde-format
 msgid "No clip to cut"
 msgstr "Ningún clip que cortar"
 
-#: src/timeline2/view/timelinecontroller.cpp:2638
+#: src/timeline2/view/timelinecontroller.cpp:2672
 #, kde-format
 msgid "In:%1, Out:%2 (%3%4)"
 msgstr "Entrada:%1, Salida:%2 (%3%4)"
 
-#: src/timeline2/view/timelinecontroller.cpp:2726
+#: src/timeline2/view/timelinecontroller.cpp:2760
 #, kde-format
 msgid "Slip can only be performed on video, audio or animation clips"
 msgstr ""
 "Desplazar solo podrá ser realizado en clips de video, audio o animación"
 
-#: src/timeline2/view/timelinecontroller.cpp:3133
+#: src/timeline2/view/timelinecontroller.cpp:3167
 #, kde-format
 msgid "No clips found to insert space"
 msgstr "No se encontró ningún clip para insertar espacio"
 
-#: src/timeline2/view/timelinecontroller.cpp:3151
+#: src/timeline2/view/timelinecontroller.cpp:3185
 #, kde-format
 msgid "Cannot remove space at given position"
 msgstr "No es posible eliminar espacio en la posición indicada"
 
-#: src/timeline2/view/timelinecontroller.cpp:3165
+#: src/timeline2/view/timelinecontroller.cpp:3199
 #, kde-format
 msgid "Cannot remove all spaces"
 msgstr "No es posible eliminar todos los espacios"
 
-#: src/timeline2/view/timelinecontroller.cpp:3179
+#: src/timeline2/view/timelinecontroller.cpp:3213
 #, kde-format
 msgid "Cannot remove all clips"
 msgstr "No es posible eliminar todos los clips"
 
-#: src/timeline2/view/timelinecontroller.cpp:3187
+#: src/timeline2/view/timelinecontroller.cpp:3221
 #, kde-format
 msgid "Select an audio track to activate solo mode"
 msgstr "Seleccionar una pista de audio para activar el modo solista"
 
-#: src/timeline2/view/timelinecontroller.cpp:3239
-#: src/timeline2/view/timelinecontroller.cpp:3244
-#: src/timeline2/view/timelinecontroller.cpp:3270
-#: src/timeline2/view/timelinecontroller.cpp:3275
+#: src/timeline2/view/timelinecontroller.cpp:3273
+#: src/timeline2/view/timelinecontroller.cpp:3278
+#: src/timeline2/view/timelinecontroller.cpp:3304
+#: src/timeline2/view/timelinecontroller.cpp:3309
 #, kde-format
 msgid "No item to edit"
 msgstr "Ningún elemento que editar"
 
-#: src/timeline2/view/timelinecontroller.cpp:3281
-#: src/timeline2/view/timelinecontroller.cpp:3418
+#: src/timeline2/view/timelinecontroller.cpp:3315
+#: src/timeline2/view/timelinecontroller.cpp:3452
 #, kde-format
 msgid "Cannot change speed of item(s)"
 msgstr "No es posible cambiar la velocidad de los elementos"
 
-#: src/timeline2/view/timelinecontroller.cpp:3478
-#: src/timeline2/view/timelinecontroller.cpp:6115
+#: src/timeline2/view/timelinecontroller.cpp:3512
+#: src/timeline2/view/timelinecontroller.cpp:6149
 #, kde-format
 msgid "Please activate a track for this operation by clicking on its label"
 msgstr ""
 "Por favor activar una pista para esta operación, haciendo clic sobre su "
 "etiqueta"
 
-#: src/timeline2/view/timelinecontroller.cpp:3744
+#: src/timeline2/view/timelinecontroller.cpp:3778
 #, kde-format
 msgid "Please select a target track by clicking on a track's target zone"
 msgstr ""
 "Por favor seleccionar una pista de destino, haciendo clic en la zona de "
 "destino de la misma"
 
-#: src/timeline2/view/timelinecontroller.cpp:3771
+#: src/timeline2/view/timelinecontroller.cpp:3805
 #, kde-format
 msgid "Clip not found in project bin"
 msgstr "Medio no encontrado en panel Medios"
 
-#: src/timeline2/view/timelinecontroller.cpp:3779
+#: src/timeline2/view/timelinecontroller.cpp:3813
 #, kde-format
 msgid "No timecode metadata found in clip"
 msgstr "No se encontró código de tiempo en los metadatos del medio"
 
-#: src/timeline2/view/timelinecontroller.cpp:3785
+#: src/timeline2/view/timelinecontroller.cpp:3819
 #, kde-format
 msgid "Please select a target track"
 msgstr "Seleccionar una pista de destino"
 
-#: src/timeline2/view/timelinecontroller.cpp:3791
+#: src/timeline2/view/timelinecontroller.cpp:3825
 #, kde-format
 msgid "Failed to insert clip at %1 on track %2"
 msgstr "Error al insertar medio en %1 en la pista %2"
 
-#: src/timeline2/view/timelinecontroller.cpp:3842
+#: src/timeline2/view/timelinecontroller.cpp:3876
 #, kde-format
 msgid "Select a favorite composition"
 msgstr "Seleccionar un método de composición favorito"
 
-#: src/timeline2/view/timelinecontroller.cpp:3913
+#: src/timeline2/view/timelinecontroller.cpp:3947
 #, kde-format
 msgid "No clip found to perform AV split operation"
 msgstr ""
 "No se encontró ningún clip para realizar la operación de división de AV"
 
-#: src/timeline2/view/timelinecontroller.cpp:3941
-#: src/timeline2/view/timelinecontroller.cpp:4009
-#: src/timeline2/view/timelinecontroller.cpp:4065
+#: src/timeline2/view/timelinecontroller.cpp:3975
+#: src/timeline2/view/timelinecontroller.cpp:4043
+#: src/timeline2/view/timelinecontroller.cpp:4099
 #, kde-format
 msgid "Cannot move clip to frame %1."
 msgstr "No es posible mover el clip al fotograma %1."
 
-#: src/timeline2/view/timelinecontroller.cpp:3962
+#: src/timeline2/view/timelinecontroller.cpp:3996
 #, kde-format
 msgid "Set audio reference before attempting to align"
 msgstr "Definir una referencia de audio antes de intentar la alineación"
 
-#: src/timeline2/view/timelinecontroller.cpp:4036
-#: src/timeline2/view/timelinecontroller.cpp:4058
+#: src/timeline2/view/timelinecontroller.cpp:4070
+#: src/timeline2/view/timelinecontroller.cpp:4092
 #, kde-format
 msgid "No timecode for clip"
 msgstr "No hay código de tiempo para este clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4053
+#: src/timeline2/view/timelinecontroller.cpp:4087
 #, kde-format
 msgid "Set timecode reference before attempting to align"
 msgstr ""
 "Definir una referencia de código de tiempo antes de intentar la alineación"
 
-#: src/timeline2/view/timelinecontroller.cpp:4174
+#: src/timeline2/view/timelinecontroller.cpp:4208
 #, kde-format
 msgid "All streams already assigned, deselect another audio target first"
 msgstr ""
 "Todas las fuentes ya asignadas, deseleccionar primero algún otro destino de "
 "audio"
 
-#: src/timeline2/view/timelinecontroller.cpp:4333
+#: src/timeline2/view/timelinecontroller.cpp:4367
 #, kde-format
 msgid "Delete effects"
 msgstr "Borrar efectos"
 
-#: src/timeline2/view/timelinecontroller.cpp:4371
-#: src/timeline2/view/timelinecontroller.cpp:4377
-#: src/timeline2/view/timelinecontroller.cpp:4383
+#: src/timeline2/view/timelinecontroller.cpp:4405
+#: src/timeline2/view/timelinecontroller.cpp:4411
+#: src/timeline2/view/timelinecontroller.cpp:4417
 #, kde-format
 msgid "No information in clipboard"
 msgstr "No hay información en el portapapeles"
 
-#: src/timeline2/view/timelinecontroller.cpp:4408
+#: src/timeline2/view/timelinecontroller.cpp:4442
 #, kde-format
 msgid "Paste effects"
 msgstr "Pegar efectos"
 
-#: src/timeline2/view/timelinecontroller.cpp:4410
+#: src/timeline2/view/timelinecontroller.cpp:4444
 #, kde-format
 msgid "Cannot paste effect on selected clip"
 msgstr "No es posible pegar el efecto en el clip seleccionado"
 
-#: src/timeline2/view/timelinecontroller.cpp:4457
+#: src/timeline2/view/timelinecontroller.cpp:4491
 #, kde-format
 msgid "Open sequence"
 msgstr "Abrir secuencia"
 
-#: src/timeline2/view/timelinecontroller.cpp:4479
+#: src/timeline2/view/timelinecontroller.cpp:4513
 #, kde-format
 msgid "Item is not a title clip"
 msgstr "El elemento no es un título"
 
-#: src/timeline2/view/timelinecontroller.cpp:4571
+#: src/timeline2/view/timelinecontroller.cpp:4605
 #, kde-format
 msgid "%1 items selected (%2) |"
 msgstr "%1 elementos seleccionados (%2) |"
 
-#: src/timeline2/view/timelinecontroller.cpp:4680
+#: src/timeline2/view/timelinecontroller.cpp:4714
 #, kde-format
 msgid ""
 "No replacement clip selected in project bin. Select a clip in the bin and "
@@ -38630,51 +38632,51 @@ msgstr ""
 "No hay ningún medio seleccionado en el panel Medios. Seleccionar uno e "
 "intentarlo nuevamente o cargar un nuevo medio desde el disco."
 
-#: src/timeline2/view/timelinecontroller.cpp:4681
-#: src/timeline2/view/timelinecontroller.cpp:4737
+#: src/timeline2/view/timelinecontroller.cpp:4715
+#: src/timeline2/view/timelinecontroller.cpp:4771
 #, kde-format
 msgctxt "@title:window"
 msgid "Replace Clip"
 msgstr "Sustitución de clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:4681
+#: src/timeline2/view/timelinecontroller.cpp:4715
 #, kde-format
 msgid "Import New Clip"
 msgstr "Cargar medio"
 
-#: src/timeline2/view/timelinecontroller.cpp:4724
+#: src/timeline2/view/timelinecontroller.cpp:4758
 #, kde-format
 msgid "Incompatible clip types for replacement"
 msgstr "Tipos de clips incompatibles para el reemplazo"
 
-#: src/timeline2/view/timelinecontroller.cpp:4731
+#: src/timeline2/view/timelinecontroller.cpp:4765
 #, kde-format
 msgid "Replace clip <b>%1</b> with <b>%2</b>?"
 msgstr "¿Sustituir el clip <b>%1</b> por el medio <b>%2</b>?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4734
+#: src/timeline2/view/timelinecontroller.cpp:4768
 #, kde-format
 msgid "Replace <b>%1</b> clip with <b>%2</b>?"
 msgid_plural "Replace <b>%1</b> clips with <b>%2</b>?"
 msgstr[0] "¿Sustituir <b>%1</b> clip por el medio <b>%2</b>?"
 msgstr[1] "¿Sustituir <b>%1</b> clips por el medio <b>%2</b>?"
 
-#: src/timeline2/view/timelinecontroller.cpp:4737
+#: src/timeline2/view/timelinecontroller.cpp:4771
 #, kde-format
 msgid "Replace Clip"
 msgstr "Sustituir"
 
-#: src/timeline2/view/timelinecontroller.cpp:4961
+#: src/timeline2/view/timelinecontroller.cpp:4995
 #, kde-format
 msgid "Move item"
 msgstr "Mover elemento"
 
-#: src/timeline2/view/timelinecontroller.cpp:5536
+#: src/timeline2/view/timelinecontroller.cpp:5570
 #, kde-format
 msgid "Impossible to capture on a locked track"
 msgstr "No es posible capturar en una pista bloqueada"
 
-#: src/timeline2/view/timelinecontroller.cpp:5547
+#: src/timeline2/view/timelinecontroller.cpp:5581
 #, kde-format
 msgid ""
 "Impossible to capture here: the capture could override clips. Please remove "
@@ -38684,47 +38686,47 @@ msgstr ""
 "Por favor eliminar los clips hacia adelante de la posición actual o escoger "
 "otra pista"
 
-#: src/timeline2/view/timelinecontroller.cpp:5641
+#: src/timeline2/view/timelinecontroller.cpp:5675
 #, kde-format
 msgid "Record audio"
 msgstr "Grabar audio"
 
-#: src/timeline2/view/timelinecontroller.cpp:5790
+#: src/timeline2/view/timelinecontroller.cpp:5824
 #, kde-format
 msgid "Expand clip"
 msgstr "Expandir clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:5793
+#: src/timeline2/view/timelinecontroller.cpp:5827
 #, kde-format
 msgid "Could not expand clip"
 msgstr "No fue posible expandir el clip"
 
-#: src/timeline2/view/timelinecontroller.cpp:5848
+#: src/timeline2/view/timelinecontroller.cpp:5882
 #, kde-format
 msgid "Insert Track"
 msgid_plural "Insert Tracks"
 msgstr[0] "Insertar pista"
 msgstr[1] "Insertar pistas"
 
-#: src/timeline2/view/timelinecontroller.cpp:5916
+#: src/timeline2/view/timelinecontroller.cpp:5950
 #, kde-format
 msgid "No subtitles in current project. Export not possible."
 msgstr ""
 "No se encontraron subtítulos en el proyecto actual. No es posible exportar."
 
-#: src/timeline2/view/timelinecontroller.cpp:5927
+#: src/timeline2/view/timelinecontroller.cpp:5961
 #, kde-format
 msgid "Export subtitle file"
 msgstr "Exportar subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:5928
+#: src/timeline2/view/timelinecontroller.cpp:5962
 #, kde-format
 msgid "Sub Station Alpha v4.00+ File (*.ass);;SubRip Subtitle File (*.srt)"
 msgstr ""
 "Archivo de Sub Station Alpha v4.00+ (*.ass);;Archivo de subtítulos SubRip (*."
 "srt)"
 
-#: src/timeline2/view/timelinecontroller.cpp:5942
+#: src/timeline2/view/timelinecontroller.cpp:5976
 #, kde-format
 msgid ""
 "The current subtitle track contains multiple layers, meaning that if "
@@ -38738,12 +38740,12 @@ msgstr ""
 "que esto resulte en la pérdida de algunos subtítulos en el archivo "
 "exportado. ¿Continuar?"
 
-#: src/timeline2/view/timelinecontroller.cpp:5947
+#: src/timeline2/view/timelinecontroller.cpp:5981
 #, kde-format
 msgid "Warning"
 msgstr "Advertencia"
 
-#: src/timeline2/view/timelinecontroller.cpp:5985
+#: src/timeline2/view/timelinecontroller.cpp:6019
 #, kde-format
 msgid ""
 "The avfilter.subtitles filter is required, but was not found. The subtitles "
@@ -38752,40 +38754,40 @@ msgstr ""
 "Se necesita el filtro avfilter.subtitles, pero no pudo ser encontrado. Es "
 "probable que la característica de subtítulos no funcione correctamente."
 
-#: src/timeline2/view/timelinecontroller.cpp:6002
+#: src/timeline2/view/timelinecontroller.cpp:6036
 #, kde-format
 msgid "Show subtitle track"
 msgstr "Mostrar pista de subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:6002
+#: src/timeline2/view/timelinecontroller.cpp:6036
 #, kde-format
 msgid "Hide subtitle track"
 msgstr "Ocultar pista de subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:6025
+#: src/timeline2/view/timelinecontroller.cpp:6059
 #, kde-format
 msgid "Unlock subtitle track"
 msgstr "Desbloquear pista de subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:6025
+#: src/timeline2/view/timelinecontroller.cpp:6059
 #, kde-format
 msgid "Lock subtitle track"
 msgstr "Bloquear pista de subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:6192
-#: src/timeline2/view/timelinecontroller.cpp:6201
+#: src/timeline2/view/timelinecontroller.cpp:6226
+#: src/timeline2/view/timelinecontroller.cpp:6235
 #, kde-format
 msgctxt "@item:inlistbox name for subtitle track"
 msgid "Subtitles"
 msgstr "Subtítulos"
 
-#: src/timeline2/view/timelinecontroller.cpp:6203
+#: src/timeline2/view/timelinecontroller.cpp:6237
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Manage Subtitles"
 msgstr "Administrar"
 
-#: src/timeline2/view/timelinecontroller.cpp:6434
+#: src/timeline2/view/timelinecontroller.cpp:6468
 #, kde-format
 msgid "No range guide found at position"
 msgstr "No se encontró un marcador de rango en la posición actual"
