@@ -42,7 +42,7 @@ SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-KDE-Accepted-GPL
 #include <QVBoxLayout>
 
 MediaBrowser::MediaBrowser(QWidget *parent)
-    : QWidget(parent)
+    : QScrollArea(parent)
 {
     QString clipFolder = KRecentDirs::dir(QStringLiteral(":KdenliveClipFolder"));
     if (clipFolder.isEmpty() || !QFile::exists(clipFolder)) {
