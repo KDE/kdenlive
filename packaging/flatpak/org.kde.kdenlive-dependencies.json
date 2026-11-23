@@ -443,8 +443,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://www.ffmpeg.org/releases/ffmpeg-9.0.1.tar.xz",
-                    "sha256": "cf38e0e28c7e5605942c4a77755349b0145804a397af37eb1fb4c77cb237f635",
+                    "url": "https://www.ffmpeg.org/releases/ffmpeg-9.1.tar.xz",
+                    "sha256": "1a4d394ae63d190a526cd052eb4415c156b5c5e2df37efab41a7de0b8fde2433",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 5405,
@@ -530,8 +530,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/dyne/frei0r/archive/v3.6.0.tar.gz",
-                    "sha256": "425ddc9358151c52775a00b14e9dbd4044fc1f3aa931beef2aa3633707ba1eb8",
+                    "url": "https://github.com/dyne/frei0r/archive/v3.7.1.tar.gz",
+                    "sha256": "5543917de48d2e8cc2fa02794240a3613447d00458bc2cf606aef20f4b8da515",
                     "x-checker-data": {
                         "type": "anitya",
                         "project-id": 10670,
