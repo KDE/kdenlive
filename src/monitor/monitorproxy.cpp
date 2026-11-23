@@ -216,6 +216,38 @@ bool MonitorProxy::setPositionAdvanced(int pos, bool noAudioScrub)
     return false;
 }
 
+void MonitorProxy::skim(int pos)
+{
+    if (pos < 0) {
+        skimEnd();
+        return;
+    }
+    if (!m_skimming) {
+        m_skimAnchor = m_position;
+        m_skimming = true;
+    }
+    if (pos == m_lastSkim) {
+        return;
+    }
+    m_lastSkim = pos;
+    Q_EMIT requestSeek(pos, true);
+}
+
+void MonitorProxy::skimEnd()
+{
+    if (!m_skimming) {
+        return;
+    }
+    const int back = m_skimAnchor;
+    m_skimming = false;
+    m_skimAnchor = -1;
+    m_lastSkim = -1;
+    if (back >= 0) {
+        // setPosition(back) is a no-op: m_position never left `back`.
+        Q_EMIT requestSeek(back, false);
+    }
+}
+
 void MonitorProxy::setCursorPosition(int pos)
 {
     if (m_position == pos) {
@@ -227,6 +259,9 @@ void MonitorProxy::setCursorPosition(int pos)
 
 void MonitorProxy::positionFromConsumer(int pos, bool playing)
 {
+    if (m_skimming) {
+        return;
+    }
     if (playing) {
         m_position = pos;
         Q_EMIT positionChanged(pos);

@@ -101,6 +101,8 @@ public:
      * */
     Q_INVOKABLE bool setPosition(int pos);
     bool setPositionAdvanced(int pos, bool noAudioScrub);
+    Q_INVOKABLE void skim(int pos);
+    Q_INVOKABLE void skimEnd();
     Q_INVOKABLE void seek(int delta, uint modifiers);
     Q_INVOKABLE QByteArray getUuid() const;
     Q_INVOKABLE void selectClip(int ix);
@@ -242,6 +244,9 @@ Q_SIGNALS:
 private:
     VideoWidget *q;
     int m_position;
+    int m_skimAnchor{-1};
+    int m_lastSkim{-1};
+    bool m_skimming{false};
     int m_zoneIn;
     int m_zoneOut;
     double m_timeZoomFactor{1};

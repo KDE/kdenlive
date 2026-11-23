@@ -541,6 +541,8 @@ function getTrackColor(audio, header) {
     property int lastDropTrack: -1
     property int clipBeingMovedId: -1
     property int consumerPosition: proxy ? proxy.position : -1
+    property int skimFrame: -1
+    readonly property bool skimming: skimFrame >= 0
     property int spacerGroup: -1
     property int spacerTrack: -1
     property int spacerFrame: -1
@@ -628,6 +630,33 @@ function getTrackColor(audio, header) {
             dragProxy.masterObject.updateDrag()
         }
         root.timeline.setTimelineMouseOffset(scrollView.contentX - root.headerWidth)
+    }
+
+    function endSkim() {
+        skimFrame = -1
+        if (proxy) {
+            proxy.skimEnd()
+        }
+    }
+
+    function updateSkim(mouseXPos, mouseYPos, pressed) {
+        if (pressed || K.Core.activeTool !== K.ToolType.SelectTool || dragInProgress || rubberSelect.visible) {
+            endSkim()
+            return
+        }
+        if (mouseYPos <= ruler.guideLabelHeight) {
+            endSkim()
+            return
+        }
+        var frame = Math.round((scrollView.contentX + mouseXPos) / root.timeScale)
+        frame = Math.max(0, Math.min(frame, root.timeline.fullDuration - 1))
+        if (skimFrame === frame) {
+            return
+        }
+        skimFrame = frame
+        if (proxy) {
+            proxy.skim(frame)
+        }
     }
 
     onConsumerPositionChanged: {
@@ -1407,6 +1436,9 @@ function getTrackColor(audio, header) {
                 }
             }
             onPressed: mouse => {
+		if (root.skimming) {
+                    root.endSkim()
+	        }
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
                 let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
@@ -1541,6 +1573,9 @@ function getTrackColor(audio, header) {
             }
             property bool scim: false
             onExited: {
+		if (root.skimming) {
+                    root.endSkim()
+	        }
                 scim = false
                 if (isCursorHidden) {
                     root.timeline.hideCursor(false)
@@ -1567,6 +1602,9 @@ function getTrackColor(audio, header) {
                 }
             }
             onPositionChanged: mouse => {
+		if (root.skimming || (!pressed && mouse.modifiers & Qt.ShiftModifier)) {
+	            root.updateSkim(mouse.x, mouse.y, pressed || !(mouse.modifiers & Qt.ShiftModifier))
+	        }
                 let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool
                 if (pressed && ((mouse.buttons === Qt.MiddleButton) || (mouse.buttons === Qt.LeftButton && selectLikeTool && (mouse.modifiers & Qt.ControlModifier) && !shiftPress))) {
                     // Pan view
@@ -1703,6 +1741,9 @@ function getTrackColor(audio, header) {
                 }
             }
             onReleased: mouse => {
+		if (root.skimming) {
+                    root.endSkim()
+	        }
                 tracksArea.isWarping = false
                 if (tracksArea.isCursorHidden) {
                     root.timeline.hideCursor(false)
@@ -2361,6 +2402,30 @@ function getTrackColor(audio, header) {
                             opacity: 1
                             height: tracksContainerArea.height
                             x: Math.round(root.consumerPosition * root.timeScale)
+                        }
+                        Rectangle {
+                            id: skimmer
+                            visible: root.skimming
+                            color: "#ff3b30"
+                            width: 2
+                            height: tracksContainerArea.height
+                            x: Math.round(root.skimFrame * root.timeScale)
+                            z: 30
+                            Rectangle {
+                                width: skimLabel.implicitWidth + 8
+                                height: skimLabel.implicitHeight + 4
+                                color: "#ff3b30"
+                                radius: 2
+                                y: 2
+                                x: -width / 2
+                                Text {
+                                    id: skimLabel
+                                    anchors.centerIn: parent
+                                    color: "white"
+                                    font: K.UiUtils.smallestReadableFont
+                                    text: root.timeline.simplifiedTC(root.skimFrame)
+                                }
+                            }
                         }
                     }
                     K.ZoomBar {
