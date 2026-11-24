@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-23 01:02+0000\n"
-"PO-Revision-Date: 2026-11-19 19:27+0300\n"
+"POT-Creation-Date: 2026-11-24 01:03+0000\n"
+"PO-Revision-Date: 2026-11-23 18:14+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -349,7 +349,7 @@ msgstr "Çizgi,Çubuk"
 msgid ""
 "The background color to be applied to the entire frame. The default color is "
 "transparent."
-msgstr "Tüm kareye uygulanacak arka plan rengi. Öntanımlı renk saydamdır."
+msgstr "Tüm kareye uygulanacak arka plan rengi. Varsayılan renk saydamdır."
 
 #: data/effects/audiospectrum.xml:18 data/effects/gpstext.xml:80
 #, kde-format
@@ -1203,7 +1203,7 @@ msgid ""
 "off at 6dB per octave (20dB per decade). "
 msgstr ""
 "Merkezi frekans ve (3 dB noktalı) bant genişliğine sahip iki kutuplu bir "
-"Butterworth bant geçişli süzgeç uygulayın. CSG seçeneği, öntanımlı sabit 0 "
+"Butterworth bant geçişli süzgeç uygulayın. CSG seçeneği, varsayılan sabit 0 "
 "dB tepe kazancı yerine sabit bir etek kazancı (tepe kazancı = Q) seçer. "
 "Süzgeç, oktav başına 6dB (on yıl başına 20 dB) düşer."
 
@@ -1419,7 +1419,7 @@ msgid ""
 "Default level (fcut=700 feed=50),Chu Moy circuit (fcut=700 feed=60),Jan "
 "Meier circuit (fcut=650 feed=95)"
 msgstr ""
-"Öntanımlı düzey (fcut=700 feed=50),Chu Moy devresi (fcut=700 feed=60),Jan "
+"Varsayılan düzey (fcut=700 feed=50),Chu Moy devresi (fcut=700 feed=60),Jan "
 "Meier devresi (fcut=650 feed=95)"
 
 #: data/effects/avfilter/avfilter_bs2b.xml:12
@@ -1774,7 +1774,7 @@ msgstr "Doğru gamayı görüntüle"
 #: data/effects/avfilter/avfilter_ciescope.xml:38
 #, kde-format
 msgid "Correct gamma displayed on scope, by default enabled"
-msgstr "Skopta görüntülenen doğru gama; öntanımlı olarak etkindir."
+msgstr "Skopta görüntülenen doğru gama; varsayılan olarak etkindir."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:41
 #, kde-format
@@ -1785,7 +1785,7 @@ msgstr "Beyaz noktayı göster"
 #, kde-format
 msgid "Show white point on CIE diagram, by default disabled"
 msgstr ""
-"CIE diyagramında beyaz noktaları göster; öntanımlı olarak devre dışıdır."
+"CIE diyagramında beyaz noktaları göster; varsayılan olarak devre dışıdır."
 
 #: data/effects/avfilter/avfilter_ciescope.xml:45
 #, kde-format
@@ -1805,7 +1805,7 @@ msgstr "CIE renkleriyle doldur"
 #: data/effects/avfilter/avfilter_ciescope.xml:50
 #, kde-format
 msgid "Fill with CIE colors. By default is enabled."
-msgstr "CIE renkleriyle doldurun. Öntanımlı olarak etkindir."
+msgstr "CIE renkleriyle doldurun. Varsayılan olarak etkindir."
 
 #: data/effects/avfilter/avfilter_colorbalance.xml:4
 #, kde-format
@@ -2427,7 +2427,7 @@ msgid ""
 "before the companding has begun to operate. A typical value for audio which "
 "is initially quiet is -90 dB."
 msgstr ""
-"Süzme başladığında her kanal için öntanımlı dB türünden bir başlangıç ses "
+"Süzme başladığında her kanal için varsayılan dB türünden bir başlangıç ses "
 "düzeyi ayarlayın. Bu, kullanıcının başlangıçta nominal bir düzey sağlamasına "
 "izin verir, böylece örneğin, sıkıştırma çalışmaya başlamadan önce ilk sinyal "
 "düzeylerine çok büyük bir kazanç uygulanmaz. Başlangıçta sessiz olan ses "
@@ -2569,10 +2569,10 @@ msgid ""
 "Default is -6dB. Max allowed is -30db when strength is set to 1."
 msgstr ""
 "Çapraz beslemenin gücünü ayarlayın.\n"
-"Öntanımlı değer 0,2’dir. İzin verilen erim 0 ile 1 arasındadır. Bu, stereo "
+"Varsayılan değer 0,2’dir. İzin verilen erim 0 ile 1 arasındadır. Bu, stereo "
 "kalıbın yan kısmı için düşük raf süzgecinin kazanımını ayarlar.\n"
-"Öntanımlı değer −6 dB’dir. Güç 1 olarak ayarlandığında izin verilen en büyük "
-"değer −30 dB’dir."
+"Varsayılan değer −6 dB’dir. Güç 1 olarak ayarlandığında izin verilen en "
+"büyük değer −30 dB’dir."
 
 #: data/effects/avfilter/avfilter_crossfeed.xml:19
 #, kde-format
@@ -2584,9 +2584,9 @@ msgid ""
 "set to 2100 Hz. "
 msgstr ""
 "Ses sahnesi genişliğini ayarlayın.\n"
-"Öntanımlı değer 0,5’tir. İzin verilen erim 0 ile 1 arasındadır. Bu, düşük "
+"Varsayılan değer 0,5’tir. İzin verilen erim 0 ile 1 arasındadır. Bu, düşük "
 "raf süzgecinin kesme frekansını ayarlar.\n"
-"Öntanımlı değer 1550 Hz yakınında kesmedir. Erim 1 olarak ayarlandığında "
+"Varsayılan değer 1550 Hz yakınında kesmedir. Erim 1 olarak ayarlandığında "
 "kesme frekansı 2100 Hz olarak ayarlanır."
 
 #: data/effects/avfilter/avfilter_crystalizer.xml:4
@@ -2611,7 +2611,7 @@ msgid ""
 "effect).\n"
 "To inverse filtering use negative value. "
 msgstr ""
-"Efektin yoğunluğunu ayarlar (Öntanımlı değer: 2,0).\n"
+"Efektin yoğunluğunu ayarlar (Varsayılan değer: 2,0).\n"
 "−10,0 ile 0 (değişmemiş ses) ile 10,0 (en yüksek efekt) arasında olmalıdır.\n"
 "Ters süzme için negatif değer kullanın."
 
@@ -2919,7 +2919,7 @@ msgid ""
 "negative, exact absolute value will be used. The range defines square of "
 "four pixels around current pixel."
 msgstr ""
-"Piksel türünden bantlama algılaması erimi. Öntanımlı değer 16’dır.<br>\n"
+"Piksel türünden bantlama algılaması erimi. Varsayılan değer 16’dır.<br>\n"
 "        Pozitifse değeri ayarlamak için 0 erimindeki rastgele sayı "
 "kullanılacaktır. Negatifse kesin mutlak değer kullanılacaktır. Erim, geçerli "
 "pikselin etrafındaki dört pikselin karesini tanımlar."
@@ -2969,7 +2969,7 @@ msgid ""
 msgstr ""
 "Etkinleştirilmişse geçerli piksel çevresindeki dört pikselin ortalama "
 "değeriyle karşılaştırılır.<br>\n"
-"        Öntanımlı olarak etkindir. Devre dışı bırakılırsa geçerli piksel "
+"        Varsayılan olarak etkindir. Devre dışı bırakılırsa geçerli piksel "
 "etrafındaki dört pikselle karşılaştırılır. Yalnızca etrafındaki piksellerle "
 "olan dört farkın eşikten az olması durumunda piksel bantlı olarak kabul "
 "edilir."
@@ -2988,7 +2988,7 @@ msgid ""
 msgstr ""
 "Etkinleştirilmişse geçerli piksel yalnızca tüm<br>\n"
 "        piksel bileşenleri bantlıysa değiştirilir, örneğin bant algılama "
-"eşiği tüm renk bileşenleri için tetiklenir. Öntanımlı olarak devre dışıdır."
+"eşiği tüm renk bileşenleri için tetiklenir. Varsayılan olarak devre dışıdır."
 
 #: data/effects/avfilter/avfilter_deblock.xml:4
 #, kde-format
@@ -3327,7 +3327,7 @@ msgid ""
 "        Default is 65535. If 0, plane will remain unchanged."
 msgstr ""
 "Her bir düzlem için maksimum değişimi sınırlayın.<br>\n"
-"        Öntanımlı değer 65535’tir. 0 ise düzlem değişmeden kalacaktır."
+"        Varsayılan değer 65535’tir. 0 ise düzlem değişmeden kalacaktır."
 
 #: data/effects/avfilter/avfilter_dilation.xml:14
 #: data/effects/avfilter/avfilter_erosion.xml:14
@@ -3362,8 +3362,9 @@ msgid ""
 "coordinates maps like this: 1 2 3 4 5 6 7 8"
 msgstr ""
 "Başvurulacak pikseli belirten bayrak.<br>\n"
-"        Öntanımlı değer 255’tir, yani sekiz pikselin hepsi kullanılır. Yerel "
-"3 × 3 koordinat haritalarına ait bayraklar şu şekildedir: 1 2 3 4 5 6 7 8."
+"        Varsayılan değer 255’tir, yani sekiz pikselin hepsi kullanılır. "
+"Yerel 3 × 3 koordinat haritalarına ait bayraklar şu şekildedir: 1 2 3 4 5 6 "
+"7 8."
 
 #: data/effects/avfilter/avfilter_doubleweave.xml:4
 #, kde-format
@@ -3449,8 +3450,8 @@ msgid ""
 msgstr ""
 "Giriş alfa değerine sahipse bunu işaretlemek videonun rengini ve<br>\n"
 "    \talfa piksellerini boyalı kutunun pikselleriyle değiştirir.<br>\n"
-"    \tÖntanımlı olarak, kutu girdiye yerleştirilecek ve videonun alfa değeri "
-"bozulmadan kalacaktır."
+"    \tVarsayılan olarak, kutu girdiye yerleştirilecek ve videonun alfa "
+"değeri bozulmadan kalacaktır."
 
 #: data/effects/avfilter/avfilter_drawgrid.xml:4
 #, kde-format
@@ -3546,7 +3547,7 @@ msgid ""
 msgstr ""
 "Girişte alfa varsa bunu işaretlemek videonun rengini ve alfa<br>\n"
 "    \tpiksellerini ızgara çizgilerinin pikselleriyle değiştirir.<br>\n"
-"    \tÖntanımlı olarak, ızgara çizgileri girişe birleştirilecek ve videonun "
+"    \tVarsayılan olarak, ızgara çizgileri girişe birleştirilecek ve videonun "
 "alfa değeri bozulmadan kalacaktır."
 
 #: data/effects/avfilter/avfilter_edgedetect.xml:4
@@ -3765,7 +3766,7 @@ msgid ""
 "with 1.0 sound will be unchanged, with -1.0 left and right channels will be "
 "swapped."
 msgstr ""
-"Fark katsayısını ayarlar (öntanımlı: 2,5).\n"
+"Fark katsayısını ayarlar (varsayılan: 2,5).\n"
 "0,0 mono (tek kanallı) ses anlamına gelir (her iki kanalın ortalaması).\n"
 "1,0 ile ses aynı kalır, −1,0 ile sağ ve sol kanallar birbirleriyle "
 "değiştirilir."
@@ -3807,7 +3808,7 @@ msgid ""
 "       \tBy default all detected noise is reduced."
 msgstr ""
 "Gürültü kaldırma miktarını ayarlayın.<br>\n"
-"       \tÖntanımlı olarak tüm algılanan gürültü azaltılır."
+"       \tVarsayılan olarak tüm algılanan gürültü azaltılır."
 
 #: data/effects/avfilter/avfilter_fftdnoiz.xml:18
 #, kde-format
@@ -4167,7 +4168,7 @@ msgid ""
 "        By default all planes are filtered (YUV)."
 msgstr ""
 "Hangi düzlemlerin süzüleceğini ayarlayın.<br>\n"
-"        Öntanımlı olarak tüm düzlemler süzülür (YUV)."
+"        Varsayılan olarak tüm düzlemler süzülür (YUV)."
 
 #: data/effects/avfilter/avfilter_gblur.xml:21
 #, kde-format
@@ -4176,7 +4177,7 @@ msgid ""
 "        Determines the strength of the horizontal blur. Default is 10."
 msgstr ""
 "Gauss bulanıklığının standart sapmasını, yani sigmayı ayarlayın.<br>\n"
-"        Yatay bulanıklığın şiddetini belirler. Öntanımlı değer 10’dur."
+"        Yatay bulanıklığın şiddetini belirler. Varsayılan değer 10’dur."
 
 #: data/effects/avfilter/avfilter_gblur.xml:24
 #, kde-format
@@ -4190,7 +4191,7 @@ msgid ""
 "        Determines the strength of the vertical blur. Default is 10."
 msgstr ""
 "Dikey sigmayı ayarlayın.<br>\n"
-"        Yatay bulanıklığın gücünü belirler. Öntanımlı değer 10’dur."
+"        Yatay bulanıklığın gücünü belirler. Varsayılan değer 10’dur."
 
 #: data/effects/avfilter/avfilter_gradfun.xml:4
 #, kde-format
@@ -4397,7 +4398,7 @@ msgid ""
 "pole per octave (20dB per pole per decade)."
 msgstr ""
 "3 dB nokta frekansına sahip bir yüksek geçişli süzgeç uygulayın. Süzgeç tek "
-"kutuplu veya çift kutuplu (öntanımlı) olabilir. Süzgeç, oktav başına kutup "
+"kutuplu veya çift kutuplu (varsayılan) olabilir. Süzgeç, oktav başına kutup "
 "başına 6 dB (onluk başına kutup başına 20 dB) düşüş gösterir."
 
 #. i18n: ectx: property (text), widget (QLabel, label_type)
@@ -5128,7 +5129,7 @@ msgid ""
 "pole per octave (20dB per pole per decade)."
 msgstr ""
 "3 dB nokta frekansına sahip bir alçak geçişli süzgeç uygulayın. Süzgeç, tek "
-"kutuplu veya çift kutuplu (öntanımlı) olabilir. Süzgeç, oktav başına kutup "
+"kutuplu veya çift kutuplu (varsayılan) olabilir. Süzgeç, oktav başına kutup "
 "başına 6 dB (onluk başına kutup başına 20 dB) düşüş gösterir."
 
 #: data/effects/avfilter/avfilter_lowpass.xml:12
@@ -5214,7 +5215,7 @@ msgstr ""
 "(QP) ayarlayın.<br>\n"
 "            Daha yüksek değerler daha düzgün bir hareket vektör alanıyla "
 "sonuçlanmalı ancak daha az eniyilenmiş bireysel vektörler olmalıdır. "
-"Öntanımlı değer 1’dir."
+"Varsayılan değer 1’dir."
 
 #: data/effects/avfilter/avfilter_median.xml:4
 #, kde-format
@@ -5264,7 +5265,7 @@ msgid ""
 "Default value of 50 will pick always median values,<br>\n"
 "       \twhile 0 will pick minimum values, and 100 maximum values."
 msgstr ""
-"Öntanımlı değer olan 50 her zaman ortanca, 0 ise<br>\n"
+"Varsayılan değer olan 50 her zaman ortanca, 0 ise<br>\n"
 "       \ten düşük, 100 ise en yüksek değerleri seçecektir."
 
 #: data/effects/avfilter/avfilter_median.xml:23
@@ -5410,7 +5411,7 @@ msgstr "En koyu girdi rengini çıktıla"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:9
 #, kde-format
 msgid "Output color to which darkest input color is mapped (default black)"
-msgstr "En koyu giriş renginin eşlendiği çıktı rengi (öntanımlı değer siyah)"
+msgstr "En koyu giriş renginin eşlendiği çıktı rengi (varsayılan değer siyah)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:12
 #, kde-format
@@ -5421,7 +5422,7 @@ msgstr "En açık girdi rengini çıktıla"
 #: data/effects/frei0r/frei0r_normaliz0r.xml:13
 #, kde-format
 msgid "Output color to which brightest input color is mapped (default white)"
-msgstr "En açık giriş renginin eşlendiği çıktı rengi (öntanımlı değer beyaz)"
+msgstr "En açık giriş renginin eşlendiği çıktı rengi (varsayılan değer beyaz)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:16
 #: data/effects/frei0r/frei0r_normaliz0r.xml:16
@@ -5437,8 +5438,8 @@ msgid ""
 "Amount of temporal smoothing of the input range, to reduce flicker (default "
 "0)"
 msgstr ""
-"Giriş eriminin titreşimi azaltmak için zamansal yumuşatma miktarı (öntanımlı "
-"değer 0)"
+"Giriş eriminin titreşimi azaltmak için zamansal yumuşatma miktarı "
+"(varsayılan değer 0)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:20
 #: data/effects/frei0r/frei0r_normaliz0r.xml:20
@@ -5450,14 +5451,14 @@ msgstr "Bağımsızlık"
 #, kde-format
 msgid "Proportion of independent to linked channel normalization (default 1)"
 msgstr ""
-"Bağımsız ve bağlantılı kanal normalizasyonunun oranı (öntanımlı değer 1)"
+"Bağımsız ve bağlantılı kanal normalizasyonunun oranı (varsayılan değer 1)"
 
 #: data/effects/avfilter/avfilter_normalize.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1)"
 msgstr ""
-"Süzgeç gücü, etkisiz (0) ile tam normalizasyon (öntanımlı değer 1) arasında"
+"Süzgeç gücü, etkisiz (0) ile tam normalizasyon (varsayılan değer 1) arasında"
 
 #: data/effects/avfilter/avfilter_oscilloscope.xml:4
 #, kde-format
@@ -6235,7 +6236,7 @@ msgid ""
 msgstr ""
 "Renk yarıçapını ayarlayın.<br>\n"
 "            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
-"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
+"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse varsayılan "
 "olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:28
@@ -6255,7 +6256,7 @@ msgstr ""
 "Renk gücünü ayarlayın.<br>\n"
 "            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
 "bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
-"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
+"varsayılan olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:33
 #, kde-format
@@ -6274,7 +6275,7 @@ msgstr ""
 "Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
 "            belirlemek için katsayı olarak kullanılan renk eşiğini "
 "ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
-"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"değerler kenarları süzecektir. Belirtilmezse varsayılan olarak <em>Luma "
 "eşiği</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:38
@@ -6292,7 +6293,7 @@ msgid ""
 msgstr ""
 "Alfa yarıçapını ayarlayın.<br>\n"
 "            Değer, görseli bulanıklaştırmak için kullanılan Gauss süzgecinin "
-"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse öntanımlı "
+"varyansını belirtir (daha büyükse daha yavaş). Belirtilmezse varsayılan "
 "olarak <em>Luma yarıçapı</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:43
@@ -6312,7 +6313,7 @@ msgstr ""
 "Alfa gücünü ayarlayın.<br>\n"
 "            Değer bulanıklaştırmayı yapılandırır. Pozitif bir değer görseli "
 "bulanıklaştırırken, negatif bir değer görseli keskinleştirir. Belirtilmezse "
-"öntanımlı olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
+"varsayılan olarak <em>Luma gücü</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_smartblur.xml:50
 #, kde-format
@@ -6326,7 +6327,7 @@ msgstr ""
 "Bir pikselin bulanıklaştırılıp bulanıklaştırılmayacağını<br>\n"
 "            belirlemek için katsayı olarak kullanılan alfa eşiğini "
 "ayarlayın. 0 değeri tüm görseli, pozitif değerler düz alanları, negatif "
-"değerler kenarları süzecektir. Belirtilmezse öntanımlı olarak <em>Luma "
+"değerler kenarları süzecektir. Belirtilmezse varsayılan olarak <em>Luma "
 "eşiği</em> için ayarlanan değere ayarlanır."
 
 #: data/effects/avfilter/avfilter_sobel.xml:4
@@ -6555,7 +6556,7 @@ msgid ""
 "Set input balance between both channels. Default is 0. Allowed range is from "
 "-1 to 1."
 msgstr ""
-"Her iki kanal arasındaki giriş dengesini ayarlayın. Öntanımlı değer 0’dır. "
+"Her iki kanal arasındaki giriş dengesini ayarlayın. Varsayılan değer 0’dır. "
 "İzin verilen erim −1 ile 1 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:22
@@ -6637,7 +6638,7 @@ msgstr "Yan düzey"
 msgid ""
 "Set level of side signal. Default is 1. Allowed range is from 0.015625 to 64."
 msgstr ""
-"Yan sinyalin düzeyini ayarlayın. Öntanımlı değer 1’dir. İzin verilen erim "
+"Yan sinyalin düzeyini ayarlayın. Varsayılan değer 1’dir. İzin verilen erim "
 "0,015625 ile 64 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:52
@@ -6650,7 +6651,7 @@ msgstr "Yan denge"
 msgid ""
 "Set balance of side signal. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
-"Yan sinyalin dengesini ayarlayın. Öntanımlı değer 0’dır. İzin verilen erim "
+"Yan sinyalin dengesini ayarlayın. Varsayılan değer 0’dır. İzin verilen erim "
 "−1 ile 1 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:56
@@ -6664,7 +6665,7 @@ msgid ""
 "Set level of the middle signal. Default is 1. Allowed range is from 0.015625 "
 "to 64."
 msgstr ""
-"Orta sinyalin düzeyini ayarlayın. Öntanımlı değer 1’dir. İzin verilen erim "
+"Orta sinyalin düzeyini ayarlayın. Varsayılan değer 1’dir. İzin verilen erim "
 "0,015625 ile 64 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:60
@@ -6676,8 +6677,8 @@ msgstr "Orta kaydırma"
 #, kde-format
 msgid "Set middle signal pan. Default is 0. Allowed range is from -1 to 1."
 msgstr ""
-"Orta sinyal kaydırmasını ayarlayın. Öntanımlı değer 0’dır. İzin verilen erim "
-"−1 ile 1 arasındadır."
+"Orta sinyal kaydırmasını ayarlayın. Varsayılan değer 0’dır. İzin verilen "
+"erim −1 ile 1 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:64
 #, kde-format
@@ -6691,7 +6692,7 @@ msgid ""
 "range is from -1 to 1."
 msgstr ""
 "Tek ve ters çevrilmiş kanallar arasındaki çift kanallı tabanı ayarlayın. "
-"Öntanımlı değer 0’dır. İzin verilen erim −1 ile 1 arasındadır."
+"Varsayılan değer 0’dır. İzin verilen erim −1 ile 1 arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:69
 #, kde-format
@@ -6700,7 +6701,7 @@ msgid ""
 "versa. Default is 0. Allowed range is from -20 to 20."
 msgstr ""
 "Soldan sağ kanala ve tam tersi yönde ne kadar gecikme olacağını milisaniye "
-"türünden ayarlayın. Öntanımlı değer 0’dır. İzin verilen erim −20 ile 20 "
+"türünden ayarlayın. Varsayılan değer 0’dır. İzin verilen erim −20 ile 20 "
 "arasındadır."
 
 #: data/effects/avfilter/avfilter_stereotools.xml:72
@@ -7209,7 +7210,7 @@ msgid ""
 "only. Each column of the waveform corresponds to a column of pixels in the "
 "source video. "
 msgstr ""
-"Dalga biçimi monitörü, renk bileşeni yoğunluğunu çizer. Öntanımlı olarak "
+"Dalga biçimi monitörü, renk bileşeni yoğunluğunu çizer. Varsayılan olarak "
 "yalnızca aydınlık kullanılır. Dalga formunun her sütunu kaynak videodaki bir "
 "piksel sütununa karşılık gelir."
 
@@ -11470,7 +11471,7 @@ msgid ""
 "        segmentations of 1, 2, or multiples of 4 work best. Default is 16"
 msgstr ""
 "Çiçek dürbünü bölütlendirmesi / 128;<br>\n"
-"        1, 2 veya 4’ün çarpanları en iyi sonucu verir. Öntanımlı değer "
+"        1, 2 veya 4’ün çarpanları en iyi sonucu verir. Varsayılan değer "
 "16’dır."
 
 #: data/effects/frei0r/frei0r_kaleid0sc0pe.xml:21
@@ -11852,7 +11853,7 @@ msgid ""
 msgstr ""
 "Görselin genel parlaklığını değiştirir.<br>\n"
 "                Yalnızca orta tonları etkiler, siyah ve beyaz etkilenmez. "
-"Öntanımlı değer %​25’tir, gama 1,0’a eşdeğerdir. Daha düşük değerler (çubuğu "
+"Varsayılan değer %​25’tir, gama 1,0’a eşdeğerdir. Daha düşük değerler (çubuğu "
 "sola kaydırmak) görseli daha koyu, daha yüksek değerler (çubuğu sağa "
 "kaydırmak) görseli daha parlak hale getirir."
 
@@ -11878,7 +11879,7 @@ msgid ""
 msgstr ""
 "Görselin genel parlaklığını değiştirir.<br>\n"
 "                Yalnızca orta tonları etkiler, siyah ve beyaz etkilenmez. "
-"Öntanımlı değer 1’dir. Daha düşük değerler (çubuğu sola kaydırmak) görseli "
+"Varsayılan değer 1’dir. Daha düşük değerler (çubuğu sola kaydırmak) görseli "
 "daha koyu, daha yüksek değerler (çubuğu sağa kaydırmak) görseli daha parlak "
 "hale getirir."
 
@@ -12771,14 +12772,14 @@ msgid ""
 "Proportion of independent to linked channel normalization (default 1000)"
 msgstr ""
 "Bağımsız kanal normalizasyonunun bağlantılı kanal normalizasyonuna oranı "
-"(öntanımlı değer 1000)."
+"(varsayılan değer 1000)."
 
 #: data/effects/frei0r/frei0r_normaliz0r.xml:25
 #, kde-format
 msgid ""
 "Strength of filter, from no effect (0) to full normalization (default 1000)"
 msgstr ""
-"Süzgeç gücü, hiçbir etki olmamasından (0) tam normalizasyona (öntanımlı "
+"Süzgeç gücü, hiçbir etki olmamasından (0) tam normalizasyona (varsayılan "
 "1000) kadar."
 
 #: data/effects/frei0r/frei0r_nosync0r.xml:4
@@ -14538,7 +14539,7 @@ msgstr ""
 "için) ve\n"
 "diğerleri için yükseklik, kalp atış hızı, hız uygulanabilir olduğunda "
 "<em>Lejant birimi</em>\n"
-"türü olarak yorumlanır (yani: yükseklik için 10 değeri öntanımlı olarak "
+"türü olarak yorumlanır (yani: yükseklik için 10 değeri varsayılan olarak "
 "metre olarak kabul edilir;\n"
 "ancak <em>Lejant birimi</em> ayak olarak değiştirilirse 10 ayak anlamına "
 "gelecektir)."
@@ -14735,7 +14736,7 @@ msgid ""
 msgstr ""
 "Yükseklik ve hız türü değerlerini görüntülemek için kullanılacak birimi "
 "ayarlar.<br>\n"
-"        Öntanımlı değer sırasıyla metre ve km/saattir. Birim dizinin "
+"        Varsayılan değer sırasıyla metre ve km/saattir. Birim dizinin "
 "herhangi bir yerinde eşleştirilir, bu nedenle görüntülemeyi ayarlamak için "
 "fazladan boşluklar kullanılabilir."
 
@@ -21008,7 +21009,7 @@ msgid "Generator Failed"
 msgstr "Üreteç başarısız oldu"
 
 #: src/assets/assetlist/view/assetlistwidget.cpp:99
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Add to favorites"
 msgstr "Sık Kullanılanlara Ekle"
@@ -21116,18 +21117,18 @@ msgstr "Bileşikleştirmelerin açıklamalarını göster/gizle"
 msgid "Search…"
 msgstr "Ara…"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:375
+#: src/assets/assetlist/view/assetlistwidget.cpp:376
 #, kde-format
 msgid "You have enabled unsupported assets"
 msgstr "Desteklenmeyen varlıkları etkinleştirdiniz"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:578
+#: src/assets/assetlist/view/assetlistwidget.cpp:579
 #, kde-format
 msgid "Remove from favorites"
 msgstr "Sık Kullanılanlardan Kaldır"
 
-#: src/assets/assetlist/view/assetlistwidget.cpp:600
-#: src/assets/assetlist/view/assetlistwidget.cpp:602
+#: src/assets/assetlist/view/assetlistwidget.cpp:601
+#: src/assets/assetlist/view/assetlistwidget.cpp:603
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Online documentation"
@@ -21722,7 +21723,7 @@ msgstr "İmleçten Sonraki Tüm Anahtar Kareleri Sil"
 #: src/assets/view/widgets/keyframecontainer.cpp:241
 #, kde-format
 msgid "Default Keyframe Type"
-msgstr "Öntanımlı Anahtar Kare Türü"
+msgstr "Varsayılan Anahtar Kare Türü"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:273
 #, kde-format
@@ -22219,7 +22220,7 @@ msgid ""
 "<b>Shift+seek</b> over thumbnail to set default thumbnail, <b>F2</b> to "
 "rename selected item"
 msgstr ""
-"Öntanımlı küçük görseli ayarlamak için <b>Üst Karakter</b> ile gezinme "
+"Varsayılan küçük görseli ayarlamak için <b>Üst Karakter</b> ile gezinme "
 "yapın; seçili ögeyi yeniden adlandırmak için <b>F2</b>’ye basın."
 
 #: src/bin/bin.cpp:1146 src/bin/bin.cpp:1336
@@ -22897,12 +22898,12 @@ msgstr "Klibi Düzenle"
 #: src/bin/bin.cpp:4640
 #, kde-format
 msgid "Default Target Folder for Sequences"
-msgstr "Sekanslar için Öntanımlı Hedef Klasör"
+msgstr "Sekanslar için Varsayılan Hedef Klasör"
 
 #: src/bin/bin.cpp:4645
 #, kde-format
 msgid "Default Target Folder for Audio Captures"
-msgstr "Ses Yakalamaları için Öntanımlı Hedef Klasör"
+msgstr "Ses Yakalamaları için Varsayılan Hedef Klasör"
 
 #: src/bin/bin.cpp:4649
 #, kde-format
@@ -22987,7 +22988,7 @@ msgstr "Görsel düzenleme uygulaması yolunu girin"
 #: src/bin/bin.cpp:5638
 #, kde-format
 msgid "Please set a default application to open image files"
-msgstr "Görsel dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
+msgstr "Görsel dosyalarını açmak için bir varsayılan uygulama ayarlayın"
 
 #: src/bin/bin.cpp:5643
 #, kde-format
@@ -22997,7 +22998,7 @@ msgstr "Ses düzenleme uygulaması yolunu girin"
 #: src/bin/bin.cpp:5655
 #, kde-format
 msgid "Please set a default application to open audio files"
-msgstr "Ses dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
+msgstr "Ses dosyalarını açmak için bir varsayılan uygulama ayarlayın"
 
 #: src/bin/bin.cpp:5662
 #, kde-format
@@ -23007,7 +23008,7 @@ msgstr "Video düzenleme uygulaması yolunu girin"
 #: src/bin/bin.cpp:5674
 #, kde-format
 msgid "Please set a default application to open video files"
-msgstr "Video dosyalarını açmak için bir öntanımlı uygulama ayarlayın"
+msgstr "Video dosyalarını açmak için bir varsayılan uygulama ayarlayın"
 
 #: src/bin/bin.cpp:5684 src/core.cpp:712 src/core.cpp:740
 #: src/doc/kdenlivedoc.cpp:171 src/jobs/cliploadtask.cpp:494
@@ -23927,14 +23928,14 @@ msgid ""
 "The default profile of Kdenlive is not set or invalid, press OK to set it to "
 "a correct value."
 msgstr ""
-"Kdenlive öntanımlı profili ayarlanmamış veya geçersiz, Tamam’a basarak doğru "
-"değerlere ayarlayın."
+"Kdenlive varsayılan profili ayarlanmamış veya geçersiz, Tamam’a basarak "
+"doğru değerlere ayarlayın."
 
 #: src/core.cpp:466
 #, kde-format
 msgctxt "@title:window"
 msgid "Select Default Profile"
-msgstr "Öntanımlı Profili Seç"
+msgstr "Varsayılan Profili Seç"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/core.cpp:466 src/ui/profiledialog_ui.ui:37
@@ -23948,7 +23949,7 @@ msgid ""
 "The given profile is invalid. We default to the profile \"dv_pal\", but you "
 "can change this from Kdenlive's settings panel"
 msgstr ""
-"Verilen profil adı geçersiz. Öntanımlı olarak “dv_pal” yapıldı; ancak "
+"Verilen profil adı geçersiz. Varsayılan olarak “dv_pal” yapıldı; ancak "
 "Kdenlive’in ayarlar panelinden değiştirebilirsiniz"
 
 #: src/core.cpp:792
@@ -24447,8 +24448,8 @@ msgid ""
 "This will delete all custom camcorder profiles and reset values to the "
 "default settings"
 msgstr ""
-"Bu, tüm kayıt aygıtı profillerini siler ve değerleri öntanımlı ayarlara geri "
-"döndürür"
+"Bu, tüm kayıt aygıtı profillerini siler ve değerleri varsayılan ayarlara "
+"geri döndürür"
 
 #: src/dialogs/customcamcorderdialog.cpp:188
 #, kde-format
@@ -24905,7 +24906,7 @@ msgstr "Sağ Üst"
 #: src/dialogs/subtitlestyleedit.cpp:104 src/ui/configproject_ui.ui:31
 #, kde-format
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr "Varsayılan"
 
 #: src/dialogs/managesubtitles.cpp:534
 #, kde-format
@@ -24934,7 +24935,7 @@ msgstr "Bu, <b>%1</b> katmanındaki tüm olayları silecektir."
 #: src/dialogs/managesubtitles.cpp:781
 #, kde-format
 msgid "Cannot delete default style."
-msgstr "Öntanımlı stil silinemiyor."
+msgstr "Varsayılan stil silinemiyor."
 
 #: src/dialogs/managesubtitles.cpp:785
 #, kde-format
@@ -24948,7 +24949,7 @@ msgid ""
 "Subtitles using this style will be reset to style <b>Default</b>."
 msgstr ""
 "Bu, <b>%1</b> stilini ve onun tüm özelliklerini silecektir.\n"
-"Bu stili kullanan tüm alt yazılar, <b>Öntanımlı</b> stiline sıfırlanır."
+"Bu stili kullanan tüm alt yazılar, <b>Varsayılan</b> stiline sıfırlanır."
 
 #: src/dialogs/profilesdialog.cpp:125
 #, kde-format
@@ -24976,7 +24977,7 @@ msgid ""
 "A profile with same name already exists in MLT's default profiles, please "
 "choose another description for your custom profile."
 msgstr ""
-"MLT’nin öntanımlı profilleri arasında aynı adlı bir profil hâlihazırda var; "
+"MLT’nin varsayılan profilleri arasında aynı adlı bir profil hâlihazırda var; "
 "profiliniz için başka bir tanımlama seçin."
 
 #: src/dialogs/profilesdialog.cpp:344
@@ -25727,12 +25728,12 @@ msgstr ""
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:268
 #, kde-format
 msgid "Select the Default Profile (preset)"
-msgstr "Öntanımlı Profili Seç (Önayar)"
+msgstr "Varsayılan Profili Seç (Önayar)"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:330
 #, kde-format
 msgid "Project Defaults"
-msgstr "Proje Öntanımlıları"
+msgstr "Proje Varsayılanları"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:354
 #, kde-format
@@ -25743,7 +25744,7 @@ msgstr "Renkler ve Izgara"
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:429
 #, kde-format
 msgid "Use default folder: %1"
-msgstr "Öntanımlı klasörü kullan: %1"
+msgstr "Varsayılan klasörü kullan: %1"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:386
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:387
@@ -27045,7 +27046,7 @@ msgstr "Her zaman koyu renk temasını kullan"
 #: src/dialogs/Splash.qml:842
 #, kde-format
 msgid "<b>Default Project Profile</b>"
-msgstr "<b>Öntanımlı proje profili</b>"
+msgstr "<b>Varsayılan proje profili</b>"
 
 #. i18n: ectx: property (text), widget (QLabel, lblRes)
 #: src/dialogs/Splash.qml:959 src/ui/colorplaneexport_ui.ui:105
@@ -27141,7 +27142,7 @@ msgid ""
 ">Configure Kdenlive…->Misc</interface>) at the current playhead position/"
 "frame."
 msgstr ""
-"Geçerli oynatma kafası konumunda/karesinde öntanımlı uzunlukta "
+"Geçerli oynatma kafası konumunda/karesinde varsayılan uzunlukta "
 "(<interface>Ayarlar → Kdenlive Uygulamasını Yapılandır… → Çeşitli</"
 "interface> içinde ayarlanır) yeni bir alt yazı oluşturur."
 
@@ -28031,7 +28032,7 @@ msgstr ""
 "Şu klasöre erişilemedi:\n"
 "%1\n"
 "Proje klasöründe geçici dosyaların depolanması devre dışı bırakılıyor; "
-"öntanımlı konum kullanılacak:\n"
+"varsayılan konum kullanılacak:\n"
 "%2"
 
 #: src/doc/documentchecker.cpp:284
@@ -28046,7 +28047,7 @@ msgstr ""
 "Şu klasöre erişilemedi:\n"
 "%1\n"
 "Özel bir klasörde geçici dosyaların depolanması devre dışı bırakılıyor; "
-"öntanımlı konum kullanılacak:\n"
+"varsayılan konum kullanılacak:\n"
 "%2"
 
 #: src/doc/documentchecker.cpp:2006
@@ -28350,7 +28351,7 @@ msgid ""
 msgstr ""
 "Belge proje klasörü:\n"
 "%1\n"
-"geçersiz, öntanımlı sistem klasörleri kullanılıyor"
+"geçersiz, varsayılan sistem klasörleri kullanılıyor"
 
 #: src/doc/kdenlivedoc.cpp:615 src/doc/kdenlivedoc.cpp:625
 #, kde-format
@@ -28524,7 +28525,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Project's video profile is corrupted, using default one"
-msgstr "Projenin video profili hasar görmüş; öntanımlı olan kullanılıyor"
+msgstr "Projenin video profili hasar görmüş; varsayılan olan kullanılıyor"
 
 #: src/doc/kdenlivedoc.cpp:2226
 #, kde-format
@@ -28537,23 +28538,23 @@ msgid ""
 "Your default project profile is %1, but your clip's profile (%2) is %3.\n"
 "Do you want to change default profile for future projects?"
 msgstr ""
-"Öntanımlı proje profiliniz %1; ancak klip profiliniz %2 (%3).\n"
-"Gelecek projeler için öntanımlı profilinizi değiştirmek istiyor musunuz?"
+"Varsayılan proje profiliniz %1; ancak klip profiliniz %2 (%3).\n"
+"Gelecek projeler için varsayılan profilinizi değiştirmek istiyor musunuz?"
 
 #: src/doc/kdenlivedoc.cpp:2259
 #, kde-format
 msgid "Change default project profile"
-msgstr "Öntanımlı proje profilini değiştir"
+msgstr "Varsayılan proje profilini değiştir"
 
 #: src/doc/kdenlivedoc.cpp:2259
 #, kde-format
 msgid "Change default to %1"
-msgstr "Öntanımlıyı %1 olarak değiştir"
+msgstr "Varsayılanı %1 olarak değiştir"
 
 #: src/doc/kdenlivedoc.cpp:2260
 #, kde-format
 msgid "Keep current default %1"
-msgstr "Şu geçerli öntanımlıyı koru: %1"
+msgstr "Şu geçerli varsayılanı koru: %1"
 
 #: src/doc/kdenlivedoc.cpp:2260
 #, kde-format
@@ -29761,7 +29762,7 @@ msgid ""
 "Are you sure you want to reset all layouts to the default set? This will "
 "remove all custom layouts."
 msgstr ""
-"Tüm yerleşimleri öntanımlı ayarlara sıfırlamak istediğinizden emin misiniz? "
+"Tüm yerleşimleri varsayılan ayarlara sıfırlamak istediğinizden emin misiniz? "
 "Bu, tüm özel yerleşimleri kaldıracaktır."
 
 #: src/layouts/layoutmanagerdialog.cpp:207
@@ -30012,7 +30013,7 @@ msgstr "%1 klasörü oluşturulurken hata"
 #: src/library/librarywidget.cpp:516
 #, kde-format
 msgid "Library path set to default: %1"
-msgstr "Kitaplık yolu öntanımlıya ayarlı: %1"
+msgstr "Kitaplık yolu varsayılana ayarlı: %1"
 
 #: src/library/librarywidget.cpp:522
 #, kde-format
@@ -30022,7 +30023,7 @@ msgstr "Kitaplık yolu özel olarak ayarlı: %1"
 #: src/library/librarywidget.cpp:528
 #, kde-format
 msgid "Cannot write to Library path: %1, using default"
-msgstr "Kitaplık yoluna yazılamadı: %1, öntanımlı kullanılıyor"
+msgstr "Kitaplık yoluna yazılamadı: %1, varsayılan kullanılıyor"
 
 #: src/main.cpp:290
 #, kde-format
@@ -30333,7 +30334,7 @@ msgstr "Kova Künyeleri"
 #: src/mainwindow.cpp:185
 #, kde-format
 msgid "Cannot find your default profile, switching to ATSC 1080p 25"
-msgstr "Öntanımlı profiliniz bulunamadı, ATSC 1080p 25 ile değiştiriliyor"
+msgstr "Varsayılan profiliniz bulunamadı, ATSC 1080p 25 ile değiştiriliyor"
 
 #: src/mainwindow.cpp:274
 #, kde-format
@@ -30870,7 +30871,7 @@ msgstr "Simge Boyutu"
 #, kde-format
 msgctxt "@item:inmenu Icon size"
 msgid "Default"
-msgstr "Öntanımlı"
+msgstr "Varsayılan"
 
 #: src/mainwindow.cpp:3338 src/mainwindow.cpp:3366
 #, kde-format
@@ -31069,7 +31070,7 @@ msgid ""
 "action when handling clips in the timeline."
 msgstr ""
 "Normal, Üzerine Yazma ve Yerleştirme kipi arasında geçiş yapar. Zaman "
-"akışındaki klipleri işlerken kullanılan öntanımlı eylemi belirler."
+"akışındaki klipleri işlerken kullanılan varsayılan eylemi belirler."
 
 #: src/mainwindow_actions.cpp:222
 #, kde-format
@@ -31254,7 +31255,7 @@ msgid ""
 "(default is On)."
 msgstr ""
 "Zaman akışındaki klipler için video küçük görsellerinin görüntülenmesini "
-"açar/kapatır (öntanımlı olarak açıktır)."
+"açar/kapatır (varsayılan olarak açıktır)."
 
 #: src/mainwindow_actions.cpp:381
 #, kde-format
@@ -31269,7 +31270,7 @@ msgid ""
 "(default is On)."
 msgstr ""
 "Zaman akışındaki klipler için ses ön izlemelerinin görüntülenmesini açar/"
-"kapatır (öntanımlı olarak açıktır)."
+"kapatır (varsayılan olarak açıktır)."
 
 #: src/mainwindow_actions.cpp:405 src/mainwindow_actions.cpp:460
 #, kde-format
@@ -31333,7 +31334,7 @@ msgstr "Oynatma Kafasında Fare ile Yakınlaştır"
 msgctxt "@info:whatsthis"
 msgid "Toggles the mouse zoom on playhead feature (default is Off)."
 msgstr ""
-"Oynatma kafasında fareyle yakınlaştırma özelliğini açıp kapatır (öntanımlı "
+"Oynatma kafasında fareyle yakınlaştırma özelliğini açıp kapatır (varsayılan "
 "olarak kapalıdır)."
 
 #: src/mainwindow_actions.cpp:502
@@ -31346,7 +31347,7 @@ msgstr "Zaman Akışında Renk Künyelerini Göster"
 msgctxt "@info:whatsthis"
 msgid "Toggles the display of clip tags in the timeline (default is On)."
 msgstr ""
-"Zaman akışındaki klip künyelerinin görüntülenmesini açar/kapatır (öntanımlı "
+"Zaman akışındaki klip künyelerinin görüntülenmesini açar/kapatır (varsayılan "
 "olarak açık)."
 
 #: src/mainwindow_actions.cpp:509
@@ -32464,7 +32465,7 @@ msgstr "Alan sırası:"
 #: src/mltcontroller/clippropertiescontroller.cpp:707
 #, kde-format
 msgid "%1 (default)"
-msgstr "%1 (öntanımlı)"
+msgstr "%1 (varsayılan)"
 
 #: src/mltcontroller/clippropertiescontroller.cpp:712
 #, kde-format
@@ -34492,14 +34493,14 @@ msgstr ""
 #: src/project/dialogs/guideslist.cpp:266
 #, kde-format
 msgid "Default marker category."
-msgstr "Öntanımlı imleyici kategorisi"
+msgstr "Varsayılan imleyici kategorisi"
 
 #: src/project/dialogs/guideslist.cpp:267
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "Default marker category. The category used for newly created markers."
 msgstr ""
-"Öntanımlı imleyici kategorisi. Yeni oluşturulan imleyiciler için kullanılır."
+"Varsayılan imleyici kategorisi. Yeni oluşturulan imleyiciler için kullanılır."
 
 #: src/project/dialogs/guideslist.cpp:292
 #, kde-format
@@ -34694,7 +34695,7 @@ msgstr "Projenin profili (önayarları) seçin"
 #: src/project/dialogs/projectsettings.cpp:73
 #, kde-format
 msgid "Default: %1"
-msgstr "Öntanımlı: %1"
+msgstr "Varsayılan: %1"
 
 #: src/project/dialogs/projectsettings.cpp:141
 #, kde-format
@@ -34704,7 +34705,7 @@ msgstr "Ön bellekteki veri"
 #: src/project/dialogs/projectsettings.cpp:187
 #, kde-format
 msgid "Show default profile parameters"
-msgstr "Öntanımlı profil parametrelerini göster"
+msgstr "Varsayılan profil parametrelerini göster"
 
 #: src/project/dialogs/projectsettings.cpp:189
 #, kde-format
@@ -34719,7 +34720,7 @@ msgstr "Vekil profillerin verimliliğini karşılaştır"
 #: src/project/dialogs/projectsettings.cpp:194
 #, kde-format
 msgid "Select default proxy profile"
-msgstr "Öntanımlı vekil profilini seç"
+msgstr "Varsayılan vekil profilini seç"
 
 #: src/project/dialogs/projectsettings.cpp:201
 #, kde-format
@@ -37259,44 +37260,44 @@ msgstr "Hız değiştirme başarısız"
 msgid "Change clip speed"
 msgstr "Klip hızını değiştir"
 
-#: src/timeline2/model/timelinemodel.cpp:7515
+#: src/timeline2/model/timelinemodel.cpp:7521
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Lock track"
 msgstr "İzi kilitle"
 
-#: src/timeline2/model/timelinemodel.cpp:7520
+#: src/timeline2/model/timelinemodel.cpp:7526
 #: src/timeline2/view/qml/SubtitleTrackHead.qml:144
 #: src/timeline2/view/qml/TrackHead.qml:427
 #, kde-format
 msgid "Unlock track"
 msgstr "İzin kilidini aç"
 
-#: src/timeline2/model/timelinemodel.cpp:7554
-#: src/timeline2/model/timelinemodel.cpp:7616
+#: src/timeline2/model/timelinemodel.cpp:7560
+#: src/timeline2/model/timelinemodel.cpp:7622
 #, kde-format
 msgid "Change composition"
 msgstr "Bileşikleştirmeyi değiştir"
 
-#: src/timeline2/model/timelinemodel.cpp:7568
+#: src/timeline2/model/timelinemodel.cpp:7574
 #, kde-format
 msgid "Cannot operate on grouped composition, please ungroup"
 msgstr ""
 "Gruplandırılmış bileşikleştirme üzerinde çalışılamaz, lütfen grubu iptal edin"
 
-#: src/timeline2/model/timelinemodel.cpp:7645
-#: src/timeline2/model/timelinemodel.cpp:7861
+#: src/timeline2/model/timelinemodel.cpp:7651
+#: src/timeline2/model/timelinemodel.cpp:7867
 #, kde-format
 msgid "Resize mix"
 msgstr "Karışımı yeniden boyutlandır"
 
-#: src/timeline2/model/timelinemodel.cpp:7801
+#: src/timeline2/model/timelinemodel.cpp:7807
 #, kde-format
 msgid "Cannot resize mix"
 msgstr "Karışım yeniden boyutlandırılamıyor"
 
-#: src/timeline2/model/timelinemodel.cpp:7979
+#: src/timeline2/model/timelinemodel.cpp:7985
 #, kde-format
 msgid "Error initializing timeline preview"
 msgstr "Zaman akışı ön izlemesi ilklendirilirken hata"
@@ -37577,7 +37578,7 @@ msgstr "Solarak çık: %1"
 #, kde-format
 msgid "<b>Drag</b> to adjust fade, <b>Click</b> to add default duration fade"
 msgstr ""
-"Solarak geçişi ayarlamak için <b>sürükleyin</b>; öntanımlı geçiş süresi "
+"Solarak geçişi ayarlamak için <b>sürükleyin</b>; varsayılan geçiş süresi "
 "ayarlamak için <b>tıklayın</b>."
 
 #: src/timeline2/view/qml/Clip.qml:2061 src/timeline2/view/qml/Clip.qml:2068
@@ -39808,7 +39809,7 @@ msgstr "Dosya adı"
 #: src/ui/configcapture_ui.ui:24
 #, kde-format
 msgid "Default capture device"
-msgstr "Öntanımlı yakalama aygıtı"
+msgstr "Varsayılan yakalama aygıtı"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_defaultcapture)
 #: src/ui/configcapture_ui.ui:43
@@ -39930,7 +39931,7 @@ msgstr "Örnek biçimi:"
 #: src/ui/configcapture_ui.ui:441
 #, kde-format
 msgid "Use Device Default Settings"
-msgstr "Aygıt Öntanımlısını Kullan"
+msgstr "Aygıt Varsayılansını Kullan"
 
 #. i18n: ectx: property (text), widget (QLabel, label_audio_thumbs)
 #: src/ui/configcolors_ui.ui:21
@@ -39990,7 +39991,7 @@ msgstr "Slayt gösterisi klibi rengi:"
 #: src/ui/configcolors_ui.ui:166
 #, kde-format
 msgid "Reset clip colors to default"
-msgstr "Klip Renklerini Öntanımlıya Döndür"
+msgstr "Klip Renklerini Varsayılana Sıfırla"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configcolors_ui.ui:186
@@ -40136,7 +40137,7 @@ msgstr "Melt yolu:"
 #: src/ui/configenv_ui.ui:293
 #, kde-format
 msgid "Default Folders"
-msgstr "Öntanımlı Klasörler"
+msgstr "Varsayılan Klasörler"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: src/ui/configenv_ui.ui:299
@@ -40157,7 +40158,7 @@ msgstr "Yakalama klasörü:"
 #: src/ui/configenv_ui.ui:385
 #, kde-format
 msgid "Use default folder"
-msgstr "Öntanımlı klasörleri kullan"
+msgstr "Varsayılan klasörleri kullan"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_capturetoprojectfolder)
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_videotodefaultfolder)
@@ -40201,7 +40202,7 @@ msgstr "Betikler, başlıklar, sunma klasörü:"
 #: src/ui/configenv_ui.ui:427
 #, kde-format
 msgid "Default Apps"
-msgstr "Öntanımlı Uygulamalar"
+msgstr "Varsayılan Uygulamalar"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: src/ui/configenv_ui.ui:433
@@ -40521,7 +40522,7 @@ msgstr "Yeğlenen iz bileşikleştirme oluşumu:"
 #: src/ui/configmisc_ui.ui:232
 #, kde-format
 msgid "Default Durations"
-msgstr "Öntanımlı Gecikmeler"
+msgstr "Varsayılan Gecikmeler"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: src/ui/configmisc_ui.ui:238
@@ -40635,7 +40636,7 @@ msgid ""
 "These are the default settings for new projects. To edit the parameters of "
 "the current project, use the project settings."
 msgstr ""
-"Bunlar, yeni projeler için olan öntanımlı ayarlardır. Geçerli projenin "
+"Bunlar, yeni projeler için olan varsayılan ayarlardır. Geçerli projenin "
 "parametrelerini düzenlemek için proje ayarlarını kullanın."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, hamburgerButton)
@@ -41092,7 +41093,7 @@ msgstr "Klip imleyicisi açıklamalarını görüntüle"
 #: src/ui/configtimeline_ui.ui:157
 #, kde-format
 msgid "Default track height:"
-msgstr "Öntanımlı iz yüksekliği:"
+msgstr "Varsayılan iz yüksekliği:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: src/ui/configtimeline_ui.ui:177
@@ -42482,7 +42483,7 @@ msgstr "Profili kaydet"
 #: src/ui/profiledialog_ui.ui:411
 #, kde-format
 msgid "Use as default"
-msgstr "Öntanımlı Olarak Kullan"
+msgstr "Varsayılan Olarak Kullan"
 
 #. i18n: ectx: property (windowTitle), widget (QDialog, ProjectSettings_UI)
 #: src/ui/projectsettings_ui.ui:18
@@ -42511,7 +42512,7 @@ msgstr ""
 #: src/ui/projectsettings_ui.ui:85
 #, kde-format
 msgid "Default folder"
-msgstr "Öntanımlı klasör"
+msgstr "Varsayılan klasör"
 
 #. i18n: ectx: property (text), widget (QRadioButton, same_folder)
 #: src/ui/projectsettings_ui.ui:92
