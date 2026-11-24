@@ -3658,7 +3658,7 @@ void Bin::slotInitView(QAction *action)
                 }
             }
             currentSelection = m_proxyModel->selectionModel()->currentIndex();
-            if (currentSelection.isValid()) {
+            if (!selectedItems.isEmpty() && currentSelection.isValid()) {
                 std::shared_ptr<AbstractProjectItem> currentItem = m_itemModel->getBinItemByIndex(m_proxyModel->mapToSource(currentSelection));
                 if (currentItem) {
                     selectedItem = currentItem->clipId();
