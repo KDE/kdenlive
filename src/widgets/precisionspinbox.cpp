@@ -116,21 +116,23 @@ void PrecisionSpinBox::textChanged(const QString &text)
     if (tmp.isEmpty()) {
         blockUpdate = true;
     }
+    int cursorPos = lineEdit()->cursorPosition();
     QSignalBlocker bk(lineEdit());
     QString finalString;
+    int newCursorPos = 0;
     for (int i = 0; i < tmp.length(); i++) {
         // Since QDoubleValidator does not use the pos parameter, we need to create the substring first.
         QString sub = tmp.left(i + 1);
         if (lineEdit()->validator()->validate(sub, i) != QValidator::Invalid) {
             finalString.append(tmp.at(i));
+            if (i < cursorPos) {
+                newCursorPos++;
+            }
         }
     }
     val = QLocale().toDouble(finalString);
     lineEdit()->setText(finalString + m_suffix);
-    int cursorPos = lineEdit()->cursorPosition();
-    if (!m_suffix.isEmpty() && cursorPos == lineEdit()->text().length()) {
-        lineEdit()->setCursorPosition(cursorPos - m_suffix.length());
-    }
+    lineEdit()->setCursorPosition(newCursorPos);
     // Clear stale step suppression when user starts normal text editing.
     m_stepEmitted = false;
     if (keyboardTracking() && (m_sendEmptyValue || !blockUpdate)) {
