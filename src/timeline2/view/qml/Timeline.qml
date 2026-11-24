@@ -1553,6 +1553,10 @@ function getTrackColor(audio, header) {
 
                     }
                 } else if (mouse.button & Qt.RightButton) {
+                    if (root.dragInProgress) {
+                        return
+                    }
+
                     if (mouse.y > ruler.height) {
                         if (mouse.y > ruler.height + subtitleTrack.height) {
                             let trackPos = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
