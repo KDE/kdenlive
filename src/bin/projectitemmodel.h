@@ -205,7 +205,7 @@ public:
     /** @brief Request that the unused clips are deleted */
     bool requestCleanupUnused();
     /** @brief Return a list of clips unused id */
-    const QStringList getUnusedClipIds() const;
+    const QMap<QString, QString> getUnusedClipIds() const;
 
     /** @brief Request that all clips using one of the given urls are removed from the project and deleted from the hard disk*/
     bool requestTrashClips(QStringList &ids, QStringList &urls);

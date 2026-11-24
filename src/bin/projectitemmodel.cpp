@@ -1216,14 +1216,19 @@ bool ProjectItemModel::requestRenameFolder(std::shared_ptr<AbstractProjectItem> 
     return res;
 }
 
-const QStringList ProjectItemModel::getUnusedClipIds() const
+const QMap<QString, QString> ProjectItemModel::getUnusedClipIds() const
 {
-    QStringList unusedIds;
+    QMap<QString, QString> unusedIds;
     // Iterate to find clips that are not in timeline
     for (const auto &clip : m_allItems) {
         auto c = std::static_pointer_cast<AbstractProjectItem>(clip.second.lock());
         if (c->itemType() == AbstractProjectItem::ClipItem && !c->isIncludedInTimeline() && c->clipType() != ClipType::Timeline) {
-            unusedIds << std::static_pointer_cast<ProjectClip>(c)->getProducerProperty(QStringLiteral("id"));
+            auto projectClip = std::static_pointer_cast<ProjectClip>(c);
+            QString kdenliveId = projectClip->getProducerProperty(QStringLiteral("kdenlive:id"));
+            if (kdenliveId.isEmpty()) {
+                kdenliveId = projectClip->binId();
+            }
+            unusedIds.insert(projectClip->getProducerProperty(QStringLiteral("id")), kdenliveId);
         }
     }
     return unusedIds;
