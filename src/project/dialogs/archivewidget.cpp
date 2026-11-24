@@ -320,7 +320,7 @@ ArchiveWidget::ArchiveWidget(const QString &projectName, const QString &xmlData,
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
     } else {
         // Don't allow archiving a modified or unsaved project
-        if (pCore->currentDoc()->isModified()) {
+        if (pCore->currentDoc()->isModified() || pCore->currentDoc()->url().isEmpty()) {
             m_infoMessage->setMessageType(KMessageWidget::Warning);
             m_infoMessage->setText(i18n("Please save your project before archiving"));
             m_infoMessage->animatedShow();
@@ -656,13 +656,16 @@ void ArchiveWidget::slotCheckSpace()
 {
     QStorageInfo info(QFileInfo(archive_url->url().toLocalFile()).absolutePath());
     auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
-    if (freeSize > m_requestedSize) {
+    bool docValid = !pCore->currentDoc()->isModified() && !pCore->currentDoc()->url().isEmpty();
+    if (freeSize > m_requestedSize && docValid) {
         // everything is ok
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
         slotDisplayMessage(QStringLiteral("dialog-ok"), i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
     } else {
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(false);
-        slotDisplayMessage(QStringLiteral("dialog-close"), i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
+        if (freeSize <= m_requestedSize) {
+            slotDisplayMessage(QStringLiteral("dialog-close"), i18n("Not enough space on drive, free space: %1", KIO::convertSize(freeSize)));
+        }
     }
 }
 
