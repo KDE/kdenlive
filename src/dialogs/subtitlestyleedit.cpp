@@ -32,11 +32,27 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
         oldFont.setUnderline(checkUnderline->isChecked());
         oldFont.setStrikeOut(checkStrikeOut->isChecked());
 
-        bool ok;
         QFontDialog::FontDialogOptions dialogOptions;
         if (pCore->packageType() == LinuxPackageType::AppImage || pCore->packageType() == LinuxPackageType::Flatpak) {
             dialogOptions = {QFontDialog::DontUseNativeDialog};
         }
+#ifdef Q_OS_MAC
+        // Static QFontDialog::getFont does not work on MacOS
+        QFontDialog *dialog = new QFontDialog(oldFont, this);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        connect(dialog, &QFontDialog::currentFontChanged, this, [this](const QFont &newFont) {
+            // Apply the updated font immediately
+            labelFontName->setText(newFont.family());
+            spinFontSize->setValue(newFont.pointSizeF());
+            checkBold->setChecked(newFont.bold());
+            checkItalic->setChecked(newFont.italic());
+            checkUnderline->setChecked(newFont.underline());
+            checkStrikeOut->setChecked(newFont.strikeOut());
+            updateProperties();
+        });
+        dialog->open();
+#else
+        bool ok;
         QFont newFont = QFontDialog::getFont(&ok, oldFont, this, i18n("Select font"), dialogOptions);
         if (ok) {
             labelFontName->setText(newFont.family());
@@ -46,8 +62,8 @@ SubtitleStyleEdit::SubtitleStyleEdit(QWidget *parent)
             checkUnderline->setChecked(newFont.underline());
             checkStrikeOut->setChecked(newFont.strikeOut());
         }
-
         updateProperties();
+#endif
     });
     buttonSelectFont->setToolTip(i18n("Select font"));
     buttonSelectFont->setWhatsThis(xi18nc("@info:whatsthis", "Open a font dialog to select a font and set its properties."));
