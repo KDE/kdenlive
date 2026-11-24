@@ -652,7 +652,7 @@
           <li xml:lang="sk">Časová os: predvoleným prechodom je teraz prelínanie, keďže už správne spracúva alfa kanál</li>
           <li xml:lang="sl">Časovnica: privzeti prehod preklopljen na preliv, zdaj ko pravilno ravna z alfo</li>
           <li xml:lang="sv">Tidslinje: byt standardövertoningen till Lös upp nu när det hanterar alfa korrekt</li>
-          <li xml:lang="tr">Zaman akışı: Artık alfaları doğru işlediğinden öntanımlı geçişi çözme olarak ayarla</li>
+          <li xml:lang="tr">Zaman akışı: Artık alfaları doğru işlediğinden varsayılan geçişi çözme olarak ayarla</li>
           <li xml:lang="uk">Монтажний стіл: реалізовано перехід до типового переходу з розчиненням, де належним чином оброблено дані щодо прозорості</li>
           <li>Audio mixer: shift click to listen to multiple selected tracks in solo mode</li>
           <li xml:lang="ar">مزج الصوت: انقر مع الضغط على مفتاح Shift للاستماع إلى عدة مسارات محددة في وضع الفردي</li>
@@ -1075,7 +1075,7 @@
       <caption xml:lang="sk">Default interface</caption>
       <caption xml:lang="sl">Privzeti vmesnik</caption>
       <caption xml:lang="sv">Standardgränssnitt</caption>
-      <caption xml:lang="tr">Öntanımlı arayüz</caption>
+      <caption xml:lang="tr">Varsayılan arayüz</caption>
       <caption xml:lang="ug">كۆڭۈلدىكى ئارايۈز</caption>
       <caption xml:lang="uk">Типовий інтерфейс</caption>
       <caption xml:lang="zh-CN">默认界面</caption>
