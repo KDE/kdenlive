@@ -287,7 +287,13 @@ Item {
                     onIsUserInteractingChanged: { trackRoot.blockAutoScroll(isUserInteracting) }
                     onBlockAutoScroll: (enabled) => { trackRoot.blockAutoScroll(enabled) }
 
-                    onTrimInProgressChanged: { trackRoot.updateTrimInProgress(trimInProgress) }
+                    onTrimInProgressChanged: {
+                        if (!trimInProgress && speedController.visible) {
+                            speedController.visible = false
+                            speedController.originalSpeed = 1
+                        }
+                        trackRoot.updateTrimInProgress(trimInProgress)
+                    }
 
                     onShowMixMenu: (clipId, clickFrame) => trackRoot.showMixMenu(clipId, clickFrame)
                     onShowClipMenu: (clipId, clickFrame) => trackRoot.showClipMenu(clipId, clickFrame)

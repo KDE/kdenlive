@@ -108,6 +108,7 @@ Rectangle {
     readonly property bool isLocked: parentTrack && parentTrack.isLocked === true
     property color borderColor: "#000000"
     property bool isComposition: false
+    property int beforeTrimDuration: clipDuration
     readonly property int slipOffset: boundValue(outPoint - maxDuration + 1, trimmingOffset, inPoint)
     readonly property bool trimInProgress: trimInMixArea.pressed || trimInMouseArea.pressed || trimOutMouseArea.pressed
     readonly property bool isUserInteracting: mouseArea.pressed || mixArea.pressed || trimInProgress || fadeInMouseArea.pressed || fadeOutMouseArea.pressed
@@ -377,6 +378,10 @@ Rectangle {
         cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active)? Qt.SizeHorCursor : clipRoot.dragProxyCursorShape
 
         onPressed: mouse => {
+            if (clipRoot.trimInProgress || clipRoot.clipDragInProgress) {
+                return
+            }
+
             clipRoot.makeMainItem(true)
             if (mouse.button == Qt.RightButton) {
                 if (clipRoot.timeline.selection.indexOf(clipRoot.clipId) === -1) {
@@ -628,6 +633,9 @@ Rectangle {
                             }
                             clipRoot.controller.requestMixSelection(clipRoot.clipId);
                             if (mouse.button == Qt.RightButton) {
+                                if (clipRoot.trimInProgress || clipRoot.clipDragInProgress) {
+                                    return
+                                }
                                 clipRoot.showMixMenu(clipRoot.clipId, Math.round(mouse.x / clipRoot.timeScale))
                             }
                         }
@@ -1151,6 +1159,10 @@ Rectangle {
                                     && clipRoot.itemType != K.ClipType.Color && clipRoot.itemType != K.ClipType.Timeline
                                     && clipRoot.itemType != K.ClipType.Playlist && clipRoot.itemType != K.ClipType.Image
                     mixTrim = K.Core.activeTool === K.ToolType.SelectTool && !controlTrim && clipRoot.mixDuration > 0
+                    if (controlTrim) {
+                        clipRoot.beforeTrimDuration = clipRoot.clipDuration
+                    }
+
                     if (mixTrim) {
                         mixBefore = clipRoot.mixDuration - clipRoot.mixCut
                     } else if (!shiftTrim && (clipRoot.grouped || clipRoot.controller.hasMultipleSelection())) {
@@ -1161,6 +1173,7 @@ Rectangle {
                     }
                 }
                 onReleased: {
+                    clipRoot.beforeTrimDuration = 0
                     trimIn.opacity = 0
                     x = -itemBorder.border.width
                     if (sizeChanged && mixTrim) {
@@ -1196,6 +1209,10 @@ Rectangle {
                         sizeChanged = false
                         clipRoot.timeline.showToolTip()
                         clipRoot.timeline.revertResizePreview()
+                        if (controlTrim && clipRoot.beforeTrimDuration != 0) {
+                            clipRoot.trimmingIn(clipRoot, clipRoot.beforeTrimDuration, shiftTrim, controlTrim)
+                            clipRoot.beforeTrimDuration = 0
+                        }
                     }
                     clipRoot.clearGroupTrimData()
                 }
@@ -1319,6 +1336,9 @@ Rectangle {
                                && clipRoot.itemType != K.ClipType.Playlist
                                && clipRoot.itemType != K.ClipType.Image
                     mixPartner = (K.Core.activeTool === K.ToolType.SelectTool && !controlTrim && clipRoot.mixEndDuration > 0) ? clipRoot.controller.getClipEndMixPartner(clipRoot.clipId) : -1
+                    if (controlTrim) {
+                        clipRoot.beforeTrimDuration = clipRoot.clipDuration
+                    }
                     if (mixPartner > -1) {
                         mixOriginalAfter = clipRoot.controller.getMixCutPos(mixPartner)
                         mixAfter = mixOriginalAfter
@@ -1332,6 +1352,7 @@ Rectangle {
                 }
                 onReleased: {
                     trimOut.opacity = 0
+                    clipRoot.beforeTrimDuration = 0
                     anchors.right = parent.right
                     if (sizeChanged && mixPartner > -1) {
                         sizeChanged = false
@@ -1364,6 +1385,10 @@ Rectangle {
                     anchors.right = parent.right
                     if (sizeChanged) {
                         sizeChanged = false
+                        if (controlTrim && clipRoot.beforeTrimDuration != 0) {
+                            clipRoot.trimmingOut(clipRoot, clipRoot.beforeTrimDuration, shiftTrim, controlTrim)
+                            clipRoot.beforeTrimDuration = 0
+                        }
                         clipRoot.timeline.showToolTip()
                         clipRoot.timeline.revertResizePreview()
                     }

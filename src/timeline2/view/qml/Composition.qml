@@ -256,7 +256,10 @@ Item {
             }
             cursorShape: (trimInMouseArea.drag.active || trimOutMouseArea.drag.active) ? Qt.SizeHorCursor : compositionRoot.dragProxyCursorShape
 
-            onPressed: mouse => {           
+            onPressed: mouse => {
+                if (compositionRoot.trimInProgress || compositionRoot.clipDragInProgress) {
+                    return
+                }
                 compositionRoot.forceActiveFocus();
                 compositionRoot.makeMainItem()
                 if (mouse.button == Qt.RightButton) {
