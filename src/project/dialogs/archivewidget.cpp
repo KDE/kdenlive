@@ -1083,7 +1083,7 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
 {
     QTreeWidgetItem *item;
     bool isArchive = compressed_archive->isChecked();
-    QStringList clipsToRemove;
+    QMap<QString, QString> clipsToRemove;
     if (timeline_archive->isChecked()) {
         clipsToRemove = pCore->projectItemModel()->getUnusedClipIds();
     }
@@ -1155,6 +1155,17 @@ QString ArchiveWidget::processMltFile(const QDomDocument &doc, const QString &de
                     }
                 }
                 break;
+            }
+        }
+        const QStringList unusedKdenliveIds = clipsToRemove.values();
+        for (const QString &tag : {QStringLiteral("producer"), QStringLiteral("chain")}) {
+            QDomNodeList elements = mlt.elementsByTagName(tag);
+            for (int j = elements.count() - 1; j >= 0; --j) {
+                QDomElement el = elements.item(j).toElement();
+                const QString kdenliveId = Xml::getXmlProperty(el, QStringLiteral("kdenlive:id"));
+                if (clipsToRemove.contains(el.attribute(QStringLiteral("id"))) || (!kdenliveId.isEmpty() && unusedKdenliveIds.contains(kdenliveId))) {
+                    el.parentNode().removeChild(el);
+                }
             }
         }
     }
