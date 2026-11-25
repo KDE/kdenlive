@@ -488,7 +488,7 @@ void ClipCreationDialog::createClipsCommand(KdenliveDoc *doc, const QString &par
     dlg->setLayout(layout);
 
     auto dialogFilter = FileFilter::Builder().defaultCategories().toKFilter();
-    fileWidget->setFilters(dialogFilter);
+    fileWidget->setFilters(dialogFilter, dialogFilter.first());
     fileWidget->setMode(KFile::Files | KFile::ExistingOnly | KFile::LocalOnly | KFile::Directory);
     KSharedConfig::Ptr conf = KSharedConfig::openConfig();
     dlg->winId(); // Make sure window gets created before getting the handle

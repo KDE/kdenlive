@@ -161,7 +161,7 @@ static QStringList query(Category cat)
         QStringList user;
 
         if (customs.isEmpty()) {
-            return {};
+            return query(AllSupported);
         }
 
         for (const auto& ext : customs) {
