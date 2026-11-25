@@ -393,6 +393,7 @@
         <p xml:lang="ar">تحسينات وميزات جديدة:</p>
         <p xml:lang="ca">Millores i característiques noves:</p>
         <p xml:lang="ca-valencia">Millores i característiques noves:</p>
+        <p xml:lang="es">Mejoras y nuevas funciones:</p>
         <p xml:lang="it">Miglioramenti e nuove funzionalità:</p>
         <p xml:lang="nl">Verbeteringen en nieuwe mogelijkheden:</p>
         <p xml:lang="pt-BR">Melhorias e novas funcionalidades:</p>
@@ -405,6 +406,7 @@
           <li xml:lang="ar">محرر العناوين: أضف دعم التراجع/الإعادة والنسخ/اللصق وإفلات الصور</li>
           <li xml:lang="ca">Creador de títols: afegeix la implementació de desfer/refer, copiar/enganxar i deixar anar imatges</li>
           <li xml:lang="ca-valencia">Creador de títols: afig la implementació de desfer/refer, copiar/apegar i deixar anar imatges</li>
+          <li xml:lang="es">Titulador: Se agregó soporte para deshacer/rehacer, copiar/pegar y arrastrar y soltar imágenes</li>
           <li xml:lang="it">Titolatrice: aggiunta del supporto Annulla/rifai, copia/incolla e rilascia immagine</li>
           <li xml:lang="nl">Titelmaker: ongedaan maken/opnieuw doen, kopiëren/plakken en afbeelding loslaten toevoegen</li>
           <li xml:lang="pt-BR">Titulador: adição de suporte a desfazer/refazer, copiar/colar e inserção de imagens por arrastar e soltar</li>
@@ -416,6 +418,7 @@
           <li xml:lang="ar">محرر العناوين: اسمح بأنماط متعددة في كل كتلة نص</li>
           <li xml:lang="ca">Creador de títols: permet diversos estils en cada bloc de text</li>
           <li xml:lang="ca-valencia">Creador de títols: permet diversos estils en cada bloc de text</li>
+          <li xml:lang="es">Titulador: Ahora se permiten múltiples estilos en cada bloque de texto</li>
           <li xml:lang="it">Titolatrice: permetti l'uso di più stili in ogni blocco di testo</li>
           <li xml:lang="nl">Titelmaker: meerdere stijlen in elk tekstblok toestaan</li>
           <li xml:lang="pt-BR">Titulador: permitir múltiplos estilos em cada bloco de texto</li>
@@ -427,6 +430,7 @@
           <li xml:lang="ar">محرر العناوين: مسارات نسبية للصور</li>
           <li xml:lang="ca">Creador de títols: camins relatius de les imatges</li>
           <li xml:lang="ca-valencia">Creador de títols: camins relatius de les imatges</li>
+          <li xml:lang="es">Titulador: Ahora se permiten rutas relativas para las imágenes</li>
           <li xml:lang="it">Titolatrice: percorsi relativi per le immagini</li>
           <li xml:lang="nl">Titelmaker: relatief pad voor afbeeldingen</li>
           <li xml:lang="pt-BR">Titulador: caminhos relativos para imagens</li>
@@ -438,6 +442,7 @@
           <li xml:lang="ar">ملف المشروع: دعم محسّن لمجلد المشروع</li>
           <li xml:lang="ca">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
           <li xml:lang="ca-valencia">Fitxer de projecte: implementació millorada de la carpeta del projecte</li>
+          <li xml:lang="es">Archivo de proyecto: Se mejoró el soporte para la carpeta de trabajo</li>
           <li xml:lang="it">File di progetto: supporto migliorato per la cartella del progetto</li>
           <li xml:lang="nl">Projectbestand: verbeterde ondersteuning voor projectmap</li>
           <li xml:lang="pt-BR">Arquivo de projeto: suporte aprimorado para a pasta do projeto</li>
@@ -449,6 +454,7 @@
           <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
           <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="es">Archivo de proyecto: Se permiten rutas relativas para todos los medios</li>
           <li xml:lang="it">File di progetto: percorsi relativi per tutti i file multimediali</li>
           <li xml:lang="nl">Projectbestand: relatieve paden voor alle media</li>
           <li xml:lang="pt-BR">Arquivo de projeto: caminhos relativos para todas as mídias</li>
@@ -460,6 +466,7 @@
           <li xml:lang="ar">ملف المشروع: مسارات نسبية لكل الوسائط</li>
           <li xml:lang="ca">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
           <li xml:lang="ca-valencia">Fitxer del projecte: camins relatius de tots els elements multimèdia</li>
+          <li xml:lang="es">Archivo de proyecto: Se permiten rutas relativas para todos los medios</li>
           <li xml:lang="it">File di progetto: percorsi relativi per tutti i file multimediali</li>
           <li xml:lang="nl">Projectbestand: relatieve paden voor alle media</li>
           <li xml:lang="pt-BR">Arquivo de projeto: caminhos relativos para todas as mídias</li>
@@ -471,6 +478,7 @@
           <li xml:lang="ar">الخط الزمني: أضف انتقال خفض تلقائي</li>
           <li xml:lang="ca">Línia de temps: afegeix la transició automàtica d'ànec</li>
           <li xml:lang="ca-valencia">Línia de temps: afig la transició automàtica d'ànec</li>
+          <li xml:lang="es">Línea de tiempo: Se agregó una transición de Atenuación automática de audio</li>
           <li xml:lang="it">Linea temporale: aggiunta della transizione Abbassamento automatico</li>
           <li xml:lang="nl">Tijdlijn: automatische ducking-overgang toevoegen</li>
           <li xml:lang="pt-BR">Linha do tempo: adicionar transição de atenuação automática</li>
@@ -482,6 +490,7 @@
           <li xml:lang="ar">المؤثرات: أعد قياس مواضع الإطارات الرئيسة</li>
           <li xml:lang="ca">Efectes: torna a escalar les posicions dels fotogrames clau</li>
           <li xml:lang="ca-valencia">Efectes: torna a escalar les posicions dels fotogrames clau</li>
+          <li xml:lang="es">Efectos: Se permite el escalado de las posiciones de los fotogramas clave</li>
           <li xml:lang="it">Effetti: ridimensiona le posizioni dei fotogrammi chiave</li>
           <li xml:lang="nl">Effecten: posities van keyframe herschalen</li>
           <li xml:lang="pt-BR">Efeitos: redimensionar posições de quadros-chave</li>
@@ -493,6 +502,7 @@
           <li xml:lang="ar">الأداء: تحسينات أداء ملحوظة متعددة في عمليات الإطارات الرئيسة والتراجع/الإعادة</li>
           <li xml:lang="ca">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
           <li xml:lang="ca-valencia">Rendiment: diverses millores notables de rendiment en les operacions de fotogrames clau i desfer/refer</li>
+          <li xml:lang="es">Rendimiento: Se introdujeron varias mejoras notables en las operaciones con fotogramas clave y las funciones deshacer/rehacer</li>
           <li xml:lang="it">Prestazioni: numerosi miglioramenti significativi nelle prestazioni relative alle operazioni sui fotogrammi chiave e alle funzioni annulla/rifai</li>
           <li xml:lang="nl">Prestaties: diverse aanzienlijke prestatieverbeteringen bij keyframe-bewerkingen en de functionaliteit ongedaan maken/opnieuw doen</li>
           <li xml:lang="pt-BR">Desempenho: diversas melhorias notáveis ​​de desempenho em operações com quadros-chave e nas funções desfazer/refazer</li>
