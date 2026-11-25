@@ -2395,13 +2395,13 @@ void MainWindow::showToolMessage()
     QString toolLabel;
     if (m_buttonSelectTool->isChecked()) {
 #ifdef Q_OS_WIN
-        message = xi18nc("@info:whatsthis",
-                         "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
-                         "selection, <shortcut>Meta drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
+                                            "selection, <shortcut>Meta drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> "
+                                            "to pan, <shortcut>Shift hover</shortcut> to scrub");
 #else
-        message = xi18nc("@info:whatsthis",
-                         "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
-                         "selection, <shortcut>Meta + Alt drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan");
+        message = xi18nc("@info:whatsthis", "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift click</shortcut> for multiple "
+                                            "selection, <shortcut>Meta + Alt drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
+                                            "drag</shortcut> to pan, <shortcut>Shift hover</shortcut> to scrub");
 #endif
         toolLabel = i18n("Select");
     } else if (m_buttonRazorTool->isChecked()) {
