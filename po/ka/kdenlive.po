@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2026-11-25 01:25+0000\n"
-"PO-Revision-Date: 2026-11-13 03:39+0100\n"
+"PO-Revision-Date: 2026-11-25 15:20+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -13723,10 +13723,9 @@ msgid "Center Y"
 msgstr "ცენტრის Y"
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:25
-#, fuzzy, kde-format
-#| msgid "Vertical position'"
+#, kde-format
 msgid "Vertical position"
-msgstr "ვერტიკალური მდებარეობა'"
+msgstr "ვერტიკალური მდებარეობა"
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
