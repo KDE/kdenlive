@@ -382,16 +382,29 @@ void ArchiveWidget::slotDisplayMessage(const QString &icon, const QString &text)
 
 void ArchiveWidget::slotJobResult(bool success, const QString &text)
 {
-    m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
-    m_infoMessage->setText(text);
-    m_infoMessage->animatedShow();
+    slotCheckSpace();
+    if (!text.isEmpty()) {
+        m_infoMessage->setMessageType(success ? KMessageWidget::Positive : KMessageWidget::Warning);
+        m_infoMessage->setText(text);
+        m_infoMessage->animatedShow();
+    } else {
+        m_infoMessage->animatedHide();
+    }
     archive_url->setEnabled(true);
     compressed_archive->setEnabled(true);
     compression_type->setEnabled(true);
     proxy_only->setEnabled(true);
     timeline_archive->setEnabled(true);
-    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Close)->setEnabled(true);
+    buttonBox->button(QDialogButtonBox::Apply)->setEnabled(!success);
     buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
+    if (success) {
+        buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
+        buttonBox->button(QDialogButtonBox::Close)->setFocus();
+    } else {
+        buttonBox->button(QDialogButtonBox::Apply)->setDefault(true);
+        buttonBox->button(QDialogButtonBox::Apply)->setFocus();
+    }
 }
 
 void ArchiveWidget::openArchiveForExtraction()
@@ -654,11 +667,18 @@ void ArchiveWidget::generateItems(QTreeWidgetItem *parentItem, const QMap<QStrin
 
 void ArchiveWidget::slotCheckSpace()
 {
+    if (m_infoMessage && m_infoMessage->messageType() == KMessageWidget::Positive) {
+        m_infoMessage->animatedHide();
+        progressBar->setValue(0);
+    }
     QStorageInfo info(QFileInfo(archive_url->url().toLocalFile()).absolutePath());
     auto freeSize = static_cast<KIO::filesize_t>(info.bytesAvailable());
     bool docValid = !pCore->currentDoc()->isModified() && !pCore->currentDoc()->url().isEmpty();
     if (freeSize > m_requestedSize && docValid) {
         // everything is ok
+        if (!m_extractMode) {
+            buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Archive"));
+        }
         buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
         slotDisplayMessage(QStringLiteral("dialog-ok"), i18n("Available space on drive: %1", KIO::convertSize(freeSize)));
     } else {
@@ -691,9 +711,7 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
     buttonBox->button(QDialogButtonBox::Close)->setEnabled(false);
 
     bool isArchive = compressed_archive->isChecked();
-    if (!firstPass) {
-        m_copyJob = nullptr;
-    } else {
+    if (firstPass) {
         // starting archiving
         m_abortArchive = false;
         m_duplicateFiles.clear();
@@ -701,8 +719,13 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         m_foldersList.clear();
         m_filesList.clear();
         m_processedFiles.clear();
+        progressBar->setValue(0);
+        buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
+        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
         slotDisplayMessage(QStringLiteral("system-run"), i18n("Archiving…"));
         repaint();
+    } else {
+        m_copyJob = nullptr;
     }
     QList<QUrl> files;
     QDir destUrl;
@@ -848,11 +871,6 @@ bool ArchiveWidget::slotStartArchiving(bool firstPass)
         connect(m_copyJob, &KJob::result, this, [this](KJob *jb) { slotArchivingFinished(jb, false); });
         connect(m_copyJob, &KJob::processedSize, this, &ArchiveWidget::slotArchivingProgress);
     }
-    if (firstPass) {
-        progressBar->setValue(0);
-        buttonBox->button(QDialogButtonBox::Apply)->setText(i18n("Abort"));
-        buttonBox->button(QDialogButtonBox::Apply)->setEnabled(true);
-    }
     return true;
 }
 
@@ -903,7 +921,9 @@ void ArchiveWidget::slotArchivingFinished(KJob *job, bool finished)
             }
             buttonBox->button(QDialogButtonBox::Close)->setEnabled(true);
         } else {
-            processProjectFile();
+            if (!processProjectFile()) {
+                slotJobResult(false, QString());
+            }
         }
     } else {
         m_copyJob = nullptr;
