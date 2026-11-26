@@ -14,8 +14,8 @@ msgstr ""
 "X-Crowdin-Project: kdeorg\n"
 "X-Crowdin-Project-ID: 269464\n"
 "X-Crowdin-Language: zh-CN\n"
-"X-Crowdin-File: /kf6-trunk/messages/kdenlive/kdenlive.pot\n"
-"X-Crowdin-File-ID: 49324\n"
+"X-Crowdin-File: /kf6-stable/messages/kdenlive/kdenlive.pot\n"
+"X-Crowdin-File-ID: 49586\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2558,17 +2558,17 @@ msgstr "Enable Clipping/启用剪辑"
 #: data/effects/avfilter/avfilter_curves.xml:4
 #, kde-format
 msgid "Curves (avfilter)"
-msgstr ""
+msgstr "曲线 (avfilter)"
 
 #: data/effects/avfilter/avfilter_curves.xml:5
 #, kde-format
 msgid "Adjust RGB color curves per channel."
-msgstr ""
+msgstr "每个通道调整 RGB 颜色曲线。"
 
 #: data/effects/avfilter/avfilter_curves.xml:8
 #, kde-format
 msgid "All"
-msgstr ""
+msgstr "全部"
 
 #. i18n: ectx: property (text), widget (QToolButton, buttonSelectRects)
 #: data/effects/avfilter/avfilter_curves.xml:11
@@ -5870,7 +5870,7 @@ msgstr "Auto,Unspecified,Unknown,Limited,TV,Mpeg,Full,PC,Jpeg"
 #: data/effects/avfilter/avfilter_shear.xml:4
 #, kde-format
 msgid "Shear"
-msgstr "斜切"
+msgstr "Shear - 斜切"
 
 #: data/effects/avfilter/avfilter_shear.xml:5
 #, kde-format
@@ -7689,7 +7689,7 @@ msgstr "几何属性"
 #: data/effects/gpstext.xml:62 data/effects/timer.xml:11
 #, kde-format
 msgid "<u>Font</u> Family"
-msgstr ""
+msgstr "<u>字体</u> 族"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, eventList)
 #: data/effects/dynamictext.xml:28 data/effects/dynamictext.xml:120
@@ -7703,19 +7703,19 @@ msgstr "界面样式"
 #: data/effects/gpstext.xml:76 data/effects/timer.xml:18
 #, kde-format
 msgid "Normal,Italic"
-msgstr ""
+msgstr "常规,斜体"
 
 #: data/effects/dynamictext.xml:32 data/effects/dynamictext.xml:124
 #: data/effects/gpstext.xml:70 data/effects/timer.xml:21
 #, kde-format
 msgid "Weight"
-msgstr ""
+msgstr "字重"
 
 #: data/effects/dynamictext.xml:35 data/effects/dynamictext.xml:127
 #: data/effects/timer.xml:24
 #, kde-format
 msgid "<u>Text</u> Color"
-msgstr ""
+msgstr "<u>文本</u> 颜色"
 
 #. i18n: ectx: property (text), widget (QLabel, labelBoarderStyle)
 #. i18n: ectx: property (text), widget (QLabel, label_2)
@@ -7757,7 +7757,7 @@ msgstr "下划线"
 #: data/effects/gpstext.xml:99 data/effects/timer.xml:39
 #, kde-format
 msgid "Strikethrough"
-msgstr ""
+msgstr "删除线"
 
 #: data/effects/dynamictext.xml:53 data/effects/dynamictext.xml:145
 #: data/effects/gpstext.xml:103 data/effects/timer.xml:42
@@ -7988,10 +7988,9 @@ msgid "Yaw"
 msgstr "Yaw - 偏航"
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:9
-#, fuzzy, kde-format
-#| msgid "Angle of rotation along the Z axis"
+#, kde-format
 msgid "Amount of rotation around Z axis (pointing up)"
-msgstr "沿 Z 轴的旋转角度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:12
 #: data/effects/frei0r/frei0r_bigsh0t_eq_to_rect.xml:13
@@ -8025,10 +8024,9 @@ msgid "Perspective"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:21
-#, fuzzy, kde-format
-#| msgid "Amount of spatial filtering"
+#, kde-format
 msgid "Amount of perspective distortion"
-msgstr "空间滤波数量"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:25
 #, no-c-format, kde-format
@@ -8036,30 +8034,24 @@ msgid "Amount of zoom (max 400%)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:28
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Horizontal"
+#, kde-format
 msgid "Pan horizontal"
-msgstr "Bar Horizontal - 条纹 (水平)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:29
-#, fuzzy, kde-format
-#| msgid "Horizontal Alignment"
+#, kde-format
 msgid "Horizontal displacement"
-msgstr "水平对齐"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:32
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Bar Vertical"
+#, kde-format
 msgid "Pan vertical"
-msgstr "Bar Vertical - 条纹 (垂直)"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_3dperspective.xml:33
-#, fuzzy, kde-format
-#| msgid "Vertical Alignment"
+#, kde-format
 msgid "Vertical displacement"
-msgstr "垂直对齐"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_aech0r.xml:4
 #, kde-format
@@ -8400,12 +8392,12 @@ msgstr ""
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:4
 #, kde-format
 msgid "Auto Threshold"
-msgstr ""
+msgstr "自动阈值"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:5
 #, kde-format
 msgid "Segments an image into foreground or background"
-msgstr ""
+msgstr "将图像分割为前景或背景"
 
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:8
 #: data/effects/frei0r/frei0r_keyspillm0pup.xml:21 data/effects/lumakey.xml:14
@@ -8416,7 +8408,7 @@ msgstr "斜率"
 #: data/effects/frei0r/frei0r_autothresh0ld.xml:9
 #, kde-format
 msgid "Slope of Sigmoidal Transfer"
-msgstr ""
+msgstr "Sigmoidal 函数斜率"
 
 #: data/effects/frei0r/frei0r_B.xml:4
 #, kde-format
@@ -9746,28 +9738,24 @@ msgid "Camera movement effect with rotation, opacity, and blur"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:8
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude X"
-msgstr "振幅"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:9
-#, fuzzy, kde-format
-#| msgid "Maximum Horizontal Movement"
+#, kde-format
 msgid "Maximum horizontal shake amplitude"
-msgstr "最大水平移动"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:12
-#, fuzzy, kde-format
-#| msgid "Amplitude"
+#, kde-format
 msgid "Amplitude Y"
-msgstr "振幅"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:13
-#, fuzzy, kde-format
-#| msgid "Maximum Vertical Movement"
+#, kde-format
 msgid "Maximum vertical shake amplitude"
-msgstr "最大垂直移动"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:17
 #, kde-format
@@ -9783,10 +9771,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:25
-#, fuzzy, kde-format
-#| msgid "Shift Intensity"
+#, kde-format
 msgid "Shake intensity"
-msgstr "位移强度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:26
 #, kde-format
@@ -9794,16 +9781,14 @@ msgid "Speed or frequency of the shake"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:30
-#, fuzzy, kde-format
-#| msgid "Opacity of the scope display"
+#, kde-format
 msgid "Opacity of the effect"
-msgstr "示波器显示的不透明度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:33
-#, fuzzy, kde-format
-#| msgid "Motion"
+#, kde-format
 msgid "Motion blur"
-msgstr "Motion - 运动"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:34
 #, kde-format
@@ -9811,10 +9796,9 @@ msgid "Amount of motion blur (capped at 20px)"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_camerashake.xml:38
-#, fuzzy, kde-format
-#| msgid "Background color opacity"
+#, kde-format
 msgid "Background color for exposed borders"
-msgstr "背景颜色不透明度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_cartoon.xml:4
 #, kde-format
@@ -9951,52 +9935,52 @@ msgstr "源色彩"
 #: data/effects/frei0r/frei0r_colorenhance.xml:4
 #, kde-format
 msgid "Color Enhance"
-msgstr ""
+msgstr "颜色增强"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:5
 #, kde-format
 msgid "Enhances the color contrast for vivid images"
-msgstr ""
+msgstr "增强颜色对比度"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:8
 #, kde-format
 msgid "Channel A Base"
-msgstr ""
+msgstr "A 通道基线"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:9
 #, kde-format
 msgid "Midpoint of sigmoidal curve for A channel."
-msgstr ""
+msgstr "A 通道 Sigmoidal 曲线中点。"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:12
 #, kde-format
 msgid "Channel B Base"
-msgstr ""
+msgstr "B 通道基线"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:13
 #, kde-format
 msgid "Midpoint of sigmoidal curve for B channel."
-msgstr ""
+msgstr "B 通道 Sigmoidal 曲线中点。"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:16
 #, kde-format
 msgid "Channel A Slope"
-msgstr ""
+msgstr "A 通道斜率"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:17
 #, kde-format
 msgid "Steepness of the sigmoidal curve for A channel."
-msgstr ""
+msgstr "A 通道 Sigmoidal 曲线的陡峭度。"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:20
 #, kde-format
 msgid "Channel B Slope"
-msgstr ""
+msgstr "B 通道斜率"
 
 #: data/effects/frei0r/frei0r_colorenhance.xml:21
 #, kde-format
 msgid "Steepness of the sigmoidal curve for B channel."
-msgstr ""
+msgstr "B 通道 Sigmoidal 曲线的陡峭度。"
 
 #: data/effects/frei0r/frei0r_colorize.xml:4
 #, kde-format
@@ -10812,16 +10796,14 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:9
-#, fuzzy, kde-format
-#| msgid "The relative horizontal position of the shadow"
+#, kde-format
 msgid "Horizontal position of the light source"
-msgstr "投影的相对水平位置"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:13
-#, fuzzy, kde-format
-#| msgid "The relative vertical position of the shadow"
+#, kde-format
 msgid "Vertical position of the light source"
-msgstr "投影的相对垂直位置"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:17
 #, kde-format
@@ -10829,10 +10811,9 @@ msgid "Overall opacity/intensity of the flare overlay"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:21
-#, fuzzy, kde-format
-#| msgid "Width of the linear area"
+#, kde-format
 msgid "Size of the flare"
-msgstr "线性区域宽度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:24
 #: data/effects/ladspa/ladspa_phaser.xml:17
@@ -10848,10 +10829,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_flarefx.xml:29
-#, fuzzy, kde-format
-#| msgid "The color of the waveform."
+#, kde-format
 msgid "Tint color of the flare"
-msgstr "波形图颜色"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_flippo.xml:4
 #, kde-format
@@ -10962,10 +10942,9 @@ msgid "Creates a Glamorous Glow"
 msgstr "创建炫目的发光效果"
 
 #: data/effects/frei0r/frei0r_harris0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Favorite Effects"
+#, kde-format
 msgid "Harris Shutter Effect"
-msgstr "常用效果"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_harris0r.xml:5
 #, kde-format
@@ -10978,10 +10957,9 @@ msgid "Harris shutter color filtering delay"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_harris0r.xml:12
-#, fuzzy, kde-format
-#| msgid "Simple Editor"
+#, kde-format
 msgid "Simple"
-msgstr "简易编辑器"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_harris0r.xml:14
 #, kde-format
@@ -12198,10 +12176,9 @@ msgid ""
 msgstr "当输入图像超出边界时，重复并翻转图像，同时允许调整偏移、缩放和旋转。"
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Grain Extract"
+#, kde-format
 msgid "Motion Extraction"
-msgstr "颗粒抽取"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:5
 #, kde-format
@@ -12211,10 +12188,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:9
-#, fuzzy, kde-format
-#| msgid "Select font"
+#, kde-format
 msgid "Select mode"
-msgstr "选择字体"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:10
 #, kde-format
@@ -12222,10 +12198,9 @@ msgid "Negative overlay,Absolute difference,Motion mask"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:13
-#, fuzzy, kde-format
-#| msgid "Time offset:"
+#, kde-format
 msgid "Time Offset"
-msgstr "时间偏移："
+msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:15
 #, kde-format
@@ -12242,10 +12217,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:24
-#, fuzzy, kde-format
-#| msgid "Align to Reference"
+#, kde-format
 msgid "Amplification of the differences"
-msgstr "对齐到基准点"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_motiondiff0r.xml:29
 #, kde-format
@@ -12506,44 +12480,44 @@ msgstr "不平均方块透明度"
 #: data/effects/frei0r/frei0r_pixels0rt.xml:4
 #, kde-format
 msgid "Pixels0rt"
-msgstr ""
+msgstr "Pixels0rt"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:5
 #, kde-format
 msgid "Pixel sorting effect"
-msgstr ""
+msgstr "像素排序"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:9
 #, kde-format
 msgid "Relative size of the line that will be sorted"
-msgstr ""
+msgstr "待排序线条的相对大小"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:13
 #, kde-format
 msgid "Sorting direction"
-msgstr ""
+msgstr "排序方向"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:14
 #, kde-format
 msgid ""
 "Vertical from top to bottom,Vertical from bottom to top,Horizontal from left "
 "to right,Horizontal from right to left"
-msgstr ""
+msgstr "从上到下垂直,从下到上垂直,从左到右水平,从右到左水平"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:17
 #, kde-format
 msgid "Reversed"
-msgstr ""
+msgstr "反向"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:18
 #, kde-format
 msgid "Should be pixels sorted in reversed order"
-msgstr ""
+msgstr "按相反顺序对像素进行排序"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:21
 #, kde-format
 msgid "Transparency Threshold"
-msgstr ""
+msgstr "透明度阈值"
 
 #: data/effects/frei0r/frei0r_pixels0rt.xml:23
 #, kde-format
@@ -12552,6 +12526,8 @@ msgid ""
 "        be bypassed by the filter. 0 processes all pixels, 1 ignores all "
 "transparent pixels"
 msgstr ""
+"滤镜跳过的透明度级别。<br>\n"
+"        0 处理所有像素，1 忽略所有透明像素"
 
 #: data/effects/frei0r/frei0r_pixs0r.xml:4
 #, kde-format
@@ -12938,10 +12914,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:8
-#, fuzzy, kde-format
-#| msgid "Scripts"
+#, kde-format
 msgid "Script File"
-msgstr "脚本"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:9
 #, kde-format
@@ -12961,16 +12936,14 @@ msgid "Flip Video Y"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:17
-#, fuzzy, kde-format
-#| msgid "Align item vertically."
+#, kde-format
 msgid "Flip input video vertically."
-msgstr "垂直对齐项目。"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:20
-#, fuzzy, kde-format
-#| msgid "Shape Alpha"
+#, kde-format
 msgid "Use Shader Alpha"
-msgstr "Shape Alpha - 形状透明度通道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:21
 #, kde-format
@@ -12979,10 +12952,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:24
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel0"
-msgstr "通道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:25
 #: data/effects/frei0r/frei0r_shadert0y.xml:29
@@ -12993,28 +12965,24 @@ msgid "None,Current Clip,File 0,File 1,File 2,File 3,Video Alpha"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:28
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel1"
-msgstr "通道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:32
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel2"
-msgstr "通道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:36
-#, fuzzy, kde-format
-#| msgid "Channel"
+#, kde-format
 msgid "iChannel3"
-msgstr "通道"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:41
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 0"
-msgstr "文件"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:42
 #, kde-format
@@ -13023,10 +12991,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:46
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 1"
-msgstr "文件"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:47
 #, kde-format
@@ -13035,10 +13002,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:51
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 2"
-msgstr "文件"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:52
 #, kde-format
@@ -13047,10 +13013,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:56
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File 3"
-msgstr "文件"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:57
 #, kde-format
@@ -13059,10 +13024,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:60
-#, fuzzy, kde-format
-#| msgid "Mouse cursor:"
+#, kde-format
 msgid "Mouse X"
-msgstr "鼠标光标："
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:61
 #, kde-format
@@ -13070,10 +13034,9 @@ msgid "Normalized mouse X. 0 = left."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:64
-#, fuzzy, kde-format
-#| msgid "Mouse cursor:"
+#, kde-format
 msgid "Mouse Y"
-msgstr "鼠标光标："
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:65
 #, kde-format
@@ -13081,10 +13044,9 @@ msgid "Normalized mouse Y. 0 = bottom."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:68
-#, fuzzy, kde-format
-#| msgid "Border Width"
+#, kde-format
 msgid "Render Width"
-msgstr "边框宽度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:69
 #, kde-format
@@ -13093,10 +13055,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:72
-#, fuzzy, kde-format
-#| msgid "Rendering"
+#, kde-format
 msgid "Render Height"
-msgstr "导出"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_shadert0y.xml:73
 #, kde-format
@@ -13187,7 +13148,7 @@ msgstr ""
 #: data/effects/frei0r/frei0r_shake0scillate.xml:4
 #, kde-format
 msgid "Shake0scillate"
-msgstr ""
+msgstr "Shake0scillate"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:5
 #, kde-format
@@ -13196,36 +13157,38 @@ msgid ""
 "rotation, scale and option to mirror the image if it goes outside the screen "
 "bounds.<br><br>This effect is for a smooth and controlled oscillation."
 msgstr ""
+"使用幅度、速度、旋转、缩放等可调参数对输入图像进行动画处理，并提供在图像超出"
+"屏幕边界时将其镜像的选项。<br><br>此效果用于实现平滑且可控的振荡。"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:8
 #, kde-format
 msgid "X Movement"
-msgstr ""
+msgstr "X 运动"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:11
 #, kde-format
 msgid "X Speed"
-msgstr ""
+msgstr "X 速度"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:14
 #, kde-format
 msgid "Y Movement"
-msgstr ""
+msgstr "Y 运动"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:17
 #, kde-format
 msgid "Y Speed"
-msgstr ""
+msgstr "Y 速度"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:23
 #, kde-format
 msgid "Rotation Speed"
-msgstr ""
+msgstr "旋转速度"
 
 #: data/effects/frei0r/frei0r_shake0scillate.xml:32
 #, kde-format
 msgid "Mirrored"
-msgstr ""
+msgstr "镜像"
 
 #: data/effects/frei0r/frei0r_sharpness.xml:4
 #, kde-format
@@ -13267,10 +13230,9 @@ msgid "Sharpness of transfer."
 msgstr "转印图像的锐利程度。"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:4
-#, fuzzy, kde-format
-#| msgid "Split compare"
+#, kde-format
 msgid "Slit Scan"
-msgstr "拆分对比"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:6
 #, kde-format
@@ -13305,10 +13267,9 @@ msgid "Vertical"
 msgstr "垂直"
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Use cos instead of linear"
+#, kde-format
 msgid "Sample a column instead of a row"
-msgstr "使用余弦函数代替线性函数"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:25
 #, kde-format
@@ -13332,10 +13293,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:38
-#, fuzzy, kde-format
-#| msgid "Fades:"
+#, kde-format
 msgid "Fade"
-msgstr "渐隐渐显："
+msgstr ""
 
 #: data/effects/frei0r/frei0r_slitscan0r.xml:40
 #, kde-format
@@ -13576,10 +13536,9 @@ msgid "Creates a hand-drawn wobble effect"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:9
-#, fuzzy, kde-format
-#| msgid "Tint amount"
+#, kde-format
 msgid "Displacement amount"
-msgstr "着色强度"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:12 src/bin/bin.cpp:1748
 #: src/bin/projectitemmodel.cpp:359
@@ -13588,16 +13547,14 @@ msgid "FPS"
 msgstr ""
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:13
-#, fuzzy, kde-format
-#| msgid "Updates per second"
+#, kde-format
 msgid "Squiggle updates per second"
-msgstr "每秒更新次数"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_squigglevision.xml:17
-#, fuzzy, kde-format
-#| msgid "Kernel size"
+#, kde-format
 msgid "Noise cell size"
-msgstr "内核大小"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_tehroxx0r.xml:4
 #, kde-format
@@ -13822,28 +13779,24 @@ msgid "Radius. 1 means the entire frame is affected."
 msgstr ""
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:20
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center X"
-msgstr "中心"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:21
-#, fuzzy, kde-format
-#| msgid "Initial Horizontal Position"
+#, kde-format
 msgid "Horizontal position"
-msgstr "初始水平位置"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:24
-#, fuzzy, kde-format
-#| msgid "Center"
+#, kde-format
 msgid "Center Y"
-msgstr "中心"
+msgstr ""
 
 #: data/effects/frei0r/frei0r_whirlpinch0r.xml:25
-#, fuzzy, kde-format
-#| msgid "Initial Vertical Position"
+#, kde-format
 msgid "Vertical position"
-msgstr "初始竖直位置"
+msgstr ""
 
 #: data/effects/frei0r/mask_start_frei0r_alphaspot.xml:4
 #, kde-format
@@ -14482,7 +14435,7 @@ msgstr "叠加 GPS 相关文本信息到视频中。"
 #: data/effects/gpstext.xml:9
 #, kde-format
 msgid "See the online documentation about additional qualifiers"
-msgstr ""
+msgstr "有关附加限定符的信息，请参阅在线文档"
 
 #: data/effects/gpstext.xml:10
 #, kde-format
@@ -14513,6 +14466,8 @@ msgid ""
 "<br>\n"
 "        Sample values: 30 for 30x timelapse, 0.25 for 4x slow motion footage."
 msgstr ""
+"若视频类型为延时摄影 (或慢动作)，请使用此选项设置加/减速比例。<br>\n"
+"        示例值：30 表示 30 倍速延时摄影，0.25 表示 4 倍慢动作视频。"
 
 #: data/effects/gpstext.xml:31
 #, kde-format
@@ -14527,31 +14482,34 @@ msgid ""
 "        A value of 0 will only update text when a real gps point has been "
 "recorded. Can be used in combination with speed_multiplier."
 msgstr ""
+"控制视频中 GPS 文本每秒更新的次数（插值）。<br>\n"
+"        设为 0 时，仅在记录到实际 GPS 点时才更新文本。<br>\n"
+"        可与 speed_multiplier (速度倍率) 结合使用。"
 
 #: data/effects/gpstext.xml:63
 #, kde-format
 msgid "The typeface of the font."
-msgstr ""
+msgstr "字体字型。"
 
 #: data/effects/gpstext.xml:67
 #, kde-format
 msgid "The size in pixels of the font."
-msgstr ""
+msgstr "字体像素大小。"
 
 #: data/effects/gpstext.xml:71
 #, kde-format
 msgid "The weight of the font."
-msgstr ""
+msgstr "字体字重。"
 
 #: data/effects/gpstext.xml:75
 #, kde-format
 msgid "The style of the font."
-msgstr ""
+msgstr "字体样式。"
 
 #: data/effects/gpstext.xml:84
 #, kde-format
 msgid "Background color"
-msgstr ""
+msgstr "背景颜色"
 
 #: data/effects/gpstext.xml:87
 #, kde-format
@@ -14561,37 +14519,37 @@ msgstr "轮廓颜色"
 #: data/effects/gpstext.xml:88
 #, kde-format
 msgid "Outline color"
-msgstr ""
+msgstr "轮廓颜色"
 
 #: data/effects/gpstext.xml:92
 #, kde-format
 msgid "The width of the outline in pixels"
-msgstr ""
+msgstr "轮廓像素宽度"
 
 #: data/effects/gpstext.xml:96
 #, kde-format
 msgid "Apply underline decoration to the text."
-msgstr ""
+msgstr "为文本应用下划线装饰。"
 
 #: data/effects/gpstext.xml:100
 #, kde-format
 msgid "Apply strikethrough decoration to the text."
-msgstr ""
+msgstr "为文本应用删除线装饰。"
 
 #: data/effects/gpstext.xml:107
 #, kde-format
 msgid "Set the horizontal alignment"
-msgstr ""
+msgstr "设置水平对齐方式"
 
 #: data/effects/gpstext.xml:112
 #, kde-format
 msgid "Set the vertical alignment"
-msgstr ""
+msgstr "设置垂直对齐方式"
 
 #: data/effects/gpstext.xml:117
 #, kde-format
 msgid "Opacity of all elements - text, outline, and background"
-msgstr ""
+msgstr "所有元素的不透明度 - 文本、轮廓和背景"
 
 #: data/effects/gradientmap.xml:4
 #, kde-format
@@ -14783,7 +14741,7 @@ msgstr "对颜色进行反相处理"
 #: data/effects/ladspa/ladspa_1185.xml:4
 #, kde-format
 msgid "Diode Processor"
-msgstr ""
+msgstr "二极管整流器 (Diode Processor)"
 
 #: data/effects/ladspa/ladspa_1185.xml:6
 #, kde-format
@@ -14793,6 +14751,9 @@ msgid ""
 "network. You should probably follow this with a <i>DC Offset Remover</i>, "
 "unless you want the offset."
 msgstr ""
+"二极管整流器 (LADSPA 1185)<br>\n"
+"   模拟信号通过二极管整流网络后的失真效果。建议随后使用 <i>DC Offset Remover "
+"(直流偏移移除器)</i>，除非你需要保留该偏移。"
 
 #: data/effects/ladspa/ladspa_1185.xml:11
 #, kde-format
@@ -14801,6 +14762,8 @@ msgid ""
 "      continuously variable from thru to half-wave (1) rectification to full-"
 "wave (2) to silence (0)"
 msgstr ""
+"<i>模式</i><br>\n"
+"      从直通到半波 (1) 整流、全波 (2) 直至静音 (0) 连续可变，"
 
 #: data/effects/ladspa/ladspa_1185.xml:14
 #: data/effects/ladspa/ladspa_1190.xml:16
@@ -14871,22 +14834,22 @@ msgstr "干/湿"
 #: data/effects/ladspa/ladspa_1190.xml:4
 #, kde-format
 msgid "Comb Filter"
-msgstr ""
+msgstr "梳状滤波器"
 
 #: data/effects/ladspa/ladspa_1190.xml:5
 #, kde-format
 msgid "Comb Filter (LADSPA 1190)"
-msgstr ""
+msgstr "梳状滤波器 (LADSPA 1190)"
 
 #: data/effects/ladspa/ladspa_1190.xml:8 data/effects/ladspa/ladspa_1411.xml:9
 #, kde-format
 msgid "Band Separation"
-msgstr ""
+msgstr "频带分离"
 
 #: data/effects/ladspa/ladspa_1190.xml:9
 #, kde-format
 msgid "Controls the distance between the filters peaks"
-msgstr ""
+msgstr "控制滤波器峰值之间的距离"
 
 #: data/effects/ladspa/ladspa_1190.xml:12
 #: data/effects/ladspa/ladspa_1191.xml:24
@@ -14902,7 +14865,7 @@ msgstr "反馈"
 #: data/effects/ladspa/ladspa_1190.xml:13
 #, kde-format
 msgid "Feedback level, increases the distinctive wooshy phaser sound."
-msgstr ""
+msgstr "反馈级别，增加独特的相位器扫频声。"
 
 #: data/effects/ladspa/ladspa_1191.xml:6
 #, kde-format
@@ -14912,23 +14875,26 @@ msgid ""
 "bandwidth modulation function, which should make the modulation less "
 "repetitive and noticeable."
 msgstr ""
+"镶边器 (LADSPA 1191)<br>\n"
+"   数字镶边效果实现。采用新颖的零偏移、可控带宽调制功能，可使调制效果更不重复"
+"且不易察觉。"
 
 #: data/effects/ladspa/ladspa_1191.xml:9
 #, kde-format
 msgid "Delay Base"
-msgstr ""
+msgstr "延迟基准"
 
 #: data/effects/ladspa/ladspa_1191.xml:11
 #, kde-format
 msgid ""
 "This is the offset from<br>\n"
 "      the input time that the detune delay moves around"
-msgstr ""
+msgstr "这是失谐延迟围绕输入时间波动的偏移量"
 
 #: data/effects/ladspa/ladspa_1191.xml:14
 #, kde-format
 msgid "Max Slowdown"
-msgstr ""
+msgstr "最大减速"
 
 #: data/effects/ladspa/ladspa_1191.xml:16
 #, kde-format
@@ -18888,10 +18854,9 @@ msgid ""
 msgstr ""
 
 #: data/effects/typewriter.xml:13
-#, fuzzy, kde-format
-#| msgid "Saturation"
+#, kde-format
 msgid "Fluctuation"
-msgstr "饱和度"
+msgstr ""
 
 #: data/effects/typewriter.xml:15
 #, kde-format
@@ -18901,22 +18866,19 @@ msgid ""
 msgstr ""
 
 #: data/effects/typewriter.xml:19
-#, fuzzy, kde-format
-#| msgid "The center value for the hue range"
+#, kde-format
 msgid "Seed value for the random generator"
-msgstr "色相范围的中心值"
+msgstr ""
 
 #: data/effects/typewriter.xml:23
-#, fuzzy, kde-format
-#| msgid "Expansion Mode"
+#, kde-format
 msgid "Expansion type"
-msgstr "展开模式"
+msgstr ""
 
 #: data/effects/typewriter.xml:24
-#, fuzzy, kde-format
-#| msgid "Char by char,Word by word,Line by line,Custom macro"
+#, kde-format
 msgid "Char by char,Word by word,Line by line"
-msgstr "逐字,逐词,逐行,自定义宏"
+msgstr ""
 
 #: data/effects/vidstab.xml:4
 #, kde-format
@@ -20773,28 +20735,21 @@ msgid "Missing keyframe detected at %1, automatically re-added"
 msgstr "在 %1 检测到缺失的关键帧，已自动重新添加"
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:1178
-#, fuzzy, kde-format
-#| msgid "Paste keyframes"
+#, kde-format
 msgid "Scale keyframes"
-msgstr "粘贴关键帧"
+msgstr ""
 
 #: src/assets/keyframes/model/keyframemodellist.cpp:1184
-#, fuzzy, kde-format
-#| msgid "Remove keyframe"
-#| msgid_plural "Remove keyframes"
+#, kde-format
 msgid "Failed to move keyframe"
-msgstr "移除关键帧"
+msgstr ""
 
 #: src/assets/keyframes/view/keyframeview.cpp:90
-#, fuzzy, kde-format
-#| msgid ""
-#| "<b>Shift drag</b> to change value of selected keyframes, <b>Ctrl click</"
-#| "b> for multiple keyframe selection."
+#, kde-format
 msgid ""
 "<b>Shift Drag</b> for rubberband selection, <b>Alt Drag</b> to scale "
 "multiple keyframes"
 msgstr ""
-"<b>Shift+拖动</b>可更改选中关键帧的值，<b>Ctrl+点击</b>可选择多个关键帧。"
 
 #: src/assets/keyframes/view/keyframeview.cpp:153
 #, kde-format
@@ -20996,10 +20951,9 @@ msgid "Apply current position value to selected keyframes"
 msgstr "应用当前位置数值到所选关键帧"
 
 #: src/assets/view/widgets/keyframecontainer.cpp:180
-#, fuzzy, kde-format
-#| msgid "Go to Previous Keyframe"
+#, kde-format
 msgid "Use Same Type As Previous Keyframe"
-msgstr "跳转到上一关键帧"
+msgstr ""
 
 #: src/assets/view/widgets/keyframecontainer.cpp:186
 #: src/assets/view/widgets/keyframecontainer.cpp:199
@@ -21643,10 +21597,9 @@ msgid "Show Rating"
 msgstr "显示评分"
 
 #: src/bin/bin.cpp:1810
-#, fuzzy, kde-format
-#| msgid "Show"
+#, kde-format
 msgid "Show FPS"
-msgstr "显示"
+msgstr ""
 
 #: src/bin/bin.cpp:1822
 #, kde-format
@@ -23150,16 +23103,14 @@ msgid "Recording format adjusted to %1 channels, %2Hz."
 msgstr "录制格式已调整为 %1 声道，%2 Hz。"
 
 #: src/capture/mediacapture.cpp:192
-#, fuzzy, kde-format
-#| msgid "Processing %1"
+#, kde-format
 msgid "Error accessing %1"
-msgstr "正在处理 %1"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:201
-#, fuzzy, kde-format
-#| msgid "Monitor %1"
+#, kde-format
 msgid "Monitoring through %1"
-msgstr "监视器 %1"
+msgstr ""
 
 #: src/capture/mediacapture.cpp:262
 #, kde-format
@@ -24526,22 +24477,19 @@ msgstr ""
 "行。"
 
 #: src/dialogs/renderwidget.cpp:549
-#, fuzzy, kde-format
-#| msgid "Smoothing"
+#, kde-format
 msgid "Do nothing"
-msgstr "平滑"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:550
-#, fuzzy, kde-format
-#| msgid "Kdenlive"
+#, kde-format
 msgid "Close Kdenlive"
-msgstr "Kdenlive"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:555
-#, fuzzy, kde-format
-#| msgid "Shutdown computer after renderings"
+#, kde-format
 msgid "Shut down computer"
-msgstr "导出完成后关机"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:593
 #, kde-format
@@ -24743,10 +24691,9 @@ msgid "<strong>Rendering of %1 crashed</strong><br />"
 msgstr "<strong>导出 %1 已崩溃</strong><br />"
 
 #: src/dialogs/renderwidget.cpp:1971
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to delete the layout %1?"
+#, kde-format
 msgid "Are you sure you want to abort the current job?"
-msgstr "您确定要删除布局 %1 吗？"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, abort_job)
 #: src/dialogs/renderwidget.cpp:1971 src/dialogs/renderwidget.cpp:2006
@@ -24765,10 +24712,9 @@ msgid "Abort"
 msgstr "中止"
 
 #: src/dialogs/renderwidget.cpp:1979
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to delete the layout %1?"
+#, kde-format
 msgid "Are you sure you want to remove the waiting job from queue?"
-msgstr "您确定要删除布局 %1 吗？"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:1979 src/dialogs/renderwidget.cpp:2009
 #, kde-format
@@ -24776,10 +24722,9 @@ msgid "Remove Job"
 msgstr "移除任务"
 
 #: src/dialogs/renderwidget.cpp:2114
-#, fuzzy, kde-format
-#| msgid "Start Script"
+#, kde-format
 msgid "Start Selected Scripts"
-msgstr "执行脚本"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, start_script)
 #: src/dialogs/renderwidget.cpp:2114 src/ui/renderwidget_ui.ui:1156
@@ -24788,10 +24733,9 @@ msgid "Start Script"
 msgstr "执行脚本"
 
 #: src/dialogs/renderwidget.cpp:2115
-#, fuzzy, kde-format
-#| msgid "Delete Selected Item"
+#, kde-format
 msgid "Delete Selected Scripts"
-msgstr "删除所选项目"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, delete_script)
 #: src/dialogs/renderwidget.cpp:2115 src/dialogs/renderwidget.cpp:2187
@@ -24801,34 +24745,26 @@ msgid "Delete Script"
 msgstr "删除脚本"
 
 #: src/dialogs/renderwidget.cpp:2116
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Copy Selected Commands"
-msgstr "循环播放所选片段"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, copy_script_command)
 #: src/dialogs/renderwidget.cpp:2116 src/ui/renderwidget_ui.ui:1104
-#, fuzzy, kde-format
-#| msgid "Copy to Clipboard"
+#, kde-format
 msgid "Copy Command"
-msgstr "复制到剪贴板"
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:2138
-#, fuzzy, kde-format
-#| msgid ""
-#| "Output file %1 already exists.\n"
-#| "Do you want to overwrite it?"
+#, kde-format
 msgid "Output file %1 already exists. Do you want to overwrite it?"
 msgstr ""
-"输出文件 %1 已经存在。\n"
-"您想要覆盖它吗？"
 
 #: src/dialogs/renderwidget.cpp:2186
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to delete the layout %1?"
+#, kde-format
 msgid "Are you sure you want to delete the selected script?"
 msgid_plural "Are you sure you want to delete %1 selected scripts?"
-msgstr[0] "您确定要删除布局 %1 吗？"
+msgstr[0] ""
 
 #: src/dialogs/renderwidget.cpp:2227
 #, kde-format
@@ -24848,10 +24784,9 @@ msgid "Rendered File Length: %1"
 msgstr "导出的文件长度：%1"
 
 #: src/dialogs/renderwidget.cpp:2587
-#, fuzzy, kde-format
-#| msgid "Timecode Offset:"
+#, kde-format
 msgid "Timecode Offset: %1"
-msgstr "时区偏移："
+msgstr ""
 
 #: src/dialogs/renderwidget.cpp:2592
 #, kde-format
@@ -24981,10 +24916,9 @@ msgid "Project Defaults"
 msgstr "项目默认值"
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:354
-#, fuzzy, kde-format
-#| msgid "Colors and Markers"
+#, kde-format
 msgid "Colors and Grid"
-msgstr "颜色和标记"
+msgstr ""
 
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:383
 #: src/dialogs/settings/kdenlivesettingsdialog.cpp:429
@@ -27501,28 +27435,20 @@ msgstr ""
 "GPU 加速在 Kdenlive 设置中被关闭，但此项目的 Movit 滤镜需要使用 GPU 加速。"
 
 #: src/doc/kdenlivedoc.cpp:299
-#, fuzzy, kde-format
-#| msgid ""
-#| "The project directory %1, could not be created.\n"
-#| "Please make sure you have the required permissions.\n"
-#| "Defaulting to system folders"
+#, kde-format
 msgid ""
 "The project directory %1, is not writable.\n"
 "Please check the permissions.\n"
 "Defaulting to system folders"
 msgstr ""
-"无法创建项目目录 %1。\n"
-"请确保您具备所需的权限。\n"
-"当前默认为使用系统文件夹。"
 
 #: src/doc/kdenlivedoc.cpp:301
-#, fuzzy, kde-format
-#| msgid "Document project folder is invalid, using system default folders"
+#, kde-format
 msgid ""
 "Document project folder:\n"
 "%1\n"
 "is invalid, using system default folders"
-msgstr "文档项目文件夹无效，使用系统默认文件夹"
+msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:615 src/doc/kdenlivedoc.cpp:625
 #, kde-format
@@ -27649,10 +27575,9 @@ msgid ""
 msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:1983
-#, fuzzy, kde-format
-#| msgid "Abort rendering"
+#, kde-format
 msgid "Abort Loading"
-msgstr "中止渲染"
+msgstr ""
 
 #: src/doc/kdenlivedoc.cpp:2010
 #, kde-format
@@ -28263,10 +28188,9 @@ msgid "User Files"
 msgstr "用户文件"
 
 #: src/filefilter.cpp:135
-#, fuzzy, kde-format
-#| msgid "Kdenlive title"
+#, kde-format
 msgid "Kdenlive Files"
-msgstr "Kdenlive 标题"
+msgstr ""
 
 #: src/filefilter.cpp:137
 #, kde-format
@@ -28791,7 +28715,7 @@ msgstr "效果"
 #, kde-format
 msgctxt "Short layout name for color grading interface"
 msgid "Color"
-msgstr "色彩"
+msgstr "颜色"
 
 #: src/layouts/layoutmanagement.cpp:45
 #, kde-format
@@ -29673,18 +29597,12 @@ msgstr ""
 "目文件。"
 
 #: src/mainwindow.cpp:1217
-#, fuzzy, kde-format
-#| msgid ""
-#| "The current project has not been saved.<br/>This will first save the "
-#| "project, then move all temporary files from <br/><b>%1</b> to <b>%2</b>,"
-#| "<br>and the project file will be reloaded"
+#, kde-format
 msgid ""
 "Project has not been saved.<br/>This will first save the project, then move "
 "all temporary files from <br/><b>%1</b> to the project file location and "
 "reload"
 msgstr ""
-"当前项目尚未保存。<br/>此操作将首先保存项目，然后将所有临时文件从 <br/><b>"
-"%1</b> 移动到 <b>%2</b>，<br>最后重新加载项目文件。"
 
 #: src/mainwindow.cpp:1257
 #, kde-format
@@ -30073,10 +29991,9 @@ msgid "Render Button"
 msgstr "导出按钮"
 
 #: src/mainwindow_actions.cpp:139
-#, fuzzy, kde-format
-#| msgid "Delete selection"
+#, kde-format
 msgid "Delete Timeline Selection"
-msgstr "删除所选内容"
+msgstr ""
 
 #: src/mainwindow_actions.cpp:141
 #: src/timeline2/view/qml/AudioRecordButton.qml:155
@@ -30937,16 +30854,14 @@ msgid "Save Clip Part to Bin"
 msgstr "保存片段部分到素材箱"
 
 #: src/mainwindow_actions.cpp:922
-#, fuzzy, kde-format
-#| msgid "Loop Selected Clip"
+#, kde-format
 msgid "Enable Selected Clips"
-msgstr "循环播放所选片段"
+msgstr ""
 
 #: src/mainwindow_actions.cpp:924
-#, fuzzy, kde-format
-#| msgid "Disable Clip"
+#, kde-format
 msgid "Disable Selected Clips"
-msgstr "禁用片段"
+msgstr ""
 
 #: src/mainwindow_actions.cpp:929
 #, kde-format
@@ -31110,10 +31025,9 @@ msgid "Remove Space in All Tracks"
 msgstr "移除所有轨道中的空白区域"
 
 #: src/mainwindow_actions.cpp:1033
-#, fuzzy, kde-format
-#| msgid "Split Audio Tracks"
+#, kde-format
 msgid "Switch Solo Audio Track"
-msgstr "拆分音频轨道"
+msgstr ""
 
 #: src/mainwindow_actions.cpp:1036
 #, kde-format
@@ -32834,10 +32748,9 @@ msgid "Unknown License"
 msgstr "未知许可证"
 
 #: src/onlineresources/resourcewidget.cpp:612
-#, fuzzy, kde-format
-#| msgid "It maybe takes a while until the preview is loaded"
+#, kde-format
 msgid "Please be patient while the preview is loading"
-msgstr "预览可能需要一段时间才能加载"
+msgstr ""
 
 #: src/onlineresources/resourcewidget.cpp:620
 #, kde-format
@@ -32862,17 +32775,11 @@ msgid "Images"
 msgstr "图像"
 
 #: src/onlineresources/resourcewidget.cpp:704
-#, fuzzy, kde-format
-#| msgid ""
-#| "Be aware that the usage of the resource is maybe restricted by license "
-#| "terms or law!\n"
-#| "Do you want to add license attribution to your Project Notes?"
+#, kde-format
 msgid ""
 "Using these resources may be restricted by license terms or local laws.\n"
 "Do you want to add license attribution to your Project Notes?"
 msgstr ""
-"请注意，资源的使用可能受到许可证条款或法律的限制。\n"
-"您想要将许可证的署名添加到您的项目注释中吗？"
 
 #: src/onlineresources/resourcewidget.cpp:707
 #, kde-format
@@ -32911,10 +32818,9 @@ msgid "Data Imported"
 msgstr "数据已导入"
 
 #: src/onlineresources/resourcewidget.cpp:789
-#, fuzzy, kde-format
-#| msgid "Try importing again to obtain a new connection"
+#, kde-format
 msgid "Try importing again to establish a new connection"
-msgstr "请重新尝试导入以获取新连接"
+msgstr ""
 
 #: src/onlineresources/resourcewidget.cpp:790
 #, kde-format
@@ -33362,40 +33268,34 @@ msgid "Showing backup files for %1"
 msgstr "显示 %1 的备份文件"
 
 #: src/project/dialogs/guidecategories.cpp:31
-#, fuzzy, kde-format
-#| msgid "Project Bins"
+#, kde-format
 msgid "Project Bin Tags"
-msgstr "项目素材箱"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:34
-#, fuzzy, kde-format
-#| msgid "Delete Track"
+#, kde-format
 msgid "Delete Tag"
-msgstr "删除轨道"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:36
-#, fuzzy, kde-format
-#| msgid "Add to Project Bin"
+#, kde-format
 msgid "Add a Project Bin tag"
-msgstr "添加到项目素材箱"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:37
-#, fuzzy, kde-format
-#| msgid "No clip selected in project bin"
+#, kde-format
 msgid "Edit the selected Project Bin tag"
-msgstr "项目素材箱中没有选中片段"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:38
-#, fuzzy, kde-format
-#| msgid "Delete selected text"
+#, kde-format
 msgid "Delete the selected Project Bin tag"
-msgstr "删除所选文本"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:52
-#, fuzzy, kde-format
-#| msgid "Add to Project Bin"
+#, kde-format
 msgid "Edit Project Bin Tag"
-msgstr "添加到项目素材箱"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:52
 #, kde-format
@@ -33408,16 +33308,14 @@ msgid "This color is already used in another category"
 msgstr "此颜色已用于另一个类别"
 
 #: src/project/dialogs/guidecategories.cpp:158
-#, fuzzy, kde-format
-#| msgid "Custom"
+#, kde-format
 msgid "Custom Tag"
-msgstr "自定义"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:170
-#, fuzzy, kde-format
-#| msgid "Automatic (%1)"
+#, kde-format
 msgid "Custom Tag (%1)"
-msgstr "自动 (%1)"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:173
 #, kde-format
@@ -33425,10 +33323,9 @@ msgid "Category %1"
 msgstr "类别 %1"
 
 #: src/project/dialogs/guidecategories.cpp:194
-#, fuzzy, kde-format
-#| msgid "Project Bin %1"
+#, kde-format
 msgid "Delete Project Bin Tag"
-msgstr "项目素材箱 %1"
+msgstr ""
 
 #: src/project/dialogs/guidecategories.cpp:194
 #, kde-format
@@ -33678,11 +33575,9 @@ msgid "Portrait"
 msgstr ""
 
 #: src/project/dialogs/profilewidget.cpp:362
-#, fuzzy, kde-format
-#| msgctxt "Luma transition name"
-#| msgid "Square"
+#, kde-format
 msgid "Square"
-msgstr "Square - 正方形"
+msgstr ""
 
 #: src/project/dialogs/profilewidget.cpp:366
 #, kde-format
@@ -34300,10 +34195,9 @@ msgid "Could not open the backup project file."
 msgstr "无法打开备份项目文件"
 
 #: src/project/projectmanager.cpp:975
-#, fuzzy, kde-format
-#| msgid "Cannot open project file %1"
+#, kde-format
 msgid "Failed to open project file <b>%1</b>."
-msgstr "无法打开项目文件 %1"
+msgstr ""
 
 #: src/project/projectmanager.cpp:981
 #, kde-format
@@ -34451,17 +34345,14 @@ msgid ""
 msgstr ""
 
 #: src/project/projectmanager.cpp:2686
-#, fuzzy, kde-format
-#| msgid "Project profile changed"
+#, kde-format
 msgid "Project Already Opened"
-msgstr "项目编码方案已更改"
+msgstr ""
 
 #: src/project/projectmanager.cpp:2686
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Render Anyway"
+#, kde-format
 msgid "Open Anyway"
-msgstr "仍然导出"
+msgstr ""
 
 #: src/project/transcodeseek.cpp:47 src/project/transcodeseek.cpp:60
 #, kde-format
@@ -35775,16 +35666,14 @@ msgid "Cannot move selected group"
 msgstr "无法移动所选组合"
 
 #: src/timeline2/model/timelinefunctions.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Enable clip"
+#, kde-format
 msgid "Enable clips"
-msgstr "启用片段"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:1243
-#, fuzzy, kde-format
-#| msgid "Disable clip"
+#, kde-format
 msgid "Disable clips"
-msgstr "禁用片段"
+msgstr ""
 
 #: src/timeline2/model/timelinefunctions.cpp:1259
 #, kde-format
@@ -36847,10 +36736,9 @@ msgid "Cannot remove all clips"
 msgstr "无法移除所有片段"
 
 #: src/timeline2/view/timelinecontroller.cpp:3221
-#, fuzzy, kde-format
-#| msgid "Select an audio track to display record controls"
+#, kde-format
 msgid "Select an audio track to activate solo mode"
-msgstr "选择音频轨道以显示录制控制选项"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:3273
 #: src/timeline2/view/timelinecontroller.cpp:3278
@@ -37053,10 +36941,9 @@ msgid_plural "Insert Tracks"
 msgstr[0] "插入轨道"
 
 #: src/timeline2/view/timelinecontroller.cpp:5950
-#, fuzzy, kde-format
-#| msgid "No subtitles in current project"
+#, kde-format
 msgid "No subtitles in current project. Export not possible."
-msgstr "当前项目不含字幕"
+msgstr ""
 
 #: src/timeline2/view/timelinecontroller.cpp:5961
 #, kde-format
@@ -37511,10 +37398,9 @@ msgid "Download New Title Templates…"
 msgstr "下载新的标题模板…"
 
 #: src/titler/titlewidget.cpp:577
-#, fuzzy, kde-format
-#| msgid "Free Resize"
+#, kde-format
 msgid "Move / Resize"
-msgstr "自由缩放"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:622
 #, kde-format
@@ -37527,10 +37413,9 @@ msgid "Create Title"
 msgstr "创建标题"
 
 #: src/titler/titlewidget.cpp:740
-#, fuzzy, kde-format
-#| msgid "Keep aspect ratio"
+#, kde-format
 msgid "Keep Aspect Ratio"
-msgstr "保持宽高比"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:916
 #, kde-format
@@ -37557,16 +37442,14 @@ msgstr "添加图像"
 #: src/titler/titlewidget.cpp:1399 src/titler/titlewidget.cpp:3296
 #: src/titler/titlewidget.cpp:3314 src/titler/titlewidget.cpp:3327
 #: src/titler/titlewidget.cpp:3345
-#, fuzzy, kde-format
-#| msgid "Z-Index:"
+#, kde-format
 msgid "Z-Index"
-msgstr "Z-顺序："
+msgstr ""
 
 #: src/titler/titlewidget.cpp:1638
-#, fuzzy, kde-format
-#| msgid "Change Speed"
+#, kde-format
 msgid "Change Value"
-msgstr "更改速度"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:1903
 #, kde-format
@@ -37591,10 +37474,9 @@ msgid "+Y"
 msgstr "+Y"
 
 #: src/titler/titlewidget.cpp:1975
-#, fuzzy, kde-format
-#| msgid "Background"
+#, kde-format
 msgid "Change Background"
-msgstr "背景"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2150
 #, kde-format
@@ -37651,16 +37533,14 @@ msgid ""
 msgstr ""
 
 #: src/titler/titlewidget.cpp:2295
-#, fuzzy, kde-format
-#| msgid "Update Text Clips"
+#, kde-format
 msgid "Update Text"
-msgstr "更新文本片段"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2348
-#, fuzzy, kde-format
-#| msgid "Update keyframe"
+#, kde-format
 msgid "Update Shape"
-msgstr "更新关键帧"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_rotate)
 #: src/titler/titlewidget.cpp:2416 src/ui/titlewidget_ui.ui:526
@@ -37700,10 +37580,9 @@ msgid_plural "This title has %1 missing elements"
 msgstr[0] "此标题有 %1 个缺失元素"
 
 #: src/titler/titlewidget.cpp:2702
-#, fuzzy, kde-format
-#| msgid "Delete missing elements"
+#, kde-format
 msgid "Remove missing elements"
-msgstr "删除缺失的元素"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2762
 #, kde-format
@@ -37716,10 +37595,9 @@ msgid "Add as new Title"
 msgstr "添加为新标题"
 
 #: src/titler/titlewidget.cpp:2810
-#, fuzzy, kde-format
-#| msgid "All Missing Items:"
+#, kde-format
 msgid "Delete Missing Items"
-msgstr "所有缺失的项目："
+msgstr ""
 
 #: src/titler/titlewidget.cpp:2828
 #, kde-format
@@ -37738,10 +37616,9 @@ msgid "Search"
 msgstr "搜索"
 
 #: src/titler/titlewidget.cpp:2859
-#, fuzzy, kde-format
-#| msgid "Enter a folder name"
+#, kde-format
 msgid "Enter folder for search"
-msgstr "输入文件夹名称"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:3123
 #, kde-format
@@ -37756,22 +37633,19 @@ msgid "End Viewport"
 msgstr "结束视图"
 
 #: src/titler/titlewidget.cpp:3889
-#, fuzzy, kde-format
-#| msgid "Red Shadow"
+#, kde-format
 msgid "Update Shadow"
-msgstr "红色阴影"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:3914
-#, fuzzy, kde-format
-#| msgid "&Typewriter effect"
+#, kde-format
 msgid "Typewriter Effect"
-msgstr "打字机效果(&T)"
+msgstr ""
 
 #: src/titler/titlewidget.cpp:4040
-#, fuzzy, kde-format
-#| msgid "Insert Order"
+#, kde-format
 msgid "Insert Pattern"
-msgstr "插入顺序"
+msgstr ""
 
 #: src/titler/unicodedialog.cpp:42
 #, kde-format
@@ -39010,10 +38884,9 @@ msgstr ""
 
 #. i18n: ectx: property (suffix), widget (QSpinBox, kcfg_lowMemoryThreshold)
 #: src/ui/configenv_ui.ui:141
-#, fuzzy, kde-format
-#| msgid " MiB"
+#, kde-format
 msgid " MB"
-msgstr "MiB"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (KMessageWidget, lowMemoryWarning)
 #: src/ui/configenv_ui.ui:172
@@ -39591,10 +39464,9 @@ msgstr "代理"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_markers)
 #: src/ui/configprojectdefaults_ui.ui:53
-#, fuzzy, kde-format
-#| msgid "Markers Categories"
+#, kde-format
 msgid "Markers and Tags"
-msgstr "标记类别"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_enableproxy)
 #: src/ui/configproxy_ui.ui:21
@@ -41935,10 +41807,9 @@ msgstr "错误日志"
 
 #. i18n: ectx: property (text), widget (QLabel, postRenderLabel)
 #: src/ui/renderwidget_ui.ui:1065
-#, fuzzy, kde-format
-#| msgid "Abort rendering"
+#, kde-format
 msgid "After rendering:"
-msgstr "中止渲染"
+msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, scriptsTab)
 #: src/ui/renderwidget_ui.ui:1098
@@ -42847,43 +42718,3 @@ msgstr "%1 分"
 msgctxt "h as hours"
 msgid "%1h"
 msgstr "%1 小时"
-
-#~ msgid ":data/kdenlive_renderprofiles.knsrc"
-#~ msgstr ":data/kdenlive_renderprofiles.knsrc"
-
-#~ msgctxt "@title:window"
-#~ msgid "Enter Template Path"
-#~ msgstr "输入模板路径"
-
-#~ msgid "Your disk is almost full, rendering might fail"
-#~ msgstr "您的磁盘空间即将耗尽，渲染可能会失败"
-
-#~ msgid "Your disk space is limited (%1)"
-#~ msgstr "您的磁盘空间有限（%1）"
-
-#~ msgid "Macro type"
-#~ msgstr "宏类型"
-
-#~ msgid "Cannot resize mix to less than 1 frame"
-#~ msgstr "无法调整混合大小到小于 1 帧"
-
-#~ msgid ""
-#~ "The project's storage folder <b>%1</b> was not found. Please enter an "
-#~ "updated location to store files for this project."
-#~ msgstr ""
-#~ "存储该项目的文件夹 <b>%1</b> 不存在。请重新指定一个位置，用于存放该项目。"
-
-#~ msgid ""
-#~ "You can also enter <i>strftime</i> parameters to customize the output, "
-#~ "like: #createdate %H:%M %D#"
-#~ msgstr ""
-#~ "您也可以输入 <i>strftime</i> 参数来自定义输出格式，例如：#createdate %H:"
-#~ "%M %D#"
-
-#~ msgid ""
-#~ "Timecode,Frame number,File name,Base name,Creation date,File date (GMT),"
-#~ "File date (local),Source frame rate,Source codec,Source bit rate,Source "
-#~ "width,Source height,Source comment"
-#~ msgstr ""
-#~ "时间码,帧编号,文件名,基本名称,创建日期,文件日期 (GMT) ,文件日期 (本地) ,源"
-#~ "帧率,源编解码器,源比特率,源宽度,源高度,源注释"
