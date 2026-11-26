@@ -162,9 +162,9 @@ def generate_preview(predictor):
     predictor.set_image(image)
     #mask_input = logits[np.argmax(scores), :, :]
     masks, scores, logits = predictor.predict(
-        point_coords=None if not points else points[preview_frame],
-        point_labels=None if not labels else labels[preview_frame],
-        box=None if not box else box[preview_frame],
+        point_coords=points.get(preview_frame),
+        point_labels=labels.get(preview_frame),
+        box=box.get(preview_frame),
         multimask_output=False)
     filename = output_frame + '/preview-{:05d}'.format(preview_frame) + '.png'
     save_mask((masks[0]), filename, ann_obj_id)
@@ -257,9 +257,9 @@ while 1:
                 inference_state=inference_state,
                 frame_idx=frame,
                 obj_id=ann_obj_id,
-                box=None if not box else box[frame],
-                points=None if not points else points[frame],
-                labels=None if not labels else labels[frame]
+                box=box.get(frame),
+                points=points.get(frame),
+                labels=labels.get(frame)
             )
         render_video()
         print("mask ok", file=sys.stdout, flush=True)
