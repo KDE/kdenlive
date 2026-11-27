@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-25 01:25+0000\n"
+"POT-Creation-Date: 2026-11-27 01:03+0000\n"
 "PO-Revision-Date: 2024-04-23 19:24\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -20876,7 +20876,7 @@ msgid "Enter the name of this preset:"
 msgstr "输入此预设的名称："
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:474
+#: src/project/dialogs/archivewidget.cpp:487
 #, kde-format
 msgid "Abort processing"
 msgstr "中止处理"
@@ -22807,8 +22807,8 @@ msgstr "移动字幕"
 #: src/bin/model/subtitlemodel.cpp:1262
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:972
-#: src/project/dialogs/archivewidget.cpp:982 src/render/renderrequest.cpp:383
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:992
+#: src/project/dialogs/archivewidget.cpp:1002 src/render/renderrequest.cpp:383
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -23872,11 +23872,11 @@ msgstr "导出标记数据"
 #: src/effects/effectstack/view/effectstackview.cpp:817
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:876
-#: src/project/dialogs/archivewidget.cpp:880
-#: src/project/dialogs/archivewidget.cpp:990
-#: src/project/dialogs/archivewidget.cpp:1002
-#: src/project/dialogs/archivewidget.cpp:1008
+#: src/project/dialogs/archivewidget.cpp:894
+#: src/project/dialogs/archivewidget.cpp:898
+#: src/project/dialogs/archivewidget.cpp:1010
+#: src/project/dialogs/archivewidget.cpp:1022
+#: src/project/dialogs/archivewidget.cpp:1028
 #: src/project/projectmanager.cpp:2100 src/project/projectmanager.cpp:2106
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -24569,7 +24569,7 @@ msgctxt "@action:button"
 msgid "Render"
 msgstr ""
 
-#: src/dialogs/renderwidget.cpp:1007 src/project/dialogs/archivewidget.cpp:996
+#: src/dialogs/renderwidget.cpp:1007 src/project/dialogs/archivewidget.cpp:1016
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "输出文件已经存在。您想要覆盖它吗？"
@@ -24704,8 +24704,8 @@ msgstr "中止任务"
 
 #: src/dialogs/renderwidget.cpp:1972 src/dialogs/wizard.cpp:80
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:853
-#: src/project/dialogs/archivewidget.cpp:1389
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:723
+#: src/project/dialogs/archivewidget.cpp:1409
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:298
 #, kde-format
 msgid "Abort"
@@ -29722,26 +29722,39 @@ msgstr "无法添加特效到活动项目"
 msgid "Zoom Level: %1/%2"
 msgstr "缩放级别：%1/%2"
 
-#: src/mainwindow.cpp:2399
-#, kde-kuit-format
+#: src/mainwindow.cpp:2398
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
+#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
+#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
+#| "drag</shortcut> to pan"
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
-"move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
+"move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan, "
+"<shortcut>Shift hover</shortcut> to scrub"
 msgstr ""
 "<shortcut>Shift + 拖动</shortcut>绘制选择范围，<shortcut>Shift + 点击</"
 "shortcut>进行多选，<shortcut>Meta + 拖动</shortcut>移动分组片段到另一条轨道，"
 "<shortcut>Ctrl + 拖动</shortcut>平移视图"
 
-#: src/mainwindow.cpp:2403
-#, kde-kuit-format
+#: src/mainwindow.cpp:2402
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
+#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta + "
+#| "Alt drag</shortcut> to move a grouped clip to another track, "
+#| "<shortcut>Ctrl drag</shortcut> to pan"
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta + Alt drag</"
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
-"shortcut> to pan"
+"shortcut> to pan, <shortcut>Shift hover</shortcut> to scrub"
 msgstr ""
 "<shortcut>Shift + 拖动</shortcut>绘制选择范围，<shortcut>Shift + 点击</"
 "shortcut>进行多选，<shortcut>Meta + Alt + 拖动</shortcut>移动分组片段到另一条"
@@ -33046,29 +33059,30 @@ msgid_plural "You have %1 missing clips in your project."
 msgstr[0] "您的项目中包含 %1 段缺失片段。"
 
 #: src/project/dialogs/archivewidget.cpp:300
-#: src/project/dialogs/archivewidget.cpp:1545
-#: src/project/dialogs/archivewidget.cpp:1610
+#: src/project/dialogs/archivewidget.cpp:1565
+#: src/project/dialogs/archivewidget.cpp:1630
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
 msgstr[0] "(%1 项)"
 
 #: src/project/dialogs/archivewidget.cpp:306
-#: src/project/dialogs/archivewidget.cpp:1548
-#: src/project/dialogs/archivewidget.cpp:1613
+#: src/project/dialogs/archivewidget.cpp:1568
+#: src/project/dialogs/archivewidget.cpp:1633
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
 msgstr[0] "要归档 %1 个文件，需要 %2"
 
 #: src/project/dialogs/archivewidget.cpp:307
-#: src/project/dialogs/archivewidget.cpp:394
+#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:680
 #, kde-format
 msgid "Archive"
 msgstr "归档"
 
 #: src/project/dialogs/archivewidget.cpp:318
-#: src/project/dialogs/archivewidget.cpp:902
+#: src/project/dialogs/archivewidget.cpp:920
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "处理项目文件时出错"
@@ -33094,12 +33108,12 @@ msgstr "打开归档项目"
 msgid "Extract"
 msgstr "解压"
 
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Opening archive…"
 msgstr "正在打开归档项目…"
 
-#: src/project/dialogs/archivewidget.cpp:409
+#: src/project/dialogs/archivewidget.cpp:422
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -33108,12 +33122,12 @@ msgstr ""
 "无法打开归档项目文件：\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:415
+#: src/project/dialogs/archivewidget.cpp:428
 #, kde-format
 msgid "Archive contains an unsafe path or symbolic link"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:439
+#: src/project/dialogs/archivewidget.cpp:452
 #, kde-format
 msgid ""
 "File %1\n"
@@ -33122,89 +33136,89 @@ msgstr ""
 "文件 %1\n"
 "不是一个 Kdenlive 归档项目文件"
 
-#: src/project/dialogs/archivewidget.cpp:445
+#: src/project/dialogs/archivewidget.cpp:458
 #, kde-format
 msgid "Ready"
 msgstr "准备就绪"
 
-#: src/project/dialogs/archivewidget.cpp:469
+#: src/project/dialogs/archivewidget.cpp:482
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "正在进行压缩，您想要停止压缩吗？"
 
-#: src/project/dialogs/archivewidget.cpp:469
-#: src/project/dialogs/archivewidget.cpp:470
+#: src/project/dialogs/archivewidget.cpp:482
+#: src/project/dialogs/archivewidget.cpp:483
 #, kde-format
 msgid "Stop Archiving"
 msgstr "停止压缩"
 
-#: src/project/dialogs/archivewidget.cpp:663
+#: src/project/dialogs/archivewidget.cpp:683
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "可用存储设备空间：%1"
 
-#: src/project/dialogs/archivewidget.cpp:667
+#: src/project/dialogs/archivewidget.cpp:687
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "存储设备空间不足，剩余空间：%1"
 
-#: src/project/dialogs/archivewidget.cpp:683
+#: src/project/dialogs/archivewidget.cpp:703
 #, kde-format
 msgid "Starting archive job"
 msgstr "正在开始归档任务"
 
-#: src/project/dialogs/archivewidget.cpp:704
+#: src/project/dialogs/archivewidget.cpp:725
 #, kde-format
 msgid "Archiving…"
 msgstr "正在压缩…"
 
-#: src/project/dialogs/archivewidget.cpp:734
-#: src/project/dialogs/archivewidget.cpp:845
-#: src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:1382
+#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:868
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:1402
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "无法创建文件夹 %1"
 
-#: src/project/dialogs/archivewidget.cpp:760
-#: src/project/dialogs/archivewidget.cpp:768
-#: src/project/dialogs/archivewidget.cpp:825
+#: src/project/dialogs/archivewidget.cpp:783
+#: src/project/dialogs/archivewidget.cpp:791
+#: src/project/dialogs/archivewidget.cpp:848
 #, kde-format
 msgid "Copying %1"
 msgstr "正在复制 %1"
 
-#: src/project/dialogs/archivewidget.cpp:864
-#: src/project/dialogs/archivewidget.cpp:961
+#: src/project/dialogs/archivewidget.cpp:882
+#: src/project/dialogs/archivewidget.cpp:981
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "无法创建临时文件"
 
-#: src/project/dialogs/archivewidget.cpp:900
+#: src/project/dialogs/archivewidget.cpp:918
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "项目已完成归档。"
 
-#: src/project/dialogs/archivewidget.cpp:910
+#: src/project/dialogs/archivewidget.cpp:930
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "复制文件时出错：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1290
+#: src/project/dialogs/archivewidget.cpp:1310
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "无法打开归档文件 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1307
+#: src/project/dialogs/archivewidget.cpp:1327
 #, kde-format
 msgid "Archiving %1"
 msgstr "正在压缩 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1333
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "无法复制文件 %1 到 %2。"
 
-#: src/project/dialogs/archivewidget.cpp:1343
+#: src/project/dialogs/archivewidget.cpp:1363
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -33213,40 +33227,40 @@ msgstr ""
 "项目已完成归档。\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1346
+#: src/project/dialogs/archivewidget.cpp:1366
 #, kde-format
 msgid "Unknown Error"
 msgstr "未知错误"
 
-#: src/project/dialogs/archivewidget.cpp:1346
+#: src/project/dialogs/archivewidget.cpp:1366
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "归档项目时出错：%1"
 
-#: src/project/dialogs/archivewidget.cpp:1372
+#: src/project/dialogs/archivewidget.cpp:1392
 #, kde-format
 msgid ""
 "Extraction destination must be a directory and must not be a symbolic link"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1378
+#: src/project/dialogs/archivewidget.cpp:1398
 #, kde-format
 msgid "Extraction destination must be empty"
 msgstr ""
 
-#: src/project/dialogs/archivewidget.cpp:1388
+#: src/project/dialogs/archivewidget.cpp:1408
 #, kde-format
 msgid "Extracting…"
 msgstr "正在解压…"
 
-#: src/project/dialogs/archivewidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:1465
+#: src/project/dialogs/archivewidget.cpp:1435
+#: src/project/dialogs/archivewidget.cpp:1485
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "无法打开项目文件 %1"
 
-#: src/project/dialogs/archivewidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:1465
+#: src/project/dialogs/archivewidget.cpp:1435
+#: src/project/dialogs/archivewidget.cpp:1485
 #, kde-format
 msgid "Cannot open file"
 msgstr "无法打开文件"

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdenlive\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2026-11-25 01:25+0000\n"
+"POT-Creation-Date: 2026-11-27 01:03+0000\n"
 "PO-Revision-Date: 2026-09-14 20:10+0200\n"
 "Last-Translator: Roman Paholík <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
@@ -21633,7 +21633,7 @@ msgid "Enter the name of this preset:"
 msgstr "Zadajte názov tejto predvoľby"
 
 #: src/assets/view/widgets/buttonparamwidget.cpp:190
-#: src/project/dialogs/archivewidget.cpp:474
+#: src/project/dialogs/archivewidget.cpp:487
 #, kde-format
 msgid "Abort processing"
 msgstr "Prerušiť spracovanie"
@@ -23621,8 +23621,8 @@ msgstr "Presunúť titulky"
 #: src/bin/model/subtitlemodel.cpp:1262
 #: src/effects/effectstack/view/collapsibleeffectview.cpp:732
 #: src/effects/effectstack/view/effectstackview.cpp:782
-#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:972
-#: src/project/dialogs/archivewidget.cpp:982 src/render/renderrequest.cpp:383
+#: src/project/cliptranscode.cpp:153 src/project/dialogs/archivewidget.cpp:992
+#: src/project/dialogs/archivewidget.cpp:1002 src/render/renderrequest.cpp:383
 #, kde-format
 msgid ""
 "File %1 already exists.\n"
@@ -24707,11 +24707,11 @@ msgstr "Exportovať dáta značiek"
 #: src/effects/effectstack/view/effectstackview.cpp:817
 #: src/layouts/layoutmanagerdialog.cpp:316
 #: src/profiles/profilerepository.cpp:222
-#: src/project/dialogs/archivewidget.cpp:876
-#: src/project/dialogs/archivewidget.cpp:880
-#: src/project/dialogs/archivewidget.cpp:990
-#: src/project/dialogs/archivewidget.cpp:1002
-#: src/project/dialogs/archivewidget.cpp:1008
+#: src/project/dialogs/archivewidget.cpp:894
+#: src/project/dialogs/archivewidget.cpp:898
+#: src/project/dialogs/archivewidget.cpp:1010
+#: src/project/dialogs/archivewidget.cpp:1022
+#: src/project/dialogs/archivewidget.cpp:1028
 #: src/project/projectmanager.cpp:2100 src/project/projectmanager.cpp:2106
 #: src/render/renderrequest.cpp:323
 #: src/renderpresets/renderpresetrepository.cpp:428
@@ -25416,7 +25416,7 @@ msgctxt "@action:button"
 msgid "Render"
 msgstr "Renderovanie"
 
-#: src/dialogs/renderwidget.cpp:1007 src/project/dialogs/archivewidget.cpp:996
+#: src/dialogs/renderwidget.cpp:1007 src/project/dialogs/archivewidget.cpp:1016
 #, kde-format
 msgid "Output file already exists. Do you want to overwrite it?"
 msgstr "Výstupný súbor už existuje. Chcete ho prepísať?"
@@ -25554,8 +25554,8 @@ msgstr "Prerušiť úlohu"
 
 #: src/dialogs/renderwidget.cpp:1972 src/dialogs/wizard.cpp:80
 #: src/onlineresources/resourcewidget.cpp:50 src/project/cliptranscode.cpp:193
-#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:853
-#: src/project/dialogs/archivewidget.cpp:1389
+#: src/project/cliptranscode.cpp:227 src/project/dialogs/archivewidget.cpp:723
+#: src/project/dialogs/archivewidget.cpp:1409
 #: src/timeline2/view/dialogs/clipdurationdialog.cpp:298
 #, kde-format
 msgid "Abort"
@@ -30731,26 +30731,39 @@ msgstr "Nie je možné pridať efekt k aktívnej položke"
 msgid "Zoom Level: %1/%2"
 msgstr "Úroveň priblíženia: %1/%2"
 
-#: src/mainwindow.cpp:2399
-#, kde-kuit-format
+#: src/mainwindow.cpp:2398
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
+#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta "
+#| "drag</shortcut> to move a grouped clip to another track, <shortcut>Ctrl "
+#| "drag</shortcut> to pan"
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
-"move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
+"move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan, "
+"<shortcut>Shift hover</shortcut> to scrub"
 msgstr ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta drag</shortcut> to "
 "move a grouped clip to another track, <shortcut>Ctrl drag</shortcut> to pan"
 
-#: src/mainwindow.cpp:2403
-#, kde-kuit-format
+#: src/mainwindow.cpp:2402
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:whatsthis"
+#| msgid ""
+#| "<shortcut>Shift drag</shortcut> for rubber-band selection, "
+#| "<shortcut>Shift click</shortcut> for multiple selection, <shortcut>Meta + "
+#| "Alt drag</shortcut> to move a grouped clip to another track, "
+#| "<shortcut>Ctrl drag</shortcut> to pan"
 msgctxt "@info:whatsthis"
 msgid ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta + Alt drag</"
 "shortcut> to move a grouped clip to another track, <shortcut>Ctrl drag</"
-"shortcut> to pan"
+"shortcut> to pan, <shortcut>Shift hover</shortcut> to scrub"
 msgstr ""
 "<shortcut>Shift drag</shortcut> for rubber-band selection, <shortcut>Shift "
 "click</shortcut> for multiple selection, <shortcut>Meta + Alt drag</"
@@ -34108,8 +34121,8 @@ msgstr[1] "Máte %1 chýbajúce klipy v projekte."
 msgstr[2] "Máte %1 chýbajúcich klipov v projekte."
 
 #: src/project/dialogs/archivewidget.cpp:300
-#: src/project/dialogs/archivewidget.cpp:1545
-#: src/project/dialogs/archivewidget.cpp:1610
+#: src/project/dialogs/archivewidget.cpp:1565
+#: src/project/dialogs/archivewidget.cpp:1630
 #, kde-format
 msgid "(%1 item)"
 msgid_plural "(%1 items)"
@@ -34118,8 +34131,8 @@ msgstr[1] "(%1 položky)"
 msgstr[2] "(%1 položiek)"
 
 #: src/project/dialogs/archivewidget.cpp:306
-#: src/project/dialogs/archivewidget.cpp:1548
-#: src/project/dialogs/archivewidget.cpp:1613
+#: src/project/dialogs/archivewidget.cpp:1568
+#: src/project/dialogs/archivewidget.cpp:1633
 #, kde-format
 msgid "%1 file to archive, requires %2"
 msgid_plural "%1 files to archive, requires %2"
@@ -34128,13 +34141,14 @@ msgstr[1] "%1 súbory do archívu, vyžaduje %2"
 msgstr[2] "%1 súborov do archívu, vyžaduje %2"
 
 #: src/project/dialogs/archivewidget.cpp:307
-#: src/project/dialogs/archivewidget.cpp:394
+#: src/project/dialogs/archivewidget.cpp:400
+#: src/project/dialogs/archivewidget.cpp:680
 #, kde-format
 msgid "Archive"
 msgstr "Archív"
 
 #: src/project/dialogs/archivewidget.cpp:318
-#: src/project/dialogs/archivewidget.cpp:902
+#: src/project/dialogs/archivewidget.cpp:920
 #, kde-format
 msgid "There was an error processing project file"
 msgstr "Došlo k chybe pri spracovaní súboru projektu"
@@ -34160,12 +34174,12 @@ msgstr "Otvoriť archivovaný projekt"
 msgid "Extract"
 msgstr "Rozbaliť"
 
-#: src/project/dialogs/archivewidget.cpp:399
+#: src/project/dialogs/archivewidget.cpp:412
 #, kde-format
 msgid "Opening archive…"
 msgstr "Otváranie archívu..."
 
-#: src/project/dialogs/archivewidget.cpp:409
+#: src/project/dialogs/archivewidget.cpp:422
 #, kde-format
 msgid ""
 "Cannot open archive file:\n"
@@ -34174,12 +34188,12 @@ msgstr ""
 "Nie je možné otvoriť archivovaný súbor:\n"
 " %1"
 
-#: src/project/dialogs/archivewidget.cpp:415
+#: src/project/dialogs/archivewidget.cpp:428
 #, kde-format
 msgid "Archive contains an unsafe path or symbolic link"
 msgstr "Archív obsahuje nebezpečnú cestu alebo symbolický odkaz"
 
-#: src/project/dialogs/archivewidget.cpp:439
+#: src/project/dialogs/archivewidget.cpp:452
 #, kde-format
 msgid ""
 "File %1\n"
@@ -34188,89 +34202,89 @@ msgstr ""
 "Súbor %1\n"
 " nie je archivovaný projekt Kdenlive"
 
-#: src/project/dialogs/archivewidget.cpp:445
+#: src/project/dialogs/archivewidget.cpp:458
 #, kde-format
 msgid "Ready"
 msgstr "Pripravený"
 
-#: src/project/dialogs/archivewidget.cpp:469
+#: src/project/dialogs/archivewidget.cpp:482
 #, kde-format
 msgid "Archiving in progress, do you want to stop it?"
 msgstr "Archivovanie prebieha, chcete ho zastaviť?"
 
-#: src/project/dialogs/archivewidget.cpp:469
-#: src/project/dialogs/archivewidget.cpp:470
+#: src/project/dialogs/archivewidget.cpp:482
+#: src/project/dialogs/archivewidget.cpp:483
 #, kde-format
 msgid "Stop Archiving"
 msgstr "Zastaviť archivovanie"
 
-#: src/project/dialogs/archivewidget.cpp:663
+#: src/project/dialogs/archivewidget.cpp:683
 #, kde-format
 msgid "Available space on drive: %1"
 msgstr "Dostupné miesto na disku: %1"
 
-#: src/project/dialogs/archivewidget.cpp:667
+#: src/project/dialogs/archivewidget.cpp:687
 #, kde-format
 msgid "Not enough space on drive, free space: %1"
 msgstr "Nie je dostatok miesta na disku, voľné miesto: %1"
 
-#: src/project/dialogs/archivewidget.cpp:683
+#: src/project/dialogs/archivewidget.cpp:703
 #, kde-format
 msgid "Starting archive job"
 msgstr "Spúšťam sťahovanie súboru"
 
-#: src/project/dialogs/archivewidget.cpp:704
+#: src/project/dialogs/archivewidget.cpp:725
 #, kde-format
 msgid "Archiving…"
 msgstr "Archivujem..."
 
-#: src/project/dialogs/archivewidget.cpp:734
-#: src/project/dialogs/archivewidget.cpp:845
-#: src/project/dialogs/archivewidget.cpp:871
-#: src/project/dialogs/archivewidget.cpp:1382
+#: src/project/dialogs/archivewidget.cpp:757
+#: src/project/dialogs/archivewidget.cpp:868
+#: src/project/dialogs/archivewidget.cpp:889
+#: src/project/dialogs/archivewidget.cpp:1402
 #, kde-format
 msgid "Cannot create directory %1"
 msgstr "Nie je možné vytvoriť adresár %1"
 
-#: src/project/dialogs/archivewidget.cpp:760
-#: src/project/dialogs/archivewidget.cpp:768
-#: src/project/dialogs/archivewidget.cpp:825
+#: src/project/dialogs/archivewidget.cpp:783
+#: src/project/dialogs/archivewidget.cpp:791
+#: src/project/dialogs/archivewidget.cpp:848
 #, kde-format
 msgid "Copying %1"
 msgstr "Kopíruje sa %1"
 
-#: src/project/dialogs/archivewidget.cpp:864
-#: src/project/dialogs/archivewidget.cpp:961
+#: src/project/dialogs/archivewidget.cpp:882
+#: src/project/dialogs/archivewidget.cpp:981
 #, kde-format
 msgid "Cannot create temporary file"
 msgstr "Nemožno vytvoriť dočasný súbor"
 
-#: src/project/dialogs/archivewidget.cpp:900
+#: src/project/dialogs/archivewidget.cpp:918
 #, kde-format
 msgid "Project was successfully archived."
 msgstr "Projekt bol úspešne archivovaný."
 
-#: src/project/dialogs/archivewidget.cpp:910
+#: src/project/dialogs/archivewidget.cpp:930
 #, kde-format
 msgid "There was an error while copying the files: %1"
 msgstr "Nastala chyba počas kopírovania súborov: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1290
+#: src/project/dialogs/archivewidget.cpp:1310
 #, kde-format
 msgid "Cannot open archive file %1"
 msgstr "Nie je možné otvoriť archivovaný súbor %1"
 
-#: src/project/dialogs/archivewidget.cpp:1307
+#: src/project/dialogs/archivewidget.cpp:1327
 #, kde-format
 msgid "Archiving %1"
 msgstr "Archivuje sa %1"
 
-#: src/project/dialogs/archivewidget.cpp:1313
+#: src/project/dialogs/archivewidget.cpp:1333
 #, kde-format
 msgid "Cannot copy file %1 to %2."
 msgstr "Nepodarilo sa skopírovať súbor %1 do %2."
 
-#: src/project/dialogs/archivewidget.cpp:1343
+#: src/project/dialogs/archivewidget.cpp:1363
 #, kde-format
 msgid ""
 "Project was successfully archived.\n"
@@ -34279,40 +34293,40 @@ msgstr ""
 "Projekt bol úspešne archivovaný.\n"
 "%1"
 
-#: src/project/dialogs/archivewidget.cpp:1346
+#: src/project/dialogs/archivewidget.cpp:1366
 #, kde-format
 msgid "Unknown Error"
 msgstr "Neznáma chyba"
 
-#: src/project/dialogs/archivewidget.cpp:1346
+#: src/project/dialogs/archivewidget.cpp:1366
 #, kde-format
 msgid "There was an error while archiving the project: %1"
 msgstr "Nastala chyba počas archivovania projektu: %1"
 
-#: src/project/dialogs/archivewidget.cpp:1372
+#: src/project/dialogs/archivewidget.cpp:1392
 #, kde-format
 msgid ""
 "Extraction destination must be a directory and must not be a symbolic link"
 msgstr "Cieľ rozbalenia musí byť adresár a nesmie byť symbolický odkaz"
 
-#: src/project/dialogs/archivewidget.cpp:1378
+#: src/project/dialogs/archivewidget.cpp:1398
 #, kde-format
 msgid "Extraction destination must be empty"
 msgstr "Cieľ rozbalenia musí byť prázdny"
 
-#: src/project/dialogs/archivewidget.cpp:1388
+#: src/project/dialogs/archivewidget.cpp:1408
 #, kde-format
 msgid "Extracting…"
 msgstr "Extrahujem..."
 
-#: src/project/dialogs/archivewidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:1465
+#: src/project/dialogs/archivewidget.cpp:1435
+#: src/project/dialogs/archivewidget.cpp:1485
 #, kde-format
 msgid "Cannot open project file %1"
 msgstr "Nie je možné otvoriť súbor projektu %1"
 
-#: src/project/dialogs/archivewidget.cpp:1415
-#: src/project/dialogs/archivewidget.cpp:1465
+#: src/project/dialogs/archivewidget.cpp:1435
+#: src/project/dialogs/archivewidget.cpp:1485
 #, kde-format
 msgid "Cannot open file"
 msgstr "Nie je možné otvoriť súbor"
