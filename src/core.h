@@ -393,7 +393,7 @@ public:
     std::list<int> getAudioTrackIds();
     /** @brief Returns true if clipId is a timeline instance of Bin clip with binId */
     bool isParentBinClip(const ObjectId clipId, const ObjectId binId) const;
-    /** @brief Returns true if the current doc or appplication is being closed */
+    /** @brief Returns true if the current doc or application is being closed */
     bool projectCloseRequested();
 
 private:
