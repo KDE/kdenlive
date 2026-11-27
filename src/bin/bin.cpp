@@ -126,6 +126,8 @@ static QRect ratingPaintRect(const QStyleOptionViewItem &option)
 }
 
 static bool g_headerBusy = false; // true while our own code resizes sections
+static bool g_binHandleResizing = false; // true while multi-column sequential resize is in progress
+static bool g_binUserResizing = false;
 
 // Smallest usable Name width: a timecode, the icon and the tree decorations
 static int nameMinimumWidth(const QTreeView *view, int iconWidth)
@@ -135,6 +137,18 @@ static int nameMinimumWidth(const QTreeView *view, int iconWidth)
     const int textMargin = style->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1;
     const int decorationMargins = style->pixelMetric(QStyle::PM_TreeViewIndentation) + (style->pixelMetric(QStyle::PM_SmallIconSize) * 2);
     return iconWidth + textMargin + decorationMargins;
+}
+
+static int binColumnMinimumWidth(const QTreeView *view, int column)
+{
+    const QHeaderView *h = view->header();
+    if (column == BinColumns::Name) {
+        return qMax(h->minimumSectionSize(), nameMinimumWidth(view, view->iconSize().width()));
+    }
+    if (column == BinColumns::Rating) {
+        return qMax(h->minimumSectionSize(), ratingSectionWidth(view->font()));
+    }
+    return h->minimumSectionSize();
 }
 
 // Name takes whatever width the other visible columns leave free (never below minWidth)
@@ -198,6 +212,125 @@ static void pinLastColumnEdge(QTreeView *view, int resizedColumn)
     g_headerBusy = true;
     h->resizeSection(last, h->sectionSize(last) + freeSpace);
     g_headerBusy = false;
+}
+
+void MyTreeView::resizeColumnByDelta(int delta)
+{
+    if (delta == 0 || m_resizeColumn < 0) {
+        return;
+    }
+
+    QHeaderView *h = header();
+
+    const int resized = m_resizeColumn;
+    for (int visual = h->count() - 1; visual >= 0; --visual) {
+        const int logical = h->logicalIndex(visual);
+
+        if (!h->isSectionHidden(logical)) {
+            if (logical == resized) {
+                return;
+            }
+            break;
+        }
+    }
+    const int currentWidth = h->sectionSize(resized);
+    const int startVisual = h->visualIndex(resized);
+
+    if (delta > 0) {
+        // Growing: shrink columns to the visual right first.
+        int remaining = delta;
+        g_binHandleResizing = true;
+
+        for (int visual = startVisual + 1; visual < h->count() && remaining > 0; ++visual) {
+
+            const int column = h->logicalIndex(visual);
+
+            if (h->isSectionHidden(column)) {
+                continue;
+            }
+
+            const int width = h->sectionSize(column);
+            const int amount = qMin(remaining, qMax(0, width - binColumnMinimumWidth(this, column)));
+
+            if (amount > 0) {
+                h->resizeSection(column, width - amount);
+                remaining -= amount;
+            }
+        }
+
+        // Any unstolen remainder increases total width.
+        h->resizeSection(resized, currentWidth + delta);
+
+        g_binHandleResizing = false;
+    } else {
+        // Shrinking: resize this column first, then push siblings
+        // to the visual left, nearest first.
+        int remaining = -delta;
+        g_binHandleResizing = true;
+
+        const int amount = qMin(remaining, qMax(0, currentWidth - binColumnMinimumWidth(this, resized)));
+
+        if (amount > 0) {
+            h->resizeSection(resized, currentWidth - amount);
+            remaining -= amount;
+        }
+
+        // Continue with siblings to the left, nearest first.
+        for (int visual = startVisual - 1; visual >= 0 && remaining > 0; --visual) {
+            const int column = h->logicalIndex(visual);
+
+            if (h->isSectionHidden(column)) {
+                continue;
+            }
+
+            const int width = h->sectionSize(column);
+            const int amount = qMin(remaining, qMax(0, width - binColumnMinimumWidth(this, column)));
+
+            if (amount > 0) {
+                h->resizeSection(column, width - amount);
+                remaining -= amount;
+            }
+        }
+
+        g_binHandleResizing = false;
+    }
+
+    // Only the rightmost column may absorb released space.
+    pinLastColumnEdge(this, resized);
+}
+
+int MyTreeView::resizeHandleAt(int x) const
+{
+    QHeaderView *h = header();
+
+    if (h->count() - h->hiddenSectionCount() <= 1) {
+        return -1;
+    }
+
+    int lastVisible = -1;
+    for (int visual = h->count() - 1; visual >= 0; --visual) {
+        const int logical = h->logicalIndex(visual);
+        if (!h->isSectionHidden(logical)) {
+            lastVisible = logical;
+            break;
+        }
+    }
+
+    for (int visual = 0; visual < h->count(); ++visual) {
+        const int logical = h->logicalIndex(visual);
+
+        if (h->isSectionHidden(logical) || logical == lastVisible) {
+            continue;
+        }
+
+        const int separatorX = h->sectionViewportPosition(logical) + h->sectionSize(logical);
+
+        if (qAbs(x - separatorX) <= 3) {
+            return logical;
+        }
+    }
+
+    return -1;
 }
 
 /**
@@ -1177,22 +1310,86 @@ MyTreeView::MyTreeView(QWidget *parent)
     : QTreeView(parent)
 {
     viewport()->setMouseTracking(true);
+
+    // Use the same custom column-resizing logic for header separators.
+    header()->viewport()->setMouseTracking(true);
+    header()->viewport()->installEventFilter(this);
+
     setEditing(false);
     setAcceptDrops(true);
 }
 
-void MyTreeView::mousePressEvent(QMouseEvent *event)
+bool MyTreeView::eventFilter(QObject *obj, QEvent *event)
 {
-    if (event->button() == Qt::LeftButton && (header()->count() - header()->hiddenSectionCount() > 1)) {
-        for (int i = 0; i < header()->count(); ++i) {
-            int x = header()->sectionViewportPosition(i) + header()->sectionSize(i);
-            if (qAbs(event->pos().x() - x) <= 3) {
-                m_resizeColumn = i;
-                m_startPos = event->pos();
-                return;
+    if (obj == header()->viewport()) {
+
+        if (event->type() == QEvent::MouseButtonPress) {
+            auto *me = static_cast<QMouseEvent *>(event);
+
+            if (me->button() == Qt::LeftButton) {
+                const int column = resizeHandleAt(me->pos().x());
+
+                if (column >= 0) {
+                    m_resizeColumn = column;
+                    m_startPos = me->pos();
+                    g_binUserResizing = true;
+                    return true;
+                }
+            }
+        }
+
+        if (event->type() == QEvent::MouseMove) {
+            auto *me = static_cast<QMouseEvent *>(event);
+
+            if (m_resizeColumn >= 0 && (me->buttons() & Qt::LeftButton)) {
+
+                const int delta = me->pos().x() - m_startPos.x();
+
+                resizeColumnByDelta(delta);
+
+                m_startPos = me->pos();
+                return true;
+            }
+
+            // Display the resize cursor over custom resize handles.
+            if (me->buttons() == Qt::NoButton) {
+                if (resizeHandleAt(me->pos().x()) >= 0) {
+                    header()->viewport()->setCursor(Qt::SplitHCursor);
+                } else {
+                    header()->viewport()->unsetCursor();
+                }
+                return true;
+            }
+        }
+
+        if (event->type() == QEvent::MouseButtonRelease) {
+            auto *me = static_cast<QMouseEvent *>(event);
+
+            if (m_resizeColumn >= 0 && me->button() == Qt::LeftButton) {
+
+                m_resizeColumn = -1;
+                m_startPos = QPoint();
+                g_binUserResizing = false;
+                return true;
             }
         }
     }
+
+    return QTreeView::eventFilter(obj, event);
+}
+
+void MyTreeView::mousePressEvent(QMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        const int column = resizeHandleAt(event->pos().x());
+        if (column >= 0) {
+            m_resizeColumn = column;
+            m_startPos = event->pos();
+            g_binUserResizing = true;
+            return;
+        }
+    }
+
     QTreeView::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
         QModelIndex clickedIndex = indexAt(event->pos());
@@ -1234,6 +1431,7 @@ void MyTreeView::mouseReleaseEvent(QMouseEvent *event)
     if (m_resizeColumn >= 0) {
         m_resizeColumn = -1;
         m_startPos = QPoint();
+        g_binUserResizing = false;
         return;
     }
     m_startPos = QPoint();
@@ -1275,22 +1473,8 @@ void MyTreeView::dropEvent(QDropEvent *event)
 
 void MyTreeView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (event->buttons() == Qt::NoButton && (header()->count() - header()->hiddenSectionCount() > 1)) {
-        bool onSeparator = false;
-        for (int i = 0; i < header()->count(); ++i) {
-            if (header()->isSectionHidden(i)) {
-                continue;
-            }
-
-            int x = header()->sectionViewportPosition(i) + header()->sectionSize(i) - 1;
-
-            if (qAbs(event->pos().x() - x) <= 3) {
-                onSeparator = true;
-                break;
-            }
-        }
-
-        if (onSeparator) {
+    if (event->buttons() == Qt::NoButton) {
+        if (resizeHandleAt(event->pos().x()) >= 0) {
             viewport()->setCursor(Qt::SplitHCursor);
         } else {
             viewport()->unsetCursor();
@@ -1298,8 +1482,10 @@ void MyTreeView::mouseMoveEvent(QMouseEvent *event)
     }
 
     if (m_resizeColumn >= 0 && (event->buttons() & Qt::LeftButton)) {
-        int delta = event->pos().x() - m_startPos.x();
-        header()->resizeSection(m_resizeColumn, header()->sectionSize(m_resizeColumn) + delta);
+        const int delta = event->pos().x() - m_startPos.x();
+
+        resizeColumnByDelta(delta);
+
         m_startPos = event->pos();
         return;
     }
@@ -2062,7 +2248,7 @@ bool Bin::eventFilter(QObject *obj, QEvent *event)
     if (event->type() == QEvent::Resize && m_itemView && obj == m_itemView->viewport() && m_listType == BinTreeView) {
         // Width changes only: a height-only change (scrollbar appearing while dragging a separator) must not touch Name
         auto *re = static_cast<QResizeEvent *>(event);
-        if (re->size().width() != re->oldSize().width()) {
+        if (re->size().width() != re->oldSize().width() && !g_binUserResizing) {
             fitNameColumn(static_cast<QTreeView *>(m_itemView), m_minimumHeaderWidth);
         }
     }
@@ -3830,7 +4016,9 @@ void Bin::slotInitView(QAction *action)
                 view->header()->resizeSection(logical, minimumWidth);
                 g_headerBusy = false;
             }
-            pinLastColumnEdge(view, logical);
+            if (!g_binHandleResizing) {
+                pinLastColumnEdge(view, logical);
+            }
             slotSaveHeaders();
         });
         connect(view->header(), &QHeaderView::sectionClicked, this, &Bin::slotSaveHeaders);
@@ -5812,13 +6000,17 @@ void Bin::slotShowColumn(bool show)
     if (act == nullptr) {
         return;
     }
+
     auto *view = qobject_cast<QTreeView *>(m_itemView);
     if (view) {
-        view->setColumnHidden(act->data().toInt(), !show);
+        const int column = act->data().toInt();
+        view->setColumnHidden(column, !show);
+
         if (show) {
             // Newly shown column goes last (hidden sections take no space) with a default width
-            const int column = act->data().toInt();
-            view->header()->moveSection(view->header()->visualIndex(column), view->header()->count() - 1);
+            QHeaderView *h = view->header();
+            h->moveSection(h->visualIndex(column), h->count() - 1);
+
             const QFontMetrics fm(view->font());
             const int horizontalPadding = 2 * (view->style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1);
 
@@ -5842,14 +6034,75 @@ void Bin::slotShowColumn(bool show)
                 break;
             }
 
-            view->header()->resizeSection(column, newColumnWidth);
+            h->resizeSection(column, newColumnWidth);
         }
+
         // Name gives up (or gets back) exactly the space of the added (or removed) column
         fitNameColumn(view, m_minimumHeaderWidth);
+
+        if (show) {
+            QHeaderView *h = view->header();
+            const int lastVisual = h->visualIndex(column);
+
+            int previous = -1;
+            for (int i = lastVisual - 1; i >= 0; --i) {
+                const int logical = h->logicalIndex(i);
+
+                if (!h->isSectionHidden(logical) && logical != BinColumns::Rating) {
+                    previous = logical;
+                    break;
+                }
+            }
+
+            int totalWidth = 0;
+            for (int visual = 0; visual < h->count(); ++visual) {
+                const int logical = h->logicalIndex(visual);
+                if (!h->isSectionHidden(logical)) {
+                    totalWidth += h->sectionSize(logical);
+                }
+            }
+
+            int overflow = totalWidth - h->viewport()->width();
+
+            g_headerBusy = true;
+
+            if (overflow > 0) {
+                // First shrink the previous last visible column.
+                if (previous >= 0) {
+                    int minimumWidth = binColumnMinimumWidth(view, previous);
+
+                    if (previous == BinColumns::Name) {
+                        minimumWidth = qMax(minimumWidth, m_minimumHeaderWidth);
+                    }
+
+                    const int width = h->sectionSize(previous);
+                    const int shrink = qMin(overflow, qMax(0, width - minimumWidth));
+
+                    h->resizeSection(previous, width - shrink);
+                    overflow -= shrink;
+                }
+
+                // If necessary, shrink the newly added column as well.
+                if (overflow > 0 && column != BinColumns::Rating) {
+                    const int width = h->sectionSize(column);
+                    const int minimumWidth = binColumnMinimumWidth(view, column);
+                    const int shrink = qMin(overflow, qMax(0, width - minimumWidth));
+
+                    h->resizeSection(column, width - shrink);
+                }
+            } else if (overflow < 0 && previous >= 0) {
+                // Give unused space to the previous column.
+                h->resizeSection(previous, h->sectionSize(previous) - overflow);
+            }
+
+            g_headerBusy = false;
+        } else {
+            pinLastColumnEdge(view, column);
+        }
+
         slotSaveHeaders();
     }
 }
-
 void Bin::slotQueryRemoval(const QString &id, const QString &url, const QString &errorMessage)
 {
     if (m_invalidClipDialog) {

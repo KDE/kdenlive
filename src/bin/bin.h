@@ -116,6 +116,7 @@ protected:
     void leaveEvent(QEvent *event) override;
     void dropEvent(QDropEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 protected Q_SLOTS:
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint) override;
@@ -129,6 +130,8 @@ private:
     bool m_editing;
     int m_resizeColumn{-1};
     bool isEditing() const;
+    int resizeHandleAt(int x) const;
+    void resizeColumnByDelta(int delta);
 
 Q_SIGNALS:
     void focusView();
