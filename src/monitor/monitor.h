@@ -471,4 +471,5 @@ Q_SIGNALS:
     void sceneChanged(SceneType::MonitorSceneType sceneType);
     void effectRotationChanged(double rotation);
     void profileUpdated();
+    void activeClipIdChanged();
 };

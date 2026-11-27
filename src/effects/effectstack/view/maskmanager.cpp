@@ -144,7 +144,7 @@ MaskManager::MaskManager(QWidget *parent)
         buttonPreview->setChecked(false);
         buttonEdit->setChecked(false);
         maskTools->setCurrentIndex(0);
-        Q_EMIT pCore->processInvalidFilter(QString(), i18n("Mask plugin crashed"), errorMessage);
+        pCore->processInvalidFilter(QString(), i18n("Mask plugin crashed"), errorMessage);
         disconnectMonitor();
     });
     connect(buttonStop, &QPushButton::clicked, m_maskHelper, &AutomaskHelper::abortJob);
@@ -504,9 +504,9 @@ void MaskManager::loadMasks()
 
 void MaskManager::previewMask(bool show)
 {
+    Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+    Q_ASSERT(clipMon != nullptr);
     if (!m_connected) {
-        Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
-        Q_ASSERT(clipMon != nullptr);
         connect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask, Qt::QueuedConnection);
         connect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint, Qt::UniqueConnection);
         connect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor, Qt::UniqueConnection);
@@ -516,17 +516,21 @@ void MaskManager::previewMask(bool show)
     }
     if (show && maskTree->currentItem()) {
         auto clip = getOwnerClip();
-        QString binId = clip->binId();
-        const QString maskIncludePoints = maskTree->currentItem()->data(0, MASKINCLUDEPOINTS).toString();
-        const QString maskExcludePoints = maskTree->currentItem()->data(0, MASKEXCLUDEPOINTS).toString();
-        const QString maskBoxes = maskTree->currentItem()->data(0, MASKBOXES).toString();
+        const QString binId = clip->binId();
         int in = maskTree->currentItem()->data(0, MASKIN).toInt();
         int out = maskTree->currentItem()->data(0, MASKOUT).toInt();
         buttonPreview->setChecked(true);
         const QString maskFile = maskTree->currentItem()->data(0, MASKFILE).toString();
-        pCore->getMonitor(Kdenlive::ClipMonitor)->previewMask(binId, maskFile, in, out, MaskModeType::MaskPreview);
+        const QPoint zone(in, out);
+        if (clipMon->activeClipId() != binId) {
+            connect(clipMon, &Monitor::activeClipIdChanged, this,
+                    [clipMon, binId, maskFile, in, out]() { clipMon->previewMask(binId, maskFile, in, out, MaskModeType::MaskPreview); });
+            pCore->bin()->selectClipById(binId, in, zone);
+        } else {
+            clipMon->previewMask(binId, maskFile, in, out, MaskModeType::MaskPreview);
+        }
     } else {
-        pCore->getMonitor(Kdenlive::ClipMonitor)->abortPreviewMask();
+        disconnectMonitor();
     }
 }
 
@@ -654,6 +658,7 @@ void MaskManager::disconnectMonitor()
 {
     if (m_connected) {
         Monitor *clipMon = pCore->getMonitor(Kdenlive::ClipMonitor);
+        clipMon->abortPreviewMask();
         disconnect(clipMon, &Monitor::generateMask, this, &MaskManager::generateMask);
         disconnect(clipMon, &Monitor::moveMonitorControlPoint, this, &MaskManager::moveControlPoint);
         disconnect(clipMon, &Monitor::addMonitorControlPoint, this, &MaskManager::addControlPoint);
@@ -661,12 +666,13 @@ void MaskManager::disconnectMonitor()
         disconnect(clipMon, &Monitor::disablePreviewMask, this, &MaskManager::abortPreviewByMonitor);
         disconnect(pCore->getMonitor(Kdenlive::ClipMonitor)->getControllerProxy(), &MonitorProxy::positionChanged, m_maskHelper, &AutomaskHelper::monitorSeek);
         m_connected = false;
+        clipMon->refreshMonitor();
     }
 }
 
 bool MaskManager::isLocked() const
 {
-    return m_connected;
+    return m_connected || pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() == MaskModeType::MaskInput;
 }
 
 void MaskManager::prepareMenu(const QPoint &pos)

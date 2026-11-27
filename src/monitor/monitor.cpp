@@ -2142,7 +2142,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         // Don't display a clip if we are closing
         return false;
     }
-    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask && maskMode() != MaskModeType::MaskNone) {
+    if (m_qmlManager->sceneType() == SceneType::MonitorSceneAutoMask && maskMode() != MaskModeType::MaskNone && !pCore->projectCloseRequested()) {
         if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
             return false;
         }
@@ -2185,6 +2185,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
         // Nothing to do
         pCore->taskManager.displayedClip = -1;
         m_displayedUuid = QUuid();
+        Q_EMIT activeClipIdChanged();
         m_dirty = false;
         return true;
     }
@@ -2358,6 +2359,7 @@ bool Monitor::slotOpenClip(const std::shared_ptr<ProjectClip> &controller, int i
             if (monitorVisible() && !m_monitorManager->projectMonitor()->isPlaying()) {
                 slotActivateMonitor();
             }
+            Q_EMIT activeClipIdChanged();
         } else {
             qDebug() << "*************** CONTROLLER NOT READY";
         }

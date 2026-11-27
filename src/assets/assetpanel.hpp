@@ -99,6 +99,7 @@ private:
     KMessageWidget *m_infoMessage;
     QTimer m_dragScrollTimer;
     bool m_onAudioTrack{false};
+    bool m_waitingFeedback{false};
     void fillTransitionsList();
 
 private Q_SLOTS:

@@ -1907,7 +1907,6 @@ void TimelineController::showAsset(int id)
         QModelIndex clipIx = m_model->makeClipIndexFromID(id);
         QString clipName = m_model->data(clipIx, Qt::DisplayRole).toString();
         bool showKeyframes = m_model->data(clipIx, TimelineModel::ShowKeyframesRole).toInt();
-        qDebug() << "-----\n// SHOW KEYFRAMES: " << showKeyframes;
         Q_EMIT showItemEffectStack(clipName, m_model->getClipEffectStackModel(id), m_model->getClipFrameSize(id), showKeyframes);
     } else if (m_model->isSubTitle(id)) {
         qDebug() << "::: SHOWING SUBTITLE: " << id;

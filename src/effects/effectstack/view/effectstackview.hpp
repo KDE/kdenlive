@@ -71,8 +71,6 @@ public:
     void addRemoveKeyframe();
     /** @brief Used to pass a standard action like copy or paste to the effect stack widget */
     void sendStandardCommand(int command);
-    /** @brief WHen in mask mode, don't allow switching */
-    bool isLocked() const;
     /** @brief The drag pos, null if not dragging */
     QPoint dragPos;
 

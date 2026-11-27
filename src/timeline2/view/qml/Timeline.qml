@@ -1436,9 +1436,9 @@ function getTrackColor(audio, header) {
                 }
             }
             onPressed: mouse => {
-		if (root.skimming) {
+                if (root.skimming) {
                     root.endSkim()
-	        }
+                }
                 focus = true
                 shiftPress = (mouse.modifiers & Qt.ShiftModifier) && (mouse.y > ruler.height) && !(mouse.modifiers & Qt.AltModifier)
                 let selectLikeTool = K.Core.activeTool === K.ToolType.SelectTool || K.Core.activeTool === K.ToolType.RippleTool

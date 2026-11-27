@@ -2478,3 +2478,19 @@ void Core::openUrl(const QString &file)
         QTimer::singleShot(500, this, [this, file]() -> void { openUrl(file); });
     }
 }
+
+bool Core::isParentBinClip(const ObjectId clipId, const ObjectId binId) const
+{
+    if (!m_guiConstructed || !m_mainWindow) {
+        return false;
+    }
+    if (clipId.type != KdenliveObjectType::TimelineClip || binId.type != KdenliveObjectType::BinClip) {
+        return false;
+    }
+    return m_projectManager->getTimeline()->getClipBinId(clipId.itemId) == QString::number(binId.itemId);
+}
+
+bool Core::projectCloseRequested()
+{
+    return closing || (currentDoc() && currentDoc()->closing);
+}

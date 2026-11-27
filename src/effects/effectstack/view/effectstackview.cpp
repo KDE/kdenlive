@@ -263,17 +263,8 @@ void EffectStackView::paintEvent(QPaintEvent *event)
     }
 }
 
-bool EffectStackView::isLocked() const
-{
-    return pCore->getMonitor(Kdenlive::ClipMonitor)->maskMode() == MaskModeType::MaskInput;
-}
-
 void EffectStackView::setModel(std::shared_ptr<EffectStackModel> model, const QSize frameSize)
 {
-    if (isLocked()) {
-        // Don't switch while building a mask
-        return;
-    }
     m_mutex.lock();
     QItemSelectionModel *m = m_effectsTree->selectionModel();
     std::pair<PlaylistState::ClipState, ClipType::ProducerType> currentState = {PlaylistState::Unknown, ClipType::Unknown};
@@ -624,10 +615,6 @@ void EffectStackView::refresh(const QModelIndex &topL, const QModelIndex &bottom
 
 void EffectStackView::unsetModel(bool reset)
 {
-    if (isLocked()) {
-        // Don't switch while building a mask
-        return;
-    }
     // Release ownership of smart pointer
     Kdenlive::MonitorId id = Kdenlive::NoMonitor;
     if (m_model) {

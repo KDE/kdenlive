@@ -258,8 +258,29 @@ void AssetPanel::showMix(int cid, const std::shared_ptr<AssetParameterModel> &tr
 
 void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<EffectStackModel> &effectsModel, QSize frameSize, bool showKeyframes)
 {
-    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
-        return;
+    if (m_maskManager->isLocked()) {
+        if (!effectsModel || m_waitingFeedback || pCore->projectCloseRequested()) {
+            // Don't clear stack
+            return;
+        }
+        const ObjectId id = effectsModel->getOwnerId();
+        if (m_effectStackWidget->stackOwner() == id) {
+            // Nothing to do
+            return;
+        }
+        // Check if we are trying to display the bin clip for this timeline clip
+        if (pCore->isParentBinClip(m_effectStackWidget->stackOwner(), id)) {
+            return;
+        }
+        m_waitingFeedback = true;
+        // Ensure the qml click event triggering this is processed
+        qApp->processEvents(QEventLoop::AllEvents);
+        if (KMessageBox::warningContinueCancel(this, i18n("Exit Mask Mode ?")) != KMessageBox::Continue) {
+            m_waitingFeedback = false;
+            return;
+        }
+        m_waitingFeedback = false;
+        m_maskManager->abortPreviewByMonitor();
     }
     if (effectsModel == nullptr) {
         // Item is not ready
@@ -329,7 +350,7 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
 
 void AssetPanel::clearAssetPanel(int itemId)
 {
-    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
+    if (m_maskManager->isLocked()) {
         return;
     }
     if (itemId == -1) {
@@ -355,7 +376,7 @@ void AssetPanel::clearAssetPanel(int itemId)
 
 void AssetPanel::clear()
 {
-    if ((m_effectStackWidget->isVisible() && m_effectStackWidget->isLocked()) || m_maskManager->isLocked()) {
+    if (m_maskManager->isLocked()) {
         return;
     }
     if (m_splitButton->isActive()) {
