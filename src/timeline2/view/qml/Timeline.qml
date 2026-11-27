@@ -2207,7 +2207,7 @@ function getTrackColor(audio, header) {
                                             }
                                             let delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
-                                                const s = root.timeline.simplifiedTC(Math.abs(delta))
+                                                let s = root.timeline.simplifiedTC(Math.abs(delta))
                                                 s = KI18n.i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, root.timeline.simplifiedTC(dragProxyArea.dragFrame))
                                                 root.timeline.showToolTip(s);
                                             } else {
