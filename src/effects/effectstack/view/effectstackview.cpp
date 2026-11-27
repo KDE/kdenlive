@@ -549,11 +549,25 @@ void EffectStackView::startDrag(const QPixmap pix, const QString assetId, Object
 
 void EffectStackView::slotSwitchCollapseAll()
 {
-    QModelIndex ix = m_filter->mapFromSource(m_model->index(0, 0, QModelIndex()));
-    CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+    int active = m_model->getActiveEffect();
+    CollapsibleEffectView *w = nullptr;
+    if (active > -1 && active < m_model->rowCount()) {
+        // First check active effect
+        QModelIndex ix = m_filter->mapFromSource(m_model->index(active, 0, QModelIndex()));
+        w = qobject_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+    }
+    if (w == nullptr) {
+        // Loop to find first collapsible effect
+        for (int i = 0; i < m_model->rowCount(); ++i) {
+            QModelIndex ix = m_filter->mapFromSource(m_model->index(i, 0, QModelIndex()));
+            w = qobject_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+            if (w) {
+                break;
+            }
+        }
+    }
     if (w) {
-        bool collapsed = w->isCollapsed();
-        slotCollapseAllEffects(!collapsed);
+        slotCollapseAllEffects(!w->isCollapsed());
     }
 }
 
@@ -561,7 +575,7 @@ void EffectStackView::slotCollapseAllEffects(bool collapse)
 {
     for (int i = 0; i < m_model->rowCount(); ++i) {
         QModelIndex ix = m_filter->mapFromSource(m_model->index(i, 0, QModelIndex()));
-        CollapsibleEffectView *w = static_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
+        CollapsibleEffectView *w = qobject_cast<CollapsibleEffectView *>(m_effectsTree->indexWidget(ix));
         if (w) {
             w->collapseEffect(collapse);
         } else {
