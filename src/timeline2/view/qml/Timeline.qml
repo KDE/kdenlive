@@ -205,7 +205,7 @@ Rectangle {
                 }
             }
         } else {
-            var cTrack = Logic.getTrackIndexFromId(root.timeline.activeTrack)
+            const cTrack = Logic.getTrackIndexFromId(root.timeline.activeTrack)
             newTrack = cTrack + offset
         }
         if (newTrack < 0) {
@@ -269,7 +269,7 @@ Rectangle {
             dragProxy.x += scrollView.contentX - initialX
             dragProxyArea.moveItem()
         } else if (rubberSelect.visible) {
-            var newX = tracksArea.mouseX + scrollView.contentX
+            const newX = tracksArea.mouseX + scrollView.contentX
             if (newX < rubberSelect.originX) {
                 rubberSelect.x = newX
                 rubberSelect.width = rubberSelect.originX - newX
@@ -447,7 +447,7 @@ function getTrackColor(audio, header) {
 
         if (tentativeClip && tentativeClip.clipId && tentativeClip.doesContainMouse(root.mapToItem(tentativeClip, mousePos.x, mousePos.y)) && K.Core.activeTool !== K.ToolType.SpacerTool) {
             dragProxy.draggedItem = tentativeClip.clipId
-            var tk = root.controller.getItemTrackId(tentativeClip.clipId)
+            const tk = root.controller.getItemTrackId(tentativeClip.clipId)
             dragProxy.x = tentativeClip.x
             dragProxy.y = sourceTrack.y + (tentativeClip.isComposition ? tentativeClip.displayHeight : tentativeClip.y)
             //+ Logic.getTrackYFromId(tk)
@@ -470,7 +470,7 @@ function getTrackColor(audio, header) {
 
     function getAudioTracksCount(){
         var audioCount = 0;
-        for (var i = 0; i < trackHeaderRepeater.count; i++) {
+        for (let i = 0; i < trackHeaderRepeater.count; i++) {
             if((trackHeaderRepeater.itemAt(i) as TrackHead).isAudio) {
                 audioCount++;
             }
@@ -488,13 +488,13 @@ function getTrackColor(audio, header) {
     }
 
     function getItemAtPos(tk, posx, compositionWanted) {
-        var track = Logic.getTrackById(tk)
+        const track = Logic.getTrackById(tk)
         if (track == undefined || track.children == undefined) {
             return undefined
         }
-        var container = track.children[0]
-        var tentativeClip = undefined
-        for (var i = 0 ; i < container.children.length; i++) {
+        const container = track.children[0]
+        let tentativeClip = undefined
+        for (let i = 0 ; i < container.children.length; i++) {
             if (container.children[i].children.length === 0 || container.children[i].children[0].children.length === 0) {
                 continue
             }
@@ -648,7 +648,7 @@ function getTrackColor(audio, header) {
             endSkim()
             return
         }
-        var frame = Math.round((scrollView.contentX + mouseXPos) / root.timeScale)
+        let frame = Math.round((scrollView.contentX + mouseXPos) / root.timeScale)
         frame = Math.max(0, Math.min(frame, root.timeline.fullDuration - 1))
         if (skimFrame === frame) {
             return
@@ -679,11 +679,11 @@ function getTrackColor(audio, header) {
             scrollView.contentY = 0
             return
         }
-        var tk = Logic.getTrackById(root.timeline.activeTrack)
+        const tk = Logic.getTrackById(root.timeline.activeTrack)
         if (tk.y + subtitleTrack.height < scrollView.contentY) {
             scrollView.contentY = Math.max(0, tk.y + subtitleTrack.height)
         } else if (tk.y + tk.height + subtitleTrack.height > scrollView.contentY + scrollView.height) {
-            var newY = Math.min(trackHeaders.height + subtitleTrack.height - scrollView.height, tk.y + tk.height - scrollView.height + subtitleTrack.height)
+            const newY = Math.min(trackHeaders.height + subtitleTrack.height - scrollView.height, tk.y + tk.height - scrollView.height + subtitleTrack.height)
             if (newY >= 0) {
                 scrollView.contentY = newY
             }
@@ -695,14 +695,14 @@ function getTrackColor(audio, header) {
             // Spacer activated
             root.endDrag()
         } else if (K.Core.activeTool === K.ToolType.SelectTool) {
-            var tk = getMouseTrack()
+            const tk = getMouseTrack()
             if (tk < 0) {
                 return
             }
-            var pos = getMousePos()
-            var sourceTrack = Logic.getTrackById(tk)
-            var allowComposition = tracksArea.mouseY- sourceTrack.y > sourceTrack.height / 2
-            var tentativeItem = undefined
+            const pos = getMousePos()
+            const sourceTrack = Logic.getTrackById(tk)
+            const allowComposition = tracksArea.mouseY- sourceTrack.y > sourceTrack.height / 2
+            let tentativeItem = undefined
             if (allowComposition) {
                 tentativeItem = getItemAtPos(tk, pos, true)
             }
@@ -732,19 +732,19 @@ function getTrackColor(audio, header) {
         function moveDrop(offset, voffset)
         {
             if (root.clipBeingDroppedId >= 0) {
-                var track = Logic.getTrackIdFromPos(drag.y + voffset + scrollView.contentY - subtitleTrack.height)
+                const track = Logic.getTrackIdFromPos(drag.y + voffset + scrollView.contentY - subtitleTrack.height)
                 if (track !== -1) {
-                    var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
+                    const frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
                     if (root.controller.isAudioTrack(track) != compoArea.isAudioDrag) {
                         // Don't allow moving composition to an audio track
                         track = root.controller.getCompositionTrackId(root.clipBeingDroppedId)
                     }
-                    var frameData = root.controller.suggestCompositionMove(root.clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping, false, true)
+                    const frameData = root.controller.suggestCompositionMove(root.clipBeingDroppedId, track, frame, root.consumerPosition, root.snapping, false, true)
                     fakeTrack = frameData[1]
                     root.timeline.activeTrack = fakeTrack
                     sameCutPos = root.timeline.isOnCut(root.clipBeingDroppedId)
                     if (sameCutPos > -1) {
-                        var sourceTrack = Logic.getTrackById(fakeTrack)
+                        const sourceTrack = Logic.getTrackById(fakeTrack)
                         if ((drag.y < sourceTrack.y + sourceTrack.height / 2) || compoArea.isAudioDrag) {
                             sameTrackIndicator.x = sameCutPos * root.timeScale - sameTrackIndicator.width / 2
                             sameTrackIndicator.y = sourceTrack.y
@@ -767,12 +767,12 @@ function getTrackColor(audio, header) {
             upMove = 0
             lastYPos = -1
             if (root.clipBeingMovedId == -1 && root.clipBeingDroppedId == -1) {
-                var yOffset = 0
+                let yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
                 }
-                var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
-                var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
+                const track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
+                const frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                 root.droppedPosition = frame
                 compoArea.isAudioDrag = drag.getDataAsString('type') == "audio"
                 if (track >= 0 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
@@ -784,7 +784,7 @@ function getTrackColor(audio, header) {
             }
         }
         onPositionChanged: drag => {
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            let frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             root.updateTimelineMousePos(frame, root.timeline.duration)
             if (lastYPos == -1) {
                 lastYPos = drag.y
@@ -804,7 +804,7 @@ function getTrackColor(audio, header) {
                     if (root.showSubtitles) {
                         yOffset = subtitleTrack.height
                     }
-                    var track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
+                    const track = Logic.getTrackIdFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track !== -1 && root.controller.isAudioTrack(track) == compoArea.isAudioDrag) {
                         frame = root.controller.suggestSnapPoint(frame, root.snapping)
                         root.clipBeingDroppedData = drag.getDataAsString('kdenlive/composition')
@@ -829,8 +829,8 @@ function getTrackColor(audio, header) {
             lastYPos = -1
             upMove = 0
             if (root.clipBeingDroppedId != -1) {
-                var frame = root.controller.getCompositionPosition(root.clipBeingDroppedId)
-                var track = root.controller.getCompositionTrackId(root.clipBeingDroppedId)
+                const frame = root.controller.getCompositionPosition(root.clipBeingDroppedId)
+                const track = root.controller.getCompositionTrackId(root.clipBeingDroppedId)
                 // we simulate insertion at the final position so that stored undo has correct value
                 root.controller.requestItemDeletion(root.clipBeingDroppedId, false)
                 if (sameTrackIndicator.visible) {
@@ -851,16 +851,16 @@ function getTrackColor(audio, header) {
         property var lastDragPos
         /** @brief local helper function to handle the insertion of multiple dragged items */
         function insertAndMaybeGroup(track, frame, droppedData) {
-            var binIds = droppedData.split(";")
+            const binIds = droppedData.split(";")
             if (binIds.length === 0) {
                 return -1
             }
 
-            var id = -1
+            let id = -1
             if (binIds.length === 1) {
                 id = root.timeline.insertClip(root.timeline.activeTrack, frame, root.clipBeingDroppedData, false, true, false)
             } else {
-                var ids = root.timeline.insertClips(root.timeline.activeTrack, frame, binIds, false, true)
+                const ids = root.timeline.insertClips(root.timeline.activeTrack, frame, binIds, false, true)
 
                 // if the clip insertion succeeded, request the clips to be grouped
                 if (ids.length > 0) {
@@ -887,14 +887,14 @@ function getTrackColor(audio, header) {
         function moveDrop(offset, voffset)
         {
             if (root.clipBeingDroppedId > -1) {
-                var yOffset = 0
+                let yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
                 }
-                var track = Logic.getTrackIndexFromPos(drag.y + voffset + scrollView.contentY - yOffset)
+                const track = Logic.getTrackIndexFromPos(drag.y + voffset + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
-                    var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
-                    var frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
+                    const targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                    const frame = Math.floor((drag.x + scrollView.contentX + offset) / root.timeScale)
                     // If the target track changed, recreate the preview clips so that audio mirrors
                     // are correctly assigned for the new target track (e.g. when the new track has
                     // no existing mirror audio track and one would need to be created on drop).
@@ -915,7 +915,7 @@ function getTrackColor(audio, header) {
                             root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY, upMove)
                             return
                         }
-                        var _audioInfo = root.controller.clipAudioStreamInfo(root.clipBeingDroppedData, targetTrack)
+                        const _audioInfo = root.controller.clipAudioStreamInfo(root.clipBeingDroppedData, targetTrack)
                         if (_audioInfo[1] >=0 && _audioInfo[0] >=0 && !_audioInfo[2]) {
                             bubbleHelp.text = KI18n.i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
                             if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
@@ -925,7 +925,7 @@ function getTrackColor(audio, header) {
                         }
                     }
                     if (root.clipBeingDroppedId != -1) {
-                        var _audioInfo = root.controller.clipAudioStreamInfo(root.clipBeingDroppedData, targetTrack)
+                        const _audioInfo = root.controller.clipAudioStreamInfo(root.clipBeingDroppedData, targetTrack)
                         if (_audioInfo[1] >=0 && _audioInfo[0] >=0 && !_audioInfo[2]) {
                             bubbleHelp.text = KI18n.i18np("Audio: %1 track for %2 streams", "Audio: %1 tracks for %2 streams", _audioInfo[1], _audioInfo[0])
                             if (bubbleHelp.state !== 'visible') bubbleHelp.state = 'visible'
@@ -939,7 +939,7 @@ function getTrackColor(audio, header) {
                     else {
                         bubbleHelp.hide()
                     }
-                    var moveData = root.controller.suggestClipMove(root.clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                    const moveData = root.controller.suggestClipMove(root.clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                     fakeFrame = moveData[0]
                     fakeTrack = moveData[1]
                     root.timeline.activeTrack = fakeTrack
@@ -957,10 +957,10 @@ function getTrackColor(audio, header) {
         {
             // Process the drop event, useful if drop event happens outside of drop area
             if (root.clipBeingDroppedId != -1) {
-                var cid = root.clipBeingDroppedId
+                const cid = root.clipBeingDroppedId
                 root.clearDropData()
-                var frame = root.controller.getClipPosition(cid)
-                var track = root.controller.getClipTrackId(cid)
+                let frame = root.controller.getClipPosition(cid)
+                let track = root.controller.getClipTrackId(cid)
                 if (!root.controller.normalEdit()) {
                     frame = fakeFrame
                     track = fakeTrack
@@ -971,7 +971,7 @@ function getTrackColor(audio, header) {
                  */
                 root.controller.requestItemDeletion(cid, false)
 
-                var binIds = root.clipBeingDroppedData.split(";")
+                const binIds = root.clipBeingDroppedData.split(";")
                 if (binIds.length == 1) {
                     if (root.controller.normalEdit()) {
                         root.timeline.insertClip(track, frame, root.clipBeingDroppedData, true, true, false)
@@ -1005,17 +1005,17 @@ function getTrackColor(audio, header) {
             root.timeline.keepAudioTargets(true)
             lastDragPos = Qt.point(drag.x, drag.y)
             if (root.clipBeingMovedId == -1 && root.clipBeingDroppedId == -1) {
-                var yOffset = 0
+                let yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
                 }
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
+                const track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 root.clipBeingDroppedData = drag.getDataAsString('text/producerslist')
                 lastDragUuid = drag.getDataAsString('text/dragid')
                 dragPixmapHeight = parseInt(drag.getDataAsString('text/dragpixmapheight')) || 0
 
                 if (track >= 0  && track < tracksRepeater.count) {
-                    var frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
+                    const frame = Math.round((drag.x + scrollView.contentX) / root.timeScale)
                     root.droppedPosition = frame
                     root.timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                     root.lastDropTrack = root.timeline.activeTrack
@@ -1064,7 +1064,7 @@ function getTrackColor(audio, header) {
         }
         onPositionChanged: drag => {
             lastDragPos = Qt.point(drag.x, drag.y)
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            let frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             if (lastYPos == -1) {
                 lastYPos = drag.y
             } else if (drag.y <= lastYPos) {
@@ -1080,13 +1080,13 @@ function getTrackColor(audio, header) {
                     moveDrop(0, 0)
                     drag.accepted = root.clipBeingDroppedId > -1
                 } else {
-                    var yOffset = 0
+                    let yOffset = 0
                     if (root.showSubtitles) {
                         yOffset = subtitleTrack.height
                     }
-                    var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
+                    const track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                     if (track >= 0  && track < tracksRepeater.count) {
-                        var targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
+                        const targetTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                         frame = root.controller.suggestSnapPoint(frame, root.snapping)
                         if (lastCheckedFrame != frame || root.timeline.activeTrack != targetTrack) {
                             root.timeline.activeTrack = targetTrack
@@ -1097,7 +1097,7 @@ function getTrackColor(audio, header) {
                                 // we want insert/overwrite mode, make a fake insert at end of timeline, then move to position
                                 root.clipBeingDroppedId = insertAndMaybeGroup(targetTrack, root.timeline.fullDuration, root.clipBeingDroppedData)
                                 if (root.clipBeingDroppedId > -1) {
-                                    var moveData = root.controller.suggestClipMove(root.clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
+                                    const moveData = root.controller.suggestClipMove(root.clipBeingDroppedId, targetTrack, frame, root.consumerPosition, root.snapping)
                                     fakeFrame = moveData[0]
                                     fakeTrack = moveData[1]
                                     root.timeline.activeTrack = fakeTrack
@@ -1145,8 +1145,8 @@ function getTrackColor(audio, header) {
             if (dragProxy.draggedItem > -1) {
                 root.endDrag()
             }
-            for(var i in drag.urls){
-                var url = drag.urls[i]
+            for(let i in drag.urls){
+                const url = drag.urls[i]
                 droppedUrls.push(Qt.resolvedUrl(url))
             }
         }
@@ -1157,14 +1157,14 @@ function getTrackColor(audio, header) {
             root.clearDropData()
         }
         onPositionChanged: drag => {
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            const frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
             root.updateTimelineMousePos(frame, root.timeline.duration)
             if (root.clipBeingMovedId == -1) {
-                var yOffset = 0
+                let yOffset = 0
                 if (root.showSubtitles) {
                     yOffset = subtitleTrack.height
                 }
-                var track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
+                const track = Logic.getTrackIndexFromPos(drag.y + scrollView.contentY - yOffset)
                 if (track >= 0  && track < tracksRepeater.count) {
                     root.timeline.activeTrack = (tracksRepeater.itemAt(track) as Track).trackInternalId
                     root.continuousScrolling(drag.x + scrollView.contentX, drag.y + scrollView.contentY)
@@ -1172,8 +1172,8 @@ function getTrackColor(audio, header) {
             }
         }
         onDropped: drag => {
-            var frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
-            var track = root.timeline.activeTrack
+            const frame = Math.floor((drag.x + scrollView.contentX) / root.timeScale)
+            const track = root.timeline.activeTrack
             if (root.controller.normalEdit()) {
                 root.timeline.urlDropped(droppedUrls, frame, track)
             }
@@ -1431,7 +1431,7 @@ function getTrackColor(audio, header) {
                 if (wheel.modifiers & Qt.AltModifier || wheel.modifiers & Qt.ControlModifier || mouseY > trackHeaders.height) {
                     root.zoomByWheel(wheel)
                 } else if (K.Core.activeTool !== K.ToolType.SlipTool) {
-                    var delta = wheel.modifiers & Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
+                    const delta = wheel.modifiers & Qt.ShiftModifier ? K.Core.getCurrentFps() : 1
                     root.proxy.position = wheel.angleDelta.y > 0 ? Math.max(root.consumerPosition - delta, 0) : Math.min(root.consumerPosition + delta, root.timeline.fullDuration - 1)
                 }
             }
@@ -1465,9 +1465,9 @@ function getTrackColor(audio, header) {
                 } else if (mouse.button & Qt.LeftButton) {
                     if (K.Core.activeTool === K.ToolType.RazorTool) {
                         // razor tool
-                        var y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
+                        const y = mouse.y - ruler.height + scrollView.contentY - subtitleTrack.height
                         if (y >= 0) {
-                            let track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
+                            const track = tracksRepeater.itemAt(Logic.getTrackIndexFromPos(y)) as Track
                             root.timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, track.trackInternalId)
                         } else if (subtitleTrack.height > 0) {
                             root.timeline.cutClipUnderCursor((scrollView.contentX + mouse.x) / root.timeScale, -2)
@@ -1475,13 +1475,13 @@ function getTrackColor(audio, header) {
                     } else if (K.Core.activeTool === K.ToolType.SlipTool) {
                         //slip tool
                         if (mouse.y > ruler.height) {
-                            var tk = root.getMouseTrack()
+                            const tk = root.getMouseTrack()
                             if (tk < 0) {
                                 return
                             }
-                            var pos = root.getMousePos()
-                            var sourceTrack = Logic.getTrackById(tk)
-                            var mainClip = undefined
+                            const pos = root.getMousePos()
+                            const sourceTrack = Logic.getTrackById(tk)
+                            let mainClip = undefined
                             mainClip = root.getItemAtPos(tk, pos, false)
                             root.trimmingClickFrame = Math.round((scrollView.contentX + mouse.x) / root.timeScale)
                             root.timeline.requestStartTrimmingMode(mainClip.clipId, shiftPress)
@@ -1498,8 +1498,8 @@ function getTrackColor(audio, header) {
                     }
                     if (K.Core.activeTool === K.ToolType.SpacerTool && mouse.y > ruler.height) {
                         // spacer tool
-                        var y = mouse.y - ruler.height + scrollView.contentY;
-                        var frame = (scrollView.contentX + mouse.x) / root.timeScale
+                        const y = mouse.y - ruler.height + scrollView.contentY;
+                        const frame = (scrollView.contentX + mouse.x) / root.timeScale
                         // Default to all tracks
                         root.spacerTrack = -1
                         if (mouse.modifiers & Qt.ControlModifier) {
@@ -1535,7 +1535,7 @@ function getTrackColor(audio, header) {
                             if (root.spacerGuides) {
                                 root.selectedGuides = root.timeline.spacerSelection(Math.min(root.spacerClickFrame, root.spacerFrame))
                                 if (root.selectedGuides.length > 0) {
-                                    var firstGuidePos = root.timeline.getGuidePosition(root.selectedGuides[0])
+                                    const firstGuidePos = root.timeline.getGuidePosition(root.selectedGuides[0])
                                     if (root.spacerGroup > -1 && firstGuidePos < root.spacerFrame) {
                                         // Don't allow moving guide below 0
                                         root.spacerMinPos = Math.max(root.spacerMinPos, root.spacerFrame - firstGuidePos + 1)
@@ -1636,8 +1636,8 @@ function getTrackColor(audio, header) {
                         return
                     }
                     
-                    var maxScrollX = root.timeline.fullDuration * root.timeScale - scrollView.width
-                    var maxScrollY = trackHeaders.height + subtitleTrackHeader.height - scrollView.height + horZoomBar.height
+                    const maxScrollX = root.timeline.fullDuration * root.timeScale - scrollView.width
+                    const maxScrollY = trackHeaders.height + subtitleTrackHeader.height - scrollView.height + horZoomBar.height
                     
                     scrollView.contentX = Math.max(0, Math.min(scrollView.contentX - deltaX, maxScrollX))
                     scrollView.contentY = Math.max(0, Math.min(scrollView.contentY - deltaY, maxScrollY))
@@ -1663,12 +1663,12 @@ function getTrackColor(audio, header) {
                     return
                 }
                 if (K.Core.activeTool === K.ToolType.SlipTool && pressed && mouse.y > ruler.height) {
-                    var frame = root.getMouseFrame()
+                    const frame = root.getMouseFrame()
                     root.trimmingOffset = frame - root.trimmingClickFrame
                     root.timeline.slipPosChanged(root.trimmingOffset);
                 }
                 if (!pressed && !rubberSelect.visible && K.Core.activeTool === K.ToolType.RazorTool) {
-                    var mouseXPos = root.getMouseFrame()
+                    const mouseXPos = root.getMouseFrame()
                     cutLine.x = mouseXPos * root.timeScale - scrollView.contentX
                     if (mouse.modifiers & Qt.ShiftModifier) {
                         // Seek
@@ -1678,15 +1678,15 @@ function getTrackColor(audio, header) {
                 ruler.showZoneLabels = mouse.y < ruler.height
                 if (shiftPress && mouse.buttons === Qt.LeftButton && selectLikeTool && !rubberSelect.visible && rubberSelect.y > 0) {
                     // rubber selection, check if mouse move was enough
-                    var dx = rubberSelect.originX - (mouseX + scrollView.contentX)
-                    var dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
+                    const dx = rubberSelect.originX - (mouseX + scrollView.contentX)
+                    const dy = rubberSelect.originY - (mouseY - ruler.height + scrollView.contentY)
                     if ((Math.abs(dx) + Math.abs(dy)) > Application.styleHints.startDragDistance) {
                         rubberSelect.visible = true
                     }
                 }
                 if (rubberSelect.visible) {
-                    var newX = mouse.x + scrollView.contentX
-                    var newY = mouse.y + scrollView.contentY - ruler.height
+                    const newX = mouse.x + scrollView.contentX
+                    const newY = mouse.y + scrollView.contentY - ruler.height
                     if (newX < rubberSelect.originX) {
                         rubberSelect.x = newX
                         rubberSelect.width = rubberSelect.originX - newX
@@ -1707,15 +1707,15 @@ function getTrackColor(audio, header) {
                         root.proxy.position = Math.max(0, Math.min((scrollView.contentX + mouse.x) / root.timeScale, root.timeline.fullDuration - 1))
                     } else if (K.Core.activeTool === K.ToolType.SpacerTool && root.spacerGroup > -1) {
                         // Spacer tool, move group
-                        var track = root.controller.getItemTrackId(root.spacerGroup)
-                        var lastPos = 0;
+                        const track = root.controller.getItemTrackId(root.spacerGroup)
+                        let lastPos = 0;
                         if (root.spacerGuides) {
                             lastPos = root.controller.getItemFakePosition(root.spacerGroup)
                             if (lastPos == -1) {
                                 lastPos = root.controller.getItemPosition(root.spacerGroup)
                             }
                         }
-                        var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale) + root.spacerFrame - root.spacerClickFrame
+                        let frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale) + root.spacerFrame - root.spacerClickFrame
                         frame = Math.max(root.spacerMinPos, frame)
                         if (root.spacerMaxPos > -1) {
                             frame = Math.min(root.spacerMaxPos, frame)
@@ -1726,7 +1726,7 @@ function getTrackColor(audio, header) {
                         }
                         root.continuousScrolling(mouse.x + scrollView.contentX, mouse.y + scrollView.contentY - ruler.height)
                     } else if (root.spacerGuides) {
-                        var frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale)
+                        let frame = Math.round((mouse.x + scrollView.contentX) / root.timeScale)
                         frame = Math.max(root.spacerMinPos, frame)
                         root.timeline.spacerMoveGuides(root.selectedGuides, frame - root.spacerFrame)
                         root.spacerFrame = frame;
@@ -1762,13 +1762,13 @@ function getTrackColor(audio, header) {
                 }
                 if (rubberSelect.visible) {
                     rubberSelect.visible = false
-                    var y = rubberSelect.y
-                    var selectSubs = false
-                    var selectOnlySubs = false
-                    var selectionHeight = rubberSelect.height
+                    const y = rubberSelect.y
+                    const selectSubs = false
+                    const selectOnlySubs = false
+                    const selectionHeight = rubberSelect.height
                     if (root.showSubtitles) {
                         selectSubs = y < subtitleTrack.height
-                        var bottomRubber = y + rubberSelect.height
+                        const bottomRubber = y + rubberSelect.height
                         if (bottomRubber > subtitleTrack.height) {
                             y = Math.max(0, y - subtitleTrack.height)
                             if (selectSubs) {
@@ -1779,21 +1779,21 @@ function getTrackColor(audio, header) {
                             selectOnlySubs = true
                         }
                     }
-                    var topTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y))
-                    var bottomTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
-                    var bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as K.Track
+                    const topTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y))
+                    const bottomTrackIx = Logic.getTrackIndexFromPos(Math.max(0, y) + selectionHeight)
+                    const bottomTrack = tracksRepeater.itemAt(bottomTrackIx) as K.Track
                     // Check if bottom of rubber selection covers the last track compositions
                     console.log('Got rubber bottom: ', y, ' - height: ', selectionHeight, ', TK y: ', Logic.getTrackYFromId(bottomTrack.trackInternalId), ', SCROLLVIEWY: ', scrollView.contentY)
-                    var selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(bottomTrack.trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrackIx) * 0.6)
+                    const selectBottomCompositions = ((y + selectionHeight) - Logic.getTrackYFromId(bottomTrack.trackInternalId)) > (Logic.getTrackHeightByPos(bottomTrackIx) * 0.6)
                     if (bottomTrackIx >= topTrackIx) {
-                        var t = []
+                        let t = []
                         if (!selectOnlySubs) {
-                            for (var i = topTrackIx; i <= bottomTrackIx; i++) {
+                            for (let i = topTrackIx; i <= bottomTrackIx; i++) {
                                 t.push((tracksRepeater.itemAt(i) as K.Track).trackInternalId)
                             }
                         }
-                        var startFrame = Math.round(rubberSelect.x / root.timeScale)
-                        var endFrame = Math.round((rubberSelect.x + rubberSelect.width) / root.timeScale)
+                        const startFrame = Math.round(rubberSelect.x / root.timeScale)
+                        const endFrame = Math.round((rubberSelect.x + rubberSelect.width) / root.timeScale)
                         root.timeline.selectItems(t, startFrame, endFrame, mouse.modifiers & Qt.ControlModifier, selectBottomCompositions, selectSubs);
                     }
                     rubberSelect.y = -1
@@ -1817,7 +1817,7 @@ function getTrackColor(audio, header) {
 
                 if (root.finalSpacerFrame > -1) {
                     if (root.spacerGroup > -1) {
-                        var frame = root.controller.getItemPosition(root.spacerGroup)
+                        const frame = root.controller.getItemPosition(root.spacerGroup)
                         root.timeline.requestSpacerEndOperation(root.spacerGroup, root.spacerFrame, root.finalSpacerFrame, root.spacerTrack, root.selectedGuides, root.spacerGuides ? root.spacerClickFrame : -1);
                     } else if (root.spacerGuides) {
                         // Move back guides to original pos
@@ -2083,7 +2083,7 @@ function getTrackColor(audio, header) {
                                         dragFrame = -1
                                         moveMirrorTracks = !(mouse.modifiers & Qt.MetaModifier) && (Qt.platform.os != "windows" || !(mouse.modifiers & Qt.AltModifier))
                                         root.timeline.activeTrack = dragProxy.sourceTrack
-                                        var singleSelection = mouse.modifiers & Qt.AltModifier
+                                        const singleSelection = mouse.modifiers & Qt.AltModifier
                                         if (singleSelection || root.timeline.selection.indexOf(dragProxy.draggedItem) === -1) {
                                             doubleClickTimer.start()
                                             root.controller.requestAddToSelection(dragProxy.draggedItem, /*clear=*/ !(mouse.modifiers & Qt.ShiftModifier), /*single item selection */ singleSelection)
@@ -2092,15 +2092,15 @@ function getTrackColor(audio, header) {
                                         root.blockAutoScroll = true
                                         root.clipBeingMovedId = dragProxy.draggedItem
                                         if (dragProxy.draggedItem > -1) {
-                                            var tk = root.controller.getItemTrackId(dragProxy.draggedItem)
-                                            var x = root.controller.getItemPosition(dragProxy.draggedItem)
-                                            var posx = Math.round((parent.x)/ root.timeScale)
-                                            var clickAccepted = true
-                                            var currentMouseTrack = Logic.getTrackIdFromPos(parent.y)
+                                            const tk = root.controller.getItemTrackId(dragProxy.draggedItem)
+                                            const x = root.controller.getItemPosition(dragProxy.draggedItem)
+                                            const posx = Math.round((parent.x)/ root.timeScale)
+                                            const clickAccepted = true
+                                            const currentMouseTrack = Logic.getTrackIdFromPos(parent.y)
                                             if (root.controller.normalEdit() && (tk !== currentMouseTrack || x !== posx)) {
                                                 console.log('incorrect drag, Trying to recover item', parent.y,'xpos',x,'=',posx,'track',tk)
                                                 // Try to find correct item
-                                                var tentativeClip = root.getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
+                                                const tentativeClip = root.getItemAtPos(currentMouseTrack, mouseX + parent.x, dragProxy.isComposition)
                                                 if (tentativeClip && tentativeClip.clipId) {
                                                     console.log('missing item', tentativeClip.clipId)
                                                     clickAccepted = true
@@ -2179,16 +2179,16 @@ function getTrackColor(audio, header) {
 
                                     function moveItem() {
                                         if (dragProxy.draggedItem > -1 && !rubberSelect.visible) {
-                                            var posx = Math.round((parent.x)/ root.timeScale)
+                                            const posx = Math.round((parent.x)/ root.timeScale)
                                             let posInTracks = dragProxyArea.mapToItem(tracksArea, dragProxyArea.mouseX, dragProxyArea.mouseY)
-                                            var posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height - subtitleTrack.height), tracksContainerArea.height)
-                                            var tId = Logic.getTrackIdFromPos(posy)
+                                            const posy = Math.min(Math.max(0, posInTracks.y + scrollView.contentY - ruler.height - subtitleTrack.height), tracksContainerArea.height)
+                                            const tId = Logic.getTrackIdFromPos(posy)
                                             if (dragProxy.masterObject && tId === dragProxy.masterObject.trackId) {
                                                 if (posx == dragProxyArea.dragFrame && root.controller.normalEdit()) {
                                                     return
                                                 }
                                             }
-                                            var moveData
+                                            let moveData
                                             if (dragProxy.isComposition) {
                                                 moveData = root.controller.suggestCompositionMove(dragProxy.draggedItem, tId, posx, root.consumerPosition, dragProxyArea.snapping)
                                                 dragProxyArea.dragFrame = moveData[0]
@@ -2201,13 +2201,13 @@ function getTrackColor(audio, header) {
                                                     root.controller.requestFakeClipMove(dragProxy.draggedItem, root.timeline.activeTrack, dragProxyArea.dragFrame, true, false, false)
                                                 }
                                             }
-                                            var targetTrack = Logic.getTrackById(root.timeline.activeTrack)
+                                            const targetTrack = Logic.getTrackById(root.timeline.activeTrack)
                                             if (targetTrack) {
                                                 dragProxy.y = targetTrack.y + dragProxy.verticalOffset
                                             }
-                                            var delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
+                                            let delta = dragProxyArea.dragFrame - dragProxy.sourceFrame
                                             if (delta != 0) {
-                                                var s = root.timeline.simplifiedTC(Math.abs(delta))
+                                                const s = root.timeline.simplifiedTC(Math.abs(delta))
                                                 s = KI18n.i18n("Offset: %1, Position: %2", (delta < 0 ? '-' : '+') + s, root.timeline.simplifiedTC(dragProxyArea.dragFrame))
                                                 root.timeline.showToolTip(s);
                                             } else {
@@ -2221,13 +2221,13 @@ function getTrackColor(audio, header) {
                                     onReleased: {
                                         root.clipBeingMovedId = -1
                                         root.blockAutoScroll = false
-                                        var itemId = dragProxy.draggedItem
-                                        var sourceTrack = dragProxy.sourceTrack
-                                        var sourceFrame = dragProxy.sourceFrame
-                                        var isComposition = dragProxy.isComposition
+                                        const itemId = dragProxy.draggedItem
+                                        const sourceTrack = dragProxy.sourceTrack
+                                        const sourceFrame = dragProxy.sourceFrame
+                                        const isComposition = dragProxy.isComposition
 
                                         if (itemId > -1 && dragFrame > -1 && (root.controller.isClip(itemId) || root.controller.isComposition(itemId))) {
-                                            var tId = root.controller.getItemTrackId(itemId)
+                                            const tId = root.controller.getItemTrackId(itemId)
                                             if (isComposition) {
                                                 if (root.controller.normalEdit()) {
                                                     // Move composition back to original position
@@ -2263,8 +2263,8 @@ function getTrackColor(audio, header) {
                                     }
                                     onDoubleClicked: {
                                         if (dragProxy.masterObject.keyframeModel && dragProxy.masterObject.showKeyframes && !doubleClickTimer.running) {
-                                            var newVal = (dragProxy.height - mouseY) / dragProxy.height
-                                            var newPos = Math.round(mouseX / root.timeScale) + dragProxy.masterObject.inPoint
+                                            const newVal = (dragProxy.height - mouseY) / dragProxy.height
+                                            const newPos = Math.round(mouseX / root.timeScale) + dragProxy.masterObject.inPoint
                                             root.timeline.addEffectKeyframe(dragProxy.draggedItem, newPos, newVal)
                                         } else {
                                             root.clipBeingMovedId = -1
@@ -2731,7 +2731,7 @@ function getTrackColor(audio, header) {
                         vertical = 0
                         stop()
                     } else {
-                        var maxScroll = trackHeaders.height + subtitleTrack.height - scrollView.height
+                        const maxScroll = trackHeaders.height + subtitleTrack.height - scrollView.height
                         if (scrollView.contentY > maxScroll) {
                             scrollView.contentY = Math.max(0, maxScroll)
                             vertical = 0

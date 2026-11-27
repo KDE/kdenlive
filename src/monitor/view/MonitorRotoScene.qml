@@ -100,8 +100,8 @@ Item {
 
     function closeShape() {
         // close shape, define control points
-        var p0; var p1; var p2
-        for (var i = 0; i < root.centerPoints.length; i++) {
+        let p0; var p1; var p2
+        for (let i = 0; i < root.centerPoints.length; i++) {
             p1 = root.centerPoints[i]
             if (i == 0) {
                 p0 = root.centerPoints[root.centerPoints.length - 1]
@@ -113,8 +113,8 @@ Item {
             } else {
                 p2 = root.centerPoints[i + 1]
             }
-            var ctrl1 = Qt.point((p0.x - p1.x) / 5, (p0.y - p1.y) / 5);
-            var ctrl2 = Qt.point((p2.x - p1.x) / 5, (p2.y - p1.y) / 5);
+            const ctrl1 = Qt.point((p0.x - p1.x) / 5, (p0.y - p1.y) / 5);
+            const ctrl2 = Qt.point((p2.x - p1.x) / 5, (p2.y - p1.y) / 5);
             root.centerPointsTypes.push(Qt.point(p1.x + ctrl1.x, p1.y + ctrl1.y))
             root.centerPointsTypes.push(Qt.point(p1.x + ctrl2.x, p1.y + ctrl2.y))
         }
@@ -164,7 +164,8 @@ Item {
 
       onPaint:
       {
-        var ctx = getContext('2d')
+        let ctx = getContext('2d')
+        const alphaColor = Qt.hsla(activePalette.highlight.hslHue, activePalette.highlight.hslSaturation, activePalette.highlight.hslLightness, 0.5)
         //if (context) {
             ctx.clearRect(0,0, width, height);
             ctx.beginPath()
@@ -175,8 +176,8 @@ Item {
                 // no points defined yet
                 return
             }
-            var p1 = convertPoint(root.centerPoints[0])
-            var startP = p1;
+            let p1 = convertPoint(root.centerPoints[0])
+            const startP = p1;
             ctx.moveTo(p1.x, p1.y)
             if (!root.isDefined) {
                 // We are still building the shape, only draw points connected with lines
@@ -185,7 +186,7 @@ Item {
                 }
                 ctx.fillRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                 ctx.fillStyle = canvas.fillColor
-                for (var i = 1; i < root.centerPoints.length; i++) {
+                for (let i = 1; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     ctx.lineTo(p1.x, p1.y);
                     if (i == root.requestedKeyFrame) {
@@ -198,17 +199,16 @@ Item {
                     ctx.strokeRect(p1.x - handleSize, p1.y - handleSize, 2 * handleSize, 2 * handleSize);
                 }
             } else {
-                var c1; var c2
-                var alphaColor = Qt.hsla(activePalette.highlight.hslHue, activePalette.highlight.hslSaturation, activePalette.highlight.hslLightness, 0.5)
+                let c1; let c2
                 if (root.controller.cursorOutsideEffect) {
                     ctx.setLineDash([4]);
                 } else {
                     ctx.setLineDash([]);
                 }
-                for (i = 0; i < root.centerPoints.length; i++) {
+                for (let i = 0; i < root.centerPoints.length; i++) {
                     p1 = convertPoint(root.centerPoints[i])
                     // Control points
-                    var subkf = false
+                    let subkf = false
                     if (i == 0) {
                         c1 = convertPoint(root.centerPointsTypes[root.centerPointsTypes.length - 1])
                         if (root.requestedSubKeyFrame == root.centerPointsTypes.length - 1) {
@@ -291,7 +291,7 @@ Item {
                 }
                 // Segment where the point would be added
                 ctx.moveTo(p1.x, p1.y)
-                var p2 = convertPoint(root.centerPoints[root.addedPointIndex])
+                const p2 = convertPoint(root.centerPoints[root.addedPointIndex])
                 ctx.lineTo(p2.x, p2.y)
                 ctx.stroke()
             }
@@ -364,8 +364,8 @@ Item {
 
     function convertPoint(p)
     {
-        var x = frame.x + p.x * root.scalex
-        var y = frame.y + p.y * root.scaley
+        const x = frame.x + p.x * root.scalex
+        const y = frame.y + p.y * root.scaley
         return Qt.point(x,y);
     }
   }
@@ -474,16 +474,16 @@ Item {
                 }
                 // Add new keyframe
                 if (root.addPointPossible.x > 0 && root.addedPointIndex >= 0) {
-                    var p0; var p1; var p2;
-                    var newPoint = Qt.point((root.addPointPossible.x - frame.x) / root.scalex, (root.addPointPossible.y - frame.y) / root.scaley);
+                    let p0; let p1; let p2;
+                    const newPoint = Qt.point((root.addPointPossible.x - frame.x) / root.scalex, (root.addPointPossible.y - frame.y) / root.scaley);
                     p1 = root.centerPoints[root.addedPointIndex]
                     if (root.addedPointIndex == 0) {
                         p0 = root.centerPoints[root.centerPoints.length - 1]
                     } else {
                         p0 = root.centerPoints[root.addedPointIndex - 1]
                     }
-                    var ctrl1 = Qt.point((p0.x - newPoint.x) / 5, (p0.y - newPoint.y) / 5);
-                    var ctrl2 = Qt.point((p1.x - newPoint.x) / 5, (p1.y - newPoint.y) / 5);
+                    const ctrl1 = Qt.point((p0.x - newPoint.x) / 5, (p0.y - newPoint.y) / 5);
+                    const ctrl2 = Qt.point((p1.x - newPoint.x) / 5, (p1.y - newPoint.y) / 5);
                     if (root.addedPointIndex == 0) {
                         root.centerPoints.push(newPoint)
                         root.centerPointsTypes.push(Qt.point(newPoint.x + ctrl1.x, newPoint.y + ctrl1.y))
@@ -504,7 +504,7 @@ Item {
                 if (mouse.button === Qt.RightButton && root.centerPoints.length > 2) {
                     root.closeShape()
                 } else if (root.requestedKeyFrame < 0) {
-                    var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
+                    const newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
                     root.centerPoints.push(newPoint)
                     canvas.requestPaint()
                 }
@@ -515,8 +515,8 @@ Item {
             if (pressed) {
                 if (root.resizeContainsMouse > 0) {
                     // resizing shape
-                    var movingCorner = []
-                    var referenceCorner = []
+                    let movingCorner = []
+                    let referenceCorner = []
                     if (root.resizeContainsMouse == 1) {
                         // Top left resize
                         movingCorner = Qt.point(root.bottomLeft.x, root.topRight.y)
@@ -553,10 +553,10 @@ Item {
                     if(mouse.modifiers && mouse.modifiers === Qt.ShiftModifier) {
                         referenceCorner = Qt.point(root.centerCross.x, root.centerCross.y)
                     }
-                    var originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
-                    var mouseDist = Math.sqrt( Math.pow(mouseX - referenceCorner.x, 2) + Math.pow(mouseY - referenceCorner.y, 2) );
-                    var factor = Math.max(0.1, mouseDist / originalDist)
-                    for (var j = 0; j < root.centerPoints.length; j++) {
+                    const originalDist = Math.sqrt( Math.pow(movingCorner.x - referenceCorner.x, 2) + Math.pow(movingCorner.y - referenceCorner.y, 2) );
+                    const mouseDist = Math.sqrt( Math.pow(mouseX - referenceCorner.x, 2) + Math.pow(mouseY - referenceCorner.y, 2) );
+                    const factor = Math.max(0.1, mouseDist / originalDist)
+                    for (let j = 0; j < root.centerPoints.length; j++) {
                         if (root.resizeContainsMouse != 5 && root.resizeContainsMouse!= 7) {
                             root.centerPoints[j].x = (referenceCorner.x - frame.x + (root.centerPoints[j].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
                             root.centerPointsTypes[j * 2].x = (referenceCorner.x - frame.x + (root.centerPointsTypes[j * 2].x * root.scalex - (referenceCorner.x - frame.x)) * factor) / root.scalex
@@ -578,12 +578,12 @@ Item {
                         // Don't try to update existing keyframe when playing
                         return
                     }
-                    var xDiff = (mouse.x - lastMouseX) / root.scalex
-                    var yDiff = (mouse.y - lastMouseY) / root.scaley
+                    const xDiff = (mouse.x - lastMouseX) / root.scalex
+                    const yDiff = (mouse.y - lastMouseY) / root.scaley
                     lastMouseX = mouse.x
                     lastMouseY = mouse.y
                     lastMousePos = root.controller.position
-                    for (j = 0; j < root.centerPoints.length; j++) {
+                    for (let j = 0; j < root.centerPoints.length; j++) {
                         root.centerPoints[j].x += xDiff
                         root.centerPoints[j].y += yDiff
                         root.centerPointsTypes[j * 2].x += xDiff
@@ -596,8 +596,8 @@ Item {
                     return
                 }
                 if (root.requestedKeyFrame >= 0) {
-                    var xDiff = (mouseX - frame.x) / root.scalex - root.centerPoints[root.requestedKeyFrame].x
-                    var yDiff = (mouseY - frame.y) / root.scaley - root.centerPoints[root.requestedKeyFrame].y
+                    const xDiff = (mouseX - frame.x) / root.scalex - root.centerPoints[root.requestedKeyFrame].x
+                    const yDiff = (mouseY - frame.y) / root.scaley - root.centerPoints[root.requestedKeyFrame].y
                     root.centerPoints[root.requestedKeyFrame].x += xDiff
                     root.centerPoints[root.requestedKeyFrame].y += yDiff
                     if (root.centerPointsTypes.length > root.requestedKeyFrame * 2 + 1) {
@@ -620,9 +620,9 @@ Item {
               // Check if we are over a keyframe
               if (!root.displayResize) {
                   root.addPointPossible = Qt.point(0, 0)
-                  for(var i = 0; i < root.centerPoints.length; i++)
+                  for(let i = 0; i < root.centerPoints.length; i++)
                   {
-                      var p1 = canvas.convertPoint(root.centerPoints[i])
+                      const p1 = canvas.convertPoint(root.centerPoints[i])
                       if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
                           if (i == root.requestedKeyFrame) {
                               centerContainsMouse = false
@@ -639,9 +639,9 @@ Item {
                       }
                   }
                   // Check if we are on a control point
-                  for(var i = 0; i < root.centerPointsTypes.length; i++)
+                  for(let i = 0; i < root.centerPointsTypes.length; i++)
                   {
-                      var p1 = canvas.convertPoint(root.centerPointsTypes[i])
+                      const p1 = canvas.convertPoint(root.centerPointsTypes[i])
                       if (Math.abs(p1.x - mouseX) <= canvas.handleSize/2 && Math.abs(p1.y - mouseY) <= canvas.handleSize/2) {
                           if (i == root.requestedSubKeyFrame) {
                               centerContainsMouse = false
@@ -660,9 +660,9 @@ Item {
 
                   // Check if we are on a line segment
                   if (root.isDefined) {
-                      var p0; var p1; var p2; var dab; var dap; var dbp;
-                      var newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
-                      for (var i = 0; i < root.centerPoints.length; i++) {
+                      let p0; let p1; let p2; let dab; let dap; let dbp;
+                      const newPoint = Qt.point((mouseX - frame.x) / root.scalex, (mouseY - frame.y) / root.scaley);
+                      for (let i = 0; i < root.centerPoints.length; i++) {
                           p1 = root.centerPoints[i]
                           if (i == 0) {
                               p0 = root.centerPoints[root.centerPoints.length - 1]
@@ -694,7 +694,7 @@ Item {
                     return;
               }
               if (root.displayResize) {
-                  var currentResize = root.resizeContainsMouse
+                  const currentResize = root.resizeContainsMouse
                   root.resizeContainsMouse = 0
                   // Check if we are on a resize handle
                   if (Math.abs(root.bottomLeft.x - mouseX) <= canvas.handleSize) {

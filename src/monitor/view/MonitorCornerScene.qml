@@ -235,17 +235,18 @@ Item {
         onPositionChanged: {
             if (root.controller.isKeyframe == false && !K.KdenliveSettings.autoKeyframe) return;
             if (pressed && root.requestedKeyFrame >= 0) {
-                var mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
-                var logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
-                var adjustedMouse = root.getSnappedPos(logicalMousePos)
+                const mousePos = Qt.point(mouseX - frame.x, mouseY - frame.y)
+                const logicalMousePos = Qt.point(mousePos.x / root.scalex, mousePos.y / root.scaley)
+                const adjustedMouse = root.getSnappedPos(logicalMousePos)
                 root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
                 root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                 canvas.requestPaint()
                 root.effectPolygonChanged()
             } else {
-              for(var i = 0; i < root.centerPoints.length; i++)
+              let p1
+              for(let i = 0; i < root.centerPoints.length; i++)
               {
-                var p1 = canvas.convertPoint(root.centerPoints[i])
+                p1 = canvas.convertPoint(root.centerPoints[i])
                 if (Math.abs(p1.x - mouseX) <= canvas.handleSize && Math.abs(p1.y - mouseY) <= canvas.handleSize) {
                     if (i == root.requestedKeyFrame) {
                         kfrContainsMouse = true;

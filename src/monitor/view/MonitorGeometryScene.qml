@@ -104,7 +104,7 @@ Item {
     function shouldFlipText(rotationAngle) {
         // Flip text when rotation is between 90-270 degrees to prevent upside-down text
         // Direction/sign of the rotation does not matter for this purpose
-        var normalizedRotation = Math.abs(rotationAngle)
+        const normalizedRotation = Math.abs(rotationAngle)
         return normalizedRotation >= 90 && normalizedRotation <= 270
     }
 
@@ -114,11 +114,11 @@ Item {
         if (root.centerPoints.length === 0) {
             return -1
         }
-        var mouseInRoot = sourceItem.mapToItem(root, mouseX, mouseY)
-        for (var i = 0; i < root.centerPoints.length; i++) {
-            var localPoint = Qt.point(root.centerPoints[i].x * root.scalex, root.centerPoints[i].y * root.scaley)
-            var mappedPoint = frame.mapToItem(transformedFrame, localPoint.x, localPoint.y)
-            var handleInRoot = transformedFrame.mapToItem(root, mappedPoint.x, mappedPoint.y)
+        const mouseInRoot = sourceItem.mapToItem(root, mouseX, mouseY)
+        for (let i = 0; i < root.centerPoints.length; i++) {
+            const localPoint = Qt.point(root.centerPoints[i].x * root.scalex, root.centerPoints[i].y * root.scaley)
+            const mappedPoint = frame.mapToItem(transformedFrame, localPoint.x, localPoint.y)
+            const handleInRoot = transformedFrame.mapToItem(root, mappedPoint.x, mappedPoint.y)
             if (Math.abs(handleInRoot.x - mouseInRoot.x) <= canvas.handleSize && Math.abs(handleInRoot.y - mouseInRoot.y) <= canvas.handleSize) {
                 return i
             }
@@ -152,11 +152,11 @@ Item {
             context.fillStyle = Qt.rgba(1, 0, 0, 1)
             context.lineWidth = 1
             context.setLineDash([3,3])
-            var p1 = convertPoint(root.centerPoints[0])
+            let p1 = convertPoint(root.centerPoints[0])
             context.moveTo(p1.x, p1.y)
             context.clearRect(0,0, width, height);
             if (!root.disableHandles) {
-              for(var i = 0; i < root.centerPoints.length; i++)
+              for(let i = 0; i < root.centerPoints.length; i++)
               {
                 context.translate(p1.x, p1.y)
                 context.rotate(Math.PI/4);
@@ -164,9 +164,10 @@ Item {
                 context.fillRect(0, - handleSize, 1, 2 * handleSize);
                 context.rotate(-Math.PI/4);
                 context.translate(-p1.x, -p1.y)
+                let end = convertPoint(root.centerPoints[0])
                 if (i + 1 < root.centerPoints.length)
                 {
-                    var end = convertPoint(root.centerPoints[i + 1])
+                    end = convertPoint(root.centerPoints[i + 1])
 
                     if (root.centerPointsTypes.length != root.centerPoints.length || root.centerPointsTypes[i] == 0) {
                         context.lineTo(end.x, end.y)
@@ -174,18 +175,18 @@ Item {
                         continue
                     }
 
-                    var j = i - 1
+                    let j = i - 1
                     if (j < 0) {
                         j = 0
                     }
-                    var pre = convertPoint(root.centerPoints[j])
+                    const pre = convertPoint(root.centerPoints[j])
                     j = i + 2
                     if (j >= root.centerPoints.length) {
                         j = root.centerPoints.length - 1
                     }
-                    var post = convertPoint(root.centerPoints[j])
-                    var c1 = substractPoints(end, pre, 6.0)
-                    var c2 = substractPoints(p1, post, 6.0)
+                    const post = convertPoint(root.centerPoints[j])
+                    let c1 = substractPoints(end, pre, 6.0)
+                    let c2 = substractPoints(p1, post, 6.0)
                     c1 = addPoints(c1, p1)
                     c2 = addPoints(c2, end)
                     context.bezierCurveTo(c1.x, c1.y, c2.x, c2.y, end.x, end.y);
@@ -202,26 +203,26 @@ Item {
 
     function convertPoint(p)
     {
-        var x = frame.x + p.x * root.scalex
-        var y = frame.y + p.y * root.scaley
+        const x = frame.x + p.x * root.scalex
+        const y = frame.y + p.y * root.scaley
         return Qt.point(x,y);
     }
     function addPoints(p1, p2)
     {
-        var x = p1.x + p2.x
-        var y = p1.y + p2.y
+        const x = p1.x + p2.x
+        const y = p1.y + p2.y
         return Qt.point(x,y);
     }
     function distance(p1, p2)
     {
-        var x = p1.x + p2.x
-        var y = p1.y + p2.y
+        const x = p1.x + p2.x
+        const y = p1.y + p2.y
         return Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
     }
     function substractPoints(p1, p2, f)
     {
-        var x = (p1.x - p2.x) / f
-        var y = (p1.y - p2.y) / f
+        const x = (p1.x - p2.x) / f
+        const y = (p1.y - p2.y) / f
         return Qt.point(x,y);
     }
   }
@@ -288,7 +289,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, global)
+              const idx = root.getHandleIndexAtMouse(mouseX, mouseY, global)
               root.requestedKeyFrame = idx
               return idx !== -1
         }
@@ -304,9 +305,9 @@ Item {
                     root.centerPoints[root.requestedKeyFrame].x = (mouseX - frame.x) / root.scalex;
                     root.centerPoints[root.requestedKeyFrame].y = (mouseY - frame.y) / root.scaley;
                   } else {
-                    var positionInFrame = mapToItem(frame, mouse.x, mouse.y)
-                    var logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
-                    var adjustedMouse = root.getSnappedPoint(logicalPosition)
+                    const positionInFrame = mapToItem(frame, mouse.x, mouse.y)
+                    const logicalPosition = Qt.point(positionInFrame.x / root.scalex, positionInFrame.y / root.scaley)
+                    const adjustedMouse = root.getSnappedPoint(logicalPosition)
                     root.centerPoints[root.requestedKeyFrame].x = adjustedMouse.x;
                     root.centerPoints[root.requestedKeyFrame].y = adjustedMouse.y;
                   }
@@ -526,7 +527,7 @@ Item {
                   root.requestedKeyFrame = -1
                   return false
               }
-              var idx = root.getHandleIndexAtMouse(mouseX, mouseY, moveArea)
+              const idx = root.getHandleIndexAtMouse(mouseX, mouseY, moveArea)
               root.requestedKeyFrame = idx
               return idx !== -1
           }
@@ -562,12 +563,12 @@ Item {
           }
           onPositionChanged: mouse => {
             if (pressed) {
-                var delta = mapToItem(frame, mouse.x, mouse.y)
+                let delta = mapToItem(frame, mouse.x, mouse.y)
                 delta.x += - mouseClickPos.x + frameClicksize.x
                 delta.y += - mouseClickPos.y + frameClicksize.y
 
-                var logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, root._framesize.width, root._framesize.height)
-                var snappedRect = root.getSnappedRect(logicalFrameRect, root._rotation)
+                const logicalFrameRect = Qt.rect(delta.x / root.scalex, delta.y / root.scaley, root._framesize.width, root._framesize.height)
+                const snappedRect = root.getSnappedRect(logicalFrameRect, root._rotation)
                 root.pendingFramesize.x = snappedRect.x;
                 root.pendingFramesize.y = snappedRect.y;
                 

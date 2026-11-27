@@ -308,7 +308,7 @@ Rectangle {
             return clipRoot.timeline.slideshowColor
         }
         if (itemType === K.ClipType.Color) {
-            var color = clipResource.substring(clipResource.length - 9)
+            const color = clipResource.substring(clipResource.length - 9)
             if (color[0] === '#') {
                 return color
             }
@@ -443,7 +443,7 @@ Rectangle {
                 return
             }
             if (clipRoot.clipId > -1) {
-                var itemPos = Qt.rect(0, 0, width, height)
+                const itemPos = Qt.rect(0, 0, width, height)
                 clipRoot.initDrag(itemPos)
             }
             clipRoot.showClipInfo()
@@ -834,7 +834,7 @@ Rectangle {
                             onDoubleClicked: clipRoot.timeline.editMarker(clipRoot.clipId, markerBase.position)
                             onPressed: (mouse) => {
                                 startPosition = markerBase.position
-                                var pressedPoint = mapToItem(clipRoot, mouse.x, 0)
+                                const pressedPoint = mapToItem(clipRoot, mouse.x, 0)
                                 startX = pressedPoint.x
                                 shiftTrim = mouse.modifiers & Qt.ShiftModifier
                                 movingMarkerId = markerBase.id
@@ -843,14 +843,14 @@ Rectangle {
                             }
                             onPositionChanged: (mouse) => {
                                 if (pressed && movingMarkerId > -1) {
-                                    var currentPoint = mapToItem(clipRoot, mouse.x, 0)
-                                    var deltaPx = currentPoint.x - startX
-                                    var deltaFrames = Math.round(deltaPx / clipRoot.timeScale * clipRoot.speed)
-                                    var newFrame = startPosition + deltaFrames
-                                    var timelineFrame = clipRoot.modelStart + (clipRoot.speed < 0
+                                    const currentPoint = mapToItem(clipRoot, mouse.x, 0)
+                                    const deltaPx = currentPoint.x - startX
+                                    const deltaFrames = Math.round(deltaPx / clipRoot.timeScale * clipRoot.speed)
+                                    let newFrame = startPosition + deltaFrames
+                                    const timelineFrame = clipRoot.modelStart + (clipRoot.speed < 0
                                         ? (clipRoot.maxDuration - clipRoot.inPoint + Math.round(newFrame / clipRoot.speed))
                                         : (Math.round(newFrame / clipRoot.speed) - clipRoot.inPoint))
-                                    var snappedTimelineFrame = clipRoot.timeline.suggestSnapPoint(timelineFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : clipRoot.snapping)
+                                    let snappedTimelineFrame = clipRoot.timeline.suggestSnapPoint(timelineFrame, mouse.modifiers & Qt.ShiftModifier ? -1 : clipRoot.snapping)
                                     if (snappedTimelineFrame === clipRoot.modelStart || snappedTimelineFrame === (clipRoot.modelStart + clipRoot.clipDuration)) {
                                         snappedTimelineFrame = timelineFrame
                                     }
@@ -861,7 +861,7 @@ Rectangle {
                                     }
                                     newFrame = Math.max(clipRoot.inPoint + 1, Math.min(newFrame, clipRoot.outPoint - 1))
                                     if (newFrame !== destFrame) {
-                                        var success = clipRoot.timeline.moveClipMarkerWithoutUndo(clipRoot.clipId, movingMarkerId, newFrame)
+                                        const success = clipRoot.timeline.moveClipMarkerWithoutUndo(clipRoot.clipId, movingMarkerId, newFrame)
                                         if (success) {
                                             destFrame = newFrame
                                         }
@@ -936,12 +936,12 @@ Rectangle {
                             
                             onPositionChanged: {
                                 if (isResizing) {
-                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                                    var realDeltaX = globalCurrentX - globalStartX
+                                    const globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    const realDeltaX = globalCurrentX - globalStartX
                                     
-                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
-                                    var newStartPosition = Math.max(clipRoot.inPoint * clipRoot.speed, startPosition + deltaFrames)
-                                    var newDuration = Math.max(1, originalEndPosition - newStartPosition)
+                                    const deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    const newStartPosition = Math.max(clipRoot.inPoint * clipRoot.speed, startPosition + deltaFrames)
+                                    const newDuration = Math.max(1, originalEndPosition - newStartPosition)
                                     
                                     markerBase.position = newStartPosition
                                     markerBase.duration = newDuration
@@ -1012,12 +1012,12 @@ Rectangle {
                             
                             onPositionChanged: {
                                 if (isResizing) {
-                                    var globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
-                                    var realDeltaX = globalCurrentX - globalStartX
+                                    const globalCurrentX = mapToGlobal(Qt.point(mouseX, 0)).x
+                                    const realDeltaX = globalCurrentX - globalStartX
                                     
-                                    var deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
-                                    var maxEnd = (clipRoot.inPoint + clipRoot.outPoint) * clipRoot.speed
-                                    var newDuration = Math.max(1, Math.min(startDuration + deltaFrames, maxEnd - startPosition))
+                                    const deltaFrames = Math.round(realDeltaX / clipRoot.timeScale * clipRoot.speed)
+                                    const maxEnd = (clipRoot.inPoint + clipRoot.outPoint) * clipRoot.speed
+                                    const newDuration = Math.max(1, Math.min(startDuration + deltaFrames, maxEnd - startPosition))
                                     
                                     markerBase.duration = newDuration
                                     
@@ -1223,9 +1223,9 @@ Rectangle {
                 }
                 onPositionChanged: mouse => {
                     if (mouse.buttons === Qt.LeftButton) {
-                        var currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / clipRoot.timeScale)
-                        var currentClipPos = clipRoot.modelStart
-                        var delta = currentFrame - currentClipPos
+                        const currentFrame = Math.round((clipRoot.x + (x + itemBorder.border.width)) / clipRoot.timeScale)
+                        const currentClipPos = clipRoot.modelStart
+                        let delta = currentFrame - currentClipPos
                         if (mixTrim) {
                             // The clip start follows the mouse, the model keeps it before the edit point and within the mix partner
                             const before = clipRoot.timeline.requestResizeMixSidePreview(clipRoot.clipId, clipRoot.mixDuration - clipRoot.mixCut - delta, true, shiftTrim)
@@ -1246,7 +1246,7 @@ Rectangle {
                                     return
                                 }
                             }
-                            var newDuration = 0;
+                            let newDuration = 0;
                             if (K.Core.activeTool === K.ToolType.RippleTool) {
                                 newDuration = clipRoot.originalDuration - delta
                             } else {
@@ -1270,9 +1270,9 @@ Rectangle {
                 onEntered: {
                     if (!pressed && !clipRoot.someDragInProgress) {
                         trimIn.opacity = 1
-                        var itemPos = Qt.rect(0, 0, width, height)
+                        const itemPos = Qt.rect(0, 0, width, height)
                         clipRoot.initDrag(itemPos)
-                        var s = KI18n.i18n("In:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.inPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
+                        const s = KI18n.i18n("In:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.inPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
                         clipRoot.timeline.showToolTip(s)
                         if (clipRoot.mixDuration == 0) {
                             clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
@@ -1427,9 +1427,9 @@ Rectangle {
                 onEntered: {
                     if (!pressed && !clipRoot.someDragInProgress) {
                         trimOut.opacity = 1
-                        var itemPos = Qt.rect(0, 0, width, height)
+                        const itemPos = Qt.rect(0, 0, width, height)
                         clipRoot.initDrag(itemPos)
-                        var s = KI18n.i18n("Out:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.outPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
+                        const s = KI18n.i18n("Out:%1, Position:%2", clipRoot.timeline.simplifiedTC(clipRoot.outPoint),clipRoot.timeline.simplifiedTC(clipRoot.modelStart + clipRoot.clipDuration))
                         clipRoot.timeline.showToolTip(s)
                         if (!fadeOutMouseArea.containsMouse) {
                             clipRoot.timeline.showKeyBinding(KI18n.i18n("<b>Ctrl drag</b> to change speed, <b>Double click</b> to mix with adjacent clip"))
@@ -1442,7 +1442,7 @@ Rectangle {
                          if (!mouseArea.containsMouse) {
                             clipRoot.timeline.showToolTip()
                          } else {
-                             var text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
+                             const text = KI18n.i18n("%1 (%2-%3), Position: %4, Duration: %5".arg(clipRoot.clipName)
                         .arg(clipRoot.timeline.simplifiedTC(clipRoot.inPoint))
                         .arg(clipRoot.timeline.simplifiedTC(clipRoot.outPoint))
                         .arg(clipRoot.timeline.simplifiedTC(clipRoot.modelStart))
@@ -1967,8 +1967,8 @@ Rectangle {
                         return
                     }
                     dragStarted = true
-                    var delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
-                    var duration = Math.max(0, delta)
+                    const delta = clipRoot.clipDuration - Math.floor((x + width / 2 - itemBorder.border.width)/ clipRoot.timeScale)
+                    let duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration)
                     if (lastDuration != duration) {
                         lastDuration = duration
@@ -2077,8 +2077,8 @@ Rectangle {
                         return
                     }
                     dragStarted = true
-                    var delta = Math.round((x + width / 2) / clipRoot.timeScale)
-                    var duration = Math.max(0, delta)
+                    const delta = Math.round((x + width / 2) / clipRoot.timeScale)
+                    let duration = Math.max(0, delta)
                     duration = Math.min(duration, clipRoot.clipDuration - 1)
                     if (duration != clipRoot.fadeIn) {
                         clipRoot.timeline.adjustFade(clipRoot.clipId, 'fadein', duration, -1)
