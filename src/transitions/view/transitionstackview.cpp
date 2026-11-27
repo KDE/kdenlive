@@ -31,7 +31,7 @@ TransitionStackView::TransitionStackView(QWidget *parent)
 
 void TransitionStackView::refreshTracks()
 {
-    if (!m_trackBox || !m_model) {
+    if (!m_trackBox || !m_model || m_model->isAudio()) {
         return;
     }
     QSignalBlocker bk(m_trackBox);
@@ -56,14 +56,14 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
 {
     m_trackBox = new QComboBox(this);
     AssetParameterView::setModel(model, frameSize, addSpacer);
-    model->setActive(true);
+    m_model->setActive(true);
     refreshTracks();
     m_lay->insertRow(0, i18n("Composition track:"), m_trackBox);
-    auto kfr = model->getKeyframeModel();
+    auto kfr = m_model->getKeyframeModel();
     if (kfr) {
         connect(kfr.get(), &KeyframeModelList::modelChanged, this, &AssetParameterView::slotRefresh);
     }
-    connect(model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
+    connect(m_model.get(), &AssetParameterModel::compositionTrackChanged, this, &TransitionStackView::checkCompoTrack);
     connect(m_trackBox, &QComboBox::currentIndexChanged, this, &TransitionStackView::updateTrack, Qt::QueuedConnection);
     if (pCore->itemContainsPos(m_model->getOwnerId(), pCore->getMonitor(m_model->monitorId)->position())) {
         Q_EMIT initKeyframeView(true, true);
@@ -73,7 +73,7 @@ void TransitionStackView::setModel(const std::shared_ptr<AssetParameterModel> &m
     QWidget *spacer = new QWidget(this);
     spacer->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
     m_lay->addRow(spacer);
-
+    m_lay->setRowVisible(0, !m_model->isAudio());
     pCore->getMonitor(m_model->monitorId)->slotShowEffectScene(needsMonitorEffectScene());
 }
 

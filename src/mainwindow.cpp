@@ -362,7 +362,7 @@ void MainWindow::init()
     const QSize stackSize(firstWindowSize.width() * 0.3, 0);
     m_effectStackDock =
         addDock(i18n("Effect/Composition Stack"), QStringLiteral("effect_stack"), m_assetPanel, KDDockWidgets::Location_OnRight, m_timelineDock, stackSize);
-    connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack, Qt::QueuedConnection);
+    connect(pCore.get(), &Core::requestShowBinEffectStack, m_assetPanel, &AssetPanel::showEffectStack);
     connect(m_assetPanel, &AssetPanel::doSplitEffect, m_projectMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::doSplitBinEffect, m_clipMonitor, &Monitor::slotSwitchCompare);
     connect(m_assetPanel, &AssetPanel::switchCurrentComposition, this,

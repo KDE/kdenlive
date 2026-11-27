@@ -6326,6 +6326,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     // We ensure that the compositions are planted in a decreasing order of a_track, and increasing order of b_track.
     // For that, there is no better option than to disconnect every composition and then reinsert everything in the correct order.
     std::vector<std::pair<int, int>> compos;
+    std::vector<std::pair<int, int>> audioCompos;
     for (const auto &compo : m_allCompositions) {
         int trackId = compo.second->getCurrentTrackId();
         if (trackId == -1 || compo.second->getATrack() == -1) {
@@ -6333,13 +6334,24 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         }
         // Note: we need to retrieve the position of the track, that is its melt index.
         int trackPos = getTrackMltIndex(trackId);
-        compos.emplace_back(trackPos, compo.first);
+        if (isAudioTrack(trackId)) {
+            audioCompos.emplace_back(trackPos, compo.first);
+        } else {
+            compos.emplace_back(trackPos, compo.first);
+        }
         if (compo.first != currentCompo) {
             unplantComposition(compo.first);
         }
     }
     // sort by decreasing b_track
     std::sort(compos.begin(), compos.end(), [&](const std::pair<int, int> &a, const std::pair<int, int> &b) {
+        if (m_allCompositions[a.second]->getATrack() == m_allCompositions[b.second]->getATrack()) {
+            return a.first < b.first;
+        }
+        return m_allCompositions[a.second]->getATrack() > m_allCompositions[b.second]->getATrack();
+    });
+    // sort audio by decreasing b_track
+    std::sort(audioCompos.begin(), audioCompos.end(), [&](const std::pair<int, int> &a, const std::pair<int, int> &b) {
         if (m_allCompositions[a.second]->getATrack() == m_allCompositions[b.second]->getATrack()) {
             return a.first < b.first;
         }
@@ -6353,6 +6365,7 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
     mlt_service nextservice = mlt_service_get_producer(field->get_service());
     mlt_service_type mlt_type = mlt_service_identify(nextservice);
     QList<Mlt::Transition *> trackCompositions;
+    QList<Mlt::Transition *> audioCompositions;
     QString resource;
     while (mlt_type == mlt_service_transition_type) {
         Mlt::Transition transition(reinterpret_cast<mlt_transition>(nextservice));
@@ -6360,7 +6373,11 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         resource = transition.get("mlt_service");
         int internal = transition.get_int("internal_added");
         if (internal > 0) {
-            trackCompositions << new Mlt::Transition(transition);
+            if (resource == QLatin1String("mix")) {
+                audioCompositions << new Mlt::Transition(transition);
+            } else {
+                trackCompositions << new Mlt::Transition(transition);
+            }
             field->disconnect_service(transition);
             transition.disconnect_all_producers();
         }
@@ -6395,6 +6412,50 @@ bool TimelineModel::replantCompositions(int currentCompo, bool updateView)
         field->plant_transition(*firstTr, firstTr->get_a_track(), firstTr->get_b_track());
         delete firstTr;
     }
+
+    // Audio compositions
+    // Get audio track positions
+    QList<int> audioTracks;
+    READ_LOCK();
+    auto it = m_allTracks.cbegin();
+    while (*it) {
+        if ((*it)->isAudioTrack()) {
+            audioTracks << getTrackMltIndex((*it)->getId());
+        }
+        ++it;
+        if (it == m_allTracks.cend()) {
+            break;
+        }
+    }
+    std::reverse(audioTracks.begin(), audioTracks.end());
+    for (auto &i : audioTracks) {
+        // First insert custom compositions
+        // Audio compositing always uses 0 as a_track
+        for (const auto &compo : audioCompos) {
+            if (compo.first != i) {
+                continue;
+            }
+            Mlt::Transition &transition = *m_allCompositions[compo.second].get();
+            transition.set_tracks(0, compo.first);
+            int ret = field->plant_transition(transition, 0, compo.first);
+
+            mlt_service consumer = mlt_service_consumer(transition.get_service());
+            Q_ASSERT(consumer != nullptr);
+            if (ret != 0) {
+                field->unlock();
+                return false;
+            }
+        }
+        // Next track compositing
+        for (auto &compo : audioCompositions) {
+            if (compo->get_b_track() != i) {
+                continue;
+            }
+            field->plant_transition(*compo, 0, compo->get_b_track());
+        }
+    }
+    qDeleteAll(audioCompositions);
+
     field->unlock();
     if (updateView) {
         QModelIndex modelIndex = makeCompositionIndexFromID(currentCompo);

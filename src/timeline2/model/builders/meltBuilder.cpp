@@ -294,6 +294,7 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
     // Sort compositions and insert
     bool compositionOk = true;
     QStringList validCompositions;
+    bool hasAutoDuck = false;
     while (!compositions.isEmpty()) {
         QScopedPointer<Mlt::Transition> t(compositions.takeFirst());
         QString id(t->get("kdenlive_id"));
@@ -306,11 +307,15 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
         }
         if (t->get_int("force_track") == 0) {
             // This is an automatic composition, check that we composite with lower track or warn
-            int pos = videoTracksIndexes.indexOf(t->get_b_track());
-            if (pos > 0 && videoTracksIndexes.at(pos - 1) != aTrack) {
-                t->set("force_track", 1);
-                m_errorMessage << i18n("Incorrect composition %1 found on track %2 at %3, compositing with track %4 was set to forced track.", t->get("id"),
-                                       t->get_b_track(), t->get_in(), t->get_a_track());
+            if (id == QLatin1String("autoduck")) {
+                hasAutoDuck = true;
+            } else {
+                int pos = videoTracksIndexes.indexOf(t->get_b_track());
+                if (pos > 0 && videoTracksIndexes.at(pos - 1) != aTrack) {
+                    t->set("force_track", 1);
+                    m_errorMessage << i18n("Incorrect composition %1 found on track %2 at %3, compositing with track %4 was set to forced track.", t->get("id"),
+                                           t->get_b_track(), t->get_in(), t->get_a_track());
+                }
             }
         }
         if (!validCompositions.contains(id) && !TransitionsRepository::get()->exists(id)) {
@@ -331,6 +336,11 @@ bool constructTimelineFromTractor(const std::shared_ptr<TimelineItemModel> &time
 
     // build internal track compositing
     timeline->buildTrackCompositing();
+
+    if (hasAutoDuck) {
+        // Ensure all compositions are properly sorted
+        timeline->replantCompositions(-1, false);
+    }
 
     // load locked state as last step
     for (int tid : std::as_const(lockedTracksIndexes)) {

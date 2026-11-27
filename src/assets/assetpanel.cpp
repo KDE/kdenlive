@@ -284,7 +284,9 @@ void AssetPanel::showEffectStack(const QString &itemName, const std::shared_ptr<
     }
     if (effectsModel == nullptr) {
         // Item is not ready
-        clear();
+        if (m_effectStackWidget->isVisible()) {
+            clear();
+        }
         return;
     }
     ObjectId id = effectsModel->getOwnerId();

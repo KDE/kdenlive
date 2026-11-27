@@ -826,17 +826,25 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
     int audioTracks = 0;
     auto it = m_allTracks.cbegin();
     while (it != m_allTracks.cend()) {
-        int trackPos = getTrackMltIndex((*it)->getId());
         if (!composite.isEmpty() && !(*it)->isAudioTrack()) {
             // video track, add composition
+            int trackPos = getTrackMltIndex((*it)->getId());
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(composite);
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
             transition->set_tracks(0, trackPos);
             field->plant_transition(*transition.get(), 0, trackPos);
             videoTracks++;
-        } else if ((*it)->isAudioTrack()) {
+        }
+        ++it;
+    }
+    // Audio mixes must be top down
+    it = m_allTracks.cend();
+    it--;
+    while (*it) {
+        if ((*it)->isAudioTrack()) {
             // audio mix
+            int trackPos = getTrackMltIndex((*it)->getId());
             std::unique_ptr<Mlt::Transition> transition = TransitionsRepository::get()->getTransition(QStringLiteral("mix"));
             transition->set("internal_added", 237);
             transition->set("always_active", 1);
@@ -846,7 +854,10 @@ void TimelineItemModel::buildTrackCompositing(bool rebuild)
             field->plant_transition(*transition.get(), 0, trackPos);
             audioTracks++;
         }
-        ++it;
+        if (it == m_allTracks.cbegin()) {
+            break;
+        }
+        it--;
     }
     field->unblock();
     if (rebuild) {

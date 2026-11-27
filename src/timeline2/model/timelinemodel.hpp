@@ -1073,11 +1073,6 @@ protected:
      */
     static int getNextId();
 
-    /** @brief unplant and the replant all the compositions in the correct order
-       @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1
-     */
-    bool replantCompositions(int currentCompo, bool updateView);
-
     /** @brief Unplant the composition with given Id */
     bool unplantComposition(int compoId);
 
@@ -1099,6 +1094,10 @@ protected:
 public:
     /** @brief Debugging function that checks consistency with Mlt objects */
     bool checkConsistency(const std::vector<int> &guideSnaps = {});
+    /** @brief unplant and the replant all the compositions in the correct order
+       @param currentCompo is the id of a compo that have not yet been planted, if any. Otherwise send -1
+     */
+    bool replantCompositions(int currentCompo, bool updateView);
 
 protected:
     /** @brief Refresh project monitor if cursor was inside range */
